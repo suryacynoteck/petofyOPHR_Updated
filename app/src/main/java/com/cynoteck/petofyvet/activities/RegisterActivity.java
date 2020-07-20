@@ -33,7 +33,7 @@ public class RegisterActivity extends FragmentActivity implements ApiResponse, V
     private Button signUp_BT;
     private String firstName="", lastName="", email="", phoneNumber="",password="",confirmPassword="";
     private TextView signIN_TV;
-    String emailPattern = "[a-zA-Z._-]+@[a-z]+\\.+[a-z]+";
+    String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -144,7 +144,7 @@ public class RegisterActivity extends FragmentActivity implements ApiResponse, V
                     password_TIL.setError(null);
                     confirmPassword_TIL.setError(null);
                 }else if (!email.matches(emailPattern)) {
-                    email_TIET.setError("Invalid Email");
+                    email_TIL.setError("Invalid Email");
                     firstname_TIL.setError(null);
                     lastName_TIL.setError(null);
                     phoneNumber_TIL.setError(null);

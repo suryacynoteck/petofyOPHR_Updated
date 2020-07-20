@@ -33,7 +33,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
     private Button login_BT;
     private String emailString="", passwordString="";
     private TextView signUp_TV, forgetPass_TV;
-    String emailPattern = "[a-zA-Z._-]+@[a-z]+\\.+[a-z]+";
+    String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

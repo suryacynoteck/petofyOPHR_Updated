@@ -12,32 +12,32 @@
         android:layout_width="match_parent"
         android:layout_height="50dp">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#0F292828"
-            android:weightSum="2"
-            android:orientation="horizontal">
+            android:background="#0F292828">
             <TextView
-                android:layout_width="0dp"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1.7"
-                android:text="Sign Up"
+                android:text="@string/signUp"
                 android:textSize="16sp"
                 android:textColor="@color/colorPrimary"
                 android:gravity="center"/>
 
             <TextView
+                android:layout_marginRight="10dp"
+                android:layout_alignParentEnd="true"
                 android:id="@+id/signIn_TV"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight=".3"
-                android:text="Cancel"
+                android:text="@string/cancel"
                 android:textSize="16sp"
-                android:gravity="center|left"/>
+                android:gravity="center|left"
+                tools:ignore="RtlCompat" />
 
 
-        </LinearLayout>
+        </RelativeLayout>
 
         <TextView
             android:layout_width="match_parent"
@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:text="Details"
+                    android:text="@string/details"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:gravity="left|bottom"
@@ -224,7 +224,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:text="Security"
+                    android:text="@string/Security"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:gravity="left|bottom"
