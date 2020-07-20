@@ -3,6 +3,7 @@ package com.cynoteck.petofyvet.activities;
 import androidx.fragment.app.FragmentActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -38,6 +39,13 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
+        SharedPreferences sharedPreferences = getSharedPreferences("userdetails", 0);
+        String loggedIn = sharedPreferences.getString("loggedIn", "");
+        if (loggedIn.equals("loggedIn")){
+            Intent intent = new Intent(this,DashBoardActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
+        }
     }
 
     private void init() {
@@ -51,6 +59,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
         signUp_TV.setOnClickListener(this);
         forgetPass_TV.setOnClickListener(this);
         login_BT.setOnClickListener(this);
+
     }
 
     @Override
@@ -62,6 +71,10 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                 passwordString=password_TIET.getText().toString().trim();
                 if ( emailString.isEmpty()){
                     email_TIET.setError("Email is empty");
+                    password_TIET.setError(null);
+                }else if (!emailString.matches(emailPattern))
+                {
+                    email_TIET.setError("Invalid Email");
                     password_TIET.setError(null);
                 }else if (passwordString.isEmpty()){
                     email_TIET.setError("Password is empty");
@@ -107,6 +120,16 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                     LoginResponse responseLogin = (LoginResponse) response.body();
                     int responseCode = Integer.parseInt(responseLogin.getResponseLogin().getResponseCode());
                     if (responseCode== 109){
+                        SharedPreferences sharedPreferences = LoginActivity.this.getSharedPreferences("userdetails", 0);
+                        SharedPreferences.Editor login_editor = sharedPreferences.edit();
+                        login_editor.putString("email",responseLogin.getData().getEmail());
+                        login_editor.putString("userId",responseLogin.getData().getUserId());
+                        login_editor.putString("loggedIn","loggedIn");
+                        login_editor.commit();
+
+                        Intent intent = new Intent(this,DashBoardActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
                         Toast.makeText(LoginActivity.this, responseLogin.getResponseLogin().getResponseMessage(), Toast.LENGTH_SHORT).show();
                     }else if (responseCode==614){
                         Toast.makeText(LoginActivity.this, responseLogin.getResponseLogin().getResponseMessage(), Toast.LENGTH_SHORT).show();

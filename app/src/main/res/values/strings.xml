@@ -15,4 +15,8 @@
     <string name="alreadyHaveAccount">Already Have Account ?</string>
     <string name="createAnAccount">Create An Account</string>
     <string name="dontHaveAccount">Don\'t Have An Account ?</string>
+    <string name="petofy">PETOFY</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

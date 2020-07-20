@@ -195,9 +195,7 @@ public class RegisterActivity extends FragmentActivity implements ApiResponse, V
 
             case R.id.signIn_TV:
 
-                Intent signIn_Intent = new Intent(RegisterActivity.this,LoginActivity.class);
-                startActivity(signIn_Intent);
-                overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_left);
+                onBackPressed();
 
                 break;
 
@@ -206,24 +204,5 @@ public class RegisterActivity extends FragmentActivity implements ApiResponse, V
         }
 
     }
-    @Override
-    public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
-            finishAffinity();
-            System.exit(0);
-            return;
-        }
 
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
-
-        new Handler().postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce=false;
-            }
-        }, 2000);
-    }
 }
