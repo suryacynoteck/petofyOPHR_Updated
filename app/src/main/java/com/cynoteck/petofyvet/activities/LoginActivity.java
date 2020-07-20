@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,7 +28,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
 
     boolean doubleBackToExitPressedOnce = false;
     private TextInputLayout email_TIL, password_TIL;
-    private TextInputEditText email_TIET, password_TIET;
+    private EditText email_TIET, password_TIET;
     private Button login_BT;
     private String emailString="", passwordString="";
     private TextView signUp_TV, forgetPass_TV;
@@ -60,14 +61,14 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                 emailString = email_TIET.getText().toString().trim();
                 passwordString=password_TIET.getText().toString().trim();
                 if ( emailString.isEmpty()){
-                    email_TIL.setError("Email is empty");
-                    password_TIL.setError(null);
+                    email_TIET.setError("Email is empty");
+                    password_TIET.setError(null);
                 }else if (passwordString.isEmpty()){
-                    password_TIL.setError("Password is empty");
-                    email_TIL.setError(null);
+                    email_TIET.setError("Password is empty");
+                    password_TIET.setError(null);
                 }else {
-                    email_TIL.setError(null);
-                    password_TIL.setError(null);
+                    email_TIET.setError(null);
+                    password_TIET.setError(null);
                     Loginparams loginparams = new Loginparams();
                     Data data = new Data();
                     data.setEmail(emailString);
