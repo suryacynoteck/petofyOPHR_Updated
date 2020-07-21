@@ -66,7 +66,6 @@ public class Methods {
         window.setAttributes(lp);
         }catch (Exception e) {
             e.printStackTrace();
-            Log.e("progressDilaog",e.getMessage());
         }
     }
     public void customProgressDismiss() {
