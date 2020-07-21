@@ -132,6 +132,8 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                     LoginRegisterResponse responseLogin = (LoginRegisterResponse) response.body();
                     int responseCode = Integer.parseInt(responseLogin.getResponseLogin().getResponseCode());
                     if (responseCode== 109){
+                        email_TIET.getText().clear();
+                        password_TIET.getText().clear();
                         SharedPreferences sharedPreferences = LoginActivity.this.getSharedPreferences("userdetails", 0);
                         SharedPreferences.Editor login_editor = sharedPreferences.edit();
                         login_editor.putString("email",responseLogin.getData().getEmail());

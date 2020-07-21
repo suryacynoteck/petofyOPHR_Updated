@@ -2,20 +2,20 @@
 <menu xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/home"
+        android:id="@+id/ichome"
         android:icon="@drawable/home_normal_icon"
-        tools:ignore="MenuTitle" />
+        android:title="" />
     <item
-        android:id="@+id/profile"
+        android:id="@+id/icprofile"
         android:icon="@drawable/profile_normal_icon"
-        tools:ignore="MenuTitle" />
+        android:title="" />
     <item
-        android:id="@+id/petregister"
+        android:id="@+id/icpetregister"
         android:icon="@drawable/pet_normal_icon"
-        tools:ignore="MenuTitle" />
+        android:title="" />
 
     <item
-        android:id="@+id/appoinment"
+        android:id="@+id/icappoinment"
         android:icon="@drawable/appointment_normal_icon"
-        tools:ignore="MenuTitle" />
+        android:title=""/>
 </menu>

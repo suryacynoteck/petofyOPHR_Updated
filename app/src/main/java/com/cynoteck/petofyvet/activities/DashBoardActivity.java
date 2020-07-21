@@ -32,7 +32,12 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         init();
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new HomeFragment()).commit();
+            HomeFragment homeFragment = new HomeFragment();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.add(R.id.content_frame, homeFragment);
+            ft.commit();
+
+
             icHome.setImageResource(R.drawable.home_green_icon);
         }
 
@@ -72,6 +77,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.content_frame, homeFragment);
                 ft.commit();
+
                 break;
 
             case R.id.profileRL:
@@ -82,6 +88,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                 ProfileFragment profileFragment = new ProfileFragment();
                 FragmentTransaction ftProfile = getSupportFragmentManager().beginTransaction();
                 ftProfile.replace(R.id.content_frame, profileFragment);
+                ftProfile.addToBackStack(null);
                 ftProfile.commit();
                 break;
 
@@ -93,6 +100,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                 PetRegisterFragment petRegisterFragment = new PetRegisterFragment();
                 FragmentTransaction ftPetRegister = getSupportFragmentManager().beginTransaction();
                 ftPetRegister.replace(R.id.content_frame, petRegisterFragment);
+                ftPetRegister.addToBackStack(null);
                 ftPetRegister.commit();
                 break;
 
@@ -104,6 +112,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                 AppointementFragment appointementFragment = new AppointementFragment();
                 FragmentTransaction ftAppointment = getSupportFragmentManager().beginTransaction();
                 ftAppointment.replace(R.id.content_frame, appointementFragment);
+                ftAppointment.addToBackStack(null);
                 ftAppointment.commit();
                 break;
 

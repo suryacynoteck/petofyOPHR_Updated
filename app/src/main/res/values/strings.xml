@@ -23,4 +23,12 @@
     <string name="cancel">Cancel</string>
     <string name="details">Details</string>
     <string name="Security">Security</string>
+    <string name="update_profile">Veterinarian Account</string>
+    <string name="address">Address</string>
+    <string name="postal_code">Postal Code</string>
+    <string name="website">Website</string>
+    <string name="social_media_url">Social Media URL</string>
+    <string name="vet_registration_number">Vet Registration Number</string>
+    <string name="vet_qualification">Vet Qualification</string>
+    <string name="updateProfile">Update Profile</string>
 </resources>

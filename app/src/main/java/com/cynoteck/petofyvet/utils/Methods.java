@@ -37,6 +37,7 @@ public class Methods {
     }
 
     public void DialogInternet() {
+
         AlertDialog.Builder ad = new AlertDialog.Builder(c);
         ad.setMessage(R.string.CheckInternet);
         ad.setCancelable(true);
