@@ -72,10 +72,6 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.content_frame, homeFragment);
                 ft.commit();
-
-
-
-
                 break;
 
             case R.id.profileRL:
@@ -124,6 +120,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
             return;
         }
         this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click back again to exit", Toast.LENGTH_SHORT).show();
         new Handler().postDelayed(new Runnable() {
 
             @Override

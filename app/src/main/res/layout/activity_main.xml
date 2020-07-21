@@ -67,7 +67,7 @@
                 android:gravity="center"
                 android:hint="@string/email"
                 android:textSize="14sp"
-                android:text=""
+                android:text="aviral.rana@gmail.com"
                 android:id="@+id/email_TIET"/>
         </LinearLayout>
 
@@ -110,7 +110,7 @@
                 android:maxLines="1"
                 android:inputType="textPassword"
                 android:gravity="center"
-                android:text=""
+                android:text="pass@123"
                 android:hint="@string/password"
                 android:textSize="14sp"/>
 
