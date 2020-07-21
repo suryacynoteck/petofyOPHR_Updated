@@ -20,6 +20,7 @@ import com.cynoteck.petofyvet.api.ApiService;
 import com.cynoteck.petofyvet.params.loginparams.LoginRequest;
 import com.cynoteck.petofyvet.params.loginparams.Loginparams;
 import com.cynoteck.petofyvet.response.loginRegisterResponse.LoginRegisterResponse;
+import com.cynoteck.petofyvet.utils.Methods;
 import com.google.android.material.textfield.TextInputLayout;
 
 import retrofit2.Response;
@@ -33,10 +34,13 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
     private String emailString="", passwordString="";
     private TextView signUp_TV, forgetPass_TV;
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+    Methods methods;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        methods = new Methods(this);
+
         init();
         SharedPreferences sharedPreferences = getSharedPreferences("userdetails", 0);
         String loggedIn = sharedPreferences.getString("loggedIn", "");
@@ -48,6 +52,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
     }
 
     private void init() {
+
         email_TIET = findViewById(R.id.email_TIET);
         password_TIET = findViewById(R.id.password_TIET);
         email_TIL= findViewById(R.id.email_TIL);
@@ -86,7 +91,14 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                     data.setEmail(emailString);
                     data.setPassword(passwordString);
                     loginparams.setLoginData(data);
-                    loginUser(loginparams);
+                    if(methods.isInternetOn())
+                    {
+                        loginUser(loginparams);
+                    }
+                    else
+                    {
+                        methods.DialogInternet();
+                    }
 
                 }
                 break;
@@ -101,7 +113,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
     }
 
     private void loginUser(Loginparams loginparams) {
-
+        methods.showCustomProgressBarDialog(this);
         ApiService<LoginRegisterResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().loginApi(loginparams), "Login");
         Log.e("DATALOG","check1=> "+loginparams);
@@ -110,6 +122,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
 
     @Override
     public void onResponse(Response response, String key) {
+        methods.customProgressDismiss();
         switch (key)
         {
             case "Login":

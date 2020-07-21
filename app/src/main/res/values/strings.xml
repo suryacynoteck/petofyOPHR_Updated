@@ -5,17 +5,10 @@
     <string name="Register_password">Password</string>
     <string name="login">Login</string>
     <string name="signup">Create Account</string>
-    <string name="updateProfile">Update Profile</string>
     <string name="firstName">First Name</string>
     <string name="lastname">Last Name</string>
     <string name="confirmPassword">Confirm Password</string>
     <string name="phoneNumber">Phone Number</string>
-    <string name="address">Address</string>
-    <string name="postal_code">Postal Code</string>
-    <string name="website">Website</string>
-    <string name="social_media_url">Social Media URL</string>
-    <string name="vet_registration_number">Vet Registration Number</string>
-    <string name="vet_qualification">Vet Qualification</string>
     <string name="signUp">Sign Up</string>
     <string name="signIn">Sign In</string>
     <string name="forgetPass">Forget Password ?</string>
@@ -23,8 +16,7 @@
     <string name="createAnAccount">Create An Account</string>
     <string name="dontHaveAccount">Don\'t Have An Account ?</string>
     <string name="petofy">PETOFY</string>
-    <string name="update_profile">Veterinarian Account</string>
-
+    <string name="CheckInternet">Check your internet connection</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
