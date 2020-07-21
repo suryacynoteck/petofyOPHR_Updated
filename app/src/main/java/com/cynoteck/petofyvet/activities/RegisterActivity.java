@@ -17,6 +17,7 @@ import com.cynoteck.petofyvet.api.ApiService;
 import com.cynoteck.petofyvet.params.registerparams.RegisterRequest;
 import com.cynoteck.petofyvet.params.registerparams.Registerparams;
 import com.cynoteck.petofyvet.response.loginRegisterResponse.LoginRegisterResponse;
+import com.cynoteck.petofyvet.utils.Methods;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -24,6 +25,7 @@ import retrofit2.Response;
 
 
 public class RegisterActivity extends FragmentActivity implements ApiResponse, View.OnClickListener {
+    Methods methods;
 
     private TextInputLayout firstname_TIL, lastName_TIL, email_TIL, phoneNumber_TIL, password_TIL, confirmPassword_TIL;
     private TextInputEditText firstname_TIET, lastName_TIET, email_TIET, phoneNumber_TIET, password_TIET, confirmPassword_TIET;
@@ -36,6 +38,8 @@ public class RegisterActivity extends FragmentActivity implements ApiResponse, V
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activityregister);
+        methods = new Methods(this);
+
         init();
 
     }
@@ -70,6 +74,7 @@ public class RegisterActivity extends FragmentActivity implements ApiResponse, V
     }
 
     private void registerUser(Registerparams registerparams) {
+        methods.showCustomProgressBarDialog(this);
         ApiService<LoginRegisterResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().registerApi(registerparams), "Register");
         Log.d("DATALOG","check1=> "+registerparams);
@@ -77,6 +82,7 @@ public class RegisterActivity extends FragmentActivity implements ApiResponse, V
 
     @Override
     public void onResponse(Response response, String key) {
+        methods.customProgressDismiss();
         switch (key)
         {
             case "Register":
@@ -191,7 +197,15 @@ public class RegisterActivity extends FragmentActivity implements ApiResponse, V
                     data.setLastName(lastName);
                     data.setPhoneNumber(phoneNumber);
                     registerparams.setData(data);
-                    registerUser(registerparams);
+                    if(methods.isInternetOn())
+                    {
+                        registerUser(registerparams);
+                    }
+                    else
+                    {
+                        methods.DialogInternet();
+                    }
+
 
                 }
 
