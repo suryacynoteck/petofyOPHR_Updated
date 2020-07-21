@@ -1,6 +1,6 @@
 package com.cynoteck.petofyvet.params.registerparams;
 
-public class Data
+public class RegisterRequest
 {
     private String Email;
 

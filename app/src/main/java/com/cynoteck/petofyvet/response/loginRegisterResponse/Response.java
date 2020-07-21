@@ -1,4 +1,5 @@
-package com.cynoteck.petofyvet.response.RegisterResponse;
+package com.cynoteck.petofyvet.response.loginRegisterResponse;
+
 
 public class Response
 {

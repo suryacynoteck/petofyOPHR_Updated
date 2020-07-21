@@ -1,7 +1,4 @@
-package com.cynoteck.petofyvet.response.loginresponse;
-
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+package com.cynoteck.petofyvet.response.loginRegisterResponse;
 
 public class Header
 {

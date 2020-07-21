@@ -1,8 +1,6 @@
 package com.cynoteck.petofyvet.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -10,16 +8,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.api.ApiClient;
 import com.cynoteck.petofyvet.api.ApiResponse;
 import com.cynoteck.petofyvet.api.ApiService;
-import com.cynoteck.petofyvet.params.registerparams.Data;
+import com.cynoteck.petofyvet.params.registerparams.RegisterRequest;
 import com.cynoteck.petofyvet.params.registerparams.Registerparams;
-import com.cynoteck.petofyvet.response.RegisterResponse.RegisterResponse;
+import com.cynoteck.petofyvet.response.loginRegisterResponse.LoginRegisterResponse;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -73,7 +70,7 @@ public class RegisterActivity extends FragmentActivity implements ApiResponse, V
     }
 
     private void registerUser(Registerparams registerparams) {
-        ApiService<RegisterResponse> service = new ApiService<>();
+        ApiService<LoginRegisterResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().registerApi(registerparams), "Register");
         Log.d("DATALOG","check1=> "+registerparams);
     }
@@ -85,12 +82,12 @@ public class RegisterActivity extends FragmentActivity implements ApiResponse, V
             case "Register":
                 try {
                     Log.d("DATALOG",""+response.body().toString());
-                    RegisterResponse registerResponse = (RegisterResponse) response.body();
-                    int responseCode = Integer.parseInt(registerResponse.getResponse().getResponseCode());
+                    LoginRegisterResponse registerResponse = (LoginRegisterResponse) response.body();
+                    int responseCode = Integer.parseInt(registerResponse.getResponseLogin().getResponseCode());
                     if (responseCode==109){
-                        Toast.makeText(this, registerResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, registerResponse.getResponseLogin().getResponseMessage(), Toast.LENGTH_SHORT).show();
                     }else if(responseCode==615) {
-                        Toast.makeText(this, registerResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, registerResponse.getResponseLogin().getResponseMessage(), Toast.LENGTH_SHORT).show();
                     }else {
                         Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
                     }
@@ -186,7 +183,7 @@ public class RegisterActivity extends FragmentActivity implements ApiResponse, V
                     password_TIL.setError(null);
                     confirmPassword_TIL.setError(null);
                     Registerparams registerparams = new Registerparams();
-                    Data data = new Data();
+                    RegisterRequest data = new RegisterRequest();
                     data.setEmail(email);
                     data.setPassword(password);
                     data.setConfirmPassword(confirmPassword);
