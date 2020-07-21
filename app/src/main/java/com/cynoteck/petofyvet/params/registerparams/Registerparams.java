@@ -1,14 +1,14 @@
 package com.cynoteck.petofyvet.params.registerparams;
 
 public class Registerparams {
-        private Data data;
+        private RegisterRequest data;
 
-        public Data getData()
+        public RegisterRequest getData()
         {
             return data;
         }
 
-        public void setData(Data data)
+        public void setData(RegisterRequest data)
         {
             this.data = data;
         }

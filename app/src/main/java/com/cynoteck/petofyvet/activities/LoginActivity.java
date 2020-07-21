@@ -17,10 +17,9 @@ import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.api.ApiClient;
 import com.cynoteck.petofyvet.api.ApiResponse;
 import com.cynoteck.petofyvet.api.ApiService;
-import com.cynoteck.petofyvet.params.loginparams.Data;
+import com.cynoteck.petofyvet.params.loginparams.LoginRequest;
 import com.cynoteck.petofyvet.params.loginparams.Loginparams;
-import com.cynoteck.petofyvet.response.loginresponse.LoginResponse;
-import com.google.android.material.textfield.TextInputEditText;
+import com.cynoteck.petofyvet.response.loginRegisterResponse.LoginRegisterResponse;
 import com.google.android.material.textfield.TextInputLayout;
 
 import retrofit2.Response;
@@ -83,7 +82,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                     email_TIET.setError(null);
                     password_TIET.setError(null);
                     Loginparams loginparams = new Loginparams();
-                    Data data = new Data();
+                    LoginRequest data = new LoginRequest();
                     data.setEmail(emailString);
                     data.setPassword(passwordString);
                     loginparams.setLoginData(data);
@@ -103,7 +102,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
 
     private void loginUser(Loginparams loginparams) {
 
-        ApiService<LoginResponse> service = new ApiService<>();
+        ApiService<LoginRegisterResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().loginApi(loginparams), "Login");
         Log.e("DATALOG","check1=> "+loginparams);
 
@@ -117,7 +116,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
 
                 try {
                     Log.d("DATALOG",response.body().toString());
-                    LoginResponse responseLogin = (LoginResponse) response.body();
+                    LoginRegisterResponse responseLogin = (LoginRegisterResponse) response.body();
                     int responseCode = Integer.parseInt(responseLogin.getResponseLogin().getResponseCode());
                     if (responseCode== 109){
                         SharedPreferences sharedPreferences = LoginActivity.this.getSharedPreferences("userdetails", 0);

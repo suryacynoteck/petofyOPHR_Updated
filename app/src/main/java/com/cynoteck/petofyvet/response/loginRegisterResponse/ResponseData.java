@@ -1,9 +1,6 @@
-package com.cynoteck.petofyvet.response.loginresponse;
+package com.cynoteck.petofyvet.response.loginRegisterResponse;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
-public class Data
+public class ResponseData
 {
     private String lastName;
 

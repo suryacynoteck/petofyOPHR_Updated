@@ -3,13 +3,13 @@ package com.cynoteck.petofyvet.params.loginparams;
 
 
 public class Loginparams {
-    private Data data;
-        public Data getLoginData()
+    private LoginRequest data;
+        public LoginRequest getLoginData()
     {
         return data;
     }
 
-    public void setLoginData(Data data)
+    public void setLoginData(LoginRequest data)
     {
         this.data = data;
     }

@@ -1,18 +1,18 @@
-package com.cynoteck.petofyvet.response.loginresponse;
+package com.cynoteck.petofyvet.response.loginRegisterResponse;
 
-public class LoginResponse {
-    private Data data;
+public class LoginRegisterResponse {
+    private ResponseData data;
 
     private Response response;
 
     private Header header;
 
-    public Data getData()
+    public ResponseData getData()
     {
         return data;
     }
 
-    public void setData(Data data)
+    public void setData(ResponseData data)
     {
         this.data = data;
     }
