@@ -5,21 +5,11 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.widget.AppCompatSpinner;
-import androidx.fragment.app.Fragment;
-import okhttp3.internal.Util;
-import retrofit2.Response;
-
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -34,17 +24,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
+import androidx.fragment.app.Fragment;
+
 import com.cynoteck.petofyvet.R;
-import com.cynoteck.petofyvet.activities.DashBoardActivity;
-import com.cynoteck.petofyvet.activities.LoginActivity;
 import com.cynoteck.petofyvet.api.ApiClient;
 import com.cynoteck.petofyvet.api.ApiResponse;
 import com.cynoteck.petofyvet.api.ApiService;
-import com.cynoteck.petofyvet.params.loginparams.Loginparams;
-import com.cynoteck.petofyvet.response.loginRegisterResponse.CityModel;
 import com.cynoteck.petofyvet.response.loginRegisterResponse.CityResponse;
 import com.cynoteck.petofyvet.response.loginRegisterResponse.CountryResponse;
-import com.cynoteck.petofyvet.response.loginRegisterResponse.LoginRegisterResponse;
 import com.cynoteck.petofyvet.response.loginRegisterResponse.StateResponse;
 import com.cynoteck.petofyvet.utils.Methods;
 import com.google.android.material.textfield.TextInputEditText;
@@ -55,20 +43,15 @@ import com.karumi.dexter.listener.DexterError;
 import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
-import org.json.JSONArray;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
-import static android.app.Activity.RESULT_OK;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.

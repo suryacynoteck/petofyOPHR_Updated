@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 
 import java.io.IOException;
 
-import okhttp3.Credentials;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -62,4 +61,5 @@ public class ApiClient {
 
         return mApiInterface;
     }
+
 }
