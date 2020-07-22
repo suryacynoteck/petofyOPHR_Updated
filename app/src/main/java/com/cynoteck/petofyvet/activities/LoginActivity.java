@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +36,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
     private TextView signUp_TV, forgetPass_TV;
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     Methods methods;
+    ImageView logoVet;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +55,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
 
     private void init() {
 
+        logoVet=findViewById(R.id.logoVet);
         email_TIET = findViewById(R.id.email_TIET);
         password_TIET = findViewById(R.id.password_TIET);
         email_TIL= findViewById(R.id.email_TIL);
@@ -108,12 +111,22 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                 startActivity(signUP_intent);
                 overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
 
+                break;
+
+            case R.id.forgetPass_TV:
+
+                Intent forgetPass_intent = new Intent(LoginActivity.this,ForgetPasswordActivity.class);
+                startActivity(forgetPass_intent);
+                overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
+
+                break;
+
         }
 
     }
 
     private void loginUser(Loginparams loginparams) {
-        methods.showCustomProgressBarDialog(this);
+       methods.showCustomProgressBarDialog(this);
         ApiService<LoginRegisterResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().loginApi(loginparams), "Login");
         Log.e("DATALOG","check1=> "+loginparams);
@@ -169,7 +182,9 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
 
     @Override
     public void onError(Throwable t, String key) {
-
+        methods.customProgressDismiss();
+        Log.e("error",t.getMessage());
+        Log.e("errrrr",t.getLocalizedMessage());
 
 }
 

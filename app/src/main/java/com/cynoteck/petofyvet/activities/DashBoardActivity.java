@@ -36,8 +36,6 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.add(R.id.content_frame, homeFragment);
             ft.commit();
-
-
             icHome.setImageResource(R.drawable.home_green_icon);
         }
 
