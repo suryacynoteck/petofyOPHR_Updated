@@ -262,44 +262,100 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Spinner
-            android:id="@+id/pet_category_updt"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"/>
+            android:layout_height="150dp"
+            android:weightSum="3"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/select_Category"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Select Category"
+                android:textColor="#000"
+                android:background="@color/colorPrimary"/>
+
+            <TextView
+                android:id="@+id/pet_category_updt"
+                android:layout_width="match_parent"
+                android:layout_weight="2"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="Set Category"
+                android:textColor="@color/colorPrimary"/>
+
+        </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="1dp"
+          android:background="@color/grayColorCode"
+          android:layout_marginTop="5dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:weightSum="2"
+            android:layout_marginTop="5dp">
 
             <ImageView
+                android:id="@+id/category_img_one"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@drawable/add_image"
+                android:src="@drawable/add_image"
                 android:layout_weight="1"/>
 
             <ImageView
+                android:id="@+id/category_img_two"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@drawable/add_image"
+                android:src="@drawable/add_image"
                 android:layout_weight="1"/>
 
 
         </LinearLayout>
-             
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:weightSum="3"
+            android:orientation="vertical"
+            android:layout_marginTop="5dp">
 
-        <Spinner
+            <Button
+                android:id="@+id/select_service_Category"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Select Services"
+                android:textColor="#000"
+                android:background="@color/colorPrimary"/>
+
+        <TextView
             android:id="@+id/service_category_updt"
             android:layout_width="match_parent"
-            android:layout_height="50dp"/>
+            android:layout_weight="2"
+            android:layout_height="0dp"
+            android:text="Set Services"
+            android:textColor="@color/colorPrimary"
+            android:gravity="center"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grayColorCode"
+            android:layout_marginTop="5dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:orientation="vertical"
-            android:weightSum="3">
+            android:weightSum="3"
+            android:layout_marginTop="5dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -309,15 +365,17 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/service_cat_img_one"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:background="@drawable/add_image"
+                    android:src="@drawable/add_image"
                     android:layout_weight="1"/>
 
                 <ImageView
+                    android:id="@+id/service_cat_img_two"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:background="@drawable/add_image"
+                    android:src="@drawable/add_image"
                     android:layout_weight="1"/>
 
 
@@ -331,9 +389,10 @@
                 android:weightSum="1">
 
                 <ImageView
+                    android:id="@+id/service_cat_img_three"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/add_image"
+                    android:src="@drawable/add_image"
                     android:layout_marginLeft="40dp"
                     android:layout_marginRight="40dp"/>
 
@@ -347,15 +406,17 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/service_cat_img_four"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:background="@drawable/add_image"
+                    android:src="@drawable/add_image"
                     android:layout_weight="1"/>
 
                 <ImageView
+                    android:id="@+id/service_cat_img_five"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:background="@drawable/add_image"
+                    android:src="@drawable/add_image"
                     android:layout_weight="1"/>
 
 

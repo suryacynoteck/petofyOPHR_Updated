@@ -1,12 +1,27 @@
 package com.cynoteck.petofyvet.fragments;
 
+import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.fragment.app.Fragment;
+import okhttp3.internal.Util;
+import retrofit2.Response;
 
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,39 +29,88 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cynoteck.petofyvet.R;
+import com.cynoteck.petofyvet.activities.DashBoardActivity;
+import com.cynoteck.petofyvet.activities.LoginActivity;
 import com.cynoteck.petofyvet.api.ApiClient;
 import com.cynoteck.petofyvet.api.ApiResponse;
 import com.cynoteck.petofyvet.api.ApiService;
 import com.cynoteck.petofyvet.params.loginparams.Loginparams;
+import com.cynoteck.petofyvet.response.loginRegisterResponse.CityModel;
+import com.cynoteck.petofyvet.response.loginRegisterResponse.CityResponse;
+import com.cynoteck.petofyvet.response.loginRegisterResponse.CountryResponse;
 import com.cynoteck.petofyvet.response.loginRegisterResponse.LoginRegisterResponse;
+import com.cynoteck.petofyvet.response.loginRegisterResponse.StateResponse;
+import com.cynoteck.petofyvet.utils.Methods;
 import com.google.android.material.textfield.TextInputEditText;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.DexterError;
+import com.karumi.dexter.listener.PermissionRequestErrorListener;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
+import org.json.JSONArray;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ProfileFragment extends Fragment implements View.OnClickListener,
-        AdapterView.OnItemSelectedListener {
+        AdapterView.OnItemSelectedListener,ApiResponse  {
     TextInputEditText first_name_updt,last_name_updt,email_updt,phone_updt,address_updt,
                       postal_code_updt,website_updt,social_media_url_updt,registration_num_updt,
                       vet_qualification_updt;
-    Spinner country_spnr_updt,state_spnr_updt,city_spnr_updt,pet_category_updt,service_category_updt;
-    Button update_profile;
+    Spinner country_spnr_updt,state_spnr_updt,city_spnr_updt;
+    Button update_profile,select_Category,select_service_Category;
+    TextView pet_category_updt,service_category_updt;
+    ImageView category_img_one,category_img_two,service_cat_img_one,service_cat_img_two,
+            service_cat_img_three,service_cat_img_four,service_cat_img_five ;
+
+    int slctCatOneImage=0,slctCatTwoImage=0,slctServcOneImage=0,slctServcTwoImage=0,slctServcThreeImage=0,
+        slctServcfourImage=0,slctServcFiveImage=0;
+    String imagename;
+    Uri fileUri;
+    Methods methods;
     View view;
 
-    String[] country = new String[]{"Select Country", "India"};
-    String[] city = new String[]{"Select City","Uttarakhand", "Uttar Pradesh", "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Kolkata"};
-    String[] state = new String[]{"Select State","West Bengal", "Maharastra"};
-    String[] petCategory = new String[]{"Select Category","Dog", "Cat"};
-    String[] serviceCategory = new String[]{"Select Service Category","Consultaion", "Grooming","Hostel","Training","Products"};
+    private static final String IMAGE_DIRECTORY = "/Picture";
+    private int GALLERY = 1, CAMERA = 2;
+    File file = null;
+    Bitmap bitmap, thumbnail;
+    String capImage;
 
+
+    ArrayList<String>state;
+    ArrayList<String>countery;
+    ArrayList<String>city;
+
+    String[] petCategory = new String[]{"Dog", "Cat"};
+    String[] serviceCategory = new String[]{"Consultaion", "Grooming","Hostel","Training","Products"};
+
+    //String[] listItems;
+    boolean[] chkItems;
+    ArrayList<Integer> muserItem=new ArrayList<>();
+
+    boolean[] chkItemsSevice;
+    ArrayList<Integer> muserItemService=new ArrayList<>();
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -58,17 +122,43 @@ public class ProfileFragment extends Fragment implements View.OnClickListener,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_profile, container, false);
+        methods = new Methods(getActivity());
         init();
-        setCountrySpinner();
-        setCitySpinner();
-        setStateSpinner();
-        setCategory();
-        setServiceCategory();
+        requestMultiplePermissions();
+        if(methods.isInternetOn())
+        {
+            getState();
+            getCountry();
+            getCity();
+
+        }
+        else
+        {
+            methods.DialogInternet();
+        }
+        setValueFromSharePref();
+        chkItems=new boolean[petCategory.length];
+        chkItemsSevice=new boolean[serviceCategory.length];
         return view;
     }
 
+    private void getState() {
+        methods.showCustomProgressBarDialog(getContext());
+        ApiService<StateResponse> service = new ApiService<>();
+        service.get(this, ApiClient.getApiInterface().getStateApi(), "GetState");
 
+    }
 
+    private void getCountry() {
+        ApiService<CountryResponse> service = new ApiService<>();
+        service.get(this, ApiClient.getApiInterface().getCountryApi(), "GetCountry");
+
+    }
+
+    private void getCity(){
+        ApiService<CityResponse> service = new ApiService<>();
+        service.get(this, ApiClient.getApiInterface().getCityApi(), "GetCity");
+    }
 
     private void init() {
         //TextInputEditText
@@ -87,58 +177,61 @@ public class ProfileFragment extends Fragment implements View.OnClickListener,
         country_spnr_updt=view.findViewById(R.id.country_spnr_updt);
         state_spnr_updt=view.findViewById(R.id.state_spnr_updt);
         city_spnr_updt=view.findViewById(R.id.city_spnr_updt);
-        pet_category_updt=view.findViewById(R.id.pet_category_updt);
-        service_category_updt=view.findViewById(R.id.service_category_updt);
 
         country_spnr_updt.setOnItemSelectedListener(this);
         state_spnr_updt.setOnItemSelectedListener(this);
         city_spnr_updt.setOnItemSelectedListener(this);
-        pet_category_updt.setOnItemSelectedListener(this);
-        service_category_updt.setOnItemSelectedListener(this);
+
+        //Text View
+        pet_category_updt=view.findViewById(R.id.pet_category_updt);
+        service_category_updt=view.findViewById(R.id.service_category_updt);
+
+        //Image View
+        category_img_one=view.findViewById(R.id.category_img_one);
+        category_img_two=view.findViewById(R.id.category_img_two);
+        service_cat_img_one=view.findViewById(R.id.service_cat_img_one);
+        service_cat_img_two=view.findViewById(R.id.service_cat_img_two);
+        service_cat_img_three=view.findViewById(R.id.service_cat_img_three);
+        service_cat_img_four=view.findViewById(R.id.service_cat_img_four);
+        service_cat_img_five=view.findViewById(R.id.service_cat_img_five);
+
+        category_img_one.setOnClickListener(this);
+        category_img_two.setOnClickListener(this);
+        service_cat_img_one.setOnClickListener(this);
+        service_cat_img_two.setOnClickListener(this);
+        service_cat_img_three.setOnClickListener(this);
+        service_cat_img_four.setOnClickListener(this);
+        service_cat_img_five.setOnClickListener(this);
 
         //Button
         update_profile=view.findViewById(R.id.update_profile);
+        select_Category=view.findViewById(R.id.select_Category);
+        select_service_Category=view.findViewById(R.id.select_service_Category);
+
         update_profile.setOnClickListener(this);
+        select_Category.setOnClickListener(this);
+        select_service_Category.setOnClickListener(this);
 
     }
 
-    private void setCountrySpinner() {
-        ArrayAdapter aa = new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,country);
-        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //Setting the ArrayAdapter data on the Spinner
-        country_spnr_updt.setAdapter(aa);
+    private void setValueFromSharePref() {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("userdetails", 0);
+        String email = sharedPreferences.getString("email", "");
+        if(!email.equals("null"))
+            email_updt.setText(email);
+        String firstName=sharedPreferences.getString("firstName", "");
+        if(!firstName.equals("null"))
+            first_name_updt.setText(firstName);
+        String lastName=sharedPreferences.getString("lastName", "");
+        if(!lastName.equals("null"))
+            last_name_updt.setText(lastName);
+        String phoneNumber=sharedPreferences.getString("phoneNumber", "");
+        if(!phoneNumber.equals("null"))
+            phone_updt.setText(phoneNumber);
+        String address=sharedPreferences.getString("address","");
+        if(!address.equals("null"))
+            address_updt.setText(address);
     }
-
-    private void setCitySpinner() {
-        ArrayAdapter aa = new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,city);
-        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //Setting the ArrayAdapter data on the Spinner
-        city_spnr_updt.setAdapter(aa);
-
-    }
-
-    private void setStateSpinner() {
-
-        ArrayAdapter aa = new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,state);
-        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //Setting the ArrayAdapter data on the Spinner
-        state_spnr_updt.setAdapter(aa);
-    }
-
-    private void setCategory() {
-        ArrayAdapter aa = new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,petCategory);
-        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //Setting the ArrayAdapter data on the Spinner
-        pet_category_updt.setAdapter(aa);
-    }
-
-    private void setServiceCategory() {
-        ArrayAdapter aa = new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,serviceCategory);
-        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //Setting the ArrayAdapter data on the Spinner
-        service_category_updt.setAdapter(aa);
-    }
-
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -162,12 +255,494 @@ public class ProfileFragment extends Fragment implements View.OnClickListener,
             case R.id.update_profile:
                 break;
 
+            case R.id.select_Category:
+                AlertDialog.Builder mBuilder=new AlertDialog.Builder(getActivity());
+                mBuilder.setTitle("Items available in a shop");
+                mBuilder.setMultiChoiceItems(petCategory, chkItems, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
+                      if(isChecked)
+                      {
+                          if(!muserItem.contains(position)){
+                              muserItem.add(position);
+                          }
+                      }
+                      else if(muserItem.contains(position)){
+                          muserItem.remove(position);
+                      }
+                    }
+                });
+
+                mBuilder.setCancelable(false);
+                mBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                          String item="";
+                          for(int i = 0;i<muserItem.size();i++){
+                              item=item + petCategory[muserItem.get(i)];
+                              if(i != muserItem.size()-1);{
+                                  item=item+", ";
+                              }
+                          }
+                        //Log.d("Selected_item_category",""+item);
+                          if(item.equals(""))
+                          {
+                              pet_category_updt.setText("Set Category");
+                          }
+                          else {
+                              pet_category_updt.setText(item);
+                          }
+                    }
+                });
+
+                mBuilder.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                       dialogInterface.dismiss();
+                    }
+                });
+
+                mBuilder.setNeutralButton("Clear All", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        for(int i=0;i<chkItems.length;i++){
+                            chkItems[i]=false;
+                            muserItem.clear();
+                        }
+                    }
+                });
+
+                AlertDialog mDialog=mBuilder.create();
+                mDialog.show();
+                break;
+
+            case R.id.select_service_Category:
+                AlertDialog.Builder mBuilderr=new AlertDialog.Builder(getActivity());
+                mBuilderr.setTitle("Items available in a shop");
+                mBuilderr.setMultiChoiceItems(serviceCategory, chkItemsSevice, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
+                        if(isChecked)
+                        {
+                            if(!muserItemService.contains(position)){
+                                muserItemService.add(position);
+                            }
+                        }
+                        else if(muserItemService.contains(position)){
+                            muserItemService.remove(position);
+                        }
+                    }
+                });
+
+                mBuilderr.setCancelable(false);
+                mBuilderr.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        String item="";
+                        for(int i = 0;i<muserItemService.size();i++){
+                            item=item + serviceCategory[muserItemService.get(i)];
+                            if(i != muserItemService.size()-1);{
+                                item=item+", ";
+                            }
+                        }
+                        Log.d("Selected_item_category",""+item);
+                        if(item.equals("")){
+                            service_category_updt.setText("Set Sevices");
+                        }
+                        else {
+                            service_category_updt.setText(item);
+                        }
+                    }
+                });
+
+                mBuilderr.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+
+                mBuilderr.setNeutralButton("Clear All", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        for(int i=0;i<chkItemsSevice.length;i++){
+                            chkItemsSevice[i]=false;
+                            muserItemService.clear();
+                            service_category_updt.setText("Set Sevices");
+                        }
+                    }
+                });
+
+                AlertDialog mDialogg=mBuilderr.create();
+                mDialogg.show();
+                break;
+
+            case R.id.category_img_one:
+                showPictureDialog();
+                slctCatOneImage=1;
+                break;
+            case R.id.category_img_two:
+                showPictureDialog();
+                slctCatTwoImage=1;
+                break;
+            case R.id.service_cat_img_one:
+                showPictureDialog();
+                slctServcOneImage=1;
+                break;
+            case R.id.service_cat_img_two:
+                showPictureDialog();
+                slctServcTwoImage=1;
+                break;
+            case R.id.service_cat_img_three:
+                showPictureDialog();
+                slctServcThreeImage=1;
+                break;
+            case R.id.service_cat_img_four:
+                showPictureDialog();
+                slctServcfourImage=1;
+                break;
+            case R.id.service_cat_img_five:
+                showPictureDialog();
+                slctServcFiveImage=1;
+                break;
         }
+
+    }
+
+    private void showPictureDialog() {
+        final AlertDialog.Builder pictureDialog = new AlertDialog.Builder(getActivity());
+        pictureDialog.setTitle("Select Action");
+        String[] pictureDialogItems = {
+                "Select photo from gallery",
+                "Capture photo from camera",
+                 "Cancel Dialog"};
+        pictureDialog.setItems(pictureDialogItems,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0:
+                                choosePhotoFromGallary();
+                                break;
+                            case 1:
+                                takePhotoFromCamera();
+                                break;
+                            case 2:
+                                dialog.dismiss();
+                                break;
+                        }
+                    }
+                });
+        pictureDialog.show();
+    }
+
+    private void choosePhotoFromGallary() {
+
+
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+        startActivityForResult(galleryIntent, GALLERY);
+    }
+
+    private void takePhotoFromCamera() {
+
+        Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+
+        startActivityForResult(intent, CAMERA);
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.FROYO)
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == getActivity().RESULT_CANCELED) {
+            return;
+        }
+        if (requestCode == GALLERY) {
+            if (data != null) {
+
+                Uri contentURI = data.getData();
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), contentURI);
+                  if(slctCatOneImage==1){
+                      category_img_one.setImageBitmap(bitmap);
+                      slctCatOneImage=0;
+                      saveImage(bitmap);
+                  }
+                    if(slctCatTwoImage==1){
+                        category_img_two.setImageBitmap(bitmap);
+                        slctCatTwoImage=0;
+                        saveImage(bitmap);
+                    }
+                    if(slctServcOneImage==1){
+                        service_cat_img_one.setImageBitmap(bitmap);
+                        slctServcOneImage=0;
+                        saveImage(bitmap);
+                    }
+                    if(slctServcTwoImage==1){
+                        service_cat_img_two.setImageBitmap(bitmap);
+                        slctServcTwoImage=0;
+                        saveImage(bitmap);
+                    }
+                    if(slctServcThreeImage==1){
+                        service_cat_img_three.setImageBitmap(bitmap);
+                        slctServcThreeImage=0;
+                        saveImage(bitmap);
+                    }
+                    if(slctServcfourImage==1){
+                        service_cat_img_four.setImageBitmap(bitmap);
+                        slctServcfourImage=0;
+                        saveImage(bitmap);
+                    }
+                    if(slctServcFiveImage==1){
+                        service_cat_img_five.setImageBitmap(bitmap);
+                        slctServcFiveImage=0;
+                        saveImage(bitmap);
+                    }
+
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getActivity(), "Failed!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        }
+        else if (requestCode == CAMERA) {
+
+            if (data.getData() == null)
+            {
+                thumbnail = (Bitmap) data.getExtras().get("data");
+                Log.e("jghl",""+thumbnail);
+            }
+
+            else{
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), data.getData());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(slctCatOneImage==1){
+                category_img_one.setImageBitmap(thumbnail);
+                slctCatOneImage=0;
+                saveImage(thumbnail);
+            }
+            if(slctCatTwoImage==1){
+                category_img_two.setImageBitmap(thumbnail);
+                slctCatTwoImage=0;
+                saveImage(thumbnail);
+            }
+            if(slctServcOneImage==1){
+                service_cat_img_one.setImageBitmap(thumbnail);
+                slctServcOneImage=0;
+                saveImage(thumbnail);
+            }
+            if(slctServcTwoImage==1){
+                service_cat_img_two.setImageBitmap(thumbnail);
+                slctServcTwoImage=0;
+                saveImage(thumbnail);
+            }
+            if(slctServcThreeImage==1){
+                service_cat_img_three.setImageBitmap(thumbnail);
+                slctServcThreeImage=0;
+                saveImage(thumbnail);
+            }
+            if(slctServcfourImage==1){
+                service_cat_img_four.setImageBitmap(thumbnail);
+                slctServcfourImage=0;
+                saveImage(thumbnail);
+            }
+            if(slctServcFiveImage==1){
+                service_cat_img_five.setImageBitmap(thumbnail);
+                slctServcFiveImage=0;
+                saveImage(thumbnail);
+            }
+            Toast.makeText(getActivity(), "Image Saved!", Toast.LENGTH_SHORT).show();
+        }
+
+        return;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.FROYO)
+    public String saveImage(Bitmap myBitmap) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        myBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+        File wallpaperDirectory = new File(
+                Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
+        // have the object build the directory structure, if needed.
+        if (!wallpaperDirectory.exists()) {
+            wallpaperDirectory.mkdirs();
+        }
+
+        try {
+            File f = new File(wallpaperDirectory, Calendar.getInstance()
+                    .getTimeInMillis() + ".jpg");
+            f.createNewFile();
+            FileOutputStream fo = new FileOutputStream(f);
+            fo.write(bytes.toByteArray());
+            MediaScannerConnection.scanFile(getActivity(),
+                    new String[]{f.getPath()},
+                    new String[]{"image/jpeg"}, null);
+            fo.close();
+            Log.d("TAG", "File Saved::---&gt;" + f.getAbsolutePath());
+
+            return f.getAbsolutePath();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+        return "";
+    }
+
+    private void requestMultiplePermissions() {
+        Dexter.withActivity(getActivity())
+                .withPermissions(
+                        android.Manifest.permission.CAMERA,
+                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                        // check if all permissions are granted
+                        if (report.areAllPermissionsGranted()) {
+                            Toast.makeText(getActivity(), "All permissions are granted by user!", Toast.LENGTH_SHORT).show();
+                        }
+
+                        // check for permanent denial of any permission
+                        if (report.isAnyPermissionPermanentlyDenied()) {
+                            // show alert dialog navigating to Settings
+                            //openSettingsDialog();
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<com.karumi.dexter.listener.PermissionRequest> permissions, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+
+
+                }).
+                withErrorListener(new PermissionRequestErrorListener() {
+                    @Override
+                    public void onError(DexterError error) {
+                        Toast.makeText(getActivity(), "Some Error! ", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .onSameThread()
+                .check();
     }
 
 
+    @Override
+    public void onResponse(Response response, String key) {
+        methods.customProgressDismiss();
+        switch (key)
+        {
+            case "GetState":
+                try {
+                    Log.d("getState",response.body().toString());
+                    StateResponse stateResponse = (StateResponse) response.body();
+                    int responseCode = Integer.parseInt(stateResponse.getResponse().getResponseCode());
+                    if (responseCode== 109){
+                        Toast.makeText(getActivity(), "Successs", Toast.LENGTH_SHORT).show();
+                        state=new ArrayList<>();
+                        state.add("Select State");
+                        for(int i=0; i<stateResponse.getData().size(); i++){
+                            Log.d("kakakka",""+stateResponse.getData().get(i).getStateName());
+                            state.add(stateResponse.getData().get(i).getStateName());
+                        }
+                        setStateSpinner();
 
+                    }else if (responseCode==614){
+                        Toast.makeText(getActivity(), stateResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(getActivity(), "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+                break;
 
+            case "GetCountry":
+                try {
+                    Log.d("GetCountry",response.body().toString());
+                    CountryResponse stateResponse = (CountryResponse) response.body();
+                    int responseCode = Integer.parseInt(stateResponse.getResponse().getResponseCode());
+                    if (responseCode== 109){
+                        Toast.makeText(getActivity(), "Successs", Toast.LENGTH_SHORT).show();
+                        countery=new ArrayList<>();
+                        countery.add("Select Country");
+                        for(int i=0; i<stateResponse.getData().size(); i++){
+                            Log.d("kakakka",""+stateResponse.getData().get(i).getCountryName());
+                            countery.add(stateResponse.getData().get(i).getCountryName());
+                        }
+                        setCountrySpinner();
 
+                    }else if (responseCode==614){
+                        Toast.makeText(getActivity(), stateResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(getActivity(), "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+            case "GetCity":
+                try {
+                    Log.d("GetCity",response.body().toString());
+                    CityResponse cityResponse = (CityResponse) response.body();
+                    int responseCode = Integer.parseInt(cityResponse.getResponse().getResponseCode());
+                    if (responseCode== 109){
+                        Toast.makeText(getActivity(), "Successs", Toast.LENGTH_SHORT).show();
+                        city=new ArrayList<>();
+                        city.add("Select City");
+                        Log.d("lalal",""+cityResponse.getData().size());
+                        for(int i=0; i<cityResponse.getData().size(); i++){
+                            Log.d("kakakkajj",""+cityResponse.getData().get(i).getCity1());
+                            city.add(cityResponse.getData().get(i).getCity1());
+                        }
+                        setCitySpinner();
+
+                    }else if (responseCode==614){
+                        Toast.makeText(getActivity(), cityResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(getActivity(), "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onError(Throwable t, String key) {}
+
+    private void setCountrySpinner() {
+        ArrayAdapter aa = new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,countery);
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Setting the ArrayAdapter data on the Spinner
+        country_spnr_updt.setAdapter(aa);
+    }
+
+    private void setStateSpinner() {
+        ArrayAdapter aa = new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,state);
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Setting the ArrayAdapter data on the Spinner
+        state_spnr_updt.setAdapter(aa);
+    }
+
+    private void setCitySpinner() {
+        ArrayAdapter aa = new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,city);
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Setting the ArrayAdapter data on the Spinner
+        city_spnr_updt.setAdapter(aa);
+
+    }
 
 }

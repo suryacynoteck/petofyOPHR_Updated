@@ -17,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
 
-   private static final String BASE_URL = "https://petofyapi.azurewebsites.net/api/User/";
+   private static final String BASE_URL = "https://petofyapi.azurewebsites.net/api/";
 
 
     private ApiClient() {

@@ -138,6 +138,10 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                         SharedPreferences.Editor login_editor = sharedPreferences.edit();
                         login_editor.putString("email",responseLogin.getData().getEmail());
                         login_editor.putString("userId",responseLogin.getData().getUserId());
+                        login_editor.putString("firstName",responseLogin.getData().getFirstName());
+                        login_editor.putString("lastName",responseLogin.getData().getLastName());
+                        login_editor.putString("phoneNumber",responseLogin.getData().getPhoneNumber());
+                        login_editor.putString("address",responseLogin.getData().getAddress());
                         login_editor.putString("loggedIn","loggedIn");
                         login_editor.commit();
 

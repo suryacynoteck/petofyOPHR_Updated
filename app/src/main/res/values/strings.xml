@@ -31,4 +31,10 @@
     <string name="vet_registration_number">Vet Registration Number</string>
     <string name="vet_qualification">Vet Qualification</string>
     <string name="updateProfile">Update Profile</string>
+
+    <string-array name="category">
+       <item>Select Category</item>
+       <item>Dog</item>
+       <item>Cat</item>
+    </string-array>
 </resources>

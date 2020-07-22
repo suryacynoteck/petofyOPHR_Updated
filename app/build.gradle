@@ -39,5 +39,8 @@ dependencies {
 
     implementation 'com.github.ittianyu:BottomNavigationViewEx:2.0.2'
 
+    //dexter
+    implementation 'com.karumi:dexter:5.0.0'
+
 
 }
