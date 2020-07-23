@@ -4,33 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.cynoteck.petofyvet.activities.DashBoardActivity"
-    tools:showIn="@layout/activity_dash_board">
+    tools:context="com.cynoteck.petofyvet.activities.DashBoardActivity">
 
 
 
 
-
-
-    <include android:visibility="visible" layout="@layout/content_main"/>
-
-
-
-        <!-- Content Container -->
-
-<!--
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
+    <FrameLayout
+        android:layout_above="@id/include"
+        android:id="@+id/content_frame"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:itemIconSize="55dp"
-        app:itemIconTint="@color/colorPrimary"
+        android:layout_height="match_parent"
+        />
+
+
+
+
+    <include
         android:layout_alignParentBottom="true"
-        app:menu="@menu/bottom_navigation"
-        android:background="?android:attr/windowBackground"/>
--->
+        android:id="@+id/include"
+        android:visibility="visible"
+        layout="@layout/content_main"
+        android:layout_height="50dp"
+        android:layout_width="match_parent"/>
 
 
-    </RelativeLayout>
+
+
+</RelativeLayout>
 
 

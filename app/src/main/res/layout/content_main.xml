@@ -8,14 +8,15 @@
 
 
     <androidx.cardview.widget.CardView
+        android:elevation="5dp"
+        app:cardElevation="5dp"
         android:id="@+id/card1"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true">
 
         <LinearLayout
             android:gravity="center"
-            android:layout_marginBottom="5dp"
             android:id="@+id/botton_LL"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

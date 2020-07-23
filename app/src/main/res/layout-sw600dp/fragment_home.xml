@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/mainHome"
     tools:context=".fragments.HomeFragment">
 
     <androidx.appcompat.widget.Toolbar
@@ -41,6 +42,7 @@
 
 
             <ImageView
+                android:id="@+id/reports_IV"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:layout_weight="1"

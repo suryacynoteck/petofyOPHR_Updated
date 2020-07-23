@@ -42,6 +42,7 @@
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/first_nm_layout"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -62,6 +63,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/last_nm_layout"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -80,6 +82,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/emil_layout"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -99,6 +102,7 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/phone_number_layout"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -107,7 +111,7 @@
                     android:id="@+id/phone_updt"
                     android:layout_width="match_parent"
                     android:maxLines="1"
-                    android:inputType="text"
+                    android:inputType="phone"
                     android:paddingRight="45dp"
                     android:hint="@string/phoneNumber"
                     android:textSize="16sp"
@@ -117,6 +121,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/address_layout"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -168,6 +173,7 @@
                     android:layout_weight="1"/>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/postal_code_layout"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content">
@@ -176,7 +182,7 @@
                         android:id="@+id/postal_code_updt"
                         android:layout_width="match_parent"
                         android:maxLines="1"
-                        android:inputType="text"
+                        android:inputType="textPostalAddress"
                         android:paddingRight="45dp"
                         android:hint="@string/postal_code"
                         android:textSize="16sp"
@@ -190,6 +196,7 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/website_layout"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -198,7 +205,7 @@
                     android:id="@+id/website_updt"
                     android:layout_width="match_parent"
                     android:maxLines="1"
-                    android:inputType="text"
+                    android:inputType="textWebEditText"
                     android:paddingRight="45dp"
                     android:hint="@string/website"
                     android:textSize="16sp"
@@ -209,6 +216,7 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/social_media_url_layout"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -227,6 +235,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/vet_registration_layout"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -245,6 +254,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/vet_qualification_layout"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
