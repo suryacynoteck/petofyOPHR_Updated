@@ -33,4 +33,11 @@
     <string name="updateProfile">Update Profile</string>
     <string name="submit">Submit</string>
     <string name="changePass">Change Password</string>
+    <string name="petId">PET ID</string>
+    <string name="dateofbirth">DATE OF BIRTH</string>
+    <string name="petname">PET NAME</string>
+    <string name="color">COLOR</string>
+    <string name="petcolor"><![CDATA[Brown & White]]></string>
+    <string name="viewReports">VIEW REPORTS</string>
+    <string name="reports">REPORTS</string>
 </resources>

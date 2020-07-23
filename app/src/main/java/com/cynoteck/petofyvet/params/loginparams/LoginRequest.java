@@ -1,8 +1,5 @@
 package com.cynoteck.petofyvet.params.loginparams;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 public class LoginRequest {
     private String Email;
 

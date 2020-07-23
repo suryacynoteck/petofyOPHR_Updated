@@ -4,15 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.cynoteck.petofyvet.activities.DashBoardActivity"
-    tools:showIn="@layout/activity_dash_board">
+    tools:context="com.cynoteck.petofyvet.activities.DashBoardActivity">
 
 
 
 
+    <FrameLayout
+        android:layout_above="@id/include"
+        android:id="@+id/content_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
 
 
-    <include android:visibility="visible" layout="@layout/content_main"/>
+
+
+    <include
+        android:layout_alignParentBottom="true"
+        android:id="@+id/include"
+        android:visibility="visible"
+        layout="@layout/content_main"
+        android:layout_height="60dp"
+        android:layout_width="match_parent"/>
 
 
 
