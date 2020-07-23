@@ -1,15 +1,21 @@
 package com.cynoteck.petofyvet.api;
 
+import com.cynoteck.petofyvet.response.getPetListResponse.GetPetListResponse;
+import com.cynoteck.petofyvet.params.getPetList.getPetRequest.GetPetDataRequest;
 import com.cynoteck.petofyvet.params.loginparams.Loginparams;
 import com.cynoteck.petofyvet.params.registerparams.Registerparams;
-import com.cynoteck.petofyvet.response.loginRegisterResponse.CityResponse;
-import com.cynoteck.petofyvet.response.loginRegisterResponse.CountryResponse;
 import com.cynoteck.petofyvet.response.loginRegisterResponse.LoginRegisterResponse;
-import com.cynoteck.petofyvet.response.loginRegisterResponse.StateResponse;
+import com.cynoteck.petofyvet.response.updateProfileResponse.CityResponse;
+import com.cynoteck.petofyvet.response.updateProfileResponse.CountryResponse;
+import com.cynoteck.petofyvet.response.updateProfileResponse.PetServiceResponse;
+import com.cynoteck.petofyvet.response.updateProfileResponse.PetTypeResponse;
+import com.cynoteck.petofyvet.response.updateProfileResponse.StateResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
 public interface ApiInterface {
@@ -25,6 +31,17 @@ public interface ApiInterface {
     @GET("common/GetCity")
     Call<CityResponse> getCityApi();
 
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @GET("common/GetPetTypes")
+    Call<PetTypeResponse> petTypeApi(@Header("Authorization") String auth);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @GET("common/GetServiceTypes")
+    Call<PetServiceResponse> petServiceTypeApi(@Header("Authorization") String auth);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("report/GetPetList")
+    Call<GetPetListResponse> getPetList(@Header("Authorization") String auth, @Body GetPetDataRequest getPetDataRequest);
 }
 
 

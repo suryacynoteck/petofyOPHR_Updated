@@ -8,14 +8,18 @@ import android.view.ViewGroup;
 
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.cynoteck.petofyvet.R;
+import com.cynoteck.petofyvet.adapters.ReportsAdapter;
 import com.cynoteck.petofyvet.api.ApiClient;
 import com.cynoteck.petofyvet.api.ApiResponse;
 import com.cynoteck.petofyvet.api.ApiService;
-import com.cynoteck.petofyvet.params.getPetList.getPetListResponse.GetPetListResponse;
 import com.cynoteck.petofyvet.params.getPetList.getPetRequest.GetPetDataParams;
 import com.cynoteck.petofyvet.params.getPetList.getPetRequest.GetPetDataRequest;
+import com.cynoteck.petofyvet.response.getPetListResponse.GetPetListResponse;
+import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
 
 import retrofit2.Response;
@@ -27,6 +31,8 @@ public class ReportsFragment extends Fragment implements ApiResponse {
     View view;
     Methods methods;
     CardView materialCardView;
+    RecyclerView petList_RV;
+    ReportsAdapter reportsAdapter;
 
     public ReportsFragment() {
         // Required empty public constructor
@@ -40,6 +46,7 @@ public class ReportsFragment extends Fragment implements ApiResponse {
         view = inflater.inflate(R.layout.fragment_reports, container, false);
 
         materialCardView = view.findViewById(R.id.toolbar);
+        petList_RV=view.findViewById(R.id.petList_RV);
         methods = new Methods(getContext());
         getPetList();
 
@@ -56,7 +63,7 @@ public class ReportsFragment extends Fragment implements ApiResponse {
         getPetDataRequest.setData(getPetDataParams);
 
         ApiService<GetPetListResponse> service = new ApiService<>();
-        service.get( this, ApiClient.getApiInterface().getPetList("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjVkMGJkNmQ0LTIzNjQtNGU1Ny04Yzk1LTA3MzZlYTgwMDIyMSIsIm5iZiI6MTU5NTUxMjk2MywiZXhwIjoxNTk1NTU2MTYzLCJpYXQiOjE1OTU1MTI5NjN9.iCYulYZKvfxyL-gigO1Gz4hj-QPrJ2E46l7rl9pbtW8",getPetDataRequest), "GetPetList");
+        service.get( this, ApiClient.getApiInterface().getPetList(Config.token,getPetDataRequest), "GetPetList");
         Log.e("DATALOG","check1=> "+getPetDataRequest);
 
 
@@ -69,7 +76,25 @@ public class ReportsFragment extends Fragment implements ApiResponse {
         switch (key){
             case "GetPetList":
                 try {
-                    Log.d("DATALOG",response.body().toString());
+                    GetPetListResponse getPetListResponse = (GetPetListResponse) response.body();
+                    int responseCode = Integer.parseInt(getPetListResponse.getResponse().getResponseCode());
+                    Log.d("DATALOG", String.valueOf(getPetListResponse.getData().getPetList().get(0).getPetUniqueId()));
+                    Log.d("DATALOG", String.valueOf(getPetListResponse.getData().getPetList().get(1).getPetUniqueId()));
+                    Log.d("DATALOG", String.valueOf(getPetListResponse.getData().getPetList().get(2).getPetUniqueId()));
+                    Log.d("DATALOG", String.valueOf(getPetListResponse.getData().getPetList().get(3).getPetUniqueId()));
+
+
+                    if (responseCode== 109){
+                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+                        petList_RV.setLayoutManager(linearLayoutManager);
+                        reportsAdapter  = new ReportsAdapter(getContext(),getPetListResponse.getData().getPetList());
+                        petList_RV.setAdapter(reportsAdapter);
+                        reportsAdapter.notifyDataSetChanged();
+                    }
+
+
+
+
 
                 }
                 catch(Exception e) {

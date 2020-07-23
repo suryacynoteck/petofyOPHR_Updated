@@ -1,4 +1,4 @@
-package com.cynoteck.petofyvet.params.getPetList.getPetListResponse;
+package com.cynoteck.petofyvet.response.getPetListResponse;
 
 import com.cynoteck.petofyvet.response.loginRegisterResponse.Header;
 import com.cynoteck.petofyvet.response.loginRegisterResponse.Response;

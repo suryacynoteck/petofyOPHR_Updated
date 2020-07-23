@@ -1,10 +1,12 @@
-package com.cynoteck.petofyvet.params.getPetList.getPetListResponse;
+package com.cynoteck.petofyvet.response.getPetListResponse;
+
+import java.util.ArrayList;
 
 public class GetPetListData {
 
         private PagingHeader pagingHeader;
 
-        private PetList[] petList;
+        private ArrayList<PetList> petList;
 
         public PagingHeader getPagingHeader ()
         {
@@ -16,12 +18,12 @@ public class GetPetListData {
             this.pagingHeader = pagingHeader;
         }
 
-        public PetList[] getPetList ()
+        public ArrayList<PetList> getPetList ()
         {
             return petList;
         }
 
-        public void setPetList (PetList[] petList)
+        public void setPetList (ArrayList<PetList> petList)
         {
             this.petList = petList;
         }

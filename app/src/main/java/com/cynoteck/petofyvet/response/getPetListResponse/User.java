@@ -1,4 +1,4 @@
-package com.cynoteck.petofyvet.params.getPetList.getPetListResponse;
+package com.cynoteck.petofyvet.response.getPetListResponse;
 
 public class User
 {

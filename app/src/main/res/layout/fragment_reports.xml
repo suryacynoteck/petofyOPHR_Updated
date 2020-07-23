@@ -3,46 +3,49 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#ECE4E4"
     tools:context=".fragments.ReportsFragment">
 
     <androidx.cardview.widget.CardView
+        app:cardElevation="5dp"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/whiteColor"
-        tools:ignore="MissingConstraints" >
+        tools:ignore="MissingConstraints">
+
         <RelativeLayout
-            android:gravity="center"
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/reports_headline_TV"
-                android:textColor="#000"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/reports"
-                android:gravity="center"
                 android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="@string/reports"
+                android:textColor="#000"
                 android:textSize="25sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <ImageView
-                android:layout_marginRight="10dp"
-                android:padding="10dp"
-                android:layout_alignParentEnd="true"
-                android:src="@drawable/searchicon"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_alignParentRight="true" />
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:padding="10dp"
+                android:src="@drawable/searchicon" />
 
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_margin="10dp"
         android:id="@+id/petList_RV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

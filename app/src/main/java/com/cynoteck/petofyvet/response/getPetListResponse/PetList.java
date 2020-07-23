@@ -1,4 +1,6 @@
-package com.cynoteck.petofyvet.params.getPetList.getPetListResponse;
+package com.cynoteck.petofyvet.response.getPetListResponse;
+
+import java.util.ArrayList;
 
 public class PetList {
     private String petAge;
@@ -7,9 +9,9 @@ public class PetList {
 
     private String secondServiceImageUrl;
 
-    private String[] petClinicVisit;
+    private ArrayList<String> petClinicVisit;
 
-    private String[] petHospitalizationsSurgeries;
+    private ArrayList<String> petHospitalizationsSurgeries;
 
     private String petAgeList;
 
@@ -131,19 +133,19 @@ public class PetList {
         this.secondServiceImageUrl = secondServiceImageUrl;
     }
 
-    public String[] getPetClinicVisit() {
+    public ArrayList<String> getPetClinicVisit() {
         return petClinicVisit;
     }
 
-    public void setPetClinicVisit(String[] petClinicVisit) {
+    public void setPetClinicVisit(ArrayList<String> petClinicVisit) {
         this.petClinicVisit = petClinicVisit;
     }
 
-    public String[] getPetHospitalizationsSurgeries() {
+    public ArrayList<String> getPetHospitalizationsSurgeries() {
         return petHospitalizationsSurgeries;
     }
 
-    public void setPetHospitalizationsSurgeries(String[] petHospitalizationsSurgeries) {
+    public void setPetHospitalizationsSurgeries(ArrayList<String> petHospitalizationsSurgeries) {
         this.petHospitalizationsSurgeries = petHospitalizationsSurgeries;
     }
 
