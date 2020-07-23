@@ -21,6 +21,7 @@ import com.cynoteck.petofyvet.api.ApiService;
 import com.cynoteck.petofyvet.params.loginparams.LoginRequest;
 import com.cynoteck.petofyvet.params.loginparams.Loginparams;
 import com.cynoteck.petofyvet.response.loginRegisterResponse.LoginRegisterResponse;
+import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -155,6 +156,8 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                         login_editor.putString("lastName",responseLogin.getData().getLastName());
                         login_editor.putString("phoneNumber",responseLogin.getData().getPhoneNumber());
                         login_editor.putString("address",responseLogin.getData().getAddress());
+                        login_editor.putString("token",responseLogin.getResponseLogin().getToken());
+                        Config.token=responseLogin.getResponseLogin().getToken();
                         login_editor.putString("loggedIn","loggedIn");
                         login_editor.commit();
 
@@ -167,8 +170,6 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                     }else {
                         Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
                     }
-
-
 
                 }
                 catch(Exception e) {

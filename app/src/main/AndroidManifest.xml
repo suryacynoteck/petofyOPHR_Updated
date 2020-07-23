@@ -5,10 +5,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
-
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <supports-screens
@@ -24,9 +22,8 @@
         android:largeHeap="true"
         android:roundIcon="@drawable/logo_petofy"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
-        <activity android:name=".activities.ForgetPasswordActivity" />
+        android:theme="@style/AppTheme">
+        <activity android:name=".activities.ForgetPasswordActivity"></activity>
         <activity android:name=".activities.ChangePasswordActivity" />
         <activity android:name=".activities.DashBoardActivity" />
         <activity android:name=".activities.RegisterActivity" />
