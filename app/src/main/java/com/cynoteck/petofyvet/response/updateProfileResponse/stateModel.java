@@ -1,4 +1,4 @@
-package com.cynoteck.petofyvet.response.loginRegisterResponse;
+package com.cynoteck.petofyvet.response.updateProfileResponse;
 
 public class stateModel {
     private String id;

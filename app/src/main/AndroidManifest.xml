@@ -22,6 +22,7 @@
         android:largeHeap="true"
         android:roundIcon="@drawable/logo_petofy"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activities.ForgetPasswordActivity"></activity>
         <activity android:name=".activities.ChangePasswordActivity" />
