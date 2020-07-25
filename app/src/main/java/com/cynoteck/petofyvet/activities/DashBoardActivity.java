@@ -1,5 +1,7 @@
 package com.cynoteck.petofyvet.activities;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,33 +14,61 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
+import retrofit2.Response;
 
 import com.cynoteck.petofyvet.R;
+import com.cynoteck.petofyvet.api.ApiClient;
+import com.cynoteck.petofyvet.api.ApiResponse;
+import com.cynoteck.petofyvet.api.ApiService;
 import com.cynoteck.petofyvet.fragments.AppointementFragment;
 import com.cynoteck.petofyvet.fragments.HomeFragment;
 import com.cynoteck.petofyvet.fragments.PetRegisterFragment;
 import com.cynoteck.petofyvet.fragments.ProfileFragment;
+import com.cynoteck.petofyvet.response.updateProfileResponse.CityResponse;
+import com.cynoteck.petofyvet.response.updateProfileResponse.CountryResponse;
+import com.cynoteck.petofyvet.response.updateProfileResponse.PetServiceResponse;
+import com.cynoteck.petofyvet.response.updateProfileResponse.PetTypeResponse;
+import com.cynoteck.petofyvet.response.updateProfileResponse.StateResponse;
+import com.cynoteck.petofyvet.response.updateProfileResponse.UserResponse;
+import com.cynoteck.petofyvet.utils.Config;
+import com.cynoteck.petofyvet.utils.Methods;
 
-public class DashBoardActivity extends AppCompatActivity implements View.OnClickListener {
+import java.util.ArrayList;
+
+public class DashBoardActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse {
 
     private RelativeLayout homeRL,profileRL,petregisterRL,appointmentRL;
     private ImageView icHome, icProfile, icPetRegister, icAppointment;
     boolean doubleBackToExitPressedOnce = false;
-
+    Methods methods;
+    String IsVeterinarian="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dash_board);
+        methods = new Methods(this);
+                SharedPreferences sharedPreferences = getSharedPreferences("userdetails", 0);
+                Config.token=sharedPreferences.getString("token", "");
+                Config.user_id=sharedPreferences.getString("userId", "");
 
-        init();
-
-        if (savedInstanceState == null) {
-            HomeFragment homeFragment = new HomeFragment();
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.add(R.id.content_frame, homeFragment);
-            ft.commit();
-            icHome.setImageResource(R.drawable.home_green_icon);
+        if(methods.isInternetOn())
+        {
+            getUserDetails();
         }
+        else
+        {
+            methods.DialogInternet();
+        }
+
+            init();
+
+            if (savedInstanceState == null) {
+                HomeFragment homeFragment = new HomeFragment();
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.add(R.id.content_frame, homeFragment);
+                ft.commit();
+                icHome.setImageResource(R.drawable.home_green_icon);
+            }
 
     }
 
@@ -59,6 +89,55 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         petregisterRL.setOnClickListener(this);
         appointmentRL.setOnClickListener(this);
 
+
+    }
+    private void getUserDetails() {
+        methods.showCustomProgressBarDialog(this);
+        ApiService<UserResponse> service = new ApiService<>();
+        service.get(this, ApiClient.getApiInterface().getUserDetailsApi(Config.token), "GetUserDetails");
+
+    }
+
+    @Override
+    public void onResponse(Response response, String key) {
+        methods.customProgressDismiss();
+        switch (key)
+        {
+            case "GetUserDetails":
+                try {
+                    Log.d("GetUserDetails",response.body().toString());
+                    UserResponse userResponse = (UserResponse) response.body();
+                    int responseCode = Integer.parseInt(userResponse.getResponse().getResponseCode());
+                    if (responseCode== 109){
+                        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                        IsVeterinarian=userResponse.getData().getIsVeterinarian();
+                        Log.d("IsVeterinarian",""+userResponse.getData().getIsVeterinarian());
+                        /*SharedPreferences sharedPreferences = DashBoardActivity.this.getSharedPreferences("userdetails", 0);
+                        SharedPreferences.Editor login_editor = sharedPreferences.edit();
+                        login_editor.putString("IsVeterinarian","");
+                        login_editor.commit();*/
+                        if(IsVeterinarian.equals("false")){
+                            startActivity(new Intent(DashBoardActivity.this,UpdateProfileActivity.class));
+                            finish();
+                        }
+                    }else if (responseCode==614){
+                        Toast.makeText(this, userResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+
+        }
+    }
+
+    @Override
+    public void onError(Throwable t, String key) {
+        methods.customProgressDismiss();
+        Log.e("error",t.getMessage());
+        Log.e("errrrr",t.getLocalizedMessage());
 
     }
 

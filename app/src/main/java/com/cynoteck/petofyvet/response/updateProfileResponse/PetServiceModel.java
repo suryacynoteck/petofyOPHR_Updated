@@ -1,15 +1,15 @@
 package com.cynoteck.petofyvet.response.updateProfileResponse;
 
 public class PetServiceModel {
-    private Integer id;
+    private String id;
     private String serviceType1;
-    private Boolean isActive;
+    private String isActive;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -21,11 +21,11 @@ public class PetServiceModel {
         this.serviceType1 = serviceType1;
     }
 
-    public Boolean getIsActive() {
+    public String getIsActive() {
         return isActive;
     }
 
-    public void setIsActive(Boolean isActive) {
+    public void setIsActive(String isActive) {
         this.isActive = isActive;
     }
 
