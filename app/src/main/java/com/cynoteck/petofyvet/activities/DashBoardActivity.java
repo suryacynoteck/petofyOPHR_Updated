@@ -77,7 +77,6 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                 icProfile.setImageResource(R.drawable.profile_normal_icon);
                 icPetRegister.setImageResource(R.drawable.pet_normal_icon);
                 icAppointment.setImageResource(R.drawable.appointment_normal_icon);
-
                 HomeFragment homeFragment = new HomeFragment();
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.content_frame, homeFragment);
@@ -93,7 +92,6 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                 ProfileFragment profileFragment = new ProfileFragment();
                 FragmentTransaction ftProfile = getSupportFragmentManager().beginTransaction();
                 ftProfile.replace(R.id.content_frame, profileFragment);
-                ftProfile.addToBackStack(null);
                 ftProfile.commit();
                 break;
 
@@ -105,7 +103,6 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                 PetRegisterFragment petRegisterFragment = new PetRegisterFragment();
                 FragmentTransaction ftPetRegister = getSupportFragmentManager().beginTransaction();
                 ftPetRegister.replace(R.id.content_frame, petRegisterFragment);
-                ftPetRegister.addToBackStack(null);
                 ftPetRegister.commit();
                 break;
 
@@ -117,7 +114,6 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                 AppointementFragment appointementFragment = new AppointementFragment();
                 FragmentTransaction ftAppointment = getSupportFragmentManager().beginTransaction();
                 ftAppointment.replace(R.id.content_frame, appointementFragment);
-                ftAppointment.addToBackStack(null);
                 ftAppointment.commit();
                 break;
 
@@ -128,8 +124,13 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onBackPressed() {
-        int count = getSupportFragmentManager().getBackStackEntryCount();
+/*        int count = getSupportFragmentManager().getBackStackEntryCount();
         if (count != 0) {
+            HomeFragment homeFragment = new HomeFragment();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.add(R.id.content_frame, homeFragment);
+            ft.addToBackStack(null);
+            ft.commit();
             getSupportFragmentManager().popBackStack();
             icHome.setImageResource(R.drawable.home_green_icon);
             icProfile.setImageResource(R.drawable.profile_normal_icon);
@@ -137,7 +138,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
             icAppointment.setImageResource(R.drawable.appointment_normal_icon);
             //additional code
         }
-        else {
+        else {*/
             if (doubleBackToExitPressedOnce) {
                 super.onBackPressed();
                 finishAffinity();
@@ -154,5 +155,5 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                 }
             }, 2000);
         }
-    }
+
 }
