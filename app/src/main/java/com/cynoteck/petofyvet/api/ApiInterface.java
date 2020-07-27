@@ -1,15 +1,20 @@
 package com.cynoteck.petofyvet.api;
 
-import com.cynoteck.petofyvet.response.getPetListResponse.GetPetListResponse;
-import com.cynoteck.petofyvet.params.getPetList.getPetRequest.GetPetDataRequest;
+import com.cynoteck.petofyvet.params.changePassRequest.ChangePassRequest;
+import com.cynoteck.petofyvet.params.forgetPassRequest.ForgetPassRequest;
+import com.cynoteck.petofyvet.params.getPetRequest.GetPetDataRequest;
 import com.cynoteck.petofyvet.params.loginparams.Loginparams;
 import com.cynoteck.petofyvet.params.registerparams.Registerparams;
+import com.cynoteck.petofyvet.params.updatePerams.updateParams;
+import com.cynoteck.petofyvet.response.forgetAndChangePassResponse.PasswordResponse;
+import com.cynoteck.petofyvet.response.getPetListResponse.GetPetListResponse;
 import com.cynoteck.petofyvet.response.loginRegisterResponse.LoginRegisterResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.CityResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.CountryResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.PetServiceResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.PetTypeResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.StateResponse;
+import com.cynoteck.petofyvet.response.updateProfileResponse.UserResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -42,6 +47,18 @@ public interface ApiInterface {
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("report/GetPetList")
     Call<GetPetListResponse> getPetList(@Header("Authorization") String auth, @Body GetPetDataRequest getPetDataRequest);
+
+
+    @POST("user/forgotpassword")
+    Call<PasswordResponse> getPasswordResponse(@Body ForgetPassRequest forgetPassRequest);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("user/UpdateVeterinarian")
+    Call<PasswordResponse> getPasswordResponse(@Header("Authorization") String auth, @Body ChangePassRequest changePassRequest);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("user/UpdateVeterinarian")
+    Call<UserResponse> updateUser(@Header("Authorization") String auth, @Body updateParams registerparams);
 }
 
 
