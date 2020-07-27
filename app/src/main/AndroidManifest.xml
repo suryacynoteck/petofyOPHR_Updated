@@ -26,7 +26,8 @@
         android:roundIcon="@drawable/logo_petofy"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.UpdateProfileActivity"></activity>
+        <activity android:name=".activities.AddPetRegister"></activity>
+        <activity android:name=".activities.UpdateProfileActivity" />
         <activity android:name=".activities.ForgetPasswordActivity" />
         <activity android:name=".activities.ChangePasswordActivity" />
         <activity android:name=".activities.DashBoardActivity" />

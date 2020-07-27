@@ -53,7 +53,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
 
         if(methods.isInternetOn())
         {
-            getUserDetails();
+           // getUserDetails();
         }
         else
         {

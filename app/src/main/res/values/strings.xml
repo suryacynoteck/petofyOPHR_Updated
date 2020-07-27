@@ -35,9 +35,14 @@
     <string name="changePass">Change Password</string>
     <string name="petId">PET ID</string>
     <string name="dateofbirth">DATE OF BIRTH</string>
+    <string name="petGender">PET GENDER</string>
+    <string name="petParent">PET PARENT</string>
     <string name="petname">PET NAME</string>
     <string name="color">COLOR</string>
     <string name="petcolor"><![CDATA[Brown & White]]></string>
     <string name="viewReports">VIEW REPORTS</string>
+    <string name="viewDetails">VIEW DETAILS</string>
     <string name="reports">REPORTS</string>
+    <string name="register_pets">REGISTER PETS</string>
+    <string name="add_pet">ADD PET</string>
 </resources>

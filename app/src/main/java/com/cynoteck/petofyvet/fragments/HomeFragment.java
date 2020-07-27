@@ -40,14 +40,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_home, container, false);
-
         init();
-
-
-
-
-
-
         return view;
     }
 
@@ -59,7 +52,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
         reports_IV = view.findViewById(R.id.reports_IV);
         mainHome=view.findViewById(R.id.mainHome);
         pet_list_RV=view.findViewById(R.id.pet_id_TV);
-
         reports_IV.setOnClickListener(this);
     }
 
