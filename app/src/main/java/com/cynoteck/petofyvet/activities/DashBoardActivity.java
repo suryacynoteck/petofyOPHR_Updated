@@ -1,5 +1,6 @@
 package com.cynoteck.petofyvet.activities;
 
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,6 +19,7 @@ import com.cynoteck.petofyvet.fragments.AppointementFragment;
 import com.cynoteck.petofyvet.fragments.HomeFragment;
 import com.cynoteck.petofyvet.fragments.PetRegisterFragment;
 import com.cynoteck.petofyvet.fragments.ProfileFragment;
+import com.cynoteck.petofyvet.utils.Config;
 
 public class DashBoardActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -31,6 +33,10 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_dash_board);
 
         init();
+        SharedPreferences sharedPreferences = getSharedPreferences("userdetails", 0);
+        Config.token = sharedPreferences.getString("token", "");
+        Log.e("token",Config.token);
+
 
         if (savedInstanceState == null) {
             HomeFragment homeFragment = new HomeFragment();

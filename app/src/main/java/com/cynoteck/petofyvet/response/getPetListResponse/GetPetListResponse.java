@@ -1,7 +1,7 @@
 package com.cynoteck.petofyvet.response.getPetListResponse;
 
-import com.cynoteck.petofyvet.response.loginRegisterResponse.Header;
-import com.cynoteck.petofyvet.response.loginRegisterResponse.Response;
+import com.cynoteck.petofyvet.response.Header;
+import com.cynoteck.petofyvet.response.Response;
 
 public class GetPetListResponse {
     private GetPetListData data;

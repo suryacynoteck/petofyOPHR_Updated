@@ -1,31 +1,31 @@
-package com.cynoteck.petofyvet.response.loginRegisterResponse;
+package com.cynoteck.petofyvet.response.forgetAndChangePassResponse;
 
 import com.cynoteck.petofyvet.response.Header;
 import com.cynoteck.petofyvet.response.Response;
 
-public class LoginRegisterResponse {
-    private LoginRegisterResponseData data;
+public class PasswordResponse {
+    private PasswordResponseData data;
 
     private Response response;
 
     private Header header;
 
-    public LoginRegisterResponseData getData()
+    public PasswordResponseData getData ()
     {
         return data;
     }
 
-    public void setData(LoginRegisterResponseData data)
+    public void setData (PasswordResponseData data)
     {
         this.data = data;
     }
 
-    public Response getResponseLogin()
+    public Response getResponse ()
     {
         return response;
     }
 
-    public void setResponseLogin(Response response)
+    public void setResponse (Response response)
     {
         this.response = response;
     }
@@ -43,7 +43,6 @@ public class LoginRegisterResponse {
     @Override
     public String toString()
     {
-        return "ClassPojo [data = "+ data +", response = "+ response +", header = "+header+"]";
+        return "ClassPojo [data = "+data+", response = "+response+", header = "+header+"]";
     }
-
 }
