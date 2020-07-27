@@ -1,6 +1,6 @@
 package com.cynoteck.petofyvet.response.loginRegisterResponse;
 
-public class ResponseData
+public class LoginRegisterResponseData
 {
     private String lastName;
 

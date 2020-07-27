@@ -1,4 +1,4 @@
-package com.cynoteck.petofyvet.params.getPetList.getPetRequest;
+package com.cynoteck.petofyvet.params.getPetRequest;
 
 public class GetPetDataParams {
 
