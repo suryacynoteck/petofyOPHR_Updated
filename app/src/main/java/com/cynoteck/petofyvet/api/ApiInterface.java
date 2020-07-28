@@ -59,6 +59,12 @@ public interface ApiInterface {
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("user/UpdateVeterinarian")
     Call<UserResponse> updateUser(@Header("Authorization") String auth, @Body updateParams registerparams);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @GET("User/GetUserDetails")
+    Call<UserResponse> getUserDetailsApi(@Header("Authorization") String auth);
+
+
 }
 
 
