@@ -14,7 +14,6 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
-import retrofit2.Response;
 
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.api.ApiClient;
@@ -27,6 +26,8 @@ import com.cynoteck.petofyvet.fragments.ProfileFragment;
 import com.cynoteck.petofyvet.response.updateProfileResponse.UserResponse;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
+
+import retrofit2.Response;
 
 public class DashBoardActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse {
 
@@ -48,7 +49,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
 
         if(methods.isInternetOn())
         {
-           // getUserDetails();
+//            getUserDetails();
         }
         else
         {

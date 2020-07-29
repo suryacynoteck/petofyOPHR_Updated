@@ -32,7 +32,8 @@ public class ApiClient {
     private static ApiInterface setApiInterface() {
         String mAuthToken = "";
         OkHttpClient.Builder httpClient = null;
-        httpClient = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS)
+        httpClient = new OkHttpClient.Builder()
+                .connectTimeout(10, TimeUnit.SECONDS)
                 .writeTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS);
         Retrofit.Builder mBuilder = new Retrofit.Builder()

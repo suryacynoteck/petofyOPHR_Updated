@@ -1,9 +1,5 @@
 package com.cynoteck.petofyvet.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatSpinner;
-import retrofit2.Response;
-
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatSpinner;
+
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.api.ApiClient;
 import com.cynoteck.petofyvet.api.ApiResponse;
@@ -24,15 +23,12 @@ import com.cynoteck.petofyvet.params.addParamRequest.AddPetParams;
 import com.cynoteck.petofyvet.params.addParamRequest.AddPetRequset;
 import com.cynoteck.petofyvet.params.petBreedRequest.BreedParams;
 import com.cynoteck.petofyvet.params.petBreedRequest.BreedRequest;
-import com.cynoteck.petofyvet.params.updatePerams.updateParams;
-import com.cynoteck.petofyvet.params.updatePerams.updateRequest;
 import com.cynoteck.petofyvet.response.addPet.addPetResponse.AddPetValueResponse;
 import com.cynoteck.petofyvet.response.addPet.breedResponse.BreedCatRespose;
 import com.cynoteck.petofyvet.response.addPet.petAgeResponse.PetAgeValueResponse;
 import com.cynoteck.petofyvet.response.addPet.petColorResponse.PetColorValueResponse;
 import com.cynoteck.petofyvet.response.addPet.petSizeResponse.PetSizeValueResponse;
 import com.cynoteck.petofyvet.response.addPet.uniqueIdResponse.UniqueResponse;
-import com.cynoteck.petofyvet.response.loginRegisterResponse.LoginRegisterResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.PetTypeResponse;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
@@ -45,6 +41,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
+
+import retrofit2.Response;
 
 public class AddPetRegister extends AppCompatActivity implements View.OnClickListener, ApiResponse {
 
@@ -362,10 +360,12 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
     }
 
     private void addPetData(AddPetRequset addPetRequset) {
+
         methods.showCustomProgressBarDialog(this);
         ApiService<AddPetValueResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().addNewPet(Config.token,addPetRequset), "AddPet");
         Log.e("DATALOG","check1=> "+addPetRequset);
+
     }
 
     @Override

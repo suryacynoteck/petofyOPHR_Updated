@@ -1,6 +1,5 @@
 package com.cynoteck.petofyvet.params.petBreedRequest;
 
-import com.cynoteck.petofyvet.params.loginparams.LoginRequest;
 
 public class BreedParams {
     private BreedRequest data;
