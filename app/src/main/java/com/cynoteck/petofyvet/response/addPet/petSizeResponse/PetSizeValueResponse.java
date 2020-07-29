@@ -1,12 +1,18 @@
-package com.cynoteck.petofyvet.response.updateProfileResponse;
+package com.cynoteck.petofyvet.response.addPet.petSizeResponse;
 
 import com.cynoteck.petofyvet.response.Header;
 import com.cynoteck.petofyvet.response.Response;
+import com.cynoteck.petofyvet.response.addPet.petColorResponse.PetColorModel;
+import com.google.gson.annotations.SerializedName;
 
-public class UserResponse {
-    private UserModel data;
+import java.util.List;
+
+public class PetSizeValueResponse {
 
     private Header header;
+
+    @SerializedName("data")
+    private List<PetSizeModel> data = null;
 
     private Response response;
 
@@ -18,11 +24,11 @@ public class UserResponse {
         this.header = header;
     }
 
-    public UserModel getData() {
+    public List<PetSizeModel> getData() {
         return data;
     }
 
-    public void setData(UserModel data) {
+    public void setData(List<PetSizeModel> data) {
         this.data = data;
     }
 
@@ -37,6 +43,6 @@ public class UserResponse {
     @Override
     public String toString()
     {
-        return "ClassPojo [data = "+ data +", response = "+ response +", header = "+header+"]";
+        return "ClassPojo [cityModel = "+ data +", response = "+ response +", header = "+header+"]";
     }
 }

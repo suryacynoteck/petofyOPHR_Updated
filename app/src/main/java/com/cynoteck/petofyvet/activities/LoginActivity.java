@@ -115,7 +115,6 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                 break;
 
             case R.id.forgetPass_TV:
-
                 Intent forgetPass_intent = new Intent(LoginActivity.this,ForgetPasswordActivity.class);
                 startActivity(forgetPass_intent);
                 overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);

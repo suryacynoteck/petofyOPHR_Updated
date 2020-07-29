@@ -2,17 +2,12 @@ package com.cynoteck.petofyvet.api;
 
 import com.cynoteck.petofyvet.params.changePassRequest.ChangePassRequest;
 import com.cynoteck.petofyvet.params.forgetPassRequest.ForgetPassRequest;
-import com.cynoteck.petofyvet.params.loginRequest.Loginparams;
-import com.cynoteck.petofyvet.params.petReportsRequest.PetDataRequest;
-import com.cynoteck.petofyvet.params.petReportsRequest.VisitTypeRequest;
-import com.cynoteck.petofyvet.params.registerRequest.Registerparams;
-import com.cynoteck.petofyvet.params.updateRequest.updateParams;
+import com.cynoteck.petofyvet.params.getPetRequest.GetPetDataRequest;
+import com.cynoteck.petofyvet.params.loginparams.Loginparams;
+import com.cynoteck.petofyvet.params.registerparams.Registerparams;
+import com.cynoteck.petofyvet.params.updatePerams.updateParams;
 import com.cynoteck.petofyvet.response.forgetAndChangePassResponse.PasswordResponse;
-import com.cynoteck.petofyvet.response.getPetReportsResponse.GetPetClinicVisitListResponse;
-import com.cynoteck.petofyvet.response.getPetReportsResponse.GetPetHospitalizationResponse;
-import com.cynoteck.petofyvet.response.getPetReportsResponse.GetPetListResponse;
-import com.cynoteck.petofyvet.response.getPetReportsResponse.GetPetTestAndXRayResponse;
-import com.cynoteck.petofyvet.response.getPetReportsResponse.GetReportsTypeResponse;
+import com.cynoteck.petofyvet.response.getPetListResponse.GetPetListResponse;
 import com.cynoteck.petofyvet.response.loginRegisterResponse.LoginRegisterResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.CityResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.CountryResponse;
@@ -51,7 +46,7 @@ public interface ApiInterface {
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("report/GetPetList")
-    Call<GetPetListResponse> getPetList(@Header("Authorization") String auth, @Body PetDataRequest getPetDataRequest);
+    Call<GetPetListResponse> getPetList(@Header("Authorization") String auth, @Body GetPetDataRequest getPetDataRequest);
 
 
     @POST("user/forgotpassword")
@@ -68,32 +63,6 @@ public interface ApiInterface {
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @GET("User/GetUserDetails")
     Call<UserResponse> getUserDetailsApi(@Header("Authorization") String auth);
-
-    @Headers({ "Content-Type: application/json;charset=UTF-8"})
-    @GET("report/GetVisitTypes")
-    Call<GetReportsTypeResponse> getReportsType(@Header("Authorization") String auth);
-
-    @Headers({ "Content-Type: application/json;charset=UTF-8"})
-    @POST("report/GetPetClinicVisits")
-    Call<GetPetClinicVisitListResponse> getPetClinicVisits(@Header("Authorization") String auth, @Body VisitTypeRequest visitTypeRequest);
-
-    @Headers({ "Content-Type: application/json;charset=UTF-8"})
-    @POST("report/GetPetTestAndXRay")
-    Call<GetPetTestAndXRayResponse> getPetTestAndXRay(@Header("Authorization") String auth, @Body VisitTypeRequest visitTypeRequest);
-
-
-/*
-    @Headers({ "Content-Type: application/json;charset=UTF-8"})
-    @POST("report/GetPetClinicVisits")
-    Call<GetPetClinicVisitListResponse> getPetClinicVisits(@Header("Authorization") String auth, @Body VisitTypeRequest visitTypeRequest);
-*/
-
-
-    @Headers({ "Content-Type: application/json;charset=UTF-8"})
-    @POST("report/GetPetHospitalization")
-    Call<GetPetHospitalizationResponse> getPetHospitalization(@Header("Authorization") String auth, @Body VisitTypeRequest visitTypeRequest);
-
-
 
 
 }

@@ -1,12 +1,12 @@
-package com.cynoteck.petofyvet.response.updateProfileResponse;
+package com.cynoteck.petofyvet.response.addPet.addPetResponse;
 
 import com.cynoteck.petofyvet.response.Header;
 import com.cynoteck.petofyvet.response.Response;
 
-public class UserResponse {
-    private UserModel data;
-
+public class AddPetValueResponse {
     private Header header;
+
+    private AddPetModel data;
 
     private Response response;
 
@@ -18,11 +18,11 @@ public class UserResponse {
         this.header = header;
     }
 
-    public UserModel getData() {
+    public AddPetModel getData() {
         return data;
     }
 
-    public void setData(UserModel data) {
+    public void setData(AddPetModel data) {
         this.data = data;
     }
 
