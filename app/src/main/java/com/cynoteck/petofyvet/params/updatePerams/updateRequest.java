@@ -5,6 +5,8 @@ public class updateRequest {
            String name;
            String firstName;
            String lastName;
+           String password;
+           String confirmPassword;
            String company;
            String description;
            String phone;
@@ -66,6 +68,22 @@ public class updateRequest {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 
     public String getCompany() {
@@ -312,6 +330,7 @@ public class updateRequest {
     public String toString()
     {
         return "ClassPojo [id = "+id+", name = "+name+", firstName = "+firstName+", lastName = "+lastName+"," +
+                "password = "+password+", confirmPassword= "+confirmPassword+","+
                 " company = "+company+", description = "+description+", phone = "+phone+"," +
                 " phone2 = "+phone2+", address = "+address+", address2 = "+address2+"," +
                 " website = "+website+", socialMediaUrl = "+socialMediaUrl+", cityId = "+cityId+", " +

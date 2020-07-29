@@ -1,12 +1,17 @@
-package com.cynoteck.petofyvet.response.updateProfileResponse;
+package com.cynoteck.petofyvet.response.addPet.petAgeResponse;
 
 import com.cynoteck.petofyvet.response.Header;
 import com.cynoteck.petofyvet.response.Response;
+import com.cynoteck.petofyvet.response.addPet.breedResponse.BreedModel;
+import com.google.gson.annotations.SerializedName;
 
-public class UserResponse {
-    private UserModel data;
+import java.util.List;
 
+public class PetAgeValueResponse {
     private Header header;
+
+    @SerializedName("data")
+    private List<PetAgeModel> data = null;
 
     private Response response;
 
@@ -18,11 +23,11 @@ public class UserResponse {
         this.header = header;
     }
 
-    public UserModel getData() {
+    public List<PetAgeModel> getData() {
         return data;
     }
 
-    public void setData(UserModel data) {
+    public void setData(List<PetAgeModel> data) {
         this.data = data;
     }
 
@@ -37,6 +42,6 @@ public class UserResponse {
     @Override
     public String toString()
     {
-        return "ClassPojo [data = "+ data +", response = "+ response +", header = "+header+"]";
+        return "ClassPojo [cityModel = "+ data +", response = "+ response +", header = "+header+"]";
     }
 }

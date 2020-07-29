@@ -482,6 +482,8 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     data.setName(strFirstNm+" "+strLstNm);
                     data.setFirstName(strFirstNm);
                     data.setLastName(strLstNm);
+                    data.setPassword("pass@123");
+                    data.setConfirmPassword("pass@123");
                     data.setCompany("null");
                     data.setDescription("null");
                     data.setPhone(strPhUpdt);

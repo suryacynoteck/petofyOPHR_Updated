@@ -1,7 +1,5 @@
 package com.cynoteck.petofyvet.params.loginparams;
 
-
-
 public class Loginparams {
     private LoginRequest data;
         public LoginRequest getLoginData()

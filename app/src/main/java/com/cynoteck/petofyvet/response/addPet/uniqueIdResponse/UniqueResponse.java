@@ -1,28 +1,20 @@
-package com.cynoteck.petofyvet.response.updateProfileResponse;
+package com.cynoteck.petofyvet.response.addPet.uniqueIdResponse;
 
 import com.cynoteck.petofyvet.response.Header;
 import com.cynoteck.petofyvet.response.Response;
 
-public class UserResponse {
-    private UserModel data;
-
-    private Header header;
+public class UniqueResponse {
+    private UniqueKeyModel data;
 
     private Response response;
 
-    public Header getHeader() {
-        return header;
-    }
+    private Header header;
 
-    public void setHeader(Header header) {
-        this.header = header;
-    }
-
-    public UserModel getData() {
+    public UniqueKeyModel getData() {
         return data;
     }
 
-    public void setData(UserModel data) {
+    public void setData(UniqueKeyModel data) {
         this.data = data;
     }
 
@@ -32,6 +24,14 @@ public class UserResponse {
 
     public void setResponse(Response response) {
         this.response = response;
+    }
+
+    public Header getHeader() {
+        return header;
+    }
+
+    public void setHeader(Header header) {
+        this.header = header;
     }
 
     @Override
