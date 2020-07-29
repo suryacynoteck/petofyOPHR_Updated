@@ -1,9 +1,5 @@
 package com.cynoteck.petofyvet.activities;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import retrofit2.Response;
-
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -29,15 +25,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.api.ApiClient;
 import com.cynoteck.petofyvet.api.ApiResponse;
 import com.cynoteck.petofyvet.api.ApiService;
-import com.cynoteck.petofyvet.params.loginparams.LoginRequest;
-import com.cynoteck.petofyvet.params.loginparams.Loginparams;
-import com.cynoteck.petofyvet.params.updatePerams.updateParams;
-import com.cynoteck.petofyvet.params.updatePerams.updateRequest;
-import com.cynoteck.petofyvet.response.loginRegisterResponse.LoginRegisterResponse;
+import com.cynoteck.petofyvet.params.updateRequest.updateParams;
+import com.cynoteck.petofyvet.params.updateRequest.updateRequest;
 import com.cynoteck.petofyvet.response.updateProfileResponse.CityResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.CountryResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.PetServiceResponse;
@@ -48,9 +44,6 @@ import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -67,6 +60,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+
+import retrofit2.Response;
 
 public class UpdateProfileActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse {
     TextInputEditText first_name_updt,last_name_updt,email_updt,phone_updt,address_updt,

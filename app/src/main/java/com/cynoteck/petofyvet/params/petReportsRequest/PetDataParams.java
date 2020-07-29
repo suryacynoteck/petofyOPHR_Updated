@@ -1,6 +1,6 @@
-package com.cynoteck.petofyvet.params.getPetRequest;
+package com.cynoteck.petofyvet.params.petReportsRequest;
 
-public class GetPetDataParams {
+public class PetDataParams {
 
     private String PageNumber;
 

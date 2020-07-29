@@ -6,10 +6,11 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+
 import androidx.appcompat.app.AlertDialog;
+
 import com.cynoteck.petofyvet.R;
 public class Methods {
     private Context c;

@@ -1,4 +1,4 @@
-package com.cynoteck.petofyvet.params.registerparams;
+package com.cynoteck.petofyvet.params.registerRequest;
 
 public class Registerparams {
         private RegisterRequest data;

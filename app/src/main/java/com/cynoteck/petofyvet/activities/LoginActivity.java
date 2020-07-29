@@ -1,7 +1,5 @@
 package com.cynoteck.petofyvet.activities;
 
-import androidx.fragment.app.FragmentActivity;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,12 +12,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.FragmentActivity;
+
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.api.ApiClient;
 import com.cynoteck.petofyvet.api.ApiResponse;
 import com.cynoteck.petofyvet.api.ApiService;
-import com.cynoteck.petofyvet.params.loginparams.LoginRequest;
-import com.cynoteck.petofyvet.params.loginparams.Loginparams;
+import com.cynoteck.petofyvet.params.loginRequest.LoginRequest;
+import com.cynoteck.petofyvet.params.loginRequest.Loginparams;
 import com.cynoteck.petofyvet.response.loginRegisterResponse.LoginRegisterResponse;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;

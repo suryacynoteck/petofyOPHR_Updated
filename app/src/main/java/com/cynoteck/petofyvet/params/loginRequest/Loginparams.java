@@ -1,4 +1,4 @@
-package com.cynoteck.petofyvet.params.loginparams;
+package com.cynoteck.petofyvet.params.loginRequest;
 
 
 

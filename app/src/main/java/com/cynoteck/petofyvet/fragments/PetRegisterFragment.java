@@ -22,10 +22,10 @@ import com.cynoteck.petofyvet.adapters.petRegisterAdapter.RegisterRecyclerViewCl
 import com.cynoteck.petofyvet.api.ApiClient;
 import com.cynoteck.petofyvet.api.ApiResponse;
 import com.cynoteck.petofyvet.api.ApiService;
-import com.cynoteck.petofyvet.params.getPetRequest.GetPetDataParams;
-import com.cynoteck.petofyvet.params.getPetRequest.GetPetDataRequest;
-import com.cynoteck.petofyvet.response.getPetListResponse.GetPetListResponse;
-import com.cynoteck.petofyvet.response.getPetListResponse.PetList;
+import com.cynoteck.petofyvet.params.petReportsRequest.PetDataParams;
+import com.cynoteck.petofyvet.params.petReportsRequest.PetDataRequest;
+import com.cynoteck.petofyvet.response.getPetReportsResponse.GetPetListResponse;
+import com.cynoteck.petofyvet.response.getPetReportsResponse.PetList;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
 
@@ -90,11 +90,11 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, Regis
 
     private void getPetList() {
         methods.showCustomProgressBarDialog(getContext());
-        GetPetDataParams getPetDataParams = new GetPetDataParams();
+        PetDataParams getPetDataParams = new PetDataParams();
         getPetDataParams.setPageNumber("1");
         getPetDataParams.setPageSize("2");
         getPetDataParams.setSearch_Data("");
-        GetPetDataRequest getPetDataRequest = new GetPetDataRequest();
+        PetDataRequest getPetDataRequest = new PetDataRequest();
         getPetDataRequest.setData(getPetDataParams);
 
         ApiService<GetPetListResponse> service = new ApiService<>();
@@ -153,7 +153,7 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, Regis
 
     @Override
     public void onProductClick(int position) {
-     Log.d("positionssss",""+position);
+        Log.d("positionssss",""+position);
         Toast.makeText(getActivity(), categoryRecordArrayList.get(position).getPetUniqueId(), Toast.LENGTH_SHORT).show();
         categoryRecordArrayList.get(position).getPetUniqueId();
         Log.d("ajajjaj",""+categoryRecordArrayList.get(position).getPetUniqueId());

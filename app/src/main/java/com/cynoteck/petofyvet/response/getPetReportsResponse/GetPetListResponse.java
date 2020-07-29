@@ -1,4 +1,4 @@
-package com.cynoteck.petofyvet.response.getPetListResponse;
+package com.cynoteck.petofyvet.response.getPetReportsResponse;
 
 import com.cynoteck.petofyvet.response.Header;
 import com.cynoteck.petofyvet.response.Response;

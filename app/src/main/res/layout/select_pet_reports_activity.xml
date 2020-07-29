@@ -4,7 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#ECE4E4">
+    tools:context=".activities.SelectPetReportsActivity">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/reports_type_frame"/>
 
     <androidx.cardview.widget.CardView
         app:cardElevation="10dp"
@@ -26,30 +31,30 @@
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                android:text="@string/reports"
+                android:text="@string/selectReports"
                 android:textColor="#000"
                 android:textSize="25sp"
                 android:textStyle="bold" />
 
             <ImageView
+                android:padding="8dp"
+                android:visibility="visible"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
-                android:padding="10dp"
-                android:src="@drawable/searchicon" />
+                android:src="@drawable/back_arrow" />
 
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
 
-    <androidx.recyclerview.widget.RecyclerView
 
-        android:id="@+id/petList_RV"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar"/>
+
+
+
+
+
 
 
 </RelativeLayout>

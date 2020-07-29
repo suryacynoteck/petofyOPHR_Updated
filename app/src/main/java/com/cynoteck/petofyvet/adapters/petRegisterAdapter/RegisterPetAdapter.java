@@ -8,13 +8,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.cynoteck.petofyvet.R;
-import com.cynoteck.petofyvet.response.getPetListResponse.PetList;
-
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.cynoteck.petofyvet.R;
+import com.cynoteck.petofyvet.response.getPetReportsResponse.PetList;
+
+import java.util.List;
 
 public class RegisterPetAdapter extends RecyclerView.Adapter<RegisterPetAdapter.MyViewHolder> {
     Context context;

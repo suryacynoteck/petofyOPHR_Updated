@@ -1,4 +1,4 @@
-package com.cynoteck.petofyvet.response.getPetListResponse;
+package com.cynoteck.petofyvet.response.getPetReportsResponse;
 
 import java.util.ArrayList;
 

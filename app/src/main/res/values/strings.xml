@@ -45,4 +45,5 @@
     <string name="reports">REPORTS</string>
     <string name="register_pets">REGISTER PETS</string>
     <string name="add_pet">ADD PET</string>
+    <string name="selectReports">Select Reports</string>
 </resources>
