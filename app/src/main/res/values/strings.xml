@@ -45,5 +45,11 @@
     <string name="reports">REPORTS</string>
     <string name="register_pets">REGISTER PETS</string>
     <string name="add_pet">ADD PET</string>
-    <string name="selectReports">Select Reports</string>
+    <string name="selectReports">SELECT REPORTS</string>
+    <string name="petownwer">Owner</string>
+    <string name="double_Dot">:</string>
+    <string name="xrayReport">Test/X-Ray Report</string>
+    <string name="labTestReport">Lab Test Report</string>
+    <string name="Hospitalization"><![CDATA[Hospitalization & Surgeries]]></string>
+    <string name="clinicVisits">Clinic Visit Report</string>
 </resources>

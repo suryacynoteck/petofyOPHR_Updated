@@ -436,10 +436,6 @@
 
             </LinearLayout>
 
-
-
-
-
             <Button
                 android:textSize="25dp"
                 android:textColor="@color/whiteColor"

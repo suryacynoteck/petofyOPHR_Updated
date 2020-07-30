@@ -45,6 +45,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         methods = new Methods(this);
         SharedPreferences sharedPreferences = getSharedPreferences("userdetails", 0);
         Config.token = sharedPreferences.getString("token", "");
+        Log.e("token",Config.token);
         Config.user_id=sharedPreferences.getString("userId", "");
 
         if(methods.isInternetOn())

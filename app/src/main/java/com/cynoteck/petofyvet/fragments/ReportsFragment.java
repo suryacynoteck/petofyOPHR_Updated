@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
@@ -26,6 +25,7 @@ import com.cynoteck.petofyvet.response.getPetReportsResponse.GetPetListResponse;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.PetList;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.ArrayList;
 
@@ -41,6 +41,8 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
     RecyclerView petList_RV;
     ReportsAdapter reportsAdapter;
     private ArrayList<PetList> categoryRecordArrayList;
+    private ShimmerFrameLayout mShimmerViewContainer;
+
 
     public ReportsFragment() {
         // Required empty public constructor
@@ -52,6 +54,7 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_reports, container, false);
+        mShimmerViewContainer = view.findViewById(R.id.shimmer_view_container);
 
         materialCardView = view.findViewById(R.id.toolbar);
         petList_RV=view.findViewById(R.id.petList_RV);
@@ -62,7 +65,6 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
     }
 
     private void getPetList() {
-        methods.showCustomProgressBarDialog(getContext());
         PetDataParams getPetDataParams = new PetDataParams();
         getPetDataParams.setPageNumber("1");
         getPetDataParams.setPageSize("2");
@@ -81,7 +83,6 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
 
     @Override
     public void onResponse(Response response, String key) {
-        methods.customProgressDismiss();
         switch (key){
             case "GetPetList":
                 try {
@@ -96,11 +97,10 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
                         categoryRecordArrayList = getPetListResponse.getData().getPetList();
                         petList_RV.setAdapter(reportsAdapter);
                         reportsAdapter.notifyDataSetChanged();
+                        mShimmerViewContainer.setVisibility(View.GONE);
+                        mShimmerViewContainer.stopShimmerAnimation();
+
                     }
-
-
-
-
 
                 }
                 catch(Exception e) {
@@ -123,18 +123,32 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
 
     @Override
     public void onProductClick(int position) {
-        Log.d("positionssss",""+position);
-        Toast.makeText(getActivity(), categoryRecordArrayList.get(position).getPetUniqueId(), Toast.LENGTH_SHORT).show();
         categoryRecordArrayList.get(position).getPetUniqueId();
-        Log.d("ajajjaj",""+categoryRecordArrayList.get(position).getPetUniqueId());
-
         Intent selectReportsIntent = new Intent(getActivity().getApplication(), SelectPetReportsActivity.class);
         Bundle data = new Bundle();
-        data.putString("petid",categoryRecordArrayList.get(position).getPetUniqueId());
+        data.putString("pet_id",categoryRecordArrayList.get(position).getId());
+        data.putString("pet_name",categoryRecordArrayList.get(position).getPetName());
+        data.putString("pet_unique_id",categoryRecordArrayList.get(position).getPetUniqueId());
+        data.putString("pet_sex",categoryRecordArrayList.get(position).getPetSex());
+        data.putString("pet_owner_name",categoryRecordArrayList.get(position).getPetParentName());
+        data.putString("pet_owner_contact",categoryRecordArrayList.get(position).getContactNumber());
+
         selectReportsIntent.putExtras(data);
         startActivity(selectReportsIntent);
         getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mShimmerViewContainer.startShimmerAnimation();
+
+    }
+
+    @Override
+    public void onPause() {
+        mShimmerViewContainer.stopShimmerAnimation();
+        super.onPause();
+    }
 }

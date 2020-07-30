@@ -28,6 +28,7 @@ import com.cynoteck.petofyvet.response.getPetReportsResponse.GetPetListResponse;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.PetList;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.ArrayList;
 
@@ -45,6 +46,7 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, Regis
     TextView register_add_TV;
     private ArrayList<PetList> categoryRecordArrayList;
     RegisterPetAdapter registerPetAdapter;
+    private ShimmerFrameLayout mShimmerViewContainer;
 
     @Override
     public void onAttach(Context context) {
@@ -71,6 +73,8 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, Regis
 
     private void init() {
         methods = new Methods(context);
+        mShimmerViewContainer = view.findViewById(R.id.shimmer_view_container);
+
         materialCardView = view.findViewById(R.id.toolbar);
         register_pet_RV=view.findViewById(R.id.register_pet_RV);
         register_add_TV=view.findViewById(R.id.register_add_TV);
@@ -89,7 +93,7 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, Regis
     }
 
     private void getPetList() {
-        methods.showCustomProgressBarDialog(getContext());
+//        methods.showCustomProgressBarDialog(getContext());
         PetDataParams getPetDataParams = new PetDataParams();
         getPetDataParams.setPageNumber("1");
         getPetDataParams.setPageSize("2");
@@ -107,7 +111,7 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, Regis
 
     @Override
     public void onResponse(Response response, String key) {
-        methods.customProgressDismiss();
+//        methods.customProgressDismiss();
         Log.e("sdjhfgsjkdfgsdfj","slfhksdfgsighf");
         switch (key){
             case "GetPetList":
@@ -127,6 +131,9 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, Regis
                         categoryRecordArrayList = getPetListResponse.getData().getPetList();
                         register_pet_RV.setAdapter(registerPetAdapter);
                         registerPetAdapter.notifyDataSetChanged();
+                        mShimmerViewContainer.stopShimmerAnimation();
+                        mShimmerViewContainer.setVisibility(View.GONE);
+
                     }
 
 
@@ -159,5 +166,16 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, Regis
         Log.d("ajajjaj",""+categoryRecordArrayList.get(position).getPetUniqueId());
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mShimmerViewContainer.startShimmerAnimation();
 
+    }
+
+    @Override
+    public void onPause() {
+        mShimmerViewContainer.stopShimmerAnimation();
+        super.onPause();
+    }
 }

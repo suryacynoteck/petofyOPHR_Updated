@@ -1,20 +1,16 @@
 package com.cynoteck.petofyvet.utils;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
-import android.view.Window;
-import android.view.WindowManager;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.widget.ContentLoadingProgressBar;
 
 import com.cynoteck.petofyvet.R;
 public class Methods {
     private Context c;
-    private Dialog progressBarDialog;
+    private ContentLoadingProgressBar progressBarDialog;
 
     public Methods(Context c) {
         this.c = c;
@@ -54,24 +50,27 @@ public class Methods {
 
     public void showCustomProgressBarDialog(Context context) {
         try {
-        progressBarDialog = new Dialog(context);
-        progressBarDialog.setContentView(R.layout.custom_spin_progress_dialog);
-        progressBarDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        progressBarDialog.setCancelable(false);
-        progressBarDialog.setCanceledOnTouchOutside(false);
-        progressBarDialog.show();
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        Window window = progressBarDialog.getWindow();
-        lp.copyFrom(window.getAttributes());
-        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        window.setAttributes(lp);
+
+            progressBarDialog = new ContentLoadingProgressBar(context);
+            progressBarDialog.show();
+
+//        progressBarDialog.setContentView(R.layout.custom_spin_progress_dialog);
+//        progressBarDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//        progressBarDialog.setCancelable(false);
+//        progressBarDialog.setCanceledOnTouchOutside(false);
+//        progressBarDialog.show();
+//        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+//        Window window = progressBarDialog.getWindow();
+//        lp.copyFrom(window.getAttributes());
+//        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+//        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+//        window.setAttributes(lp);
         }catch (Exception e) {
             e.printStackTrace();
         }
     }
     public void customProgressDismiss() {
-        progressBarDialog.dismiss();
+        progressBarDialog.hide();
     }
 
     public String removeLastElement(String str) {

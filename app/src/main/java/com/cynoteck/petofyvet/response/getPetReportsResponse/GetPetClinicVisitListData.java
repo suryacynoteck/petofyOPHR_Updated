@@ -1,9 +1,11 @@
 package com.cynoteck.petofyvet.response.getPetReportsResponse;
 
+import java.util.ArrayList;
+
 public class GetPetClinicVisitListData {
     private PagingHeader pagingHeader;
 
-    private PetClinicVisitList[] petClinicVisitList;
+    private ArrayList<PetClinicVisitList> petClinicVisitList;
 
     public PagingHeader getPagingHeader ()
     {
@@ -15,12 +17,12 @@ public class GetPetClinicVisitListData {
         this.pagingHeader = pagingHeader;
     }
 
-    public PetClinicVisitList[] getPetClinicVisitList ()
+    public ArrayList<PetClinicVisitList> getPetClinicVisitList ()
     {
         return petClinicVisitList;
     }
 
-    public void setPetClinicVisitList (PetClinicVisitList[] petClinicVisitList)
+    public void setPetClinicVisitList (ArrayList<PetClinicVisitList> petClinicVisitList)
     {
         this.petClinicVisitList = petClinicVisitList;
     }

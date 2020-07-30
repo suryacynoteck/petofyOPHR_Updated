@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:background="#ECE4E4"
+    android:layout_marginBottom="15dp"
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
@@ -18,14 +18,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:weightSum="2">
+            android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/pet_deatils_LL"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1.5"
+                android:layout_height="100dp"
                 android:orientation="horizontal"
                 android:padding="10dp"
                 android:weightSum="3">
@@ -37,12 +35,11 @@
                     android:layout_weight="1"
                     android:padding="5dp">
 
-                    <ImageView
+                    <View
+                        android:background="@color/placeholder_bg"
                         android:id="@+id/petRegImage_IV"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/pet_image" />
+                        android:layout_height="50dp"/>
 
                 </LinearLayout>
 
@@ -57,45 +54,32 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:paddingRight="10dp">
+                        android:orientation="vertical">
 
-                        <TextView
+                        <View
+                            android:background="@color/placeholder_bg"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/petId"
+                            android:layout_height="8dp"
                             android:textColor="#000"
                             android:textSize="15dp"
                             android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/pet_reg__id_TV"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="PETO-1883" />
-
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="25dp"
                         android:orientation="vertical">
 
-                        <TextView
+
+                        <View
+                            android:background="@color/placeholder_bg"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/petParent"
+                            android:layout_height="8dp"
                             android:textColor="#000"
                             android:textSize="15dp"
                             android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/pet_reg_date_of_birth_TV"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Parent Name" />
 
 
                     </LinearLayout>
@@ -117,19 +101,14 @@
                         android:paddingLeft="5dp"
                         android:paddingRight="10dp">
 
-                        <TextView
+                        <View
+                            android:background="@color/placeholder_bg"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/petname"
+                            android:layout_height="8dp"
                             android:textColor="#000"
                             android:textSize="15dp"
                             android:textStyle="bold" />
 
-                        <TextView
-                            android:id="@+id/pet_reg_name_TV"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Rustam (Male)" />
 
 
                     </LinearLayout>
@@ -137,25 +116,19 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="25dp"
                         android:orientation="vertical"
                         android:paddingLeft="5dp"
                         android:paddingRight="10dp">
 
-                        <TextView
+                        <View
+                            android:background="@color/placeholder_bg"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/petGender"
+                            android:layout_height="8dp"
                             android:textColor="#000"
                             android:textSize="15dp"
                             android:textStyle="bold" />
 
-                        <TextView
-                            android:maxLines="1"
-                            android:id="@+id/pet_reg_gender_TV"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Gender" />
 
 
                     </LinearLayout>
@@ -166,20 +139,22 @@
             </LinearLayout>
 
 
-            <Button
+
+            <View
                 android:id="@+id/view_reg_pet_details_BT"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="25dp"
                 android:layout_marginBottom="10dp"
                 android:layout_weight="0.5"
-                android:background="@color/colorPrimary"
+                android:background="@color/placeholder_bg"
                 android:text="@string/viewDetails"
                 android:textColor="@color/whiteColor" />
-
         </LinearLayout>
 
 
     </androidx.cardview.widget.CardView>
 
 
-</LinearLayout>
+
+
+</RelativeLayout>

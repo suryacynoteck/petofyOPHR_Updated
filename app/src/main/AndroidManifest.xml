@@ -37,6 +37,7 @@
 
         <activity
             android:name=".activities.LoginActivity"
+            android:theme="@android:style/Theme.Translucent"
             android:configChanges="screenSize|orientation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
