@@ -1,7 +1,9 @@
 package com.cynoteck.petofyvet.fragments;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import android.view.LayoutInflater;
@@ -19,7 +21,7 @@ import com.cynoteck.petofyvet.activities.LoginActivity;
  */
 public class ProfileFragment extends Fragment {
     View view;
-  TextView tv;
+    TextView tv;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -32,6 +34,17 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_profile, container, false);
         tv=view.findViewById(R.id.tv);
+        tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences preferences =getContext().getSharedPreferences("userdetails", 0);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.clear();
+                editor.apply();
+                startActivity(new Intent(getActivity(),LoginActivity.class));
+                getActivity().finish();
+            }
+        });
         return view;
     }
 

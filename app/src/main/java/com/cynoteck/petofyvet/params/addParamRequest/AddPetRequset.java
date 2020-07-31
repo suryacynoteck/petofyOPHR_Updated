@@ -1,19 +1,23 @@
 package com.cynoteck.petofyvet.params.addParamRequest;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+
 public class AddPetRequset {
-    private AddPetParams addPetParams;
+    private AddPetParams data;
 
     public AddPetParams getAddPetParams() {
-        return addPetParams;
+        return data;
     }
 
-    public void setAddPetParams(AddPetParams addPetParams) {
-        this.addPetParams = addPetParams;
+    public void setAddPetParams(AddPetParams data) {
+        this.data = data;
     }
 
     @Override
     public String toString()
     {
-        return "ClassPojo [data = "+ addPetParams +"]";
+        return "ClassPojo [data = "+ data +"]";
     }
+
 }

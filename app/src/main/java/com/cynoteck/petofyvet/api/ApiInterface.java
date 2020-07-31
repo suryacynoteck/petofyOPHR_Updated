@@ -29,12 +29,16 @@ import com.cynoteck.petofyvet.response.updateProfileResponse.PetTypeResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.StateResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.UserResponse;
 
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
+import retrofit2.http.PartMap;
 
 public interface ApiInterface {
 
@@ -99,9 +103,12 @@ public interface ApiInterface {
     Call<PetSizeValueResponse> getGetPetSizeApi(@Header("Authorization") String auth, @Body BreedParams breedParams);
 
 
+    @Multipart
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("pet/AddPet")
-    Call<AddPetValueResponse> addNewPet(@Header("Authorization") String auth, @Body AddPetRequset breedParams);
+    Call<AddPetValueResponse> addNewPet(@Header("Authorization") String auth,
+                                        @PartMap AddPetRequset addPetRequset);
+
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @GET("report/GetVisitTypes")
     Call<GetReportsTypeResponse> getReportsType(@Header("Authorization") String auth);

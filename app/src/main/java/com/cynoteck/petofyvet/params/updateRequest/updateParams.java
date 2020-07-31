@@ -1,19 +1,19 @@
 package com.cynoteck.petofyvet.params.updateRequest;
 
 public class updateParams {
-    private updateRequest updateRequest;
+    private updateRequest data;
 
     public com.cynoteck.petofyvet.params.updateRequest.updateRequest getUpdateRequest() {
-        return updateRequest;
+        return data;
     }
 
-    public void setUpdateRequest(com.cynoteck.petofyvet.params.updateRequest.updateRequest updateRequest) {
-        this.updateRequest = updateRequest;
+    public void setUpdateRequest(com.cynoteck.petofyvet.params.updateRequest.updateRequest data) {
+        this.data = data;
     }
 
     @Override
     public String toString()
     {
-        return "ClassPojo [data = "+ updateRequest +"]";
+        return "ClassPojo [data = "+ data +"]";
     }
 }

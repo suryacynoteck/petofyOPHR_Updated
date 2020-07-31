@@ -63,11 +63,8 @@
             android:orientation="vertical">
 
             <include layout="@layout/list_loading_style" />
-
             <include layout="@layout/list_loading_style" />
-
             <include layout="@layout/list_loading_style" />
-
             <include layout="@layout/list_loading_style" />
             <include layout="@layout/list_loading_style" />
             <include layout="@layout/list_loading_style" />
