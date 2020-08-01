@@ -36,6 +36,7 @@ import com.cynoteck.petofyvet.params.petBreedRequest.BreedParams;
 import com.cynoteck.petofyvet.params.petBreedRequest.BreedRequest;
 import com.cynoteck.petofyvet.response.addPet.addPetResponse.AddPetValueResponse;
 import com.cynoteck.petofyvet.response.addPet.breedResponse.BreedCatRespose;
+import com.cynoteck.petofyvet.response.addPet.imageUpload.ImageResponse;
 import com.cynoteck.petofyvet.response.addPet.petAgeResponse.PetAgeValueResponse;
 import com.cynoteck.petofyvet.response.addPet.petColorResponse.PetColorValueResponse;
 import com.cynoteck.petofyvet.response.addPet.petSizeResponse.PetSizeValueResponse;
@@ -357,73 +358,25 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
                             " "+strSpnrColorId+" "+strSpnrBreedId+" "+strPetName+" "+strPetBirthDay+" "+strPetDescription+" "+currentDateandTime);
                     AddPetRequset addPetRequset = new AddPetRequset();
                     AddPetParams data = new AddPetParams();
-                    RequestBody petCategoryId = RequestBody.create(MediaType.parse("text/plain"), getStrSpnerItemPetNmId);
-                    RequestBody sexId = RequestBody.create(MediaType.parse("text/plain"), strSpnrSexId);
-                    RequestBody ageId = RequestBody.create(MediaType.parse("text/plain"), strSpnrAgeId);
-                    RequestBody sizeId = RequestBody.create(MediaType.parse("text/plain"), strSpneSizeId);
-                    RequestBody coloId = RequestBody.create(MediaType.parse("text/plain"), strSpnrColorId);
-                    RequestBody breedId = RequestBody.create(MediaType.parse("text/plain"), strSpnrBreedId);
-                    RequestBody petName = RequestBody.create(MediaType.parse("text/plain"), strPetName);
-                    RequestBody petBirthday = RequestBody.create(MediaType.parse("text/plain"), strPetBirthDay);
-                    RequestBody petDescription = RequestBody.create(MediaType.parse("text/plain"), strPetDescription);
-                    RequestBody currentDtTm = RequestBody.create(MediaType.parse("text/plain"), currentDateandTime);
-                    data.setPetCategoryId(petCategoryId);
-                    data.setPetSexId(sexId);
-                    data.setPetAgeId(ageId);
-                    data.setPetSizeId(ageId);
-                    data.setPetColorId(sizeId);
-                    data.setPetBreedId(coloId);
-                    data.setPetName(breedId);
-                    data.setPetParentName(petName);
-                    data.setContactNumber(petBirthday);
-                    data.setAddress(petDescription);
-                    data.setDateOfBirth(currentDtTm);
+                    data.setPetCategoryId(getStrSpnerItemPetNmId);
+                    data.setPetSexId(strSpnrSexId);
+                    data.setPetAgeId(strSpnrAgeId);
+                    data.setPetSizeId(strSpneSizeId);
+                    data.setPetColorId(strSpnrColorId);
+                    data.setPetBreedId(strSpnrBreedId);
+                    data.setPetName(strPetName);
+                    data.setPetParentName(strPetParentName);
+                    data.setContactNumber(strPetContactNumber);
+                    data.setAddress(strPetAdress);
+                    data.setCreateDate(currentDateandTime);
+                    data.setDateOfBirth(strPetBirthDay);
 
-                    MultipartBody.Part userDpFilePart = null;
-                    MultipartBody.Part userFirstImage = null;
-                    MultipartBody.Part userSecondImage = null;
-                    MultipartBody.Part userThirdImage = null;
-                    MultipartBody.Part userFourthImage = null;
-                    MultipartBody.Part userFifthImage = null;
-
-
-
-                    if (file != null) {
-                        RequestBody userDpFile = RequestBody.create(MediaType.parse("image/*"), file);
-                        userDpFilePart = MultipartBody.Part.createFormData("petProfileImageUrl", file.getName(), userDpFile);
-                    }
-
-                    if (fileImg1 != null) {
-                        RequestBody userDpFileOne = RequestBody.create(MediaType.parse("image/*"), fileImg1);
-                        userFirstImage = MultipartBody.Part.createFormData("firstServiceImageUrl", fileImg1.getName(), userDpFileOne);
-                    }
-
-                    if (fileImg2 != null) {
-                        RequestBody userDpFileTwo = RequestBody.create(MediaType.parse("image/*"), fileImg2);
-                        userSecondImage = MultipartBody.Part.createFormData("firstServiceImageUrl", fileImg2.getName(), userDpFileTwo);
-                    }
-
-                    if (fileImg3 != null) {
-                        RequestBody userDpFileThird = RequestBody.create(MediaType.parse("image/*"), fileImg3);
-                        userThirdImage = MultipartBody.Part.createFormData("firstServiceImageUrl", fileImg3.getName(), userDpFileThird);
-                    }
-
-                    if (fileImg4 != null) {
-                        RequestBody userDpFileFourth = RequestBody.create(MediaType.parse("image/*"), fileImg4);
-                        userFourthImage = MultipartBody.Part.createFormData("firstServiceImageUrl", fileImg4.getName(), userDpFileFourth);
-                    }
-
-                    if (fileImg5 != null) {
-                        RequestBody userDpFileFifth = RequestBody.create(MediaType.parse("image/*"), fileImg5);
-                        userFifthImage = MultipartBody.Part.createFormData("firstServiceImageUrl", fileImg5.getName(), userDpFileFifth);
-                    }
-
-                    data.setPetProfileImageUrl(userDpFilePart);
-                    data.setFirstServiceImageUrl(userFirstImage);
-                    data.setSecondServiceImageUrl(userSecondImage);
-                    data.setThirdServiceImageUrl(userThirdImage);
-                    data.setFourthServiceImageUrl(userFourthImage);
-                    data.setFifthServiceImageUrl(userFifthImage);
+                    data.setPetProfileImageUrl("");
+                    data.setFirstServiceImageUrl("");
+                    data.setSecondServiceImageUrl("");
+                    data.setThirdServiceImageUrl("");
+                    data.setFourthServiceImageUrl("");
+                    data.setFifthServiceImageUrl("");
                     addPetRequset.setAddPetParams(data);
                     if(methods.isInternetOn())
                     {
@@ -646,6 +599,7 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
                         new String[]{"image/jpeg"}, null);
                 fo.close();
                 Log.d("TAG", "File Saved::---&gt;" + file.getAbsolutePath());
+                UploadImages(file);
                 selctProflImage="0";
                 return file.getAbsolutePath();
             }
@@ -728,6 +682,19 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
         return "";
     }
 
+    private void UploadImages(File absolutePath) {
+        MultipartBody.Part userDpFilePart = null;
+        if (absolutePath != null) {
+            RequestBody userDpFile = RequestBody.create(MediaType.parse("image/*"), absolutePath);
+            userDpFilePart = MultipartBody.Part.createFormData("file", absolutePath.getName(), userDpFile);
+        }
+
+        ApiService<ImageResponse> service = new ApiService<>();
+        service.get( this, ApiClient.getApiInterface().uploadImages(Config.token,userDpFilePart), "UploadDocument");
+        Log.e("DATALOG","check1=> "+service);
+
+    }
+
     private void requestMultiplePermissions() {
         Dexter.withActivity(this)
                 .withPermissions(
@@ -768,49 +735,6 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
 
     private void addPetData(AddPetRequset addPetRequset) {
         methods.showCustomProgressBarDialog(this);
-        /*Map<String, RequestBody> map = new HashMap<>();
-        map.put("petCategoryId", Config.toRequestBody(getStrSpnerItemPetNmId));
-        map.put("petSexId", Config.toRequestBody(strSpnrSexId));
-        map.put("petAgeId", Config.toRequestBody(strSpnrAgeId));
-        map.put("petSizeId", Config.toRequestBody(strSpneSizeId));
-        map.put("petColorId", Config.toRequestBody(strSpnrColorId));
-        map.put("petBreedId", Config.toRequestBody(strSpnrBreedId));
-        map.put("petName", Config.toRequestBody(strPetName));
-        map.put("petParentName", Config.toRequestBody(strPetBirthDay));
-        map.put("contactNumber", Config.toRequestBody(strPetContactNumber));
-        map.put("address", Config.toRequestBody(strPetAdress));
-        map.put("dateOfBirth", Config.toRequestBody(strPetBirthDay));
-        map.put("description", Config.toRequestBody(strPetDescription));
-        map.put("createDate", Config.toRequestBody(currentDateandTime));
-
-        if (file != null) {
-            RequestBody userDpFile = RequestBody.create(MediaType.parse("image/*"), file);
-            map.put("petProfileImageUrl", userDpFile);        }
-
-        if (fileImg1 != null) {
-            RequestBody userDpFileOne = RequestBody.create(MediaType.parse("image/*"), fileImg1);
-            map.put("firstServiceImageUrl", userDpFileOne);
-        }
-
-        if (fileImg2 != null) {
-            RequestBody userDpFileTwo = RequestBody.create(MediaType.parse("image/*"), fileImg2);
-            map.put("secondServiceImageUrl", userDpFileTwo);
-        }
-
-        if (fileImg3 != null) {
-            RequestBody userDpFileThird = RequestBody.create(MediaType.parse("image/*"), fileImg3);
-            map.put("thirdServiceImageUrl", userDpFileThird);
-        }
-
-        if (fileImg4 != null) {
-            RequestBody userDpFileFourth = RequestBody.create(MediaType.parse("image/*"), fileImg4);
-            map.put("fourthServiceImageUrl", userDpFileFourth);
-        }
-
-        if (fileImg5 != null) {
-            RequestBody userDpFileFifth = RequestBody.create(MediaType.parse("image/*"), fileImg5);
-            map.put("fifthServiceImageUrl", userDpFileFifth);
-        }*/
         ApiService<AddPetValueResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().addNewPet(Config.token,addPetRequset), "AddPet");
         Log.e("DATALOG","check1=> "+addPetRequset);
@@ -986,6 +910,23 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
                     e.printStackTrace();
                 }
                 break;
+            case "UploadDocument":
+                try {
+                    Log.d("UploadDocument",arg0.body().toString());
+                    ImageResponse imageResponse = (ImageResponse) arg0.body();
+                    int responseCode = Integer.parseInt(imageResponse.getResponse().getResponseCode());
+                    if (responseCode== 109){
+                        Toast.makeText(this, "Sucessss", Toast.LENGTH_SHORT).show();
+                    }else if (responseCode==614){
+                        Toast.makeText(this, imageResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+                break;
 
 
         }
@@ -996,6 +937,8 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
     public void onError(Throwable t, String key) {
 
     }
+
+
 
     private void setPetTypeSpinner() {
         ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,petType);

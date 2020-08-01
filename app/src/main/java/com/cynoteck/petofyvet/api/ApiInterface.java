@@ -11,6 +11,7 @@ import com.cynoteck.petofyvet.params.registerRequest.Registerparams;
 import com.cynoteck.petofyvet.params.updateRequest.updateParams;
 import com.cynoteck.petofyvet.response.addPet.addPetResponse.AddPetValueResponse;
 import com.cynoteck.petofyvet.response.addPet.breedResponse.BreedCatRespose;
+import com.cynoteck.petofyvet.response.addPet.imageUpload.ImageResponse;
 import com.cynoteck.petofyvet.response.addPet.petAgeResponse.PetAgeValueResponse;
 import com.cynoteck.petofyvet.response.addPet.petColorResponse.PetColorValueResponse;
 import com.cynoteck.petofyvet.response.addPet.petSizeResponse.PetSizeValueResponse;
@@ -29,7 +30,10 @@ import com.cynoteck.petofyvet.response.updateProfileResponse.PetTypeResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.StateResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.UserResponse;
 
+import java.util.Map;
+
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -103,11 +107,17 @@ public interface ApiInterface {
     Call<PetSizeValueResponse> getGetPetSizeApi(@Header("Authorization") String auth, @Body BreedParams breedParams);
 
 
-    @Multipart
+
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("pet/AddPet")
     Call<AddPetValueResponse> addNewPet(@Header("Authorization") String auth,
-                                        @PartMap AddPetRequset addPetRequset);
+                                        @Body AddPetRequset addPetRequset);
+
+    @Multipart
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("document/UploadDocument")
+    Call<ImageResponse> uploadImages(@Header("Authorization") String auth,
+                                     @Part MultipartBody.Part image);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @GET("report/GetVisitTypes")

@@ -5,176 +5,176 @@ import okhttp3.RequestBody;
 
 public class AddPetParams {
 
-    private RequestBody petCategoryId;
-    private RequestBody petSexId;
-    private RequestBody petAgeId;
-    private RequestBody petSizeId;
-    private RequestBody petColorId;
-    private RequestBody petBreedId;
-    private RequestBody petName;
-    private RequestBody petParentName;
-    private RequestBody contactNumber;
-    private RequestBody address;
-    private RequestBody dateOfBirth;
-    private RequestBody description;
-    private RequestBody createDate;
-    private MultipartBody.Part petProfileImageUrl=null;
-    private MultipartBody.Part firstServiceImageUrl=null;
-    private MultipartBody.Part secondServiceImageUrl=null;
-    private MultipartBody.Part thirdServiceImageUrl=null;
-    private MultipartBody.Part fourthServiceImageUrl=null;
-    private MultipartBody.Part fifthServiceImageUrl=null;
+    private String petCategoryId;
+    private String petSexId;
+    private String petAgeId;
+    private String petSizeId;
+    private String petColorId;
+    private String petBreedId;
+    private String petName;
+    private String petParentName;
+    private String contactNumber;
+    private String address;
+    private String dateOfBirth;
+    private String description;
+    private String createDate;
+    private String petProfileImageUrl;
+    private String firstServiceImageUrl;
+    private String secondServiceImageUrl;
+    private String thirdServiceImageUrl;
+    private String fourthServiceImageUrl;
+    private String fifthServiceImageUrl;
 
 
-    public RequestBody getPetCategoryId() {
+    public String getPetCategoryId() {
         return petCategoryId;
     }
 
-    public void setPetCategoryId(RequestBody petCategoryId) {
+    public void setPetCategoryId(String petCategoryId) {
         this.petCategoryId = petCategoryId;
     }
 
-    public RequestBody getPetSexId() {
+    public String getPetSexId() {
         return petSexId;
     }
 
-    public void setPetSexId(RequestBody petSexId) {
+    public void setPetSexId(String petSexId) {
         this.petSexId = petSexId;
     }
 
-    public RequestBody getPetAgeId() {
+    public String getPetAgeId() {
         return petAgeId;
     }
 
-    public void setPetAgeId(RequestBody petAgeId) {
+    public void setPetAgeId(String petAgeId) {
         this.petAgeId = petAgeId;
     }
 
-    public RequestBody getPetSizeId() {
+    public String getPetSizeId() {
         return petSizeId;
     }
 
-    public void setPetSizeId(RequestBody petSizeId) {
+    public void setPetSizeId(String petSizeId) {
         this.petSizeId = petSizeId;
     }
 
-    public RequestBody getPetColorId() {
+    public String getPetColorId() {
         return petColorId;
     }
 
-    public void setPetColorId(RequestBody petColorId) {
+    public void setPetColorId(String petColorId) {
         this.petColorId = petColorId;
     }
 
-    public RequestBody getPetBreedId() {
+    public String getPetBreedId() {
         return petBreedId;
     }
 
-    public void setPetBreedId(RequestBody petBreedId) {
+    public void setPetBreedId(String petBreedId) {
         this.petBreedId = petBreedId;
     }
 
-    public RequestBody getPetName() {
+    public String getPetName() {
         return petName;
     }
 
-    public void setPetName(RequestBody petName) {
+    public void setPetName(String petName) {
         this.petName = petName;
     }
 
-    public RequestBody getPetParentName() {
+    public String getPetParentName() {
         return petParentName;
     }
 
-    public void setPetParentName(RequestBody petParentName) {
+    public void setPetParentName(String petParentName) {
         this.petParentName = petParentName;
     }
 
-    public RequestBody getContactNumber() {
+    public String getContactNumber() {
         return contactNumber;
     }
 
-    public void setContactNumber(RequestBody contactNumber) {
+    public void setContactNumber(String contactNumber) {
         this.contactNumber = contactNumber;
     }
 
-    public RequestBody getAddress() {
+    public String getAddress() {
         return address;
     }
 
-    public void setAddress(RequestBody address) {
+    public void setAddress(String address) {
         this.address = address;
     }
 
-    public RequestBody getDateOfBirth() {
+    public String getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(RequestBody dateOfBirth) {
+    public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public RequestBody getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(RequestBody description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
-    public RequestBody getCreateDate() {
+    public String getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(RequestBody createDate) {
+    public void setCreateDate(String createDate) {
         this.createDate = createDate;
     }
 
-    public MultipartBody.Part getPetProfileImageUrl() {
+    public String getPetProfileImageUrl() {
         return petProfileImageUrl;
     }
 
-    public void setPetProfileImageUrl(MultipartBody.Part petProfileImageUrl) {
+    public void setPetProfileImageUrl(String petProfileImageUrl) {
         this.petProfileImageUrl = petProfileImageUrl;
     }
 
-    public MultipartBody.Part getFirstServiceImageUrl() {
+    public String getFirstServiceImageUrl() {
         return firstServiceImageUrl;
     }
 
-    public void setFirstServiceImageUrl(MultipartBody.Part firstServiceImageUrl) {
+    public void setFirstServiceImageUrl(String firstServiceImageUrl) {
         this.firstServiceImageUrl = firstServiceImageUrl;
     }
 
-    public MultipartBody.Part getSecondServiceImageUrl() {
+    public String getSecondServiceImageUrl() {
         return secondServiceImageUrl;
     }
 
-    public void setSecondServiceImageUrl(MultipartBody.Part secondServiceImageUrl) {
+    public void setSecondServiceImageUrl(String secondServiceImageUrl) {
         this.secondServiceImageUrl = secondServiceImageUrl;
     }
 
-    public MultipartBody.Part getThirdServiceImageUrl() {
+    public String getThirdServiceImageUrl() {
         return thirdServiceImageUrl;
     }
 
-    public void setThirdServiceImageUrl(MultipartBody.Part thirdServiceImageUrl) {
+    public void setThirdServiceImageUrl(String thirdServiceImageUrl) {
         this.thirdServiceImageUrl = thirdServiceImageUrl;
     }
 
-    public MultipartBody.Part getFourthServiceImageUrl() {
+    public String getFourthServiceImageUrl() {
         return fourthServiceImageUrl;
     }
 
-    public void setFourthServiceImageUrl(MultipartBody.Part fourthServiceImageUrl) {
+    public void setFourthServiceImageUrl(String fourthServiceImageUrl) {
         this.fourthServiceImageUrl = fourthServiceImageUrl;
     }
 
-    public MultipartBody.Part getFifthServiceImageUrl() {
+    public String getFifthServiceImageUrl() {
         return fifthServiceImageUrl;
     }
 
-    public void setFifthServiceImageUrl(MultipartBody.Part fifthServiceImageUrl) {
+    public void setFifthServiceImageUrl(String fifthServiceImageUrl) {
         this.fifthServiceImageUrl = fifthServiceImageUrl;
     }
 
