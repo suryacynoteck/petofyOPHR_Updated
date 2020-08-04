@@ -1038,8 +1038,6 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
                     e.printStackTrace();
                 }
                 break;
-
-
         }
 
     }

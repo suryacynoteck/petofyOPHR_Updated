@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.activities.AddPetRegister;
+import com.cynoteck.petofyvet.activities.GetPetDetailsActivity;
 import com.cynoteck.petofyvet.adapters.petRegisterAdapter.RegisterPetAdapter;
 import com.cynoteck.petofyvet.adapters.petRegisterAdapter.RegisterRecyclerViewClickListener;
 import com.cynoteck.petofyvet.api.ApiClient;
@@ -31,6 +32,7 @@ import com.cynoteck.petofyvet.utils.Methods;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 import retrofit2.Response;
 
@@ -161,9 +163,15 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, Regis
     @Override
     public void onProductClick(int position) {
         Log.d("positionssss",""+position);
-        Toast.makeText(getActivity(), categoryRecordArrayList.get(position).getPetUniqueId(), Toast.LENGTH_SHORT).show();
-        categoryRecordArrayList.get(position).getPetUniqueId();
-        Log.d("ajajjaj",""+categoryRecordArrayList.get(position).getPetUniqueId());
+        Toast.makeText(getActivity(), categoryRecordArrayList.get(position).getId(), Toast.LENGTH_SHORT).show();
+        Log.d("pet_id",""+categoryRecordArrayList.get(position).getId());
+
+        StringTokenizer tokens = new StringTokenizer(categoryRecordArrayList.get(position).getId(), ".");
+        String first = tokens.nextToken();// this will contain "Fruit"
+
+        Intent intent=new Intent(getActivity(), GetPetDetailsActivity.class);
+        intent.putExtra("pet_id",first);
+        startActivity(intent);
     }
 
     @Override
