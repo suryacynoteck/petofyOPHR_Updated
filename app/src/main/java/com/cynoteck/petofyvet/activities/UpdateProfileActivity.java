@@ -34,6 +34,7 @@ import com.cynoteck.petofyvet.api.ApiResponse;
 import com.cynoteck.petofyvet.api.ApiService;
 import com.cynoteck.petofyvet.params.updateRequest.updateParams;
 import com.cynoteck.petofyvet.params.updateRequest.updateRequest;
+import com.cynoteck.petofyvet.response.addPet.imageUpload.ImageResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.CityResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.CountryResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.PetServiceResponse;
@@ -61,6 +62,9 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Response;
 
 public class UpdateProfileActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse {
@@ -82,7 +86,8 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
     String imagename,strFirstNm="",strLstNm="",strEmlUpdt="",strPhUpdt="",strAddrsUpdt="",strPostlUpdt="",
             strWbUpdt="",strSoclMdUelUpdt="",strRegistNumUpdt="",strVetQulafctnUpdt="",strPetCatUpdt="",
             strSrvcCatUpdt="",strContrySpnr="",strStateSpnr="",strCitySpnr="",strCountryId="",strStringCityId="",
-            strStateId="",strCatId="",strSrvsCatId="";
+            strStateId="",strCatId="",strSrvsCatId="",strCatUrl1="",strCatUrl2="",strSrvsUrl1="",strSrvsUrl2,
+            strSrvsUrl3,strSrvsUrl4,strSrvsUrl5;
     Uri fileUri;
     Methods methods;
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
@@ -90,7 +95,13 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
 
     private static final String IMAGE_DIRECTORY = "/Picture";
     private int GALLERY = 1, CAMERA = 2;
-    File file = null;
+    File catfile1 = null;
+    File catfile2 = null;
+    File srvcfile1 = null;
+    File srvcfile2 = null;
+    File srvcfile3 = null;
+    File srvcfile4 = null;
+    File srvcfile5 = null;
     Bitmap bitmap, thumbnail;
     String capImage;
     boolean doubleBackToExitPressedOnce = false;
@@ -495,15 +506,15 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     data.setSelectedPetTypeIds(methods.removeLastElement(strCatId));
                     data.setSelectedServiceTypeIds(methods.removeLastElement(strSrvsCatId));
                     data.setSelectedCountryId(strCountryId);
-                    data.setProfileImageUrl("null");
+                    data.setProfileImageUrl(strCatUrl1);
                     data.setServiceImageUrl("null");
                     data.setServiceImages("null");
-                    data.setFirstServiceImageUrl("null");
-                    data.setSecondServiceImageUrl("null");
-                    data.setThirdServiceImageUrl("null");
-                    data.setFourthServiceImageUrl("null");
-                    data.setFifthServiceImageUrl("null");
-                    data.setCoverImageUrl("null");
+                    data.setFirstServiceImageUrl(strSrvsUrl1);
+                    data.setSecondServiceImageUrl(strSrvsUrl2);
+                    data.setThirdServiceImageUrl(strSrvsUrl3);
+                    data.setFourthServiceImageUrl(strSrvsUrl4);
+                    data.setFifthServiceImageUrl(strSrvsUrl5);
+                    data.setCoverImageUrl(strCatUrl2);
                     data.setIsVeterinarian("yes");
                     data.setProviderUserId("null");
                     data.setUserEmail(strEmlUpdt);
@@ -720,6 +731,27 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
         cancel_dialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(slctCatOneImage==1){
+                    slctCatOneImage=0;
+                }
+                if(slctCatTwoImage==1){
+                    slctCatTwoImage=0;
+                }
+                if(slctServcOneImage==1){
+                    slctServcOneImage=0;
+                }
+                if(slctServcTwoImage==1){
+                    slctServcTwoImage=0;
+                }
+                if(slctServcThreeImage==1){
+                    slctServcThreeImage=0;
+                }
+                if(slctServcfourImage==1){
+                    slctServcfourImage=0;
+                }
+                if(slctServcFiveImage==1){
+                    slctServcFiveImage=0;
+                }
                 dialog.dismiss();
             }
         });
@@ -797,6 +829,27 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
 
                 } catch (IOException e) {
                     e.printStackTrace();
+                    if(slctCatOneImage==1){
+                        slctCatOneImage=0;
+                    }
+                    if(slctCatTwoImage==1){
+                        slctCatTwoImage=0;
+                    }
+                    if(slctServcOneImage==1){
+                        slctServcOneImage=0;
+                    }
+                    if(slctServcTwoImage==1){
+                        slctServcTwoImage=0;
+                    }
+                    if(slctServcThreeImage==1){
+                        slctServcThreeImage=0;
+                    }
+                    if(slctServcfourImage==1){
+                        slctServcfourImage=0;
+                    }
+                    if(slctServcFiveImage==1){
+                        slctServcFiveImage=0;
+                    }
                     Toast.makeText(UpdateProfileActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -808,49 +861,93 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
             {
                 thumbnail = (Bitmap) data.getExtras().get("data");
                 Log.e("jghl",""+thumbnail);
+                if(slctCatOneImage==1){
+                    category_img_one.setImageBitmap(thumbnail);
+                    saveImage(thumbnail);
+                }
+                if(slctCatTwoImage==1){
+                    category_img_two.setImageBitmap(thumbnail);
+                    saveImage(thumbnail);
+                }
+                if(slctServcOneImage==1){
+                    service_cat_img_one.setImageBitmap(thumbnail);
+                    saveImage(thumbnail);
+                }
+                if(slctServcTwoImage==1){
+                    service_cat_img_two.setImageBitmap(thumbnail);
+                    saveImage(thumbnail);
+                }
+                if(slctServcThreeImage==1){
+                    service_cat_img_three.setImageBitmap(thumbnail);
+                    saveImage(thumbnail);
+                }
+                if(slctServcfourImage==1){
+                    service_cat_img_four.setImageBitmap(thumbnail);
+                    saveImage(thumbnail);
+                }
+                if(slctServcFiveImage==1){
+                    service_cat_img_five.setImageBitmap(thumbnail);
+                    saveImage(thumbnail);
+                }
             }
 
             else{
                 try {
                     bitmap = MediaStore.Images.Media.getBitmap(UpdateProfileActivity.this.getContentResolver(), data.getData());
+
+                    if(slctCatOneImage==1){
+                        category_img_one.setImageBitmap(bitmap);
+                        saveImage(bitmap);
+                    }
+                    if(slctCatTwoImage==1){
+                        category_img_two.setImageBitmap(bitmap);
+                        saveImage(bitmap);
+                    }
+                    if(slctServcOneImage==1){
+                        service_cat_img_one.setImageBitmap(bitmap);
+                        saveImage(bitmap);
+                    }
+                    if(slctServcTwoImage==1){
+                        service_cat_img_two.setImageBitmap(bitmap);
+                        saveImage(bitmap);
+                    }
+                    if(slctServcThreeImage==1){
+                        service_cat_img_three.setImageBitmap(bitmap);
+                        saveImage(bitmap);
+                    }
+                    if(slctServcfourImage==1){
+                        service_cat_img_four.setImageBitmap(bitmap);
+                        saveImage(bitmap);
+                    }
+                    if(slctServcFiveImage==1){
+                        service_cat_img_five.setImageBitmap(bitmap);
+                        saveImage(bitmap);
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
+                    if(slctCatOneImage==1){
+                        slctCatOneImage=0;
+                    }
+                    if(slctCatTwoImage==1){
+                        slctCatTwoImage=0;
+                    }
+                    if(slctServcOneImage==1){
+                        slctServcOneImage=0;
+                    }
+                    if(slctServcTwoImage==1){
+                        slctServcTwoImage=0;
+                    }
+                    if(slctServcThreeImage==1){
+                        slctServcThreeImage=0;
+                    }
+                    if(slctServcfourImage==1){
+                        slctServcfourImage=0;
+                    }
+                    if(slctServcFiveImage==1){
+                        slctServcFiveImage=0;
+                    }
+                    Toast.makeText(UpdateProfileActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
                 }
-            }
-            if(slctCatOneImage==1){
-                category_img_one.setImageBitmap(thumbnail);
-                slctCatOneImage=0;
-                saveImage(thumbnail);
-            }
-            if(slctCatTwoImage==1){
-                category_img_two.setImageBitmap(thumbnail);
-                slctCatTwoImage=0;
-                saveImage(thumbnail);
-            }
-            if(slctServcOneImage==1){
-                service_cat_img_one.setImageBitmap(thumbnail);
-                slctServcOneImage=0;
-                saveImage(thumbnail);
-            }
-            if(slctServcTwoImage==1){
-                service_cat_img_two.setImageBitmap(thumbnail);
-                slctServcTwoImage=0;
-                saveImage(thumbnail);
-            }
-            if(slctServcThreeImage==1){
-                service_cat_img_three.setImageBitmap(thumbnail);
-                slctServcThreeImage=0;
-                saveImage(thumbnail);
-            }
-            if(slctServcfourImage==1){
-                service_cat_img_four.setImageBitmap(thumbnail);
-                slctServcfourImage=0;
-                saveImage(thumbnail);
-            }
-            if(slctServcFiveImage==1){
-                service_cat_img_five.setImageBitmap(thumbnail);
-                slctServcFiveImage=0;
-                saveImage(thumbnail);
             }
             Toast.makeText(UpdateProfileActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
         }
@@ -870,22 +967,122 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
         }
 
         try {
-            File f = new File(wallpaperDirectory, Calendar.getInstance()
-                    .getTimeInMillis() + ".jpg");
-            f.createNewFile();
-            FileOutputStream fo = new FileOutputStream(f);
-            fo.write(bytes.toByteArray());
-            MediaScannerConnection.scanFile(this,
-                    new String[]{f.getPath()},
-                    new String[]{"image/jpeg"}, null);
-            fo.close();
-            Log.d("TAG", "File Saved::---&gt;" + f.getAbsolutePath());
+            if(slctCatOneImage==1){
+                catfile1 = new File(wallpaperDirectory, Calendar.getInstance()
+                        .getTimeInMillis() + ".jpg");
+                catfile1.createNewFile();
+                FileOutputStream fo = new FileOutputStream(catfile1);
+                fo.write(bytes.toByteArray());
+                MediaScannerConnection.scanFile(this,
+                        new String[]{catfile1.getPath()},
+                        new String[]{"image/jpeg"}, null);
+                fo.close();
+                Log.d("TAG", "File Saved::---&gt;" + catfile1.getAbsolutePath());
+                UploadImages(catfile1);
+                return catfile1.getAbsolutePath();
+            }
+            if(slctCatTwoImage==1){
+                catfile2 = new File(wallpaperDirectory, Calendar.getInstance()
+                        .getTimeInMillis() + ".jpg");
+                catfile2.createNewFile();
+                FileOutputStream fo = new FileOutputStream(catfile2);
+                fo.write(bytes.toByteArray());
+                MediaScannerConnection.scanFile(this,
+                        new String[]{catfile2.getPath()},
+                        new String[]{"image/jpeg"}, null);
+                fo.close();
+                Log.d("TAG", "File Saved::---&gt;" + catfile2.getAbsolutePath());
+                UploadImages(catfile2);
+                return catfile2.getAbsolutePath();
+            }
+            if(slctServcOneImage==1){
+                srvcfile1 = new File(wallpaperDirectory, Calendar.getInstance()
+                        .getTimeInMillis() + ".jpg");
+                srvcfile1.createNewFile();
+                FileOutputStream fo = new FileOutputStream(srvcfile1);
+                fo.write(bytes.toByteArray());
+                MediaScannerConnection.scanFile(this,
+                        new String[]{srvcfile1.getPath()},
+                        new String[]{"image/jpeg"}, null);
+                fo.close();
+                Log.d("TAG", "File Saved::---&gt;" + srvcfile1.getAbsolutePath());
+                UploadImages(srvcfile1);
+                return srvcfile1.getAbsolutePath();
+            }
+            if(slctServcTwoImage==1){
+                srvcfile2 = new File(wallpaperDirectory, Calendar.getInstance()
+                        .getTimeInMillis() + ".jpg");
+                srvcfile2.createNewFile();
+                FileOutputStream fo = new FileOutputStream(srvcfile2);
+                fo.write(bytes.toByteArray());
+                MediaScannerConnection.scanFile(this,
+                        new String[]{srvcfile2.getPath()},
+                        new String[]{"image/jpeg"}, null);
+                fo.close();
+                Log.d("TAG", "File Saved::---&gt;" + srvcfile2.getAbsolutePath());
+                UploadImages(srvcfile2);
+                return srvcfile2.getAbsolutePath();
+            }
+            if(slctServcThreeImage==1){
+                srvcfile3 = new File(wallpaperDirectory, Calendar.getInstance()
+                        .getTimeInMillis() + ".jpg");
+                srvcfile3.createNewFile();
+                FileOutputStream fo = new FileOutputStream(srvcfile3);
+                fo.write(bytes.toByteArray());
+                MediaScannerConnection.scanFile(this,
+                        new String[]{srvcfile3.getPath()},
+                        new String[]{"image/jpeg"}, null);
+                fo.close();
+                Log.d("TAG", "File Saved::---&gt;" + srvcfile3.getAbsolutePath());
+                UploadImages(srvcfile3);
+                return srvcfile3.getAbsolutePath();
+            }
+            if(slctServcfourImage==1){
+                srvcfile4 = new File(wallpaperDirectory, Calendar.getInstance()
+                        .getTimeInMillis() + ".jpg");
+                srvcfile4.createNewFile();
+                FileOutputStream fo = new FileOutputStream(srvcfile4);
+                fo.write(bytes.toByteArray());
+                MediaScannerConnection.scanFile(this,
+                        new String[]{srvcfile4.getPath()},
+                        new String[]{"image/jpeg"}, null);
+                fo.close();
+                Log.d("TAG", "File Saved::---&gt;" + srvcfile4.getAbsolutePath());
+                UploadImages(srvcfile4);
+                return srvcfile4.getAbsolutePath();
+            }
+            if(slctServcFiveImage==1){
+                srvcfile5 = new File(wallpaperDirectory, Calendar.getInstance()
+                        .getTimeInMillis() + ".jpg");
+                srvcfile5.createNewFile();
+                FileOutputStream fo = new FileOutputStream(srvcfile5);
+                fo.write(bytes.toByteArray());
+                MediaScannerConnection.scanFile(this,
+                        new String[]{srvcfile5.getPath()},
+                        new String[]{"image/jpeg"}, null);
+                fo.close();
+                Log.d("TAG", "File Saved::---&gt;" + srvcfile5.getAbsolutePath());
+                UploadImages(srvcfile5);
+                return srvcfile5.getAbsolutePath();
+            }
 
-            return f.getAbsolutePath();
         } catch (IOException e1) {
             e1.printStackTrace();
         }
         return "";
+    }
+
+    private void UploadImages(File absolutePath) {
+        MultipartBody.Part userDpFilePart = null;
+        if (absolutePath != null) {
+            RequestBody userDpFile = RequestBody.create(MediaType.parse("image/*"), absolutePath);
+            userDpFilePart = MultipartBody.Part.createFormData("file", absolutePath.getName(), userDpFile);
+        }
+
+        ApiService<ImageResponse> service = new ApiService<>();
+        service.get( this, ApiClient.getApiInterface().uploadImages(Config.token,userDpFilePart), "UploadDocument");
+        Log.e("DATALOG","check1=> "+service);
+
     }
 
     private void requestMultiplePermissions() {
@@ -1071,6 +1268,53 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                         Toast.makeText(UpdateProfileActivity.this, petServiceResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
                     }else {
                         Toast.makeText(UpdateProfileActivity.this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+
+            case "UploadDocument":
+                try {
+                    Log.d("UploadDocument",response.body().toString());
+                    ImageResponse imageResponse = (ImageResponse) response.body();
+                    int responseCode = Integer.parseInt(imageResponse.getResponse().getResponseCode());
+                    if (responseCode== 109){
+                        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                        if(slctCatOneImage==1){
+                            strCatUrl1=imageResponse.getData().getDocumentUrl();
+                            slctCatOneImage=0;
+                        }
+                        if(slctCatTwoImage==1){
+                            strCatUrl2=imageResponse.getData().getDocumentUrl();
+                            slctCatTwoImage=0;
+                        }
+                        if(slctServcOneImage==1){
+                            strSrvsUrl1=imageResponse.getData().getDocumentUrl();
+                            slctServcOneImage=0;
+                        }
+                        if(slctServcTwoImage==1){
+                            strSrvsUrl2=imageResponse.getData().getDocumentUrl();
+                            slctServcTwoImage=0;
+                        }
+                        if(slctServcThreeImage==1){
+                            strSrvsUrl3=imageResponse.getData().getDocumentUrl();
+                            slctServcThreeImage=0;
+                        }
+                        if(slctServcfourImage==1){
+                            strSrvsUrl4=imageResponse.getData().getDocumentUrl();
+                            slctServcfourImage=0;
+                        }
+                        if(slctServcFiveImage==1){
+                            strSrvsUrl5=imageResponse.getData().getDocumentUrl();
+                            slctServcFiveImage=0;
+                        }
+
+                    }else if (responseCode==614){
+                        Toast.makeText(this, imageResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
                     }
                 }
                 catch(Exception e) {

@@ -113,11 +113,11 @@ public interface ApiInterface {
     Call<AddPetValueResponse> addNewPet(@Header("Authorization") String auth,
                                         @Body AddPetRequset addPetRequset);
 
+
     @Multipart
-    @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("document/UploadDocument")
     Call<ImageResponse> uploadImages(@Header("Authorization") String auth,
-                                     @Part MultipartBody.Part image);
+                                      @Part MultipartBody.Part file);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @GET("report/GetVisitTypes")

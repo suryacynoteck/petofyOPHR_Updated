@@ -128,9 +128,9 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, Regis
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
                         register_pet_RV.setLayoutManager(linearLayoutManager);
                         registerPetAdapter  = new RegisterPetAdapter(getContext(),getPetListResponse.getData().getPetList(),this);
-                        categoryRecordArrayList = getPetListResponse.getData().getPetList();
                         register_pet_RV.setAdapter(registerPetAdapter);
                         registerPetAdapter.notifyDataSetChanged();
+                        categoryRecordArrayList = getPetListResponse.getData().getPetList();
                         mShimmerViewContainer.stopShimmerAnimation();
                         mShimmerViewContainer.setVisibility(View.GONE);
 

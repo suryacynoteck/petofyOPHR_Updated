@@ -3,7 +3,9 @@ package com.cynoteck.petofyvet.activities;
 import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
@@ -65,8 +67,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
+import androidx.loader.content.CursorLoader;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -86,8 +88,9 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
             strSpnerItemPetNm="",getStrSpnerItemPetNmId="",strSpnrBreed="",strSpnrBreedId="",petUniqueId="",
             strSpnrAge="",strSpnrAgeId="",strSpnrColor="",strSpnrColorId="",strSpnrSize="",strSpneSizeId="",
             strSpnrSex="",strSpnrSexId="",currentDateandTime="",selctProflImage="0",selctImgOne="0",selctImgtwo="0",
-            slctImgThree="0",slctImgFour="0",slctImgFive="0";
-
+            slctImgThree="0",slctImgFour="0",slctImgFive="0",strProfileImgUrl="",strFirstImgUrl="",strSecondImgUrl="",
+            strThirdImgUrl="",strFourthImUrl="",strFifthImgUrl="";
+    Dialog dialog;
 
     Methods methods;
     DatePickerDialog picker;
@@ -115,6 +118,9 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
     File fileImg5 = null;
     Bitmap bitmap, thumbnail;
     String capImage;
+
+    private Button upload;
+    private String baseUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -368,15 +374,16 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
                     data.setPetParentName(strPetParentName);
                     data.setContactNumber(strPetContactNumber);
                     data.setAddress(strPetAdress);
+                    data.setDescription(strPetDescription);
                     data.setCreateDate(currentDateandTime);
                     data.setDateOfBirth(strPetBirthDay);
 
-                    data.setPetProfileImageUrl("");
-                    data.setFirstServiceImageUrl("");
-                    data.setSecondServiceImageUrl("");
-                    data.setThirdServiceImageUrl("");
-                    data.setFourthServiceImageUrl("");
-                    data.setFifthServiceImageUrl("");
+                    data.setPetProfileImageUrl(strProfileImgUrl);
+                    data.setFirstServiceImageUrl(strFirstImgUrl);
+                    data.setSecondServiceImageUrl(strSecondImgUrl);
+                    data.setThirdServiceImageUrl(strThirdImgUrl);
+                    data.setFourthServiceImageUrl(strFourthImUrl);
+                    data.setFifthServiceImageUrl(strFifthImgUrl);
                     addPetRequset.setAddPetParams(data);
                     if(methods.isInternetOn())
                     {
@@ -433,7 +440,7 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
 
     }
     private void showPictureDialog() {
-        final Dialog dialog = new Dialog(this);
+        dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.dialog_layout);
@@ -459,6 +466,24 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
         cancel_dialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(selctProflImage.equals("1")){
+                    selctProflImage="0";
+                }
+                if(selctImgOne.equals("1")){
+                    selctImgOne="0";
+                }
+                if(selctImgtwo.equals("1")){
+                    selctImgtwo="0";
+                }
+                if(slctImgThree.equals("1")){
+                    slctImgThree="0";
+                }
+                if(slctImgFour.equals("1")){
+                    slctImgFour="0";
+                }
+                if(slctImgFive.equals("1")){
+                    slctImgFive="0";
+                }
                 dialog.dismiss();
             }
         });
@@ -478,7 +503,6 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
     private void takePhotoFromCamera() {
 
         Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-
         startActivityForResult(intent, CAMERA);
 
     }
@@ -487,6 +511,7 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        dialog.dismiss();
         if (resultCode == RESULT_CANCELED) {
             return;
         }
@@ -526,6 +551,24 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
 
                 } catch (IOException e) {
                     e.printStackTrace();
+                    if(selctProflImage.equals("1")){
+                        selctProflImage="0";
+                    }
+                    if(selctImgOne.equals("1")){
+                        selctImgOne="0";
+                    }
+                    if(selctImgtwo.equals("1")){
+                        selctImgtwo="0";
+                    }
+                    if(slctImgThree.equals("1")){
+                        slctImgThree="0";
+                    }
+                    if(slctImgFour.equals("1")){
+                        slctImgFour="0";
+                    }
+                    if(slctImgFive.equals("1")){
+                        slctImgFive="0";
+                    }
                     Toast.makeText(AddPetRegister.this, "Failed!", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -537,40 +580,84 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
             {
                 thumbnail = (Bitmap) data.getExtras().get("data");
                 Log.e("jghl",""+thumbnail);
+                if(selctProflImage.equals("1")){
+                    pet_profile_image.setImageBitmap(thumbnail);
+                    saveImage(thumbnail);
+                }
+                if(selctImgOne.equals("1")){
+                    service_cat_img_one.setImageBitmap(thumbnail);
+                    saveImage(thumbnail);
+                }
+                if(selctImgtwo.equals("1")){
+                    service_cat_img_two.setImageBitmap(thumbnail);
+                    saveImage(thumbnail);
+                }
+                if(slctImgThree.equals("1")){
+                    service_cat_img_three.setImageBitmap(thumbnail);
+                    saveImage(thumbnail);
+                }
+                if(slctImgFour.equals("1")){
+                    service_cat_img_four.setImageBitmap(thumbnail);
+                    saveImage(thumbnail);
+                }
+                if(slctImgFive.equals("1")){
+                    service_cat_img_five.setImageBitmap(thumbnail);
+                    saveImage(thumbnail);
+                }
+                Toast.makeText(AddPetRegister.this, "Image Saved!", Toast.LENGTH_SHORT).show();
             }
 
             else{
                 try {
                     bitmap = MediaStore.Images.Media.getBitmap(AddPetRegister.this.getContentResolver(), data.getData());
+                    if(selctProflImage.equals("1")){
+                        pet_profile_image.setImageBitmap(bitmap);
+                        saveImage(bitmap);
+                    }
+                    if(selctImgOne.equals("1")){
+                        service_cat_img_one.setImageBitmap(bitmap);
+                        saveImage(bitmap);
+                    }
+                    if(selctImgtwo.equals("1")){
+                        service_cat_img_two.setImageBitmap(bitmap);
+                        saveImage(bitmap);
+                    }
+                    if(slctImgThree.equals("1")){
+                        service_cat_img_three.setImageBitmap(bitmap);
+                        saveImage(bitmap);
+                    }
+                    if(slctImgFour.equals("1")){
+                        service_cat_img_four.setImageBitmap(bitmap);
+                        saveImage(bitmap);
+                    }
+                    if(slctImgFive.equals("1")){
+                        service_cat_img_five.setImageBitmap(bitmap);
+                        saveImage(bitmap);
+                    }
+                    Toast.makeText(AddPetRegister.this, "Image Saved!", Toast.LENGTH_SHORT).show();
                 } catch (IOException e) {
                     e.printStackTrace();
+                    if(selctProflImage.equals("1")){
+                        selctProflImage="0";
+                    }
+                    if(selctImgOne.equals("1")){
+                        selctImgOne="0";
+                    }
+                    if(selctImgtwo.equals("1")){
+                        selctImgtwo="0";
+                    }
+                    if(slctImgThree.equals("1")){
+                        slctImgThree="0";
+                    }
+                    if(slctImgFour.equals("1")){
+                        slctImgFour="0";
+                    }
+                    if(slctImgFive.equals("1")){
+                        slctImgFive="0";
+                    }
                 }
             }
-            if(selctProflImage.equals("1")){
-                pet_profile_image.setImageBitmap(thumbnail);
-                saveImage(thumbnail);
-            }
-            if(selctImgOne.equals("1")){
-                service_cat_img_one.setImageBitmap(thumbnail);
-                saveImage(thumbnail);
-            }
-            if(selctImgtwo.equals("1")){
-                service_cat_img_two.setImageBitmap(thumbnail);
-                saveImage(thumbnail);
-            }
-            if(slctImgThree.equals("1")){
-                service_cat_img_three.setImageBitmap(thumbnail);
-                saveImage(thumbnail);
-            }
-            if(slctImgFour.equals("1")){
-                service_cat_img_four.setImageBitmap(thumbnail);
-                saveImage(thumbnail);
-            }
-            if(slctImgFive.equals("1")){
-                service_cat_img_five.setImageBitmap(thumbnail);
-                saveImage(thumbnail);
-            }
-            Toast.makeText(AddPetRegister.this, "Image Saved!", Toast.LENGTH_SHORT).show();
+
         }
 
         return;
@@ -590,17 +677,16 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
         try {
             if(selctProflImage.equals("1")){
                 file = new File(wallpaperDirectory, Calendar.getInstance()
-                        .getTimeInMillis() + ".jpg");
+                        .getTimeInMillis() + ".png");
                 file.createNewFile();
                 FileOutputStream fo = new FileOutputStream(file);
                 fo.write(bytes.toByteArray());
                 MediaScannerConnection.scanFile(this,
                         new String[]{file.getPath()},
-                        new String[]{"image/jpeg"}, null);
+                        new String[]{"image/png"}, null);
                 fo.close();
                 Log.d("TAG", "File Saved::---&gt;" + file.getAbsolutePath());
                 UploadImages(file);
-                selctProflImage="0";
                 return file.getAbsolutePath();
             }
             if(selctImgOne.equals("1")){
@@ -614,7 +700,7 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
                         new String[]{"image/jpeg"}, null);
                 fo.close();
                 Log.d("TAG", "File Saved::---&gt;" + fileImg1.getAbsolutePath());
-                selctImgOne="0";
+                UploadImages(fileImg1);
                 return fileImg1.getAbsolutePath();
 
             }
@@ -629,7 +715,7 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
                         new String[]{"image/jpeg"}, null);
                 fo.close();
                 Log.d("TAG", "File Saved::---&gt;" + fileImg2.getAbsolutePath());
-                selctImgtwo="0";
+                UploadImages(fileImg2);
                 return fileImg2.getAbsolutePath();
 
             }
@@ -644,7 +730,7 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
                         new String[]{"image/jpeg"}, null);
                 fo.close();
                 Log.d("TAG", "File Saved::---&gt;" + fileImg3.getAbsolutePath());
-                slctImgThree="0";
+                UploadImages(fileImg3);
                 return fileImg2.getAbsolutePath();
             }
             if(slctImgFour.equals("1")){
@@ -658,7 +744,7 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
                         new String[]{"image/jpeg"}, null);
                 fo.close();
                 Log.d("TAG", "File Saved::---&gt;" + fileImg4.getAbsolutePath());
-                slctImgFour="0";
+                UploadImages(fileImg4);
                 return fileImg4.getAbsolutePath();
             }
             if(slctImgFive.equals("1")){
@@ -672,7 +758,7 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
                         new String[]{"image/jpeg"}, null);
                 fo.close();
                 Log.d("TAG", "File Saved::---&gt;" + fileImg5.getAbsolutePath());
-                slctImgFive="0";
+                UploadImages(fileImg5);
                 return fileImg5.getAbsolutePath();
 
             }
@@ -682,7 +768,7 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
         return "";
     }
 
-    private void UploadImages(File absolutePath) {
+   private void UploadImages(File absolutePath) {
         MultipartBody.Part userDpFilePart = null;
         if (absolutePath != null) {
             RequestBody userDpFile = RequestBody.create(MediaType.parse("image/*"), absolutePath);
@@ -916,7 +1002,32 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
                     ImageResponse imageResponse = (ImageResponse) arg0.body();
                     int responseCode = Integer.parseInt(imageResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
-                        Toast.makeText(this, "Sucessss", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                        if(selctProflImage.equals("1")){
+                            strProfileImgUrl=imageResponse.getData().getDocumentUrl();
+                            selctProflImage="0";
+                        }
+                        if(selctImgOne.equals("1")){
+                            strFirstImgUrl=imageResponse.getData().getDocumentUrl();
+                            selctImgOne="0";
+                        }
+                        if(selctImgtwo.equals("1")){
+                            strSecondImgUrl=imageResponse.getData().getDocumentUrl();
+                            selctImgtwo="0";
+                        }
+                        if(slctImgThree.equals("1")){
+                            strThirdImgUrl=imageResponse.getData().getDocumentUrl();
+                            slctImgThree="0";
+                        }
+                        if(slctImgFour.equals("1")){
+                            strFourthImUrl=imageResponse.getData().getDocumentUrl();
+                            slctImgFour="0";
+                        }
+                        if(slctImgFive.equals("1")){
+                            strFifthImgUrl=imageResponse.getData().getDocumentUrl();
+                            slctImgFive="0";
+                        }
+
                     }else if (responseCode==614){
                         Toast.makeText(this, imageResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
                     }else {
@@ -1046,6 +1157,12 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+    }
+    private Uri getImageUri(Context context, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
     }
 
 }
