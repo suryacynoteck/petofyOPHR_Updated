@@ -462,6 +462,11 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
                     int responseCode = Integer.parseInt(getPetResponse.getResponse().getResponseCode());
                     if (responseCode == 109) {
                         Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                        pet_details_parent_name.setText(getPetResponse.getData().getPetParentName());
+                        pet_deatils_contact_number.setText(getPetResponse.getData().getContactNumber());
+                        pet_details_address.setText(getPetResponse.getData().getAddress());
+                        calenderTextViewDetails.setText(getPetResponse.getData().getDateOfBirth());
+
                     } else if (responseCode == 614) {
                         Toast.makeText(this, getPetResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
                     } else {
@@ -472,6 +477,31 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
                     e.printStackTrace();
                 }
                 break;
+            case "GetPetTypes":
+                try {
+                    Log.d("GetPetTypes",arg0.body().toString());
+                    PetTypeResponse petTypeResponse = (PetTypeResponse) arg0.body();
+                    int responseCode = Integer.parseInt(petTypeResponse.getResponse().getResponseCode());
+                    if (responseCode== 109){
+                        petType=new ArrayList<>();
+                        petType.add("Select Pet Type");
+                        Log.d("lalal",""+petTypeResponse.getData().size());
+                        for(int i=0; i<petTypeResponse.getData().size(); i++){
+                            Log.d("petttt",""+petTypeResponse.getData().get(i).getPetType1());
+                            petType.add(petTypeResponse.getData().get(i).getPetType1());
+                            petTypeHashMap.put(petTypeResponse.getData().get(i).getPetType1(),petTypeResponse.getData().get(i).getId());
+                        }
+                        setPetTypeSpinner();
+
+                    }else if (responseCode==614){
+                        Toast.makeText(this, petTypeResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
             case "GetPetBreed":
                 try {
                     Log.d("GetPetBreed",arg0.body().toString());
