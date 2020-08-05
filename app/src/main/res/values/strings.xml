@@ -52,4 +52,5 @@
     <string name="labTestReport">Lab Test Report</string>
     <string name="Hospitalization"><![CDATA[Hospitalization & Surgeries]]></string>
     <string name="clinicVisits">Clinic Visit Report</string>
+    <string name="emailtext">Email</string>
 </resources>

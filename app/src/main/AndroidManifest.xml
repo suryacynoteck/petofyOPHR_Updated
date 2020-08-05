@@ -26,18 +26,17 @@
         android:roundIcon="@drawable/logo_petofy"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.CommonActivity"></activity>
+        <activity android:name=".activities.ReportsCommonActivity"></activity>
+        <activity android:name=".activities.CommonActivity" />
         <activity android:name=".activities.AddPetRegister" />
         <activity android:name=".activities.UpdateProfileActivity" />
         <activity android:name=".activities.ForgetPasswordActivity" />
         <activity android:name=".activities.ChangePasswordActivity" />
         <activity android:name=".activities.DashBoardActivity" />
         <activity android:name=".activities.RegisterActivity" />
-        <activity android:name=".activities.SelectPetReportsActivity"></activity>
-
+        <activity android:name=".activities.SelectPetReportsActivity" />
         <activity
             android:name=".activities.LoginActivity"
-            android:theme="@android:style/Theme.Translucent"
             android:configChanges="screenSize|orientation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

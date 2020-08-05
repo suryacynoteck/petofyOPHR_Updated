@@ -1,11 +1,19 @@
 package com.cynoteck.petofyvet.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
@@ -34,7 +42,7 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ReportsFragment extends Fragment implements ApiResponse,RegisterRecyclerViewClickListener {
+public class ReportsFragment extends Fragment implements ApiResponse,RegisterRecyclerViewClickListener, View.OnClickListener, TextWatcher {
     View view;
     Methods methods;
     CardView materialCardView;
@@ -42,7 +50,10 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
     ReportsAdapter reportsAdapter;
     private ArrayList<PetList> categoryRecordArrayList;
     private ShimmerFrameLayout mShimmerViewContainer;
-
+    TextView reports_headline_TV;
+    EditText search_box;
+    ImageView search_IV, back_arrow_IV;
+    RelativeLayout search_boxRL;
 
     public ReportsFragment() {
         // Required empty public constructor
@@ -58,17 +69,31 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
 
         materialCardView = view.findViewById(R.id.toolbar);
         petList_RV=view.findViewById(R.id.petList_RV);
+        reports_headline_TV = view.findViewById(R.id.reports_headline_TV);
+        search_box = view.findViewById(R.id.search_box);
+        search_IV = view.findViewById(R.id.search_IV);
+        back_arrow_IV = view.findViewById(R.id.back_arrow_IV);
+        search_boxRL = view.findViewById(R.id.search_boxRL);
+        search_IV.setOnClickListener(this);
+        back_arrow_IV.setOnClickListener(this);
+        search_box.addTextChangedListener(this);
         methods = new Methods(getContext());
-        getPetList();
+
+        if (methods.isInternetOn()){
+            getPetList();
+
+        }else {
+            methods.DialogInternet();
+        }
 
         return view;
     }
 
     private void getPetList() {
         PetDataParams getPetDataParams = new PetDataParams();
-        getPetDataParams.setPageNumber("1");
-        getPetDataParams.setPageSize("2");
-        getPetDataParams.setSearch_Data("");
+        getPetDataParams.setPageNumber("0");
+        getPetDataParams.setPageSize("0");
+        getPetDataParams.setSearch_Data("0");
         PetDataRequest getPetDataRequest = new PetDataRequest();
         getPetDataRequest.setData(getPetDataParams);
 
@@ -81,8 +106,11 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
 
 
 
+
     @Override
     public void onResponse(Response response, String key) {
+        Log.e("DATALOG","=> "+response.body());
+
         switch (key){
             case "GetPetList":
                 try {
@@ -116,7 +144,7 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
 
     @Override
     public void onError(Throwable t, String key) {
-        methods.customProgressDismiss();
+        Log.d("error",t.getLocalizedMessage());
 
     }
 
@@ -136,7 +164,17 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
         selectReportsIntent.putExtras(data);
         startActivity(selectReportsIntent);
         getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
+        clearSearch();
 
+    }
+
+    private void clearSearch() {
+        search_box.getText().clear();
+        search_boxRL.setVisibility(View.GONE);
+        back_arrow_IV.setVisibility(View.GONE);
+        reports_headline_TV.setVisibility(View.VISIBLE);
+        InputMethodManager imm1 = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm1.hideSoftInputFromWindow(search_box.getWindowToken(), 0);
     }
 
     @Override
@@ -150,5 +188,44 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
     public void onPause() {
         mShimmerViewContainer.stopShimmerAnimation();
         super.onPause();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.search_box:
+
+                break;
+
+            case R.id.back_arrow_IV:
+                clearSearch();
+                break;
+
+            case R.id.search_IV:
+                search_box.requestFocus();
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+                search_boxRL.setVisibility(View.VISIBLE);
+                back_arrow_IV.setVisibility(View.VISIBLE);
+                reports_headline_TV.setVisibility(View.GONE);
+                break;
+        }
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        reportsAdapter.getFilter().filter(s.toString());
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
     }
 }

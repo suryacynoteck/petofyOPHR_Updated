@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#6fac00</color>
+    <color name="colorPrimaryDark">#6fac00</color>
+    <color name="colorAccent">#6fac00</color>
     <color name="whiteColor">#ffff</color>
     <color name="grayColor">#3A3838</color>
     <color name="grayColorCode">#808080</color>
     <color name="grayColorCodeLight">#4AFDFCFC</color>
     <color name="black_color">#1a1a1a</color>
     <color name="placeholder_bg">#dddddd</color>
+    <color name="green_divider">#67C162</color>
+    <color name="list_background">#F4F5F9</color>
+
 
 </resources>

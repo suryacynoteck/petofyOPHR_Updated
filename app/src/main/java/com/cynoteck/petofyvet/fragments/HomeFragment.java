@@ -76,8 +76,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
 
     @Override
     public void onResponse(Response arg0, String key) {
-        methods.customProgressDismiss();
-
 
     }
 
