@@ -48,6 +48,7 @@
 
     </androidx.cardview.widget.CardView>
     <com.facebook.shimmer.ShimmerFrameLayout
+        android:visibility="visible"
         android:layout_below="@+id/toolbar"
         android:id="@+id/shimmer_view_container"
         android:layout_width="wrap_content"
@@ -63,11 +64,8 @@
             android:orientation="vertical">
 
             <include layout="@layout/list_loading_style" />
-
             <include layout="@layout/list_loading_style" />
-
             <include layout="@layout/list_loading_style" />
-
             <include layout="@layout/list_loading_style" />
             <include layout="@layout/list_loading_style" />
             <include layout="@layout/list_loading_style" />

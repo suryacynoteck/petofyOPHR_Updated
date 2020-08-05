@@ -1,9 +1,21 @@
 package com.cynoteck.petofyvet.activities;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -12,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSpinner;
 
@@ -25,6 +38,7 @@ import com.cynoteck.petofyvet.params.petBreedRequest.BreedParams;
 import com.cynoteck.petofyvet.params.petBreedRequest.BreedRequest;
 import com.cynoteck.petofyvet.response.addPet.addPetResponse.AddPetValueResponse;
 import com.cynoteck.petofyvet.response.addPet.breedResponse.BreedCatRespose;
+import com.cynoteck.petofyvet.response.addPet.imageUpload.ImageResponse;
 import com.cynoteck.petofyvet.response.addPet.petAgeResponse.PetAgeValueResponse;
 import com.cynoteck.petofyvet.response.addPet.petColorResponse.PetColorValueResponse;
 import com.cynoteck.petofyvet.response.addPet.petSizeResponse.PetSizeValueResponse;
@@ -34,14 +48,30 @@ import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.DexterError;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.PermissionRequestErrorListener;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
+import androidx.loader.content.CursorLoader;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Response;
 
 public class AddPetRegister extends AppCompatActivity implements View.OnClickListener, ApiResponse {
@@ -57,8 +87,10 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
     String strPetName="",strPetParentName="",strPetContactNumber="",strPetDescription="",strPetAdress="",strPetBirthDay="",
             strSpnerItemPetNm="",getStrSpnerItemPetNmId="",strSpnrBreed="",strSpnrBreedId="",petUniqueId="",
             strSpnrAge="",strSpnrAgeId="",strSpnrColor="",strSpnrColorId="",strSpnrSize="",strSpneSizeId="",
-            strSpnrSex="",strSpnrSexId="",currentDateandTime="";
-
+            strSpnrSex="",strSpnrSexId="",currentDateandTime="",selctProflImage="0",selctImgOne="0",selctImgtwo="0",
+            slctImgThree="0",slctImgFour="0",slctImgFive="0",strProfileImgUrl="",strFirstImgUrl="",strSecondImgUrl="",
+            strThirdImgUrl="",strFourthImUrl="",strFifthImgUrl="";
+    Dialog dialog;
 
     Methods methods;
     DatePickerDialog picker;
@@ -76,11 +108,26 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
     HashMap<String,String> petSizeHashMap=new HashMap<>();
     HashMap<String,String> petSexHashMap=new HashMap<>();
 
+    private static final String IMAGE_DIRECTORY = "/Picture";
+    private int GALLERY = 1, CAMERA = 2;
+    File file = null;
+    File fileImg1 = null;
+    File fileImg2 = null;
+    File fileImg3 = null;
+    File fileImg4 = null;
+    File fileImg5 = null;
+    Bitmap bitmap, thumbnail;
+    String capImage;
+
+    private Button upload;
+    private String baseUrl;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_pet_register);
         init();
+        requestMultiplePermissions();
         currentDateAndTime();
         methods=new Methods(this);
 
@@ -209,6 +256,12 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
         service_cat_img_three=findViewById(R.id.service_cat_img_three);
         service_cat_img_four=findViewById(R.id.service_cat_img_four);
         service_cat_img_five=findViewById(R.id.service_cat_img_five);
+        pet_profile_image.setOnClickListener(this);
+        service_cat_img_one.setOnClickListener(this);
+        service_cat_img_two.setOnClickListener(this);
+        service_cat_img_three.setOnClickListener(this);
+        service_cat_img_four.setOnClickListener(this);
+        service_cat_img_five.setOnClickListener(this);
 
         //Button
         pet_submit=findViewById(R.id.pet_submit);
@@ -307,26 +360,30 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
                     pet_description.setError(null);
                     pet_address.setError(null);
                     calenderView.setError(null);
+                    Log.d("hahahah",""+getStrSpnerItemPetNmId+" "+strSpnrSexId+" "+strSpnrAgeId+" "+strSpneSizeId+
+                            " "+strSpnrColorId+" "+strSpnrBreedId+" "+strPetName+" "+strPetBirthDay+" "+strPetDescription+" "+currentDateandTime);
                     AddPetRequset addPetRequset = new AddPetRequset();
                     AddPetParams data = new AddPetParams();
-                    data.setUserId(Config.user_id);
                     data.setPetCategoryId(getStrSpnerItemPetNmId);
                     data.setPetSexId(strSpnrSexId);
                     data.setPetAgeId(strSpnrAgeId);
                     data.setPetSizeId(strSpneSizeId);
                     data.setPetColorId(strSpnrColorId);
+                    data.setPetBreedId(strSpnrBreedId);
                     data.setPetName(strPetName);
                     data.setPetParentName(strPetParentName);
                     data.setContactNumber(strPetContactNumber);
-                    data.setDateOfBirth(strPetBirthDay);
+                    data.setAddress(strPetAdress);
                     data.setDescription(strPetDescription);
                     data.setCreateDate(currentDateandTime);
-                    data.setPetProfileImageUrl("\\Images\\PetDetailImages\\a706cd07-9d06-44e5-8358-a82a63bd6e81.png");
-                    data.setFirstServiceImageUrl("");
-                    data.setSecondServiceImageUrl("");
-                    data.setThirdServiceImageUrl("");
-                    data.setFourthServiceImageUrl("");
-                    data.setFifthServiceImageUrl("");
+                    data.setDateOfBirth(strPetBirthDay);
+
+                    data.setPetProfileImageUrl(strProfileImgUrl);
+                    data.setFirstServiceImageUrl(strFirstImgUrl);
+                    data.setSecondServiceImageUrl(strSecondImgUrl);
+                    data.setThirdServiceImageUrl(strThirdImgUrl);
+                    data.setFourthServiceImageUrl(strFourthImUrl);
+                    data.setFifthServiceImageUrl(strFifthImgUrl);
                     addPetRequset.setAddPetParams(data);
                     if(methods.isInternetOn())
                     {
@@ -354,13 +411,415 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
                         }, year, month, day);
                 picker.show();
             break;
+            case R.id.pet_profile_image:
+                selctProflImage="1";
+                showPictureDialog();
+                break;
+            case R.id.service_cat_img_one:
+                selctImgOne="1";
+                showPictureDialog();
+                break;
+            case R.id.service_cat_img_two:
+                selctImgtwo="1";
+                showPictureDialog();
+                break;
+            case R.id.service_cat_img_three:
+                slctImgThree="1";
+                showPictureDialog();
+                break;
+            case R.id.service_cat_img_four:
+                slctImgFour="1";
+                showPictureDialog();
+                break;
+            case R.id.service_cat_img_five:
+                slctImgFive="1";
+                showPictureDialog();
+                break;
 
         }
 
     }
+    private void showPictureDialog() {
+        dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.dialog_layout);
+
+        TextView select_camera = (TextView) dialog.findViewById(R.id.select_camera);
+        TextView select_gallery = (TextView) dialog.findViewById(R.id.select_gallery);
+        TextView cancel_dialog = (TextView) dialog.findViewById(R.id.cancel_dialog);
+
+        select_camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                takePhotoFromCamera();
+            }
+        });
+
+        select_gallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                choosePhotoFromGallary();
+            }
+        });
+
+        cancel_dialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(selctProflImage.equals("1")){
+                    selctProflImage="0";
+                }
+                if(selctImgOne.equals("1")){
+                    selctImgOne="0";
+                }
+                if(selctImgtwo.equals("1")){
+                    selctImgtwo="0";
+                }
+                if(slctImgThree.equals("1")){
+                    slctImgThree="0";
+                }
+                if(slctImgFour.equals("1")){
+                    slctImgFour="0";
+                }
+                if(slctImgFive.equals("1")){
+                    slctImgFive="0";
+                }
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+    private void choosePhotoFromGallary() {
+
+
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+        startActivityForResult(galleryIntent, GALLERY);
+    }
+
+    private void takePhotoFromCamera() {
+
+        Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, CAMERA);
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.FROYO)
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        dialog.dismiss();
+        if (resultCode == RESULT_CANCELED) {
+            return;
+        }
+        if (requestCode == GALLERY) {
+            if (data != null) {
+
+                Uri contentURI = data.getData();
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), contentURI);
+
+                    if(selctProflImage.equals("1")){
+                        pet_profile_image.setImageBitmap(bitmap);
+                        saveImage(bitmap);
+                    }
+                    if(selctImgOne.equals("1")){
+                        service_cat_img_one.setImageBitmap(bitmap);
+                        saveImage(bitmap);
+                    }
+                    if(selctImgtwo.equals("1")){
+                        service_cat_img_two.setImageBitmap(bitmap);
+                        saveImage(bitmap);
+                    }
+                    if(slctImgThree.equals("1")){
+                        service_cat_img_three.setImageBitmap(bitmap);
+                        saveImage(bitmap);
+                    }
+                    if(slctImgFour.equals("1")){
+                        service_cat_img_four.setImageBitmap(bitmap);
+                        saveImage(bitmap);
+                    }
+                    if(slctImgFive.equals("1")){
+                        service_cat_img_five.setImageBitmap(bitmap);
+                        saveImage(bitmap);
+                    }
+
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    if(selctProflImage.equals("1")){
+                        selctProflImage="0";
+                    }
+                    if(selctImgOne.equals("1")){
+                        selctImgOne="0";
+                    }
+                    if(selctImgtwo.equals("1")){
+                        selctImgtwo="0";
+                    }
+                    if(slctImgThree.equals("1")){
+                        slctImgThree="0";
+                    }
+                    if(slctImgFour.equals("1")){
+                        slctImgFour="0";
+                    }
+                    if(slctImgFive.equals("1")){
+                        slctImgFive="0";
+                    }
+                    Toast.makeText(AddPetRegister.this, "Failed!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        }
+        else if (requestCode == CAMERA) {
+
+            if (data.getData() == null)
+            {
+                thumbnail = (Bitmap) data.getExtras().get("data");
+                Log.e("jghl",""+thumbnail);
+                if(selctProflImage.equals("1")){
+                    pet_profile_image.setImageBitmap(thumbnail);
+                    saveImage(thumbnail);
+                }
+                if(selctImgOne.equals("1")){
+                    service_cat_img_one.setImageBitmap(thumbnail);
+                    saveImage(thumbnail);
+                }
+                if(selctImgtwo.equals("1")){
+                    service_cat_img_two.setImageBitmap(thumbnail);
+                    saveImage(thumbnail);
+                }
+                if(slctImgThree.equals("1")){
+                    service_cat_img_three.setImageBitmap(thumbnail);
+                    saveImage(thumbnail);
+                }
+                if(slctImgFour.equals("1")){
+                    service_cat_img_four.setImageBitmap(thumbnail);
+                    saveImage(thumbnail);
+                }
+                if(slctImgFive.equals("1")){
+                    service_cat_img_five.setImageBitmap(thumbnail);
+                    saveImage(thumbnail);
+                }
+                Toast.makeText(AddPetRegister.this, "Image Saved!", Toast.LENGTH_SHORT).show();
+            }
+
+            else{
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(AddPetRegister.this.getContentResolver(), data.getData());
+                    if(selctProflImage.equals("1")){
+                        pet_profile_image.setImageBitmap(bitmap);
+                        saveImage(bitmap);
+                    }
+                    if(selctImgOne.equals("1")){
+                        service_cat_img_one.setImageBitmap(bitmap);
+                        saveImage(bitmap);
+                    }
+                    if(selctImgtwo.equals("1")){
+                        service_cat_img_two.setImageBitmap(bitmap);
+                        saveImage(bitmap);
+                    }
+                    if(slctImgThree.equals("1")){
+                        service_cat_img_three.setImageBitmap(bitmap);
+                        saveImage(bitmap);
+                    }
+                    if(slctImgFour.equals("1")){
+                        service_cat_img_four.setImageBitmap(bitmap);
+                        saveImage(bitmap);
+                    }
+                    if(slctImgFive.equals("1")){
+                        service_cat_img_five.setImageBitmap(bitmap);
+                        saveImage(bitmap);
+                    }
+                    Toast.makeText(AddPetRegister.this, "Image Saved!", Toast.LENGTH_SHORT).show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    if(selctProflImage.equals("1")){
+                        selctProflImage="0";
+                    }
+                    if(selctImgOne.equals("1")){
+                        selctImgOne="0";
+                    }
+                    if(selctImgtwo.equals("1")){
+                        selctImgtwo="0";
+                    }
+                    if(slctImgThree.equals("1")){
+                        slctImgThree="0";
+                    }
+                    if(slctImgFour.equals("1")){
+                        slctImgFour="0";
+                    }
+                    if(slctImgFive.equals("1")){
+                        slctImgFive="0";
+                    }
+                }
+            }
+
+        }
+
+        return;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.FROYO)
+    public String saveImage(Bitmap myBitmap) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        myBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+        File wallpaperDirectory = new File(
+                Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
+        // have the object build the directory structure, if needed.
+        if (!wallpaperDirectory.exists()) {
+            wallpaperDirectory.mkdirs();
+        }
+
+        try {
+            if(selctProflImage.equals("1")){
+                file = new File(wallpaperDirectory, Calendar.getInstance()
+                        .getTimeInMillis() + ".png");
+                file.createNewFile();
+                FileOutputStream fo = new FileOutputStream(file);
+                fo.write(bytes.toByteArray());
+                MediaScannerConnection.scanFile(this,
+                        new String[]{file.getPath()},
+                        new String[]{"image/png"}, null);
+                fo.close();
+                Log.d("TAG", "File Saved::---&gt;" + file.getAbsolutePath());
+                UploadImages(file);
+                return file.getAbsolutePath();
+            }
+            if(selctImgOne.equals("1")){
+                fileImg1 = new File(wallpaperDirectory, Calendar.getInstance()
+                        .getTimeInMillis() + ".jpg");
+                fileImg1.createNewFile();
+                FileOutputStream fo = new FileOutputStream(fileImg1);
+                fo.write(bytes.toByteArray());
+                MediaScannerConnection.scanFile(this,
+                        new String[]{fileImg1.getPath()},
+                        new String[]{"image/jpeg"}, null);
+                fo.close();
+                Log.d("TAG", "File Saved::---&gt;" + fileImg1.getAbsolutePath());
+                UploadImages(fileImg1);
+                return fileImg1.getAbsolutePath();
+
+            }
+            if(selctImgtwo.equals("1")){
+                fileImg2 = new File(wallpaperDirectory, Calendar.getInstance()
+                        .getTimeInMillis() + ".jpg");
+                fileImg2.createNewFile();
+                FileOutputStream fo = new FileOutputStream(fileImg2);
+                fo.write(bytes.toByteArray());
+                MediaScannerConnection.scanFile(this,
+                        new String[]{fileImg2.getPath()},
+                        new String[]{"image/jpeg"}, null);
+                fo.close();
+                Log.d("TAG", "File Saved::---&gt;" + fileImg2.getAbsolutePath());
+                UploadImages(fileImg2);
+                return fileImg2.getAbsolutePath();
+
+            }
+            if(slctImgThree.equals("1")){
+                fileImg3 = new File(wallpaperDirectory, Calendar.getInstance()
+                        .getTimeInMillis() + ".jpg");
+                fileImg3.createNewFile();
+                FileOutputStream fo = new FileOutputStream(fileImg3);
+                fo.write(bytes.toByteArray());
+                MediaScannerConnection.scanFile(this,
+                        new String[]{fileImg3.getPath()},
+                        new String[]{"image/jpeg"}, null);
+                fo.close();
+                Log.d("TAG", "File Saved::---&gt;" + fileImg3.getAbsolutePath());
+                UploadImages(fileImg3);
+                return fileImg2.getAbsolutePath();
+            }
+            if(slctImgFour.equals("1")){
+                fileImg4 = new File(wallpaperDirectory, Calendar.getInstance()
+                        .getTimeInMillis() + ".jpg");
+                fileImg4.createNewFile();
+                FileOutputStream fo = new FileOutputStream(fileImg4);
+                fo.write(bytes.toByteArray());
+                MediaScannerConnection.scanFile(this,
+                        new String[]{fileImg4.getPath()},
+                        new String[]{"image/jpeg"}, null);
+                fo.close();
+                Log.d("TAG", "File Saved::---&gt;" + fileImg4.getAbsolutePath());
+                UploadImages(fileImg4);
+                return fileImg4.getAbsolutePath();
+            }
+            if(slctImgFive.equals("1")){
+                fileImg5 = new File(wallpaperDirectory, Calendar.getInstance()
+                        .getTimeInMillis() + ".jpg");
+                fileImg5.createNewFile();
+                FileOutputStream fo = new FileOutputStream(fileImg5);
+                fo.write(bytes.toByteArray());
+                MediaScannerConnection.scanFile(this,
+                        new String[]{fileImg5.getPath()},
+                        new String[]{"image/jpeg"}, null);
+                fo.close();
+                Log.d("TAG", "File Saved::---&gt;" + fileImg5.getAbsolutePath());
+                UploadImages(fileImg5);
+                return fileImg5.getAbsolutePath();
+
+            }
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+        return "";
+    }
+
+   private void UploadImages(File absolutePath) {
+        MultipartBody.Part userDpFilePart = null;
+        if (absolutePath != null) {
+            RequestBody userDpFile = RequestBody.create(MediaType.parse("image/*"), absolutePath);
+            userDpFilePart = MultipartBody.Part.createFormData("file", absolutePath.getName(), userDpFile);
+        }
+
+        ApiService<ImageResponse> service = new ApiService<>();
+        service.get( this, ApiClient.getApiInterface().uploadImages(Config.token,userDpFilePart), "UploadDocument");
+        Log.e("DATALOG","check1=> "+service);
+
+    }
+
+    private void requestMultiplePermissions() {
+        Dexter.withActivity(this)
+                .withPermissions(
+                        android.Manifest.permission.CAMERA,
+                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                        // check if all permissions are granted
+                        if (report.areAllPermissionsGranted()) {
+                            Toast.makeText(AddPetRegister.this, "All permissions are granted by user!", Toast.LENGTH_SHORT).show();
+                        }
+
+                        // check for permanent denial of any permission
+                        if (report.isAnyPermissionPermanentlyDenied()) {
+                            // show alert dialog navigating to Settings
+                            //openSettingsDialog();
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+
+
+                }).
+                withErrorListener(new PermissionRequestErrorListener() {
+                    @Override
+                    public void onError(DexterError error) {
+                        Toast.makeText(AddPetRegister.this, "Some Error! ", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .onSameThread()
+                .check();
+    }
 
     private void addPetData(AddPetRequset addPetRequset) {
-
         methods.showCustomProgressBarDialog(this);
         ApiService<AddPetValueResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().addNewPet(Config.token,addPetRequset), "AddPet");
@@ -537,8 +996,48 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
                     e.printStackTrace();
                 }
                 break;
+            case "UploadDocument":
+                try {
+                    Log.d("UploadDocument",arg0.body().toString());
+                    ImageResponse imageResponse = (ImageResponse) arg0.body();
+                    int responseCode = Integer.parseInt(imageResponse.getResponse().getResponseCode());
+                    if (responseCode== 109){
+                        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                        if(selctProflImage.equals("1")){
+                            strProfileImgUrl=imageResponse.getData().getDocumentUrl();
+                            selctProflImage="0";
+                        }
+                        if(selctImgOne.equals("1")){
+                            strFirstImgUrl=imageResponse.getData().getDocumentUrl();
+                            selctImgOne="0";
+                        }
+                        if(selctImgtwo.equals("1")){
+                            strSecondImgUrl=imageResponse.getData().getDocumentUrl();
+                            selctImgtwo="0";
+                        }
+                        if(slctImgThree.equals("1")){
+                            strThirdImgUrl=imageResponse.getData().getDocumentUrl();
+                            slctImgThree="0";
+                        }
+                        if(slctImgFour.equals("1")){
+                            strFourthImUrl=imageResponse.getData().getDocumentUrl();
+                            slctImgFour="0";
+                        }
+                        if(slctImgFive.equals("1")){
+                            strFifthImgUrl=imageResponse.getData().getDocumentUrl();
+                            slctImgFive="0";
+                        }
 
-
+                    }else if (responseCode==614){
+                        Toast.makeText(this, imageResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+                break;
         }
 
     }
@@ -547,6 +1046,8 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
     public void onError(Throwable t, String key) {
 
     }
+
+
 
     private void setPetTypeSpinner() {
         ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,petType);
@@ -654,6 +1155,12 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+    }
+    private Uri getImageUri(Context context, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
     }
 
 }

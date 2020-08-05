@@ -1,4 +1,4 @@
-package com.cynoteck.petofyvet.params.updateRequest;
+package com.cynoteck.petofyvet.params.updateRequest.getValue;
 
 public class updateRequest {
            String id;

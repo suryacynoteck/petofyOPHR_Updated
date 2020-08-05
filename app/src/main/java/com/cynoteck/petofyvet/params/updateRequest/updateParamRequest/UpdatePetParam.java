@@ -1,10 +1,7 @@
-package com.cynoteck.petofyvet.params.addParamRequest;
+package com.cynoteck.petofyvet.params.updateRequest.updateParamRequest;
 
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-
-public class AddPetParams {
-
+public class UpdatePetParam {
+    private String id;
     private String petCategoryId;
     private String petSexId;
     private String petAgeId;
@@ -25,6 +22,13 @@ public class AddPetParams {
     private String fourthServiceImageUrl;
     private String fifthServiceImageUrl;
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getPetCategoryId() {
         return petCategoryId;
