@@ -58,18 +58,6 @@
                 android:text="Email"/>
 
 
-            <!--            <EditText
-                            android:layout_width="0dp"
-                            android:layout_weight="1.6"
-                            android:layout_height="50dp"
-                            android:maxLines="1"
-                            android:inputType="textEmailAddress"
-                            android:gravity="center"
-                            android:hint="@string/email"
-                            android:textSize="14sp"
-                            android:text="aviral.rana@gmail.com"
-                            android:id="@+id/email_TIET"/>-->
-
             <EditText
                 android:layout_width="0dp"
                 android:layout_weight="1.6"
@@ -81,8 +69,6 @@
                 android:textSize="14sp"
                 android:text=""
                 android:id="@+id/email_TIET"/>
-
-
         </LinearLayout>
 
 
@@ -94,6 +80,7 @@
             android:layout_marginTop="5dp"
             android:background="@color/grayColor"
             android:orientation="vertical" />
+
 
         <LinearLayout
             android:id="@+id/password_layout"
@@ -138,7 +125,6 @@
                 android:gravity="center"/>
         </LinearLayout>
 
-
         <LinearLayout
             android:id="@+id/password_devider"
             android:layout_width="match_parent"
@@ -153,36 +139,6 @@
 
 
 
-    <RelativeLayout
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginRight="10dp"
-        android:gravity="center"
-        android:layout_above="@+id/login_BT"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone">
-        <TextView
-            android:id="@+id/dontHaveAccount_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:gravity="center"
-            android:text="@string/dontHaveAccount"
-            android:textColor="#808080" />
-
-        <TextView
-            android:gravity="center"
-            android:layout_toRightOf="@id/dontHaveAccount_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:text="@string/signUp"
-            android:textColor="@color/colorPrimary"
-            android:textSize="15dp" />
-
-    </RelativeLayout>
-
-
-
 
     <Button
         android:background="@color/colorPrimary"
@@ -191,7 +147,7 @@
         android:theme="@style/MatButton"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:id="@+id/login_BT"
-        android:text="@string/signIn"
+        android:text="@string/submit"
         android:layout_centerInParent="true"
         android:layout_width="match_parent"
         android:textColor="@color/whiteColor"

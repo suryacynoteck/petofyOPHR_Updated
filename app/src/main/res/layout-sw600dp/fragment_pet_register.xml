@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    xmlns:shimmer="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.PetRegisterFragment">
@@ -31,14 +32,6 @@
                 android:textSize="25sp"
                 android:textStyle="bold" />
 
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
-                android:padding="10dp"
-                android:src="@drawable/searchicon" />
             <TextView
                 android:id="@+id/register_add_TV"
                 android:layout_width="50dp"
@@ -54,8 +47,41 @@
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:visibility="visible"
+        android:layout_below="@+id/toolbar"
+        android:id="@+id/shimmer_view_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        shimmer:duration="800">
+
+        <!-- Adding 3 rows of placeholders -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/list_loading_style" />
+            <include layout="@layout/list_loading_style" />
+            <include layout="@layout/list_loading_style" />
+            <include layout="@layout/list_loading_style" />
+            <include layout="@layout/list_loading_style" />
+            <include layout="@layout/list_loading_style" />
+            <include layout="@layout/list_loading_style" />
+            <include layout="@layout/list_loading_style" />
+
+
+            <include layout="@layout/list_loading_style" />
+
+        </LinearLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
 
     <androidx.recyclerview.widget.RecyclerView
+        android:background="@color/list_background"
         android:id="@+id/register_pet_RV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

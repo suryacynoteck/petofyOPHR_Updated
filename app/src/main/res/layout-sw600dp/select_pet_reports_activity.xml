@@ -223,10 +223,9 @@
     <View
         android:id="@+id/view_green_line"
         android:layout_width="match_parent"
-        android:layout_marginBottom="10dp"
         android:layout_height="8dp"
         android:layout_below="@id/petInfo_CV"
-        android:background="@color/colorPrimary"/>
+        android:background="@color/green_divider"/>
 
     <androidx.core.widget.NestedScrollView
         android:layout_below="@id/view_green_line"
@@ -234,6 +233,7 @@
         android:layout_height="wrap_content">
 
         <RelativeLayout
+            android:background="@color/list_background"
             android:id="@+id/reports_list_RL"
             android:visibility="gone"
             android:layout_width="match_parent"

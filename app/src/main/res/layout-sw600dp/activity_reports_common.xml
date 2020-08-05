@@ -217,12 +217,12 @@
     <View
         android:id="@+id/view_green_line"
         android:layout_width="match_parent"
-        android:layout_marginBottom="10dp"
         android:layout_height="8dp"
         android:layout_below="@id/petInfo_CV"
-        android:background="@color/colorPrimary"/>
+        android:background="@color/green_divider"/>
 
     <FrameLayout
+        android:background="@color/list_background"
         android:id="@+id/report_type_frame"
         android:layout_below="@id/view_green_line"
         android:layout_width="match_parent"
