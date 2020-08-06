@@ -81,6 +81,7 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
+        android:background="@color/list_background"
         android:id="@+id/register_pet_RV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -1,59 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="@dimen/activity_padding">
+    android:layout_marginBottom="15dp"
+    android:layout_height="wrap_content">
 
-    <View
-        android:id="@+id/thumbnail"
-        android:layout_width="@dimen/placeholder_image"
-        android:layout_height="@dimen/placeholder_image"
-        android:layout_marginRight="@dimen/activity_padding"
-        android:background="@color/placeholder_bg" />
-
-    <View
-        android:id="@+id/name"
-        android:layout_width="150dp"
-        android:layout_height="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_toRightOf="@id/thumbnail"
-        android:background="@color/placeholder_bg" />
-
-    <View
-        android:layout_width="100dp"
-        android:layout_height="@dimen/placeholder_text_height"
-        android:layout_below="@id/name"
-        android:layout_toRightOf="@id/thumbnail"
-        android:background="@color/placeholder_bg" />
-
-    <LinearLayout
+    <androidx.cardview.widget.CardView
+        android:layout_marginTop="2dp"
+        android:elevation="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/thumbnail"
-        android:layout_marginBottom="40dp"
-        android:layout_marginTop="20dp"
-        android:orientation="vertical">
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/whiteColor"
+        app:cardElevation="5dp">
 
-        <View
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/placeholder_text_height"
-            android:layout_marginRight="100dp"
-            android:background="@color/placeholder_bg" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/placeholder_text_height"
-            android:layout_marginRight="50dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/placeholder_bg" />
+            <LinearLayout
+                android:id="@+id/pet_deatils_LL"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:weightSum="3">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/placeholder_text_height"
-            android:layout_marginRight="160dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/placeholder_bg" />
+                <LinearLayout
+                    android:id="@+id/petRegImage_LL"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="5dp">
 
-    </LinearLayout>
+                    <View
+                        android:background="@color/placeholder_bg"
+                        android:id="@+id/petRegImage_IV"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/petRegMiddle_LL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <View
+                            android:background="@color/placeholder_bg"
+                            android:layout_width="match_parent"
+                            android:layout_height="8dp"
+                            android:textColor="#000"
+                            android:textSize="15dp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="25dp"
+                        android:orientation="vertical">
+
+
+                        <View
+                            android:background="@color/placeholder_bg"
+                            android:layout_width="match_parent"
+                            android:layout_height="8dp"
+                            android:textColor="#000"
+                            android:textSize="15dp"
+                            android:textStyle="bold" />
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="10dp">
+
+                        <View
+                            android:background="@color/placeholder_bg"
+                            android:layout_width="match_parent"
+                            android:layout_height="8dp"
+                            android:textColor="#000"
+                            android:textSize="15dp"
+                            android:textStyle="bold" />
+
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="25dp"
+                        android:orientation="vertical"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="10dp">
+
+                        <View
+                            android:background="@color/placeholder_bg"
+                            android:layout_width="match_parent"
+                            android:layout_height="8dp"
+                            android:textColor="#000"
+                            android:textSize="15dp"
+                            android:textStyle="bold" />
+
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+
+            <View
+                android:id="@+id/view_reg_pet_details_BT"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="0.5"
+                android:background="@color/placeholder_bg"
+                android:text="@string/viewDetails"
+                android:textColor="@color/whiteColor" />
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+
 
 </RelativeLayout>

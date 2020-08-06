@@ -1325,7 +1325,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
     }
 
     @Override
-    public void onError(Throwable t, String key) {}
+    public void onError(Throwable t, String key) {methods.customProgressDismiss();}
 
     private void setCountrySpinner() {
         ArrayAdapter aa = new ArrayAdapter(UpdateProfileActivity.this,android.R.layout.simple_spinner_item,countery);

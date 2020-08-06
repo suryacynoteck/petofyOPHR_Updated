@@ -96,7 +96,6 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onResponse(Response response, String key) {
-        methods.customProgressDismiss();
         switch (key)
         {
             case "GetUserDetails":
@@ -131,7 +130,6 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onError(Throwable t, String key) {
-        methods.customProgressDismiss();
         Log.e("error",t.getMessage());
         Log.e("errrrr",t.getLocalizedMessage());
 

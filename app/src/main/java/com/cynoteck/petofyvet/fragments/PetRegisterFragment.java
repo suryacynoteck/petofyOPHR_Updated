@@ -88,8 +88,8 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, Regis
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.register_add_TV:
-                 startActivity(new Intent(getActivity(),AddPetRegister.class));
-                 break;
+                startActivity(new Intent(getActivity(),AddPetRegister.class));
+                break;
         }
 
     }

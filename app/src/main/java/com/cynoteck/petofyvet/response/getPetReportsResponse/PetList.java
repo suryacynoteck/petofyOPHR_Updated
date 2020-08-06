@@ -9,9 +9,9 @@ public class PetList {
 
     private String secondServiceImageUrl;
 
-    private ArrayList<String> petClinicVisit;
+    private String[] petClinicVisit;
 
-    private ArrayList<String> petHospitalizationsSurgeries;
+    private String[] petHospitalizationsSurgeries;
 
     private String petAgeList;
 
@@ -93,7 +93,7 @@ public class PetList {
 
     private String userId;
 
-    private String[] petDetailImageList;
+    private ArrayList<PetDetailImageList> petDetailImageList;
 
     private String firstServiceImageUrl;
 
@@ -109,435 +109,539 @@ public class PetList {
 
     private User user;
 
-    public String getPetAge() {
+    public String getPetAge ()
+    {
         return petAge;
     }
 
-    public void setPetAge(String petAge) {
+    public void setPetAge (String petAge)
+    {
         this.petAge = petAge;
     }
 
-    public String getPageNumber() {
+    public String getPageNumber ()
+    {
         return pageNumber;
     }
 
-    public void setPageNumber(String pageNumber) {
+    public void setPageNumber (String pageNumber)
+    {
         this.pageNumber = pageNumber;
     }
 
-    public String getSecondServiceImageUrl() {
+    public String getSecondServiceImageUrl ()
+    {
         return secondServiceImageUrl;
     }
 
-    public void setSecondServiceImageUrl(String secondServiceImageUrl) {
+    public void setSecondServiceImageUrl (String secondServiceImageUrl)
+    {
         this.secondServiceImageUrl = secondServiceImageUrl;
     }
 
-    public ArrayList<String> getPetClinicVisit() {
+    public String[] getPetClinicVisit ()
+    {
         return petClinicVisit;
     }
 
-    public void setPetClinicVisit(ArrayList<String> petClinicVisit) {
+    public void setPetClinicVisit (String[] petClinicVisit)
+    {
         this.petClinicVisit = petClinicVisit;
     }
 
-    public ArrayList<String> getPetHospitalizationsSurgeries() {
+    public String[] getPetHospitalizationsSurgeries ()
+    {
         return petHospitalizationsSurgeries;
     }
 
-    public void setPetHospitalizationsSurgeries(ArrayList<String> petHospitalizationsSurgeries) {
+    public void setPetHospitalizationsSurgeries (String[] petHospitalizationsSurgeries)
+    {
         this.petHospitalizationsSurgeries = petHospitalizationsSurgeries;
     }
 
-    public String getPetAgeList() {
+    public String getPetAgeList ()
+    {
         return petAgeList;
     }
 
-    public void setPetAgeList(String petAgeList) {
+    public void setPetAgeList (String petAgeList)
+    {
         this.petAgeList = petAgeList;
     }
 
-    public String getOtherBreedName() {
+    public String getOtherBreedName ()
+    {
         return otherBreedName;
     }
 
-    public void setOtherBreedName(String otherBreedName) {
+    public void setOtherBreedName (String otherBreedName)
+    {
         this.otherBreedName = otherBreedName;
     }
 
-    public String getPetAgeId() {
+    public String getPetAgeId ()
+    {
         return petAgeId;
     }
 
-    public void setPetAgeId(String petAgeId) {
+    public void setPetAgeId (String petAgeId)
+    {
         this.petAgeId = petAgeId;
     }
 
-    public String getPetParentName() {
+    public String getPetParentName ()
+    {
         return petParentName;
     }
 
-    public void setPetParentName(String petParentName) {
+    public void setPetParentName (String petParentName)
+    {
         this.petParentName = petParentName;
     }
 
-    public String getId() {
+    public String getId ()
+    {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId (String id)
+    {
         this.id = id;
     }
 
-    public String getPetCategoryId() {
+    public String getPetCategoryId ()
+    {
         return petCategoryId;
     }
 
-    public void setPetCategoryId(String petCategoryId) {
+    public void setPetCategoryId (String petCategoryId)
+    {
         this.petCategoryId = petCategoryId;
     }
 
-    public String getOtherSizeName() {
+    public String getOtherSizeName ()
+    {
         return otherSizeName;
     }
 
-    public void setOtherSizeName(String otherSizeName) {
+    public void setOtherSizeName (String otherSizeName)
+    {
         this.otherSizeName = otherSizeName;
     }
 
-    public String getPetSizeList() {
+    public String getPetSizeList ()
+    {
         return petSizeList;
     }
 
-    public void setPetSizeList(String petSizeList) {
+    public void setPetSizeList (String petSizeList)
+    {
         this.petSizeList = petSizeList;
     }
 
-    public String getPetSex() {
+    public String getPetSex ()
+    {
         return petSex;
     }
 
-    public void setPetSex(String petSex) {
+    public void setPetSex (String petSex)
+    {
         this.petSex = petSex;
     }
 
-    public String getPetTypeList() {
+    public String getPetTypeList ()
+    {
         return petTypeList;
     }
 
-    public void setPetTypeList(String petTypeList) {
+    public void setPetTypeList (String petTypeList)
+    {
         this.petTypeList = petTypeList;
     }
 
-    public String getPetBreedList() {
+    public String getPetBreedList ()
+    {
         return petBreedList;
     }
 
-    public void setPetBreedList(String petBreedList) {
+    public void setPetBreedList (String petBreedList)
+    {
         this.petBreedList = petBreedList;
     }
 
-    public String getPetColor() {
+    public String getPetColor ()
+    {
         return petColor;
     }
 
-    public void setPetColor(String petColor) {
+    public void setPetColor (String petColor)
+    {
         this.petColor = petColor;
     }
 
-    public String getThirdServiceImageUrl() {
+    public String getThirdServiceImageUrl ()
+    {
         return thirdServiceImageUrl;
     }
 
-    public void setThirdServiceImageUrl(String thirdServiceImageUrl) {
+    public void setThirdServiceImageUrl (String thirdServiceImageUrl)
+    {
         this.thirdServiceImageUrl = thirdServiceImageUrl;
     }
 
-    public String getFourthServiceImageUrl() {
+    public String getFourthServiceImageUrl ()
+    {
         return fourthServiceImageUrl;
     }
 
-    public void setFourthServiceImageUrl(String fourthServiceImageUrl) {
+    public void setFourthServiceImageUrl (String fourthServiceImageUrl)
+    {
         this.fourthServiceImageUrl = fourthServiceImageUrl;
     }
 
-    public String getPetBreed() {
+    public String getPetBreed ()
+    {
         return petBreed;
     }
 
-    public void setPetBreed(String petBreed) {
+    public void setPetBreed (String petBreed)
+    {
         this.petBreed = petBreed;
     }
 
-    public String getBarcodeUrl() {
+    public String getBarcodeUrl ()
+    {
         return barcodeUrl;
     }
 
-    public void setBarcodeUrl(String barcodeUrl) {
+    public void setBarcodeUrl (String barcodeUrl)
+    {
         this.barcodeUrl = barcodeUrl;
     }
 
-    public String getRole() {
+    public String getRole ()
+    {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole (String role)
+    {
         this.role = role;
     }
 
-    public String getPetColorId() {
+    public String getPetColorId ()
+    {
         return petColorId;
     }
 
-    public void setPetColorId(String petColorId) {
+    public void setPetColorId (String petColorId)
+    {
         this.petColorId = petColorId;
     }
 
-    public String getPetSizeId() {
+    public String getPetSizeId ()
+    {
         return petSizeId;
     }
 
-    public void setPetSizeId(String petSizeId) {
+    public void setPetSizeId (String petSizeId)
+    {
         this.petSizeId = petSizeId;
     }
 
-    public String getDescription() {
+    public String getDescription ()
+    {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription (String description)
+    {
         this.description = description;
     }
 
-    public String getPetSexId() {
+    public String getPetSexId ()
+    {
         return petSexId;
     }
 
-    public void setPetSexId(String petSexId) {
+    public void setPetSexId (String petSexId)
+    {
         this.petSexId = petSexId;
     }
 
-    public String getPetName() {
+    public String getPetName ()
+    {
         return petName;
     }
 
-    public void setPetName(String petName) {
+    public void setPetName (String petName)
+    {
         this.petName = petName;
     }
 
-    public String getOtherAgeName() {
+    public String getOtherAgeName ()
+    {
         return otherAgeName;
     }
 
-    public void setOtherAgeName(String otherAgeName) {
+    public void setOtherAgeName (String otherAgeName)
+    {
         this.otherAgeName = otherAgeName;
     }
 
-    public String getNumberOfRecords() {
+    public String getNumberOfRecords ()
+    {
         return numberOfRecords;
     }
 
-    public void setNumberOfRecords(String numberOfRecords) {
+    public void setNumberOfRecords (String numberOfRecords)
+    {
         this.numberOfRecords = numberOfRecords;
     }
 
-    public String getContactNumber() {
+    public String getContactNumber ()
+    {
         return contactNumber;
     }
 
-    public void setContactNumber(String contactNumber) {
+    public void setContactNumber (String contactNumber)
+    {
         this.contactNumber = contactNumber;
     }
 
-    public String[] getPetLabwork() {
+    public String[] getPetLabwork ()
+    {
         return petLabwork;
     }
 
-    public void setPetLabwork(String[] petLabwork) {
+    public void setPetLabwork (String[] petLabwork)
+    {
         this.petLabwork = petLabwork;
     }
 
-    public String getPetCategory() {
+    public String getPetCategory ()
+    {
         return petCategory;
     }
 
-    public void setPetCategory(String petCategory) {
+    public void setPetCategory (String petCategory)
+    {
         this.petCategory = petCategory;
     }
 
-    public String getFifthServiceImageUrl() {
+    public String getFifthServiceImageUrl ()
+    {
         return fifthServiceImageUrl;
     }
 
-    public void setFifthServiceImageUrl(String fifthServiceImageUrl) {
+    public void setFifthServiceImageUrl (String fifthServiceImageUrl)
+    {
         this.fifthServiceImageUrl = fifthServiceImageUrl;
     }
 
-    public String getPetBreedId() {
+    public String getPetBreedId ()
+    {
         return petBreedId;
     }
 
-    public void setPetBreedId(String petBreedId) {
+    public void setPetBreedId (String petBreedId)
+    {
         this.petBreedId = petBreedId;
     }
 
-    public String getPetUniqueId() {
+    public String getPetUniqueId ()
+    {
         return petUniqueId;
     }
 
-    public void setPetUniqueId(String petUniqueId) {
+    public void setPetUniqueId (String petUniqueId)
+    {
         this.petUniqueId = petUniqueId;
     }
 
-    public String[] getPetTestsAndXrey() {
+    public String[] getPetTestsAndXrey ()
+    {
         return petTestsAndXrey;
     }
 
-    public void setPetTestsAndXrey(String[] petTestsAndXrey) {
+    public void setPetTestsAndXrey (String[] petTestsAndXrey)
+    {
         this.petTestsAndXrey = petTestsAndXrey;
     }
 
-    public String getPetSize() {
+    public String getPetSize ()
+    {
         return petSize;
     }
 
-    public void setPetSize(String petSize) {
+    public void setPetSize (String petSize)
+    {
         this.petSize = petSize;
     }
 
-    public String getCreateDate() {
+    public String getCreateDate ()
+    {
         return createDate;
     }
 
-    public void setCreateDate(String createDate) {
+    public void setCreateDate (String createDate)
+    {
         this.createDate = createDate;
     }
 
-    public String getPetSexList() {
+    public String getPetSexList ()
+    {
         return petSexList;
     }
 
-
-    public void setPetSexList(String petSexList) {
+    public void setPetSexList (String petSexList)
+    {
         this.petSexList = petSexList;
     }
 
-    public String getAddress() {
+    public String getAddress ()
+    {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress (String address)
+    {
         this.address = address;
     }
 
-    public String getStateList() {
+    public String getStateList ()
+    {
         return stateList;
     }
 
-    public void setStateList(String stateList) {
+    public void setStateList (String stateList)
+    {
         this.stateList = stateList;
     }
 
-    public String getPetType() {
+    public String getPetType ()
+    {
         return petType;
     }
 
-    public void setPetType(String petType) {
+    public void setPetType (String petType)
+    {
         this.petType = petType;
     }
 
-    public String getDateOfBirth() {
+    public String getDateOfBirth ()
+    {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(String dateOfBirth) {
+    public void setDateOfBirth (String dateOfBirth)
+    {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public String getCityList() {
+    public String getCityList ()
+    {
         return cityList;
     }
 
-    public void setCityList(String cityList) {
+    public void setCityList (String cityList)
+    {
         this.cityList = cityList;
     }
 
-    public String getUserId() {
+    public String getUserId ()
+    {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId (String userId)
+    {
         this.userId = userId;
     }
 
-    public String[] getPetDetailImageList() {
+    public ArrayList<PetDetailImageList> getPetDetailImageList ()
+    {
         return petDetailImageList;
     }
 
-    public void setPetDetailImageList(String[] petDetailImageList) {
+    public void setPetDetailImageList (ArrayList<PetDetailImageList> petDetailImageList)
+    {
         this.petDetailImageList = petDetailImageList;
     }
 
-    public String getFirstServiceImageUrl() {
+    public String getFirstServiceImageUrl ()
+    {
         return firstServiceImageUrl;
     }
 
-    public void setFirstServiceImageUrl(String firstServiceImageUrl) {
+    public void setFirstServiceImageUrl (String firstServiceImageUrl)
+    {
         this.firstServiceImageUrl = firstServiceImageUrl;
     }
 
-    public String getIsAddedToRegister() {
+    public String getIsAddedToRegister ()
+    {
         return isAddedToRegister;
     }
 
-    public void setIsAddedToRegister(String isAddedToRegister) {
+    public void setIsAddedToRegister (String isAddedToRegister)
+    {
         this.isAddedToRegister = isAddedToRegister;
     }
 
-    public String getEncryptedId() {
+    public String getEncryptedId ()
+    {
         return encryptedId;
     }
 
-    public void setEncryptedId(String encryptedId) {
+    public void setEncryptedId (String encryptedId)
+    {
         this.encryptedId = encryptedId;
     }
 
-    public String getPetColorList() {
+    public String getPetColorList ()
+    {
         return petColorList;
     }
 
-    public void setPetColorList(String petColorList) {
+    public void setPetColorList (String petColorList)
+    {
         this.petColorList = petColorList;
     }
 
-    public String getOtherColorName() {
+    public String getOtherColorName ()
+    {
         return otherColorName;
     }
 
-    public void setOtherColorName(String otherColorName) {
+    public void setOtherColorName (String otherColorName)
+    {
         this.otherColorName = otherColorName;
     }
 
-    public String getPetProfileImageUrl() {
+    public String getPetProfileImageUrl ()
+    {
         return petProfileImageUrl;
     }
 
-    public void setPetProfileImageUrl(String petProfileImageUrl) {
+    public void setPetProfileImageUrl (String petProfileImageUrl)
+    {
         this.petProfileImageUrl = petProfileImageUrl;
     }
 
-    public User getUser() {
+    public User getUser ()
+    {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser (User user)
+    {
         this.user = user;
     }
 
     @Override
-    public String toString() {
-        return "ClassPojo [petAge = " + petAge + ", pageNumber = " + pageNumber + ", secondServiceImageUrl = " + secondServiceImageUrl + ", petClinicVisit = " + petClinicVisit + ", petHospitalizationsSurgeries = " + petHospitalizationsSurgeries + ", petAgeList = " + petAgeList + ", otherBreedName = " + otherBreedName + ", petAgeId = " + petAgeId + ", petParentName = " + petParentName + ", id = " + id + ", petCategoryId = " + petCategoryId + ", otherSizeName = " + otherSizeName + ", petSizeList = " + petSizeList + ", petSex = " + petSex + ", petTypeList = " + petTypeList + ", petBreedList = " + petBreedList + ", petColor = " + petColor + ", thirdServiceImageUrl = " + thirdServiceImageUrl + ", fourthServiceImageUrl = " + fourthServiceImageUrl + ", petBreed = " + petBreed + ", barcodeUrl = " + barcodeUrl + ", role = " + role + ", petColorId = " + petColorId + ", petSizeId = " + petSizeId + ", description = " + description + ", petSexId = " + petSexId + ", petName = " + petName + ", otherAgeName = " + otherAgeName + ", numberOfRecords = " + numberOfRecords + ", contactNumber = " + contactNumber + ", petLabwork = " + petLabwork + ", petCategory = " + petCategory + ", fifthServiceImageUrl = " + fifthServiceImageUrl + ", petBreedId = " + petBreedId + ", petUniqueId = " + petUniqueId + ", petTestsAndXrey = " + petTestsAndXrey + ", petSize = " + petSize + ", createDate = " + createDate + ", petSexList = " + petSexList + ", address = " + address + ", stateList = " + stateList + ", petType = " + petType + ", dateOfBirth = " + dateOfBirth + ", cityList = " + cityList + ", userId = " + userId + ", petDetailImageList = " + petDetailImageList + ", firstServiceImageUrl = " + firstServiceImageUrl + ", isAddedToRegister = " + isAddedToRegister + ", encryptedId = " + encryptedId + ", petColorList = " + petColorList + ", otherColorName = " + otherColorName + ", petProfileImageUrl = " + petProfileImageUrl + ", user = " + user + "]";
-
+    public String toString()
+    {
+        return "ClassPojo [petAge = "+petAge+", pageNumber = "+pageNumber+", secondServiceImageUrl = "+secondServiceImageUrl+", petClinicVisit = "+petClinicVisit+", petHospitalizationsSurgeries = "+petHospitalizationsSurgeries+", petAgeList = "+petAgeList+", otherBreedName = "+otherBreedName+", petAgeId = "+petAgeId+", petParentName = "+petParentName+", id = "+id+", petCategoryId = "+petCategoryId+", otherSizeName = "+otherSizeName+", petSizeList = "+petSizeList+", petSex = "+petSex+", petTypeList = "+petTypeList+", petBreedList = "+petBreedList+", petColor = "+petColor+", thirdServiceImageUrl = "+thirdServiceImageUrl+", fourthServiceImageUrl = "+fourthServiceImageUrl+", petBreed = "+petBreed+", barcodeUrl = "+barcodeUrl+", role = "+role+", petColorId = "+petColorId+", petSizeId = "+petSizeId+", description = "+description+", petSexId = "+petSexId+", petName = "+petName+", otherAgeName = "+otherAgeName+", numberOfRecords = "+numberOfRecords+", contactNumber = "+contactNumber+", petLabwork = "+petLabwork+", petCategory = "+petCategory+", fifthServiceImageUrl = "+fifthServiceImageUrl+", petBreedId = "+petBreedId+", petUniqueId = "+petUniqueId+", petTestsAndXrey = "+petTestsAndXrey+", petSize = "+petSize+", createDate = "+createDate+", petSexList = "+petSexList+", address = "+address+", stateList = "+stateList+", petType = "+petType+", dateOfBirth = "+dateOfBirth+", cityList = "+cityList+", userId = "+userId+", petDetailImageList = "+petDetailImageList+", firstServiceImageUrl = "+firstServiceImageUrl+", isAddedToRegister = "+isAddedToRegister+", encryptedId = "+encryptedId+", petColorList = "+petColorList+", otherColorName = "+otherColorName+", petProfileImageUrl = "+petProfileImageUrl+", user = "+user+"]";
     }
-
 }

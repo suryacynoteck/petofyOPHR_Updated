@@ -109,6 +109,7 @@ public class RegisterActivity extends FragmentActivity implements ApiResponse, V
 
     @Override
     public void onError(Throwable t, String key) {
+        methods.customProgressDismiss();
 
     }
 
