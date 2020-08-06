@@ -44,10 +44,11 @@
                 android:layout_width="wrap_content"
                 android:background="@drawable/searchbox"
                 android:layout_centerVertical="true">
+
                 <EditText
-                    android:maxLines="1"
+                    android:imeOptions="actionSearch"
+                    android:singleLine="true"
                     android:id="@+id/search_box"
-                    android:clickable="false"
                     android:paddingRight="8dp"
                     android:paddingLeft="8dp"
                     android:layout_centerVertical="true"

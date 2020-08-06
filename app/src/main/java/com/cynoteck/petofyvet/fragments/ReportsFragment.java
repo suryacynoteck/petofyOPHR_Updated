@@ -164,7 +164,7 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
         selectReportsIntent.putExtras(data);
         startActivity(selectReportsIntent);
         getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
-        clearSearch();
+//        clearSearch();
 
     }
 
@@ -202,9 +202,7 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
                 break;
 
             case R.id.search_IV:
-                search_box.requestFocus();
-                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+
                 search_boxRL.setVisibility(View.VISIBLE);
                 back_arrow_IV.setVisibility(View.VISIBLE);
                 reports_headline_TV.setVisibility(View.GONE);

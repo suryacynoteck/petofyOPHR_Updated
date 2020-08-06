@@ -57,8 +57,6 @@
 
         <activity
             android:name=".activities.LoginActivity"
-            android:theme="@android:style/Theme.Translucent"
-            android:configChanges="screenSize|orientation"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
