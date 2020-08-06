@@ -119,6 +119,7 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
                     int responseCode = Integer.parseInt(getPetListResponse.getResponse().getResponseCode());
 
                     if (responseCode== 109){
+                        search_IV.setVisibility(View.VISIBLE);
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
                         petList_RV.setLayoutManager(linearLayoutManager);
                         reportsAdapter  = new ReportsAdapter(getContext(),getPetListResponse.getData().getPetList(),this);
@@ -204,6 +205,8 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
             case R.id.search_IV:
 
                 search_boxRL.setVisibility(View.VISIBLE);
+                InputMethodManager imm1 = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm1.hideSoftInputFromWindow(search_box.getWindowToken(), 0);
                 back_arrow_IV.setVisibility(View.VISIBLE);
                 reports_headline_TV.setVisibility(View.GONE);
                 break;
