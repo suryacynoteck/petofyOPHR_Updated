@@ -65,9 +65,10 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
     }
 
     private void getPetList() {
+        methods.showCustomProgressBarDialog(getActivity());
         PetDataParams getPetDataParams = new PetDataParams();
-        getPetDataParams.setPageNumber("1");
-        getPetDataParams.setPageSize("2");
+        getPetDataParams.setPageNumber("0");
+        getPetDataParams.setPageSize("0");
         getPetDataParams.setSearch_Data("");
         PetDataRequest getPetDataRequest = new PetDataRequest();
         getPetDataRequest.setData(getPetDataParams);
@@ -83,7 +84,9 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
 
     @Override
     public void onResponse(Response response, String key) {
+        methods.customProgressDismiss();
         switch (key){
+
             case "GetPetList":
                 try {
                     GetPetListResponse getPetListResponse = (GetPetListResponse) response.body();
