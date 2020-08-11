@@ -54,7 +54,9 @@
         <activity android:name=".activities.SelectPetReportsActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity"></activity>
-
+        <activity android:name=".activities.GetPetDetailsActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"></activity>
         <activity
             android:name=".activities.LoginActivity"
             android:screenOrientation="portrait"

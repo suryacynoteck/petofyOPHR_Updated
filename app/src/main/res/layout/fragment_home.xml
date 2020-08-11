@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/mainHome"
     tools:context=".fragments.HomeFragment">
 
@@ -23,6 +24,7 @@
     </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar"
@@ -82,6 +84,184 @@
                 android:layout_weight="1"
                 android:src="@drawable/pets_icon" />
         </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:background="#55CAC6C6"
+        android:visibility="visible"
+        android:weightSum="2"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar">
+
+        <LinearLayout
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginBottom="15dp"
+            android:layout_weight="1"
+            android:weightSum="2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/reports_CV"
+                app:cardCornerRadius="10dp"
+                android:elevation="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="50dp"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:padding="10dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/report_icon"/>
+
+                    <TextView
+                        android:padding="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/reports"
+                        android:layout_alignParentBottom="true"
+                        android:textSize="18sp"
+                        android:textColor="@color/grayColor"
+                        android:layout_marginBottom="15dp"/>
+                </RelativeLayout>
+
+
+
+
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/appoint_CV"
+                app:cardCornerRadius="10dp"
+                android:elevation="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="50dp"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:padding="10dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/appoint_icon"/>
+
+                    <TextView
+                        android:padding="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/appointments"
+                        android:layout_alignParentBottom="true"
+                        android:textSize="18sp"
+                        android:textColor="@color/grayColor"
+                        android:layout_marginBottom="15dp"/>
+                </RelativeLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginBottom="50dp"
+            android:layout_weight="1"
+            android:weightSum="2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/staff_CV"
+                app:cardCornerRadius="10dp"
+                android:elevation="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="50dp"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:padding="10dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/all_staff_icon"/>
+
+                    <TextView
+                        android:padding="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/staff"
+                        android:layout_alignParentBottom="true"
+                        android:textSize="18sp"
+                        android:textColor="@color/grayColor"
+                        android:layout_marginBottom="15dp"/>
+                </RelativeLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/allPets_CV"
+                app:cardCornerRadius="10dp"
+                android:elevation="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="50dp"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:padding="10dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/all_pet_icon"/>
+
+                    <TextView
+                        android:padding="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/allpets"
+                        android:layout_alignParentBottom="true"
+                        android:textSize="18sp"
+                        android:textColor="@color/grayColor"
+                        android:layout_marginBottom="15dp"/>
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
 
     </LinearLayout>
 

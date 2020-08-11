@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,6 +26,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
     ImageView reports_IV;
     RelativeLayout mainHome;
     Methods methods;
+    CardView reports_CV, all_staff_CV;
 
     @Override
     public void onAttach(Context context) {
@@ -48,20 +50,29 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
 
     private void init() {
         methods = new Methods(context);
-
+        reports_CV=view.findViewById(R.id.reports_CV);
+        all_staff_CV = view.findViewById(R.id.staff_CV);
         reports_IV = view.findViewById(R.id.reports_IV);
         mainHome=view.findViewById(R.id.mainHome);
         pet_list_RV=view.findViewById(R.id.pet_id_TV);
         reports_IV.setOnClickListener(this);
+        reports_CV.setOnClickListener(this);
+        all_staff_CV.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.reports_IV:
-                mainHome.setVisibility(View.GONE);
+            case R.id.reports_CV:
                 ReportsFragment profileFragment = new ReportsFragment();
                 replaceFragment(profileFragment);
+                break;
+
+            case R.id.staff_CV:
+
+                AllStaffFragment allStaffFragment = new AllStaffFragment();
+                replaceFragment(allStaffFragment);
+
                 break;
         }
 
@@ -69,7 +80,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
 
     private void replaceFragment(Fragment fragment) {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.add(R.id.content_frame, fragment);
+        transaction.replace(R.id.content_frame, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }

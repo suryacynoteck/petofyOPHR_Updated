@@ -11,8 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cynoteck.petofyvet.R;
-import com.cynoteck.petofyvet.adapters.petRegisterAdapter.RegisterRecyclerViewClickListener;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.GetReportsTypeData;
+import com.cynoteck.petofyvet.utils.RegisterRecyclerViewClickListener;
 
 import java.util.List;
 

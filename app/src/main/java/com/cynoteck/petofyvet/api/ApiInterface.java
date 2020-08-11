@@ -1,6 +1,10 @@
 package com.cynoteck.petofyvet.api;
 
 import com.cynoteck.petofyvet.params.addParamRequest.AddPetRequset;
+import com.cynoteck.petofyvet.params.allStaffRequest.AddStaffRequest;
+import com.cynoteck.petofyvet.params.allStaffRequest.ChangeStaffStatusRequest;
+import com.cynoteck.petofyvet.params.allStaffRequest.StaffDeatilsRequest;
+import com.cynoteck.petofyvet.params.allStaffRequest.UpdateStaffRequest;
 import com.cynoteck.petofyvet.params.changePassRequest.ChangePassRequest;
 import com.cynoteck.petofyvet.params.forgetPassRequest.ForgetPassRequest;
 import com.cynoteck.petofyvet.params.getPetListRequest.GetPetListRequest;
@@ -25,6 +29,10 @@ import com.cynoteck.petofyvet.response.getPetReportsResponse.GetPetHospitalizati
 import com.cynoteck.petofyvet.response.getPetReportsResponse.GetPetListResponse;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.GetPetTestAndXRayResponse;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.GetReportsTypeResponse;
+import com.cynoteck.petofyvet.response.getStaffResponse.GetAllStaffResponse;
+import com.cynoteck.petofyvet.response.getStaffResponse.GetStaffDetailsResponse;
+import com.cynoteck.petofyvet.response.getStaffResponse.GetStaffStatusResponse;
+import com.cynoteck.petofyvet.response.getStaffResponse.GetUpdateStaffResponse;
 import com.cynoteck.petofyvet.response.loginRegisterResponse.LoginRegisterResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.CityResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.CountryResponse;
@@ -128,6 +136,9 @@ public interface ApiInterface {
     Call<ImageResponse> uploadImages(@Header("Authorization") String auth,
                                       @Part MultipartBody.Part file);
 
+
+    //reports section.........................................
+
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @GET("report/GetVisitTypes")
     Call<GetReportsTypeResponse> getReportsType(@Header("Authorization") String auth);
@@ -141,17 +152,32 @@ public interface ApiInterface {
     Call<GetPetTestAndXRayResponse> getPetTestAndXRay(@Header("Authorization") String auth, @Body VisitTypeRequest visitTypeRequest);
 
 
-/*
-    @Headers({ "Content-Type: application/json;charset=UTF-8"})
-    @POST("report/GetPetClinicVisits")
-    Call<GetPetClinicVisitListResponse> getPetClinicVisits(@Header("Authorization") String auth, @Body VisitTypeRequest visitTypeRequest);
-*/
-
-
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("report/GetPetHospitalization")
     Call<GetPetHospitalizationResponse> getPetHospitalization(@Header("Authorization") String auth, @Body VisitTypeRequest visitTypeRequest);
 
+
+    //All Staff Section .....................................................
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("staff/AddStaff")
+    Call<GetStaffDetailsResponse> addNewStaff(@Header("Authorization") String auth, @Body AddStaffRequest addStaffRequest);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("staff/UpdateStaff")
+    Call<GetUpdateStaffResponse> updateStaff(@Header("Authorization") String auth, @Body UpdateStaffRequest updateStaffRequest);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @GET("staff/GetStaffList")
+    Call<GetAllStaffResponse> getAllStaff(@Header("Authorization") String auth);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("staff/GetStaff")
+    Call<GetStaffDetailsResponse> getStaffDeatils(@Header("Authorization") String auth, @Body StaffDeatilsRequest staffDeatilsRequest);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("staff/ChangeStatus")
+    Call<GetStaffStatusResponse> getStaffStatus(@Header("Authorization") String auth, @Body ChangeStaffStatusRequest changeStaffStatusRequest);
 
 }
 

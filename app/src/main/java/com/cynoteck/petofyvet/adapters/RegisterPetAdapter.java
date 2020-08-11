@@ -1,4 +1,4 @@
-package com.cynoteck.petofyvet.adapters.petRegisterAdapter;
+package com.cynoteck.petofyvet.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.PetList;
+import com.cynoteck.petofyvet.utils.RegisterRecyclerViewClickListener;
 
 import java.util.List;
 
@@ -25,6 +26,7 @@ public class RegisterPetAdapter extends RecyclerView.Adapter<RegisterPetAdapter.
         this.context = context;
         this.profileList = profileList;
         this.onProductItemClickListner=onProductItemClickListner;
+
     }
 
     @NonNull
