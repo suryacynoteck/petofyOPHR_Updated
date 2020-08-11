@@ -54,6 +54,7 @@ public class AllStaffFragment extends Fragment implements ApiResponse, StaffList
     String email_id, first_name, last_name, password, confirm_password, phone_number,encrypt_id;
     EditText nameET,lastET,emailET,mobileET,passwordET,confirmPassET;
     Button cancel_button, submit_button, update_button,update_cancel_button;
+    String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
     public AllStaffFragment() {
     }
@@ -178,8 +179,22 @@ public class AllStaffFragment extends Fragment implements ApiResponse, StaffList
                     mobileET.setError(null);
                     passwordET.setError(null);
                     confirmPassET.setError(null);
+                }else if (!email_id.matches(emailPattern)) {
+                    emailET.setError("Invalid Email");
+                    lastET.setError(null);
+                    nameET.setError(null);
+                    mobileET.setError(null);
+                    passwordET.setError(null);
+                    confirmPassET.setError(null);
                 }else if (phone_number.isEmpty()){
                     mobileET.setError("Phone number is empty");
+                    lastET.setError(null);
+                    emailET.setError(null);
+                    nameET.setError(null);
+                    passwordET.setError(null);
+                    confirmPassET.setError(null);
+                }else if (phone_number.length()<10){
+                    mobileET.setError("Invalid number");
                     lastET.setError(null);
                     emailET.setError(null);
                     nameET.setError(null);
@@ -205,6 +220,13 @@ public class AllStaffFragment extends Fragment implements ApiResponse, StaffList
                     emailET.setError(null);
                     mobileET.setError(null);
                     passwordET.setError(null);
+                    nameET.setError(null);
+                }else if (password.length()<6){
+                    passwordET.setError("Password is to short");
+                    lastET.setError(null);
+                    emailET.setError(null);
+                    mobileET.setError(null);
+                    confirmPassET.setError(null);
                     nameET.setError(null);
                 }else {
                     if (methods.isInternetOn()) {
@@ -251,8 +273,22 @@ public class AllStaffFragment extends Fragment implements ApiResponse, StaffList
                     mobileET.setError(null);
                     passwordET.setError(null);
                     confirmPassET.setError(null);
+                }else if (!email_id.matches(emailPattern)) {
+                    emailET.setError("Invalid Email");
+                    lastET.setError(null);
+                    nameET.setError(null);
+                    mobileET.setError(null);
+                    passwordET.setError(null);
+                    confirmPassET.setError(null);
                 }else if (phone_number.isEmpty()){
                     mobileET.setError("Phone number is empty");
+                    lastET.setError(null);
+                    emailET.setError(null);
+                    nameET.setError(null);
+                    passwordET.setError(null);
+                    confirmPassET.setError(null);
+                }else if (phone_number.length()<10){
+                    mobileET.setError("Invalid number");
                     lastET.setError(null);
                     emailET.setError(null);
                     nameET.setError(null);

@@ -52,10 +52,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
         methods = new Methods(context);
         reports_CV=view.findViewById(R.id.reports_CV);
         all_staff_CV = view.findViewById(R.id.staff_CV);
-        reports_IV = view.findViewById(R.id.reports_IV);
         mainHome=view.findViewById(R.id.mainHome);
         pet_list_RV=view.findViewById(R.id.pet_id_TV);
-        reports_IV.setOnClickListener(this);
         reports_CV.setOnClickListener(this);
         all_staff_CV.setOnClickListener(this);
     }

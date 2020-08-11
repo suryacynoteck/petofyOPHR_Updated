@@ -161,7 +161,7 @@
                     android:textSize="15dp"
                     android:background="@null"
                     android:paddingLeft="5dp"
-                    android:inputType="number"/>
+                    android:inputType="textPassword"/>
 
             </LinearLayout>
             <LinearLayout
@@ -180,6 +180,7 @@
                     android:layout_gravity="center_vertical"
                     android:padding="8dp"/>
                 <EditText
+                    android:inputType="textPassword"
                     android:hint="@string/confirmPassword"
                     android:id="@+id/confirm_passET"
                     android:layout_width="match_parent"
