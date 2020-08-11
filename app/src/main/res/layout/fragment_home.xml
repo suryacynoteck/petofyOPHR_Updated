@@ -30,17 +30,6 @@
         android:orientation="vertical"
         android:weightSum="2">
 
-        <Button
-            android:id="@+id/add_new_visit"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_gravity="right"
-            android:background="#9875D8"
-            android:text="Add New Visit"
-            android:textColor="#fff"
-            android:layout_marginRight="32dp"
-            android:layout_marginTop="10dp"/>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

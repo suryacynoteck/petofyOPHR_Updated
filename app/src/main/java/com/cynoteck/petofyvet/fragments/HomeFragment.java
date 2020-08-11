@@ -15,7 +15,6 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cynoteck.petofyvet.R;
-import com.cynoteck.petofyvet.activities.AddNewPet;
 import com.cynoteck.petofyvet.activities.CommonActivity;
 import com.cynoteck.petofyvet.api.ApiResponse;
 import com.cynoteck.petofyvet.utils.Methods;
@@ -27,7 +26,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
     Context context;
     View view;
     ImageView reports_IV,appointments;
-    Button add_new_visit;
     RelativeLayout mainHome;
     Methods methods;
 
@@ -58,10 +56,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
         mainHome=view.findViewById(R.id.mainHome);
         appointments=view.findViewById(R.id.appointments);
         pet_list_RV=view.findViewById(R.id.pet_id_TV);
-        add_new_visit=view.findViewById(R.id.add_new_visit);
         reports_IV.setOnClickListener(this);
         appointments.setOnClickListener(this);
-        add_new_visit.setOnClickListener(this);
     }
 
     @Override
@@ -74,9 +70,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
                 break;
             case R.id.appointments:
                 startActivity(new Intent(getActivity(), CommonActivity.class));
-                break;
-            case R.id.add_new_visit:
-                startActivity(new Intent(getActivity(), AddNewPet.class));
                 break;
         }
 
