@@ -32,8 +32,8 @@ import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.api.ApiClient;
 import com.cynoteck.petofyvet.api.ApiResponse;
 import com.cynoteck.petofyvet.api.ApiService;
-import com.cynoteck.petofyvet.params.updateRequest.getValue.updateParams;
-import com.cynoteck.petofyvet.params.updateRequest.getValue.updateRequest;
+import com.cynoteck.petofyvet.params.updateRequest.getValue.UpdateParams;
+import com.cynoteck.petofyvet.params.updateRequest.getValue.UpdateRequest;
 import com.cynoteck.petofyvet.response.addPet.imageUpload.ImageResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.CityResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.CountryResponse;
@@ -45,6 +45,7 @@ import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.gson.JsonObject;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -52,6 +53,8 @@ import com.karumi.dexter.listener.DexterError;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -467,9 +470,6 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                 else
                 {
                     //All data update api call from here.
-                    Log.d("hhjshhjsh",""+methods.removeLastElement(strCatId));
-                    Log.d("hhjshhjshhhhhh",""+methods.removeLastElement(strSrvsCatId));
-                    Toast.makeText(this, "success", Toast.LENGTH_SHORT).show();
                     service_category_updt.setError(null);
                     pet_category_updt.setError(null);
                     first_nm_layout.setError(null);
@@ -482,8 +482,8 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     social_media_url_layout.setError(null);
                     vet_registration_layout.setError(null);
                     vet_qualification_layout.setError(null);
-                    updateParams updateParams = new updateParams();
-                    updateRequest data = new updateRequest();
+                    UpdateParams updateParams = new UpdateParams();
+                    UpdateRequest data = new UpdateRequest();
                     data.setId(Config.user_id);
                     data.setName(strFirstNm+" "+strLstNm);
                     data.setFirstName(strFirstNm);
@@ -505,7 +505,6 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     data.setPostalCode(strPostlUpdt);
                     data.setSelectedPetTypeIds(methods.removeLastElement(strCatId));
                     data.setSelectedServiceTypeIds(methods.removeLastElement(strSrvsCatId));
-                    data.setSelectedCountryId(strCountryId);
                     data.setProfileImageUrl(strCatUrl1);
                     data.setServiceImageUrl("null");
                     data.setServiceImages("null");
@@ -515,9 +514,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     data.setFourthServiceImageUrl(strSrvsUrl4);
                     data.setFifthServiceImageUrl(strSrvsUrl5);
                     data.setCoverImageUrl(strCatUrl2);
-                    data.setIsVeterinarian("yes");
-                    data.setProviderUserId("null");
-                    data.setUserEmail(strEmlUpdt);
+                    data.setIsVeterinarian("true");
                     data.setVetQualifications(strVetQulafctnUpdt);
                     data.setVetRegistrationNumber(strRegistNumUpdt);
                     updateParams.setUpdateRequest(data);
@@ -696,7 +693,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
 
     }
 
-    private void updateUser(updateParams updateParams) {
+    private void updateUser(UpdateParams updateParams) {
         methods.showCustomProgressBarDialog(this);
         ApiService<UserResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().updateUser(Config.token,updateParams), "UpdateVeterinarian");
@@ -1127,6 +1124,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onResponse(Response response, String key) {
         methods.customProgressDismiss();
+        Log.d("kkdkkd",""+key);
         switch (key)
         {
             case "GetState":
@@ -1231,6 +1229,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     e.printStackTrace();
                 }
                 break;
+
             case "GetServiceTypes":
                 try {
                     Log.d("GetPetServiceTypes",response.body().toString());
@@ -1257,15 +1256,16 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     e.printStackTrace();
                 }
                 break;
+
             case "UpdateVeterinarian":
                 try {
                     Log.d("UpdateVeterinarian",response.body().toString());
-                    UserResponse petServiceResponse = (UserResponse) response.body();
-                    int responseCode = Integer.parseInt(petServiceResponse.getResponse().getResponseCode());
+                    UserResponse userResponse = (UserResponse) response.body();
+                    int responseCode = Integer.parseInt(userResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
                         Toast.makeText(UpdateProfileActivity.this, "Success", Toast.LENGTH_SHORT).show();
                     }else if (responseCode==614){
-                        Toast.makeText(UpdateProfileActivity.this, petServiceResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UpdateProfileActivity.this, userResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
                     }else {
                         Toast.makeText(UpdateProfileActivity.this, "Please Try Again !", Toast.LENGTH_SHORT).show();
                     }

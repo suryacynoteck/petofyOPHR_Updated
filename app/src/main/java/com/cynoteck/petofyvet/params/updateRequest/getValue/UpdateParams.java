@@ -1,13 +1,13 @@
 package com.cynoteck.petofyvet.params.updateRequest.getValue;
 
-public class updateParams {
-    private updateRequest data;
+public class UpdateParams {
+    private UpdateRequest data;
 
-    public updateRequest getUpdateRequest() {
+    public UpdateRequest getUpdateRequest() {
         return data;
     }
 
-    public void setUpdateRequest(updateRequest data) {
+    public void setUpdateRequest(UpdateRequest data) {
         this.data = data;
     }
 

@@ -9,7 +9,8 @@ import com.cynoteck.petofyvet.params.petBreedRequest.BreedParams;
 import com.cynoteck.petofyvet.params.petReportsRequest.PetDataRequest;
 import com.cynoteck.petofyvet.params.petReportsRequest.VisitTypeRequest;
 import com.cynoteck.petofyvet.params.registerRequest.Registerparams;
-import com.cynoteck.petofyvet.params.updateRequest.getValue.updateParams;
+import com.cynoteck.petofyvet.params.updateRequest.getValue.UpdateParams;
+import com.cynoteck.petofyvet.params.updateRequest.getValue.UpdateRequest;
 import com.cynoteck.petofyvet.params.updateRequest.updateParamRequest.UpdatePetRequest;
 import com.cynoteck.petofyvet.response.addPet.addPetResponse.AddPetValueResponse;
 import com.cynoteck.petofyvet.response.addPet.breedResponse.BreedCatRespose;
@@ -77,7 +78,7 @@ public interface ApiInterface {
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("user/UpdateVeterinarian")
-    Call<UserResponse> updateUser(@Header("Authorization") String auth, @Body updateParams registerparams);
+    Call<UserResponse> updateUser(@Header("Authorization") String auth, @Body UpdateParams registerparams);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @GET("User/GetUserDetails")
@@ -121,6 +122,12 @@ public interface ApiInterface {
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("pet/GetPetDetail")
     Call<GetPetResponse> getPetDetails(@Header("Authorization") String auth,
+                                       @Body GetPetListRequest addPetRequset);
+
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("pet/GetPetIdentityCard")
+    Call<GetPetResponse> getPetIdentyCard(@Header("Authorization") String auth,
                                        @Body GetPetListRequest addPetRequset);
 
     @Multipart
