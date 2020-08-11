@@ -13,6 +13,10 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.pdf.PdfDocument;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
@@ -22,6 +26,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -78,6 +83,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import static java.security.AccessController.getContext;
+
 public class GetPetDetailsActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse {
     String pet_id = "",currentDateandTime="";
     Methods methods;
@@ -90,9 +97,8 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
             pet_details_address;
     TextView calenderTextViewDetails;
     ImageView pet_Details_profile_image,service_details_cat_img_one,service_details_cat_img_two,service_details_cat_img_three,
-            service_details_cat_img_four,service_detils_cat_img_five;
+            service_details_cat_img_four,service_detils_cat_img_five,id_card;
     Button pet_update;
-
     DatePickerDialog picker;
 
     ArrayList<String> petType;
@@ -135,6 +141,7 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_pet_details);
         methods = new Methods(this);
+        currentDateAndTime();
         Bundle extras = getIntent().getExtras();
         init();
         requestMultiplePermissions();
@@ -146,6 +153,8 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
         petSexHashMap.put("Pet Sex","0");
         petSexHashMap.put("Male","1");
         petSexHashMap.put("Female","2");
+
+
 
         if (extras != null) {
             pet_id = extras.getString("pet_id");
@@ -198,6 +207,8 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
         service_details_cat_img_four=findViewById(R.id.service_details_cat_img_four);
         service_detils_cat_img_five=findViewById(R.id.service_detils_cat_img_five);
         pet_update=findViewById(R.id.pet_update);
+        id_card=findViewById(R.id.id_card);
+
         pet_update.setOnClickListener(this);
         calenderTextViewDetails.setOnClickListener(this);
         pet_Details_profile_image.setOnClickListener(this);
@@ -207,6 +218,8 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
         service_details_cat_img_three.setOnClickListener(this);
         service_details_cat_img_four.setOnClickListener(this);
         service_detils_cat_img_five.setOnClickListener(this);
+        peto_details_reg_number.setOnClickListener(this);
+        id_card.setOnClickListener(this);
 
     }
 
@@ -214,6 +227,14 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
         methods.showCustomProgressBarDialog(this);
         ApiService<GetPetResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().getPetDetails(Config.token,getPetListRequest), "GetPetDetail");
+        Log.e("DATALOG","check1=> "+getPetListRequest);
+    }
+
+    private void getPetIdentityCard(GetPetListRequest getPetListRequest)
+    {
+        methods.showCustomProgressBarDialog(this);
+        ApiService<GetPetResponse> service = new ApiService<>();
+        service.get( this, ApiClient.getApiInterface().getPetIdentyCard(Config.token,getPetListRequest), "GetPetDetail");
         Log.e("DATALOG","check1=> "+getPetListRequest);
     }
 
@@ -225,7 +246,6 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
 
 
     private void petTypee() {
-        methods.showCustomProgressBarDialog(this);
         ApiService<PetTypeResponse> service = new ApiService<>();
         service.get(this, ApiClient.getApiInterface().petTypeApi(Config.token), "GetPetTypes");
     }
@@ -422,31 +442,32 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
                         }, year, month, day);
                 picker.show();
                 break;
-            case R.id.pet_profile_image:
+            case R.id.pet_Details_profile_image:
                 selctProflImage="1";
                 showPictureDialog();
                 break;
-            case R.id.service_cat_img_one:
+            case R.id.service_details_cat_img_one:
                 selctImgOne="1";
                 showPictureDialog();
                 break;
-            case R.id.service_cat_img_two:
+            case R.id.service_details_cat_img_two:
                 selctImgtwo="1";
                 showPictureDialog();
                 break;
-            case R.id.service_cat_img_three:
+            case R.id.service_details_cat_img_three:
                 slctImgThree="1";
                 showPictureDialog();
                 break;
-            case R.id.service_cat_img_four:
+            case R.id.service_details_cat_img_four:
                 slctImgFour="1";
                 showPictureDialog();
                 break;
-            case R.id.service_cat_img_five:
+            case R.id.service_detils_cat_img_five:
                 slctImgFive="1";
                 showPictureDialog();
                 break;
-
+            case R.id.id_card:
+                break;
         }
 
     }
@@ -466,6 +487,7 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
                         pet_deatils_contact_number.setText(getPetResponse.getData().getContactNumber());
                         pet_details_address.setText(getPetResponse.getData().getAddress());
                         calenderTextViewDetails.setText(getPetResponse.getData().getDateOfBirth());
+                        peto_details_reg_number.setText(getPetResponse.getData().getPetUniqueId());
 
                     } else if (responseCode == 614) {
                         Toast.makeText(this, getPetResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
@@ -719,6 +741,7 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
             }
         });
     }
+
 
     private void setPetColorSpinner() {
         ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,petColor);

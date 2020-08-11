@@ -95,10 +95,10 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, Regis
     }
 
     private void getPetList() {
-//        methods.showCustomProgressBarDialog(getContext());
+ //       methods.showCustomProgressBarDialog(getContext());
         PetDataParams getPetDataParams = new PetDataParams();
-        getPetDataParams.setPageNumber("1");
-        getPetDataParams.setPageSize("2");
+        getPetDataParams.setPageNumber("1");//0
+        getPetDataParams.setPageSize("2");//0
         getPetDataParams.setSearch_Data("");
         PetDataRequest getPetDataRequest = new PetDataRequest();
         getPetDataRequest.setData(getPetDataParams);
@@ -156,7 +156,7 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, Regis
 
     @Override
     public void onError(Throwable t, String key) {
-        methods.customProgressDismiss();
+        //methods.customProgressDismiss();
 
     }
 

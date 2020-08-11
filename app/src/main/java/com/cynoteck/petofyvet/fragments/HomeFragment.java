@@ -64,8 +64,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.reports_CV:
+
                 ReportsFragment profileFragment = new ReportsFragment();
                 replaceFragment(profileFragment);
+
                 break;
 
             case R.id.staff_CV:

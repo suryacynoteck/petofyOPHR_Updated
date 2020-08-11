@@ -23,69 +23,6 @@
             android:textStyle="bold"/>
     </androidx.appcompat.widget.Toolbar>
 
-    <LinearLayout
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"
-        android:background="#55CAC6C6"
-        android:orientation="vertical"
-        android:weightSum="2">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="2">
-
-
-            <ImageView
-                android:id="@+id/reports_IV"
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:layout_weight="1"
-                android:contentDescription="TODO"
-                android:src="@drawable/reports_icon" />
-
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:layout_weight="1"
-                android:src="@drawable/appointments_icon"
-                tools:ignore="ContentDescription" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="2">
-
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:layout_weight="1"
-                android:src="@drawable/staff_icon" />
-
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:layout_weight="1"
-                android:src="@drawable/pets_icon" />
-        </LinearLayout>
-
-    </LinearLayout>
 
     <LinearLayout
         android:background="#55CAC6C6"
@@ -264,8 +201,6 @@
 
 
     </LinearLayout>
-
-
 
 
 </RelativeLayout>

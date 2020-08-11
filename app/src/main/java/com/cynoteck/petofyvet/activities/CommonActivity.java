@@ -1,6 +1,7 @@
 package com.cynoteck.petofyvet.activities;
 
 import android.os.Bundle;
+import android.webkit.WebView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,12 +9,15 @@ import com.cynoteck.petofyvet.R;
 
 public class CommonActivity extends AppCompatActivity {
 
+    WebView webview;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_common);
+        webview=findViewById(R.id.webview);
 
-/*        Bundle extras = getIntent().getExtras();
+/*      Bundle extras = getIntent().getExtras();
         String fragment = extras.getString("fragment");
 
         switch (fragment){

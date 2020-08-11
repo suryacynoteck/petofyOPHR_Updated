@@ -204,7 +204,6 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
                 break;
 
             case R.id.search_IV:
-
                 search_boxRL.setVisibility(View.VISIBLE);
                 InputMethodManager imm1 = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm1.hideSoftInputFromWindow(search_box.getWindowToken(), 0);

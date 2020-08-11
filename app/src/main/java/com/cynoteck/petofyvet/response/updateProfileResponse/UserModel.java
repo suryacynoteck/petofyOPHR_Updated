@@ -60,7 +60,7 @@ public class UserModel {
     private String vetQualifications;
     private String vetRegistrationNumber;
 
-    public Object getEncryptedId() {
+    public String getEncryptedId() {
         return encryptedId;
     }
 
@@ -84,7 +84,7 @@ public class UserModel {
         this.name = name;
     }
 
-    public Object getFirstName() {
+    public String getFirstName() {
         return firstName;
     }
 
@@ -511,8 +511,7 @@ public class UserModel {
     @Override
     public String toString()
     {
-        return "ClassPojo [encryptedId = "+encryptedId+", id = "+id+", name = "+name+"," +
-                " firstName = "+firstName+", lastName = "+lastName+", company = "+company+"," +
+        return "ClassPojo [encryptedId = "+encryptedId+", id = "+id+", name = "+name+", firstName = "+firstName+", lastName = "+lastName+", company = "+company+"," +
                 " description = "+description+", phone = "+phone+", phone2 = "+phone2+", " +
                 "email = "+email+", address = "+address+", address2 = "+address2+", " +
                 "isActive = "+isActive+", website = "+website+", socialMediaUrl = "+socialMediaUrl+", " +

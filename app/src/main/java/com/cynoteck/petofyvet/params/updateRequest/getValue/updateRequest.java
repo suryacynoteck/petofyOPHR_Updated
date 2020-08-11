@@ -1,6 +1,6 @@
 package com.cynoteck.petofyvet.params.updateRequest.getValue;
 
-public class updateRequest {
+public class UpdateRequest {
            String id;
            String name;
            String firstName;
@@ -22,7 +22,6 @@ public class updateRequest {
            String postalCode;
            String selectedPetTypeIds;
            String selectedServiceTypeIds;
-           String selectedCountryId;
            String profileImageUrl;
            String serviceImageUrl;
            String serviceImages;
@@ -33,8 +32,6 @@ public class updateRequest {
            String fifthServiceImageUrl;
            String coverImageUrl;
            String isVeterinarian;
-           String providerUserId;
-           String userEmail;
            String vetQualifications;
            String vetRegistrationNumber;
 
@@ -206,14 +203,6 @@ public class updateRequest {
         this.selectedServiceTypeIds = selectedServiceTypeIds;
     }
 
-    public String getSelectedCountryId() {
-        return selectedCountryId;
-    }
-
-    public void setSelectedCountryId(String selectedCountryId) {
-        this.selectedCountryId = selectedCountryId;
-    }
-
     public String getProfileImageUrl() {
         return profileImageUrl;
     }
@@ -294,22 +283,6 @@ public class updateRequest {
         this.isVeterinarian = isVeterinarian;
     }
 
-    public String getProviderUserId() {
-        return providerUserId;
-    }
-
-    public void setProviderUserId(String providerUserId) {
-        this.providerUserId = providerUserId;
-    }
-
-    public String getUserEmail() {
-        return userEmail;
-    }
-
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
-    }
-
     public String getVetQualifications() {
         return vetQualifications;
     }
@@ -329,20 +302,6 @@ public class updateRequest {
     @Override
     public String toString()
     {
-        return "ClassPojo [id = "+id+", name = "+name+", firstName = "+firstName+", lastName = "+lastName+"," +
-                "password = "+password+", confirmPassword= "+confirmPassword+","+
-                " company = "+company+", description = "+description+", phone = "+phone+"," +
-                " phone2 = "+phone2+", address = "+address+", address2 = "+address2+"," +
-                " website = "+website+", socialMediaUrl = "+socialMediaUrl+", cityId = "+cityId+", " +
-                "stateId = "+stateId+", countryId = "+countryId+", " +
-                "postalCode = "+postalCode+", selectedPetTypeIds = "+selectedPetTypeIds+", " +
-                "selectedServiceTypeIds = "+selectedServiceTypeIds+", selectedCountryId = "+selectedCountryId+"," +
-                "profileImageUrl = "+profileImageUrl+", " +
-                "serviceImageUrl = "+serviceImageUrl+", serviceImages = "+serviceImages+", firstServiceImageUrl = "+firstServiceImageUrl+
-                ", secondServiceImageUrl = "+secondServiceImageUrl+", thirdServiceImageUrl = "+thirdServiceImageUrl+"," +
-                " fourthServiceImageUrl = "+fourthServiceImageUrl+", fifthServiceImageUrl = "+fifthServiceImageUrl+", " +
-                "coverImageUrl = "+coverImageUrl+", isVeterinarian = "+isVeterinarian+", " +
-                "providerUserId = "+providerUserId+", userEmail = "+userEmail+", " +
-                "vetQualifications = "+vetQualifications+", vetRegistrationNumber = "+vetRegistrationNumber+"]";
+        return "ClassPojo [id = "+id+", name = "+name+", firstName = "+firstName+", lastName = "+lastName+", password = "+password+", confirmPassword= "+confirmPassword+", company = "+company+", description = "+description+", phone = "+phone+", phone2 = "+phone2+", address = "+address+", address2 = "+address2+", website = "+website+", socialMediaUrl = "+socialMediaUrl+", cityId = "+cityId+", stateId = "+stateId+", countryId = "+countryId+", postalCode = "+postalCode+", selectedPetTypeIds = "+selectedPetTypeIds+", selectedServiceTypeIds = "+selectedServiceTypeIds+", profileImageUrl = "+profileImageUrl+", serviceImageUrl = "+serviceImageUrl+", serviceImages = "+serviceImages+", firstServiceImageUrl = "+firstServiceImageUrl+", secondServiceImageUrl = "+secondServiceImageUrl+", thirdServiceImageUrl = "+thirdServiceImageUrl+", fourthServiceImageUrl = "+fourthServiceImageUrl+", fifthServiceImageUrl = "+fifthServiceImageUrl+", coverImageUrl = "+coverImageUrl+", isVeterinarian = "+isVeterinarian+", vetQualifications = "+vetQualifications+", vetRegistrationNumber = "+vetRegistrationNumber+"]";
     }
 }
