@@ -88,7 +88,7 @@
                         android:src="@drawable/report_icon"/>
 
                     <TextView
-                        android:padding="10dp"
+                        android:layout_marginLeft="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/reports"
@@ -125,7 +125,7 @@
                         android:src="@drawable/appoint_icon"/>
 
                     <TextView
-                        android:padding="10dp"
+                        android:layout_marginLeft="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/appointments"
@@ -170,7 +170,7 @@
                         android:src="@drawable/all_staff_icon"/>
 
                     <TextView
-                        android:padding="10dp"
+                        android:layout_marginLeft="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/staff"
@@ -206,7 +206,7 @@
                         android:src="@drawable/all_pet_icon"/>
 
                     <TextView
-                        android:padding="10dp"
+                        android:layout_marginLeft="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/allpets"
