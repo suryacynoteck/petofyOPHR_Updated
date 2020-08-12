@@ -35,6 +35,7 @@ import com.cynoteck.petofyvet.response.getStaffResponse.GetStaffDetailsResponse;
 import com.cynoteck.petofyvet.response.getStaffResponse.GetStaffStatusResponse;
 import com.cynoteck.petofyvet.response.getStaffResponse.GetUpdateStaffResponse;
 import com.cynoteck.petofyvet.response.loginRegisterResponse.LoginRegisterResponse;
+import com.cynoteck.petofyvet.response.recentEntrys.RecentEntrysResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.CityResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.CountryResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.PetServiceResponse;
@@ -185,6 +186,12 @@ public interface ApiInterface {
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("staff/ChangeStatus")
     Call<GetStaffStatusResponse> getStaffStatus(@Header("Authorization") String auth, @Body ChangeStaffStatusRequest changeStaffStatusRequest);
+
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("pethealthrecord/GetRecentClinicVisits")
+    Call<RecentEntrysResponse> getRecentClientcVisits(@Header("Authorization") String auth);
+
 
 }
 

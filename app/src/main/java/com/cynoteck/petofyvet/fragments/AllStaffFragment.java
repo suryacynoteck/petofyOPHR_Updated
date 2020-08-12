@@ -91,7 +91,6 @@ public class AllStaffFragment extends Fragment implements ApiResponse, StaffList
         String staff_last_name = getAllStaffData.get(position).getLastName();
         String staff_email_id = getAllStaffData.get(position).getEmail();
         String staff_phone = getAllStaffData.get(position).getPhoneNumber();
-
         showEditStaffDialog(staff_first_name,staff_last_name,staff_email_id,staff_phone);
 
     }
