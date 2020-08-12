@@ -80,8 +80,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
                 replaceFragment(allStaffFragment);
 
                 break;
+
             case R.id.add_new_visit:
-            startActivity(new Intent(getActivity(), AddNewPetActivity.class));
+
+            AddNewPetFragment addNewPetFragment = new AddNewPetFragment();
+            replaceFragment(addNewPetFragment);
+
+            break;
         }
 
     }
