@@ -17,19 +17,16 @@
         />
 
 
-
-
     <include
-        android:layout_alignParentBottom="true"
         android:id="@+id/include"
-        android:visibility="visible"
         layout="@layout/content_main"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_width="match_parent"/>
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="1dp"
+        android:visibility="visible" />
 
 
-
-
-    </RelativeLayout>
+</RelativeLayout>
 
 

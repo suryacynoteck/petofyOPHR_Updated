@@ -1,13 +1,8 @@
 package com.cynoteck.petofyvet.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import retrofit2.Response;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -22,7 +17,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.cynoteck.petofyvet.R;
+import com.cynoteck.petofyvet.activities.PetDetailsActivity;
 import com.cynoteck.petofyvet.adapters.NewEntrysAdapter;
 import com.cynoteck.petofyvet.api.ApiClient;
 import com.cynoteck.petofyvet.api.ApiResponse;
@@ -36,6 +36,8 @@ import com.cynoteck.petofyvet.utils.StaffListClickListener;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.List;
+
+import retrofit2.Response;
 
 public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnClickListener, StaffListClickListener, NewEntryListClickListener, TextWatcher {
     Methods methods;
@@ -140,6 +142,17 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
 
     @Override
     public void onProductClick(int position) {
+        Toast.makeText(getContext(), ""+petClinicVisitLists.get(position).getPetName(), Toast.LENGTH_SHORT).show();
+
+        Intent petDetailsIntent = new Intent(getActivity().getApplication(), PetDetailsActivity.class);
+        Bundle data = new Bundle();
+        data.putString("pet_id",petClinicVisitLists.get(position).getId().toString());
+        data.putString("pet_name",petClinicVisitLists.get(position).getPetName()+"("+petClinicVisitLists.get(position).getPetSex()+")");
+        data.putString("pet_parent",petClinicVisitLists.get(position).getPetParentName());
+        petDetailsIntent.putExtras(data);
+        startActivity(petDetailsIntent);
+
+
 
     }
 

@@ -4,24 +4,20 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.cynoteck.petofyvet.R;
-import com.cynoteck.petofyvet.activities.AddNewPetActivity;
-import com.cynoteck.petofyvet.response.getPetReportsResponse.PetList;
-import com.cynoteck.petofyvet.response.getStaffResponse.GetAllStaffData;
-import com.cynoteck.petofyvet.response.recentEntrys.PetClinicVisitList;
-import com.cynoteck.petofyvet.utils.NewEntryListClickListener;
-import com.cynoteck.petofyvet.utils.StaffListClickListener;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.cynoteck.petofyvet.R;
+import com.cynoteck.petofyvet.response.recentEntrys.PetClinicVisitList;
+import com.cynoteck.petofyvet.utils.NewEntryListClickListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class NewEntrysAdapter extends RecyclerView.Adapter<NewEntrysAdapter.MyViewHolder> implements Filterable {
     Context context;
@@ -102,6 +98,7 @@ public class NewEntrysAdapter extends RecyclerView.Adapter<NewEntrysAdapter.MyVi
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView pet_nm_prnt_nm, visit_dt,nature_of_visit,follow_up_dt;
+        LinearLayout petDeatils_LL;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -109,16 +106,17 @@ public class NewEntrysAdapter extends RecyclerView.Adapter<NewEntrysAdapter.MyVi
             visit_dt = itemView.findViewById(R.id.visit_dt);
             nature_of_visit = itemView.findViewById(R.id.nature_of_visit);
             follow_up_dt=itemView.findViewById(R.id.follow_up_dt);
+            petDeatils_LL=itemView.findViewById(R.id.petDeatils_LL);
 
 
-            /*view_details_BT.setOnClickListener(new View.OnClickListener() {
+            petDeatils_LL.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (newEntryListClickListener!=null){
                         newEntryListClickListener.onProductClick(getAdapterPosition());
                     }
                 }
-            });*/
+            });
 
         }
     }

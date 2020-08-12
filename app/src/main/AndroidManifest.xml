@@ -27,7 +27,8 @@
         android:roundIcon="@drawable/logo_petofy"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.AddNewPetActivity"></activity>
+        <activity android:name=".activities.PetDetailsActivity"></activity>
+        <activity android:name=".activities.AddNewPetActivity" />
         <activity
             android:name=".activities.ReportsCommonActivity"
             android:screenOrientation="portrait"

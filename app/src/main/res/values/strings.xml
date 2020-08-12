@@ -64,4 +64,10 @@
     <string name="add_staff">Add Staff</string>
     <string name="edit_staff">Edit Staff</string>
     <string name="update">Update</string>
+    <string name="test_x_ray">Test/X-rays</string>
+    <string name="managePet">Manage Pet-labwork</string>
+    <string name="recentVisits">Recent Visits</string>
+    <string name="printIdCard">Print Id Card</string>
+    <string name="view_history">View History</string>
+    <string name="addNewVisits">Add New Visits</string>
 </resources>

@@ -1,13 +1,12 @@
 package com.cynoteck.petofyvet.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import androidx.cardview.widget.CardView;
@@ -16,7 +15,6 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cynoteck.petofyvet.R;
-import com.cynoteck.petofyvet.activities.AddNewPetActivity;
 import com.cynoteck.petofyvet.api.ApiResponse;
 import com.cynoteck.petofyvet.utils.Methods;
 
@@ -26,7 +24,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
     RecyclerView pet_list_RV;
     Context context;
     View view;
-    Button add_new_visit;
+    LinearLayout add_new_visit;
     ImageView reports_IV;
     RelativeLayout mainHome;
     Methods methods;
