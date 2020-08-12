@@ -1,5 +1,5 @@
 package com.cynoteck.petofyvet.utils;
 
-public interface RegisterRecyclerViewClickListener {
+public interface NewEntryListClickListener {
     public void onProductClick(int position);
 }

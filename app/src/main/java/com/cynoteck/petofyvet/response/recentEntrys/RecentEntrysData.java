@@ -6,9 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class RecentEntrysData {
-    @SerializedName("petClinicVisitList")
-    @Expose
-    private List<PetClinicVisitList> petClinicVisitList = null;
+    /*private List<PetClinicVisitList> petClinicVisitList = null;
     private String pagingHeader;
 
     public List<PetClinicVisitList> getPetClinicVisitList() {
@@ -19,7 +17,7 @@ public class RecentEntrysData {
         this.petClinicVisitList = petClinicVisitList;
     }
 
-    public String getPagingHeader() {
+    public Object getPagingHeader() {
         return pagingHeader;
     }
 
@@ -28,10 +26,31 @@ public class RecentEntrysData {
     }
 
     @Override
-    public String toString() {
-        return "ClassPojo [" +
-                "petClinicVisitList=" + petClinicVisitList +
-                ", pagingHeader=" + pagingHeader +
-                "]";
+    public String toString()
+    {
+        return "ClassPojo [petClinicVisitList = "+petClinicVisitList+", pagingHeader = "+pagingHeader+"]";
+    }*/
+    @SerializedName("petClinicVisitList")
+    @Expose
+    private List<PetClinicVisitList> petClinicVisitList = null;
+    @SerializedName("pagingHeader")
+    @Expose
+    private Object pagingHeader;
+
+    public List<PetClinicVisitList> getPetClinicVisitList() {
+        return petClinicVisitList;
     }
+
+    public void setPetClinicVisitList(List<PetClinicVisitList> petClinicVisitList) {
+        this.petClinicVisitList = petClinicVisitList;
+    }
+
+    public Object getPagingHeader() {
+        return pagingHeader;
+    }
+
+    public void setPagingHeader(Object pagingHeader) {
+        this.pagingHeader = pagingHeader;
+    }
+
 }
