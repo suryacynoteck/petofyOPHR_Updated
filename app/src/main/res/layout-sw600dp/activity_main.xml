@@ -9,13 +9,16 @@
     tools:context=".activities.LoginActivity">
 
     <TextView
+        android:padding="10dp"
         android:id="@+id/signUp_TV"
+        android:textStyle="bold"
+        android:layout_marginEnd="@dimen/padding_10"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Sign Up"
-        android:textColor="@color/colorPrimary"
+        android:text="Sign Up "
         android:textSize="20sp"
-        android:textStyle="bold"
+        android:textColor="@color/colorPrimary"
         tools:ignore="MissingConstraints" />
 
     <ImageView

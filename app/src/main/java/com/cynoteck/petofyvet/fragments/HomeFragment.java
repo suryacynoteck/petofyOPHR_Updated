@@ -7,9 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,7 +26,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
     View view;
     LinearLayout add_new_visit;
     ImageView reports_IV;
-    RelativeLayout mainHome;
+    ConstraintLayout mainHome;
     Methods methods;
     CardView reports_CV, all_staff_CV;
 

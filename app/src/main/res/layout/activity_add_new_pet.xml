@@ -8,6 +8,8 @@
     tools:context=".activities.DashBoardActivity"
     xmlns:shimmer="http://schemas.android.com/apk/res-auto"
     android:background="#F2F2F4">
+
+
     <androidx.cardview.widget.CardView
         app:cardElevation="10dp"
         android:id="@+id/toolbar"
@@ -140,6 +142,7 @@
         android:layout_marginRight="10dp">
 
         <!-- Adding 3 rows of placeholders -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
