@@ -7,7 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
@@ -19,7 +19,6 @@ import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.activities.AddPetRegister;
 import com.cynoteck.petofyvet.activities.GetPetDetailsActivity;
 import com.cynoteck.petofyvet.adapters.RegisterPetAdapter;
-import com.cynoteck.petofyvet.utils.RegisterRecyclerViewClickListener;
 import com.cynoteck.petofyvet.api.ApiClient;
 import com.cynoteck.petofyvet.api.ApiResponse;
 import com.cynoteck.petofyvet.api.ApiService;
@@ -29,6 +28,7 @@ import com.cynoteck.petofyvet.response.getPetReportsResponse.GetPetListResponse;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.PetList;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
+import com.cynoteck.petofyvet.utils.RegisterRecyclerViewClickListener;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.ArrayList;
@@ -45,7 +45,7 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, Regis
     Methods methods;
     CardView materialCardView;
     RecyclerView register_pet_RV;
-    TextView register_add_TV;
+    ImageView register_add_TV;
     private ArrayList<PetList> categoryRecordArrayList;
     RegisterPetAdapter registerPetAdapter;
     private ShimmerFrameLayout mShimmerViewContainer;
