@@ -41,6 +41,7 @@ public class SelectPetReportsActivity extends AppCompatActivity implements ApiRe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.select_pet_reports_activity);
 
         init();

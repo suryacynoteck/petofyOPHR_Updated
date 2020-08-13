@@ -97,7 +97,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                 try {
                     RecentEntrysResponse getPetListResponse = (RecentEntrysResponse) arg0.body();
                     Log.d("GetRecentClinicVisits", getPetListResponse.toString());
-                    int responseCode =getPetListResponse.getResponse().getResponseCode();
+                    int responseCode = Integer.parseInt(getPetListResponse.getResponse().getResponseCode());
 
                     if (responseCode== 109){
                         Log.e("lallalal",""+getPetListResponse.getData().getPetClinicVisitList().size());
@@ -128,6 +128,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
     @Override
     public void onError(Throwable t, String key) {
 
+        Log.d("error",t.getLocalizedMessage());
     }
 
     @Override
