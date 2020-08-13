@@ -107,7 +107,7 @@
            android:textColor="#fff"
            android:textSize="14sp"
            android:gravity="center"
-           android:drawableRight="@drawable/ic_baseline_add"/>
+           android:drawableRight="@drawable/ic_baseline_add_white"/>
 
    </LinearLayout>
 
