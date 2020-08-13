@@ -97,7 +97,7 @@ public class NewEntrysAdapter extends RecyclerView.Adapter<NewEntrysAdapter.MyVi
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView pet_nm_prnt_nm, visit_dt,nature_of_visit,follow_up_dt;
+        TextView pet_nm_prnt_nm, visit_dt,nature_of_visit,follow_up_dt,precription,download,edit;
         LinearLayout petDeatils_LL;
 
         public MyViewHolder(@NonNull View itemView) {
@@ -107,6 +107,9 @@ public class NewEntrysAdapter extends RecyclerView.Adapter<NewEntrysAdapter.MyVi
             nature_of_visit = itemView.findViewById(R.id.nature_of_visit);
             follow_up_dt=itemView.findViewById(R.id.follow_up_dt);
             petDeatils_LL=itemView.findViewById(R.id.petDeatils_LL);
+            precription=itemView.findViewById(R.id.precription);
+            download=itemView.findViewById(R.id.download);
+            edit=itemView.findViewById(R.id.edit);
 
 
             petDeatils_LL.setOnClickListener(new View.OnClickListener() {
@@ -115,6 +118,27 @@ public class NewEntrysAdapter extends RecyclerView.Adapter<NewEntrysAdapter.MyVi
                     if (newEntryListClickListener!=null){
                         newEntryListClickListener.onProductClick(getAdapterPosition());
                     }
+                }
+            });
+
+            precription.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    newEntryListClickListener.onProductPrescriptionClick(getAdapterPosition());
+                }
+            });
+
+            download.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    newEntryListClickListener.onProductDownloadClick(getAdapterPosition());
+                }
+            });
+
+            edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    newEntryListClickListener.onProductEditClick(getAdapterPosition());
                 }
             });
 
