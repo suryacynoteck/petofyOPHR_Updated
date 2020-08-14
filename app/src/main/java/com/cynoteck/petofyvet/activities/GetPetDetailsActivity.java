@@ -166,13 +166,13 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
         if(methods.isInternetOn())
         {
             getPetlistData(getPetListRequest);
-            petTypee();
+            /*petTypee();
             genaretePetUniqueKey();
             getPetBreed();
             getPetAge();
             getPetColor();
             getPetSize();
-            setSpinnerPetSex();
+            setSpinnerPetSex();*/
         }
         else
         {
@@ -230,13 +230,6 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
         Log.e("DATALOG","check1=> "+getPetListRequest);
     }
 
-    private void getPetIdentityCard(GetPetListRequest getPetListRequest)
-    {
-        methods.showCustomProgressBarDialog(this);
-        ApiService<GetPetResponse> service = new ApiService<>();
-        service.get( this, ApiClient.getApiInterface().getPetIdentyCard(Config.token,getPetListRequest), "GetPetDetail");
-        Log.e("DATALOG","check1=> "+getPetListRequest);
-    }
 
     private void currentDateAndTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE, d MMM yyyy h:mm:ss a", Locale.getDefault());

@@ -130,6 +130,7 @@
         android:layout_marginTop="10dp"/>
 
     <com.facebook.shimmer.ShimmerFrameLayout
+        android:visibility="gone"
         android:layout_below="@+id/recent_entrys_list"
         android:id="@+id/shimmer_view_new_entry"
         android:layout_width="wrap_content"
