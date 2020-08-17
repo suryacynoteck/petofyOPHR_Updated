@@ -70,4 +70,5 @@
     <string name="printIdCard">Print Id Card</string>
     <string name="view_history">View History</string>
     <string name="addNewVisits">Add New Visits</string>
+    <string name="pet_category">Pet Category</string>
 </resources>
