@@ -8,7 +8,7 @@
     <string name="firstName">First Name</string>
     <string name="lastname">Last Name</string>
     <string name="confirmPassword">Confirm Password</string>
-    <string name="phoneNumber">Phone Number</string>
+    <string name="phoneNumber">Contact Number</string>
     <string name="signUp">Sign Up</string>
     <string name="signIn">Sign In</string>
     <string name="forgetPass">Forget Password ?</string>
@@ -34,11 +34,11 @@
     <string name="submit">Submit</string>
     <string name="changePass">Change Password</string>
     <string name="petId">PET ID</string>
-    <string name="dateofbirth">DATE OF BIRTH</string>
-    <string name="petGender">PET GENDER</string>
-    <string name="petParent">PET PARENT</string>
+    <string name="dateofbirth">Date Of Birth</string>
+    <string name="petGender">Pet Gender</string>
+    <string name="petParent">Pet Parent</string>
     <string name="petname">PET NAME</string>
-    <string name="color">COLOR</string>
+    <string name="color">Color</string>
     <string name="petcolor"><![CDATA[Brown & White]]></string>
     <string name="viewReports">VIEW REPORTS</string>
     <string name="viewDetails">VIEW DETAILS</string>
@@ -71,4 +71,10 @@
     <string name="view_history">View History</string>
     <string name="addNewVisits">Add New Visits</string>
     <string name="pet_category">Pet Category</string>
+    <string name="pet_name">Pet Name</string>
+    <string name="size">Size</string>
+    <string name="age">Age</string>
+    <string name="breed">Breed</string>
+    <string name="ParentName">Parent Name</string>
+    <string name="save">Save</string>
 </resources>

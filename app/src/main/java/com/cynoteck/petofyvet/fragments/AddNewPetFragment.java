@@ -29,7 +29,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,7 +38,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cynoteck.petofyvet.R;
-import com.cynoteck.petofyvet.activities.AddPetRegister;
 import com.cynoteck.petofyvet.activities.PetDetailsActivity;
 import com.cynoteck.petofyvet.adapters.NewEntrysAdapter;
 import com.cynoteck.petofyvet.api.ApiClient;
@@ -93,13 +91,12 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
     EditText search_box_add_new;
     Dialog add_new_entrys_dialog, prescription_dialog, editPetDilog;
     TextView staff_headline_TV,parent_name,specilist,email,for_a,age,sex,date,prnt_nm,temparature,symptoms,diagnosis,
-             remarks,nxt_visit,peto_reg_number_dialog,calenderTextView_dialog,peto_reg_number_edit_dialog,calenderTextView_edit_dialog;
-    AppCompatSpinner add_pet_type_dialog,add_pet_age_dialog,add_pet_sex_dialog,add_pet_breed_dialog,
-            add_pet_color_dialog,add_pet_size_dialog,add_pet_type_edit_dialog,
+            remarks,nxt_visit,peto_reg_number_dialog,calenderTextView_dialog,peto_reg_number_edit_dialog,calenderTextView_edit_dialog;
+    AppCompatSpinner add_pet_type_edit_dialog,
             add_pet_age_edit_dialog,add_pet_sex_edit_dialog,add_pet_breed_edit_dialog,add_pet_color_edit_dialog,add_pet_size_edit_dialog;
     TextInputLayout pet_name_layout_dialog,pet_parent_name_layout_dialog,pet_contact_number_layout_dialog,pet_name_layout_edit_dialog,
-                   pet_parent_name_layout_edit_dialog,pet_contact_number_edit_layout_dialog;
-    TextInputEditText pet_name_dialog,pet_parent_name_dialog,pet_contact_number_dialog,
+            pet_parent_name_layout_edit_dialog,pet_contact_number_edit_layout_dialog;
+    TextInputEditText
             pet_name_edit_dialog,pet_parent_name_edit_dialog,pet_contact_number_edit_dialog;
     Button crrete_pdf,cancel,save_changes_dialog,cancel_dialog,save_changes_edit_dialog,cancel_edit_dialog;
     WebView webview;
@@ -108,6 +105,10 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
             strSpneSizeId="",strSpnrSexId="",strSpnerItemPetType="",strSpnrBreed="",strSpnrAge="",strSpnrSex="",
             currentDateandTime="",petIdGetForUpdate="";
     View view;
+
+    AppCompatSpinner add_pet_type, add_pet_age_dialog ,add_pet_sex_dialog,add_pet_breed_dialog, add_pet_color_dialog,add_pet_size_dialog;
+    EditText pet_name_ET,pet_parent_name_ET, pet_contact_number_ET;
+
 
     DatePickerDialog picker;
     ArrayList<String> petType;
@@ -201,18 +202,15 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
 
         peto_reg_number_dialog=add_new_entrys_dialog.findViewById(R.id.peto_reg_number_dialog);
         calenderTextView_dialog=add_new_entrys_dialog.findViewById(R.id.calenderTextView_dialog);
-        add_pet_type_dialog=add_new_entrys_dialog.findViewById(R.id.add_pet_type_dialog);
+        add_pet_type=add_new_entrys_dialog.findViewById(R.id.add_pet_type);
         add_pet_age_dialog=add_new_entrys_dialog.findViewById(R.id.add_pet_age_dialog);
         add_pet_sex_dialog=add_new_entrys_dialog.findViewById(R.id.add_pet_sex_dialog);
         add_pet_breed_dialog=add_new_entrys_dialog.findViewById(R.id.add_pet_breed_dialog);
         add_pet_color_dialog=add_new_entrys_dialog.findViewById(R.id.add_pet_color_dialog);
         add_pet_size_dialog=add_new_entrys_dialog.findViewById(R.id.add_pet_size_dialog);
-        pet_name_layout_dialog=add_new_entrys_dialog.findViewById(R.id.pet_name_layout_dialog);
-        pet_parent_name_layout_dialog=add_new_entrys_dialog.findViewById(R.id.pet_parent_name_layout_dialog);
-        pet_contact_number_layout_dialog=add_new_entrys_dialog.findViewById(R.id.pet_contact_number_layout_dialog);
-        pet_name_dialog=add_new_entrys_dialog.findViewById(R.id.pet_name_dialog);
-        pet_parent_name_dialog=add_new_entrys_dialog.findViewById(R.id.pet_parent_name_dialog);
-        pet_contact_number_dialog=add_new_entrys_dialog.findViewById(R.id.pet_contact_number_dialog);
+        pet_name_ET=add_new_entrys_dialog.findViewById(R.id.pet_name_ET);
+        pet_parent_name_ET=add_new_entrys_dialog.findViewById(R.id.pet_parent_name_ET);
+        pet_contact_number_ET=add_new_entrys_dialog.findViewById(R.id.pet_contact_number);
         save_changes_dialog=add_new_entrys_dialog.findViewById(R.id.save_changes_dialog);
         cancel_dialog=add_new_entrys_dialog.findViewById(R.id.cancel_dialog);
 
@@ -625,8 +623,8 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
         ArrayAdapter aa = new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,petType);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
-        add_pet_type_dialog.setAdapter(aa);
-        add_pet_type_dialog.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        add_pet_type.setAdapter(aa);
+        add_pet_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
                 // Showing selected spinner item
@@ -992,37 +990,37 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
             case R.id.cancel_dialog:
                 add_new_entrys_dialog.dismiss();
             case R.id.save_changes_dialog:
-               String strPetName= pet_name_dialog.getText().toString().trim();
-               String strPetParentName = pet_parent_name_dialog.getText().toString().trim();
-               String strPetContactNumber = pet_contact_number_dialog.getText().toString().trim();
-               String strPetBirthDay = calenderTextView_dialog.getText().toString().trim();
+                String strPetName= pet_name_ET.getText().toString().trim();
+                String strPetParentName = pet_parent_name_ET.getText().toString().trim();
+                String strPetContactNumber = pet_contact_number_ET.getText().toString().trim();
+                String strPetBirthDay = calenderTextView_dialog.getText().toString().trim();
 
                 if(strPetName.isEmpty())
                 {
-                    pet_name_dialog.setError("Enter Pet Name");
-                    pet_parent_name_dialog.setError(null);
-                    pet_contact_number_dialog.setError(null);
+                    pet_name_ET.setError("Enter Pet Name");
+                    pet_parent_name_ET.setError(null);
+                    pet_contact_number_ET.setError(null);
                     calenderTextView_dialog.setError(null);
                 }
                 else if(strPetParentName.isEmpty())
                 {
-                    pet_name_dialog.setError(null);
-                    pet_parent_name_dialog.setError("Enter Parent Name");
-                    pet_contact_number_dialog.setError(null);
+                    pet_name_ET.setError(null);
+                    pet_parent_name_ET.setError("Enter Parent Name");
+                    pet_contact_number_ET.setError(null);
                     calenderTextView_dialog.setError(null);
                 }
                 else if(strPetContactNumber.isEmpty())
                 {
-                    pet_name_dialog.setError(null);
-                    pet_parent_name_dialog.setError(null);
-                    pet_contact_number_dialog.setError("Enter Contact Number");
+                    pet_name_ET.setError(null);
+                    pet_parent_name_ET.setError(null);
+                    pet_contact_number_ET.setError("Enter Contact Number");
                     calenderTextView_dialog.setError(null);
                 }
                 else if(strPetBirthDay.isEmpty())
                 {
-                    pet_name_dialog.setError(null);
-                    pet_parent_name_dialog.setError(null);
-                    pet_contact_number_dialog.setError(null);
+                    pet_name_ET.setError(null);
+                    pet_parent_name_ET.setError(null);
+                    pet_contact_number_ET.setError(null);
                     calenderTextView_dialog.setError("Pet YOB");
                 }
                 //pet size and color.
@@ -1043,9 +1041,9 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                     Toast.makeText(getActivity(), "Select Pet Sex!!", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    pet_name_dialog.setError(null);
-                    pet_parent_name_dialog.setError(null);
-                    pet_contact_number_dialog.setError(null);
+                    pet_name_ET.setError(null);
+                    pet_parent_name_ET.setError(null);
+                    pet_contact_number_ET.setError(null);
                     calenderTextView_dialog.setError(null);
                     Log.d("hahahah", "" + getStrSpnerItemPetNmId + " " + strSpnrSexId + " " + strSpnrAgeId + " " + strSpneSizeId +
                             " " + strSpnrColorId + " " + strSpnrBreedId + " " + strPetName + " " + strPetBirthDay + " "+ currentDateandTime);
@@ -1075,12 +1073,12 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                         methods.DialogInternet();
                     }
                 }
-                    break;
+                break;
             case R.id.save_changes_edit_dialog:
-               String strPetEditName= pet_name_edit_dialog.getText().toString().trim();
-               String strPetEditParentName = pet_parent_name_edit_dialog.getText().toString().trim();
-               String strPetEditContactNumber = pet_contact_number_edit_dialog.getText().toString().trim();
-               String strPetEditBirthDay = calenderTextView_edit_dialog.getText().toString().trim();
+                String strPetEditName= pet_name_edit_dialog.getText().toString().trim();
+                String strPetEditParentName = pet_parent_name_edit_dialog.getText().toString().trim();
+                String strPetEditContactNumber = pet_contact_number_edit_dialog.getText().toString().trim();
+                String strPetEditBirthDay = calenderTextView_edit_dialog.getText().toString().trim();
 
                 if(strPetEditName.isEmpty())
                 {
