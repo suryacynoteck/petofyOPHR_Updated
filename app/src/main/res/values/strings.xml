@@ -77,4 +77,5 @@
     <string name="breed">Breed</string>
     <string name="ParentName">Parent Name</string>
     <string name="save">Save</string>
+    <string name="editpet">Edit Pet</string>
 </resources>

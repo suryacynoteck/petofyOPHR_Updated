@@ -66,8 +66,6 @@ import com.cynoteck.petofyvet.utils.Methods;
 import com.cynoteck.petofyvet.utils.NewEntryListClickListener;
 import com.cynoteck.petofyvet.utils.StaffListClickListener;
 import com.facebook.shimmer.ShimmerFrameLayout;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -92,12 +90,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
     Dialog add_new_entrys_dialog, prescription_dialog, editPetDilog;
     TextView staff_headline_TV,parent_name,specilist,email,for_a,age,sex,date,prnt_nm,temparature,symptoms,diagnosis,
             remarks,nxt_visit,peto_reg_number_dialog,calenderTextView_dialog,peto_reg_number_edit_dialog,calenderTextView_edit_dialog;
-    AppCompatSpinner add_pet_type_edit_dialog,
-            add_pet_age_edit_dialog,add_pet_sex_edit_dialog,add_pet_breed_edit_dialog,add_pet_color_edit_dialog,add_pet_size_edit_dialog;
-    TextInputLayout pet_name_layout_dialog,pet_parent_name_layout_dialog,pet_contact_number_layout_dialog,pet_name_layout_edit_dialog,
-            pet_parent_name_layout_edit_dialog,pet_contact_number_edit_layout_dialog;
-    TextInputEditText
-            pet_name_edit_dialog,pet_parent_name_edit_dialog,pet_contact_number_edit_dialog;
+
     Button crrete_pdf,cancel,save_changes_dialog,cancel_dialog,save_changes_edit_dialog,cancel_edit_dialog;
     WebView webview;
     LinearLayout addNewEntry;
@@ -108,6 +101,10 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
 
     AppCompatSpinner add_pet_type, add_pet_age_dialog ,add_pet_sex_dialog,add_pet_breed_dialog, add_pet_color_dialog,add_pet_size_dialog;
     EditText pet_name_ET,pet_parent_name_ET, pet_contact_number_ET;
+
+
+    AppCompatSpinner edit_pet_type, edit_pet_age_dialog ,edit_pet_sex_dialog,edit_pet_breed_dialog, edit_pet_color_dialog,edit_pet_size_dialog;
+    EditText edit_name_ET,edit_parent_name_ET, edit_contact_number_ET;
 
 
     DatePickerDialog picker;
@@ -246,22 +243,20 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
         editPetDilog.setContentView(R.layout.edit_pet_layout);
         petIdGetForUpdate=petId;
 
-        add_pet_type_edit_dialog=editPetDilog.findViewById(R.id.add_pet_type_edit_dialog);
-        add_pet_age_edit_dialog=editPetDilog.findViewById(R.id.add_pet_age_edit_dialog);
-        add_pet_sex_edit_dialog=editPetDilog.findViewById(R.id.add_pet_sex_edit_dialog);
-        add_pet_breed_edit_dialog=editPetDilog.findViewById(R.id.add_pet_breed_edit_dialog);
-        add_pet_color_edit_dialog=editPetDilog.findViewById(R.id.add_pet_color_edit_dialog);
-        add_pet_size_edit_dialog=editPetDilog.findViewById(R.id.add_pet_size_edit_dialog);
-        pet_name_layout_edit_dialog=editPetDilog.findViewById(R.id.pet_name_layout_edit_dialog);
-        pet_parent_name_layout_edit_dialog=editPetDilog.findViewById(R.id.pet_parent_name_layout_edit_dialog);
-        pet_contact_number_edit_layout_dialog=editPetDilog.findViewById(R.id.pet_contact_number_edit_layout_dialog);
-        pet_name_edit_dialog=editPetDilog.findViewById(R.id.pet_name_edit_dialog);
-        pet_parent_name_edit_dialog=editPetDilog.findViewById(R.id.pet_parent_name_edit_dialog);
-        pet_contact_number_edit_dialog=editPetDilog.findViewById(R.id.pet_contact_number_edit_dialog);
-        peto_reg_number_edit_dialog=editPetDilog.findViewById(R.id.peto_reg_number_edit_dialog);
+        peto_reg_number_edit_dialog=editPetDilog.findViewById(R.id.peto_edit_reg_number_dialog);
         calenderTextView_edit_dialog=editPetDilog.findViewById(R.id.calenderTextView_edit_dialog);
-        save_changes_edit_dialog=editPetDilog.findViewById(R.id.save_changes_edit_dialog);
+        edit_pet_type=editPetDilog.findViewById(R.id.add_edit_pet_type);
+        edit_pet_age_dialog=editPetDilog.findViewById(R.id.add_edit_pet_age_dialog);
+        edit_pet_sex_dialog=editPetDilog.findViewById(R.id.add_edit_pet_sex_dialog);
+        edit_pet_breed_dialog=editPetDilog.findViewById(R.id.add_edit_pet_breed_dialog);
+        edit_pet_color_dialog=editPetDilog.findViewById(R.id.add_edit_pet_color_dialog);
+        edit_pet_size_dialog=editPetDilog.findViewById(R.id.add_edit_pet_size_dialog);
+        edit_name_ET=editPetDilog.findViewById(R.id.pet_edit_name_ET);
+        edit_parent_name_ET=editPetDilog.findViewById(R.id.pet_edit_parent_name_ET);
+        edit_contact_number_ET=editPetDilog.findViewById(R.id.pet_edit_contact_number);
+        save_changes_edit_dialog=editPetDilog.findViewById(R.id.save_edit_changes_dialog);
         cancel_edit_dialog=editPetDilog.findViewById(R.id.cancel_edit_dialog);
+
 
         calenderTextView_edit_dialog.setOnClickListener(this);
         save_changes_edit_dialog.setOnClickListener(this);
@@ -585,8 +580,8 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                     int responseCode = Integer.parseInt(getPetResponse.getResponse().getResponseCode());
                     if (responseCode == 109) {
                         Toast.makeText(getActivity(), "Success", Toast.LENGTH_SHORT).show();
-                        pet_parent_name_edit_dialog.setText(getPetResponse.getData().getPetParentName());
-                        pet_contact_number_edit_dialog.setText(getPetResponse.getData().getContactNumber());
+                        edit_parent_name_ET.setText(getPetResponse.getData().getPetParentName());
+                        edit_contact_number_ET.setText(getPetResponse.getData().getContactNumber());
                         calenderTextView_edit_dialog.setText(getPetResponse.getData().getDateOfBirth());
 
                     } else if (responseCode == 614) {
@@ -641,8 +636,8 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
         ArrayAdapter aa = new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,petType);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
-        add_pet_type_edit_dialog.setAdapter(aa);
-        add_pet_type_edit_dialog.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        edit_pet_type.setAdapter(aa);
+        edit_pet_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
                 // Showing selected spinner item
@@ -677,8 +672,8 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
         ArrayAdapter aa = new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,petBreed);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
-        add_pet_breed_edit_dialog.setAdapter(aa);
-        add_pet_breed_edit_dialog.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        edit_pet_breed_dialog.setAdapter(aa);
+        edit_pet_breed_dialog.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
                 // Showing selected spinner item
@@ -713,8 +708,8 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
         ArrayAdapter aa = new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,petAge);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
-        add_pet_age_edit_dialog.setAdapter(aa);
-        add_pet_age_edit_dialog.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        edit_pet_age_dialog.setAdapter(aa);
+        edit_pet_age_dialog.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
                 // Showing selected spinner item
@@ -748,8 +743,8 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
         ArrayAdapter aa = new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,petColor);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
-        add_pet_color_edit_dialog.setAdapter(aa);
-        add_pet_color_edit_dialog.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        edit_pet_color_dialog.setAdapter(aa);
+        edit_pet_color_dialog.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
                 // Showing selected spinner item
@@ -782,8 +777,8 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
         ArrayAdapter aa = new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,petSize);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
-        add_pet_size_edit_dialog.setAdapter(aa);
-        add_pet_size_edit_dialog.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        edit_pet_size_dialog.setAdapter(aa);
+        edit_pet_size_dialog.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
                 // Showing selected spinner item
@@ -817,8 +812,8 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
         ArrayAdapter aa = new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,petSex);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
-        add_pet_sex_edit_dialog.setAdapter(aa);
-        add_pet_sex_edit_dialog.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        edit_pet_sex_dialog.setAdapter(aa);
+        edit_pet_sex_dialog.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
                 // Showing selected spinner item
@@ -1074,38 +1069,38 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                     }
                 }
                 break;
-            case R.id.save_changes_edit_dialog:
-                String strPetEditName= pet_name_edit_dialog.getText().toString().trim();
-                String strPetEditParentName = pet_parent_name_edit_dialog.getText().toString().trim();
-                String strPetEditContactNumber = pet_contact_number_edit_dialog.getText().toString().trim();
+            case R.id.save_edit_changes_dialog:
+                String strPetEditName= edit_name_ET.getText().toString().trim();
+                String strPetEditParentName = edit_parent_name_ET.getText().toString().trim();
+                String strPetEditContactNumber = edit_contact_number_ET.getText().toString().trim();
                 String strPetEditBirthDay = calenderTextView_edit_dialog.getText().toString().trim();
 
                 if(strPetEditName.isEmpty())
                 {
-                    pet_name_edit_dialog.setError("Enter Pet Name");
-                    pet_parent_name_edit_dialog.setError(null);
-                    pet_contact_number_edit_dialog.setError(null);
+                    edit_name_ET.setError("Enter Pet Name");
+                    edit_parent_name_ET.setError(null);
+                    edit_contact_number_ET.setError(null);
                     calenderTextView_edit_dialog.setError(null);
                 }
                 else if(strPetEditParentName.isEmpty())
                 {
-                    pet_name_edit_dialog.setError(null);
-                    pet_parent_name_edit_dialog.setError("Enter Parent Name");
-                    pet_contact_number_edit_dialog.setError(null);
+                    edit_name_ET.setError(null);
+                    edit_parent_name_ET.setError("Enter Parent Name");
+                    edit_contact_number_ET.setError(null);
                     calenderTextView_edit_dialog.setError(null);
                 }
                 else if(strPetEditContactNumber.isEmpty())
                 {
-                    pet_name_edit_dialog.setError(null);
-                    pet_parent_name_edit_dialog.setError(null);
-                    pet_contact_number_edit_dialog.setError("Enter Contact Number");
+                    edit_name_ET.setError(null);
+                    edit_parent_name_ET.setError(null);
+                    edit_contact_number_ET.setError("Enter Contact Number");
                     calenderTextView_edit_dialog.setError(null);
                 }
                 else if(strPetEditBirthDay.isEmpty())
                 {
-                    pet_name_edit_dialog.setError(null);
-                    pet_parent_name_edit_dialog.setError(null);
-                    pet_contact_number_edit_dialog.setError(null);
+                    edit_name_ET.setError(null);
+                    edit_parent_name_ET.setError(null);
+                    edit_contact_number_ET.setError(null);
                     calenderTextView_edit_dialog.setError("Pet YOB");
                 }
                 //pet size and color.
@@ -1126,9 +1121,9 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                     Toast.makeText(getActivity(), "Select Pet Sex!!", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    pet_name_edit_dialog.setError(null);
-                    pet_parent_name_edit_dialog.setError(null);
-                    pet_contact_number_edit_dialog.setError(null);
+                    edit_name_ET.setError(null);
+                    edit_parent_name_ET.setError(null);
+                    edit_contact_number_ET.setError(null);
                     calenderTextView_edit_dialog.setError(null);
 
                     UpdatePetRequest updatePetRequest = new UpdatePetRequest();
