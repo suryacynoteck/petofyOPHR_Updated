@@ -1,5 +1,8 @@
 package com.cynoteck.petofyvet.response.recentEntrys;
 
+import com.cynoteck.petofyvet.response.CreatedByUser;
+import com.cynoteck.petofyvet.response.FollowUp;
+import com.cynoteck.petofyvet.response.UpdatedByUser;
 import com.cynoteck.petofyvet.response.getPetDetailsResponse.PetAgeList;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.NatureOfVisit;
 
