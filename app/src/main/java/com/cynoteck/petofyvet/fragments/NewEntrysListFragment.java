@@ -1,17 +1,18 @@
 package com.cynoteck.petofyvet.fragments;
 
-
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import retrofit2.Response;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.activities.ViewReportsDeatilsActivity;
@@ -25,10 +26,10 @@ import com.cynoteck.petofyvet.api.ApiService;
 import com.cynoteck.petofyvet.params.petReportsRequest.PetDataParams;
 import com.cynoteck.petofyvet.params.petReportsRequest.VisitTypeData;
 import com.cynoteck.petofyvet.params.petReportsRequest.VisitTypeRequest;
-import com.cynoteck.petofyvet.response.getPetHospitalizationResponse.getHospitalizationListResponse.GetPetHospitalizationResponse;
-import com.cynoteck.petofyvet.response.getPetHospitalizationResponse.getHospitalizationListResponse.PetHospitalizationsList;
 import com.cynoteck.petofyvet.response.getLabTestReportResponse.getPetLabWorkListResponse.PetLabWorkList;
 import com.cynoteck.petofyvet.response.getLabTestReportResponse.getPetLabWorkListResponse.PetLabWorkResponse;
+import com.cynoteck.petofyvet.response.getPetHospitalizationResponse.getHospitalizationListResponse.GetPetHospitalizationResponse;
+import com.cynoteck.petofyvet.response.getPetHospitalizationResponse.getHospitalizationListResponse.PetHospitalizationsList;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.getPetClinicVisitsListsResponse.GetPetClinicVisitListResponse;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.getPetClinicVisitsListsResponse.PetClinicVisitList;
 import com.cynoteck.petofyvet.response.getXRayReports.getPetTestAndXRayResponse.GetPetTestAndXRayResponse;
@@ -39,13 +40,7 @@ import com.cynoteck.petofyvet.utils.RegisterRecyclerViewClickListener;
 
 import java.util.ArrayList;
 
-import retrofit2.Response;
-
-/**
- * A simple {@link Fragment} subclass.
- */
-
-public class ReportListFragment extends Fragment implements ApiResponse, RegisterRecyclerViewClickListener, OnClickStaicLists {
+public class NewEntrysListFragment extends Fragment implements ApiResponse, RegisterRecyclerViewClickListener, OnClickStaicLists {
     String pet_unique_id, pet_name,pet_sex, pet_owner_name,pet_owner_contact,pet_id ,report_type_id,type;
 
     RecyclerView routine_report_RV;
@@ -60,16 +55,16 @@ public class ReportListFragment extends Fragment implements ApiResponse, Registe
     LabTestReportsAdapter labTestReportsAdapter;
     HospitalizationReportsAdapter hospitalizationReportsAdapter;
 
-    public ReportListFragment() {
+    public NewEntrysListFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view= inflater.inflate(R.layout.fragment_report_list, container, false);
+        view= inflater.inflate(R.layout.fragment_new_entrys_list, container, false);
+
         Bundle extras = this.getArguments();
         report_type_id = extras.getString("reports_id");
         pet_id = extras.getString("pet_id");
@@ -81,7 +76,6 @@ public class ReportListFragment extends Fragment implements ApiResponse, Registe
         type=extras.getString("type");
 
         routine_report_RV = view.findViewById(R.id.routine_report_RV);
-
 
         switch (type){
 
@@ -323,7 +317,4 @@ public class ReportListFragment extends Fragment implements ApiResponse, Registe
 
 
     }
-
-
-
 }

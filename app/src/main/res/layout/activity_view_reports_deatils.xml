@@ -69,7 +69,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginLeft="10dp"
                 android:layout_width="0dp"
-                android:layout_marginRight="400dp"
+                android:layout_marginRight="200dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -115,7 +115,7 @@
                 app:layout_constraintStart_toStartOf="@id/vet_name_tv"
                 app:layout_constraintTop_toBottomOf="@id/vet_name_textView"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginRight="400dp"
+                android:layout_marginRight="200dp"
                 android:textStyle="bold"
                 android:textColor="@color/black_color"
                 android:text="@string/visit_date"/>
@@ -153,7 +153,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginRight="400dp"
+                android:layout_marginRight="200dp"
                 app:layout_constraintStart_toStartOf="@id/visit_date_TV"
                 app:layout_constraintTop_toBottomOf="@id/visit_date_textView"
                 android:textStyle="bold"
@@ -192,7 +192,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginRight="400dp"
+                android:layout_marginRight="200dp"
                 app:layout_constraintStart_toStartOf="@id/nature_ofVist_TV"
                 app:layout_constraintTop_toBottomOf="@id/nature_ofVist_textView"
                 android:textStyle="bold"
@@ -231,7 +231,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginRight="400dp"
+                android:layout_marginRight="200dp"
                 app:layout_constraintStart_toStartOf="@+id/pet_weight_TV"
                 app:layout_constraintTop_toBottomOf="@id/weight_textView"
                 android:textStyle="bold"
@@ -269,7 +269,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginRight="400dp"
+                android:layout_marginRight="200dp"
                 app:layout_constraintStart_toStartOf="@id/pet_temp_TV"
                 app:layout_constraintTop_toBottomOf="@id/temperature_textView"
                 android:textStyle="bold"
@@ -309,7 +309,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginRight="400dp"
+                android:layout_marginRight="200dp"
                 app:layout_constraintStart_toStartOf="@id/pet_vaccine_TV"
                 app:layout_constraintTop_toBottomOf="@id/vaccine_textView"
                 android:textStyle="bold"
@@ -349,7 +349,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginRight="400dp"
+                android:layout_marginRight="200dp"
                 app:layout_constraintStart_toStartOf="@id/pet_desc_TV"
                 app:layout_constraintTop_toBottomOf="@id/symptoms_textView"
                 android:textStyle="bold"
@@ -390,7 +390,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginRight="400dp"
+                android:layout_marginRight="200dp"
                 app:layout_constraintStart_toStartOf="@id/pet_diagosis_TV"
                 app:layout_constraintTop_toBottomOf="@id/diagnosis_textView"
                 android:textStyle="bold"
@@ -441,5 +441,37 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:background="@color/deactivate_red"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

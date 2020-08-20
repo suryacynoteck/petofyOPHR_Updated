@@ -600,6 +600,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                     NewPetRegisterResponse newPetRegisterResponse = (NewPetRegisterResponse) arg0.body();
                     int responseCode = Integer.parseInt(newPetRegisterResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
+                        otpDialog.dismiss();
                         Toast.makeText(getActivity(), "success", Toast.LENGTH_SHORT).show();
                         String sexName="";
                         if(newPetRegisterResponse.getData().getSexId().equals("2.0"))
@@ -611,6 +612,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                         data.putString("pet_id",petId);
                         data.putString("pet_name",newPetRegisterResponse.getData().getPetName()+"("+sexName+")");
                         data.putString("pet_parent",newPetRegisterResponse.getData().getPetParentName());
+                        data.putString("pet_unique_id",newPetRegisterResponse.getData().getPetUniqueId());
                         petDetailsIntent.putExtras(data);
                         startActivity(petDetailsIntent);
                     }else if (responseCode==614){
@@ -1088,6 +1090,8 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
         data.putString("pet_id",petClinicVisitLists.get(position).getId().toString());
         data.putString("pet_name",petClinicVisitLists.get(position).getPetName()+"("+petClinicVisitLists.get(position).getPetSex()+")");
         data.putString("pet_parent",petClinicVisitLists.get(position).getPetParentName());
+        data.putString("pet_sex",petClinicVisitLists.get(position).getPetSex());
+        data.putString("pet_unique_id",petClinicVisitLists.get(position).getPetUniqueId());
         petDetailsIntent.putExtras(data);
         startActivity(petDetailsIntent);
 
@@ -1259,6 +1263,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                             " " + strSpnrColorId + " " + strSpnrBreedId + " " + strPetName + " " + strPetBirthDay + " "+ currentDateandTime);
                     AddPetRequset addPetRequset = new AddPetRequset();
                     AddPetParams data = new AddPetParams();
+
                     data.setPetCategoryId(getStrSpnerItemPetNmId);
                     data.setPetSexId(strSpnrSexId);
                     data.setPetAgeId(strSpnrAgeId);

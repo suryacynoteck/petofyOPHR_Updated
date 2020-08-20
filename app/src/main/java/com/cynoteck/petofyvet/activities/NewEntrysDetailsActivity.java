@@ -1,17 +1,18 @@
 package com.cynoteck.petofyvet.activities;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
-
 import com.cynoteck.petofyvet.R;
+import com.cynoteck.petofyvet.fragments.NewEntrysListFragment;
 import com.cynoteck.petofyvet.fragments.ReportListFragment;
 
-public class ReportsCommonActivity extends AppCompatActivity {
+public class NewEntrysDetailsActivity extends AppCompatActivity {
     ImageView back_arrow_IV;
     String pet_unique_id, pet_name,pet_sex, pet_owner_name,pet_owner_contact,pet_id ,report_type_id;
     Bundle data = new Bundle();
@@ -20,7 +21,7 @@ public class ReportsCommonActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reports_common);
+        setContentView(R.layout.activity_new_entrys_details);
 
         Bundle extras = getIntent().getExtras();
         report_type_id = extras.getString("reports_id");
@@ -59,7 +60,7 @@ public class ReportsCommonActivity extends AppCompatActivity {
                 data.putString("reports_id","1");
                 data.putString("type","list");
 
-                ReportListFragment fragment1 = new ReportListFragment();
+                NewEntrysListFragment fragment1 = new NewEntrysListFragment();
                 fragment1.setArguments(data);
                 FragmentTransaction selectPetReportsFragmentFT = getSupportFragmentManager().beginTransaction();
                 selectPetReportsFragmentFT.replace(R.id.report_type_frame, fragment1);
@@ -73,7 +74,7 @@ public class ReportsCommonActivity extends AppCompatActivity {
                 data.putString("reports_id","2");
                 data.putString("type","list");
 
-                ReportListFragment fragment2 = new ReportListFragment();
+                NewEntrysListFragment fragment2 = new NewEntrysListFragment();
                 fragment2.setArguments(data);
                 FragmentTransaction fragment2FT = getSupportFragmentManager().beginTransaction();
                 fragment2FT.replace(R.id.report_type_frame, fragment2);
@@ -88,7 +89,7 @@ public class ReportsCommonActivity extends AppCompatActivity {
                 data.putString("reports_id","4");
                 data.putString("type","list");
 
-                ReportListFragment fragment3 = new ReportListFragment();
+                NewEntrysListFragment fragment3 = new NewEntrysListFragment();
                 fragment3.setArguments(data);
                 FragmentTransaction fragment3FT = getSupportFragmentManager().beginTransaction();
                 fragment3FT.replace(R.id.report_type_frame, fragment3);
@@ -103,7 +104,7 @@ public class ReportsCommonActivity extends AppCompatActivity {
                 data.putString("reports_id","5");
                 data.putString("type","list");
 
-                ReportListFragment fragment4 = new ReportListFragment();
+                NewEntrysListFragment fragment4 = new NewEntrysListFragment();
                 fragment4.setArguments(data);
                 FragmentTransaction fragment4FT = getSupportFragmentManager().beginTransaction();
                 fragment4FT.replace(R.id.report_type_frame, fragment4);
@@ -119,7 +120,7 @@ public class ReportsCommonActivity extends AppCompatActivity {
                 data.putString("reports_id","6");
                 data.putString("type","list");
 
-                ReportListFragment fragment5 = new ReportListFragment();
+                NewEntrysListFragment fragment5 = new NewEntrysListFragment();
                 fragment5.setArguments(data);
                 FragmentTransaction fragment5FT = getSupportFragmentManager().beginTransaction();
                 fragment5FT.replace(R.id.report_type_frame, fragment5);
@@ -133,7 +134,7 @@ public class ReportsCommonActivity extends AppCompatActivity {
                 reports_headline_TV.setText("Test/X-Ray Report");
                 data.putString("reports_id","7");
                 data.putString("type","XRay");
-                ReportListFragment fragment6 = new ReportListFragment();
+                NewEntrysListFragment fragment6 = new NewEntrysListFragment();
                 fragment6.setArguments(data);
                 FragmentTransaction fragment6FT = getSupportFragmentManager().beginTransaction();
                 fragment6FT.replace(R.id.report_type_frame, fragment6);
@@ -146,7 +147,7 @@ public class ReportsCommonActivity extends AppCompatActivity {
                 reports_headline_TV.setText("Lab Tests");
                 data.putString("reports_id","8");
                 data.putString("type","LabTest");
-                ReportListFragment fragment7 = new ReportListFragment();
+                NewEntrysListFragment fragment7 = new NewEntrysListFragment();
                 fragment7.setArguments(data);
                 FragmentTransaction fragment7FT = getSupportFragmentManager().beginTransaction();
                 fragment7FT.replace(R.id.report_type_frame, fragment7);
@@ -159,7 +160,7 @@ public class ReportsCommonActivity extends AppCompatActivity {
                 reports_headline_TV.setText("Hospitalization & Surgeries");
                 data.putString("reports_id","9");
                 data.putString("type","Hospitalization");
-                ReportListFragment fragment8 = new ReportListFragment();
+                NewEntrysListFragment fragment8 = new NewEntrysListFragment();
                 fragment8.setArguments(data);
                 FragmentTransaction fragment8FT = getSupportFragmentManager().beginTransaction();
                 fragment8FT.replace(R.id.report_type_frame, fragment8);
@@ -168,10 +169,11 @@ public class ReportsCommonActivity extends AppCompatActivity {
                 break;
 
             case "10.0":
+
                 reports_headline_TV.setText("Clinic Visit Report");
                 data.putString("reports_id","10");
                 data.putString("type","ClinicVisitReport");
-                ReportListFragment fragment9 = new ReportListFragment();
+                NewEntrysListFragment fragment9 = new NewEntrysListFragment();
                 fragment9.setArguments(data);
                 FragmentTransaction fragment9FT = getSupportFragmentManager().beginTransaction();
                 fragment9FT.replace(R.id.report_type_frame, fragment9);
