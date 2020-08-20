@@ -45,12 +45,19 @@ import com.cynoteck.petofyvet.api.ApiResponse;
 import com.cynoteck.petofyvet.api.ApiService;
 import com.cynoteck.petofyvet.params.addParamRequest.AddPetParams;
 import com.cynoteck.petofyvet.params.addParamRequest.AddPetRequset;
+import com.cynoteck.petofyvet.params.checkpetInVetRegister.InPetRegisterRequest;
+import com.cynoteck.petofyvet.params.checkpetInVetRegister.InPetregisterParams;
 import com.cynoteck.petofyvet.params.getPetListRequest.GetPetListParams;
 import com.cynoteck.petofyvet.params.getPetListRequest.GetPetListRequest;
+import com.cynoteck.petofyvet.params.newPetEntryParams.NewPetParams;
+import com.cynoteck.petofyvet.params.newPetEntryParams.NewPetRequest;
+import com.cynoteck.petofyvet.params.otpRequest.SendOtpParameter;
+import com.cynoteck.petofyvet.params.otpRequest.SendOtpRequest;
 import com.cynoteck.petofyvet.params.petBreedRequest.BreedParams;
 import com.cynoteck.petofyvet.params.petBreedRequest.BreedRequest;
 import com.cynoteck.petofyvet.params.updateRequest.updateParamRequest.UpdatePetParam;
 import com.cynoteck.petofyvet.params.updateRequest.updateParamRequest.UpdatePetRequest;
+import com.cynoteck.petofyvet.response.InPetVeterian.InPetVeterianResponse;
 import com.cynoteck.petofyvet.response.addPet.addPetResponse.AddPetValueResponse;
 import com.cynoteck.petofyvet.response.addPet.breedResponse.BreedCatRespose;
 import com.cynoteck.petofyvet.response.addPet.petAgeResponse.PetAgeValueResponse;
@@ -58,6 +65,8 @@ import com.cynoteck.petofyvet.response.addPet.petColorResponse.PetColorValueResp
 import com.cynoteck.petofyvet.response.addPet.petSizeResponse.PetSizeValueResponse;
 import com.cynoteck.petofyvet.response.addPet.uniqueIdResponse.UniqueResponse;
 import com.cynoteck.petofyvet.response.getPetDetailsResponse.GetPetResponse;
+import com.cynoteck.petofyvet.response.newPetResponse.NewPetRegisterResponse;
+import com.cynoteck.petofyvet.response.otpResponse.OtpResponse;
 import com.cynoteck.petofyvet.response.recentEntrys.PetClinicVisitList;
 import com.cynoteck.petofyvet.response.recentEntrys.RecentEntrysResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.PetTypeResponse;
@@ -87,23 +96,26 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
     NewEntrysAdapter newEntrysAdapter;
     ImageView new_pet_search,back_arrow_IV_new_entry;
     List<PetClinicVisitList> petClinicVisitLists=null;
+    ArrayList<String> petUniueId=null;
     RelativeLayout search_boxRL;
     EditText search_box_add_new;
-    Dialog add_new_entrys_dialog, prescription_dialog, editPetDilog;
+    Dialog add_new_entrys_dialog, prescription_dialog, editPetDilog, addNewPetMobileNumber, otpDialog;
     TextView staff_headline_TV,parent_name,specilist,email,for_a,age,sex,date,prnt_nm,temparature,symptoms,diagnosis,
-            remarks,nxt_visit,peto_reg_number_dialog,calenderTextView_dialog,peto_reg_number_edit_dialog,calenderTextView_edit_dialog;
+            remarks,nxt_visit,peto_reg_number_dialog,calenderTextView_dialog,
+            peto_reg_number_edit_dialog,calenderTextView_edit_dialog,cancelMobileDialog,cancelOtpDialog;
     AppCompatSpinner add_pet_type_edit_dialog,
             add_pet_age_edit_dialog,add_pet_sex_edit_dialog,add_pet_breed_edit_dialog,add_pet_color_edit_dialog,add_pet_size_edit_dialog;
     TextInputLayout pet_name_layout_dialog,pet_parent_name_layout_dialog,pet_contact_number_layout_dialog,pet_name_layout_edit_dialog,
-            pet_parent_name_layout_edit_dialog,pet_contact_number_edit_layout_dialog;
-    TextInputEditText
-            pet_name_edit_dialog,pet_parent_name_edit_dialog,pet_contact_number_edit_dialog;
-    Button crrete_pdf,cancel,save_changes_dialog,cancel_dialog,save_changes_edit_dialog,cancel_edit_dialog;
+            pet_parent_name_layout_edit_dialog,pet_contact_number_edit_layout_dialog,mobile_numberTL,otp_TL;
+    TextInputEditText pet_name_edit_dialog, pet_parent_mobile_number,
+            pet_parent_name_edit_dialog,pet_contact_number_edit_dialog,pet_parent_otp;
+    Button crrete_pdf,cancel,save_changes_dialog,cancel_dialog,save_changes_edit_dialog,
+            cancel_edit_dialog,submit_parent_mob_number,submit_parent_otp;
     WebView webview;
     LinearLayout addNewEntry;
     String petUniqueId="",getStrSpnerItemPetNmId="",strSpnrBreedId="",strSpnrAgeId="",strSpnrColorId="",
             strSpneSizeId="",strSpnrSexId="",strSpnerItemPetType="",strSpnrBreed="",strSpnrAge="",strSpnrSex="",
-            currentDateandTime="",petIdGetForUpdate="";
+            currentDateandTime="",petIdGetForUpdate="",strResponseOtp="",petId="";
     View view;
 
     AppCompatSpinner add_pet_type, add_pet_age_dialog ,add_pet_sex_dialog,add_pet_breed_dialog, add_pet_color_dialog,add_pet_size_dialog;
@@ -194,114 +206,6 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
         Log.d("currentDateandTime",""+currentDateandTime);
     }
 
-
-
-    public void addNewEntrysPet(){
-        add_new_entrys_dialog = new Dialog(getContext());
-        add_new_entrys_dialog.setContentView(R.layout.add_new_entrys);
-
-        peto_reg_number_dialog=add_new_entrys_dialog.findViewById(R.id.peto_reg_number_dialog);
-        calenderTextView_dialog=add_new_entrys_dialog.findViewById(R.id.calenderTextView_dialog);
-        add_pet_type=add_new_entrys_dialog.findViewById(R.id.add_pet_type);
-        add_pet_age_dialog=add_new_entrys_dialog.findViewById(R.id.add_pet_age_dialog);
-        add_pet_sex_dialog=add_new_entrys_dialog.findViewById(R.id.add_pet_sex_dialog);
-        add_pet_breed_dialog=add_new_entrys_dialog.findViewById(R.id.add_pet_breed_dialog);
-        add_pet_color_dialog=add_new_entrys_dialog.findViewById(R.id.add_pet_color_dialog);
-        add_pet_size_dialog=add_new_entrys_dialog.findViewById(R.id.add_pet_size_dialog);
-        pet_name_ET=add_new_entrys_dialog.findViewById(R.id.pet_name_ET);
-        pet_parent_name_ET=add_new_entrys_dialog.findViewById(R.id.pet_parent_name_ET);
-        pet_contact_number_ET=add_new_entrys_dialog.findViewById(R.id.pet_contact_number);
-        save_changes_dialog=add_new_entrys_dialog.findViewById(R.id.save_changes_dialog);
-        cancel_dialog=add_new_entrys_dialog.findViewById(R.id.cancel_dialog);
-
-        peto_reg_number_dialog.setText(petUniqueId);
-
-        save_changes_dialog.setOnClickListener(this);
-        cancel_dialog.setOnClickListener(this);
-        calenderTextView_dialog.setOnClickListener(this);
-
-        setSpinnerPetSex();
-        setPetTypeSpinner();
-        setPetBreeSpinner();
-        setPetAgeSpinner();
-        setPetColorSpinner();
-        setPetSizeSpinner();
-
-
-
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        Window window = add_new_entrys_dialog.getWindow();
-        lp.copyFrom(window.getAttributes());
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
-        window.setAttributes(lp);
-        add_new_entrys_dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        add_new_entrys_dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-        add_new_entrys_dialog.show();
-    }
-
-    public void editPrescriptionDialog(String petId)
-    {
-        editPetDilog = new Dialog(getContext());
-        editPetDilog.setContentView(R.layout.edit_pet_layout);
-        petIdGetForUpdate=petId;
-
-        add_pet_type_edit_dialog=editPetDilog.findViewById(R.id.add_pet_type_edit_dialog);
-        add_pet_age_edit_dialog=editPetDilog.findViewById(R.id.add_pet_age_edit_dialog);
-        add_pet_sex_edit_dialog=editPetDilog.findViewById(R.id.add_pet_sex_edit_dialog);
-        add_pet_breed_edit_dialog=editPetDilog.findViewById(R.id.add_pet_breed_edit_dialog);
-        add_pet_color_edit_dialog=editPetDilog.findViewById(R.id.add_pet_color_edit_dialog);
-        add_pet_size_edit_dialog=editPetDilog.findViewById(R.id.add_pet_size_edit_dialog);
-        pet_name_layout_edit_dialog=editPetDilog.findViewById(R.id.pet_name_layout_edit_dialog);
-        pet_parent_name_layout_edit_dialog=editPetDilog.findViewById(R.id.pet_parent_name_layout_edit_dialog);
-        pet_contact_number_edit_layout_dialog=editPetDilog.findViewById(R.id.pet_contact_number_edit_layout_dialog);
-        pet_name_edit_dialog=editPetDilog.findViewById(R.id.pet_name_edit_dialog);
-        pet_parent_name_edit_dialog=editPetDilog.findViewById(R.id.pet_parent_name_edit_dialog);
-        pet_contact_number_edit_dialog=editPetDilog.findViewById(R.id.pet_contact_number_edit_dialog);
-        peto_reg_number_edit_dialog=editPetDilog.findViewById(R.id.peto_reg_number_edit_dialog);
-        calenderTextView_edit_dialog=editPetDilog.findViewById(R.id.calenderTextView_edit_dialog);
-        save_changes_edit_dialog=editPetDilog.findViewById(R.id.save_changes_edit_dialog);
-        cancel_edit_dialog=editPetDilog.findViewById(R.id.cancel_edit_dialog);
-
-        calenderTextView_edit_dialog.setOnClickListener(this);
-        save_changes_edit_dialog.setOnClickListener(this);
-        cancel_edit_dialog.setOnClickListener(this);
-        StringTokenizer tokens = new StringTokenizer(petId, ".");
-        String first = tokens.nextToken();
-        GetPetListParams getPetListParams = new GetPetListParams();
-        getPetListParams.setId(first);
-        GetPetListRequest getPetListRequest = new GetPetListRequest();
-        getPetListRequest.setData(getPetListParams);
-        if(methods.isInternetOn())
-        {
-            getPetlistData(getPetListRequest);
-        }
-        else
-        {
-            methods.DialogInternet();
-        }
-
-        setSpinnerEditPetSex();
-        setPetTypeEditSpinner();
-        setPetBreeEditSpinner();
-        setPetAgeEditSpinner();
-        setPetColorEditSpinner();
-        setPetSizeEditSpinner();
-
-
-
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        Window window = editPetDilog.getWindow();
-        lp.copyFrom(window.getAttributes());
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
-        window.setAttributes(lp);
-        editPetDilog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        editPetDilog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-        editPetDilog.show();
-
-    }
-
     private void getPetNewList() {
         shimmer_view_new_entry.startShimmerAnimation();
         String input= Config.token.trim();
@@ -383,7 +287,23 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
         Log.e("DATALOG","check1=> "+addPetRequset);
 
     }
+    private void chkVetInregister(InPetRegisterRequest inPetRegisterRequest) {
+        ApiService<InPetVeterianResponse> service = new ApiService<>();
+        service.get( this, ApiClient.getApiInterface().checkPetInVetRegister(Config.token,inPetRegisterRequest), "CheckPetInVetRegister");
+        Log.e("DATALOG","check1=> "+inPetRegisterRequest);
+    }
 
+    private void sendotpUsingMobileNumber(SendOtpRequest sendOtpRequest) {
+        ApiService<OtpResponse> service = new ApiService<>();
+        service.get( this, ApiClient.getApiInterface().senOtp(Config.token,sendOtpRequest), "SendOtp");
+        Log.e("DATALOG","check1=> "+sendOtpRequest);
+    }
+
+    private void addNewRegisterPet(NewPetRequest newPetRequest) {
+        ApiService<NewPetRegisterResponse> service = new ApiService<>();
+        service.get( this, ApiClient.getApiInterface().addPetToRegister(Config.token,newPetRequest), "AddPetToRegister");
+        Log.e("DATALOG","check1=> "+newPetRequest);
+    }
 
     @Override
     public void onResponse(Response arg0, String key) {
@@ -407,6 +327,10 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                         shimmer_view_new_entry.setVisibility(View.GONE);
                         shimmer_view_new_entry.stopShimmerAnimation();
                         Toast.makeText(getActivity(), "Success", Toast.LENGTH_SHORT).show();
+                        petUniueId=new ArrayList<>();
+                        for(int i=0;i<petClinicVisitLists.size();i++){
+                            petUniueId.add(petClinicVisitLists.get(i).getPetUniqueId());
+                        }
                     }
 
                 }
@@ -616,9 +540,314 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                     e.printStackTrace();
                 }
                 break;
+            case "CheckPetInVetRegister":
+                try {
+                    Log.d("CheckPetInVetRegister",arg0.body().toString());
+                    InPetVeterianResponse inPetVeterianResponse = (InPetVeterianResponse) arg0.body();
+                    int responseCode = Integer.parseInt(inPetVeterianResponse.getResponse().getResponseCode());
+                    if (responseCode== 109){
+                        if(!inPetVeterianResponse.getData().getPetId().equals("0"))
+                        {
+                            petId=inPetVeterianResponse.getData().getPetId();
+                            verifyDialog();
+                        }
+                        else
+                        {
+                            Toast.makeText(getActivity(), "Invalid pet unique Id", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }else if (responseCode==614){
+                        Toast.makeText(getActivity(), inPetVeterianResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(getActivity(), "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "SendOtp":
+                try {
+                    Log.d("SendOtp",arg0.body().toString());
+                    OtpResponse otpResponse = (OtpResponse) arg0.body();
+                    int responseCode = Integer.parseInt(otpResponse.getResponse().getResponseCode());
+                    if (responseCode== 109){
+                        if(otpResponse.getData().getSuccess().equals("true"))
+                        {
+                            addNewPetMobileNumber.dismiss();
+                            strResponseOtp=otpResponse.getData().getOtp();
+                            otpDialog();
+                        }
+                        else
+                        {
+                            addNewPetMobileNumber.dismiss();
+                            Toast.makeText(getActivity(), "Invalid Mobile Number", Toast.LENGTH_SHORT).show();
+                        }
+                    }else if (responseCode==614){
+                        Toast.makeText(getActivity(), otpResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(getActivity(), "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "AddPetToRegister":
+                try {
+                    Log.d("SendOtp",arg0.body().toString());
+                    NewPetRegisterResponse newPetRegisterResponse = (NewPetRegisterResponse) arg0.body();
+                    int responseCode = Integer.parseInt(newPetRegisterResponse.getResponse().getResponseCode());
+                    if (responseCode== 109){
+                        Toast.makeText(getActivity(), "success", Toast.LENGTH_SHORT).show();
+                        String sexName="";
+                        if(newPetRegisterResponse.getData().getSexId().equals("2.0"))
+                            sexName="Female";
+                        else
+                            sexName="Male";
+                        Intent petDetailsIntent = new Intent(getActivity().getApplication(), PetDetailsActivity.class);
+                        Bundle data = new Bundle();
+                        data.putString("pet_id",petId);
+                        data.putString("pet_name",newPetRegisterResponse.getData().getPetName()+"("+sexName+")");
+                        data.putString("pet_parent",newPetRegisterResponse.getData().getPetParentName());
+                        petDetailsIntent.putExtras(data);
+                        startActivity(petDetailsIntent);
+                    }else if (responseCode==614){
+                        Toast.makeText(getActivity(), newPetRegisterResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(getActivity(), "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+                break;
         }
 
     }
+
+
+    ////////////////////////////////////ALEART DIALOG////////////////////////////////////////////////////////
+
+
+    public void addNewEntrysPet(){
+        add_new_entrys_dialog = new Dialog(getContext());
+        add_new_entrys_dialog.setContentView(R.layout.add_new_entrys);
+
+        peto_reg_number_dialog=add_new_entrys_dialog.findViewById(R.id.peto_reg_number_dialog);
+        calenderTextView_dialog=add_new_entrys_dialog.findViewById(R.id.calenderTextView_dialog);
+        add_pet_type=add_new_entrys_dialog.findViewById(R.id.add_pet_type);
+        add_pet_age_dialog=add_new_entrys_dialog.findViewById(R.id.add_pet_age_dialog);
+        add_pet_sex_dialog=add_new_entrys_dialog.findViewById(R.id.add_pet_sex_dialog);
+        add_pet_breed_dialog=add_new_entrys_dialog.findViewById(R.id.add_pet_breed_dialog);
+        add_pet_color_dialog=add_new_entrys_dialog.findViewById(R.id.add_pet_color_dialog);
+        add_pet_size_dialog=add_new_entrys_dialog.findViewById(R.id.add_pet_size_dialog);
+        pet_name_ET=add_new_entrys_dialog.findViewById(R.id.pet_name_ET);
+        pet_parent_name_ET=add_new_entrys_dialog.findViewById(R.id.pet_parent_name_ET);
+        pet_contact_number_ET=add_new_entrys_dialog.findViewById(R.id.pet_contact_number);
+        save_changes_dialog=add_new_entrys_dialog.findViewById(R.id.save_changes_dialog);
+        cancel_dialog=add_new_entrys_dialog.findViewById(R.id.cancel_dialog);
+
+        peto_reg_number_dialog.setText(petUniqueId);
+
+        save_changes_dialog.setOnClickListener(this);
+        cancel_dialog.setOnClickListener(this);
+        calenderTextView_dialog.setOnClickListener(this);
+
+        setSpinnerPetSex();
+        setPetTypeSpinner();
+        setPetBreeSpinner();
+        setPetAgeSpinner();
+        setPetColorSpinner();
+        setPetSizeSpinner();
+
+
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = add_new_entrys_dialog.getWindow();
+        lp.copyFrom(window.getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+        window.setAttributes(lp);
+        add_new_entrys_dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        add_new_entrys_dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        add_new_entrys_dialog.show();
+    }
+
+    public void editPrescriptionDialog(String petId)
+    {
+        editPetDilog = new Dialog(getContext());
+        editPetDilog.setContentView(R.layout.edit_pet_layout);
+        petIdGetForUpdate=petId;
+
+        add_pet_type_edit_dialog=editPetDilog.findViewById(R.id.add_edit_pet_type);
+        add_pet_age_edit_dialog=editPetDilog.findViewById(R.id.add_edit_pet_age_dialog);
+        add_pet_sex_edit_dialog=editPetDilog.findViewById(R.id.add_edit_pet_sex_dialog);
+        add_pet_breed_edit_dialog=editPetDilog.findViewById(R.id.add_edit_pet_breed_dialog);
+        add_pet_color_edit_dialog=editPetDilog.findViewById(R.id.add_edit_pet_color_dialog);
+        add_pet_size_edit_dialog=editPetDilog.findViewById(R.id.add_edit_pet_size_dialog);
+        pet_name_edit_dialog=editPetDilog.findViewById(R.id.pet_edit_name_ET);
+        pet_parent_name_edit_dialog=editPetDilog.findViewById(R.id.pet_edit_parent_name_ET);
+        pet_contact_number_edit_dialog=editPetDilog.findViewById(R.id.pet_edit_contact_number);
+        peto_reg_number_edit_dialog=editPetDilog.findViewById(R.id.peto_edit_reg_number_dialog);
+        calenderTextView_edit_dialog=editPetDilog.findViewById(R.id.calenderTextView_edit_dialog);
+        save_changes_edit_dialog=editPetDilog.findViewById(R.id.save_edit_changes_dialog);
+        cancel_edit_dialog=editPetDilog.findViewById(R.id.cancel_edit_dialog);
+
+        calenderTextView_edit_dialog.setOnClickListener(this);
+        save_changes_edit_dialog.setOnClickListener(this);
+        cancel_edit_dialog.setOnClickListener(this);
+        StringTokenizer tokens = new StringTokenizer(petId, ".");
+        String first = tokens.nextToken();
+        GetPetListParams getPetListParams = new GetPetListParams();
+        getPetListParams.setId(first);
+        GetPetListRequest getPetListRequest = new GetPetListRequest();
+        getPetListRequest.setData(getPetListParams);
+        if(methods.isInternetOn())
+        {
+            getPetlistData(getPetListRequest);
+        }
+        else
+        {
+            methods.DialogInternet();
+        }
+
+        setSpinnerEditPetSex();
+        setPetTypeEditSpinner();
+        setPetBreeEditSpinner();
+        setPetAgeEditSpinner();
+        setPetColorEditSpinner();
+        setPetSizeEditSpinner();
+
+
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = editPetDilog.getWindow();
+        lp.copyFrom(window.getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+        window.setAttributes(lp);
+        editPetDilog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        editPetDilog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        editPetDilog.show();
+
+    }
+
+    private void verifyDialog() {
+
+        addNewPetMobileNumber=new Dialog(getContext());
+        addNewPetMobileNumber.setContentView(R.layout.add_new_pet_mobile_verification_dialog);
+
+        mobile_numberTL=addNewPetMobileNumber.findViewById(R.id.mobile_numberTL);
+        pet_parent_mobile_number=addNewPetMobileNumber.findViewById(R.id.pet_parent_mobile_number);
+        submit_parent_mob_number=addNewPetMobileNumber.findViewById(R.id.submit_parent_mob_number);
+        cancelMobileDialog=addNewPetMobileNumber.findViewById(R.id.cancelMobileDialog);
+
+        submit_parent_mob_number.setOnClickListener(this);
+        cancelMobileDialog.setOnClickListener(this);
+
+
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = addNewPetMobileNumber.getWindow();
+        lp.copyFrom(window.getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+        window.setAttributes(lp);
+        addNewPetMobileNumber.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        addNewPetMobileNumber.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        addNewPetMobileNumber.show();
+    }
+
+    public void otpDialog()
+    {
+        otpDialog=new Dialog(getContext());
+        otpDialog.setContentView(R.layout.otp_layout);
+
+        otp_TL=otpDialog.findViewById(R.id.otp_TL);
+        pet_parent_otp=otpDialog.findViewById(R.id.pet_parent_otp);
+        submit_parent_otp=otpDialog.findViewById(R.id.submit_parent_otp);
+        cancelOtpDialog=otpDialog.findViewById(R.id.cancelOtpDialog);
+
+        submit_parent_otp.setOnClickListener(this);
+        cancelOtpDialog.setOnClickListener(this);
+
+
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = otpDialog.getWindow();
+        lp.copyFrom(window.getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+        window.setAttributes(lp);
+        otpDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        otpDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        otpDialog.show();
+
+    }
+
+    private void showEditStaffDialog(final String veterian, final String strEmail, final String strForA, final String strAge, final String strSex, final String strDate, final String strParntNm, final String strTemparature, final String strDiagnosis, final String strRemark, final String strNxtVisit) {
+
+        prescription_dialog = new Dialog(getContext());
+        prescription_dialog.setContentView(R.layout.precription_layout);
+
+        parent_name=prescription_dialog.findViewById(R.id.parent_name);
+        specilist=prescription_dialog.findViewById(R.id.specilist);
+        email=prescription_dialog.findViewById(R.id.email);
+        for_a=prescription_dialog.findViewById(R.id.for_a);
+        age=prescription_dialog.findViewById(R.id.age);
+        sex=prescription_dialog.findViewById(R.id.sex);
+        date=prescription_dialog.findViewById(R.id.date);
+        prnt_nm=prescription_dialog.findViewById(R.id.prnt_nm);
+        temparature=prescription_dialog.findViewById(R.id.temparature);
+        symptoms=prescription_dialog.findViewById(R.id.symptoms);
+        diagnosis=prescription_dialog.findViewById(R.id.diagnosis);
+        remarks=prescription_dialog.findViewById(R.id.remarks);
+        nxt_visit=prescription_dialog.findViewById(R.id.nxt_visit);
+
+        crrete_pdf=prescription_dialog.findViewById(R.id.crrete_pdf);
+        cancel=prescription_dialog.findViewById(R.id.cancel);
+
+
+        cancel.setOnClickListener(this);
+
+       /* crrete_pdf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createPdf(veterian,  strEmail,  strForA,  strAge, strSex, strDate, strParntNm, strTemparature, strDiagnosis, strRemark, strNxtVisit);
+            }
+        });*/
+
+        parent_name.setText(veterian);
+        //specilist.setText(strSpecialist);
+        email.setText(strEmail);
+        for_a.setText(strForA);
+        age.setText(strAge);
+        sex.setText(strSex);
+        date.setText(strDate);
+        prnt_nm.setText(strParntNm);
+        temparature.setText(strTemparature);
+        //symptoms.setText(strSymptoms);
+        diagnosis.setText(strDiagnosis);
+        remarks.setText(strRemark);
+        nxt_visit.setText(strNxtVisit);
+
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = prescription_dialog.getWindow();
+        lp.copyFrom(window.getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+        window.setAttributes(lp);
+        prescription_dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        prescription_dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        prescription_dialog.show();
+
+    }
+
+
+    //////////////////////////////////////////Set Spinner/////////////////////////////////////////////
+
     private void setPetTypeSpinner() {
         ArrayAdapter aa = new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,petType);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -831,6 +1060,8 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
         });
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
+
     @Override
     public void onError(Throwable t, String key) {
 
@@ -868,65 +1099,6 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
         showEditStaffDialog(petClinicVisitLists.get(position).getVeterinarian(),petClinicVisitLists.get(position).getCreatedByUser().getEmail(),petClinicVisitLists.get(position).getPetName(),petClinicVisitLists.get(position).getPetAge(),petClinicVisitLists.get(position).getPetSex(),petClinicVisitLists.get(position).getDateOfOnset(),petClinicVisitLists.get(position).getPetParentName(),petClinicVisitLists.get(position).getTemperature(),petClinicVisitLists.get(position).getDiagnosisProcedure(),petClinicVisitLists.get(position).getTreatmentRemarks(),petClinicVisitLists.get(position).getFollowUpDate());
     }
 
-    private void showEditStaffDialog(final String veterian, final String strEmail, final String strForA, final String strAge, final String strSex, final String strDate, final String strParntNm, final String strTemparature, final String strDiagnosis, final String strRemark, final String strNxtVisit) {
-
-        prescription_dialog = new Dialog(getContext());
-        prescription_dialog.setContentView(R.layout.precription_layout);
-
-        parent_name=prescription_dialog.findViewById(R.id.parent_name);
-        specilist=prescription_dialog.findViewById(R.id.specilist);
-        email=prescription_dialog.findViewById(R.id.email);
-        for_a=prescription_dialog.findViewById(R.id.for_a);
-        age=prescription_dialog.findViewById(R.id.age);
-        sex=prescription_dialog.findViewById(R.id.sex);
-        date=prescription_dialog.findViewById(R.id.date);
-        prnt_nm=prescription_dialog.findViewById(R.id.prnt_nm);
-        temparature=prescription_dialog.findViewById(R.id.temparature);
-        symptoms=prescription_dialog.findViewById(R.id.symptoms);
-        diagnosis=prescription_dialog.findViewById(R.id.diagnosis);
-        remarks=prescription_dialog.findViewById(R.id.remarks);
-        nxt_visit=prescription_dialog.findViewById(R.id.nxt_visit);
-
-        crrete_pdf=prescription_dialog.findViewById(R.id.crrete_pdf);
-        cancel=prescription_dialog.findViewById(R.id.cancel);
-
-
-        cancel.setOnClickListener(this);
-
-       /* crrete_pdf.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                createPdf(veterian,  strEmail,  strForA,  strAge, strSex, strDate, strParntNm, strTemparature, strDiagnosis, strRemark, strNxtVisit);
-            }
-        });*/
-
-        parent_name.setText(veterian);
-        //specilist.setText(strSpecialist);
-        email.setText(strEmail);
-        for_a.setText(strForA);
-        age.setText(strAge);
-        sex.setText(strSex);
-        date.setText(strDate);
-        prnt_nm.setText(strParntNm);
-        temparature.setText(strTemparature);
-        //symptoms.setText(strSymptoms);
-        diagnosis.setText(strDiagnosis);
-        remarks.setText(strRemark);
-        nxt_visit.setText(strNxtVisit);
-
-
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        Window window = prescription_dialog.getWindow();
-        lp.copyFrom(window.getAttributes());
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
-        window.setAttributes(lp);
-        prescription_dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        prescription_dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-        prescription_dialog.show();
-
-    }
-
 
     @Override
     public void onProductDownloadClick(int position) {
@@ -942,11 +1114,48 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.new_pet_search:
-                search_boxRL.setVisibility(View.VISIBLE);
-                staff_headline_TV.setVisibility(View.GONE);
-                InputMethodManager imm1 = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm1.hideSoftInputFromWindow(search_box_add_new.getWindowToken(), 0);
-                back_arrow_IV_new_entry.setVisibility(View.VISIBLE);
+                Log.d("hahahhahah",""+petUniueId.contains(search_box_add_new.getText().toString()));
+                if(search_box_add_new.getText().toString().isEmpty()){
+                    search_boxRL.setVisibility(View.VISIBLE);
+                    staff_headline_TV.setVisibility(View.GONE);
+                    back_arrow_IV_new_entry.setVisibility(View.VISIBLE);
+                }
+                else{
+                    String petoUniqueIdSplit = search_box_add_new.getText().toString().substring(0,4);
+                    Log.d("petoUniqueIdSplit",""+petoUniqueIdSplit);
+                    if(petoUniqueIdSplit.equals("PETO"))
+                    {
+                        if(petUniueId.contains(search_box_add_new.getText().toString())==true)
+                        {
+                            search_boxRL.setVisibility(View.VISIBLE);
+                            staff_headline_TV.setVisibility(View.GONE);
+                            InputMethodManager imm1 = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm1.hideSoftInputFromWindow(search_box_add_new.getWindowToken(), 0);
+                            back_arrow_IV_new_entry.setVisibility(View.VISIBLE);
+                        }
+                        else
+                        {
+                            InPetRegisterRequest inPetRegisterRequest = new InPetRegisterRequest();
+                            InPetregisterParams inPetregisterParams = new InPetregisterParams();
+                            inPetregisterParams.setUniqueId(search_box_add_new.getText().toString());
+                            inPetRegisterRequest.setData(inPetregisterParams);
+                            if (methods.isInternetOn()) {
+                                chkVetInregister(inPetRegisterRequest);
+                            } else {
+                                methods.DialogInternet();
+                            }
+                            Log.d("Add Anotheer Veterian","vet");
+                        }
+                    }
+                    else{
+                        search_boxRL.setVisibility(View.VISIBLE);
+                        staff_headline_TV.setVisibility(View.GONE);
+                        InputMethodManager imm1 = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm1.hideSoftInputFromWindow(search_box_add_new.getWindowToken(), 0);
+                        back_arrow_IV_new_entry.setVisibility(View.VISIBLE);
+                    }
+
+                }
                 break;
             case R.id.back_arrow_IV_new_entry:
                 clearSearch();
@@ -1074,7 +1283,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                     }
                 }
                 break;
-            case R.id.save_changes_edit_dialog:
+            case R.id.save_edit_changes_dialog:
                 String strPetEditName= pet_name_edit_dialog.getText().toString().trim();
                 String strPetEditParentName = pet_parent_name_edit_dialog.getText().toString().trim();
                 String strPetEditContactNumber = pet_contact_number_edit_dialog.getText().toString().trim();
@@ -1166,8 +1375,61 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                 editPetDilog.dismiss();
                 break;
 
+            case R.id.submit_parent_mob_number:
+                String StrmobileNumber=pet_parent_mobile_number.getText().toString();
+                if(StrmobileNumber.isEmpty()){
+                    pet_parent_mobile_number.setError("Enter A valid Mobile Number");
+                }
+                else{
+                    pet_parent_mobile_number.setError(null);
+                    SendOtpRequest sendOtpRequest = new SendOtpRequest();
+                    SendOtpParameter data = new SendOtpParameter();
+                    data.setPhoneNumber(StrmobileNumber);
+                    data.setEmailId("");
+                    sendOtpRequest.setData(data);
+                    if (methods.isInternetOn()) {
+                        sendotpUsingMobileNumber(sendOtpRequest);
+                    } else {
+                        methods.DialogInternet();
+                    }
+                }
+                break;
+
+            case R.id.cancelMobileDialog:
+                addNewPetMobileNumber.dismiss();
+                break;
+
+            case R.id.submit_parent_otp:
+                String otp=pet_parent_otp.getText().toString();
+                if(otp.isEmpty())
+                {
+                    pet_parent_otp.setError("Enter Correct OTP");
+                }
+                else if(!otp.equals(strResponseOtp))
+                {
+                    pet_parent_otp.setError("Enter Wrong OTP");
+                }
+                else
+                {
+                    pet_parent_otp.setError(null);
+                    NewPetRequest newPetRequest = new NewPetRequest();
+                    NewPetParams data = new NewPetParams();
+                    data.setId(petId);
+                    newPetRequest.setData(data);
+                    if (methods.isInternetOn()) {
+                        addNewRegisterPet(newPetRequest);
+                    } else {
+                        methods.DialogInternet();
+                    }
+                }
+                break;
+
+            case R.id.cancelOtpDialog:
+                otpDialog.dismiss();
+                break;
         }
     }
+
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -1346,5 +1608,6 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
             PrintJob printJob=printManager.print(JobName,adapter,new PrintAttributes.Builder().build());
         }
     }
+
 
 }
