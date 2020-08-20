@@ -14,7 +14,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cynoteck.petofyvet.R;
+import com.cynoteck.petofyvet.activities.HospitalizationDetailsActivity;
+import com.cynoteck.petofyvet.activities.LabTestReportDeatilsActivity;
 import com.cynoteck.petofyvet.activities.ViewReportsDeatilsActivity;
+import com.cynoteck.petofyvet.activities.XRayReportDeatilsActivity;
 import com.cynoteck.petofyvet.adapters.HospitalizationReportsAdapter;
 import com.cynoteck.petofyvet.adapters.LabTestReportsAdapter;
 import com.cynoteck.petofyvet.adapters.ReportsTypeAdapter;
@@ -50,7 +53,7 @@ public class ReportListFragment extends Fragment implements ApiResponse, Registe
 
     RecyclerView routine_report_RV;
     View view;
-    private ArrayList<PetClinicVisitList> petClinicVisitListArrayList;
+    public ArrayList<PetClinicVisitList> petClinicVisitListArrayList;
     private ArrayList<PetTestsAndXrayList> petTestsAndXrayLists;
     private ArrayList<PetLabWorkList> petLabWorkLists;
     private ArrayList<PetHospitalizationsList> petHospitalizationsLists;
@@ -170,7 +173,6 @@ public class ReportListFragment extends Fragment implements ApiResponse, Registe
 
     private void getXrayReport() {
 
-
         PetDataParams getPetDataParams = new PetDataParams();
         getPetDataParams.setPageNumber("1");
         getPetDataParams.setPageSize("10000");
@@ -180,7 +182,6 @@ public class ReportListFragment extends Fragment implements ApiResponse, Registe
         VisitTypeRequest visitTypeRequest = new VisitTypeRequest();
         visitTypeRequest.setHeader(getPetDataParams);
         visitTypeRequest.setData(visitTypeData);
-
 
         ApiService<GetPetTestAndXRayResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().getPetTestAndXRay(Config.token,visitTypeRequest), "GetPetTestAndXRay");
@@ -295,10 +296,14 @@ public class ReportListFragment extends Fragment implements ApiResponse, Registe
     public void onProductClick(int position) {
         Toast.makeText(getContext(), ""+petClinicVisitListArrayList.get(position).getId(), Toast.LENGTH_SHORT).show();
         Intent viewReportsDeatilsActivityIntent = new Intent(getActivity().getApplication(), ViewReportsDeatilsActivity.class);
-        Bundle data = new Bundle();
-        data.putString("clinic_id",petClinicVisitListArrayList.get(position).getId());
-
-        viewReportsDeatilsActivityIntent.putExtras(data);
+        viewReportsDeatilsActivityIntent.putExtra("clinic_id",petClinicVisitListArrayList.get(position).getId());
+        viewReportsDeatilsActivityIntent.putExtra("pet_id",pet_id);
+        viewReportsDeatilsActivityIntent.putExtra("pet_name",pet_name);
+        viewReportsDeatilsActivityIntent.putExtra("pet_unique_id",pet_unique_id);
+        viewReportsDeatilsActivityIntent.putExtra("pet_sex",pet_sex);
+        viewReportsDeatilsActivityIntent.putExtra("pet_owner_name",pet_owner_name);
+        viewReportsDeatilsActivityIntent.putExtra("pet_owner_contact",pet_owner_contact);
+        viewReportsDeatilsActivityIntent.putExtras(viewReportsDeatilsActivityIntent);
         startActivity(viewReportsDeatilsActivityIntent);
         getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
 
@@ -308,22 +313,64 @@ public class ReportListFragment extends Fragment implements ApiResponse, Registe
     @Override
     public void onViewXrayClick(int position) {
         Toast.makeText(getContext(), ""+petTestsAndXrayLists.get(position).getId(), Toast.LENGTH_SHORT).show();
-
+        Bundle labdata = new Bundle();
+        labdata.putString("pet_id",pet_id);
+        labdata.putString("pet_name",pet_name);
+        labdata.putString("pet_unique_id",pet_unique_id);
+        labdata.putString("pet_sex",pet_sex);
+        labdata.putString("pet_owner_name",pet_owner_name);
+        labdata.putString("pet_owner_contact",pet_owner_contact);
+        Intent labIntent = new Intent(getContext(), XRayReportDeatilsActivity.class);
+        labIntent.putExtras(labdata);
+        startActivity(labIntent);
+        getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
     }
 
     @Override
     public void onViewLabTestReportsClick(int position) {
         Toast.makeText(getContext(), ""+petLabWorkLists.get(position).getId(), Toast.LENGTH_SHORT).show();
 
+        Intent labIntent = new Intent(getContext(), LabTestReportDeatilsActivity.class);
+        labIntent.putExtra("pet_id",pet_id);
+        labIntent.putExtra("pet_name",pet_name);
+        labIntent.putExtra("pet_unique_id",pet_unique_id);
+        labIntent.putExtra("pet_sex",pet_sex);
+        labIntent.putExtra("pet_owner_name",pet_owner_name);
+        labIntent.putExtra("pet_owner_contact",pet_owner_contact);
+        labIntent.putExtra("id",petLabWorkLists.get(position).getId());
+
+        labIntent.putExtras(labIntent);
+        startActivity(labIntent);
+        getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
+
+    }
+
+    private void sendData() {
+
     }
 
     @Override
     public void onViewHospitalizationClick(int position) {
         Toast.makeText(getContext(), ""+petHospitalizationsLists.get(position).getId(), Toast.LENGTH_SHORT).show();
-
-
+        Intent labIntent = new Intent(getContext(), HospitalizationDetailsActivity.class);
+        labIntent.putExtra("pet_id",pet_id);
+        labIntent.putExtra("pet_name",pet_name);
+        labIntent.putExtra("pet_unique_id",pet_unique_id);
+        labIntent.putExtra("pet_sex",pet_sex);
+        labIntent.putExtra("pet_owner_name",pet_owner_name);
+        labIntent.putExtra("pet_owner_contact",pet_owner_contact);
+        labIntent.putExtras(labIntent);
+        startActivity(labIntent);
+        getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
     }
 
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (Config.type.equals("list")){
+            Config.type ="";
+            getPetClinicVisit();
+        }
+    }
 }

@@ -1,6 +1,7 @@
 
 package com.cynoteck.petofyvet.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.cynoteck.petofyvet.api.ApiResponse;
 import com.cynoteck.petofyvet.api.ApiService;
 import com.cynoteck.petofyvet.params.petReportsRequest.PetClinicVisitDetailsRequest;
 import com.cynoteck.petofyvet.params.petReportsRequest.PetClinicVistsDetailsParams;
+import com.cynoteck.petofyvet.response.getPetReportsResponse.AddUpdateDeleteClinicVisitResponse;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.getClinicVisitDetails.GetClinicVisitsDetailsResponse;
 import com.cynoteck.petofyvet.utils.Config;
 
@@ -24,10 +26,12 @@ import retrofit2.Response;
 
 public class ViewReportsDeatilsActivity extends AppCompatActivity implements ApiResponse, View.OnClickListener {
 
-    String clinic_id;
+    String clinic_id, type;
     TextView vet_name_textView,visit_date_textView,nature_ofVist_textView,weight_textView,temperature_textView,vaccine_textView,symptoms_textView,diagnosis_textView,remarks_textView;
     ImageView back_arrow_IV;
     Button deleteReport_BT;
+    String pet_unique_id, pet_name,pet_sex, pet_owner_name,pet_owner_contact,pet_id ,report_type_id;
+    TextView pet_name_TV,pet_sex_TV,pet_id_TV,pet_owner_name_TV,pet_owner_phone_no_TV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +39,18 @@ public class ViewReportsDeatilsActivity extends AppCompatActivity implements Api
         setContentView(R.layout.activity_view_reports_deatils);
 
         init();
+        setdataInfields();
         getclinicVisitsReportDetails();
+
+    }
+
+    private void setdataInfields() {
+
+        pet_name_TV.setText(pet_name);
+        pet_sex_TV.setText("(" +pet_sex+ ")");
+        pet_id_TV.setText(pet_unique_id);
+        pet_owner_name_TV.setText(pet_owner_name);
+        pet_owner_phone_no_TV.setText(pet_owner_contact);
 
     }
 
@@ -52,8 +67,17 @@ public class ViewReportsDeatilsActivity extends AppCompatActivity implements Api
     }
 
     private void init() {
-        Bundle extras = getIntent().getExtras();
-        clinic_id=extras.getString("clinic_id");
+
+        Intent extras = getIntent();
+        clinic_id = extras.getExtras().getString("clinic_id");
+        pet_owner_contact = extras.getExtras().getString("pet_owner_contact");
+        pet_owner_name = extras.getExtras().getString("pet_owner_name");
+        pet_sex = extras.getExtras().getString("pet_sex");
+        pet_name = extras.getExtras().getString("pet_name");
+        pet_unique_id = extras.getExtras().getString("pet_unique_id");
+        report_type_id=extras.getExtras().getString("id");
+
+
 
         deleteReport_BT=findViewById(R.id.deleteReport_BT);
         vet_name_textView=findViewById(R.id.vet_name_textView);
@@ -66,6 +90,12 @@ public class ViewReportsDeatilsActivity extends AppCompatActivity implements Api
         diagnosis_textView=findViewById(R.id.diagnosis_textView);
         remarks_textView=findViewById(R.id.remarks_textView);
         back_arrow_IV=findViewById(R.id.back_arrow_IV);
+
+        pet_name_TV = findViewById(R.id.pet_name_TV);
+        pet_sex_TV = findViewById(R.id.pet_sex_TV);
+        pet_id_TV = findViewById(R.id.pet_id_TV);
+        pet_owner_name_TV = findViewById(R.id.pet_owner_name_TV);
+        pet_owner_phone_no_TV = findViewById(R.id.pet_owner_phone_no_TV);
         back_arrow_IV.setOnClickListener(this);
         deleteReport_BT.setOnClickListener(this);
 
@@ -99,6 +129,22 @@ public class ViewReportsDeatilsActivity extends AppCompatActivity implements Api
                 }
                 break;
 
+                case "DeletePetClinicVisitDetails":
+                    try {
+                        Log.d("DeleteClinicVisit",response.body().toString());
+                        AddUpdateDeleteClinicVisitResponse addUpdateDeleteClinicVisitResponse = (AddUpdateDeleteClinicVisitResponse) response.body();
+                        int responseCode = Integer.parseInt(addUpdateDeleteClinicVisitResponse.getResponse().getResponseCode());
+                        if (responseCode== 109){
+                            Config.type = "list";
+                            onBackPressed();
+                            Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                    catch(Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
         }
     }
 
@@ -117,10 +163,26 @@ public class ViewReportsDeatilsActivity extends AppCompatActivity implements Api
                 break;
 
             case R.id.deleteReport_BT:
-
-
+                deletClinicVisitDetails();
                 break;
         }
 
+    }
+
+    private void deletClinicVisitDetails() {
+
+        PetClinicVistsDetailsParams petClinicVistsDetailsParams = new PetClinicVistsDetailsParams();
+        petClinicVistsDetailsParams.setId(clinic_id.substring(0,clinic_id.length()-2));
+        PetClinicVisitDetailsRequest petClinicVisitDetailsRequest = new PetClinicVisitDetailsRequest();
+        petClinicVisitDetailsRequest.setData(petClinicVistsDetailsParams);
+        Log.d("DeleteClinicVisit",petClinicVisitDetailsRequest.toString());
+        ApiService<AddUpdateDeleteClinicVisitResponse> service = new ApiService<>();
+        service.get(this, ApiClient.getApiInterface().deleteClinicVisit(Config.token,petClinicVisitDetailsRequest), "DeletePetClinicVisitDetails");
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }
