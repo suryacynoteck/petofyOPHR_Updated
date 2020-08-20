@@ -252,7 +252,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginLeft="10dp"
                 android:layout_width="0dp"
-                android:layout_marginRight="200dp"
+                android:layout_marginRight="550dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -300,7 +300,7 @@
                 app:layout_constraintStart_toStartOf="@id/vet_name_tv"
                 app:layout_constraintTop_toBottomOf="@id/vet_name_textView"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginRight="200dp"
+                android:layout_marginRight="550dp"
                 android:textStyle="bold"
                 android:textColor="@color/black_color"
                 android:text="@string/RequestingContact"/>
@@ -343,7 +343,7 @@
                 android:textColor="@color/black_color"
                 android:textStyle="bold"
                 android:text="@string/hospital_type"
-                android:layout_marginRight="200dp"/>
+                android:layout_marginRight="550dp"/>
 
 
             <TextView
@@ -381,7 +381,7 @@
                 android:textColor="@color/black_color"
                 android:textStyle="bold"
                 android:text="@string/hospital_name"
-                android:layout_marginRight="200dp"/>
+                android:layout_marginRight="550dp"/>
 
 
             <TextView
@@ -419,7 +419,7 @@
                 android:textColor="@color/black_color"
                 android:textStyle="bold"
                 android:text="@string/admission_date"
-                android:layout_marginRight="200dp"/>
+                android:layout_marginRight="550dp"/>
 
 
             <TextView
@@ -457,7 +457,7 @@
                 android:textColor="@color/black_color"
                 android:textStyle="bold"
                 android:text="@string/labPhone"
-                android:layout_marginRight="200dp"/>
+                android:layout_marginRight="550dp"/>
 
 
             <TextView
@@ -495,7 +495,7 @@
                 android:textColor="@color/black_color"
                 android:textStyle="bold"
                 android:text="@string/testName"
-                android:layout_marginRight="200dp"/>
+                android:layout_marginRight="550dp"/>
 
 
             <TextView
@@ -532,7 +532,7 @@
                 android:textColor="@color/black_color"
                 android:textStyle="bold"
                 android:text="@string/resaonofHospitalization"
-                android:layout_marginRight="200dp"/>
+                android:layout_marginRight="550dp"/>
 
 
             <TextView
@@ -570,7 +570,7 @@
                 android:textColor="@color/black_color"
                 android:textStyle="bold"
                 android:text="@string/diagosisTreatment"
-                android:layout_marginRight="200dp"/>
+                android:layout_marginRight="550dp"/>
 
 
             <TextView

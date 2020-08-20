@@ -99,18 +99,31 @@ public class LabTestReportDeatilsActivity extends FragmentActivity implements Ap
                 break;
 
             case R.id.deleteReport_BT:
+                deleteLabWork();
 
                 break;
         }
 
     }
+
+    private void deleteLabWork() {
+        PetClinicVistsDetailsParams petClinicVistsDetailsParams = new PetClinicVistsDetailsParams();
+        petClinicVistsDetailsParams.setId(report_type_id.substring(0,report_type_id.length()-2));
+        PetClinicVisitDetailsRequest petClinicVisitDetailsRequest = new PetClinicVisitDetailsRequest();
+        petClinicVisitDetailsRequest.setData(petClinicVistsDetailsParams);
+        Log.d("DeleteLabTestWork",petClinicVisitDetailsRequest.toString());
+        ApiService<AddUpdateDeleteClinicVisitResponse> service = new ApiService<>();
+        service.get(this, ApiClient.getApiInterface().deleteLabTestWork(Config.token,petClinicVisitDetailsRequest), "DeleteLabTestWork");
+
+    }
+
     private void getLabTestDeatils() {
 
         PetClinicVistsDetailsParams petClinicVistsDetailsParams = new PetClinicVistsDetailsParams();
         petClinicVistsDetailsParams.setId(report_type_id.substring(0,report_type_id.length()-2));
         PetClinicVisitDetailsRequest petClinicVisitDetailsRequest = new PetClinicVisitDetailsRequest();
         petClinicVisitDetailsRequest.setData(petClinicVistsDetailsParams);
-        Log.d("petClinicVisitDetail",petClinicVisitDetailsRequest.toString());
+        Log.d("GetLabWorkDetails",petClinicVisitDetailsRequest.toString());
 
         ApiService<GetLabTestReportDeatilsResponse> service = new ApiService<>();
         service.get(this, ApiClient.getApiInterface().getPetLabWorkDetails(Config.token,petClinicVisitDetailsRequest), "GetLabWorkDetails");
@@ -146,13 +159,13 @@ public class LabTestReportDeatilsActivity extends FragmentActivity implements Ap
                 }
                 break;
 
-            case "DeletePetClinicVisitDetails":
+            case "DeleteLabTestWork":
                 try {
                     Log.d("DeleteClinicVisit",response.body().toString());
                     AddUpdateDeleteClinicVisitResponse addUpdateDeleteClinicVisitResponse = (AddUpdateDeleteClinicVisitResponse) response.body();
                     int responseCode = Integer.parseInt(addUpdateDeleteClinicVisitResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
-                        Config.type = "list";
+                        Config.type = "Lab";
                         onBackPressed();
                         Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show();
 
