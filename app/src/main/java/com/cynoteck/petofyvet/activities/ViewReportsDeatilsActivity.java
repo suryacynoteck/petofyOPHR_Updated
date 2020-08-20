@@ -118,6 +118,7 @@ public class ViewReportsDeatilsActivity extends AppCompatActivity implements Api
 
             case R.id.deleteReport_BT:
 
+
                 break;
         }
 

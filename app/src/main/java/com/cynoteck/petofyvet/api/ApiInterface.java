@@ -196,6 +196,13 @@ public interface ApiInterface {
     @POST("pethealthrecord/GetPetHospitalization")
     Call<GetHospitalizationDeatilsResponse> getPetHospitalizationDetails(@Header("Authorization") String auth, @Body PetClinicVisitDetailsRequest petClinicVisitDetailsRequest);
 
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("pethealthrecord/DeleteClinicVisit")
+    Call<GetHospitalizationDeatilsResponse> deleteClinicVisit(@Header("Authorization") String auth, @Body PetClinicVisitDetailsRequest petClinicVisitDetailsRequest);
+
+
+
     //All Staff Section .....................................................
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
