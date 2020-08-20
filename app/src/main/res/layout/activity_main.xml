@@ -62,7 +62,7 @@
         app:layout_constraintBottom_toBottomOf="@id/email_TV"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="0dp"
-        android:text="forhimanshusharma@gmail.com"
+        android:text=""
         android:inputType="textEmailAddress"
         android:layout_height="wrap_content"
         tools:ignore="MissingConstraints" />
@@ -99,7 +99,7 @@
         app:layout_constraintStart_toEndOf="@id/password_TV"
         app:layout_constraintBottom_toBottomOf="@id/password_TV"
         android:layout_width="0dp"
-        android:text="pass@123"
+        android:text=""
         android:inputType="textPassword"
         android:layout_height="wrap_content"
         tools:ignore="MissingConstraints" />

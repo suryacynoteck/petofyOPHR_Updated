@@ -107,10 +107,11 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
             add_pet_age_edit_dialog,add_pet_sex_edit_dialog,add_pet_breed_edit_dialog,add_pet_color_edit_dialog,add_pet_size_edit_dialog;
     TextInputLayout pet_name_layout_dialog,pet_parent_name_layout_dialog,pet_contact_number_layout_dialog,pet_name_layout_edit_dialog,
             pet_parent_name_layout_edit_dialog,pet_contact_number_edit_layout_dialog,mobile_numberTL,otp_TL;
-    TextInputEditText pet_name_edit_dialog, pet_parent_mobile_number,
-            pet_parent_name_edit_dialog,pet_contact_number_edit_dialog,pet_parent_otp;
+    TextInputEditText  pet_parent_mobile_number,
+            pet_parent_otp;
     Button crrete_pdf,cancel,save_changes_dialog,cancel_dialog,save_changes_edit_dialog,
             cancel_edit_dialog,submit_parent_mob_number,submit_parent_otp;
+    EditText pet_name_edit_dialog,pet_parent_name_edit_dialog,pet_contact_number_edit_dialog;
     WebView webview;
     LinearLayout addNewEntry;
     String petUniqueId="",getStrSpnerItemPetNmId="",strSpnrBreedId="",strSpnrAgeId="",strSpnrColorId="",
