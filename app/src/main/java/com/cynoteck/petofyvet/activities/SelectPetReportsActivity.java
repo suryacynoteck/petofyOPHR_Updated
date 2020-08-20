@@ -14,17 +14,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.adapters.VisitTypesAdapter;
-import com.cynoteck.petofyvet.utils.RegisterRecyclerViewClickListener;
 import com.cynoteck.petofyvet.api.ApiClient;
 import com.cynoteck.petofyvet.api.ApiResponse;
 import com.cynoteck.petofyvet.api.ApiService;
-import com.cynoteck.petofyvet.params.petReportsRequest.PetDataParams;
-import com.cynoteck.petofyvet.params.petReportsRequest.VisitTypeData;
-import com.cynoteck.petofyvet.params.petReportsRequest.VisitTypeRequest;
-import com.cynoteck.petofyvet.response.getPetReportsResponse.GetPetTestAndXRayResponse;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.GetReportsTypeData;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.GetReportsTypeResponse;
 import com.cynoteck.petofyvet.utils.Config;
+import com.cynoteck.petofyvet.utils.RegisterRecyclerViewClickListener;
 
 import java.util.ArrayList;
 
@@ -36,7 +32,7 @@ public class SelectPetReportsActivity extends AppCompatActivity implements ApiRe
     VisitTypesAdapter visitTypesAdapter;
     RecyclerView reports_types_RV;
     RelativeLayout reports_list_RL;
-    ImageView view_xrayReport_arrow;
+    ImageView view_xrayReport_arrow ,view_labTestReport_arrow,view_Hospitalization_arrow;
     ArrayList<GetReportsTypeData> getReportsTypeData;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,9 +74,13 @@ public class SelectPetReportsActivity extends AppCompatActivity implements ApiRe
         pet_owner_phone_no_TV = findViewById(R.id.pet_owner_phone_no_TV);
         reports_list_RL=findViewById(R.id.reports_list_RL);
         view_xrayReport_arrow=findViewById(R.id.view_xrayReport_arrow);
+        view_labTestReport_arrow=findViewById(R.id.view_labTestReport_arrow);
+        view_Hospitalization_arrow=findViewById(R.id.view_Hospitalization_arrow);
 
         back_arrow_IV.setOnClickListener(this);
         view_xrayReport_arrow.setOnClickListener(this);
+        view_labTestReport_arrow.setOnClickListener(this);
+        view_Hospitalization_arrow.setOnClickListener(this);
 
     }
 
@@ -97,35 +97,38 @@ public class SelectPetReportsActivity extends AppCompatActivity implements ApiRe
                 break;
 
             case R.id.view_xrayReport_arrow:
-                getXrayReport();
+                intentStaticReports("7.0");
 
+                break;
 
+            case R.id.view_labTestReport_arrow:
+                intentStaticReports("8.0");
+
+                break;
+
+            case R.id.view_Hospitalization_arrow:
+                intentStaticReports("9.0");
 
                 break;
         }
     }
 
-    private void getXrayReport() {
-
-
-        PetDataParams getPetDataParams = new PetDataParams();
-        getPetDataParams.setPageNumber("1");
-        getPetDataParams.setPageSize("2");
-        getPetDataParams.setSearch_Data("");
-        VisitTypeData visitTypeData = new VisitTypeData();
-        visitTypeData.setPetId(pet_id);
-        visitTypeData.setVisitType("2");
-        VisitTypeRequest visitTypeRequest = new VisitTypeRequest();
-        visitTypeRequest.setHeader(getPetDataParams);
-        visitTypeRequest.setData(visitTypeData);
-
-
-        ApiService<GetPetTestAndXRayResponse> service = new ApiService<>();
-        service.get( this, ApiClient.getApiInterface().getPetTestAndXRay(Config.token,visitTypeRequest), "GetPetTestAndXRay");
-        Log.e("DATALOG","GetPetTestAndXRay_Request=> "+visitTypeRequest);
-
+    private void intentStaticReports(String report_id) {
+        Intent staticReportsIntent = new Intent(this, ReportsCommonActivity.class);
+        Bundle staticReportsData = new Bundle();
+        staticReportsData.putString("pet_id",pet_id);
+        staticReportsData.putString("pet_name",pet_name);
+        staticReportsData.putString("pet_unique_id",pet_unique_id);
+        staticReportsData.putString("pet_sex",pet_sex);
+        staticReportsData.putString("pet_owner_name",pet_owner_name);
+        staticReportsData.putString("pet_owner_contact",pet_owner_contact);
+        staticReportsData.putString("reports_id",report_id);
+        staticReportsIntent.putExtras(staticReportsData);
+        startActivity(staticReportsIntent);
+        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
 
     }
+
     @Override
     public void onResponse(Response response, String key) {
         switch (key){
@@ -144,21 +147,6 @@ public class SelectPetReportsActivity extends AppCompatActivity implements ApiRe
                         reports_types_RV.setAdapter(visitTypesAdapter);
                         visitTypesAdapter.notifyDataSetChanged();
                         reports_list_RL.setVisibility(View.VISIBLE);
-                    }
-                }
-                catch(Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-
-
-            case "GetPetTestAndXRay":
-                try {
-                    Log.d("DATALOG","GetPetTestAndXRay=> "+(response.code()));
-                    GetPetTestAndXRayResponse getPetTestAndXRayResponse = (GetPetTestAndXRayResponse) response.body();
-                    int responseCode = Integer.parseInt(getPetTestAndXRayResponse.getResponse().getResponseCode());
-                    if (responseCode== 109){
-
                     }
                 }
                 catch(Exception e) {

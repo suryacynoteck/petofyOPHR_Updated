@@ -3,9 +3,7 @@ package com.cynoteck.petofyvet.activities;
 import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
@@ -20,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,8 +45,6 @@ import com.cynoteck.petofyvet.response.addPet.uniqueIdResponse.UniqueResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.PetTypeResponse;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -68,7 +65,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import androidx.loader.content.CursorLoader;
+import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -76,12 +73,12 @@ import retrofit2.Response;
 
 public class AddPetRegister extends AppCompatActivity implements View.OnClickListener, ApiResponse {
 
+    CircleImageView pet_profile_image;
+
     AppCompatSpinner add_pet_age,add_pet_type,add_pet_sex,add_pet_breed,add_pet_color,add_pet_size;
-    TextInputLayout pet_name_layout,pet_parent_name_layout,pet_contact_number_layout,pet_description_layout,
-                    pet_address_layout;
-    TextInputEditText pet_name,pet_parent_name,pet_contact_number,pet_description,pet_address;
+    EditText pet_name,pet_parent_name,pet_contact_number,pet_description,pet_address;
     TextView peto_reg_number,calenderView;
-    ImageView pet_profile_image,service_cat_img_one,service_cat_img_two,service_cat_img_three,service_cat_img_four,
+    ImageView service_cat_img_one,service_cat_img_two,service_cat_img_three,service_cat_img_four,
             service_cat_img_five;
     Button pet_submit;
     String strPetName="",strPetParentName="",strPetContactNumber="",strPetDescription="",strPetAdress="",strPetBirthDay="",
@@ -224,29 +221,22 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
     private void init() {
         //Spinner
         add_pet_type=findViewById(R.id.add_pet_type);
-        add_pet_sex=findViewById(R.id.add_pet_sex);
-        add_pet_breed=findViewById(R.id.add_pet_breed);
-        add_pet_color=findViewById(R.id.add_pet_color);
-        add_pet_size=findViewById(R.id.add_pet_size);
-        add_pet_age=findViewById(R.id.add_pet_age);
-
-        //TextInputLayout
-        pet_name_layout=findViewById(R.id.pet_name_layout);
-        pet_parent_name_layout=findViewById(R.id.pet_parent_name_layout);
-        pet_contact_number_layout=findViewById(R.id.pet_contact_number_layout);
-        pet_description_layout=findViewById(R.id.pet_description_layout);
-        pet_address_layout=findViewById(R.id.pet_address_layout);
+        add_pet_sex=findViewById(R.id.add_pet_sex_dialog);
+        add_pet_breed=findViewById(R.id.add_pet_breed_dialog);
+        add_pet_color=findViewById(R.id.add_pet_color_dialog);
+        add_pet_size=findViewById(R.id.add_pet_size_dialog);
+        add_pet_age=findViewById(R.id.add_pet_age_dialog);
 
         //TextInputEditText
-        pet_name=findViewById(R.id.pet_name);
-        pet_parent_name=findViewById(R.id.pet_parent_name);
+        pet_name=findViewById(R.id.pet_name_ET);
+        pet_parent_name=findViewById(R.id.pet_parent_name_ET);
         pet_contact_number=findViewById(R.id.pet_contact_number);
-        pet_description=findViewById(R.id.pet_description);
-        pet_address=findViewById(R.id.pet_address);
+        pet_description=findViewById(R.id.pet_desc_ET);
+        pet_address=findViewById(R.id.pet_address_ET);
 
         //TextView
         peto_reg_number=findViewById(R.id.peto_reg_number);
-        calenderView=findViewById(R.id.calenderTextView);
+        calenderView=findViewById(R.id.calenderTextView_dialog);
         calenderView.setOnClickListener(this);
 
         //ImageView
@@ -396,7 +386,7 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
                 }
             break;
 
-            case R.id.calenderTextView:
+            case R.id.calenderTextView_dialog:
                 final Calendar cldr = Calendar.getInstance();
                 int day = cldr.get(Calendar.DAY_OF_MONTH);
                 int month = cldr.get(Calendar.MONTH);

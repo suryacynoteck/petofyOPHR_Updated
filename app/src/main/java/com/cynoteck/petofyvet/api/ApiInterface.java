@@ -13,11 +13,11 @@ import com.cynoteck.petofyvet.params.loginRequest.Loginparams;
 import com.cynoteck.petofyvet.params.newPetEntryParams.NewPetRequest;
 import com.cynoteck.petofyvet.params.otpRequest.SendOtpRequest;
 import com.cynoteck.petofyvet.params.petBreedRequest.BreedParams;
+import com.cynoteck.petofyvet.params.petReportsRequest.PetClinicVisitDetailsRequest;
 import com.cynoteck.petofyvet.params.petReportsRequest.PetDataRequest;
 import com.cynoteck.petofyvet.params.petReportsRequest.VisitTypeRequest;
 import com.cynoteck.petofyvet.params.registerRequest.Registerparams;
 import com.cynoteck.petofyvet.params.updateRequest.getValue.UpdateParams;
-import com.cynoteck.petofyvet.params.updateRequest.getValue.UpdateRequest;
 import com.cynoteck.petofyvet.params.updateRequest.updateParamRequest.UpdatePetRequest;
 import com.cynoteck.petofyvet.response.InPetVeterian.InPetVeterianResponse;
 import com.cynoteck.petofyvet.response.addPet.addPetResponse.AddPetValueResponse;
@@ -28,16 +28,21 @@ import com.cynoteck.petofyvet.response.addPet.petColorResponse.PetColorValueResp
 import com.cynoteck.petofyvet.response.addPet.petSizeResponse.PetSizeValueResponse;
 import com.cynoteck.petofyvet.response.addPet.uniqueIdResponse.UniqueResponse;
 import com.cynoteck.petofyvet.response.forgetAndChangePassResponse.PasswordResponse;
+import com.cynoteck.petofyvet.response.getLabTestReportResponse.getLabTestReportDetailsResponse.GetLabTestReportDeatilsResponse;
 import com.cynoteck.petofyvet.response.getPetDetailsResponse.GetPetResponse;
-import com.cynoteck.petofyvet.response.getPetReportsResponse.GetPetClinicVisitListResponse;
-import com.cynoteck.petofyvet.response.getPetReportsResponse.GetPetHospitalizationResponse;
-import com.cynoteck.petofyvet.response.getPetReportsResponse.GetPetListResponse;
-import com.cynoteck.petofyvet.response.getPetReportsResponse.GetPetTestAndXRayResponse;
+import com.cynoteck.petofyvet.response.getLabTestReportResponse.getPetLabWorkListResponse.PetLabWorkResponse;
+import com.cynoteck.petofyvet.response.getPetHospitalizationResponse.getHospitalizationDeatilsResponse.GetHospitalizationDeatilsResponse;
+import com.cynoteck.petofyvet.response.getPetReportsResponse.getClinicVisitDetails.GetClinicVisitsDetailsResponse;
+import com.cynoteck.petofyvet.response.getPetReportsResponse.getPetClinicVisitsListsResponse.GetPetClinicVisitListResponse;
+import com.cynoteck.petofyvet.response.getPetHospitalizationResponse.getHospitalizationListResponse.GetPetHospitalizationResponse;
+import com.cynoteck.petofyvet.response.getPetReportsResponse.getPetListResponse.GetPetListResponse;
+import com.cynoteck.petofyvet.response.getXRayReports.getPetTestAndXRayResponse.GetPetTestAndXRayResponse;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.GetReportsTypeResponse;
 import com.cynoteck.petofyvet.response.getStaffResponse.GetAllStaffResponse;
 import com.cynoteck.petofyvet.response.getStaffResponse.GetStaffDetailsResponse;
 import com.cynoteck.petofyvet.response.getStaffResponse.GetStaffStatusResponse;
 import com.cynoteck.petofyvet.response.getStaffResponse.GetUpdateStaffResponse;
+import com.cynoteck.petofyvet.response.getXRayReports.getXRayReportDetailsResponse.GetXRayReportDeatilsResponse;
 import com.cynoteck.petofyvet.response.loginRegisterResponse.LoginRegisterResponse;
 import com.cynoteck.petofyvet.response.newPetResponse.NewPetRegisterResponse;
 import com.cynoteck.petofyvet.response.otpResponse.OtpResponse;
@@ -153,6 +158,7 @@ public interface ApiInterface {
 
     //reports section.........................................
 
+
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @GET("report/GetVisitTypes")
     Call<GetReportsTypeResponse> getReportsType(@Header("Authorization") String auth);
@@ -162,14 +168,33 @@ public interface ApiInterface {
     Call<GetPetClinicVisitListResponse> getPetClinicVisits(@Header("Authorization") String auth, @Body VisitTypeRequest visitTypeRequest);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("pethealthrecord/GetClinicVisit")
+    Call<GetClinicVisitsDetailsResponse> getClinicVisitDetails(@Header("Authorization") String auth, @Body PetClinicVisitDetailsRequest petClinicVisitDetailsRequest);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("report/GetPetTestAndXRay")
     Call<GetPetTestAndXRayResponse> getPetTestAndXRay(@Header("Authorization") String auth, @Body VisitTypeRequest visitTypeRequest);
 
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("report/GetPetLabWork")
+    Call<PetLabWorkResponse> getPetLabWorkResponse(@Header("Authorization") String auth, @Body VisitTypeRequest visitTypeRequest);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("report/GetPetHospitalization")
     Call<GetPetHospitalizationResponse> getPetHospitalization(@Header("Authorization") String auth, @Body VisitTypeRequest visitTypeRequest);
 
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("pethealthrecord/GetTestXRay")
+    Call<GetXRayReportDeatilsResponse> getTestXRayDetails(@Header("Authorization") String auth, @Body PetClinicVisitDetailsRequest petClinicVisitDetailsRequest);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("pethealthrecord/GetPetLabWork")
+    Call<GetLabTestReportDeatilsResponse> getPetLabWorkDetails(@Header("Authorization") String auth, @Body PetClinicVisitDetailsRequest petClinicVisitDetailsRequest);
+
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("pethealthrecord/GetPetHospitalization")
+    Call<GetHospitalizationDeatilsResponse> getPetHospitalizationDetails(@Header("Authorization") String auth, @Body PetClinicVisitDetailsRequest petClinicVisitDetailsRequest);
 
     //All Staff Section .....................................................
 

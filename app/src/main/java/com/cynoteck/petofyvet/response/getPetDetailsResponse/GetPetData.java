@@ -1,6 +1,6 @@
 package com.cynoteck.petofyvet.response.getPetDetailsResponse;
 
-import com.cynoteck.petofyvet.response.getPetReportsResponse.User;
+import com.cynoteck.petofyvet.response.getPetReportsResponse.getPetListResponse.User;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

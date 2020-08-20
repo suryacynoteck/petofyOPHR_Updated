@@ -77,4 +77,27 @@
     <string name="breed">Breed</string>
     <string name="ParentName">Parent Name</string>
     <string name="save">Save</string>
+    <string name="editpet">Edit Pet</string>
+    <string name="desc">Description</string>
+    <string name="petimages">Pet Images</string>
+    <string name="petimagesInfo">(You can add maximum 5 of your pet images)</string>
+    <string name="doctorPrescription">Doctor\'s Prescription</string>
+    <string name="visit_date">Visit Date</string>
+    <string name="natureofvisit">Nature Of Visit</string>
+    <string name="weight">Weight (Kg)</string>
+    <string name="temprature">Temperature(F)</string>
+    <string name="vaccine">Vaccine</string>
+    <string name="description">Symptoms</string>
+    <string name="diagosis">Diagnosis</string>
+    <string name="remarks">Treatment Remarks</string>
+    <string name="testdate">Test Date</string>
+    <string name="testType">Test Type</string>
+    <string name="result">Result</string>
+    <string name="requestingVet">Requesting Vet</string>
+    <string name="vetPhone">Vet Phone</string>
+    <string name="labType">Lab Type</string>
+    <string name="hospitalType">Hospital Type</string>
+    <string name="hospitalname">Hospital Name</string>
+    <string name="admissiondate">Admission Date</string>
+    <string name="DeleteReport">Delete Report</string>
 </resources>

@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cynoteck.petofyvet.R;
-import com.cynoteck.petofyvet.response.getPetReportsResponse.PetClinicVisitList;
+import com.cynoteck.petofyvet.response.getPetReportsResponse.getPetClinicVisitsListsResponse.PetClinicVisitList;
 import com.cynoteck.petofyvet.utils.RegisterRecyclerViewClickListener;
 
 import java.util.List;
@@ -51,7 +51,7 @@ public class ReportsTypeAdapter extends RecyclerView.Adapter<ReportsTypeAdapter.
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView vet_name_TV,visit_date_TV,reson_of_visit_TV,followUp_date_TV;
+        TextView vet_name_TV,visit_date_TV,reson_of_visit_TV,followUp_date_TV,view_TV;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -59,6 +59,19 @@ public class ReportsTypeAdapter extends RecyclerView.Adapter<ReportsTypeAdapter.
             visit_date_TV = itemView.findViewById(R.id.visit_date_TV);
             reson_of_visit_TV = itemView.findViewById(R.id.reson_of_visit_TV);
             followUp_date_TV = itemView.findViewById(R.id.followUp_date_TV);
+            view_TV=itemView.findViewById(R.id.view_TV);
+
+            view_TV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onProductItemClickListner!=null){
+                        onProductItemClickListner.onProductClick(getAdapterPosition());
+                    }
+                }
+            });
+
+
+
 
         }
     }
