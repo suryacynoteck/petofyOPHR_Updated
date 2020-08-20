@@ -442,14 +442,4 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:background="@color/deactivate_red"/>
 
-
-
-
-
-
-
-
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

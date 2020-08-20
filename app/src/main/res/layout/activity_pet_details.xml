@@ -138,6 +138,7 @@
             android:layout_height="wrap_content">
 
             <RelativeLayout
+                android:id="@+id/test_xray"
                 android:background="@drawable/reports_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -220,6 +221,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/manage_pet_lab_work"
                 android:background="@drawable/reports_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -261,6 +263,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/hospitalization_surgeries"
                 android:background="@drawable/reports_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -302,6 +305,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/recent_visits"
                 android:background="@drawable/reports_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -343,6 +347,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/print_id_card"
                 android:background="@drawable/reports_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -384,6 +389,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/hospitalization_surgery"
                 android:background="@drawable/reports_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -425,6 +431,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/view_history"
                 android:background="@drawable/reports_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">

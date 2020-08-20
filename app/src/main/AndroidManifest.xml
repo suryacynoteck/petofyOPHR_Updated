@@ -27,10 +27,7 @@
         android:roundIcon="@drawable/logo_petofy"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.HospitalizationDetailsActivity"></activity>
-        <activity android:name=".activities.LabTestReportDeatilsActivity" />
-        <activity android:name=".activities.XRayReportDeatilsActivity" />
-        <activity android:name=".activities.ViewReportsDeatilsActivity" />
+        <activity android:name=".activities.ViewReportsDeatilsActivity"></activity>
         <activity android:name=".activities.PetDetailsActivity" />
         <activity
             android:name=".activities.ReportsCommonActivity"
