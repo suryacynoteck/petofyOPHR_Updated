@@ -6,9 +6,12 @@ import com.cynoteck.petofyvet.params.allStaffRequest.ChangeStaffStatusRequest;
 import com.cynoteck.petofyvet.params.allStaffRequest.StaffDeatilsRequest;
 import com.cynoteck.petofyvet.params.allStaffRequest.UpdateStaffRequest;
 import com.cynoteck.petofyvet.params.changePassRequest.ChangePassRequest;
+import com.cynoteck.petofyvet.params.checkpetInVetRegister.InPetRegisterRequest;
 import com.cynoteck.petofyvet.params.forgetPassRequest.ForgetPassRequest;
 import com.cynoteck.petofyvet.params.getPetListRequest.GetPetListRequest;
 import com.cynoteck.petofyvet.params.loginRequest.Loginparams;
+import com.cynoteck.petofyvet.params.newPetEntryParams.NewPetRequest;
+import com.cynoteck.petofyvet.params.otpRequest.SendOtpRequest;
 import com.cynoteck.petofyvet.params.petBreedRequest.BreedParams;
 import com.cynoteck.petofyvet.params.petReportsRequest.PetDataRequest;
 import com.cynoteck.petofyvet.params.petReportsRequest.VisitTypeRequest;
@@ -16,6 +19,7 @@ import com.cynoteck.petofyvet.params.registerRequest.Registerparams;
 import com.cynoteck.petofyvet.params.updateRequest.getValue.UpdateParams;
 import com.cynoteck.petofyvet.params.updateRequest.getValue.UpdateRequest;
 import com.cynoteck.petofyvet.params.updateRequest.updateParamRequest.UpdatePetRequest;
+import com.cynoteck.petofyvet.response.InPetVeterian.InPetVeterianResponse;
 import com.cynoteck.petofyvet.response.addPet.addPetResponse.AddPetValueResponse;
 import com.cynoteck.petofyvet.response.addPet.breedResponse.BreedCatRespose;
 import com.cynoteck.petofyvet.response.addPet.imageUpload.ImageResponse;
@@ -35,6 +39,8 @@ import com.cynoteck.petofyvet.response.getStaffResponse.GetStaffDetailsResponse;
 import com.cynoteck.petofyvet.response.getStaffResponse.GetStaffStatusResponse;
 import com.cynoteck.petofyvet.response.getStaffResponse.GetUpdateStaffResponse;
 import com.cynoteck.petofyvet.response.loginRegisterResponse.LoginRegisterResponse;
+import com.cynoteck.petofyvet.response.newPetResponse.NewPetRegisterResponse;
+import com.cynoteck.petofyvet.response.otpResponse.OtpResponse;
 import com.cynoteck.petofyvet.response.recentEntrys.RecentEntrysResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.CityResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.CountryResponse;
@@ -192,6 +198,23 @@ public interface ApiInterface {
     @POST("pethealthrecord/GetRecentClinicVisits")
     Call<RecentEntrysResponse> getRecentClientcVisits(@Header("Authorization") String auth);
 
+    //CHECK IF A PET EXIST PET IN VET REGISTER........................................
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("pethealthrecord/CheckPetInVetRegister")
+    Call<InPetVeterianResponse> checkPetInVetRegister(@Header("Authorization") String auth, @Body InPetRegisterRequest inPetRegisterRequest);
+
+    //SEND OTP TO USER..................................................................
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("common/SendOtp")
+    Call<OtpResponse> senOtp(@Header("Authorization") String auth, @Body SendOtpRequest inPetRegisterRequest);
+
+    //ADD A PET TO VET REGISTER..........................................................
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("pethealthrecord/AddPetToRegister")
+    Call<NewPetRegisterResponse> addPetToRegister(@Header("Authorization") String auth, @Body NewPetRequest newPetRequest);
 
 }
 

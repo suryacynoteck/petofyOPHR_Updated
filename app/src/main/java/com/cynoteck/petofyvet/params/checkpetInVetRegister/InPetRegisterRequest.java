@@ -1,0 +1,23 @@
+package com.cynoteck.petofyvet.params.checkpetInVetRegister;
+
+import com.cynoteck.petofyvet.params.changePassRequest.ChangePassParams;
+
+public class InPetRegisterRequest {
+    private InPetregisterParams data;
+
+    public InPetregisterParams getData ()
+    {
+        return data;
+    }
+
+    public void setData (InPetregisterParams data)
+    {
+        this.data = data;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "ClassPojo [data = "+data+"]";
+    }
+}

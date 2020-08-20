@@ -43,7 +43,8 @@ public class NewEntrysAdapter extends RecyclerView.Adapter<NewEntrysAdapter.MyVi
 
     @Override
     public void onBindViewHolder(@NonNull NewEntrysAdapter.MyViewHolder holder, int position) {
-        holder.pet_nm_prnt_nm.setText(getAllStaffData.get(position).getPetName()+"\n"+getAllStaffData.get(position).getPetParentName());
+        holder.pet_nm_prnt_nm.setText(getAllStaffData.get(position).getPetName()+"("+getAllStaffData.get(position).getPetUniqueId()+")"+
+                "\n"+getAllStaffData.get(position).getPetParentName());
         holder.visit_dt.setText(getAllStaffData.get(position).getVisitDate());
         holder.nature_of_visit.setText(String.valueOf(getAllStaffData.get(position).getNatureOfVisit().getNature()));
         holder.follow_up_dt.setText(getAllStaffData.get(position).getFollowUpDate());
