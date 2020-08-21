@@ -53,7 +53,7 @@ public class SelectPetReportsActivity extends AppCompatActivity implements ApiRe
         pet_sex_TV.setText("("+pet_sex+")");
         pet_owner_name_TV.setText(pet_owner_name);
         pet_id_TV.setText(pet_unique_id);
-//        pet_owner_phone_no_TV.setText("("+pet_owner_contact+")");
+        pet_owner_phone_no_TV.setText("("+pet_owner_contact+")");
 
     }
 

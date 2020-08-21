@@ -1,22 +1,21 @@
-/*
 package com.cynoteck.petofyvet.response.getPetReportsResponse;
 
 import com.cynoteck.petofyvet.response.Header;
 import com.cynoteck.petofyvet.response.Response;
 
 public class AddUpdateDeleteClinicVisitResponse {
-    private Data data;
+    private Object data;
 
     private Response response;
 
     private Header header;
 
-    public Data getData ()
+    public Object getData ()
     {
         return data;
     }
 
-    public void setData (Data data)
+    public void setData (Object data)
     {
         this.data = data;
     }
@@ -48,4 +47,3 @@ public class AddUpdateDeleteClinicVisitResponse {
     }
 }
 
-*/

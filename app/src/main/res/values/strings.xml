@@ -100,4 +100,15 @@
     <string name="hospitalname">Hospital Name</string>
     <string name="admissiondate">Admission Date</string>
     <string name="DeleteReport">Delete Report</string>
+    <string name="RequestingContact">Requesting Contact</string>
+    <string name="resaonoftest">Reason Of Test</string>
+    <string name="testName">Test Name</string>
+    <string name="labPhone">Lab Phone</string>
+    <string name="hospital_type">Hospital Type</string>
+    <string name="hospital_name">Hospital Name</string>
+    <string name="admission_date">Admission Date</string>
+    <string name="resaonofHospitalization">Reason Of Hospitalization</string>
+    <string name="diagosisTreatment">Diagnosis Treatment Procedure</string>
+    <string name="RecommendedFollowup">Recommended Follow-up</string>
+    <string name="FollowupDate">Follow-up Date</string>
 </resources>
