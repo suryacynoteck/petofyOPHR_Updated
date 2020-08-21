@@ -106,14 +106,13 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
     ArrayList<String> petUniueId=null;
     RelativeLayout search_boxRL;
     AutoCompleteTextView search_box_add_new;
-    Dialog add_new_entrys_dialog, prescription_dialog, editPetDilog, addNewPetMobileNumber, otpDialog;
+    Dialog add_new_entrys_dialog, prescription_dialog, editPetDilog, otpDialog;
     TextView staff_headline_TV,parent_name,specilist,email,for_a,age,sex,date,prnt_nm,temparature,symptoms,diagnosis,
             remarks,nxt_visit,peto_reg_number_dialog,calenderTextView_dialog,
             peto_reg_number_edit_dialog,calenderTextView_edit_dialog,cancelMobileDialog,cancelOtpDialog;
     AppCompatSpinner add_pet_type_edit_dialog,
             add_pet_age_edit_dialog,add_pet_sex_edit_dialog,add_pet_breed_edit_dialog,add_pet_color_edit_dialog,add_pet_size_edit_dialog;
-    TextInputLayout pet_name_layout_dialog,pet_parent_name_layout_dialog,pet_contact_number_layout_dialog,pet_name_layout_edit_dialog,
-            pet_parent_name_layout_edit_dialog,pet_contact_number_edit_layout_dialog,mobile_numberTL,otp_TL;
+    TextInputLayout mobile_numberTL,otp_TL;
     TextInputEditText  pet_parent_mobile_number,
             pet_parent_otp;
     Button crrete_pdf,cancel,save_changes_dialog,cancel_dialog,save_changes_edit_dialog,
@@ -388,8 +387,6 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
 
                 }
                 catch(Exception e) {
-
-
                     e.printStackTrace();
                 }
 
@@ -672,7 +669,6 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                         }
                         else
                         {
-                            addNewPetMobileNumber.dismiss();
                             Toast.makeText(getActivity(), "Invalid Mobile Number", Toast.LENGTH_SHORT).show();
                         }
                     }else if (responseCode==614){
@@ -828,31 +824,6 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
 
     }
 
-    private void verifyDialog() {
-
-        addNewPetMobileNumber=new Dialog(getContext());
-        addNewPetMobileNumber.setContentView(R.layout.add_new_pet_mobile_verification_dialog);
-
-        mobile_numberTL=addNewPetMobileNumber.findViewById(R.id.mobile_numberTL);
-        pet_parent_mobile_number=addNewPetMobileNumber.findViewById(R.id.pet_parent_mobile_number);
-        submit_parent_mob_number=addNewPetMobileNumber.findViewById(R.id.submit_parent_mob_number);
-        cancelMobileDialog=addNewPetMobileNumber.findViewById(R.id.cancelMobileDialog);
-
-        submit_parent_mob_number.setOnClickListener(this);
-        cancelMobileDialog.setOnClickListener(this);
-
-
-
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        Window window = addNewPetMobileNumber.getWindow();
-        lp.copyFrom(window.getAttributes());
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
-        window.setAttributes(lp);
-        addNewPetMobileNumber.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        addNewPetMobileNumber.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-        addNewPetMobileNumber.show();
-    }
 
     public void otpDialog()
     {
@@ -1509,11 +1480,6 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                     }*/
                 }
                 break;
-
-            case R.id.cancelMobileDialog:
-                addNewPetMobileNumber.dismiss();
-                break;
-
             case R.id.submit_parent_otp:
                 String otp=pet_parent_otp.getText().toString();
                 if(otp.isEmpty())

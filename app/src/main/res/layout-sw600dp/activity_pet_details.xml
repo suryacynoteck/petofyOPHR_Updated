@@ -70,60 +70,60 @@
     </LinearLayout>
 
 
-        <androidx.cardview.widget.CardView
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="20dp"
-            android:id="@+id/pet_info_CV"
-            android:layout_below="@id/addNewEntry"
-            android:background="@color/whiteColor"
+    <androidx.cardview.widget.CardView
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:id="@+id/pet_info_CV"
+        android:layout_below="@id/addNewEntry"
+        android:background="@color/whiteColor"
 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_margin="15dp"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:layout_margin="15dp"
-                android:orientation="vertical"
+            <TextView
+                android:textStyle="bold"
+                android:textColor="@color/black_color"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:text="@string/petname"/>
 
-                <TextView
-                    android:textStyle="bold"
-                    android:textColor="@color/black_color"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/petname"/>
+            <TextView
+                android:id="@+id/pet_nameTV"
+                android:layout_marginTop="2dp"
+                android:textColor="@color/grayColorCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tuffy (DOG,MALE,BEAGLE)"/>
 
-                <TextView
-                    android:id="@+id/pet_nameTV"
-                    android:layout_marginTop="2dp"
-                    android:textColor="@color/grayColorCode"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Tuffy (DOG,MALE,BEAGLE)"/>
+            <TextView
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/black_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/petParent"/>
 
-                <TextView
-                    android:textStyle="bold"
-                    android:layout_marginTop="10dp"
-                    android:textColor="@color/black_color"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/petParent"/>
-
-                <TextView
-                    android:id="@+id/pet_parentNameTV"
-                    android:layout_marginTop="2dp"
-                    android:textColor="@color/grayColorCode"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Ashish Rawat (7894561230)"/>
+            <TextView
+                android:id="@+id/pet_parentNameTV"
+                android:layout_marginTop="2dp"
+                android:textColor="@color/grayColorCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ashish Rawat (7894561230)"/>
 
 
-            </LinearLayout>
+        </LinearLayout>
 
 
-        </androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
 
     <androidx.core.widget.NestedScrollView
@@ -138,6 +138,49 @@
             android:layout_height="wrap_content">
 
             <RelativeLayout
+                android:id="@+id/clinics_visit"
+                android:background="@drawable/reports_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <ImageView
+                    android:layout_marginLeft="20dp"
+                    android:layout_alignParentStart="true"
+                    android:id="@+id/last_prescription_IV"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/last_prescription"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:gravity="start"
+                    android:paddingLeft="20dp"
+                    android:textSize="18dp"
+                    android:textColor="@color/black_color"
+                    android:layout_centerInParent="true"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/last_prescription_TV"
+                    android:text="Clinic visit"
+                    android:layout_toRightOf="@id/last_prescription_IV"/>
+
+
+                <ImageView
+                    android:layout_alignParentEnd="true"
+                    android:layout_toRightOf="@+id/last_prescription_TV"
+                    android:layout_marginLeft="20dp"
+                    android:id="@+id/last_prescription_arrow"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/forward_arrow"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"/>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/test_xray"
                 android:background="@drawable/reports_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -220,6 +263,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/manage_pet_lab_work"
                 android:background="@drawable/reports_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -261,6 +305,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/hospitalization_surgeries"
                 android:background="@drawable/reports_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -302,6 +347,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/recent_visits"
                 android:background="@drawable/reports_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -343,6 +389,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/print_id_card"
                 android:background="@drawable/reports_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -384,47 +431,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:background="@drawable/reports_field"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-
-                <ImageView
-                    android:layout_marginLeft="20dp"
-                    android:layout_alignParentStart="true"
-                    android:id="@+id/last_prescription_IV"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/last_prescription"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:gravity="start"
-                    android:paddingLeft="20dp"
-                    android:textSize="18dp"
-                    android:textColor="@color/black_color"
-                    android:layout_centerInParent="true"
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/last_prescription_TV"
-                    android:text="@string/Hospitalization"
-                    android:layout_toRightOf="@id/last_prescription_IV"/>
-
-
-                <ImageView
-                    android:layout_alignParentEnd="true"
-                    android:layout_toRightOf="@+id/last_prescription_TV"
-                    android:layout_marginLeft="20dp"
-                    android:id="@+id/last_prescription_arrow"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/forward_arrow"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"/>
-
-
-            </RelativeLayout>
-
-            <RelativeLayout
+                android:id="@+id/view_history"
                 android:background="@drawable/reports_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">

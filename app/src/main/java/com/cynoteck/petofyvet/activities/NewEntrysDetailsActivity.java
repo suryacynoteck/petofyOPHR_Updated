@@ -1,22 +1,45 @@
 package com.cynoteck.petofyvet.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.fragments.NewEntrysListFragment;
 import com.cynoteck.petofyvet.fragments.ReportListFragment;
+import com.cynoteck.petofyvet.params.addParamRequest.AddPetParams;
+import com.cynoteck.petofyvet.params.addParamRequest.AddPetRequset;
 
-public class NewEntrysDetailsActivity extends AppCompatActivity {
+import java.util.Calendar;
+
+public class NewEntrysDetailsActivity extends AppCompatActivity implements View.OnClickListener {
     ImageView back_arrow_IV;
-    String pet_unique_id, pet_name,pet_sex, pet_owner_name,pet_owner_contact,pet_id ,report_type_id;
+    String pet_unique_id, pet_name,pet_sex, pet_owner_name,pet_owner_contact,pet_id ,report_type_id,button_text;
     Bundle data = new Bundle();
-    TextView pet_name_TV,pet_sex_TV,pet_id_TV,pet_owner_name_TV,pet_owner_phone_no_TV, reports_headline_TV;
+    TextView pet_name_TV,pet_sex_TV,pet_id_TV,pet_owner_name_TV,pet_owner_phone_no_TV,clinicFolow_up_dt_view,
+            reports_headline_TV,add_text_button,clinicCalenderTextViewVisitDt,clinicIlness_onset;
+    LinearLayout addPrescriptionButton;
+    Dialog clinicDialog;
+    EditText clinicVeterian_name_ET,clinicCescription_ET,clinicTreatment_remarks_ET,
+            clinicAdd_edit_pet_age_dialog,clinicTemparature_ET,clinicDiagnosis_ET;
+    AppCompatSpinner clinicNature_of_visit_spinner,clinicNext_visit_spinner;
+    LinearLayout clinicDocument_layout;
+    Button clinicCancel_clinic_add_dialog,clinicSave_clinic_data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +54,7 @@ public class NewEntrysDetailsActivity extends AppCompatActivity {
         pet_sex = extras.getString("pet_sex");
         pet_name = extras.getString("pet_name");
         pet_unique_id = extras.getString("pet_unique_id");
+        button_text = extras.getString("add_button_text");
 
 
         reports_headline_TV = findViewById(R.id.reports_headline_TV);
@@ -38,10 +62,15 @@ public class NewEntrysDetailsActivity extends AppCompatActivity {
         pet_name_TV = findViewById(R.id.pet_name_TV);
         pet_sex_TV = findViewById(R.id.pet_sex_TV);
         pet_id_TV = findViewById(R.id.pet_id_TV);
+        add_text_button = findViewById(R.id.add_text_button);
         pet_owner_name_TV = findViewById(R.id.pet_owner_name_TV);
         pet_owner_phone_no_TV = findViewById(R.id.pet_owner_phone_no_TV);
+        addPrescriptionButton = findViewById(R.id.addPrescriptionButton);
 
-        pet_name_TV.setText(pet_name);
+
+        addPrescriptionButton.setOnClickListener(this);
+
+        add_text_button.setText(button_text);
         pet_sex_TV.setText("("+pet_sex+")");
         pet_owner_name_TV.setText(pet_owner_name);
         pet_id_TV.setText(pet_unique_id);
@@ -190,6 +219,76 @@ public class NewEntrysDetailsActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.addPrescriptionButton:
+                if(button_text.equals("Test/X-rays"))
+                    TestXrayDialog();
+                else if(button_text.equals("Lab Work"))
+                    LabWorkDialog();
+                else if(button_text.equals("Hospitalization"))
+                    HospitalizationDialog();
+                else if(button_text.equals("Clinic_visits"))
+                    clinicDialog();
+                break;
+
+        }
+    }
+
+    public void clinicDialog()
+    {
+        clinicDialog=new Dialog(this);
+        clinicDialog.setContentView(R.layout.add_clinic_visits_dialog);
+
+        clinicVeterian_name_ET = clinicDialog.findViewById(R.id.veterian_name_ET);
+        clinicNature_of_visit_spinner = clinicDialog.findViewById(R.id.nature_of_visit_spinner);
+        clinicCalenderTextViewVisitDt = clinicDialog.findViewById(R.id.calenderTextViewVisitDt);
+        clinicCescription_ET = clinicDialog.findViewById(R.id.description_ET);
+        clinicAdd_edit_pet_age_dialog = clinicDialog.findViewById(R.id.add_edit_pet_age_dialog);
+        clinicTemparature_ET = clinicDialog.findViewById(R.id.temparature_ET);
+        clinicIlness_onset = clinicDialog.findViewById(R.id.ilness_onset);
+        clinicDiagnosis_ET = clinicDialog.findViewById(R.id.diagnosis_ET);
+        clinicTreatment_remarks_ET = clinicDialog.findViewById(R.id.treatment_remarks_ET);
+        clinicNext_visit_spinner = clinicDialog.findViewById(R.id.next_visit_spinner);
+        clinicFolow_up_dt_view = clinicDialog.findViewById(R.id.folow_up_dt_view);
+        clinicDocument_layout = clinicDialog.findViewById(R.id.document_layout);
+        clinicCancel_clinic_add_dialog = clinicDialog.findViewById(R.id.cancel_clinic_add_dialog);
+        clinicSave_clinic_data = clinicDialog.findViewById(R.id.save_clinic_data);
+
+        clinicCalenderTextViewVisitDt.setOnClickListener(this);
+        clinicIlness_onset.setOnClickListener(this);
+        clinicFolow_up_dt_view.setOnClickListener(this);
+        clinicSave_clinic_data.setOnClickListener(this);
+        clinicCancel_clinic_add_dialog.setOnClickListener(this);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = clinicDialog.getWindow();
+        lp.copyFrom(window.getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+        window.setAttributes(lp);
+        clinicDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        clinicDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        clinicDialog.show();
+
+    }
+
+    public void TestXrayDialog()
+    {
+
+    }
+
+    public void LabWorkDialog()
+    {
+
+    }
+
+    public void HospitalizationDialog()
+    {
 
     }
 }

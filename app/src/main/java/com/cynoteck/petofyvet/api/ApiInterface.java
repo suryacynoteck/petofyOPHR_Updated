@@ -27,6 +27,7 @@ import com.cynoteck.petofyvet.response.addPet.petAgeResponse.PetAgeValueResponse
 import com.cynoteck.petofyvet.response.addPet.petColorResponse.PetColorValueResponse;
 import com.cynoteck.petofyvet.response.addPet.petSizeResponse.PetSizeValueResponse;
 import com.cynoteck.petofyvet.response.addPet.uniqueIdResponse.UniqueResponse;
+import com.cynoteck.petofyvet.response.clinicVisist.ClinicVisitResponse;
 import com.cynoteck.petofyvet.response.forgetAndChangePassResponse.PasswordResponse;
 import com.cynoteck.petofyvet.response.getLabTestReportResponse.getLabTestReportDetailsResponse.GetLabTestReportDeatilsResponse;
 import com.cynoteck.petofyvet.response.getPetDetailsResponse.GetPetResponse;
@@ -262,6 +263,11 @@ public interface ApiInterface {
     @POST("pethealthrecord/AddPetToRegister")
     Call<NewPetRegisterResponse> addPetToRegister(@Header("Authorization") String auth, @Body NewPetRequest newPetRequest);
 
+    //GET ROUTINE FOLLOW-UP TYPE LIST (CLINIC VISIT)......................................
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @GET("pethealthrecord/GetClinicVisitRoutineFollowupTypes")
+    Call<ClinicVisitResponse> getClinicVisit(@Header("Authorization") String auth);
 }
 
 

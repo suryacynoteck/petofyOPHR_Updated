@@ -2,16 +2,30 @@
 package com.cynoteck.petofyvet.activities;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cynoteck.petofyvet.R;
+import com.cynoteck.petofyvet.api.ApiClient;
 import com.cynoteck.petofyvet.api.ApiResponse;
+import com.cynoteck.petofyvet.api.ApiService;
+import com.cynoteck.petofyvet.response.clinicVisist.ClinicVisitResponse;
+import com.cynoteck.petofyvet.response.getPetReportsResponse.getPetListResponse.GetPetListResponse;
+import com.cynoteck.petofyvet.utils.Config;
+import com.cynoteck.petofyvet.utils.Methods;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import retrofit2.Response;
 
@@ -20,12 +34,18 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
     TextView pet_nameTV, pet_parentNameTV;
     ImageView back_arrow_IV;
     RelativeLayout test_xray,manage_pet_lab_work,hospitalization_surgeries,recent_visits,print_id_card,
-                  hospitalization_surgery,view_history;
+            clinics_visit,view_history;
+    Methods methods;
+
+    ArrayList<String>nextVisitList=new ArrayList<>();
+
+    HashMap<String,String>nextVisitHas=new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pet_details);
+        methods = new Methods(this);
         Bundle extras = getIntent().getExtras();
         pet_id=extras.getString("pet_id");
         pet_name=extras.getString("pet_name");
@@ -41,7 +61,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
         hospitalization_surgeries=findViewById(R.id.hospitalization_surgeries);
         recent_visits=findViewById(R.id.recent_visits);
         print_id_card=findViewById(R.id.print_id_card);
-        hospitalization_surgery=findViewById(R.id.hospitalization_surgery);
+        clinics_visit=findViewById(R.id.clinics_visit);
         view_history=findViewById(R.id.view_history);
 
         test_xray.setOnClickListener(this);
@@ -49,15 +69,24 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
         hospitalization_surgeries.setOnClickListener(this);
         recent_visits.setOnClickListener(this);
         print_id_card.setOnClickListener(this);
-        hospitalization_surgery.setOnClickListener(this);
+        clinics_visit.setOnClickListener(this);
         view_history.setOnClickListener(this);
         back_arrow_IV.setOnClickListener(this);
 
         pet_nameTV.setText(pet_name);
         pet_parentNameTV.setText(patent_name);
 
+        if (methods.isInternetOn()){
+            getClientVisit();
+        }else {
 
+            methods.DialogInternet();
+        }
+    }
 
+    private void getClientVisit() {
+        ApiService<ClinicVisitResponse> service = new ApiService<>();
+        service.get( this, ApiClient.getApiInterface().getClinicVisit(Config.token), "GetClinicVisitRoutineFollowupTypes");
     }
 
     @Override
@@ -72,6 +101,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 dataXray.putString("pet_unique_id",pet_unique_id);
                 dataXray.putString("reports_id","7.0");
                 dataXray.putString("pet_sex",pet_sex);
+                dataXray.putString("add_button_text","Test/X-rays");
                 petDetailsXray.putExtras(dataXray);
                 startActivity(petDetailsXray);
                 break;
@@ -84,6 +114,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 dataLabwork.putString("pet_unique_id",pet_unique_id);
                 dataLabwork.putString("reports_id","8.0");
                 dataLabwork.putString("pet_sex",pet_sex);
+                dataLabwork.putString("add_button_text","Lab Work");
                 petDetailsLabWork.putExtras(dataLabwork);
                 startActivity(petDetailsLabWork);
                 break;
@@ -96,6 +127,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 dataLabworkHospitalization.putString("pet_unique_id",pet_unique_id);
                 dataLabworkHospitalization.putString("reports_id","9.0");
                 dataLabworkHospitalization.putString("pet_sex",pet_sex);
+                dataLabworkHospitalization.putString("add_button_text","Hospitalization");
                 petDetailsHospitalization.putExtras(dataLabworkHospitalization);
                 startActivity(petDetailsHospitalization);
                 break;
@@ -116,7 +148,18 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 break;
             case R.id.print_id_card:
                 break;
-            case R.id.hospitalization_surgery:
+            case R.id.clinics_visit:
+                Intent petDetailsClinicVisits = new Intent(this, NewEntrysDetailsActivity.class);
+                Bundle dataClinicVisits = new Bundle();
+                dataClinicVisits.putString("pet_id",pet_id);
+                dataClinicVisits.putString("pet_name",pet_name);
+                dataClinicVisits.putString("pet_parent",patent_name);
+                dataClinicVisits.putString("pet_unique_id",pet_unique_id);
+                dataClinicVisits.putString("reports_id","1.0");
+                dataClinicVisits.putString("pet_sex",pet_sex);
+                dataClinicVisits.putString("add_button_text","Clinic_visits");
+                petDetailsClinicVisits.putExtras(dataClinicVisits);
+                startActivity(petDetailsClinicVisits);
                 break;
             case R.id.back_arrow_IV:
                 onBackPressed();
@@ -127,6 +170,39 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onResponse(Response arg0, String key) {
+        Log.d("kkakakak",""+key+" response: "+arg0);
+        switch (key) {
+            case "GetClinicVisitRoutineFollowupTypes":
+                try {
+                    ClinicVisitResponse clinicVisitResponse = (ClinicVisitResponse) arg0.body();
+                    Log.d("GetClinicVisit", clinicVisitResponse.toString());
+                    int responseCode = Integer.parseInt(clinicVisitResponse.getResponse().getResponseCode());
+
+                    if (responseCode== 109){
+                        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                        nextVisitList.add("Select Visit");
+                        for(int i=0;i<clinicVisitResponse.getData().size();i++)
+                        {
+                            nextVisitList.add(clinicVisitResponse.getData().get(i).getFollowUpTitle());
+                            nextVisitHas.put(clinicVisitResponse.getData().get(i).getFollowUpTitle(),clinicVisitResponse.getData().get(i).getId());
+                        }
+                       }
+                    else if (responseCode==614){
+                        Toast.makeText(this, clinicVisitResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    else
+                        {
+                      Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                        }
+
+                }
+                catch(Exception e) {
+
+
+                    e.printStackTrace();
+                }
+                break;
+        }
 
     }
 
