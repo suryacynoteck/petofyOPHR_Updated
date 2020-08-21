@@ -42,9 +42,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cynoteck.petofyvet.R;
+import com.cynoteck.petofyvet.activities.AddNewPetActivity;
 import com.cynoteck.petofyvet.activities.PetDetailsActivity;
 import com.cynoteck.petofyvet.adapters.NewEntrysAdapter;
-import com.cynoteck.petofyvet.adapters.ReportsAdapter;
 import com.cynoteck.petofyvet.api.ApiClient;
 import com.cynoteck.petofyvet.api.ApiResponse;
 import com.cynoteck.petofyvet.api.ApiService;
@@ -94,6 +94,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.StringTokenizer;
+
 import retrofit2.Response;
 
 public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnClickListener, StaffListClickListener, NewEntryListClickListener, TextWatcher {
@@ -1261,7 +1262,10 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                 picker.show();
                 break;
             case R.id.addNewEntry:
-                addNewEntrysPet();
+
+                Intent addNewPetIntent = new Intent(getContext(), AddNewPetActivity.class);
+                startActivity(addNewPetIntent);
+//                addNewEntrysPet();
                 break;
             case R.id.cancel:
                 prescription_dialog.dismiss();

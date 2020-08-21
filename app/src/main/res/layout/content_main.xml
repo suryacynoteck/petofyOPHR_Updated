@@ -7,8 +7,9 @@
 
 
 
-    <androidx.cardview.widget.CardView
-        app:cardElevation="10dp"
+    <com.google.android.material.card.MaterialCardView
+        android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+        app:cardElevation="35dp"
         android:id="@+id/card1"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -24,6 +25,7 @@
             android:weightSum="4">
 
             <RelativeLayout
+                android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
                 android:gravity="center"
                 android:id="@+id/homeRL"
                 android:layout_height="match_parent"
@@ -37,6 +39,7 @@
 
             </RelativeLayout>
             <RelativeLayout
+                android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
                 android:id="@+id/profileRL"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
@@ -49,6 +52,7 @@
 
             </RelativeLayout>
             <RelativeLayout
+                android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
                 android:id="@+id/petRegisterRL"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
@@ -61,6 +65,7 @@
 
             </RelativeLayout>
             <RelativeLayout
+                android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
                 android:id="@+id/appointmentRL"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
@@ -73,7 +78,7 @@
             </RelativeLayout>
 
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
 
 </RelativeLayout>
