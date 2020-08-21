@@ -168,6 +168,7 @@ public class XRayReportDeatilsActivity extends AppCompatActivity implements ApiR
 
     @Override
     public void onError(Throwable t, String key) {
+        Log.e("",t.getLocalizedMessage());
 
     }
 }

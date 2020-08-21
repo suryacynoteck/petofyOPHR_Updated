@@ -161,7 +161,7 @@ public class LabTestReportDeatilsActivity extends FragmentActivity implements Ap
 
             case "DeleteLabTestWork":
                 try {
-                    Log.d("DeleteClinicVisit",response.body().toString());
+                    Log.d("DeleteLabTestWork",response.body().toString());
                     AddUpdateDeleteClinicVisitResponse addUpdateDeleteClinicVisitResponse = (AddUpdateDeleteClinicVisitResponse) response.body();
                     int responseCode = Integer.parseInt(addUpdateDeleteClinicVisitResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
@@ -180,6 +180,7 @@ public class LabTestReportDeatilsActivity extends FragmentActivity implements Ap
 
     @Override
     public void onError(Throwable t, String key) {
+        Log.e("error",t.getLocalizedMessage());
 
     }
 }

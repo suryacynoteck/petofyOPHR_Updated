@@ -214,7 +214,7 @@ public interface ApiInterface {
 
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
-    @POST("pethealthrecord/DeleteLabTestWork")
+    @POST("pethealthrecord/DeletePetLabWork")
     Call<AddUpdateDeleteClinicVisitResponse> deleteLabTestWork(@Header("Authorization") String auth, @Body PetClinicVisitDetailsRequest petClinicVisitDetailsRequest);
 
     //All Staff Section .....................................................
