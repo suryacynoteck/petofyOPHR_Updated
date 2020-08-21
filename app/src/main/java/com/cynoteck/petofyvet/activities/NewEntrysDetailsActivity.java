@@ -1,31 +1,23 @@
 package com.cynoteck.petofyvet.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatSpinner;
-import androidx.fragment.app.FragmentTransaction;
-
-import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatSpinner;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.fragments.NewEntrysListFragment;
-import com.cynoteck.petofyvet.fragments.ReportListFragment;
-import com.cynoteck.petofyvet.params.addParamRequest.AddPetParams;
-import com.cynoteck.petofyvet.params.addParamRequest.AddPetRequset;
-
-import java.util.Calendar;
 
 public class NewEntrysDetailsActivity extends AppCompatActivity implements View.OnClickListener {
     ImageView back_arrow_IV;
@@ -85,7 +77,7 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
 
             case "1.0":
 
-                reports_headline_TV.setText("Routine Report");
+                reports_headline_TV.setText("Clinic Visits");
                 data.putString("reports_id","1");
                 data.putString("type","list");
 
@@ -226,14 +218,20 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.addPrescriptionButton:
-                if(button_text.equals("Test/X-rays"))
-                    TestXrayDialog();
-                else if(button_text.equals("Lab Work"))
-                    LabWorkDialog();
-                else if(button_text.equals("Hospitalization"))
-                    HospitalizationDialog();
-                else if(button_text.equals("Clinic_visits"))
+                if(button_text.equals("Test/X-rays")) {
+                    Intent xRayIntent = new Intent(this,AddXRayDeatilsActivity.class);
+                    startActivity(xRayIntent);                }
+                else if(button_text.equals("Lab Work")) {
+                    Intent labWorkIntent = new Intent(this,AddLabWorkDeatilsActivity.class);
+                    startActivity(labWorkIntent);
+                }
+                else if(button_text.equals("Hospitalization")) {
+                    Intent hospitalIntent = new Intent(this,AddHospitalizationDeatilsActivity.class);
+                    startActivity(hospitalIntent);
+                }
+                else if(button_text.equals("Clinic_visits")) {
                     clinicDialog();
+                }
                 break;
 
         }
@@ -274,21 +272,6 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
         clinicDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         clinicDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         clinicDialog.show();
-
-    }
-
-    public void TestXrayDialog()
-    {
-
-    }
-
-    public void LabWorkDialog()
-    {
-
-    }
-
-    public void HospitalizationDialog()
-    {
 
     }
 }

@@ -2,24 +2,23 @@ package com.cynoteck.petofyvet.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import retrofit2.Response;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.cynoteck.petofyvet.R;
-import com.cynoteck.petofyvet.activities.ViewReportsDeatilsActivity;
+import com.cynoteck.petofyvet.activities.ReportsCommonActivity;
 import com.cynoteck.petofyvet.adapters.HospitalizationReportsAdapter;
 import com.cynoteck.petofyvet.adapters.LabTestReportsAdapter;
 import com.cynoteck.petofyvet.adapters.ReportsTypeAdapter;
 import com.cynoteck.petofyvet.adapters.TestAndXRayAdpater;
+import com.cynoteck.petofyvet.adapters.VisitTypesAdapter;
 import com.cynoteck.petofyvet.api.ApiClient;
 import com.cynoteck.petofyvet.api.ApiResponse;
 import com.cynoteck.petofyvet.api.ApiService;
@@ -30,6 +29,8 @@ import com.cynoteck.petofyvet.response.getLabTestReportResponse.getPetLabWorkLis
 import com.cynoteck.petofyvet.response.getLabTestReportResponse.getPetLabWorkListResponse.PetLabWorkResponse;
 import com.cynoteck.petofyvet.response.getPetHospitalizationResponse.getHospitalizationListResponse.GetPetHospitalizationResponse;
 import com.cynoteck.petofyvet.response.getPetHospitalizationResponse.getHospitalizationListResponse.PetHospitalizationsList;
+import com.cynoteck.petofyvet.response.getPetReportsResponse.GetReportsTypeData;
+import com.cynoteck.petofyvet.response.getPetReportsResponse.GetReportsTypeResponse;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.getPetClinicVisitsListsResponse.GetPetClinicVisitListResponse;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.getPetClinicVisitsListsResponse.PetClinicVisitList;
 import com.cynoteck.petofyvet.response.getXRayReports.getPetTestAndXRayResponse.GetPetTestAndXRayResponse;
@@ -40,6 +41,8 @@ import com.cynoteck.petofyvet.utils.RegisterRecyclerViewClickListener;
 
 import java.util.ArrayList;
 
+import retrofit2.Response;
+
 public class NewEntrysListFragment extends Fragment implements ApiResponse, RegisterRecyclerViewClickListener, OnClickStaicLists {
     String pet_unique_id, pet_name,pet_sex, pet_owner_name,pet_owner_contact,pet_id ,report_type_id,type;
 
@@ -49,6 +52,9 @@ public class NewEntrysListFragment extends Fragment implements ApiResponse, Regi
     private ArrayList<PetTestsAndXrayList> petTestsAndXrayLists;
     private ArrayList<PetLabWorkList> petLabWorkLists;
     private ArrayList<PetHospitalizationsList> petHospitalizationsLists;
+    ArrayList<GetReportsTypeData> getReportsTypeData;
+
+    VisitTypesAdapter visitTypesAdapter;
 
     ReportsTypeAdapter reportsTypeAdapter;
     TestAndXRayAdpater testAndXRayAdpater;
@@ -80,7 +86,7 @@ public class NewEntrysListFragment extends Fragment implements ApiResponse, Regi
         switch (type){
 
             case "list":
-                getPetClinicVisit();
+                getVisitTypes();
                 break;
 
             case "XRay":
@@ -97,6 +103,12 @@ public class NewEntrysListFragment extends Fragment implements ApiResponse, Regi
         }
 
         return view;
+    }
+
+    private void getVisitTypes() {
+        ApiService<GetReportsTypeResponse> service = new ApiService<>();
+        service.get(this, ApiClient.getApiInterface().getReportsType(Config.token), "GetReportsType");
+
     }
 
     private void getHospitalizationReport() {
@@ -186,6 +198,27 @@ public class NewEntrysListFragment extends Fragment implements ApiResponse, Regi
     public void onResponse(Response response, String key) {
 
         switch (key){
+            case "GetReportsType":
+                try {
+                    Log.d("GetPetServiceTypes",response.body().toString());
+                    GetReportsTypeResponse petServiceResponse = (GetReportsTypeResponse) response.body();
+                    int responseCode = Integer.parseInt(petServiceResponse.getResponse().getResponseCode());
+                    if (responseCode== 109){
+
+                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+                        routine_report_RV.setLayoutManager(linearLayoutManager);
+                        routine_report_RV.setNestedScrollingEnabled(false);
+                        visitTypesAdapter  = new VisitTypesAdapter(getContext(),petServiceResponse.getData(),this);
+                        getReportsTypeData = petServiceResponse.getData();
+                        routine_report_RV.setAdapter(visitTypesAdapter);
+                        visitTypesAdapter.notifyDataSetChanged();
+                        routine_report_RV.setVisibility(View.VISIBLE);
+                    }
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+                break;
             case "GetPetClinicVisit":
                 try {
                     Log.d("ResponseClinicVisit",response.body().toString());
@@ -276,8 +309,6 @@ public class NewEntrysListFragment extends Fragment implements ApiResponse, Regi
 
         }
 
-
-
     }
 
     @Override
@@ -287,13 +318,18 @@ public class NewEntrysListFragment extends Fragment implements ApiResponse, Regi
 
     @Override
     public void onProductClick(int position) {
-        Toast.makeText(getContext(), ""+petClinicVisitListArrayList.get(position).getId(), Toast.LENGTH_SHORT).show();
-        Intent viewReportsDeatilsActivityIntent = new Intent(getActivity().getApplication(), ViewReportsDeatilsActivity.class);
+        getReportsTypeData.get(position).getId();
+        Intent selectReportsIntent = new Intent(getContext(), ReportsCommonActivity.class);
         Bundle data = new Bundle();
-        data.putString("clinic_id",petClinicVisitListArrayList.get(position).getId());
-
-        viewReportsDeatilsActivityIntent.putExtras(data);
-        startActivity(viewReportsDeatilsActivityIntent);
+        data.putString("pet_id",pet_id);
+        data.putString("pet_name",pet_name);
+        data.putString("pet_unique_id",pet_unique_id);
+        data.putString("pet_sex",pet_sex);
+        data.putString("pet_owner_name",pet_owner_name);
+        data.putString("pet_owner_contact",pet_owner_contact);
+        data.putString("reports_id",getReportsTypeData.get(position).getId());
+        selectReportsIntent.putExtras(data);
+        startActivity(selectReportsIntent);
         getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
 
     }
@@ -314,7 +350,5 @@ public class NewEntrysListFragment extends Fragment implements ApiResponse, Regi
     @Override
     public void onViewHospitalizationClick(int position) {
         Toast.makeText(getContext(), ""+petHospitalizationsLists.get(position).getId(), Toast.LENGTH_SHORT).show();
-
-
     }
 }

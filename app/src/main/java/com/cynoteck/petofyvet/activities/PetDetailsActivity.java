@@ -55,6 +55,8 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
         view_clinicVisits_arrow=findViewById(R.id.view_clinicVisits_arrow);
         view_history_arrow=findViewById(R.id.view_history_arrow);
         view_xrayReport_arrow=findViewById(R.id.view_xrayReport_arrow);
+        view_labTestReport_arrow=findViewById(R.id.view_labTestReport_arrow);
+        last_prescription_arrow=findViewById(R.id.last_prescription_arrow);
 
         view_clinicVisits_arrow.setOnClickListener(this);
         view_labTestReport_arrow.setOnClickListener(this);
