@@ -336,7 +336,7 @@ public class ReportListFragment extends Fragment implements ApiResponse, Registe
         labIntent.putExtra("pet_sex",pet_sex);
         labIntent.putExtra("pet_owner_name",pet_owner_name);
         labIntent.putExtra("pet_owner_contact",pet_owner_contact);
-        labIntent.putExtra("id",petLabWorkLists.get(position).getId());
+        labIntent.putExtra("id",petTestsAndXrayLists.get(position).getId());
         labIntent.putExtras(labIntent);
         startActivity(labIntent);
         getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
@@ -371,7 +371,7 @@ public class ReportListFragment extends Fragment implements ApiResponse, Registe
         labIntent.putExtra("pet_sex",pet_sex);
         labIntent.putExtra("pet_owner_name",pet_owner_name);
         labIntent.putExtra("pet_owner_contact",pet_owner_contact);
-        labIntent.putExtra("id",petLabWorkLists.get(position).getId());
+        labIntent.putExtra("id",petHospitalizationsLists.get(position).getId());
         labIntent.putExtras(labIntent);
         startActivity(labIntent);
         getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
