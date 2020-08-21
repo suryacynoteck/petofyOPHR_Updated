@@ -55,6 +55,8 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
         view_clinicVisits_arrow=findViewById(R.id.view_clinicVisits_arrow);
         view_history_arrow=findViewById(R.id.view_history_arrow);
         view_xrayReport_arrow=findViewById(R.id.view_xrayReport_arrow);
+        view_labTestReport_arrow=findViewById(R.id.view_labTestReport_arrow);
+        last_prescription_arrow=findViewById(R.id.last_prescription_arrow);
 
         view_clinicVisits_arrow.setOnClickListener(this);
         view_labTestReport_arrow.setOnClickListener(this);
@@ -67,19 +69,8 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
         pet_nameTV.setText(pet_name);
         pet_parentNameTV.setText(patent_name);
         view_xrayReport_arrow.setOnClickListener(this);
-
-        if (methods.isInternetOn()){
-            getClientVisit();
-        }else {
-
-            methods.DialogInternet();
-        }
     }
 
-    private void getClientVisit() {
-        ApiService<ClinicVisitResponse> service = new ApiService<>();
-        service.get( this, ApiClient.getApiInterface().getClinicVisit(Config.token), "GetClinicVisitRoutineFollowupTypes");
-    }
 
     @Override
     public void onClick(View v) {
@@ -163,38 +154,6 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onResponse(Response arg0, String key) {
         Log.d("kkakakak",""+key+" response: "+arg0);
-        switch (key) {
-            case "GetClinicVisitRoutineFollowupTypes":
-                try {
-                    ClinicVisitResponse clinicVisitResponse = (ClinicVisitResponse) arg0.body();
-                    Log.d("GetClinicVisit", clinicVisitResponse.toString());
-                    int responseCode = Integer.parseInt(clinicVisitResponse.getResponse().getResponseCode());
-
-                    if (responseCode== 109){
-                        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
-                        nextVisitList.add("Select Visit");
-                        for(int i=0;i<clinicVisitResponse.getData().size();i++)
-                        {
-                            nextVisitList.add(clinicVisitResponse.getData().get(i).getFollowUpTitle());
-                            nextVisitHas.put(clinicVisitResponse.getData().get(i).getFollowUpTitle(),clinicVisitResponse.getData().get(i).getId());
-                        }
-                       }
-                    else if (responseCode==614){
-                        Toast.makeText(this, clinicVisitResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    else
-                        {
-                      Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
-                        }
-
-                }
-                catch(Exception e) {
-
-
-                    e.printStackTrace();
-                }
-                break;
-        }
 
     }
 
