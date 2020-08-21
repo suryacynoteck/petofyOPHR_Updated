@@ -22,6 +22,9 @@ import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.api.ApiClient;
 import com.cynoteck.petofyvet.api.ApiResponse;
 import com.cynoteck.petofyvet.api.ApiService;
+import com.cynoteck.petofyvet.params.addPetClinicParamRequest.AddPetClinicParam;
+import com.cynoteck.petofyvet.params.addPetClinicParamRequest.AddPetClinicRequest;
+import com.cynoteck.petofyvet.response.addPetClinicresponse.AddpetClinicResponse;
 import com.cynoteck.petofyvet.response.clinicVisist.ClinicVisitResponse;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
@@ -258,12 +261,43 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                         vacine_ET.setError(null);
                         Dewormer_name_ET.setError(null);
                         Dewormer_ET.setError(null);
+                        AddPetClinicParam addPetClinicParam=new AddPetClinicParam();
+                        addPetClinicParam.setPetId("");
+                        addPetClinicParam.setVeterinarian("");
+                        addPetClinicParam.setVisitDate("");
+                        addPetClinicParam.setNatureOfVisitId("");
+                        addPetClinicParam.setVaccine("");
+                        addPetClinicParam.setDescription("");
+                        addPetClinicParam.setWeightLbs("");
+                        addPetClinicParam.setWeightOz("");
+                        addPetClinicParam.setTemperature("");
+                        addPetClinicParam.setDateOfOnset("");
+                        addPetClinicParam.setDewormerName("");
+                        addPetClinicParam.setTreatmentRemarks("");
+                        addPetClinicParam.setDiagnosisProcedure("");
+                        addPetClinicParam.setFollowUpId("");
+                        addPetClinicParam.setFollowUpDate("");
+                        addPetClinicParam.setDocuments("");
+                        AddPetClinicRequest addPetClinicRequest=new AddPetClinicRequest();
+                        addPetClinicRequest.setAddPetParams(addPetClinicParam);
+                        if (methods.isInternetOn()){
+                            addPetClinicData(addPetClinicRequest);
+                        }else {
+
+                            methods.DialogInternet();
+                        }
                     }
                 break;
             case R.id.cancel_clinic_add_dialog:
                 break;
 
         }
+    }
+
+    private void addPetClinicData(AddPetClinicRequest addPetClinicRequest) {
+        ApiService<AddpetClinicResponse> service = new ApiService<>();
+        service.get( this, ApiClient.getApiInterface().addClinicVisit(Config.token,addPetClinicRequest), "AddClinicVisit");
+        Log.d("DIALOG==>",""+addPetClinicRequest);
     }
 
     @Override
@@ -296,8 +330,27 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
 
                 }
                 catch(Exception e) {
+                    e.printStackTrace();
+                }
+            case "AddClinicVisit":
+                try {
+                    AddpetClinicResponse addpetClinicResponse = (AddpetClinicResponse) arg0.body();
+                    Log.d("AddClinicVisit", addpetClinicResponse.toString());
+                    int responseCode = Integer.parseInt(addpetClinicResponse.getResponse().getResponseCode());
 
+                    if (responseCode== 109){
 
+                    }
+                    else if (responseCode==614){
+                        Toast.makeText(this, addpetClinicResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+                catch(Exception e) {
                     e.printStackTrace();
                 }
                 break;
