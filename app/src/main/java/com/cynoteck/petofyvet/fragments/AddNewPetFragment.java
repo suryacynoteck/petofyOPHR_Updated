@@ -1,8 +1,10 @@
 package com.cynoteck.petofyvet.fragments;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -92,7 +94,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.StringTokenizer;
-
 import retrofit2.Response;
 
 public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnClickListener, StaffListClickListener, NewEntryListClickListener, TextWatcher {
@@ -382,7 +383,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                                 (getActivity(),android.R.layout.simple_list_item_1,petUniueId);
                         search_box_add_new.setThreshold(1);//will start working from first character
                         search_box_add_new.setAdapter(adapter);//setting the adapter data into the AutoCompleteTextView
-                        search_box_add_new.setTextColor(Color.RED);
+                        search_box_add_new.setTextColor(Color.BLACK);
                     }
 
                 }
@@ -1231,16 +1232,33 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                         }
                         else
                         {
-                            InPetRegisterRequest inPetRegisterRequest = new InPetRegisterRequest();
-                            InPetregisterParams inPetregisterParams = new InPetregisterParams();
-                            inPetregisterParams.setUniqueId(search_box_add_new.getText().toString());
-                            inPetRegisterRequest.setData(inPetregisterParams);
-                            if (methods.isInternetOn()) {
-                                chkVetInregister(inPetRegisterRequest);
-                            } else {
-                                methods.DialogInternet();
-                            }
                             Log.d("Add Anotheer Veterian","vet");
+                            AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                            alertDialog.setTitle("Are you sure?");
+                            alertDialog.setMessage("This pet is not registered with you. Do you want to add ?");
+                            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            InPetRegisterRequest inPetRegisterRequest = new InPetRegisterRequest();
+                                            InPetregisterParams inPetregisterParams = new InPetregisterParams();
+                                            inPetregisterParams.setUniqueId(search_box_add_new.getText().toString());
+                                            inPetRegisterRequest.setData(inPetregisterParams);
+                                            if (methods.isInternetOn()) {
+                                                chkVetInregister(inPetRegisterRequest);
+                                            } else {
+                                                methods.DialogInternet();
+                                            }
+                                            dialog.dismiss();
+                                        }
+                                    });
+                            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            dialogInterface.dismiss();
+                                        }
+                                    });
+                            alertDialog.show();
                         }
                     }
                     else{

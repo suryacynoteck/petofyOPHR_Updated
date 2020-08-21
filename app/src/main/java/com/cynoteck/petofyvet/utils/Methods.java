@@ -11,10 +11,14 @@ import android.view.WindowManager;
 
 import androidx.appcompat.app.AlertDialog;
 
+
 import com.cynoteck.petofyvet.R;
 public class Methods {
     private Context c;
     private Dialog progressBarDialog;
+    /*public static SweetAlertDialog errorMsgDialog;
+    private SweetAlertDialog informationDialog;*/
+
 
     public Methods(Context c) {
         this.c = c;
