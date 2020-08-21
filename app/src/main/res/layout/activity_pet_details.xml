@@ -48,6 +48,7 @@
 
 
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/addNewEntry"
         android:layout_width="180dp"
         android:layout_height="50dp"
@@ -69,12 +70,8 @@
 
     </LinearLayout>
 
-
         <androidx.cardview.widget.CardView
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="20dp"
             android:id="@+id/pet_info_CV"
             android:layout_below="@id/addNewEntry"
             android:background="@color/whiteColor"
@@ -126,10 +123,17 @@
         </androidx.cardview.widget.CardView>
 
 
+    <View
+        android:id="@+id/view_green_line"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:layout_below="@id/pet_info_CV"
+        android:background="@color/green_divider"/>
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/pet_info_CV"
+        android:layout_below="@+id/view_green_line"
         >
 
         <LinearLayout

@@ -8,11 +8,11 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.cynoteck.petofyvet.R;
@@ -31,7 +31,7 @@ import retrofit2.Response;
 
 public class DashBoardActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse {
 
-    private CardView homeRL,profileRL,petregisterRL,appointmentRL;
+    private RelativeLayout homeRL,profileRL,petregisterRL,appointmentRL;
     private ImageView icHome, icProfile, icPetRegister, icAppointment;
     boolean doubleBackToExitPressedOnce = false;
     Methods methods;
@@ -40,7 +40,6 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dash_board);
-
         init();
         methods = new Methods(this);
         SharedPreferences sharedPreferences = getSharedPreferences("userdetails", 0);

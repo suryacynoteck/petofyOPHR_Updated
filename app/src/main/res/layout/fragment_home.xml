@@ -58,6 +58,7 @@
 
 
     <com.google.android.material.card.MaterialCardView
+        app:cardElevation="8dp"
         android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="30dp"
@@ -108,6 +109,7 @@
 
     <com.google.android.material.card.MaterialCardView
         android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+        app:cardElevation="8dp"
         app:layout_constraintStart_toEndOf="@id/reports_CV"
         app:layout_constraintTop_toTopOf="@id/reports_CV"
         app:layout_constraintEnd_toEndOf="parent"
@@ -154,6 +156,7 @@
 
 
     <com.google.android.material.card.MaterialCardView
+        app:cardElevation="8dp"
         android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="30dp"
@@ -205,6 +208,7 @@
 
 
     <com.google.android.material.card.MaterialCardView
+        app:cardElevation="8dp"
         android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
         app:layout_constraintTop_toBottomOf="@id/appoint_CV"
         app:layout_constraintStart_toEndOf="@id/staff_CV"
