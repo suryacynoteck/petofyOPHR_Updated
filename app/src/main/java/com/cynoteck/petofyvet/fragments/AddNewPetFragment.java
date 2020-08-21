@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,6 +24,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -40,6 +42,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.activities.PetDetailsActivity;
 import com.cynoteck.petofyvet.adapters.NewEntrysAdapter;
+import com.cynoteck.petofyvet.adapters.ReportsAdapter;
 import com.cynoteck.petofyvet.api.ApiClient;
 import com.cynoteck.petofyvet.api.ApiResponse;
 import com.cynoteck.petofyvet.api.ApiService;
@@ -55,6 +58,8 @@ import com.cynoteck.petofyvet.params.otpRequest.SendOtpParameter;
 import com.cynoteck.petofyvet.params.otpRequest.SendOtpRequest;
 import com.cynoteck.petofyvet.params.petBreedRequest.BreedParams;
 import com.cynoteck.petofyvet.params.petBreedRequest.BreedRequest;
+import com.cynoteck.petofyvet.params.petReportsRequest.PetDataParams;
+import com.cynoteck.petofyvet.params.petReportsRequest.PetDataRequest;
 import com.cynoteck.petofyvet.params.updateRequest.updateParamRequest.UpdatePetParam;
 import com.cynoteck.petofyvet.params.updateRequest.updateParamRequest.UpdatePetRequest;
 import com.cynoteck.petofyvet.response.InPetVeterian.InPetVeterianResponse;
@@ -65,6 +70,7 @@ import com.cynoteck.petofyvet.response.addPet.petColorResponse.PetColorValueResp
 import com.cynoteck.petofyvet.response.addPet.petSizeResponse.PetSizeValueResponse;
 import com.cynoteck.petofyvet.response.addPet.uniqueIdResponse.UniqueResponse;
 import com.cynoteck.petofyvet.response.getPetDetailsResponse.GetPetResponse;
+import com.cynoteck.petofyvet.response.getPetReportsResponse.getPetListResponse.GetPetListResponse;
 import com.cynoteck.petofyvet.response.newPetResponse.NewPetRegisterResponse;
 import com.cynoteck.petofyvet.response.otpResponse.OtpResponse;
 import com.cynoteck.petofyvet.response.recentEntrys.PetClinicVisitList;
@@ -98,7 +104,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
     List<PetClinicVisitList> petClinicVisitLists=null;
     ArrayList<String> petUniueId=null;
     RelativeLayout search_boxRL;
-    EditText search_box_add_new;
+    AutoCompleteTextView search_box_add_new;
     Dialog add_new_entrys_dialog, prescription_dialog, editPetDilog, addNewPetMobileNumber, otpDialog;
     TextView staff_headline_TV,parent_name,specilist,email,for_a,age,sex,date,prnt_nm,temparature,symptoms,diagnosis,
             remarks,nxt_visit,peto_reg_number_dialog,calenderTextView_dialog,
@@ -116,7 +122,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
     LinearLayout addNewEntry;
     String petUniqueId="",getStrSpnerItemPetNmId="",strSpnrBreedId="",strSpnrAgeId="",strSpnrColorId="",
             strSpneSizeId="",strSpnrSexId="",strSpnerItemPetType="",strSpnrBreed="",strSpnrAge="",strSpnrSex="",
-            currentDateandTime="",petIdGetForUpdate="",strResponseOtp="",petId="";
+            currentDateandTime="",petIdGetForUpdate="",strResponseOtp="",petId="",petParentContactNumber="";
     View view;
 
     AppCompatSpinner add_pet_type, add_pet_age_dialog ,add_pet_sex_dialog,add_pet_breed_dialog, add_pet_color_dialog,add_pet_size_dialog;
@@ -137,6 +143,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
     HashMap<String,String> petColorHashMap=new HashMap<>();
     HashMap<String,String> petSizeHashMap=new HashMap<>();
     HashMap<String,String> petSexHashMap=new HashMap<>();
+    HashMap<String,String> petExistingSearch=new HashMap<>();
 
     public AddNewPetFragment() {
         // Required empty public constructor
@@ -179,6 +186,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
         currentDateAndTime();
 
         if (methods.isInternetOn()){
+            getPetList();
             getPetNewList();
             petType();
             genaretePetUniqueKey();
@@ -199,6 +207,32 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
 
             methods.DialogInternet();
         }
+
+        search_box_add_new.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick (AdapterView<?> parent, View view, int position, long id) {
+                //... your stuff
+                Log.d("akkakaka",""+petUniueId.get(position));
+                String value=petExistingSearch.get(petUniueId.get(position));
+                Log.d("kakakka",""+value);
+                StringTokenizer st = new StringTokenizer(value, ",");
+                String PetUniqueId = st.nextToken();
+                String PetName = st.nextToken();
+                String PetParentName = st.nextToken();
+                String PetSex = st.nextToken();
+                String Id = st.nextToken();
+                Log.d("ppppp",""+PetUniqueId+" "+PetName+" "+PetParentName+" "+PetSex+" "+Id);
+                Intent petDetailsIntent = new Intent(getActivity().getApplication(), PetDetailsActivity.class);
+                Bundle data = new Bundle();
+                data.putString("pet_id",Id.substring(0,Id.length()-2));
+                data.putString("pet_name",PetName+"("+PetSex+")");
+                data.putString("pet_parent",PetParentName);
+                data.putString("pet_sex",PetSex);
+                data.putString("pet_unique_id",PetUniqueId);
+                petDetailsIntent.putExtras(data);
+                startActivity(petDetailsIntent);
+            }
+        });
     }
 
     private void currentDateAndTime() {
@@ -306,10 +340,59 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
         Log.e("DATALOG","check1=> "+newPetRequest);
     }
 
+    private void getPetList() {
+        PetDataParams getPetDataParams = new PetDataParams();
+        getPetDataParams.setPageNumber("1");
+        getPetDataParams.setPageSize("5");
+        getPetDataParams.setSearch_Data("0");
+        PetDataRequest getPetDataRequest = new PetDataRequest();
+        getPetDataRequest.setData(getPetDataParams);
+
+        ApiService<GetPetListResponse> service = new ApiService<>();
+        service.get( this, ApiClient.getApiInterface().getPetList(Config.token,getPetDataRequest), "GetPetList");
+        Log.e("DATALOG","check1=> "+getPetDataRequest);
+
+
+    }
+
     @Override
     public void onResponse(Response arg0, String key) {
         Log.d("kkakakak",""+key+" response: "+arg0);
         switch (key){
+            case "GetPetList":
+                try {
+                    GetPetListResponse getPetListResponse = (GetPetListResponse) arg0.body();
+                    Log.d("DATALOG", getPetListResponse.toString());
+                    int responseCode = Integer.parseInt(getPetListResponse.getResponse().getResponseCode());
+
+                    if (responseCode== 109){
+                        petUniueId=new ArrayList<>();
+                        for(int i=0;i<getPetListResponse.getData().getPetList().size();i++){
+                            petUniueId.add(getPetListResponse.getData().getPetList().get(i).getPetUniqueId()+":- "
+                                    +getPetListResponse.getData().getPetList().get(i).getPetName()+"("+getPetListResponse.getData().getPetList().get(i).getPetSex()+","+getPetListResponse.getData().getPetList().get(i).getPetParentName()+")");
+                            petExistingSearch.put(getPetListResponse.getData().getPetList().get(i).getPetUniqueId()+":- "
+                                            +getPetListResponse.getData().getPetList().get(i).getPetName()+"("+getPetListResponse.getData().getPetList().get(i).getPetSex()+","+getPetListResponse.getData().getPetList().get(i).getPetParentName()+")",
+                                                  getPetListResponse.getData().getPetList().get(i).getPetUniqueId()+","
+                                                  +getPetListResponse.getData().getPetList().get(i).getPetName()+","
+                                                  +getPetListResponse.getData().getPetList().get(i).getPetParentName()+","
+                                                  +getPetListResponse.getData().getPetList().get(i).getPetSex()+","
+                                                  +getPetListResponse.getData().getPetList().get(i).getId());
+                        }
+                        ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                                (getActivity(),android.R.layout.simple_list_item_1,petUniueId);
+                        search_box_add_new.setThreshold(1);//will start working from first character
+                        search_box_add_new.setAdapter(adapter);//setting the adapter data into the AutoCompleteTextView
+                        search_box_add_new.setTextColor(Color.RED);
+                    }
+
+                }
+                catch(Exception e) {
+
+
+                    e.printStackTrace();
+                }
+
+                break;
             case "GetRecentClinicVisits":
                 try {
                     RecentEntrysResponse getPetListResponse = (RecentEntrysResponse) arg0.body();
@@ -328,10 +411,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                         shimmer_view_new_entry.setVisibility(View.GONE);
                         shimmer_view_new_entry.stopShimmerAnimation();
                         Toast.makeText(getActivity(), "Success", Toast.LENGTH_SHORT).show();
-                        petUniueId=new ArrayList<>();
-                        for(int i=0;i<petClinicVisitLists.size();i++){
-                            petUniueId.add(petClinicVisitLists.get(i).getPetUniqueId());
-                        }
+
                     }
 
                 }
@@ -550,7 +630,18 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                         if(!inPetVeterianResponse.getData().getPetId().equals("0"))
                         {
                             petId=inPetVeterianResponse.getData().getPetId();
-                            verifyDialog();
+                            petParentContactNumber=inPetVeterianResponse.getData().getPetParentContactNumber();
+                            String actualNumber=petParentContactNumber.replaceAll("-", "");
+                            SendOtpRequest sendOtpRequest = new SendOtpRequest();
+                            SendOtpParameter data = new SendOtpParameter();
+                            data.setPhoneNumber(actualNumber);
+                            data.setEmailId("");
+                            sendOtpRequest.setData(data);
+                            if (methods.isInternetOn()) {
+                                sendotpUsingMobileNumber(sendOtpRequest);
+                            } else {
+                                methods.DialogInternet();
+                            }
                         }
                         else
                         {
@@ -575,7 +666,6 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                     if (responseCode== 109){
                         if(otpResponse.getData().getSuccess().equals("true"))
                         {
-                            addNewPetMobileNumber.dismiss();
                             strResponseOtp=otpResponse.getData().getOtp();
                             otpDialog();
                         }
@@ -607,6 +697,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                             sexName="Female";
                         else
                             sexName="Male";
+                        getPetList();
                         Intent petDetailsIntent = new Intent(getActivity().getApplication(), PetDetailsActivity.class);
                         Bundle data = new Bundle();
                         data.putString("pet_id",petId);
@@ -1263,7 +1354,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                             " " + strSpnrColorId + " " + strSpnrBreedId + " " + strPetName + " " + strPetBirthDay + " "+ currentDateandTime);
                     AddPetRequset addPetRequset = new AddPetRequset();
                     AddPetParams data = new AddPetParams();
-
+                    data.setPetUniqueId(petUniqueId);
                     data.setPetCategoryId(getStrSpnerItemPetNmId);
                     data.setPetSexId(strSpnrSexId);
                     data.setPetAgeId(strSpnrAgeId);
@@ -1387,7 +1478,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                     pet_parent_mobile_number.setError("Enter A valid Mobile Number");
                 }
                 else{
-                    pet_parent_mobile_number.setError(null);
+                   /* pet_parent_mobile_number.setError(null);
                     SendOtpRequest sendOtpRequest = new SendOtpRequest();
                     SendOtpParameter data = new SendOtpParameter();
                     data.setPhoneNumber(StrmobileNumber);
@@ -1397,7 +1488,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                         sendotpUsingMobileNumber(sendOtpRequest);
                     } else {
                         methods.DialogInternet();
-                    }
+                    }*/
                 }
                 break;
 

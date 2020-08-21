@@ -107,7 +107,7 @@ public class NewEntrysListFragment extends Fragment implements ApiResponse, Regi
         petDataParams.setSearch_Data("");
         VisitTypeData visitTypeData = new VisitTypeData();
         visitTypeData.setVisitType(report_type_id);
-        visitTypeData.setPetId(pet_id.substring(0,pet_id.length()-2));
+        visitTypeData.setPetId(pet_id);
         visitTypeRequest.setHeader(petDataParams);
         visitTypeRequest.setData(visitTypeData);
         Log.d("HospitalizationRequest",visitTypeRequest.toString());
@@ -128,7 +128,7 @@ public class NewEntrysListFragment extends Fragment implements ApiResponse, Regi
         petDataParams.setSearch_Data("");
         VisitTypeData visitTypeData = new VisitTypeData();
         visitTypeData.setVisitType(report_type_id);
-        visitTypeData.setPetId(pet_id.substring(0,pet_id.length()-2));
+        visitTypeData.setPetId(pet_id);
         visitTypeRequest.setHeader(petDataParams);
         visitTypeRequest.setData(visitTypeData);
         Log.d("LabTestRequest",visitTypeRequest.toString());
@@ -149,7 +149,7 @@ public class NewEntrysListFragment extends Fragment implements ApiResponse, Regi
         petDataParams.setSearch_Data("");
         VisitTypeData visitTypeData = new VisitTypeData();
         visitTypeData.setVisitType(report_type_id);
-        visitTypeData.setPetId(pet_id.substring(0,pet_id.length()-2));
+        visitTypeData.setPetId(pet_id);
         visitTypeRequest.setHeader(petDataParams);
         visitTypeRequest.setData(visitTypeData);
         Log.d("visitTypeRequest",visitTypeRequest.toString());
@@ -170,7 +170,7 @@ public class NewEntrysListFragment extends Fragment implements ApiResponse, Regi
         getPetDataParams.setPageSize("10000");
         getPetDataParams.setSearch_Data("");
         VisitTypeData visitTypeData = new VisitTypeData();
-        visitTypeData.setPetId(pet_id.substring(0,pet_id.length()-2));
+        visitTypeData.setPetId(pet_id);
         VisitTypeRequest visitTypeRequest = new VisitTypeRequest();
         visitTypeRequest.setHeader(getPetDataParams);
         visitTypeRequest.setData(visitTypeData);

@@ -45,15 +45,15 @@
                 android:background="@drawable/searchbox"
                 android:layout_centerVertical="true">
 
-                <EditText
+                <AutoCompleteTextView
                     android:imeOptions="actionSearch"
                     android:singleLine="true"
                     android:id="@+id/search_box_add_new"
                     android:paddingRight="8dp"
                     android:paddingLeft="8dp"
                     android:layout_centerVertical="true"
-                    android:textSize="20sp"
-                    android:hint="Search pet...."
+                    android:textSize="11.09sp"
+                    android:hint="Search pet by pet ID, Name..(if already added)"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"

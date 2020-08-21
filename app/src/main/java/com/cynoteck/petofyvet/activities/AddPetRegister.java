@@ -354,6 +354,7 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
                             " "+strSpnrColorId+" "+strSpnrBreedId+" "+strPetName+" "+strPetBirthDay+" "+strPetDescription+" "+currentDateandTime);
                     AddPetRequset addPetRequset = new AddPetRequset();
                     AddPetParams data = new AddPetParams();
+                    data.setPetUniqueId(petUniqueId);
                     data.setPetCategoryId(getStrSpnerItemPetNmId);
                     data.setPetSexId(strSpnrSexId);
                     data.setPetAgeId(strSpnrAgeId);

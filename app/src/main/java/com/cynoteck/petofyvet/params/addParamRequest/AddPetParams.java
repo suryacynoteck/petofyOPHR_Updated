@@ -6,6 +6,7 @@ import okhttp3.RequestBody;
 public class AddPetParams {
 
     private String petCategoryId;
+    private String petUniqueId;
     private String petSexId;
     private String petAgeId;
     private String petSizeId;
@@ -25,6 +26,13 @@ public class AddPetParams {
     private String fourthServiceImageUrl;
     private String fifthServiceImageUrl;
 
+    public String getPetUniqueId() {
+        return petUniqueId;
+    }
+
+    public void setPetUniqueId(String petUniqueId) {
+        this.petUniqueId = petUniqueId;
+    }
 
     public String getPetCategoryId() {
         return petCategoryId;
@@ -181,6 +189,6 @@ public class AddPetParams {
     @Override
     public String toString()
     {
-        return "ClassPojo [petCategoryId = "+petCategoryId+", petSexId = "+petSexId+", petAgeId = "+petAgeId+", petSizeId = "+petSizeId+", petColorId= "+petColorId+", petName = "+petName+", petParentName = "+petParentName+", contactNumber = "+contactNumber+", dateOfBirth = "+dateOfBirth+", description = "+description+", createDate = "+createDate+", petProfileImageUrl = "+petProfileImageUrl+", firstServiceImageUrl = "+firstServiceImageUrl+", secondServiceImageUrl = "+secondServiceImageUrl+", thirdServiceImageUrl = "+thirdServiceImageUrl+", fourthServiceImageUrl = "+fourthServiceImageUrl+", fifthServiceImageUrl = "+fifthServiceImageUrl+"]";
+        return "ClassPojo [petUniqueId= "+petUniqueId+", petCategoryId = "+petCategoryId+", petSexId = "+petSexId+", petAgeId = "+petAgeId+", petSizeId = "+petSizeId+", petColorId= "+petColorId+", petName = "+petName+", petParentName = "+petParentName+", contactNumber = "+contactNumber+", dateOfBirth = "+dateOfBirth+", description = "+description+", createDate = "+createDate+", petProfileImageUrl = "+petProfileImageUrl+", firstServiceImageUrl = "+firstServiceImageUrl+", secondServiceImageUrl = "+secondServiceImageUrl+", thirdServiceImageUrl = "+thirdServiceImageUrl+", fourthServiceImageUrl = "+fourthServiceImageUrl+", fifthServiceImageUrl = "+fifthServiceImageUrl+"]";
     }
 }
