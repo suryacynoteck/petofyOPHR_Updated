@@ -114,4 +114,9 @@
     <string name="diagosisTreatment">Diagnosis Treatment Procedure</string>
     <string name="RecommendedFollowup">Recommended Follow-up</string>
     <string name="FollowupDate">Follow-up Date</string>
+    <string name="addTestXRay">Add Test/X-rays</string>
+    <string name="addhospitalization">Add Hospitalizations/Surgeries</string>
+    <string name="labname">Lab Name</string>
+    <string name="dischargeDate">Discharge Date*</string>
+    <string name="hospitalphone">Hospital Phone</string>
 </resources>
