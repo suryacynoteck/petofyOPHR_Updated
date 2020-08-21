@@ -32,6 +32,7 @@
         <activity android:name=".activities.XRayReportDeatilsActivity" />
         <activity android:name=".activities.ViewReportsDeatilsActivity"></activity>
         <activity android:name=".activities.PetDetailsActivity" />
+        <activity android:name=".activities.NewEntrysDetailsActivity" />
         <activity
             android:name=".activities.ReportsCommonActivity"
             android:screenOrientation="portrait"
