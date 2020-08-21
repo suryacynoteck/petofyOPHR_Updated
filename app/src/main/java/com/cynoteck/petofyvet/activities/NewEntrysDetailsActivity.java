@@ -3,6 +3,7 @@ package com.cynoteck.petofyvet.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.fragment.app.FragmentTransaction;
+import retrofit2.Response;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -11,6 +12,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -20,16 +23,24 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cynoteck.petofyvet.R;
+import com.cynoteck.petofyvet.api.ApiClient;
+import com.cynoteck.petofyvet.api.ApiResponse;
+import com.cynoteck.petofyvet.api.ApiService;
 import com.cynoteck.petofyvet.fragments.NewEntrysListFragment;
 import com.cynoteck.petofyvet.fragments.ReportListFragment;
 import com.cynoteck.petofyvet.params.addParamRequest.AddPetParams;
 import com.cynoteck.petofyvet.params.addParamRequest.AddPetRequset;
+import com.cynoteck.petofyvet.response.clinicVisist.ClinicVisitResponse;
+import com.cynoteck.petofyvet.utils.Config;
+import com.cynoteck.petofyvet.utils.Methods;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
-public class NewEntrysDetailsActivity extends AppCompatActivity implements View.OnClickListener {
+public class NewEntrysDetailsActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse {
     ImageView back_arrow_IV;
-    String pet_unique_id, pet_name,pet_sex, pet_owner_name,pet_owner_contact,pet_id ,report_type_id,button_text;
+    String pet_unique_id, pet_name,pet_sex, pet_owner_name,pet_owner_contact,pet_id ,report_type_id,button_text,visitId="";
     Bundle data = new Bundle();
     TextView pet_name_TV,pet_sex_TV,pet_id_TV,pet_owner_name_TV,pet_owner_phone_no_TV,clinicFolow_up_dt_view,
             reports_headline_TV,add_text_button,clinicCalenderTextViewVisitDt,clinicIlness_onset;
@@ -40,12 +51,17 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
     AppCompatSpinner clinicNature_of_visit_spinner,clinicNext_visit_spinner;
     LinearLayout clinicDocument_layout;
     Button clinicCancel_clinic_add_dialog,clinicSave_clinic_data;
+    Methods methods;
+
+    ArrayList<String> nextVisitList=new ArrayList<>();
+
+    HashMap<String,String> nextVisitHas=new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_entrys_details);
-
+        methods = new Methods(this);
         Bundle extras = getIntent().getExtras();
         report_type_id = extras.getString("reports_id");
         pet_id = extras.getString("pet_id");
@@ -81,6 +97,14 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
         data.putString("pet_sex",pet_sex);
         data.putString("pet_owner_name",pet_owner_name);
         data.putString("pet_owner_contact",pet_owner_contact);
+
+        if (methods.isInternetOn()){
+            getClientVisit();
+        }else {
+
+            methods.DialogInternet();
+        }
+
         switch (report_type_id){
 
             case "1.0":
@@ -265,6 +289,8 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
         clinicSave_clinic_data.setOnClickListener(this);
         clinicCancel_clinic_add_dialog.setOnClickListener(this);
 
+        setSpinnerNextClinicVisit();
+
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         Window window = clinicDialog.getWindow();
         lp.copyFrom(window.getAttributes());
@@ -290,5 +316,68 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
     public void HospitalizationDialog()
     {
 
+    }
+
+    private void getClientVisit() {
+        ApiService<ClinicVisitResponse> service = new ApiService<>();
+        service.get( this, ApiClient.getApiInterface().getClinicVisit(Config.token), "GetClinicVisitRoutineFollowupTypes");
+    }
+
+    @Override
+    public void onResponse(Response arg0, String key) {
+        switch (key) {
+            case "GetClinicVisitRoutineFollowupTypes":
+                try {
+                    ClinicVisitResponse clinicVisitResponse = (ClinicVisitResponse) arg0.body();
+                    Log.d("GetClinicVisit", clinicVisitResponse.toString());
+                    int responseCode = Integer.parseInt(clinicVisitResponse.getResponse().getResponseCode());
+
+                    if (responseCode== 109){
+                        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                        nextVisitList.add("Select Visit");
+                        for(int i=0;i<clinicVisitResponse.getData().size();i++)
+                        {
+                            nextVisitList.add(clinicVisitResponse.getData().get(i).getFollowUpTitle());
+                            nextVisitHas.put(clinicVisitResponse.getData().get(i).getFollowUpTitle(),clinicVisitResponse.getData().get(i).getId());
+                        }
+                    }
+                    else if (responseCode==614){
+                        Toast.makeText(this, clinicVisitResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+                catch(Exception e) {
+
+
+                    e.printStackTrace();
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onError(Throwable t, String key) {
+
+    }
+
+    private void setSpinnerNextClinicVisit() {
+        ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,nextVisitList);
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Setting the ArrayAdapter data on the Spinner
+        clinicNext_visit_spinner.setAdapter(aa);
+        clinicNext_visit_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+                // Showing selected spinner item
+                Log.d("spnerType",""+item);
+                visitId=nextVisitHas.get(item);
+            }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
     }
 }

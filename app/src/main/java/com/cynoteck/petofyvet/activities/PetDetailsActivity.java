@@ -32,14 +32,12 @@ import retrofit2.Response;
 public class PetDetailsActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse {
     String pet_id,pet_name,patent_name,pet_bread,pet_unique_id="",pet_sex="";
     TextView pet_nameTV, pet_parentNameTV;
-    ImageView back_arrow_IV;
+    ImageView back_arrow_IV,view_clinicVisits_arrow,view_xrayReport_arrow,view_labTestReport_arrow;
     RelativeLayout test_xray,manage_pet_lab_work,hospitalization_surgeries,recent_visits,print_id_card,
             clinics_visit,view_history;
     Methods methods;
 
-    ArrayList<String>nextVisitList=new ArrayList<>();
 
-    HashMap<String,String>nextVisitHas=new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +54,9 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
         pet_nameTV = findViewById(R.id.pet_nameTV);
         pet_parentNameTV = findViewById(R.id.pet_parentNameTV);
         back_arrow_IV=findViewById(R.id.back_arrow_IV);
-        test_xray=findViewById(R.id.test_xray);
-        manage_pet_lab_work=findViewById(R.id.manage_pet_lab_work);
+        view_clinicVisits_arrow=findViewById(R.id.view_clinicVisits_arrow);
+        view_xrayReport_arrow=findViewById(R.id.view_xrayReport_arrow);
+        view_labTestReport_arrow=findViewById(R.id.view_labTestReport_arrow);
         hospitalization_surgeries=findViewById(R.id.hospitalization_surgeries);
         recent_visits=findViewById(R.id.recent_visits);
         print_id_card=findViewById(R.id.print_id_card);
@@ -76,23 +75,14 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
         pet_nameTV.setText(pet_name);
         pet_parentNameTV.setText(patent_name);
 
-        if (methods.isInternetOn()){
-            getClientVisit();
-        }else {
 
-            methods.DialogInternet();
-        }
     }
 
-    private void getClientVisit() {
-        ApiService<ClinicVisitResponse> service = new ApiService<>();
-        service.get( this, ApiClient.getApiInterface().getClinicVisit(Config.token), "GetClinicVisitRoutineFollowupTypes");
-    }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.test_xray:
+            case R.id.view_xrayReport_arrow:
                 Intent petDetailsXray = new Intent(this, NewEntrysDetailsActivity.class);
                 Bundle dataXray = new Bundle();
                 dataXray.putString("pet_id",pet_id);
@@ -105,7 +95,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 petDetailsXray.putExtras(dataXray);
                 startActivity(petDetailsXray);
                 break;
-            case R.id.manage_pet_lab_work:
+            case R.id.view_labTestReport_arrow:
                 Intent petDetailsLabWork = new Intent(this, NewEntrysDetailsActivity.class);
                 Bundle dataLabwork = new Bundle();
                 dataLabwork.putString("pet_id",pet_id);
@@ -148,7 +138,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 break;
             case R.id.print_id_card:
                 break;
-            case R.id.clinics_visit:
+            case R.id.view_clinicVisits_arrow:
                 Intent petDetailsClinicVisits = new Intent(this, NewEntrysDetailsActivity.class);
                 Bundle dataClinicVisits = new Bundle();
                 dataClinicVisits.putString("pet_id",pet_id);
@@ -171,38 +161,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onResponse(Response arg0, String key) {
         Log.d("kkakakak",""+key+" response: "+arg0);
-        switch (key) {
-            case "GetClinicVisitRoutineFollowupTypes":
-                try {
-                    ClinicVisitResponse clinicVisitResponse = (ClinicVisitResponse) arg0.body();
-                    Log.d("GetClinicVisit", clinicVisitResponse.toString());
-                    int responseCode = Integer.parseInt(clinicVisitResponse.getResponse().getResponseCode());
 
-                    if (responseCode== 109){
-                        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
-                        nextVisitList.add("Select Visit");
-                        for(int i=0;i<clinicVisitResponse.getData().size();i++)
-                        {
-                            nextVisitList.add(clinicVisitResponse.getData().get(i).getFollowUpTitle());
-                            nextVisitHas.put(clinicVisitResponse.getData().get(i).getFollowUpTitle(),clinicVisitResponse.getData().get(i).getId());
-                        }
-                       }
-                    else if (responseCode==614){
-                        Toast.makeText(this, clinicVisitResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    else
-                        {
-                      Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
-                        }
-
-                }
-                catch(Exception e) {
-
-
-                    e.printStackTrace();
-                }
-                break;
-        }
 
     }
 
