@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,9 +53,7 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
     String petUniqueId="",getStrSpnerItemPetNmId="",strSpnrBreedId="",strSpnrAgeId="",strSpnrColorId="",
             strSpneSizeId="",strSpnrSexId="",strSpnerItemPetType="",strSpnrBreed="",strSpnrAge="",strSpnrSex="",
             currentDateandTime="",petIdGetForUpdate="",strResponseOtp="",petId="",petParentContactNumber="";
-
-    AppCompatSpinner add_pet_type_edit_dialog,
-            add_pet_age_edit_dialog,add_pet_sex_edit_dialog,add_pet_breed_edit_dialog,add_pet_color_edit_dialog,add_pet_size_edit_dialog;
+    ImageView back_arrow_IV;
     DatePickerDialog picker;
     ArrayList<String> petType;
     ArrayList<String> petBreed;
@@ -88,9 +87,11 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
         pet_parent_name_ET=findViewById(R.id.pet_parent_name_ET);
         pet_contact_number_ET=findViewById(R.id.pet_contact_number);
         save_BT=findViewById(R.id.save_changes_BT);
+        back_arrow_IV=findViewById(R.id.back_arrow_IV);
 
 
         save_BT.setOnClickListener(this);
+        back_arrow_IV.setOnClickListener(this);
         calenderTextView_dialog.setOnClickListener(this);
         petSex=new ArrayList<>();
         petSex.add("Pet Sex");
@@ -103,396 +104,25 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
 
         currentDateAndTime();
         if (methods.isInternetOn()){
-//            getPetList();
-//            getPetNewList();
             petType();
             genaretePetUniqueKey();
             getPetBreed();
             getPetAge();
             getPetColor();
             getPetSize();
-
-//            new Handler().postDelayed(new Runnable(){
-//                @Override
-//                public void run() {
-//                    if(petClinicVisitLists==null)
-//                        getPetNewList();
-//                }
-//            }, 10000);
-
         }else {
 
             methods.DialogInternet();
         }
         setSpinnerPetSex();
     }
-
-    private void currentDateAndTime() {
-        SimpleDateFormat sdf = new SimpleDateFormat("EEEE, d MMM yyyy h:mm:ss a", Locale.getDefault());
-        currentDateandTime = sdf.format(new Date());
-        Log.d("currentDateandTime",""+currentDateandTime);
-    }
-
-    private void setPetSizeSpinner() {
-        ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,petSize);
-        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //Setting the ArrayAdapter data on the Spinner
-        add_pet_size_dialog.setAdapter(aa);
-        add_pet_size_dialog.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String item = parent.getItemAtPosition(position).toString();
-                // Showing selected spinner item
-                Log.d("spnerType",""+item);
-                strSpneSizeId=petSizeHashMap.get(item);
-            }
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-    }
-
-    private void setPetColorSpinner() {
-        ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,petColor);
-        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //Setting the ArrayAdapter data on the Spinner
-        add_pet_color_dialog.setAdapter(aa);
-        add_pet_color_dialog.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String item = parent.getItemAtPosition(position).toString();
-                // Showing selected spinner item
-                Log.d("spnerType",""+item);
-                strSpnrColorId=petColorHashMap.get(item);
-            }
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-    }
-
-    private void setPetAgeSpinner() {
-        ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,petAge);
-        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //Setting the ArrayAdapter data on the Spinner
-        add_pet_age_dialog.setAdapter(aa);
-        add_pet_age_dialog.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String item = parent.getItemAtPosition(position).toString();
-                // Showing selected spinner item
-                Log.d("spnerType",""+item);
-                strSpnrAge=item;
-                strSpnrAgeId=petAgeHashMap.get(item);
-            }
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-    }
-
-    private void setPetBreeSpinner() {
-        ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,petBreed);
-        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //Setting the ArrayAdapter data on the Spinner
-        add_pet_breed_dialog.setAdapter(aa);
-        add_pet_breed_dialog.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String item = parent.getItemAtPosition(position).toString();
-                // Showing selected spinner item
-                Log.d("spnerType",""+item);
-                strSpnrBreed=item;
-                strSpnrBreedId=petBreedHashMap.get(item);
-            }
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-    }
-    private void setPetTypeSpinner() {
-        ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,petType);
-        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //Setting the ArrayAdapter data on the Spinner
-        add_pet_type.setAdapter(aa);
-        add_pet_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String item = parent.getItemAtPosition(position).toString();
-                // Showing selected spinner item
-                Log.d("spnerType",""+item);
-                strSpnerItemPetType=item;
-                getStrSpnerItemPetNmId=petTypeHashMap.get(item);
-            }
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-    }
-    private void setSpinnerPetSex() {
-        ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,petSex);
-        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //Setting the ArrayAdapter data on the Spinner
-        add_pet_sex_dialog.setAdapter(aa);
-        add_pet_sex_dialog.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String item = parent.getItemAtPosition(position).toString();
-                // Showing selected spinner item
-                Log.d("spnerType",""+item);
-                strSpnrSex=item;
-                strSpnrSexId=petSexHashMap.get(item);
-            }
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-    }
-    private void petType() {
-        ApiService<PetTypeResponse> service = new ApiService<>();
-        service.get(this, ApiClient.getApiInterface().petTypeApi(Config.token), "GetPetTypes");
-    }
-
-    private void getPetBreed() {
-        BreedRequest breedRequest = new BreedRequest();
-        breedRequest.setGetAll("true");
-        breedRequest.setPetCategoryId("1");
-        BreedParams breedParams = new BreedParams();
-        breedParams.setData(breedRequest);
-
-        ApiService<BreedCatRespose> service = new ApiService<>();
-        service.get(this, ApiClient.getApiInterface().getGetPetBreedApi(Config.token,breedParams), "GetPetBreed");
-    }
-
-
-    private void genaretePetUniqueKey() {
-        ApiService<UniqueResponse> service = new ApiService<>();
-        service.get(this, ApiClient.getApiInterface().getGeneratePetUniqueId(Config.token), "GeneratePetUniqueId");
-    }
-    private void getPetAge() {
-        BreedRequest breedRequest = new BreedRequest();
-        breedRequest.setGetAll("true");
-        breedRequest.setPetCategoryId("1");
-        BreedParams breedParams = new BreedParams();
-        breedParams.setData(breedRequest);
-
-        ApiService<PetAgeValueResponse> service = new ApiService<>();
-        service.get(this, ApiClient.getApiInterface().getGetPetAgeApi(Config.token,breedParams), "GetPetAge");
-    }
-
-    private void getPetColor() {
-        BreedRequest breedRequest = new BreedRequest();
-        breedRequest.setGetAll("true");
-        breedRequest.setPetCategoryId("1");
-        BreedParams breedParams = new BreedParams();
-        breedParams.setData(breedRequest);
-
-        ApiService<PetColorValueResponse> service = new ApiService<>();
-        service.get(this, ApiClient.getApiInterface().getGetPetColorApi(Config.token,breedParams), "GetPetColor");
-    }
-
-    private void getPetSize() {
-        BreedRequest breedRequest = new BreedRequest();
-        breedRequest.setGetAll("true");
-        breedRequest.setPetCategoryId("1");
-        BreedParams breedParams = new BreedParams();
-        breedParams.setData(breedRequest);
-
-        ApiService<PetSizeValueResponse> service = new ApiService<>();
-        service.get(this, ApiClient.getApiInterface().getGetPetSizeApi(Config.token,breedParams), "GetPetSize");
-    }
-
-    private void addPetData(AddPetRequset addPetRequset) {
-        ApiService<AddPetValueResponse> service = new ApiService<>();
-        service.get( this, ApiClient.getApiInterface().addNewPet(Config.token,addPetRequset), "AddPet");
-        Log.e("DATALOG","check1=> "+addPetRequset);
-
-    }
-
-    @Override
-    public void onResponse(Response arg0, String key) {
-        switch (key){
-            case "GetPetTypes":
-                try {
-                    Log.d("GetPetTypes",arg0.body().toString());
-                    PetTypeResponse petTypeResponse = (PetTypeResponse) arg0.body();
-                    int responseCode = Integer.parseInt(petTypeResponse.getResponse().getResponseCode());
-                    if (responseCode== 109){
-                        petType=new ArrayList<>();
-                        petType.add("Select Pet Type");
-                        Log.d("lalal",""+petTypeResponse.getData().size());
-                        for(int i=0; i<petTypeResponse.getData().size(); i++){
-                            Log.d("petttt",""+petTypeResponse.getData().get(i).getPetType1());
-                            petType.add(petTypeResponse.getData().get(i).getPetType1());
-                            petTypeHashMap.put(petTypeResponse.getData().get(i).getPetType1(),petTypeResponse.getData().get(i).getId());
-                        }
-                        setPetTypeSpinner();
-
-
-                    }else if (responseCode==614){
-                        Toast.makeText(this, petTypeResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
-                    }else {
-                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                catch(Exception e) {
-                    e.printStackTrace();
-                }
-
-            case "GeneratePetUniqueId":
-                try {
-                    Log.d("GeneratePetUniqueId",arg0.body().toString());
-                    UniqueResponse uniqueResponse = (UniqueResponse) arg0.body();
-                    int responseCode = Integer.parseInt(uniqueResponse.getResponse().getResponseCode());
-                    if (responseCode== 109){
-                        petUniqueId=uniqueResponse.getData().getPetUniqueId();
-                        peto_reg_number_dialog.setText(petUniqueId);
-
-                    }else if (responseCode==614){
-                        Toast.makeText(this, uniqueResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
-                    }else {
-                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                catch(Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-
-            case "GetPetBreed":
-                try {
-                    Log.d("GetPetBreed",arg0.body().toString());
-                    BreedCatRespose breedCatRespose = (BreedCatRespose) arg0.body();
-                    int responseCode = Integer.parseInt(breedCatRespose.getResponse().getResponseCode());
-                    if (responseCode== 109){
-                        petBreed=new ArrayList<>();
-                        petBreed.add("Pet Breed");
-                        Log.d("lalal",""+breedCatRespose.getData().size());
-                        for(int i=0; i<breedCatRespose.getData().size(); i++){
-                            Log.d("petttt",""+breedCatRespose.getData().get(i).getBreed());
-                            petBreed.add(breedCatRespose.getData().get(i).getBreed());
-                            petBreedHashMap.put(breedCatRespose.getData().get(i).getBreed(),breedCatRespose.getData().get(i).getId());
-                        }
-                        setPetBreeSpinner();
-
-                    }else if (responseCode==614){
-                        Toast.makeText(this, breedCatRespose.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
-                    }else {
-                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                catch(Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-            case "GetPetAge":
-                try {
-                    Log.d("GetPetAge",arg0.body().toString());
-                    PetAgeValueResponse petAgeValueResponse = (PetAgeValueResponse) arg0.body();
-                    int responseCode = Integer.parseInt(petAgeValueResponse.getResponse().getResponseCode());
-                    if (responseCode== 109){
-                        petAge=new ArrayList<>();
-                        petAge.add("Select Pet Age");
-                        Log.d("lalal",""+petAgeValueResponse.getData().size());
-                        for(int i=0; i<petAgeValueResponse.getData().size(); i++){
-                            Log.d("petttt",""+petAgeValueResponse.getData().get(i).getAge());
-                            petAge.add(petAgeValueResponse.getData().get(i).getAge());
-                            petAgeHashMap.put(petAgeValueResponse.getData().get(i).getAge(),petAgeValueResponse.getData().get(i).getId());
-                        }
-                        setPetAgeSpinner();
-
-                    }else if (responseCode==614){
-                        Toast.makeText(this, petAgeValueResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
-                    }else {
-                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                catch(Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-
-            case "GetPetColor":
-                try {
-                    Log.d("GetPetColor",arg0.body().toString());
-                    PetColorValueResponse petColorValueResponse = (PetColorValueResponse) arg0.body();
-                    int responseCode = Integer.parseInt(petColorValueResponse.getResponse().getResponseCode());
-                    if (responseCode== 109){
-                        petColor=new ArrayList<>();
-                        petColor.add("Pet Color");
-                        Log.d("lalal",""+petColorValueResponse.getData().size());
-                        for(int i=0; i<petColorValueResponse.getData().size(); i++){
-                            Log.d("petttt",""+petColorValueResponse.getData().get(i).getColor());
-                            petColor.add(petColorValueResponse.getData().get(i).getColor());
-                            petColorHashMap.put(petColorValueResponse.getData().get(i).getColor(),petColorValueResponse.getData().get(i).getId());
-                        }
-                        setPetColorSpinner();
-                    }else if (responseCode==614){
-                        Toast.makeText(this, petColorValueResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
-                    }else {
-                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                catch(Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-            case "GetPetSize":
-                try {
-                    Log.d("GetPetSize",arg0.body().toString());
-                    PetSizeValueResponse petSizeValueResponse = (PetSizeValueResponse) arg0.body();
-                    int responseCode = Integer.parseInt(petSizeValueResponse.getResponse().getResponseCode());
-                    if (responseCode== 109){
-                        petSize=new ArrayList<>();
-                        petSize.add("Pet Size");
-                        Log.d("lalal",""+petSizeValueResponse.getData().size());
-                        for(int i=0; i<petSizeValueResponse.getData().size(); i++){
-                            Log.d("petttt",""+petSizeValueResponse.getData().get(i).getSize());
-                            petSize.add(petSizeValueResponse.getData().get(i).getSize());
-                            petSizeHashMap.put(petSizeValueResponse.getData().get(i).getSize(),petSizeValueResponse.getData().get(i).getId());
-                        }
-                        setPetSizeSpinner();
-
-                    }else if (responseCode==614){
-                        Toast.makeText(this, petSizeValueResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
-                    }else {
-                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                catch(Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-            case "AddPet":
-                try {
-                    Log.d("AddPet",arg0.body().toString());
-
-                    AddPetValueResponse addPetValueResponse = (AddPetValueResponse) arg0.body();
-
-                    int responseCode = Integer.parseInt(addPetValueResponse.getResponse().getResponseCode());
-                    if (responseCode== 109){
-                        Intent intentPetDetails = new Intent(this,PetDetailsActivity.class);
-                        Bundle data = new Bundle();
-                        data.putString("pet_id",addPetValueResponse.getData().getId().toString());
-                        data.putString("pet_name",addPetValueResponse.getData().getPetName()+"("+addPetValueResponse.getData().getSex()+")");
-                        data.putString("pet_parent",addPetValueResponse.getData().getPetParentName());
-                        data.putString("pet_sex",addPetValueResponse.getData().getSex());
-                        data.putString("pet_unique_id",addPetValueResponse.getData().getPetUniqueId());
-                        intentPetDetails.putExtras(data);
-                        startActivity(intentPetDetails);
-                        Toast.makeText(this, "Pet Added Successfully", Toast.LENGTH_SHORT).show();
-                    }else if (responseCode==614){
-                        Toast.makeText(this, addPetValueResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
-                    }else {
-                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                catch(Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-            
-        }
-
-    }
-
-
-    @Override
-    public void onError(Throwable t, String key) {
-
-    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+
+            case R.id.back_arrow_IV:
+                onBackPressed();
+                break;
 
             case R.id.calenderTextView_dialog:
                 final Calendar cldr = Calendar.getInstance();
@@ -602,6 +232,371 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
         }
     }
 
+    @Override
+    public void onResponse(Response arg0, String key) {
+        switch (key){
+            case "GetPetTypes":
+                try {
+                    Log.d("GetPetTypes",arg0.body().toString());
+                    PetTypeResponse petTypeResponse = (PetTypeResponse) arg0.body();
+                    int responseCode = Integer.parseInt(petTypeResponse.getResponse().getResponseCode());
+                    if (responseCode== 109){
+                        petType=new ArrayList<>();
+                        petType.add("Select Pet Type");
+                        Log.d("lalal",""+petTypeResponse.getData().size());
+                        for(int i=0; i<petTypeResponse.getData().size(); i++){
+                            Log.d("petttt",""+petTypeResponse.getData().get(i).getPetType1());
+                            petType.add(petTypeResponse.getData().get(i).getPetType1());
+                            petTypeHashMap.put(petTypeResponse.getData().get(i).getPetType1(),petTypeResponse.getData().get(i).getId());
+                        }
+                        setPetTypeSpinner();
+
+
+                    }else if (responseCode==614){
+                        Toast.makeText(this, petTypeResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+
+            case "GeneratePetUniqueId":
+                try {
+                    Log.d("GeneratePetUniqueId",arg0.body().toString());
+                    UniqueResponse uniqueResponse = (UniqueResponse) arg0.body();
+                    int responseCode = Integer.parseInt(uniqueResponse.getResponse().getResponseCode());
+                    if (responseCode== 109){
+                        petUniqueId=uniqueResponse.getData().getPetUniqueId();
+                        peto_reg_number_dialog.setText(petUniqueId);
+
+                    }else if (responseCode==614){
+                        Toast.makeText(this, uniqueResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+
+            case "GetPetBreed":
+                try {
+                    Log.d("GetPetBreed",arg0.body().toString());
+                    BreedCatRespose breedCatRespose = (BreedCatRespose) arg0.body();
+                    int responseCode = Integer.parseInt(breedCatRespose.getResponse().getResponseCode());
+                    if (responseCode== 109){
+                        petBreed=new ArrayList<>();
+                        petBreed.add("Pet Breed");
+                        Log.d("lalal",""+breedCatRespose.getData().size());
+                        for(int i=0; i<breedCatRespose.getData().size(); i++){
+                            Log.d("petttt",""+breedCatRespose.getData().get(i).getBreed());
+                            petBreed.add(breedCatRespose.getData().get(i).getBreed());
+                            petBreedHashMap.put(breedCatRespose.getData().get(i).getBreed(),breedCatRespose.getData().get(i).getId());
+                        }
+                        setPetBreeSpinner();
+
+                    }else if (responseCode==614){
+                        Toast.makeText(this, breedCatRespose.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "GetPetAge":
+                try {
+                    Log.d("GetPetAge",arg0.body().toString());
+                    PetAgeValueResponse petAgeValueResponse = (PetAgeValueResponse) arg0.body();
+                    int responseCode = Integer.parseInt(petAgeValueResponse.getResponse().getResponseCode());
+                    if (responseCode== 109){
+                        petAge=new ArrayList<>();
+                        petAge.add("Select Pet Age");
+                        Log.d("lalal",""+petAgeValueResponse.getData().size());
+                        for(int i=0; i<petAgeValueResponse.getData().size(); i++){
+                            Log.d("petttt",""+petAgeValueResponse.getData().get(i).getAge());
+                            petAge.add(petAgeValueResponse.getData().get(i).getAge());
+                            petAgeHashMap.put(petAgeValueResponse.getData().get(i).getAge(),petAgeValueResponse.getData().get(i).getId());
+                        }
+                        setPetAgeSpinner();
+
+                    }else if (responseCode==614){
+                        Toast.makeText(this, petAgeValueResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+
+            case "GetPetColor":
+                try {
+                    methods.customProgressDismiss();
+                    Log.d("GetPetColor",arg0.body().toString());
+                    PetColorValueResponse petColorValueResponse = (PetColorValueResponse) arg0.body();
+                    int responseCode = Integer.parseInt(petColorValueResponse.getResponse().getResponseCode());
+                    if (responseCode== 109){
+                        petColor=new ArrayList<>();
+                        petColor.add("Pet Color");
+                        Log.d("lalal",""+petColorValueResponse.getData().size());
+                        for(int i=0; i<petColorValueResponse.getData().size(); i++){
+                            Log.d("petttt",""+petColorValueResponse.getData().get(i).getColor());
+                            petColor.add(petColorValueResponse.getData().get(i).getColor());
+                            petColorHashMap.put(petColorValueResponse.getData().get(i).getColor(),petColorValueResponse.getData().get(i).getId());
+                        }
+                        setPetColorSpinner();
+                    }else if (responseCode==614){
+                        Toast.makeText(this, petColorValueResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "GetPetSize":
+                try {
+                    Log.d("GetPetSize",arg0.body().toString());
+                    PetSizeValueResponse petSizeValueResponse = (PetSizeValueResponse) arg0.body();
+                    int responseCode = Integer.parseInt(petSizeValueResponse.getResponse().getResponseCode());
+                    if (responseCode== 109){
+                        petSize=new ArrayList<>();
+                        petSize.add("Pet Size");
+                        Log.d("lalal",""+petSizeValueResponse.getData().size());
+                        for(int i=0; i<petSizeValueResponse.getData().size(); i++){
+                            Log.d("petttt",""+petSizeValueResponse.getData().get(i).getSize());
+                            petSize.add(petSizeValueResponse.getData().get(i).getSize());
+                            petSizeHashMap.put(petSizeValueResponse.getData().get(i).getSize(),petSizeValueResponse.getData().get(i).getId());
+                        }
+                        setPetSizeSpinner();
+
+                    }else if (responseCode==614){
+                        Toast.makeText(this, petSizeValueResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "AddPet":
+                try {
+                    methods.customProgressDismiss();
+                    Log.d("AddPet",arg0.body().toString());
+
+                    AddPetValueResponse addPetValueResponse = (AddPetValueResponse) arg0.body();
+
+                    int responseCode = Integer.parseInt(addPetValueResponse.getResponse().getResponseCode());
+                    if (responseCode== 109){
+                        Intent intentPetDetails = new Intent(this,PetDetailsActivity.class);
+                        Bundle data = new Bundle();
+                        data.putString("pet_id",addPetValueResponse.getData().getId().toString());
+                        data.putString("pet_name",addPetValueResponse.getData().getPetName()+"("+addPetValueResponse.getData().getSex()+")");
+                        data.putString("pet_parent",addPetValueResponse.getData().getPetParentName());
+                        data.putString("pet_sex",addPetValueResponse.getData().getSex());
+                        data.putString("pet_unique_id",addPetValueResponse.getData().getPetUniqueId());
+                        intentPetDetails.putExtras(data);
+                        startActivity(intentPetDetails);
+                        Toast.makeText(this, "Pet Added Successfully", Toast.LENGTH_SHORT).show();
+                    }else if (responseCode==614){
+                        Toast.makeText(this, addPetValueResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            
+        }
+
+    }
+
+    @Override
+    public void onError(Throwable t, String key) {
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (Config.backCall.equals("hitUnique")){
+            Config.backCall ="";
+            genaretePetUniqueKey();
+        }
+
+    }
+
+    private void currentDateAndTime() {
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE, d MMM yyyy h:mm:ss a", Locale.getDefault());
+        currentDateandTime = sdf.format(new Date());
+        Log.d("currentDateandTime",""+currentDateandTime);
+    }
+    private void setPetSizeSpinner() {
+        ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,petSize);
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Setting the ArrayAdapter data on the Spinner
+        add_pet_size_dialog.setAdapter(aa);
+        add_pet_size_dialog.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+                // Showing selected spinner item
+                Log.d("spnerType",""+item);
+                strSpneSizeId=petSizeHashMap.get(item);
+            }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+    private void setPetColorSpinner() {
+        ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,petColor);
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Setting the ArrayAdapter data on the Spinner
+        add_pet_color_dialog.setAdapter(aa);
+        add_pet_color_dialog.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+                // Showing selected spinner item
+                Log.d("spnerType",""+item);
+                strSpnrColorId=petColorHashMap.get(item);
+            }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+    private void setPetAgeSpinner() {
+        ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,petAge);
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Setting the ArrayAdapter data on the Spinner
+        add_pet_age_dialog.setAdapter(aa);
+        add_pet_age_dialog.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+                // Showing selected spinner item
+                Log.d("spnerType",""+item);
+                strSpnrAge=item;
+                strSpnrAgeId=petAgeHashMap.get(item);
+            }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+    private void setPetBreeSpinner() {
+        ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,petBreed);
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Setting the ArrayAdapter data on the Spinner
+        add_pet_breed_dialog.setAdapter(aa);
+        add_pet_breed_dialog.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+                // Showing selected spinner item
+                Log.d("spnerType",""+item);
+                strSpnrBreed=item;
+                strSpnrBreedId=petBreedHashMap.get(item);
+            }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+    private void setPetTypeSpinner() {
+        ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,petType);
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Setting the ArrayAdapter data on the Spinner
+        add_pet_type.setAdapter(aa);
+        add_pet_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+                // Showing selected spinner item
+                Log.d("spnerType",""+item);
+                strSpnerItemPetType=item;
+                getStrSpnerItemPetNmId=petTypeHashMap.get(item);
+            }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+    private void setSpinnerPetSex() {
+        ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,petSex);
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Setting the ArrayAdapter data on the Spinner
+        add_pet_sex_dialog.setAdapter(aa);
+        add_pet_sex_dialog.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+                // Showing selected spinner item
+                Log.d("spnerType",""+item);
+                strSpnrSex=item;
+                strSpnrSexId=petSexHashMap.get(item);
+            }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+    private void petType() {
+        ApiService<PetTypeResponse> service = new ApiService<>();
+        service.get(this, ApiClient.getApiInterface().petTypeApi(Config.token), "GetPetTypes");
+    }
+    private void getPetBreed() {
+        BreedRequest breedRequest = new BreedRequest();
+        breedRequest.setGetAll("true");
+        breedRequest.setPetCategoryId("1");
+        BreedParams breedParams = new BreedParams();
+        breedParams.setData(breedRequest);
+
+        ApiService<BreedCatRespose> service = new ApiService<>();
+        service.get(this, ApiClient.getApiInterface().getGetPetBreedApi(Config.token,breedParams), "GetPetBreed");
+    }
+    private void genaretePetUniqueKey() {
+        ApiService<UniqueResponse> service = new ApiService<>();
+        service.get(this, ApiClient.getApiInterface().getGeneratePetUniqueId(Config.token), "GeneratePetUniqueId");
+    }
+    private void getPetAge() {
+        BreedRequest breedRequest = new BreedRequest();
+        breedRequest.setGetAll("true");
+        breedRequest.setPetCategoryId("1");
+        BreedParams breedParams = new BreedParams();
+        breedParams.setData(breedRequest);
+
+        ApiService<PetAgeValueResponse> service = new ApiService<>();
+        service.get(this, ApiClient.getApiInterface().getGetPetAgeApi(Config.token,breedParams), "GetPetAge");
+    }
+    private void getPetColor() {
+        methods.showCustomProgressBarDialog(this);
+        BreedRequest breedRequest = new BreedRequest();
+        breedRequest.setGetAll("true");
+        breedRequest.setPetCategoryId("1");
+        BreedParams breedParams = new BreedParams();
+        breedParams.setData(breedRequest);
+
+        ApiService<PetColorValueResponse> service = new ApiService<>();
+        service.get(this, ApiClient.getApiInterface().getGetPetColorApi(Config.token,breedParams), "GetPetColor");
+    }
+    private void getPetSize() {
+        BreedRequest breedRequest = new BreedRequest();
+        breedRequest.setGetAll("true");
+        breedRequest.setPetCategoryId("1");
+        BreedParams breedParams = new BreedParams();
+        breedParams.setData(breedRequest);
+
+        ApiService<PetSizeValueResponse> service = new ApiService<>();
+        service.get(this, ApiClient.getApiInterface().getGetPetSizeApi(Config.token,breedParams), "GetPetSize");
+    }
+    private void addPetData(AddPetRequset addPetRequset) {
+        methods.showCustomProgressBarDialog(this);
+        ApiService<AddPetValueResponse> service = new ApiService<>();
+        service.get( this, ApiClient.getApiInterface().addNewPet(Config.token,addPetRequset), "AddPet");
+        Log.e("DATALOG","check1=> "+addPetRequset);
+
+    }
   
 
 

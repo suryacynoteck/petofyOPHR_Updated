@@ -9,6 +9,7 @@ public class Config {
     public static String token="";
     public static String user_id="";
     public static String type="";
+    public static String backCall="";
 
 
     public static RequestBody toRequestBody (String value) {

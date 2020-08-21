@@ -7,15 +7,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cynoteck.petofyvet.R;
-import com.cynoteck.petofyvet.api.ApiClient;
 import com.cynoteck.petofyvet.api.ApiResponse;
-import com.cynoteck.petofyvet.api.ApiService;
-import com.cynoteck.petofyvet.response.clinicVisist.ClinicVisitResponse;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
 
@@ -146,6 +142,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 break;
             case R.id.back_arrow_IV:
                 onBackPressed();
+                Config.backCall = "hitUnique";
                 break;
         }
 
