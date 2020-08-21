@@ -138,173 +138,6 @@
             android:layout_height="wrap_content">
 
             <RelativeLayout
-                android:id="@+id/clinics_visit"
-                android:background="@drawable/reports_field"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-
-                <ImageView
-                    android:layout_marginLeft="20dp"
-                    android:layout_alignParentStart="true"
-                    android:id="@+id/last_prescription_IV"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/last_prescription"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:gravity="start"
-                    android:paddingLeft="20dp"
-                    android:textSize="18dp"
-                    android:textColor="@color/black_color"
-                    android:layout_centerInParent="true"
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/last_prescription_TV"
-                    android:text="Clinic visit"
-                    android:layout_toRightOf="@id/last_prescription_IV"/>
-
-
-                <ImageView
-                    android:layout_alignParentEnd="true"
-                    android:layout_toRightOf="@+id/last_prescription_TV"
-                    android:layout_marginLeft="20dp"
-                    android:id="@+id/last_prescription_arrow"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/forward_arrow"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"/>
-
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/test_xray"
-                android:background="@drawable/reports_field"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-
-                <ImageView
-                    android:layout_marginLeft="20dp"
-                    android:layout_alignParentStart="true"
-                    android:id="@+id/view_xrayReport_IV"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/viewreports_icon"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:gravity="start"
-                    android:paddingLeft="20dp"
-                    android:textSize="18dp"
-                    android:textColor="@color/black_color"
-                    android:layout_centerInParent="true"
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/report_xrayReport_TV"
-                    android:text="@string/clinicVisits"
-                    android:layout_toRightOf="@id/view_xrayReport_IV"/>
-
-
-                <ImageView
-                    android:layout_alignParentEnd="true"
-                    android:layout_toRightOf="@+id/report_xrayReport_TV"
-                    android:layout_marginLeft="20dp"
-                    android:id="@+id/view_xrayReport_arrow"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/forward_arrow"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"/>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/reports_field">
-
-
-                    <ImageView
-                        android:id="@+id/view_labTestReport_IV"
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerInParent="true"
-                        android:layout_marginLeft="20dp"
-                        android:src="@drawable/viewreports_icon" />
-
-                    <TextView
-                        android:id="@+id/report_labTestReport_TV"
-                        android:layout_width="250dp"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_toRightOf="@id/view_labTestReport_IV"
-                        android:gravity="start"
-                        android:paddingLeft="20dp"
-                        android:text="@string/test_x_ray"
-                        android:textColor="@color/black_color"
-                        android:textSize="18dp" />
-
-
-                    <ImageView
-                        android:id="@+id/view_labTestReport_arrow"
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerInParent="true"
-                        android:layout_marginLeft="20dp"
-                        android:layout_toRightOf="@+id/report_labTestReport_TV"
-                        android:src="@drawable/forward_arrow" />
-
-
-                </RelativeLayout>
-
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/manage_pet_lab_work"
-                android:background="@drawable/reports_field"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-
-                <ImageView
-                    android:layout_marginLeft="20dp"
-                    android:layout_alignParentStart="true"
-                    android:id="@+id/view_Hospitalization_IV"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/viewreports_icon"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:gravity="start"
-                    android:paddingLeft="20dp"
-                    android:textSize="18dp"
-                    android:textColor="@color/black_color"
-                    android:layout_centerInParent="true"
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/report_Hospitalization_TV"
-                    android:text="@string/managePet"
-                    android:layout_toRightOf="@id/view_Hospitalization_IV"/>
-
-
-                <ImageView
-                    android:layout_alignParentEnd="true"
-                    android:layout_toRightOf="@+id/report_Hospitalization_TV"
-                    android:layout_marginLeft="20dp"
-                    android:id="@+id/view_Hospitalization_arrow"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/forward_arrow"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"/>
-
-
-            </RelativeLayout>
-
-            <RelativeLayout
                 android:id="@+id/hospitalization_surgeries"
                 android:background="@drawable/reports_field"
                 android:layout_width="match_parent"
@@ -329,7 +162,7 @@
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/report_clinicVisits_TV"
-                    android:text="@string/Hospitalization"
+                    android:text="@string/clinicVisits"
                     android:layout_toRightOf="@id/view_clinicVisits_IV"/>
 
 
@@ -345,6 +178,172 @@
 
 
             </RelativeLayout>
+
+            <RelativeLayout
+                android:background="@drawable/reports_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <ImageView
+                    android:layout_marginLeft="20dp"
+                    android:layout_alignParentStart="true"
+                    android:id="@+id/view_xrayReport_IV"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/viewreports_icon"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:gravity="start"
+                    android:paddingLeft="20dp"
+                    android:textSize="18dp"
+                    android:textColor="@color/black_color"
+                    android:layout_centerInParent="true"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/report_xrayReport_TV"
+                    android:text="@string/xrayReport"
+                    android:layout_toRightOf="@id/view_xrayReport_IV"/>
+
+
+                <ImageView
+                    android:layout_alignParentEnd="true"
+                    android:layout_toRightOf="@+id/report_xrayReport_TV"
+                    android:layout_marginLeft="20dp"
+                    android:id="@+id/view_xrayReport_arrow"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/forward_arrow"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"/>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:background="@drawable/reports_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <ImageView
+                    android:layout_marginLeft="20dp"
+                    android:layout_alignParentStart="true"
+                    android:id="@+id/view_labTestReport_IV"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/viewreports_icon"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:gravity="start"
+                    android:paddingLeft="20dp"
+                    android:textSize="18dp"
+                    android:textColor="@color/black_color"
+                    android:layout_centerInParent="true"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/report_labTestReport_TV"
+                    android:text="@string/labTestReport"
+                    android:layout_toRightOf="@id/view_labTestReport_IV"/>
+
+
+                <ImageView
+                    android:layout_alignParentEnd="true"
+                    android:layout_toRightOf="@+id/report_labTestReport_TV"
+                    android:layout_marginLeft="20dp"
+                    android:id="@+id/view_labTestReport_arrow"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/forward_arrow"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"/>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:background="@drawable/reports_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <ImageView
+                    android:layout_marginLeft="20dp"
+                    android:layout_alignParentStart="true"
+                    android:id="@+id/view_Hospitalization_IV"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/viewreports_icon"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:gravity="start"
+                    android:paddingLeft="20dp"
+                    android:textSize="18dp"
+                    android:textColor="@color/black_color"
+                    android:layout_centerInParent="true"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/report_Hospitalization_TV"
+                    android:text="@string/Hospitalization"
+                    android:layout_toRightOf="@id/view_Hospitalization_IV"/>
+
+
+                <ImageView
+                    android:layout_alignParentEnd="true"
+                    android:layout_toRightOf="@+id/report_Hospitalization_TV"
+                    android:layout_marginLeft="20dp"
+                    android:id="@+id/view_Hospitalization_arrow"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/forward_arrow"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"/>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/clinics_visit"
+                android:background="@drawable/reports_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <ImageView
+                    android:layout_marginLeft="20dp"
+                    android:layout_alignParentStart="true"
+                    android:id="@+id/last_prescription_IV"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/last_prescription"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:gravity="start"
+                    android:paddingLeft="20dp"
+                    android:textSize="18dp"
+                    android:textColor="@color/black_color"
+                    android:layout_centerInParent="true"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/last_prescription_TV"
+                    android:text="Last Prescription"
+                    android:layout_toRightOf="@id/last_prescription_IV"/>
+
+
+                <ImageView
+                    android:layout_alignParentEnd="true"
+                    android:layout_toRightOf="@+id/last_prescription_TV"
+                    android:layout_marginLeft="20dp"
+                    android:id="@+id/last_prescription_arrow"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/forward_arrow"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"/>
+
+
+            </RelativeLayout>
+
 
             <RelativeLayout
                 android:id="@+id/recent_visits"
@@ -471,9 +470,6 @@
 
 
             </RelativeLayout>
-
-
-
 
         </LinearLayout>
 
