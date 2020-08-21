@@ -138,6 +138,48 @@
             android:layout_height="wrap_content">
 
             <RelativeLayout
+                android:id="@+id/clinics_visit"
+                android:background="@drawable/reports_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <ImageView
+                    android:layout_marginLeft="20dp"
+                    android:layout_alignParentStart="true"
+                    android:id="@+id/last_prescription_IV"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/last_prescription"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:gravity="start"
+                    android:paddingLeft="20dp"
+                    android:textSize="18dp"
+                    android:textColor="@color/black_color"
+                    android:layout_centerInParent="true"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/last_prescription_TV"
+                    android:text="Clinic visit"
+                    android:layout_toRightOf="@id/last_prescription_IV"/>
+
+
+                <ImageView
+                    android:layout_alignParentEnd="true"
+                    android:layout_toRightOf="@+id/last_prescription_TV"
+                    android:layout_marginLeft="20dp"
+                    android:id="@+id/last_prescription_arrow"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/forward_arrow"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"/>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:id="@+id/test_xray"
                 android:background="@drawable/reports_field"
                 android:layout_width="match_parent"
@@ -380,48 +422,6 @@
                     android:layout_toRightOf="@+id/print_id_card_TV"
                     android:layout_marginLeft="20dp"
                     android:id="@+id/print_id_card_arrow"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/forward_arrow"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"/>
-
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/hospitalization_surgery"
-                android:background="@drawable/reports_field"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-
-                <ImageView
-                    android:layout_marginLeft="20dp"
-                    android:layout_alignParentStart="true"
-                    android:id="@+id/last_prescription_IV"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/last_prescription"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:gravity="start"
-                    android:paddingLeft="20dp"
-                    android:textSize="18dp"
-                    android:textColor="@color/black_color"
-                    android:layout_centerInParent="true"
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/last_prescription_TV"
-                    android:text="@string/Hospitalization"
-                    android:layout_toRightOf="@id/last_prescription_IV"/>
-
-
-                <ImageView
-                    android:layout_alignParentEnd="true"
-                    android:layout_toRightOf="@+id/last_prescription_TV"
-                    android:layout_marginLeft="20dp"
-                    android:id="@+id/last_prescription_arrow"
                     android:layout_centerInParent="true"
                     android:src="@drawable/forward_arrow"
                     android:layout_width="50dp"
