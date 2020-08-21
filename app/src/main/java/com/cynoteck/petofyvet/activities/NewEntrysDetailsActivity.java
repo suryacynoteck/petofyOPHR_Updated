@@ -3,7 +3,6 @@ package com.cynoteck.petofyvet.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.fragment.app.FragmentTransaction;
-import retrofit2.Response;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -13,8 +12,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -24,36 +21,32 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cynoteck.petofyvet.R;
-import com.cynoteck.petofyvet.api.ApiClient;
-import com.cynoteck.petofyvet.api.ApiResponse;
-import com.cynoteck.petofyvet.api.ApiService;
 import com.cynoteck.petofyvet.fragments.NewEntrysListFragment;
 import com.cynoteck.petofyvet.fragments.ReportListFragment;
 import com.cynoteck.petofyvet.params.addParamRequest.AddPetParams;
 import com.cynoteck.petofyvet.params.addParamRequest.AddPetRequset;
-import com.cynoteck.petofyvet.response.clinicVisist.ClinicVisitResponse;
-import com.cynoteck.petofyvet.utils.Config;
-import com.cynoteck.petofyvet.utils.Methods;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 
-public class NewEntrysDetailsActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse {
+public class NewEntrysDetailsActivity extends AppCompatActivity implements View.OnClickListener {
     ImageView back_arrow_IV;
-    String pet_unique_id, pet_name,pet_sex, pet_owner_name,pet_owner_contact,pet_id ,report_type_id,button_text,visitId="";
+    String pet_unique_id, pet_name,pet_sex, pet_owner_name,pet_owner_contact,pet_id ,report_type_id,button_text;
     Bundle data = new Bundle();
-    TextView pet_name_TV,pet_sex_TV,pet_id_TV,pet_owner_name_TV,pet_owner_phone_no_TV,
-            reports_headline_TV,add_text_button;
+    TextView pet_name_TV,pet_sex_TV,pet_id_TV,pet_owner_name_TV,pet_owner_phone_no_TV,clinicFolow_up_dt_view,
+            reports_headline_TV,add_text_button,clinicCalenderTextViewVisitDt,clinicIlness_onset;
     LinearLayout addPrescriptionButton;
     Dialog clinicDialog;
-    Methods methods;
+    EditText clinicVeterian_name_ET,clinicCescription_ET,clinicTreatment_remarks_ET,
+            clinicAdd_edit_pet_age_dialog,clinicTemparature_ET,clinicDiagnosis_ET;
+    AppCompatSpinner clinicNature_of_visit_spinner,clinicNext_visit_spinner;
+    LinearLayout clinicDocument_layout;
+    Button clinicCancel_clinic_add_dialog,clinicSave_clinic_data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_entrys_details);
-        methods = new Methods(this);
+
         Bundle extras = getIntent().getExtras();
         report_type_id = extras.getString("reports_id");
         pet_id = extras.getString("pet_id");
@@ -76,7 +69,6 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
         addPrescriptionButton = findViewById(R.id.addPrescriptionButton);
 
 
-
         addPrescriptionButton.setOnClickListener(this);
 
         add_text_button.setText(button_text);
@@ -90,9 +82,6 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
         data.putString("pet_sex",pet_sex);
         data.putString("pet_owner_name",pet_owner_name);
         data.putString("pet_owner_contact",pet_owner_contact);
-
-
-
         switch (report_type_id){
 
             case "1.0":
@@ -239,19 +228,25 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
         switch (view.getId()){
             case R.id.addPrescriptionButton:
                 if(button_text.equals("Test/X-rays"))
+                {
                     TestXrayDialog();
+                }
                 else if(button_text.equals("Lab Work"))
+                {
                     LabWorkDialog();
+                }
                 else if(button_text.equals("Hospitalization"))
+                {
                     HospitalizationDialog();
+                }
                 else if(button_text.equals("Clinic_visits"))
-                    clinicIntent();
+                    clinicDialog();
                 break;
 
         }
     }
 
-    public void clinicIntent()
+    public void clinicDialog()
     {
         Intent petDetailsIntent = new Intent(this.getApplication(), AddClinicActivity.class);
         Bundle data = new Bundle();
@@ -267,28 +262,40 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
 
     public void TestXrayDialog()
     {
-
+        Intent xRayIntent = new Intent(this,AddXRayDeatilsActivity.class);
+        Bundle data = new Bundle();
+        data.putString("pet_id",pet_id);
+        data.putString("pet_name",pet_name);
+        data.putString("pet_parent",pet_owner_name);
+        data.putString("pet_sex",pet_sex);
+        data.putString("pet_unique_id",pet_unique_id);
+        xRayIntent.putExtras(data);
+        startActivity(xRayIntent);
     }
 
     public void LabWorkDialog()
     {
-
+        Intent labWorkIntent = new Intent(this,AddLabWorkDeatilsActivity.class);
+        Bundle data = new Bundle();
+        data.putString("pet_id",pet_id);
+        data.putString("pet_name",pet_name);
+        data.putString("pet_parent",pet_owner_name);
+        data.putString("pet_sex",pet_sex);
+        data.putString("pet_unique_id",pet_unique_id);
+        labWorkIntent.putExtras(data);
+        startActivity(labWorkIntent);
     }
 
     public void HospitalizationDialog()
     {
-
+        Intent hospitalIntent = new Intent(this,AddHospitalizationDeatilsActivity.class);
+        Bundle data = new Bundle();
+        data.putString("pet_id",pet_id);
+        data.putString("pet_name",pet_name);
+        data.putString("pet_parent",pet_owner_name);
+        data.putString("pet_sex",pet_sex);
+        data.putString("pet_unique_id",pet_unique_id);
+        hospitalIntent.putExtras(data);
+        startActivity(hospitalIntent);
     }
-
-    @Override
-    public void onResponse(Response arg0, String key) {
-
-    }
-
-    @Override
-    public void onError(Throwable t, String key) {
-
-    }
-
-
 }

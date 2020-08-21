@@ -27,13 +27,16 @@
         android:roundIcon="@drawable/logo_petofy"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.AddClinicActivity"></activity>
+        <activity android:name=".activities.AddHospitalizationDeatilsActivity"></activity>
+        <activity android:name=".activities.AddLabWorkDeatilsActivity" />
+        <activity android:name=".activities.AddXRayDeatilsActivity" />
         <activity android:name=".activities.HospitalizationDetailsActivity" />
         <activity android:name=".activities.LabTestReportDeatilsActivity" />
         <activity android:name=".activities.XRayReportDeatilsActivity" />
         <activity android:name=".activities.ViewReportsDeatilsActivity" />
         <activity android:name=".activities.PetDetailsActivity" />
         <activity android:name=".activities.NewEntrysDetailsActivity" />
+        <activity android:name=".activities.AddClinicActivity" />
         <activity
             android:name=".activities.ReportsCommonActivity"
             android:screenOrientation="portrait"
@@ -84,6 +87,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
