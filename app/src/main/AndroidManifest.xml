@@ -37,6 +37,7 @@
         <activity android:name=".activities.ViewReportsDeatilsActivity" />
         <activity android:name=".activities.PetDetailsActivity" />
         <activity android:name=".activities.NewEntrysDetailsActivity" />
+        <activity android:name=".activities.AddClinicActivity" />
         <activity
             android:name=".activities.ReportsCommonActivity"
             android:screenOrientation="portrait"
@@ -87,6 +88,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

@@ -208,7 +208,7 @@
                 app:layout_constraintTop_toBottomOf="@id/description_ET" />
 
             <EditText
-                android:id="@+id/add_edit_pet_age_dialog"
+                android:id="@+id/weight_ET"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginLeft="20dp"
@@ -236,7 +236,7 @@
                 android:textColor="@color/grey_add_pet"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_edit_pet_age_dialog" />
+                app:layout_constraintTop_toBottomOf="@id/weight_ET" />
 
             <EditText
                 android:id="@+id/temparature_ET"

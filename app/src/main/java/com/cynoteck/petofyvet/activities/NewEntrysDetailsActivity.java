@@ -1,23 +1,32 @@
 package com.cynoteck.petofyvet.activities;
 
-import android.app.Dialog;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.fragments.NewEntrysListFragment;
+import com.cynoteck.petofyvet.fragments.ReportListFragment;
+import com.cynoteck.petofyvet.params.addParamRequest.AddPetParams;
+import com.cynoteck.petofyvet.params.addParamRequest.AddPetRequset;
+
+import java.util.Calendar;
 
 public class NewEntrysDetailsActivity extends AppCompatActivity implements View.OnClickListener {
     ImageView back_arrow_IV;
@@ -77,7 +86,7 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
 
             case "1.0":
 
-                reports_headline_TV.setText("Clinic Visits");
+                reports_headline_TV.setText("Routine Report");
                 data.putString("reports_id","1");
                 data.putString("type","list");
 
@@ -218,20 +227,20 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.addPrescriptionButton:
-                if(button_text.equals("Test/X-rays")) {
-                    Intent xRayIntent = new Intent(this,AddXRayDeatilsActivity.class);
-                    startActivity(xRayIntent);                }
-                else if(button_text.equals("Lab Work")) {
-                    Intent labWorkIntent = new Intent(this,AddLabWorkDeatilsActivity.class);
-                    startActivity(labWorkIntent);
+                if(button_text.equals("Test/X-rays"))
+                {
+                    TestXrayDialog();
                 }
-                else if(button_text.equals("Hospitalization")) {
-                    Intent hospitalIntent = new Intent(this,AddHospitalizationDeatilsActivity.class);
-                    startActivity(hospitalIntent);
+                else if(button_text.equals("Lab Work"))
+                {
+                    LabWorkDialog();
                 }
-                else if(button_text.equals("Clinic_visits")) {
+                else if(button_text.equals("Hospitalization"))
+                {
+                    HospitalizationDialog();
+                }
+                else if(button_text.equals("Clinic_visits"))
                     clinicDialog();
-                }
                 break;
 
         }
@@ -239,39 +248,54 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
 
     public void clinicDialog()
     {
-        clinicDialog=new Dialog(this);
-        clinicDialog.setContentView(R.layout.add_clinic_visits_dialog);
+        Intent petDetailsIntent = new Intent(this.getApplication(), AddClinicActivity.class);
+        Bundle data = new Bundle();
+        data.putString("pet_id",pet_id);
+        data.putString("pet_name",pet_name);
+        data.putString("pet_parent",pet_owner_name);
+        data.putString("pet_sex",pet_sex);
+        data.putString("pet_unique_id",pet_unique_id);
+        petDetailsIntent.putExtras(data);
+        startActivity(petDetailsIntent);
 
-        clinicVeterian_name_ET = clinicDialog.findViewById(R.id.veterian_name_ET);
-        clinicNature_of_visit_spinner = clinicDialog.findViewById(R.id.nature_of_visit_spinner);
-        clinicCalenderTextViewVisitDt = clinicDialog.findViewById(R.id.calenderTextViewVisitDt);
-        clinicCescription_ET = clinicDialog.findViewById(R.id.description_ET);
-        clinicAdd_edit_pet_age_dialog = clinicDialog.findViewById(R.id.add_edit_pet_age_dialog);
-        clinicTemparature_ET = clinicDialog.findViewById(R.id.temparature_ET);
-        clinicIlness_onset = clinicDialog.findViewById(R.id.ilness_onset);
-        clinicDiagnosis_ET = clinicDialog.findViewById(R.id.diagnosis_ET);
-        clinicTreatment_remarks_ET = clinicDialog.findViewById(R.id.treatment_remarks_ET);
-        clinicNext_visit_spinner = clinicDialog.findViewById(R.id.next_visit_spinner);
-        clinicFolow_up_dt_view = clinicDialog.findViewById(R.id.folow_up_dt_view);
-        clinicDocument_layout = clinicDialog.findViewById(R.id.document_layout);
-        clinicCancel_clinic_add_dialog = clinicDialog.findViewById(R.id.cancel_clinic_add_dialog);
-        clinicSave_clinic_data = clinicDialog.findViewById(R.id.save_clinic_data);
+    }
 
-        clinicCalenderTextViewVisitDt.setOnClickListener(this);
-        clinicIlness_onset.setOnClickListener(this);
-        clinicFolow_up_dt_view.setOnClickListener(this);
-        clinicSave_clinic_data.setOnClickListener(this);
-        clinicCancel_clinic_add_dialog.setOnClickListener(this);
+    public void TestXrayDialog()
+    {
+        Intent xRayIntent = new Intent(this,AddXRayDeatilsActivity.class);
+        Bundle data = new Bundle();
+        data.putString("pet_id",pet_id);
+        data.putString("pet_name",pet_name);
+        data.putString("pet_parent",pet_owner_name);
+        data.putString("pet_sex",pet_sex);
+        data.putString("pet_unique_id",pet_unique_id);
+        xRayIntent.putExtras(data);
+        startActivity(xRayIntent);
+    }
 
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        Window window = clinicDialog.getWindow();
-        lp.copyFrom(window.getAttributes());
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
-        window.setAttributes(lp);
-        clinicDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        clinicDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-        clinicDialog.show();
+    public void LabWorkDialog()
+    {
+        Intent labWorkIntent = new Intent(this,AddLabWorkDeatilsActivity.class);
+        Bundle data = new Bundle();
+        data.putString("pet_id",pet_id);
+        data.putString("pet_name",pet_name);
+        data.putString("pet_parent",pet_owner_name);
+        data.putString("pet_sex",pet_sex);
+        data.putString("pet_unique_id",pet_unique_id);
+        labWorkIntent.putExtras(data);
+        startActivity(labWorkIntent);
+    }
 
+    public void HospitalizationDialog()
+    {
+        Intent hospitalIntent = new Intent(this,AddHospitalizationDeatilsActivity.class);
+        Bundle data = new Bundle();
+        data.putString("pet_id",pet_id);
+        data.putString("pet_name",pet_name);
+        data.putString("pet_parent",pet_owner_name);
+        data.putString("pet_sex",pet_sex);
+        data.putString("pet_unique_id",pet_unique_id);
+        hospitalIntent.putExtras(data);
+        startActivity(hospitalIntent);
     }
 }
