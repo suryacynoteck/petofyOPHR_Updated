@@ -2,6 +2,7 @@ package com.cynoteck.petofyvet.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSpinner;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import retrofit2.Response;
 
 import android.app.DatePickerDialog;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cynoteck.petofyvet.R;
+import com.cynoteck.petofyvet.adapters.VisitTypesAdapter;
 import com.cynoteck.petofyvet.api.ApiClient;
 import com.cynoteck.petofyvet.api.ApiResponse;
 import com.cynoteck.petofyvet.api.ApiService;
@@ -26,6 +28,7 @@ import com.cynoteck.petofyvet.params.addPetClinicParamRequest.AddPetClinicParam;
 import com.cynoteck.petofyvet.params.addPetClinicParamRequest.AddPetClinicRequest;
 import com.cynoteck.petofyvet.response.addPetClinicresponse.AddpetClinicResponse;
 import com.cynoteck.petofyvet.response.clinicVisist.ClinicVisitResponse;
+import com.cynoteck.petofyvet.response.getPetReportsResponse.GetReportsTypeResponse;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
 
@@ -96,17 +99,9 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         clinicSave_clinic_data.setOnClickListener(this);
         clinicCancel_clinic_add_dialog.setOnClickListener(this);
 
-        natureOfVisitList=new ArrayList<>();
-        natureOfVisitList.add("Select Visit");
-        natureOfVisitList.add("Routine");
-        natureOfVisitList.add("Health Problem(Treatment)");
-        natureOfVisitList.add("Immunization");
-        natureOfVisitList.add("Deworming");
-        natureOfVisitList.add("Other");
-        setSpinnerNatureofVisit();
-
         if (methods.isInternetOn()){
             getClientVisit();
+            getVisitTypes();
         }else {
 
             methods.DialogInternet();
@@ -294,6 +289,11 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
+    private void getVisitTypes() {
+        ApiService<GetReportsTypeResponse> service = new ApiService<>();
+        service.get(this, ApiClient.getApiInterface().getReportsType(Config.token), "GetReportsType");
+    }
+
     private void addPetClinicData(AddPetClinicRequest addPetClinicRequest) {
         ApiService<AddpetClinicResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().addClinicVisit(Config.token,addPetClinicRequest), "AddClinicVisit");
@@ -332,6 +332,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                 catch(Exception e) {
                     e.printStackTrace();
                 }
+                break;
             case "AddClinicVisit":
                 try {
                     AddpetClinicResponse addpetClinicResponse = (AddpetClinicResponse) arg0.body();
@@ -349,6 +350,27 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                         Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
                     }
 
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+
+            case "GetReportsType":
+                try {
+                    Log.d("GetPetServiceTypes",arg0.body().toString());
+                    GetReportsTypeResponse petServiceResponse = (GetReportsTypeResponse) arg0.body();
+                    int responseCode = Integer.parseInt(petServiceResponse.getResponse().getResponseCode());
+                    if (responseCode== 109){
+                        natureOfVisitList=new ArrayList<>();
+                        natureOfVisitList.add("Select Visit");
+                        for(int i=0;i<petServiceResponse.getData().size();i++)
+                        {
+                            natureOfVisitList.add(petServiceResponse.getData().get(i).getNature());
+                            natureOfVisitHashMap.put(petServiceResponse.getData().get(i).getNature(),petServiceResponse.getData().get(i).getId());
+                        }
+                        setSpinnerNatureofVisit();
+                    }
                 }
                 catch(Exception e) {
                     e.printStackTrace();

@@ -47,10 +47,13 @@ import com.cynoteck.petofyvet.response.getStaffResponse.GetStaffDetailsResponse;
 import com.cynoteck.petofyvet.response.getStaffResponse.GetStaffStatusResponse;
 import com.cynoteck.petofyvet.response.getStaffResponse.GetUpdateStaffResponse;
 import com.cynoteck.petofyvet.response.getXRayReports.getXRayReportDetailsResponse.GetXRayReportDeatilsResponse;
+import com.cynoteck.petofyvet.response.hospitalTypeListResponse.HospitalAddmissionTypeResp;
+import com.cynoteck.petofyvet.response.labTyperesponse.LabTypeResponse;
 import com.cynoteck.petofyvet.response.loginRegisterResponse.LoginRegisterResponse;
 import com.cynoteck.petofyvet.response.newPetResponse.NewPetRegisterResponse;
 import com.cynoteck.petofyvet.response.otpResponse.OtpResponse;
 import com.cynoteck.petofyvet.response.recentEntrys.RecentEntrysResponse;
+import com.cynoteck.petofyvet.response.testResponse.XrayTestResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.CityResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.CountryResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.PetServiceResponse;
@@ -276,6 +279,25 @@ public interface ApiInterface {
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("pethealthrecord/AddClinicVisit")
     Call<AddpetClinicResponse> addClinicVisit(@Header("Authorization") String auth, @Body AddPetClinicRequest addPetClinicRequest);
+
+    //HOSPITAL TYPE.........................................................................
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @GET("pethealthrecord/GetHospitalTypeList")
+    Call<HospitalAddmissionTypeResp> getHospitalTypeList(@Header("Authorization") String auth);
+
+    //GET LAB TYPE..........................................................................
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @GET("pethealthrecord/GetLabTypeList")
+    Call<LabTypeResponse> getLabTypeList(@Header("Authorization") String auth);
+
+    //GET TYPE OF TEST LIST (TEST X-RAY)....................................................
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @GET("pethealthrecord/GetTestTypeList")
+    Call<XrayTestResponse> getTestTypeList(@Header("Authorization") String auth);
+
 }
 
 
