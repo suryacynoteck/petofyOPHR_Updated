@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:elevation="30dp"
     android:layout_height="match_parent"
     tools:context="com.cynoteck.petofyvet.activities.DashBoardActivity">
 
@@ -11,19 +10,24 @@
 
 
     <FrameLayout
-        android:layout_above="@id/card1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/card1"
+        app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/content_frame"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         />
 
 
     <com.google.android.material.card.MaterialCardView
-        app:cardElevation="50dp"
-        android:elevation="50dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:cardElevation="35dp"
         android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
         android:id="@+id/card1"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
         android:layout_alignParentBottom="true">
 
@@ -103,6 +107,6 @@
         android:visibility="visible" />
 -->
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 
 
