@@ -43,6 +43,7 @@ import retrofit2.Response;
  * A simple {@link Fragment} subclass.
  */
 public class ReportsFragment extends Fragment implements ApiResponse,RegisterRecyclerViewClickListener, View.OnClickListener, TextWatcher {
+
     View view;
     Methods methods;
     CardView materialCardView;
@@ -58,7 +59,6 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
     public ReportsFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -118,7 +118,6 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
                     GetPetListResponse getPetListResponse = (GetPetListResponse) response.body();
                     Log.d("DATALOG", getPetListResponse.toString());
                     int responseCode = Integer.parseInt(getPetListResponse.getResponse().getResponseCode());
-
                     if (responseCode== 109){
                         search_IV.setVisibility(View.VISIBLE);
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -129,23 +128,20 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
                         reportsAdapter.notifyDataSetChanged();
                         mShimmerViewContainer.setVisibility(View.GONE);
                         mShimmerViewContainer.stopShimmerAnimation();
-
                     }
-
                 }
+
                 catch(Exception e) {
-
-
                     e.printStackTrace();
                 }
 
                 break;
-
         }
     }
 
     @Override
     public void onError(Throwable t, String key) {
+
         Log.d("error",t.getLocalizedMessage());
 
     }

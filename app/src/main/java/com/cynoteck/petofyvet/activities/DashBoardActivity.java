@@ -31,11 +31,15 @@ import retrofit2.Response;
 
 public class DashBoardActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse {
 
+
     private RelativeLayout homeRL,profileRL,petregisterRL,appointmentRL;
-    private ImageView icHome, icProfile, icPetRegister, icAppointment;
+    public ImageView icHome, icProfile, icPetRegister, icAppointment;
     boolean doubleBackToExitPressedOnce = false;
+    boolean exit = false;
     Methods methods;
     String IsVeterinarian="";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,9 +140,11 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
+
         switch (v.getId()){
 
             case R.id.homeRL:
+                Config.count = 1;
                 icHome.setImageResource(R.drawable.home_green_icon);
                 icProfile.setImageResource(R.drawable.profile_normal_icon);
                 icPetRegister.setImageResource(R.drawable.pet_normal_icon);
@@ -151,6 +157,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                 break;
 
             case R.id.profileRL:
+                Config.count = 0;
                 icHome.setImageResource(R.drawable.home_normal_icon);
                 icProfile.setImageResource(R.drawable.profile_green_icon);
                 icPetRegister.setImageResource(R.drawable.pet_normal_icon);
@@ -162,6 +169,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                 break;
 
             case R.id.petRegisterRL:
+                Config.count = 0;
                 icHome.setImageResource(R.drawable.home_normal_icon);
                 icProfile.setImageResource(R.drawable.profile_normal_icon);
                 icPetRegister.setImageResource(R.drawable.pet_green_icon);
@@ -173,6 +181,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                 break;
 
             case R.id.appointmentRL:
+                Config.count = 0;
                 icHome.setImageResource(R.drawable.home_normal_icon);
                 icProfile.setImageResource(R.drawable.profile_normal_icon);
                 icPetRegister.setImageResource(R.drawable.pet_normal_icon);
@@ -190,36 +199,36 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onBackPressed() {
-/*        int count = getSupportFragmentManager().getBackStackEntryCount();
-        if (count != 0) {
+        Log.e("count", String.valueOf(Config.count));
+        Log.e("exit", String.valueOf(exit));
+        if (Config.count == 1) {
+            if (exit) {
+                super.onBackPressed();
+                finishAffinity();
+                System.exit(0);
+                return;
+            } else {
+                Toast.makeText(this, "Press Back again to Exit.", Toast.LENGTH_SHORT).show();
+                exit = true;
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                    exit =  false;
+                    }
+                }, 2000);
+            }
+        }else {
+            Config.count=1;
             HomeFragment homeFragment = new HomeFragment();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.add(R.id.content_frame, homeFragment);
-            ft.addToBackStack(null);
+            ft.replace(R.id.content_frame, homeFragment);
             ft.commit();
             getSupportFragmentManager().popBackStack();
             icHome.setImageResource(R.drawable.home_green_icon);
             icProfile.setImageResource(R.drawable.profile_normal_icon);
             icPetRegister.setImageResource(R.drawable.pet_normal_icon);
             icAppointment.setImageResource(R.drawable.appointment_normal_icon);
-            //additional code
         }
-        else {*/
-            if (doubleBackToExitPressedOnce) {
-                super.onBackPressed();
-                finishAffinity();
-                System.exit(0);
-                return;
-            }
-            this.doubleBackToExitPressedOnce = true;
-            Toast.makeText(this, "Please click back again to exit", Toast.LENGTH_SHORT).show();
-            new Handler().postDelayed(new Runnable() {
-
-                @Override
-                public void run() {
-                    doubleBackToExitPressedOnce=false;
-                }
-            }, 2000);
-        }
+    }
 
 }
