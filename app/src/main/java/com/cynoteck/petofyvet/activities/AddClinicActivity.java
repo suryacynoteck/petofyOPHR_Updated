@@ -1,10 +1,5 @@
 package com.cynoteck.petofyvet.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatSpinner;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import retrofit2.Response;
-
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,8 +14,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatSpinner;
+
 import com.cynoteck.petofyvet.R;
-import com.cynoteck.petofyvet.adapters.VisitTypesAdapter;
 import com.cynoteck.petofyvet.api.ApiClient;
 import com.cynoteck.petofyvet.api.ApiResponse;
 import com.cynoteck.petofyvet.api.ApiService;
@@ -35,6 +32,8 @@ import com.cynoteck.petofyvet.utils.Methods;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+
+import retrofit2.Response;
 
 public class AddClinicActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse {
 
@@ -90,14 +89,12 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         clinicNext_visit_spinner = findViewById(R.id.next_visit_spinner);
         clinicFolow_up_dt_view = findViewById(R.id.folow_up_dt_view);
         clinicDocument_layout = findViewById(R.id.document_layout);
-        clinicCancel_clinic_add_dialog = findViewById(R.id.cancel_clinic_add_dialog);
         clinicSave_clinic_data = findViewById(R.id.save_clinic_data);
 
         clinicCalenderTextViewVisitDt.setOnClickListener(this);
         clinicIlness_onset.setOnClickListener(this);
         clinicFolow_up_dt_view.setOnClickListener(this);
         clinicSave_clinic_data.setOnClickListener(this);
-        clinicCancel_clinic_add_dialog.setOnClickListener(this);
 
         if (methods.isInternetOn()){
             getClientVisit();
@@ -282,8 +279,6 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                             methods.DialogInternet();
                         }
                     }
-                break;
-            case R.id.cancel_clinic_add_dialog:
                 break;
 
         }

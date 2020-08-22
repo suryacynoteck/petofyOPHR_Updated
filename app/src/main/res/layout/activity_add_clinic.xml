@@ -8,6 +8,7 @@
     android:background="@color/whiteColor">
 
     <com.google.android.material.card.MaterialCardView
+        android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:elevation="30dp"
