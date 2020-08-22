@@ -70,7 +70,7 @@
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                android:text="@string/add_new_pet"
+                android:text="@string/addNewVisits"
                 android:textColor="#000"
                 android:textSize="25sp"
                 android:textStyle="bold" />

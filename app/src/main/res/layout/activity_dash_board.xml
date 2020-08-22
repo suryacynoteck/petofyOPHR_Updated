@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:elevation="30dp"
     android:layout_height="match_parent"
     tools:context="com.cynoteck.petofyvet.activities.DashBoardActivity">
 
@@ -10,14 +11,89 @@
 
 
     <FrameLayout
-        android:layout_above="@id/include"
+        android:layout_above="@id/card1"
         android:id="@+id/content_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
 
 
-    <include
+    <com.google.android.material.card.MaterialCardView
+        app:cardElevation="50dp"
+        android:elevation="50dp"
+        android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+        android:id="@+id/card1"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentBottom="true">
+
+        <LinearLayout
+            android:gravity="center"
+            android:id="@+id/botton_LL"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:weightSum="4">
+
+            <RelativeLayout
+                android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+                android:gravity="center"
+                android:id="@+id/homeRL"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_weight="1">
+                <ImageView
+                    android:id="@+id/icHome"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/home_normal_icon"/>
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+                android:id="@+id/profileRL"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_weight="1">
+                <ImageView
+                    android:id="@+id/icProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/profile_normal_icon"/>
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+                android:id="@+id/petRegisterRL"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_weight="1">
+                <ImageView
+                    android:id="@+id/icPetRegister"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/pet_normal_icon"/>
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+                android:id="@+id/appointmentRL"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_weight="1">
+                <ImageView
+                    android:id="@+id/icAppointment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/appointment_normal_icon"/>
+            </RelativeLayout>
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+
+    <!--<include
         android:id="@+id/include"
         layout="@layout/content_main"
         android:layout_width="match_parent"
@@ -25,7 +101,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="1dp"
         android:visibility="visible" />
-
+-->
 
 </RelativeLayout>
 

@@ -235,7 +235,7 @@
         <RelativeLayout
             android:background="@color/list_background"
             android:id="@+id/reports_list_RL"
-            android:visibility="visible"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

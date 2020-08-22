@@ -27,7 +27,8 @@
         android:roundIcon="@drawable/logo_petofy"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.AddHospitalizationDeatilsActivity"></activity>
+        <activity android:name=".activities.AddNewPetActivity"></activity>
+        <activity android:name=".activities.AddHospitalizationDeatilsActivity" />
         <activity android:name=".activities.AddLabWorkDeatilsActivity" />
         <activity android:name=".activities.AddXRayDeatilsActivity" />
         <activity android:name=".activities.HospitalizationDetailsActivity" />

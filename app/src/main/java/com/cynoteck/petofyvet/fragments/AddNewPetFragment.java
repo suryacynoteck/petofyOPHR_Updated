@@ -42,13 +42,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cynoteck.petofyvet.R;
+import com.cynoteck.petofyvet.activities.AddNewPetActivity;
 import com.cynoteck.petofyvet.activities.PetDetailsActivity;
 import com.cynoteck.petofyvet.adapters.NewEntrysAdapter;
-import com.cynoteck.petofyvet.adapters.ReportsAdapter;
 import com.cynoteck.petofyvet.api.ApiClient;
 import com.cynoteck.petofyvet.api.ApiResponse;
 import com.cynoteck.petofyvet.api.ApiService;
-import com.cynoteck.petofyvet.params.addParamRequest.AddPetParams;
 import com.cynoteck.petofyvet.params.addParamRequest.AddPetRequset;
 import com.cynoteck.petofyvet.params.checkpetInVetRegister.InPetRegisterRequest;
 import com.cynoteck.petofyvet.params.checkpetInVetRegister.InPetregisterParams;
@@ -70,7 +69,6 @@ import com.cynoteck.petofyvet.response.addPet.breedResponse.BreedCatRespose;
 import com.cynoteck.petofyvet.response.addPet.petAgeResponse.PetAgeValueResponse;
 import com.cynoteck.petofyvet.response.addPet.petColorResponse.PetColorValueResponse;
 import com.cynoteck.petofyvet.response.addPet.petSizeResponse.PetSizeValueResponse;
-import com.cynoteck.petofyvet.response.addPet.uniqueIdResponse.UniqueResponse;
 import com.cynoteck.petofyvet.response.getPetDetailsResponse.GetPetResponse;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.getPetListResponse.GetPetListResponse;
 import com.cynoteck.petofyvet.response.newPetResponse.NewPetRegisterResponse;
@@ -94,6 +92,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.StringTokenizer;
+
 import retrofit2.Response;
 
 public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnClickListener, StaffListClickListener, NewEntryListClickListener, TextWatcher {
@@ -189,7 +188,6 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
             getPetList();
             getPetNewList();
             petType();
-            genaretePetUniqueKey();
             getPetBreed();
             getPetAge();
             getPetColor();
@@ -252,11 +250,6 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
     private void petType() {
         ApiService<PetTypeResponse> service = new ApiService<>();
         service.get(this, ApiClient.getApiInterface().petTypeApi(Config.token), "GetPetTypes");
-    }
-
-    private void genaretePetUniqueKey() {
-        ApiService<UniqueResponse> service = new ApiService<>();
-        service.get(this, ApiClient.getApiInterface().getGeneratePetUniqueId(Config.token), "GeneratePetUniqueId");
     }
 
     private void getPetBreed() {
@@ -372,11 +365,11 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                                     +getPetListResponse.getData().getPetList().get(i).getPetName()+"("+getPetListResponse.getData().getPetList().get(i).getPetSex()+","+getPetListResponse.getData().getPetList().get(i).getPetParentName()+")");
                             petExistingSearch.put(getPetListResponse.getData().getPetList().get(i).getPetUniqueId()+":- "
                                             +getPetListResponse.getData().getPetList().get(i).getPetName()+"("+getPetListResponse.getData().getPetList().get(i).getPetSex()+","+getPetListResponse.getData().getPetList().get(i).getPetParentName()+")",
-                                                  getPetListResponse.getData().getPetList().get(i).getPetUniqueId()+","
-                                                  +getPetListResponse.getData().getPetList().get(i).getPetName()+","
-                                                  +getPetListResponse.getData().getPetList().get(i).getPetParentName()+","
-                                                  +getPetListResponse.getData().getPetList().get(i).getPetSex()+","
-                                                  +getPetListResponse.getData().getPetList().get(i).getId());
+                                    getPetListResponse.getData().getPetList().get(i).getPetUniqueId()+","
+                                            +getPetListResponse.getData().getPetList().get(i).getPetName()+","
+                                            +getPetListResponse.getData().getPetList().get(i).getPetParentName()+","
+                                            +getPetListResponse.getData().getPetList().get(i).getPetSex()+","
+                                            +getPetListResponse.getData().getPetList().get(i).getId());
                         }
                         ArrayAdapter<String> adapter = new ArrayAdapter<String>
                                 (getActivity(),android.R.layout.simple_list_item_1,petUniueId);
@@ -444,24 +437,6 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                 catch(Exception e) {
                     e.printStackTrace();
                 }
-
-            case "GeneratePetUniqueId":
-                try {
-                    Log.d("GeneratePetUniqueId",arg0.body().toString());
-                    UniqueResponse uniqueResponse = (UniqueResponse) arg0.body();
-                    int responseCode = Integer.parseInt(uniqueResponse.getResponse().getResponseCode());
-                    if (responseCode== 109){
-                        petUniqueId=uniqueResponse.getData().getPetUniqueId();
-                    }else if (responseCode==614){
-                        Toast.makeText(getActivity(), uniqueResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
-                    }else {
-                        Toast.makeText(getActivity(), "Please Try Again !", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                catch(Exception e) {
-                    e.printStackTrace();
-                }
-                break;
 
             case "GetPetBreed":
                 try {
@@ -721,50 +696,6 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
     ////////////////////////////////////ALEART DIALOG////////////////////////////////////////////////////////
 
 
-    public void addNewEntrysPet(){
-        add_new_entrys_dialog = new Dialog(getContext());
-        add_new_entrys_dialog.setContentView(R.layout.add_new_entrys);
-
-        peto_reg_number_dialog=add_new_entrys_dialog.findViewById(R.id.peto_reg_number_dialog);
-        calenderTextView_dialog=add_new_entrys_dialog.findViewById(R.id.calenderTextView_dialog);
-        add_pet_type=add_new_entrys_dialog.findViewById(R.id.add_pet_type);
-        add_pet_age_dialog=add_new_entrys_dialog.findViewById(R.id.add_pet_age_dialog);
-        add_pet_sex_dialog=add_new_entrys_dialog.findViewById(R.id.add_pet_sex_dialog);
-        add_pet_breed_dialog=add_new_entrys_dialog.findViewById(R.id.add_pet_breed_dialog);
-        add_pet_color_dialog=add_new_entrys_dialog.findViewById(R.id.add_pet_color_dialog);
-        add_pet_size_dialog=add_new_entrys_dialog.findViewById(R.id.add_pet_size_dialog);
-        pet_name_ET=add_new_entrys_dialog.findViewById(R.id.pet_name_ET);
-        pet_parent_name_ET=add_new_entrys_dialog.findViewById(R.id.pet_parent_name_ET);
-        pet_contact_number_ET=add_new_entrys_dialog.findViewById(R.id.pet_contact_number);
-        save_changes_dialog=add_new_entrys_dialog.findViewById(R.id.save_changes_dialog);
-        cancel_dialog=add_new_entrys_dialog.findViewById(R.id.cancel_dialog);
-
-        peto_reg_number_dialog.setText(petUniqueId);
-
-        save_changes_dialog.setOnClickListener(this);
-        cancel_dialog.setOnClickListener(this);
-        calenderTextView_dialog.setOnClickListener(this);
-
-        setSpinnerPetSex();
-        setPetTypeSpinner();
-        setPetBreeSpinner();
-        setPetAgeSpinner();
-        setPetColorSpinner();
-        setPetSizeSpinner();
-
-
-
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        Window window = add_new_entrys_dialog.getWindow();
-        lp.copyFrom(window.getAttributes());
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
-        window.setAttributes(lp);
-        add_new_entrys_dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        add_new_entrys_dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-        add_new_entrys_dialog.show();
-    }
-
     public void editPrescriptionDialog(String petId)
     {
         editPetDilog = new Dialog(getContext());
@@ -914,24 +845,6 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
 
     //////////////////////////////////////////Set Spinner/////////////////////////////////////////////
 
-    private void setPetTypeSpinner() {
-        ArrayAdapter aa = new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,petType);
-        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //Setting the ArrayAdapter data on the Spinner
-        add_pet_type.setAdapter(aa);
-        add_pet_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String item = parent.getItemAtPosition(position).toString();
-                // Showing selected spinner item
-                Log.d("spnerType",""+item);
-                strSpnerItemPetType=item;
-                getStrSpnerItemPetNmId=petTypeHashMap.get(item);
-            }
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-    }
-
     private void setPetTypeEditSpinner() {
         ArrayAdapter aa = new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,petType);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -944,24 +857,6 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                 Log.d("spnerType",""+item);
                 strSpnerItemPetType=item;
                 getStrSpnerItemPetNmId=petTypeHashMap.get(item);
-            }
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-    }
-
-    private void setPetBreeSpinner() {
-        ArrayAdapter aa = new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,petBreed);
-        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //Setting the ArrayAdapter data on the Spinner
-        add_pet_breed_dialog.setAdapter(aa);
-        add_pet_breed_dialog.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String item = parent.getItemAtPosition(position).toString();
-                // Showing selected spinner item
-                Log.d("spnerType",""+item);
-                strSpnrBreed=item;
-                strSpnrBreedId=petBreedHashMap.get(item);
             }
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -986,24 +881,6 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
         });
     }
 
-    private void setPetAgeSpinner() {
-        ArrayAdapter aa = new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,petAge);
-        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //Setting the ArrayAdapter data on the Spinner
-        add_pet_age_dialog.setAdapter(aa);
-        add_pet_age_dialog.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String item = parent.getItemAtPosition(position).toString();
-                // Showing selected spinner item
-                Log.d("spnerType",""+item);
-                strSpnrAge=item;
-                strSpnrAgeId=petAgeHashMap.get(item);
-            }
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-    }
-
     private void setPetAgeEditSpinner() {
         ArrayAdapter aa = new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,petAge);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -1016,23 +893,6 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                 Log.d("spnerType",""+item);
                 strSpnrAge=item;
                 strSpnrAgeId=petAgeHashMap.get(item);
-            }
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-    }
-
-    private void setPetColorSpinner() {
-        ArrayAdapter aa = new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,petColor);
-        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //Setting the ArrayAdapter data on the Spinner
-        add_pet_color_dialog.setAdapter(aa);
-        add_pet_color_dialog.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String item = parent.getItemAtPosition(position).toString();
-                // Showing selected spinner item
-                Log.d("spnerType",""+item);
-                strSpnrColorId=petColorHashMap.get(item);
             }
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -1056,23 +916,6 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
         });
     }
 
-    private void setPetSizeSpinner() {
-        ArrayAdapter aa = new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,petSize);
-        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //Setting the ArrayAdapter data on the Spinner
-        add_pet_size_dialog.setAdapter(aa);
-        add_pet_size_dialog.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String item = parent.getItemAtPosition(position).toString();
-                // Showing selected spinner item
-                Log.d("spnerType",""+item);
-                strSpneSizeId=petSizeHashMap.get(item);
-            }
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-    }
-
     private void setPetSizeEditSpinner() {
         ArrayAdapter aa = new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,petSize);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -1084,24 +927,6 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                 // Showing selected spinner item
                 Log.d("spnerType",""+item);
                 strSpneSizeId=petSizeHashMap.get(item);
-            }
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-    }
-
-    private void setSpinnerPetSex() {
-        ArrayAdapter aa = new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,petSex);
-        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //Setting the ArrayAdapter data on the Spinner
-        add_pet_sex_dialog.setAdapter(aa);
-        add_pet_sex_dialog.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String item = parent.getItemAtPosition(position).toString();
-                // Showing selected spinner item
-                Log.d("spnerType",""+item);
-                strSpnrSex=item;
-                strSpnrSexId=petSexHashMap.get(item);
             }
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -1200,24 +1025,6 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                             InputMethodManager imm1 = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                             imm1.hideSoftInputFromWindow(search_box_add_new.getWindowToken(), 0);
                             back_arrow_IV_new_entry.setVisibility(View.VISIBLE);
-                            String value=petExistingSearch.get(search_box_add_new.getText().toString());
-                            Log.d("kakakka",""+value);
-                            StringTokenizer st = new StringTokenizer(value, ",");
-                            String PetUniqueId = st.nextToken();
-                            String PetName = st.nextToken();
-                            String PetParentName = st.nextToken();
-                            String PetSex = st.nextToken();
-                            String Id = st.nextToken();
-                            Log.d("ppppp",""+PetUniqueId+" "+PetName+" "+PetParentName+" "+PetSex+" "+Id);
-                            Intent petDetailsIntent = new Intent(getActivity().getApplication(), PetDetailsActivity.class);
-                            Bundle data = new Bundle();
-                            data.putString("pet_id",Id.substring(0,Id.length()-2));
-                            data.putString("pet_name",PetName+"("+PetSex+")");
-                            data.putString("pet_parent",PetParentName);
-                            data.putString("pet_sex",PetSex);
-                            data.putString("pet_unique_id",PetUniqueId);
-                            petDetailsIntent.putExtras(data);
-                            startActivity(petDetailsIntent);
                         }
                         else
                         {
@@ -1263,23 +1070,10 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
             case R.id.back_arrow_IV_new_entry:
                 clearSearch();
                 break;
-            case R.id.calenderTextView_dialog:
-                final Calendar cldr = Calendar.getInstance();
-                int day = cldr.get(Calendar.DAY_OF_MONTH);
-                int month = cldr.get(Calendar.MONTH);
-                int year = cldr.get(Calendar.YEAR);
-                // date picker dialog
-                picker = new DatePickerDialog(getActivity(),
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                calenderTextView_dialog.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
-                            }
-                        }, year, month, day);
-                picker.show();
-                break;
+
             case R.id.addNewEntry:
-                addNewEntrysPet();
+                Intent addNewPetIntent = new Intent(getContext(), AddNewPetActivity.class);
+                startActivity(addNewPetIntent);
                 break;
             case R.id.cancel:
                 prescription_dialog.dismiss();
@@ -1299,94 +1093,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                         }, yearEdit, monthEdit, dayEdit);
                 picker.show();
                 break;
-            case R.id.cancel_dialog:
-                add_new_entrys_dialog.dismiss();
-            case R.id.save_changes_dialog:
-                String strPetName= pet_name_ET.getText().toString().trim();
-                String strPetParentName = pet_parent_name_ET.getText().toString().trim();
-                String strPetContactNumber = pet_contact_number_ET.getText().toString().trim();
-                String strPetBirthDay = calenderTextView_dialog.getText().toString().trim();
 
-                if(strPetName.isEmpty())
-                {
-                    pet_name_ET.setError("Enter Pet Name");
-                    pet_parent_name_ET.setError(null);
-                    pet_contact_number_ET.setError(null);
-                    calenderTextView_dialog.setError(null);
-                }
-                else if(strPetParentName.isEmpty())
-                {
-                    pet_name_ET.setError(null);
-                    pet_parent_name_ET.setError("Enter Parent Name");
-                    pet_contact_number_ET.setError(null);
-                    calenderTextView_dialog.setError(null);
-                }
-                else if(strPetContactNumber.isEmpty())
-                {
-                    pet_name_ET.setError(null);
-                    pet_parent_name_ET.setError(null);
-                    pet_contact_number_ET.setError("Enter Contact Number");
-                    calenderTextView_dialog.setError(null);
-                }
-                else if(strPetBirthDay.isEmpty())
-                {
-                    pet_name_ET.setError(null);
-                    pet_parent_name_ET.setError(null);
-                    pet_contact_number_ET.setError(null);
-                    calenderTextView_dialog.setError("Pet YOB");
-                }
-                //pet size and color.
-                else if(strSpnerItemPetType.isEmpty()||(strSpnerItemPetType.equals("Select Pet Type")))
-                {
-                    Toast.makeText(getActivity(), "Select Type!!", Toast.LENGTH_SHORT).show();
-                }
-                else if(strSpnrBreed.isEmpty()||(strSpnrBreed.equals("Pet Breed")))
-                {
-                    Toast.makeText(getActivity(), "Select Breed!!", Toast.LENGTH_SHORT).show();
-                }
-                else if(strSpnrAge.isEmpty()||(strSpnrAge.equals("Select Pet Age")))
-                {
-                    Toast.makeText(getActivity(), "Select Pet Age!!", Toast.LENGTH_SHORT).show();
-                }
-                else if(strSpnrSex.isEmpty()||(strSpnrSex.equals("Pet Sex")))
-                {
-                    Toast.makeText(getActivity(), "Select Pet Sex!!", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    pet_name_ET.setError(null);
-                    pet_parent_name_ET.setError(null);
-                    pet_contact_number_ET.setError(null);
-                    calenderTextView_dialog.setError(null);
-                    Log.d("hahahah", "" + getStrSpnerItemPetNmId + " " + strSpnrSexId + " " + strSpnrAgeId + " " + strSpneSizeId +
-                            " " + strSpnrColorId + " " + strSpnrBreedId + " " + strPetName + " " + strPetBirthDay + " "+ currentDateandTime);
-                    AddPetRequset addPetRequset = new AddPetRequset();
-                    AddPetParams data = new AddPetParams();
-                    data.setPetUniqueId(petUniqueId);
-                    data.setPetCategoryId(getStrSpnerItemPetNmId);
-                    data.setPetSexId(strSpnrSexId);
-                    data.setPetAgeId(strSpnrAgeId);
-                    data.setPetSizeId(strSpneSizeId);
-                    data.setPetColorId(strSpnrColorId);
-                    data.setPetBreedId(strSpnrBreedId);
-                    data.setPetName(strPetName);
-                    data.setPetParentName(strPetParentName);
-                    data.setContactNumber(strPetContactNumber);
-                    data.setDateOfBirth(strPetBirthDay);
-
-                    data.setPetProfileImageUrl("");
-                    data.setFirstServiceImageUrl("");
-                    data.setSecondServiceImageUrl("");
-                    data.setThirdServiceImageUrl("");
-                    data.setFourthServiceImageUrl("");
-                    data.setFifthServiceImageUrl("");
-                    addPetRequset.setAddPetParams(data);
-                    if (methods.isInternetOn()) {
-                        addPetData(addPetRequset);
-                    } else {
-                        methods.DialogInternet();
-                    }
-                }
-                break;
             case R.id.save_edit_changes_dialog:
                 String strPetEditName= pet_name_edit_dialog.getText().toString().trim();
                 String strPetEditParentName = pet_parent_name_edit_dialog.getText().toString().trim();

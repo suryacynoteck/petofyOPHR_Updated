@@ -16,11 +16,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.api.ApiResponse;
+import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
 
 import retrofit2.Response;
 
 public class HomeFragment extends Fragment implements View.OnClickListener, ApiResponse {
+
     RecyclerView pet_list_RV;
     Context context;
     View view;
@@ -28,7 +30,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
     ImageView reports_IV;
     ConstraintLayout mainHome;
     Methods methods;
-    CardView reports_CV, all_staff_CV;
+    CardView reports_CV, all_staff_CV, allPets_CV;
 
     @Override
     public void onAttach(Context context) {
@@ -57,6 +59,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
         mainHome=view.findViewById(R.id.mainHome);
         pet_list_RV=view.findViewById(R.id.pet_id_TV);
         add_new_visit=view.findViewById(R.id.add_new_visit);
+        allPets_CV=view.findViewById(R.id.allPets_CV);
+        allPets_CV.setOnClickListener(this);
         reports_CV.setOnClickListener(this);
         all_staff_CV.setOnClickListener(this);
         add_new_visit.setOnClickListener(this);
@@ -85,11 +89,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
             replaceFragment(addNewPetFragment);
 
             break;
+
+            case R.id.allPets_CV:
+                PetRegisterFragment petRegisterFragment = new PetRegisterFragment();
+                replaceFragment(petRegisterFragment);
+
+                break;
         }
 
     }
 
     private void replaceFragment(Fragment fragment) {
+        Config.count = 0;
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.content_frame, fragment);
         transaction.addToBackStack(null);
@@ -107,4 +118,5 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
     public void onError(Throwable t, String key) {
 
     }
+
 }
