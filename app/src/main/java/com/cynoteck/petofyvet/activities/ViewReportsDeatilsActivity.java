@@ -1,6 +1,8 @@
 
 package com.cynoteck.petofyvet.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +23,7 @@ import com.cynoteck.petofyvet.params.petReportsRequest.PetClinicVistsDetailsPara
 import com.cynoteck.petofyvet.response.getPetReportsResponse.AddUpdateDeleteClinicVisitResponse;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.getClinicVisitDetails.GetClinicVisitsDetailsResponse;
 import com.cynoteck.petofyvet.utils.Config;
+import com.cynoteck.petofyvet.utils.Methods;
 
 import retrofit2.Response;
 
@@ -32,11 +35,13 @@ public class ViewReportsDeatilsActivity extends AppCompatActivity implements Api
     Button deleteReport_BT;
     String pet_unique_id, pet_name,pet_sex, pet_owner_name,pet_owner_contact,pet_id ,report_type_id;
     TextView pet_name_TV,pet_sex_TV,pet_id_TV,pet_owner_name_TV,pet_owner_phone_no_TV;
+    Methods methods;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_reports_deatils);
+        methods = new Methods(this);
 
         init();
         setdataInfields();
@@ -163,7 +168,29 @@ public class ViewReportsDeatilsActivity extends AppCompatActivity implements Api
                 break;
 
             case R.id.deleteReport_BT:
-                deletClinicVisitDetails();
+                Log.d("Add Anotheer Veterian","vet");
+                AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+                alertDialog.setTitle("Are you sure?");
+                alertDialog.setMessage("Do You Want to Delete This Report ?");
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (methods.isInternetOn()) {
+                                    deletClinicVisitDetails();
+                                } else {
+                                    methods.DialogInternet();
+                                }
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+                alertDialog.show();
                 break;
         }
 

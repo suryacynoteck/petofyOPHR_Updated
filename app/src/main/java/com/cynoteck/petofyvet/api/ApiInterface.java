@@ -3,6 +3,7 @@ package com.cynoteck.petofyvet.api;
 import com.cynoteck.petofyvet.params.addLabRequest.AddLabRequest;
 import com.cynoteck.petofyvet.params.addParamRequest.AddPetRequset;
 import com.cynoteck.petofyvet.params.addPetClinicParamRequest.AddPetClinicRequest;
+import com.cynoteck.petofyvet.params.addTestXRayParams.AddTestXRayRequest;
 import com.cynoteck.petofyvet.params.allStaffRequest.AddStaffRequest;
 import com.cynoteck.petofyvet.params.allStaffRequest.ChangeStaffStatusRequest;
 import com.cynoteck.petofyvet.params.allStaffRequest.StaffDeatilsRequest;
@@ -31,6 +32,7 @@ import com.cynoteck.petofyvet.response.addPet.petColorResponse.PetColorValueResp
 import com.cynoteck.petofyvet.response.addPet.petSizeResponse.PetSizeValueResponse;
 import com.cynoteck.petofyvet.response.addPet.uniqueIdResponse.UniqueResponse;
 import com.cynoteck.petofyvet.response.addPetClinicresponse.AddpetClinicResponse;
+import com.cynoteck.petofyvet.response.addTestAndXRayResponse.AddTestXRayResponse;
 import com.cynoteck.petofyvet.response.clinicVisist.ClinicVisitResponse;
 import com.cynoteck.petofyvet.response.forgetAndChangePassResponse.PasswordResponse;
 import com.cynoteck.petofyvet.response.getLabTestReportResponse.getLabTestReportDetailsResponse.GetLabTestReportDeatilsResponse;
@@ -225,6 +227,12 @@ public interface ApiInterface {
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("pethealthrecord/DeletePetLabWork")
     Call<AddUpdateDeleteClinicVisitResponse> deleteLabTestWork(@Header("Authorization") String auth, @Body PetClinicVisitDetailsRequest petClinicVisitDetailsRequest);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("pethealthrecord/AddTestXRay")
+    Call<AddTestXRayResponse> addTestXRay(@Header("Authorization") String auth, @Body AddTestXRayRequest addTestXRayRequest);
+
+
 
     //All Staff Section .....................................................
 
