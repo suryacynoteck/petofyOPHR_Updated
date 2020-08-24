@@ -14,7 +14,6 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -56,8 +55,8 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
         pet_unique_id=extras.getString("pet_unique_id");
         pet_sex=extras.getString("pet_sex");
 
-        pet_nameTV = findViewById(R.id.pet_nameTV);
-        pet_parentNameTV = findViewById(R.id.pet_parentNameTV);
+        pet_nameTV = findViewById(R.id.pet_name_TV);
+        pet_parentNameTV = findViewById(R.id.pet_owner_name_TV);
         back_arrow_IV=findViewById(R.id.back_arrow_IV);
         view_Hospitalization_arrow=findViewById(R.id.view_Hospitalization_arrow);
         recent_visits_arrow=findViewById(R.id.recent_visits_arrow);
@@ -152,6 +151,8 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 startActivity(petDetailsLabVisits);
                 break;
             case R.id.print_id_card_arrow:
+                Intent intent = new Intent(this,PetIdCardActivity.class);
+                startActivity(intent);
                 break;
             case R.id.view_clinicVisits_arrow:
                 Intent petDetailsClinicVisits = new Intent(this, NewEntrysDetailsActivity.class);

@@ -3,6 +3,7 @@ package com.cynoteck.petofyvet.activities;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -43,6 +44,7 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
         pet_owner_name = extras.getString("pet_parent");
         pet_sex = extras.getString("pet_sex");
         pet_name = extras.getString("pet_name");
+
         Log.e("jajajjaj",""+pet_name);
         pet_unique_id = extras.getString("pet_unique_id");
         button_text = extras.getString("add_button_text");
