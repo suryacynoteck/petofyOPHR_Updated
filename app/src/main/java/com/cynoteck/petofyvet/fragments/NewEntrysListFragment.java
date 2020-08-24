@@ -1,13 +1,31 @@
 package com.cynoteck.petofyvet.fragments;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.print.PrintAttributes;
+import android.print.PrintDocumentAdapter;
+import android.print.PrintJob;
+import android.print.PrintManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.webkit.WebView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,17 +34,27 @@ import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.activities.ReportsCommonActivity;
 import com.cynoteck.petofyvet.adapters.HospitalizationReportsAdapter;
 import com.cynoteck.petofyvet.adapters.LabTestReportsAdapter;
+import com.cynoteck.petofyvet.adapters.NewEntrysAdapter;
 import com.cynoteck.petofyvet.adapters.ReportsTypeAdapter;
 import com.cynoteck.petofyvet.adapters.TestAndXRayAdpater;
 import com.cynoteck.petofyvet.adapters.VisitTypesAdapter;
 import com.cynoteck.petofyvet.api.ApiClient;
 import com.cynoteck.petofyvet.api.ApiResponse;
 import com.cynoteck.petofyvet.api.ApiService;
+import com.cynoteck.petofyvet.params.getPetListRequest.GetPetListParams;
+import com.cynoteck.petofyvet.params.getPetListRequest.GetPetListRequest;
+import com.cynoteck.petofyvet.params.petBreedRequest.BreedParams;
+import com.cynoteck.petofyvet.params.petBreedRequest.BreedRequest;
 import com.cynoteck.petofyvet.params.petReportsRequest.PetDataParams;
 import com.cynoteck.petofyvet.params.petReportsRequest.VisitTypeData;
 import com.cynoteck.petofyvet.params.petReportsRequest.VisitTypeRequest;
+import com.cynoteck.petofyvet.response.addPet.breedResponse.BreedCatRespose;
+import com.cynoteck.petofyvet.response.addPet.petAgeResponse.PetAgeValueResponse;
+import com.cynoteck.petofyvet.response.addPet.petColorResponse.PetColorValueResponse;
+import com.cynoteck.petofyvet.response.addPet.petSizeResponse.PetSizeValueResponse;
 import com.cynoteck.petofyvet.response.getLabTestReportResponse.getPetLabWorkListResponse.PetLabWorkList;
 import com.cynoteck.petofyvet.response.getLabTestReportResponse.getPetLabWorkListResponse.PetLabWorkResponse;
+import com.cynoteck.petofyvet.response.getPetDetailsResponse.GetPetResponse;
 import com.cynoteck.petofyvet.response.getPetHospitalizationResponse.getHospitalizationListResponse.GetPetHospitalizationResponse;
 import com.cynoteck.petofyvet.response.getPetHospitalizationResponse.getHospitalizationListResponse.PetHospitalizationsList;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.GetReportsTypeData;
@@ -35,15 +63,25 @@ import com.cynoteck.petofyvet.response.getPetReportsResponse.getPetClinicVisitsL
 import com.cynoteck.petofyvet.response.getPetReportsResponse.getPetClinicVisitsListsResponse.PetClinicVisitList;
 import com.cynoteck.petofyvet.response.getXRayReports.getPetTestAndXRayResponse.GetPetTestAndXRayResponse;
 import com.cynoteck.petofyvet.response.getXRayReports.getPetTestAndXRayResponse.PetTestsAndXrayList;
+import com.cynoteck.petofyvet.response.recentEntrys.RecentEntrysResponse;
+import com.cynoteck.petofyvet.response.recentVisitResponse.RecentVisitResponsee;
+import com.cynoteck.petofyvet.response.updateProfileResponse.PetTypeResponse;
 import com.cynoteck.petofyvet.utils.Config;
+import com.cynoteck.petofyvet.utils.Methods;
+import com.cynoteck.petofyvet.utils.NewEntryListClickListener;
 import com.cynoteck.petofyvet.utils.OnClickStaicLists;
 import com.cynoteck.petofyvet.utils.RegisterRecyclerViewClickListener;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.StringTokenizer;
 
 import retrofit2.Response;
 
-public class NewEntrysListFragment extends Fragment implements ApiResponse, RegisterRecyclerViewClickListener, OnClickStaicLists {
+public class NewEntrysListFragment extends Fragment implements ApiResponse, RegisterRecyclerViewClickListener, OnClickStaicLists, NewEntryListClickListener, View.OnClickListener {
     String pet_unique_id, pet_name,pet_sex, pet_owner_name,pet_owner_contact,pet_id ,report_type_id,type;
 
     RecyclerView routine_report_RV;
@@ -52,15 +90,49 @@ public class NewEntrysListFragment extends Fragment implements ApiResponse, Regi
     private ArrayList<PetTestsAndXrayList> petTestsAndXrayLists;
     private ArrayList<PetLabWorkList> petLabWorkLists;
     private ArrayList<PetHospitalizationsList> petHospitalizationsLists;
+    private List<com.cynoteck.petofyvet.response.recentEntrys.PetClinicVisitList> petClinicVisitLists;
     ArrayList<GetReportsTypeData> getReportsTypeData;
-
+    WebView webview;
     VisitTypesAdapter visitTypesAdapter;
+
+    Dialog  prescription_dialog, editPetDilog;
+    TextView parent_name,specilist,email,for_a,age,sex,date,prnt_nm,temparature,symptoms,diagnosis,
+            remarks,nxt_visit,peto_reg_number_edit_dialog,calenderTextView_edit_dialog;
+
+    Button crrete_pdf,cancel,save_changes_edit_dialog,
+            cancel_edit_dialog;
+
+    String getStrSpnerItemPetNmId="",strSpnrBreedId="",strSpnrAgeId="",strSpnrColorId="",
+            strSpneSizeId="",strSpnrSexId="",strSpnerItemPetType="",strSpnrBreed="",strSpnrAge="",strSpnrSex="",
+            currentDateandTime="",petIdGetForUpdate="",strResponseOtp="",petId="",petParentContactNumber="";
+
+    AppCompatSpinner add_pet_type_edit_dialog,
+            add_pet_age_edit_dialog,add_pet_sex_edit_dialog,add_pet_breed_edit_dialog,add_pet_color_edit_dialog,add_pet_size_edit_dialog;
+
+    EditText pet_name_edit_dialog,pet_parent_name_edit_dialog,pet_contact_number_edit_dialog;
 
     ReportsTypeAdapter reportsTypeAdapter;
     TestAndXRayAdpater testAndXRayAdpater;
     LabTestReportsAdapter labTestReportsAdapter;
     HospitalizationReportsAdapter hospitalizationReportsAdapter;
+    NewEntrysAdapter newEntrysAdapter;
+    Methods methods;
 
+    DatePickerDialog picker;
+    ArrayList<String> petType;
+    ArrayList<String> petBreed;
+    ArrayList<String> petAge;
+    ArrayList<String> petColor;
+    ArrayList<String> petSize;
+    ArrayList<String> petSex;
+
+    HashMap<String,String> petTypeHashMap=new HashMap<>();
+    HashMap<String,String> petBreedHashMap=new HashMap<>();
+    HashMap<String,String> petAgeHashMap=new HashMap<>();
+    HashMap<String,String> petColorHashMap=new HashMap<>();
+    HashMap<String,String> petSizeHashMap=new HashMap<>();
+    HashMap<String,String> petSexHashMap=new HashMap<>();
+    HashMap<String,String> petExistingSearch=new HashMap<>();
     public NewEntrysListFragment() {
         // Required empty public constructor
     }
@@ -70,7 +142,8 @@ public class NewEntrysListFragment extends Fragment implements ApiResponse, Regi
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view= inflater.inflate(R.layout.fragment_new_entrys_list, container, false);
-
+        webview = view.findViewById(R.id.webview);
+        methods=new Methods(getActivity());
         Bundle extras = this.getArguments();
         report_type_id = extras.getString("reports_id");
         pet_id = extras.getString("pet_id");
@@ -81,7 +154,34 @@ public class NewEntrysListFragment extends Fragment implements ApiResponse, Regi
         pet_unique_id = extras.getString("pet_unique_id");
         type=extras.getString("type");
 
+        petTestsAndXrayLists.clear();
+        petLabWorkLists.clear();
+        petHospitalizationsLists.clear();
+        petClinicVisitLists.clear();
+        getReportsTypeData.clear();
+
         routine_report_RV = view.findViewById(R.id.routine_report_RV);
+
+        petSex=new ArrayList<>();
+        petSex.add("Pet Sex");
+        petSex.add("Male");
+        petSex.add("Female");
+
+        petSexHashMap.put("Pet Sex","0");
+        petSexHashMap.put("Male","1");
+        petSexHashMap.put("Female","2");
+
+        if (methods.isInternetOn()){
+            getPetNewList();
+            petType();
+            getPetBreed();
+            getPetAge();
+            getPetColor();
+            getPetSize();
+        }else {
+
+            methods.DialogInternet();
+        }
 
         switch (type){
 
@@ -100,6 +200,9 @@ public class NewEntrysListFragment extends Fragment implements ApiResponse, Regi
             case "Hospitalization":
                 getHospitalizationReport();
                 break;
+            case "RecentVisit":
+                getPetNewList();
+                break;
         }
 
         return view;
@@ -109,6 +212,55 @@ public class NewEntrysListFragment extends Fragment implements ApiResponse, Regi
         ApiService<GetReportsTypeResponse> service = new ApiService<>();
         service.get(this, ApiClient.getApiInterface().getReportsType(Config.token), "GetReportsType");
 
+    }
+
+    private void petType() {
+        ApiService<PetTypeResponse> service = new ApiService<>();
+        service.get(this, ApiClient.getApiInterface().petTypeApi(Config.token), "GetPetTypes");
+    }
+
+    private void getPetBreed() {
+        BreedRequest breedRequest = new BreedRequest();
+        breedRequest.setGetAll("true");
+        breedRequest.setPetCategoryId("1");
+        BreedParams breedParams = new BreedParams();
+        breedParams.setData(breedRequest);
+
+        ApiService<BreedCatRespose> service = new ApiService<>();
+        service.get(this, ApiClient.getApiInterface().getGetPetBreedApi(Config.token,breedParams), "GetPetBreed");
+    }
+
+    private void getPetAge() {
+        BreedRequest breedRequest = new BreedRequest();
+        breedRequest.setGetAll("true");
+        breedRequest.setPetCategoryId("1");
+        BreedParams breedParams = new BreedParams();
+        breedParams.setData(breedRequest);
+
+        ApiService<PetAgeValueResponse> service = new ApiService<>();
+        service.get(this, ApiClient.getApiInterface().getGetPetAgeApi(Config.token,breedParams), "GetPetAge");
+    }
+
+    private void getPetColor() {
+        BreedRequest breedRequest = new BreedRequest();
+        breedRequest.setGetAll("true");
+        breedRequest.setPetCategoryId("1");
+        BreedParams breedParams = new BreedParams();
+        breedParams.setData(breedRequest);
+
+        ApiService<PetColorValueResponse> service = new ApiService<>();
+        service.get(this, ApiClient.getApiInterface().getGetPetColorApi(Config.token,breedParams), "GetPetColor");
+    }
+
+    private void getPetSize() {
+        BreedRequest breedRequest = new BreedRequest();
+        breedRequest.setGetAll("true");
+        breedRequest.setPetCategoryId("1");
+        BreedParams breedParams = new BreedParams();
+        breedParams.setData(breedRequest);
+
+        ApiService<PetSizeValueResponse> service = new ApiService<>();
+        service.get(this, ApiClient.getApiInterface().getGetPetSizeApi(Config.token,breedParams), "GetPetSize");
     }
 
     private void getHospitalizationReport() {
@@ -169,10 +321,15 @@ public class NewEntrysListFragment extends Fragment implements ApiResponse, Regi
 
         ApiService<GetPetClinicVisitListResponse> service = new ApiService<>();
         service.get(this, ApiClient.getApiInterface().getPetClinicVisits(Config.token,visitTypeRequest), "GetPetClinicVisit");
-
-
-
     }
+
+    private void getPetNewList() {
+        String input= Config.token.trim();
+        Log.d("lalalall",""+input);
+        ApiService<RecentEntrysResponse> service = new ApiService<>();
+        service.get( this, ApiClient.getApiInterface().getRecentClientcVisits(input), "GetRecentClinicVisits");
+    }
+
 
     private void getXrayReport() {
 
@@ -307,6 +464,156 @@ public class NewEntrysListFragment extends Fragment implements ApiResponse, Regi
                 }
                 break;
 
+            case "GetRecentClinicVisits":
+                try {
+                    RecentEntrysResponse getPetListResponse = (RecentEntrysResponse) response.body();
+                    Log.d("GetRecentClinicVisits", getPetListResponse.toString());
+                    int responseCode = Integer.parseInt(getPetListResponse.getResponse().getResponseCode());
+
+                    if (responseCode== 109){
+                        Log.e("lallalal",""+getPetListResponse.getData().getPetClinicVisitList().size());
+                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+                        routine_report_RV.setLayoutManager(linearLayoutManager);
+                        newEntrysAdapter  = new NewEntrysAdapter(getActivity(),getPetListResponse.getData().getPetClinicVisitList(),this);
+                        routine_report_RV.setAdapter(newEntrysAdapter);
+                        petClinicVisitLists = getPetListResponse.getData().getPetClinicVisitList();
+                        newEntrysAdapter.notifyDataSetChanged();
+                        Toast.makeText(getActivity(), "Success", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+
+            case "GetPetTypes":
+                try {
+                    Log.d("GetPetTypes",response.body().toString());
+                    PetTypeResponse petTypeResponse = (PetTypeResponse) response.body();
+                    int responseCode = Integer.parseInt(petTypeResponse.getResponse().getResponseCode());
+                    if (responseCode== 109){
+                        petType=new ArrayList<>();
+                        petType.add("Select Pet Type");
+                        Log.d("lalal",""+petTypeResponse.getData().size());
+                        for(int i=0; i<petTypeResponse.getData().size(); i++){
+                            Log.d("petttt",""+petTypeResponse.getData().get(i).getPetType1());
+                            petType.add(petTypeResponse.getData().get(i).getPetType1());
+                            petTypeHashMap.put(petTypeResponse.getData().get(i).getPetType1(),petTypeResponse.getData().get(i).getId());
+                        }
+
+
+                    }else if (responseCode==614){
+                        Toast.makeText(getActivity(), petTypeResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(getActivity(), "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+
+            case "GetPetBreed":
+                try {
+                    Log.d("GetPetBreed",response.body().toString());
+                    BreedCatRespose breedCatRespose = (BreedCatRespose) response.body();
+                    int responseCode = Integer.parseInt(breedCatRespose.getResponse().getResponseCode());
+                    if (responseCode== 109){
+                        petBreed=new ArrayList<>();
+                        petBreed.add("Pet Breed");
+                        Log.d("lalal",""+breedCatRespose.getData().size());
+                        for(int i=0; i<breedCatRespose.getData().size(); i++){
+                            Log.d("petttt",""+breedCatRespose.getData().get(i).getBreed());
+                            petBreed.add(breedCatRespose.getData().get(i).getBreed());
+                            petBreedHashMap.put(breedCatRespose.getData().get(i).getBreed(),breedCatRespose.getData().get(i).getId());
+                        }
+
+                    }else if (responseCode==614){
+                        Toast.makeText(getActivity(), breedCatRespose.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(getActivity(), "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "GetPetAge":
+                try {
+                    Log.d("GetPetAge",response.body().toString());
+                    PetAgeValueResponse petAgeValueResponse = (PetAgeValueResponse) response.body();
+                    int responseCode = Integer.parseInt(petAgeValueResponse.getResponse().getResponseCode());
+                    if (responseCode== 109){
+                        petAge=new ArrayList<>();
+                        petAge.add("Select Pet Age");
+                        Log.d("lalal",""+petAgeValueResponse.getData().size());
+                        for(int i=0; i<petAgeValueResponse.getData().size(); i++){
+                            Log.d("petttt",""+petAgeValueResponse.getData().get(i).getAge());
+                            petAge.add(petAgeValueResponse.getData().get(i).getAge());
+                            petAgeHashMap.put(petAgeValueResponse.getData().get(i).getAge(),petAgeValueResponse.getData().get(i).getId());
+                        }
+
+                    }else if (responseCode==614){
+                        Toast.makeText(getActivity(), petAgeValueResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(getActivity(), "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+
+            case "GetPetColor":
+                try {
+                    Log.d("GetPetColor",response.body().toString());
+                    PetColorValueResponse petColorValueResponse = (PetColorValueResponse) response.body();
+                    int responseCode = Integer.parseInt(petColorValueResponse.getResponse().getResponseCode());
+                    if (responseCode== 109){
+                        petColor=new ArrayList<>();
+                        petColor.add("Pet Color");
+                        Log.d("lalal",""+petColorValueResponse.getData().size());
+                        for(int i=0; i<petColorValueResponse.getData().size(); i++){
+                            Log.d("petttt",""+petColorValueResponse.getData().get(i).getColor());
+                            petColor.add(petColorValueResponse.getData().get(i).getColor());
+                            petColorHashMap.put(petColorValueResponse.getData().get(i).getColor(),petColorValueResponse.getData().get(i).getId());
+                        }
+                    }else if (responseCode==614){
+                        Toast.makeText(getActivity(), petColorValueResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(getActivity(), "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "GetPetSize":
+                try {
+                    Log.d("GetPetSize",response.body().toString());
+                    PetSizeValueResponse petSizeValueResponse = (PetSizeValueResponse) response.body();
+                    int responseCode = Integer.parseInt(petSizeValueResponse.getResponse().getResponseCode());
+                    if (responseCode== 109){
+                        petSize=new ArrayList<>();
+                        petSize.add("Pet Size");
+                        Log.d("lalal",""+petSizeValueResponse.getData().size());
+                        for(int i=0; i<petSizeValueResponse.getData().size(); i++){
+                            Log.d("petttt",""+petSizeValueResponse.getData().get(i).getSize());
+                            petSize.add(petSizeValueResponse.getData().get(i).getSize());
+                            petSizeHashMap.put(petSizeValueResponse.getData().get(i).getSize(),petSizeValueResponse.getData().get(i).getId());
+                        }
+
+                    }else if (responseCode==614){
+                        Toast.makeText(getActivity(), petSizeValueResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(getActivity(), "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+
         }
 
     }
@@ -334,6 +641,172 @@ public class NewEntrysListFragment extends Fragment implements ApiResponse, Regi
 
     }
 
+    @Override
+    public void onProductPrescriptionClick(int position) {
+        showEditStaffDialog(petClinicVisitLists.get(position).getVeterinarian(),petClinicVisitLists.get(position).getCreatedByUser().getEmail(),petClinicVisitLists.get(position).getPetName(),petClinicVisitLists.get(position).getPetAge(),petClinicVisitLists.get(position).getPetSex(),petClinicVisitLists.get(position).getDateOfOnset(),petClinicVisitLists.get(position).getPetParentName(),petClinicVisitLists.get(position).getTemperature(),petClinicVisitLists.get(position).getDiagnosisProcedure(),petClinicVisitLists.get(position).getTreatmentRemarks(),petClinicVisitLists.get(position).getFollowUpDate());
+    }
+
+    @Override
+    public void onProductDownloadClick(int position) {
+        createPdf(petClinicVisitLists.get(position).getVeterinarian(),petClinicVisitLists.get(position).getCreatedByUser().getEmail(),petClinicVisitLists.get(position).getPetName(),petClinicVisitLists.get(position).getPetAge(),petClinicVisitLists.get(position).getPetSex(),petClinicVisitLists.get(position).getDateOfOnset(),petClinicVisitLists.get(position).getPetParentName(),petClinicVisitLists.get(position).getTemperature(),petClinicVisitLists.get(position).getDiagnosisProcedure(),petClinicVisitLists.get(position).getTreatmentRemarks(),petClinicVisitLists.get(position).getFollowUpDate());
+    }
+
+    public void createPdf(String veterian, String strEmail, String strForA, String strAge,String strSex, String strDate,String strParntNm, String strTemparature, String strDiagnosis,String strRemark, String strNxtVisit)
+    {
+        String care="Aviral Care";
+        String pet_parent="Pramod Rana";
+        String Symptons="Problems";
+        String address="Dehradun";
+        String registration_number="VET-00987";
+        String str="<!DOCTYPE html>\n"+
+                "<html>\n" +
+                "<head>\n" +
+                "<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css\">\n" +
+                "<script src=\"//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js\"></script>\n" +
+                "<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js\"></script>\n" +
+                "    \n" +
+                "<link rel=\"stylesheet\" type=\"text/css\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css\">\n" +
+                "\n" +
+                "    <title>Invioce</title>\n" +
+                "</head>\n" +
+                "<style type=\"text/css\">\n" +
+                "    .invoice-title h2, .invoice-title h3 {\n" +
+                "        display: inline-block;\n" +
+                "    }\n" +
+                "\n" +
+                "    .table > tbody > tr > .no-line {\n" +
+                "        border-top: none;\n" +
+                "    }\n" +
+                "\n" +
+                "    .table > thead > tr > .no-line {\n" +
+                "        border-bottom: none;\n" +
+                "    }\n" +
+                "\n" +
+                "    .table > tbody > tr > .thick-line {\n" +
+                "        border-top: 2px solid;\n" +
+                "    }\n" +
+                "    @page {\n" +
+                "      size: A4;\n" +
+                "      margin: 15px;\n" +
+                "    }\n" +
+                "</style>\n" +
+                "\n" +
+                "<body>\n" +
+                "    <div class=\"container\">\n" +
+                "        <p><?=date('d/m/Y')?></p> \n" +
+                "    <div class=\"row\">\n" +
+                "        <div class=\"col-xs-12\">\n" +
+                "            <div class=\"invoice-title \">\n" +
+                "                <div class=\"row\">\n" +
+                "                    <div class=\"col-lg-12 col-md-12 col-xs-12\" style=\"font-size: 25px;font-family: cizel;\">\n" +
+                "                       <b>"+veterian+"</b> \n" +
+                "                    </div>\n" +
+                "                    <div class=\"col-lg-12 col-md-12 col-xs-12\" style=\"font-size: 20px; margin-bottom: 20px;\">\n" +
+                "                        MBBS,MVS \n" +
+                "                    </div>\n" +
+                "                    <div class=\"col-lg-6 col-md-6 col-xs-6\" style=\"font-size: 20px; \" >\n" +care+
+                "                       \n" +
+                "                    </div>\n" +
+                "                    <div class=\"col-lg-6 col-md-6 col-xs-6 text-right\" style=\"font-size: 20px;\">\n" +
+                "                       <b> Mobile :"+strParntNm+" </b>\n" +
+                "                    </div>\n" +
+                "                    \n" +
+                "                    <div class=\"col-lg-6 col-md-6 col-xs-6\" style=\"font-size: 17px;\">\n" +
+                "                       <b> Email: "+strEmail+" </b>\n" +
+                "                    </div>\n" +
+                "                    <div class=\"col-lg-6 col-md-6 col-xs-6 text-right\" style=\"font-size: 20px;\">\n" +
+                "                       <b> "+strParntNm+"</b>\n" +
+                "                    </div>\n" +
+                "                 \n" +
+                "                    \n" +
+                "                </div>\n" +
+                "               \n" +
+                "                \n" +
+                "            </div>\n" +
+                "            <div class=\"row\">\n" +
+                "                <div class=\"col-md-12\" style=\"border: 1px solid black;\"></div>\n" +
+                "            </div>\n" +
+                "            <div class=\"row\">\n" +
+                "                <div class=\"col-xs-3\" style=\"font-size: 20px;\">\n" +
+                "                    <b>For a: "+strForA+"</b>\n" +
+                "                </div>\n" +
+                "                <div class=\"col-xs-3\" style=\"font-size: 20px;\">\n" +
+                "                    <b>Age: "+strAge+"</b>\n" +
+                "                </div>\n" +
+                "                <div class=\"col-xs-3\" style=\"font-size: 20px;\">\n" +
+                "                    <b>Sex: "+strSex+"</b>\n" +
+                "                </div>\n" +
+                "                <div class=\"col-xs-3\" style=\"font-size: 20px; margin-bottom: 25px;\">\n" +
+                "                    <b>Date: <?=date('d/m/Y')?></b>\n" +
+                "                </div>\n" +
+                "\n" +
+                "\n" +
+                "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 25px;\">\n" +
+                "                    <b>Pet Parant Name:"+pet_parent+"</b>\n" +
+                "                </div>\n" +
+                "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 10px;\">\n" +
+                "                    <b>Temparature(F): "+strTemparature+"</b>\n" +
+                "                </div>\n" +
+                "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 25px;\">\n" +
+                "                    <b>Symptons:</b>\n" +
+                "                </div>\n" +
+                "                <div class=\"col-xs-12\" style=\"margin-bottom: 10px;\">\n" +
+                "                    <p>"+Symptons+"</p>\n" +
+                "                </div>\n" +
+                "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 25px;\">\n" +
+                "                    <b>Diagnosis:</b>\n" +
+                "                </div>\n" +
+                "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 10px;\">\n" +
+                "                    <p>"+strDiagnosis+"</p>\n" +
+                "                </div>\n" +
+                "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 25px;\">\n" +
+                "                    <b>Treatment Remarks:</b>\n" +
+                "                </div>\n" +
+                "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 10px;\">\n" +
+                "                    <p>"+strRemark+"</p>\n" +
+                "                </div>\n" +
+                "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 25px;\">\n" +
+                "                    <b>Next Visit:</b>\n" +
+                "                </div>\n" +
+                "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 10px;\">\n" +
+                "                    <p>"+strNxtVisit+"</p>\n" +
+                "                </div>\n" +
+                "\n" +
+                "            </div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>\n" +
+                "            <div class=\"col-md-12\" style=\"border: 1px solid black;\"></div>\n" +
+                "            <div class=\"col-md-12\" style=\"font-size: 25px; text-align: center;\">Address: "+address+", Registration Number: "+registration_number+"</div>\n" +
+                "            \n" +
+                "        </div>\n" +
+                "\n" +
+                "\n" +
+                "    </div>\n" +
+                "\n" +
+                "</div>\n" +
+                "<script type=\"text/javascript\">\n" +
+                "    $(function(){\n" +
+                "        window.print();\n" +
+                "        window.close();\n" +
+                "    });\n" +
+                "</script>\n" +
+                "</body>\n" +
+                "</html>";
+        webview.loadDataWithBaseURL(null,str,"text/html","utf-8",null);
+        Context context=getActivity();
+        PrintManager printManager=(PrintManager)getActivity().getSystemService(context.PRINT_SERVICE);
+        PrintDocumentAdapter adapter=null;
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
+            adapter=webview.createPrintDocumentAdapter();
+        }
+        String JobName=getString(R.string.app_name) +"Document";
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
+            PrintJob printJob=printManager.print(JobName,adapter,new PrintAttributes.Builder().build());
+        }
+    }
+    @Override
+    public void onProductEditClick(int position) {
+        editPrescriptionDialog(petClinicVisitLists.get(position).getId());
+    }
+
 
     @Override
     public void onViewXrayClick(int position) {
@@ -350,5 +823,239 @@ public class NewEntrysListFragment extends Fragment implements ApiResponse, Regi
     @Override
     public void onViewHospitalizationClick(int position) {
         Toast.makeText(getContext(), ""+petHospitalizationsLists.get(position).getId(), Toast.LENGTH_SHORT).show();
+    }
+
+    private void getPetlistData(GetPetListRequest getPetListRequest) {
+        ApiService<GetPetResponse> service = new ApiService<>();
+        service.get( this, ApiClient.getApiInterface().getPetDetails(Config.token,getPetListRequest), "GetPetDetail");
+        Log.e("DATALOG","check1=> "+getPetListRequest);
+    }
+
+    private void showEditStaffDialog(final String veterian, final String strEmail, final String strForA, final String strAge, final String strSex, final String strDate, final String strParntNm, final String strTemparature, final String strDiagnosis, final String strRemark, final String strNxtVisit) {
+
+        prescription_dialog = new Dialog(getContext());
+        prescription_dialog.setContentView(R.layout.precription_layout);
+
+        parent_name=prescription_dialog.findViewById(R.id.parent_name);
+        specilist=prescription_dialog.findViewById(R.id.specilist);
+        email=prescription_dialog.findViewById(R.id.email);
+        for_a=prescription_dialog.findViewById(R.id.for_a);
+        age=prescription_dialog.findViewById(R.id.age);
+        sex=prescription_dialog.findViewById(R.id.sex);
+        date=prescription_dialog.findViewById(R.id.date);
+        prnt_nm=prescription_dialog.findViewById(R.id.prnt_nm);
+        temparature=prescription_dialog.findViewById(R.id.temparature);
+        symptoms=prescription_dialog.findViewById(R.id.symptoms);
+        diagnosis=prescription_dialog.findViewById(R.id.diagnosis);
+        remarks=prescription_dialog.findViewById(R.id.remarks);
+        nxt_visit=prescription_dialog.findViewById(R.id.nxt_visit);
+
+        crrete_pdf=prescription_dialog.findViewById(R.id.crrete_pdf);
+        cancel=prescription_dialog.findViewById(R.id.cancel);
+
+
+        cancel.setOnClickListener(this);
+
+        parent_name.setText(veterian);
+        //specilist.setText(strSpecialist);
+        email.setText(strEmail);
+        for_a.setText(strForA);
+        age.setText(strAge);
+        sex.setText(strSex);
+        date.setText(strDate);
+        prnt_nm.setText(strParntNm);
+        temparature.setText(strTemparature);
+        //symptoms.setText(strSymptoms);
+        diagnosis.setText(strDiagnosis);
+        remarks.setText(strRemark);
+        nxt_visit.setText(strNxtVisit);
+
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = prescription_dialog.getWindow();
+        lp.copyFrom(window.getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+        window.setAttributes(lp);
+        prescription_dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        prescription_dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        prescription_dialog.show();
+
+    }
+    public void editPrescriptionDialog(String petId)
+    {
+        editPetDilog = new Dialog(getContext());
+        editPetDilog.setContentView(R.layout.edit_pet_layout);
+        petIdGetForUpdate=petId;
+
+        add_pet_type_edit_dialog=editPetDilog.findViewById(R.id.add_edit_pet_type);
+        add_pet_age_edit_dialog=editPetDilog.findViewById(R.id.add_edit_pet_age_dialog);
+        add_pet_sex_edit_dialog=editPetDilog.findViewById(R.id.add_edit_pet_sex_dialog);
+        add_pet_breed_edit_dialog=editPetDilog.findViewById(R.id.add_edit_pet_breed_dialog);
+        add_pet_color_edit_dialog=editPetDilog.findViewById(R.id.add_edit_pet_color_dialog);
+        add_pet_size_edit_dialog=editPetDilog.findViewById(R.id.add_edit_pet_size_dialog);
+        pet_name_edit_dialog=editPetDilog.findViewById(R.id.pet_edit_name_ET);
+        pet_parent_name_edit_dialog=editPetDilog.findViewById(R.id.pet_edit_parent_name_ET);
+        pet_contact_number_edit_dialog=editPetDilog.findViewById(R.id.pet_edit_contact_number);
+        peto_reg_number_edit_dialog=editPetDilog.findViewById(R.id.peto_edit_reg_number_dialog);
+        calenderTextView_edit_dialog=editPetDilog.findViewById(R.id.calenderTextView_edit_dialog);
+        save_changes_edit_dialog=editPetDilog.findViewById(R.id.save_edit_changes_dialog);
+        cancel_edit_dialog=editPetDilog.findViewById(R.id.cancel_edit_dialog);
+
+        calenderTextView_edit_dialog.setOnClickListener(this);
+        save_changes_edit_dialog.setOnClickListener(this);
+        cancel_edit_dialog.setOnClickListener(this);
+        StringTokenizer tokens = new StringTokenizer(petId, ".");
+        String first = tokens.nextToken();
+        GetPetListParams getPetListParams = new GetPetListParams();
+        getPetListParams.setId(first);
+        GetPetListRequest getPetListRequest = new GetPetListRequest();
+        getPetListRequest.setData(getPetListParams);
+        if(methods.isInternetOn())
+        {
+            getPetlistData(getPetListRequest);
+        }
+        else
+        {
+            methods.DialogInternet();
+        }
+
+        setSpinnerEditPetSex();
+        setPetTypeEditSpinner();
+        setPetBreeEditSpinner();
+        setPetAgeEditSpinner();
+        setPetColorEditSpinner();
+        setPetSizeEditSpinner();
+
+
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = editPetDilog.getWindow();
+        lp.copyFrom(window.getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+        window.setAttributes(lp);
+        editPetDilog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        editPetDilog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        editPetDilog.show();
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.cancel:
+                prescription_dialog.dismiss();
+                break;
+            case R.id.cancel_edit_dialog:
+                editPetDilog.dismiss();
+        }
+
+    }
+
+    private void setPetTypeEditSpinner() {
+        ArrayAdapter aa = new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,petType);
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Setting the ArrayAdapter data on the Spinner
+        add_pet_type_edit_dialog.setAdapter(aa);
+        add_pet_type_edit_dialog.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+                // Showing selected spinner item
+                Log.d("spnerType",""+item);
+                strSpnerItemPetType=item;
+                getStrSpnerItemPetNmId=petTypeHashMap.get(item);
+            }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
+    private void setPetBreeEditSpinner() {
+        ArrayAdapter aa = new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,petBreed);
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Setting the ArrayAdapter data on the Spinner
+        add_pet_breed_edit_dialog.setAdapter(aa);
+        add_pet_breed_edit_dialog.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+                // Showing selected spinner item
+                Log.d("spnerType",""+item);
+                strSpnrBreed=item;
+                strSpnrBreedId=petBreedHashMap.get(item);
+            }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
+    private void setPetAgeEditSpinner() {
+        ArrayAdapter aa = new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,petAge);
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Setting the ArrayAdapter data on the Spinner
+        add_pet_age_edit_dialog.setAdapter(aa);
+        add_pet_age_edit_dialog.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+                // Showing selected spinner item
+                Log.d("spnerType",""+item);
+                strSpnrAge=item;
+                strSpnrAgeId=petAgeHashMap.get(item);
+            }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
+    private void setPetColorEditSpinner() {
+        ArrayAdapter aa = new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,petColor);
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Setting the ArrayAdapter data on the Spinner
+        add_pet_color_edit_dialog.setAdapter(aa);
+        add_pet_color_edit_dialog.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+                // Showing selected spinner item
+                Log.d("spnerType",""+item);
+                strSpnrColorId=petColorHashMap.get(item);
+            }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
+    private void setPetSizeEditSpinner() {
+        ArrayAdapter aa = new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,petSize);
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Setting the ArrayAdapter data on the Spinner
+        add_pet_size_edit_dialog.setAdapter(aa);
+        add_pet_size_edit_dialog.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+                // Showing selected spinner item
+                Log.d("spnerType",""+item);
+                strSpneSizeId=petSizeHashMap.get(item);
+            }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
+    private void setSpinnerEditPetSex() {
+        ArrayAdapter aa = new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,petSex);
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Setting the ArrayAdapter data on the Spinner
+        add_pet_sex_edit_dialog.setAdapter(aa);
+        add_pet_sex_edit_dialog.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+                // Showing selected spinner item
+                Log.d("spnerType",""+item);
+                strSpnrSex=item;
+                strSpnrSexId=petSexHashMap.get(item);
+            }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
     }
 }

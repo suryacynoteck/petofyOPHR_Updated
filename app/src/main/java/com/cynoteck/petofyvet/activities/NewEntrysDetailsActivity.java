@@ -71,6 +71,9 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
 
         addPrescriptionButton.setOnClickListener(this);
 
+        if(button_text.equals("RecentVisit"))
+            addPrescriptionButton.setVisibility(View.GONE);
+
         add_text_button.setText(button_text);
         pet_sex_TV.setText("("+pet_sex+")");
         pet_owner_name_TV.setText(pet_owner_name);
@@ -210,6 +213,20 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
                 fragment9FT.commit();
 
                 break;
+
+            case "11.0":
+
+                reports_headline_TV.setText("Recent Visit");
+                data.putString("reports_id","11");
+                data.putString("type","RecentVisit");
+                NewEntrysListFragment fragment11 = new NewEntrysListFragment();
+                fragment11.setArguments(data);
+                FragmentTransaction fragment11FT = getSupportFragmentManager().beginTransaction();
+                fragment11FT.replace(R.id.report_type_frame, fragment11);
+                fragment11FT.commit();
+
+                break;
+
 
 
         }

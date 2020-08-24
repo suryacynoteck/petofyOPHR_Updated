@@ -1,5 +1,6 @@
 package com.cynoteck.petofyvet.api;
 
+import com.cynoteck.petofyvet.params.addLabRequest.AddLabRequest;
 import com.cynoteck.petofyvet.params.addParamRequest.AddPetRequset;
 import com.cynoteck.petofyvet.params.addPetClinicParamRequest.AddPetClinicRequest;
 import com.cynoteck.petofyvet.params.allStaffRequest.AddStaffRequest;
@@ -21,6 +22,7 @@ import com.cynoteck.petofyvet.params.registerRequest.Registerparams;
 import com.cynoteck.petofyvet.params.updateRequest.getValue.UpdateParams;
 import com.cynoteck.petofyvet.params.updateRequest.updateParamRequest.UpdatePetRequest;
 import com.cynoteck.petofyvet.response.InPetVeterian.InPetVeterianResponse;
+import com.cynoteck.petofyvet.response.addLabWorkResponse.AddLabWorkResponse;
 import com.cynoteck.petofyvet.response.addPet.addPetResponse.AddPetValueResponse;
 import com.cynoteck.petofyvet.response.addPet.breedResponse.BreedCatRespose;
 import com.cynoteck.petofyvet.response.addPet.imageUpload.ImageResponse;
@@ -53,6 +55,7 @@ import com.cynoteck.petofyvet.response.loginRegisterResponse.LoginRegisterRespon
 import com.cynoteck.petofyvet.response.newPetResponse.NewPetRegisterResponse;
 import com.cynoteck.petofyvet.response.otpResponse.OtpResponse;
 import com.cynoteck.petofyvet.response.recentEntrys.RecentEntrysResponse;
+import com.cynoteck.petofyvet.response.recentVisitResponse.RecentVisitResponsee;
 import com.cynoteck.petofyvet.response.testResponse.XrayTestResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.CityResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.CountryResponse;
@@ -297,6 +300,18 @@ public interface ApiInterface {
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @GET("pethealthrecord/GetTestTypeList")
     Call<XrayTestResponse> getTestTypeList(@Header("Authorization") String auth);
+
+    //Get Last Prescrition...................................................................
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("pethealthrecord/GetLastPrescription")
+    Call<GetClinicVisitsDetailsResponse> getLastPrescription(@Header("Authorization") String auth, @Body PetClinicVisitDetailsRequest petClinicVisitDetailsRequest);
+
+    //ADD PET LAB WORK.......................................................................
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("pethealthrecord/AddPetLabWork")
+    Call<AddLabWorkResponse> addPetLabWork(@Header("Authorization") String auth, @Body AddLabRequest addLabRequest);
 
 }
 

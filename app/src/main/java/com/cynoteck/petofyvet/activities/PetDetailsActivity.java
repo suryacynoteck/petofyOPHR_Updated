@@ -1,17 +1,30 @@
 
 package com.cynoteck.petofyvet.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.print.PrintAttributes;
+import android.print.PrintDocumentAdapter;
+import android.print.PrintJob;
+import android.print.PrintManager;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cynoteck.petofyvet.R;
+import com.cynoteck.petofyvet.api.ApiClient;
 import com.cynoteck.petofyvet.api.ApiResponse;
+import com.cynoteck.petofyvet.api.ApiService;
+import com.cynoteck.petofyvet.params.petReportsRequest.PetClinicVisitDetailsRequest;
+import com.cynoteck.petofyvet.params.petReportsRequest.PetClinicVistsDetailsParams;
+import com.cynoteck.petofyvet.response.getPetReportsResponse.getClinicVisitDetails.GetClinicVisitsDetailsResponse;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
 
@@ -25,6 +38,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
     TextView pet_nameTV, pet_parentNameTV;
     ImageView back_arrow_IV,view_clinicVisits_arrow,view_xrayReport_arrow,view_labTestReport_arrow,view_Hospitalization_arrow,last_prescription_arrow,recent_visits_arrow,print_id_card_arrow,view_history_arrow;
     Methods methods;
+    WebView webview;
 
     ArrayList<String>nextVisitList=new ArrayList<>();
 
@@ -53,6 +67,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
         view_xrayReport_arrow=findViewById(R.id.view_xrayReport_arrow);
         view_labTestReport_arrow=findViewById(R.id.view_labTestReport_arrow);
         last_prescription_arrow=findViewById(R.id.last_prescription_arrow);
+        webview=findViewById(R.id.webview);
 
         view_clinicVisits_arrow.setOnClickListener(this);
         view_labTestReport_arrow.setOnClickListener(this);
@@ -120,8 +135,9 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 dataLabworkVisits.putString("pet_name",pet_name);
                 dataLabworkVisits.putString("pet_parent",patent_name);
                 dataLabworkVisits.putString("pet_unique_id",pet_unique_id);
-                dataLabworkVisits.putString("reports_id","10.0");
+                dataLabworkVisits.putString("reports_id","11.0");
                 dataLabworkVisits.putString("pet_sex",pet_sex);
+                dataLabworkVisits.putString("add_button_text","RecentVisit");
                 petDetailsLabVisits.putExtras(dataLabworkVisits);
                 startActivity(petDetailsLabVisits);
                 break;
@@ -140,6 +156,17 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 petDetailsClinicVisits.putExtras(dataClinicVisits);
                 startActivity(petDetailsClinicVisits);
                 break;
+            case R.id.last_prescription_arrow:
+                if(methods.isInternetOn())
+                {
+                    getclinicVisitsReportDetails();
+
+                }
+                else
+                {
+                    methods.DialogInternet();
+                }
+                break;
             case R.id.back_arrow_IV:
                 onBackPressed();
                 Config.backCall = "hitUnique";
@@ -148,10 +175,199 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
 
     }
 
+    private void getclinicVisitsReportDetails() {
+        PetClinicVistsDetailsParams petClinicVistsDetailsParams = new PetClinicVistsDetailsParams();
+        petClinicVistsDetailsParams.setId(pet_id);
+        PetClinicVisitDetailsRequest petClinicVisitDetailsRequest = new PetClinicVisitDetailsRequest();
+        petClinicVisitDetailsRequest.setData(petClinicVistsDetailsParams);
+        Log.d("petClinicVisitDetail",petClinicVisitDetailsRequest.toString());
+        ApiService<GetClinicVisitsDetailsResponse> service = new ApiService<>();
+        service.get(this, ApiClient.getApiInterface().getLastPrescription(Config.token,petClinicVisitDetailsRequest), "GetPetClinicVisitDetails");
+
+    }
+
     @Override
     public void onResponse(Response arg0, String key) {
         Log.d("kkakakak",""+key+" response: "+arg0);
+        switch (key) {
+            case "GetPetClinicVisitDetails":
+                try {
+                    Log.d("ResponseClinicVisit", arg0.body().toString());
+                    GetClinicVisitsDetailsResponse getClinicVisitsDetailsResponse = (GetClinicVisitsDetailsResponse) arg0.body();
+                    int responseCode = Integer.parseInt(getClinicVisitsDetailsResponse.getResponse().getResponseCode());
+                    if (responseCode == 109) {
+                        lastPrescriptionPdf(getClinicVisitsDetailsResponse.getData().getVeterinarianDetails().getName(),
+                                            getClinicVisitsDetailsResponse.getData().getVeterinarianDetails().getEmail(),
+                                            getClinicVisitsDetailsResponse.getData().getVeterinarianDetails().getVetQualifications(),
+                                            getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getPetName(),
+                                            getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getPetAge(),
+                                            getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getPetSex(),
+                                            getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getVisitDate(),
+                                            getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getPetParentName(),
+                                getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getTemperature(),
+                                getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getDiagnosisProcedure(),
+                                getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getTreatmentRemarks(),
+                                getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getFollowUpDate()
+                                );
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+        }
 
+    }
+
+    public void lastPrescriptionPdf(String veterian, String strEmail,String qualification,String strForA, String strAge,String strSex, String strDate,String strParntNm, String strTemparature, String strDiagnosis,String strRemark, String strNxtVisit)
+    {
+        String care="Aviral Care";
+        String pet_parent="Pramod Rana";
+        String Symptons="Problems";
+        String address="Dehradun";
+        String registration_number="VET-00987";
+        String str="<!DOCTYPE html>\n"+
+                "<html>\n" +
+                "<head>\n" +
+                "<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css\">\n" +
+                "<script src=\"//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js\"></script>\n" +
+                "<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js\"></script>\n" +
+                "    \n" +
+                "<link rel=\"stylesheet\" type=\"text/css\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css\">\n" +
+                "\n" +
+                "    <title>Invioce</title>\n" +
+                "</head>\n" +
+                "<style type=\"text/css\">\n" +
+                "    .invoice-title h2, .invoice-title h3 {\n" +
+                "        display: inline-block;\n" +
+                "    }\n" +
+                "\n" +
+                "    .table > tbody > tr > .no-line {\n" +
+                "        border-top: none;\n" +
+                "    }\n" +
+                "\n" +
+                "    .table > thead > tr > .no-line {\n" +
+                "        border-bottom: none;\n" +
+                "    }\n" +
+                "\n" +
+                "    .table > tbody > tr > .thick-line {\n" +
+                "        border-top: 2px solid;\n" +
+                "    }\n" +
+                "    @page {\n" +
+                "      size: A4;\n" +
+                "      margin: 15px;\n" +
+                "    }\n" +
+                "</style>\n" +
+                "\n" +
+                "<body>\n" +
+                "    <div class=\"container\">\n" +
+                "        <p><?=date('d/m/Y')?></p> \n" +
+                "    <div class=\"row\">\n" +
+                "        <div class=\"col-xs-12\">\n" +
+                "            <div class=\"invoice-title \">\n" +
+                "                <div class=\"row\">\n" +
+                "                    <div class=\"col-lg-12 col-md-12 col-xs-12\" style=\"font-size: 25px;font-family: cizel;\">\n" +
+                "                       <b>"+veterian+"</b> \n" +
+                "                    </div>\n" +
+                "                    <div class=\"col-lg-12 col-md-12 col-xs-12\" style=\"font-size: 20px; margin-bottom: 20px;\">\n" +
+                "                        "+qualification+"\n" +
+                "                    </div>\n" +
+                "                    <div class=\"col-lg-6 col-md-6 col-xs-6\" style=\"font-size: 20px; \" >\n" +care+
+                "                       \n" +
+                "                    </div>\n" +
+                "                    <div class=\"col-lg-6 col-md-6 col-xs-6 text-right\" style=\"font-size: 20px;\">\n" +
+                "                       <b> Mobile :"+strParntNm+" </b>\n" +
+                "                    </div>\n" +
+                "                    \n" +
+                "                    <div class=\"col-lg-6 col-md-6 col-xs-6\" style=\"font-size: 17px;\">\n" +
+                "                       <b> Email: "+strEmail+" </b>\n" +
+                "                    </div>\n" +
+                "                    <div class=\"col-lg-6 col-md-6 col-xs-6 text-right\" style=\"font-size: 20px;\">\n" +
+                "                       <b> "+strParntNm+"</b>\n" +
+                "                    </div>\n" +
+                "                 \n" +
+                "                    \n" +
+                "                </div>\n" +
+                "               \n" +
+                "                \n" +
+                "            </div>\n" +
+                "            <div class=\"row\">\n" +
+                "                <div class=\"col-md-12\" style=\"border: 1px solid black;\"></div>\n" +
+                "            </div>\n" +
+                "            <div class=\"row\">\n" +
+                "                <div class=\"col-xs-3\" style=\"font-size: 20px;\">\n" +
+                "                    <b>For a: "+strForA+"</b>\n" +
+                "                </div>\n" +
+                "                <div class=\"col-xs-3\" style=\"font-size: 20px;\">\n" +
+                "                    <b>Age: "+strAge+"</b>\n" +
+                "                </div>\n" +
+                "                <div class=\"col-xs-3\" style=\"font-size: 20px;\">\n" +
+                "                    <b>Sex: "+strSex+"</b>\n" +
+                "                </div>\n" +
+                "                <div class=\"col-xs-3\" style=\"font-size: 20px; margin-bottom: 25px;\">\n" +
+                "                    <b>Date:"+strDate+" <?=date('d/m/Y')?></b>\n" +
+                "                </div>\n" +
+                "\n" +
+                "\n" +
+                "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 25px;\">\n" +
+                "                    <b>Pet Parant Name:"+pet_parent+"</b>\n" +
+                "                </div>\n" +
+                "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 10px;\">\n" +
+                "                    <b>Temparature(F): "+strTemparature+"</b>\n" +
+                "                </div>\n" +
+                "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 25px;\">\n" +
+                "                    <b>Symptons:</b>\n" +
+                "                </div>\n" +
+                "                <div class=\"col-xs-12\" style=\"margin-bottom: 10px;\">\n" +
+                "                    <p>"+Symptons+"</p>\n" +
+                "                </div>\n" +
+                "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 25px;\">\n" +
+                "                    <b>Diagnosis:</b>\n" +
+                "                </div>\n" +
+                "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 10px;\">\n" +
+                "                    <p>"+strDiagnosis+"</p>\n" +
+                "                </div>\n" +
+                "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 25px;\">\n" +
+                "                    <b>Treatment Remarks:</b>\n" +
+                "                </div>\n" +
+                "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 10px;\">\n" +
+                "                    <p>"+strRemark+"</p>\n" +
+                "                </div>\n" +
+                "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 25px;\">\n" +
+                "                    <b>Next Visit:</b>\n" +
+                "                </div>\n" +
+                "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 10px;\">\n" +
+                "                    <p>"+strNxtVisit+"</p>\n" +
+                "                </div>\n" +
+                "\n" +
+                "            </div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>\n" +
+                "            <div class=\"col-md-12\" style=\"border: 1px solid black;\"></div>\n" +
+                "            <div class=\"col-md-12\" style=\"font-size: 25px; text-align: center;\">Address: "+address+", Registration Number: "+registration_number+"</div>\n" +
+                "            \n" +
+                "        </div>\n" +
+                "\n" +
+                "\n" +
+                "    </div>\n" +
+                "\n" +
+                "</div>\n" +
+                "<script type=\"text/javascript\">\n" +
+                "    $(function(){\n" +
+                "        window.print();\n" +
+                "        window.close();\n" +
+                "    });\n" +
+                "</script>\n" +
+                "</body>\n" +
+                "</html>";
+        webview.loadDataWithBaseURL(null,str,"text/html","utf-8",null);
+        Context context=this;
+        PrintManager printManager=(PrintManager)getSystemService(context.PRINT_SERVICE);
+        PrintDocumentAdapter adapter=null;
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
+            adapter=webview.createPrintDocumentAdapter();
+        }
+        String JobName=getString(R.string.app_name) +"Document";
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
+            PrintJob printJob=printManager.print(JobName,adapter,new PrintAttributes.Builder().build());
+        }
     }
 
     @Override
