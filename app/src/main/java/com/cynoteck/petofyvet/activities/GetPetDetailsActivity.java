@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,8 +48,6 @@ import com.cynoteck.petofyvet.response.getPetDetailsResponse.GetPetResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.PetTypeResponse;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -69,6 +68,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -80,13 +80,12 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
     TextView peto_details_reg_number;
     AppCompatSpinner add_details_pet_type,add_details_pet_age,add_details_pet_sex,add_details_pet_breed,add_detils_pet_color,
             add_details_pet_size;
-    TextInputLayout pet_details_name_layout,pet_Details_parent_name_layout,pet_details_contact_number_layout,
-             pet_details_description_layout,pet_deatils_address_layout;
-    TextInputEditText pet_details_name,pet_details_parent_name,pet_deatils_contact_number,pet_deatils_description,
+    EditText pet_details_name,pet_details_parent_name,pet_deatils_contact_number,pet_deatils_description,
             pet_details_address;
     TextView calenderTextViewDetails;
-    ImageView pet_Details_profile_image,service_details_cat_img_one,service_details_cat_img_two,service_details_cat_img_three,
-            service_details_cat_img_four,service_detils_cat_img_five,id_card;
+    CircleImageView pet_Details_profile_image;
+    ImageView service_details_cat_img_one,service_details_cat_img_two,service_details_cat_img_three,
+            service_details_cat_img_four,service_detils_cat_img_five,id_card,back_arrow_IV;
     Button pet_update;
     DatePickerDialog picker;
 
@@ -155,13 +154,13 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
         if(methods.isInternetOn())
         {
             getPetlistData(getPetListRequest);
-            /*petTypee();
+            petTypee();
             genaretePetUniqueKey();
             getPetBreed();
             getPetAge();
             getPetColor();
             getPetSize();
-            setSpinnerPetSex();*/
+            setSpinnerPetSex();
         }
         else
         {
@@ -178,12 +177,7 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
         add_details_pet_breed=findViewById(R.id.add_details_pet_breed);
         add_detils_pet_color=findViewById(R.id.add_detils_pet_color);
         add_details_pet_size=findViewById(R.id.add_details_pet_size);
-        pet_Details_parent_name_layout=findViewById(R.id.pet_Details_parent_name_layout);
-        pet_details_name_layout=findViewById(R.id.pet_details_name_layout);
-        pet_details_contact_number_layout=findViewById(R.id.pet_details_contact_number_layout);
-        pet_details_description_layout=findViewById(R.id.pet_details_description_layout);
         pet_details_name=findViewById(R.id.pet_details_name);
-        pet_deatils_address_layout=findViewById(R.id.pet_deatils_address_layout);
         pet_details_parent_name=findViewById(R.id.pet_details_parent_name);
         pet_deatils_contact_number=findViewById(R.id.pet_deatils_contact_number);
         pet_deatils_description=findViewById(R.id.pet_deatils_description);
@@ -195,9 +189,11 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
         service_details_cat_img_three=findViewById(R.id.service_details_cat_img_three);
         service_details_cat_img_four=findViewById(R.id.service_details_cat_img_four);
         service_detils_cat_img_five=findViewById(R.id.service_detils_cat_img_five);
-        pet_update=findViewById(R.id.pet_update);
-        id_card=findViewById(R.id.id_card);
+        back_arrow_IV=findViewById(R.id.back_arrow_IV);
+        pet_update=findViewById(R.id.pet_submit);
+        //id_card=findViewById(R.id.id_card);
 
+        back_arrow_IV.setOnClickListener(this);
         pet_update.setOnClickListener(this);
         calenderTextViewDetails.setOnClickListener(this);
         pet_Details_profile_image.setOnClickListener(this);
@@ -208,7 +204,7 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
         service_details_cat_img_four.setOnClickListener(this);
         service_detils_cat_img_five.setOnClickListener(this);
         peto_details_reg_number.setOnClickListener(this);
-        id_card.setOnClickListener(this);
+       // id_card.setOnClickListener(this);
 
     }
 
@@ -285,7 +281,7 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.pet_update:
+            case R.id.pet_submit:
                 strPetName= pet_details_name.getText().toString().trim();
                 strPetParentName = pet_details_parent_name.getText().toString().trim();
                 strPetContactNumber = pet_deatils_contact_number.getText().toString().trim();
@@ -448,8 +444,13 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
                 slctImgFive="1";
                 showPictureDialog();
                 break;
-            case R.id.id_card:
+
+            case R.id.back_arrow_IV:
+                onBackPressed();
                 break;
+//            case R.id.id_card:
+//                break;
+
         }
 
     }
@@ -465,11 +466,14 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
                     int responseCode = Integer.parseInt(getPetResponse.getResponse().getResponseCode());
                     if (responseCode == 109) {
                         Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                        pet_details_name.setText(getPetResponse.getData().getPetName());
                         pet_details_parent_name.setText(getPetResponse.getData().getPetParentName());
                         pet_deatils_contact_number.setText(getPetResponse.getData().getContactNumber());
                         pet_details_address.setText(getPetResponse.getData().getAddress());
                         calenderTextViewDetails.setText(getPetResponse.getData().getDateOfBirth());
                         peto_details_reg_number.setText(getPetResponse.getData().getPetUniqueId());
+                        pet_deatils_description.setText(getPetResponse.getData().getDescription());
+                        pet_details_address.setText(getPetResponse.getData().getAddress());
 
                     } else if (responseCode == 614) {
                         Toast.makeText(this, getPetResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();

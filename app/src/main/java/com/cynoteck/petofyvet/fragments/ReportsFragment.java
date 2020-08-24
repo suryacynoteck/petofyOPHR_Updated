@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
@@ -152,6 +153,7 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
         categoryRecordArrayList.get(position).getPetUniqueId();
         Intent selectReportsIntent = new Intent(getActivity().getApplication(), SelectPetReportsActivity.class);
         Bundle data = new Bundle();
+        Toast.makeText(getContext(), ""+categoryRecordArrayList.get(position).getId(), Toast.LENGTH_SHORT).show();
         data.putString("pet_id",categoryRecordArrayList.get(position).getId());
         data.putString("pet_name",categoryRecordArrayList.get(position).getPetName());
         data.putString("pet_unique_id",categoryRecordArrayList.get(position).getPetUniqueId());
