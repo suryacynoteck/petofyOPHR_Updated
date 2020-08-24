@@ -211,7 +211,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
             public void onItemClick (AdapterView<?> parent, View view, int position, long id) {
                 //... your stuff
                 Log.d("akkakaka",""+petUniueId.get(position));
-                String value=petExistingSearch.get(petUniueId.get(position));
+                String value=petExistingSearch.get(search_box_add_new.getText().toString());
                 Log.d("kakakka",""+value);
                 StringTokenizer st = new StringTokenizer(value, ",");
                 String PetUniqueId = st.nextToken();
@@ -229,6 +229,8 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                 data.putString("pet_unique_id",PetUniqueId);
                 petDetailsIntent.putExtras(data);
                 startActivity(petDetailsIntent);
+                clearSearch();
+
             }
         });
     }
@@ -1028,8 +1030,27 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                         }
                         else
                         {
+                            clearSearch();
                             Log.d("Add Anotheer Veterian","vet");
                             AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                            String value=petExistingSearch.get(search_box_add_new.getText().toString());
+                            Log.d("kakakka",""+value);
+                            StringTokenizer st = new StringTokenizer(value, ",");
+                            String PetUniqueId = st.nextToken();
+                            String PetName = st.nextToken();
+                            String PetParentName = st.nextToken();
+                            String PetSex = st.nextToken();
+                            String Id = st.nextToken();
+                            Log.d("ppppp",""+PetUniqueId+" "+PetName+" "+PetParentName+" "+PetSex+" "+Id);
+                            Intent petDetailsIntent = new Intent(getActivity().getApplication(), PetDetailsActivity.class);
+                            Bundle data = new Bundle();
+                            data.putString("pet_id",Id.substring(0,Id.length()-2));
+                            data.putString("pet_name",PetName+"("+PetSex+")");
+                            data.putString("pet_parent",PetParentName);
+                            data.putString("pet_sex",PetSex);
+                            data.putString("pet_unique_id",PetUniqueId);
+                            petDetailsIntent.putExtras(data);
+                            startActivity(petDetailsIntent);
                             alertDialog.setTitle("Are you sure?");
                             alertDialog.setMessage("This pet is not registered with you. Do you want to add ?");
                             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
@@ -1058,10 +1079,11 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                         }
                     }
                     else{
+                        search_box_add_new.requestFocus();
                         search_boxRL.setVisibility(View.VISIBLE);
                         staff_headline_TV.setVisibility(View.GONE);
                         InputMethodManager imm1 = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                        imm1.hideSoftInputFromWindow(search_box_add_new.getWindowToken(), 0);
+                        imm1.showSoftInput(search_box_add_new, InputMethodManager.SHOW_IMPLICIT);
                         back_arrow_IV_new_entry.setVisibility(View.VISIBLE);
                     }
 

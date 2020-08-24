@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">PetofyVET</string>
-    <string name="email">example@gmail.com</string>
+    <string name="email">example@xyz.com</string>
     <string name="password">* * * * * * *</string>
     <string name="Register_password">Password</string>
     <string name="login">Login</string>
@@ -33,22 +33,22 @@
     <string name="updateProfile">Update Profile</string>
     <string name="submit">Submit</string>
     <string name="changePass">Change Password</string>
-    <string name="petId">PET ID</string>
+    <string name="petId">Pet Id</string>
     <string name="dateofbirth">Date Of Birth</string>
     <string name="petGender">Pet Gender</string>
     <string name="petParent">Pet Parent</string>
-    <string name="petname">PET NAME</string>
+    <string name="petname">Pet Name</string>
     <string name="nature_of_visits">Nature Of Visit*</string>
     <string name="color">Color</string>
     <string name="petcolor"><![CDATA[Brown & White]]></string>
-    <string name="viewReports">VIEW REPORTS</string>
-    <string name="viewDetails">VIEW DETAILS</string>
+    <string name="viewReports">View Reports</string>
+    <string name="viewDetails">View Details</string>
     <string name="reports">REPORTS</string>
-    <string name="register_pets">REGISTER PETS</string>
+    <string name="register_pets">Register Pets</string>
     <string name="add_pet">ADD PET</string>
     <string name="pet_details">PET DETAILS</string>
-    <string name="selectReports">SELECT REPORTS</string>
-    <string name="petownwer">Owner</string>
+    <string name="selectReports">Select Reports</string>
+    <string name="petownwer">Pet Parent</string>
     <string name="double_Dot">:</string>
     <string name="xrayReport">Test/X-Ray Report</string>
     <string name="labTestReport">Lab Test Report</string>

@@ -1,32 +1,21 @@
 package com.cynoteck.petofyvet.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatSpinner;
-import androidx.fragment.app.FragmentTransaction;
-
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatSpinner;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.fragments.NewEntrysListFragment;
-import com.cynoteck.petofyvet.fragments.ReportListFragment;
-import com.cynoteck.petofyvet.params.addParamRequest.AddPetParams;
-import com.cynoteck.petofyvet.params.addParamRequest.AddPetRequset;
-
-import java.util.Calendar;
 
 public class NewEntrysDetailsActivity extends AppCompatActivity implements View.OnClickListener {
     ImageView back_arrow_IV;
@@ -75,6 +64,8 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
         pet_sex_TV.setText("("+pet_sex+")");
         pet_owner_name_TV.setText(pet_owner_name);
         pet_id_TV.setText(pet_unique_id);
+        pet_owner_name_TV.setText(pet_owner_name);
+        pet_name_TV.setText(pet_name);
 
         data.putString("pet_id",pet_id);
         data.putString("pet_name",pet_name);

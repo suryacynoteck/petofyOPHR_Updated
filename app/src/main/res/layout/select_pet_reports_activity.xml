@@ -98,7 +98,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black_color"
-                    android:text="@string/petownwer"/>
+                    android:text="@string/petParent"/>
 
             </LinearLayout>
 
@@ -201,6 +201,7 @@
                         android:text="Ashish Rawat"/>
 
                     <TextView
+                        android:visibility="gone"
                         android:layout_marginLeft="8dp"
                         android:layout_toRightOf="@id/pet_owner_name_TV"
                         android:id="@+id/pet_owner_phone_no_TV"

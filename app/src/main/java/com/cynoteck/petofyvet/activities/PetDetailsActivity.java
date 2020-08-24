@@ -22,7 +22,7 @@ import retrofit2.Response;
 
 public class PetDetailsActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse {
     String pet_id,pet_name,patent_name,pet_bread,pet_unique_id="",pet_sex="";
-    TextView pet_nameTV, pet_parentNameTV;
+    TextView pet_nameTV, pet_parentNameTV,pet_id_TV;
     ImageView back_arrow_IV,view_clinicVisits_arrow,view_xrayReport_arrow,view_labTestReport_arrow,view_Hospitalization_arrow,last_prescription_arrow,recent_visits_arrow,print_id_card_arrow,view_history_arrow;
     Methods methods;
 
@@ -42,8 +42,8 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
         pet_unique_id=extras.getString("pet_unique_id");
         pet_sex=extras.getString("pet_sex");
 
-        pet_nameTV = findViewById(R.id.pet_nameTV);
-        pet_parentNameTV = findViewById(R.id.pet_parentNameTV);
+        pet_nameTV = findViewById(R.id.pet_name_TV);
+        pet_parentNameTV = findViewById(R.id.pet_owner_name_TV);
         back_arrow_IV=findViewById(R.id.back_arrow_IV);
         view_Hospitalization_arrow=findViewById(R.id.view_Hospitalization_arrow);
         recent_visits_arrow=findViewById(R.id.recent_visits_arrow);
@@ -53,6 +53,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
         view_xrayReport_arrow=findViewById(R.id.view_xrayReport_arrow);
         view_labTestReport_arrow=findViewById(R.id.view_labTestReport_arrow);
         last_prescription_arrow=findViewById(R.id.last_prescription_arrow);
+        pet_id_TV=findViewById(R.id.pet_id_TV);
 
         view_clinicVisits_arrow.setOnClickListener(this);
         view_labTestReport_arrow.setOnClickListener(this);
@@ -64,6 +65,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
         last_prescription_arrow.setOnClickListener(this);
         pet_nameTV.setText(pet_name);
         pet_parentNameTV.setText(patent_name);
+        pet_id_TV.setText(pet_unique_id);
         view_xrayReport_arrow.setOnClickListener(this);
     }
 
@@ -76,7 +78,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 Bundle dataXray = new Bundle();
                 dataXray.putString("pet_id",pet_id);
                 dataXray.putString("pet_name",pet_name);
-                dataXray.putString("pet_parent",patent_name);
+                dataXray.putString("pet_owner_name",patent_name);
                 dataXray.putString("pet_unique_id",pet_unique_id);
                 dataXray.putString("reports_id","7.0");
                 dataXray.putString("pet_sex",pet_sex);
@@ -89,7 +91,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 Bundle dataLabwork = new Bundle();
                 dataLabwork.putString("pet_id",pet_id);
                 dataLabwork.putString("pet_name",pet_name);
-                dataLabwork.putString("pet_parent",patent_name);
+                dataLabwork.putString("pet_owner_name",patent_name);
                 dataLabwork.putString("pet_unique_id",pet_unique_id);
                 dataLabwork.putString("reports_id","8.0");
                 dataLabwork.putString("pet_sex",pet_sex);
@@ -102,7 +104,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 Bundle dataLabworkHospitalization = new Bundle();
                 dataLabworkHospitalization.putString("pet_id",pet_id);
                 dataLabworkHospitalization.putString("pet_name",pet_name);
-                dataLabworkHospitalization.putString("pet_parent",patent_name);
+                dataLabworkHospitalization.putString("pet_owner_name",patent_name);
                 dataLabworkHospitalization.putString("pet_unique_id",pet_unique_id);
                 dataLabworkHospitalization.putString("reports_id","9.0");
                 dataLabworkHospitalization.putString("pet_sex",pet_sex);
@@ -118,7 +120,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 Bundle dataLabworkVisits = new Bundle();
                 dataLabworkVisits.putString("pet_id",pet_id);
                 dataLabworkVisits.putString("pet_name",pet_name);
-                dataLabworkVisits.putString("pet_parent",patent_name);
+                dataLabworkVisits.putString("pet_owner_name",patent_name);
                 dataLabworkVisits.putString("pet_unique_id",pet_unique_id);
                 dataLabworkVisits.putString("reports_id","10.0");
                 dataLabworkVisits.putString("pet_sex",pet_sex);
@@ -126,13 +128,15 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 startActivity(petDetailsLabVisits);
                 break;
             case R.id.print_id_card_arrow:
+                Intent intent = new Intent(this,PetIdCardActivity.class);
+                startActivity(intent);
                 break;
             case R.id.view_clinicVisits_arrow:
                 Intent petDetailsClinicVisits = new Intent(this, NewEntrysDetailsActivity.class);
                 Bundle dataClinicVisits = new Bundle();
                 dataClinicVisits.putString("pet_id",pet_id);
                 dataClinicVisits.putString("pet_name",pet_name);
-                dataClinicVisits.putString("pet_parent",patent_name);
+                dataClinicVisits.putString("pet_owner_name",patent_name);
                 dataClinicVisits.putString("pet_unique_id",pet_unique_id);
                 dataClinicVisits.putString("reports_id","1.0");
                 dataClinicVisits.putString("pet_sex",pet_sex);
@@ -142,7 +146,6 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 break;
             case R.id.back_arrow_IV:
                 onBackPressed();
-                Config.backCall = "hitUnique";
                 break;
         }
 
@@ -157,5 +160,11 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onError(Throwable t, String key) {
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Config.backCall = "hitUnique";
     }
 }
