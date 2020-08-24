@@ -40,9 +40,10 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
         report_type_id = extras.getString("reports_id");
         pet_id = extras.getString("pet_id");
         pet_owner_contact = extras.getString("pet_owner_contact");
-        pet_owner_name = extras.getString("pet_owner_name");
+        pet_owner_name = extras.getString("pet_parent");
         pet_sex = extras.getString("pet_sex");
         pet_name = extras.getString("pet_name");
+        Log.e("jajajjaj",""+pet_name);
         pet_unique_id = extras.getString("pet_unique_id");
         button_text = extras.getString("add_button_text");
 
@@ -60,8 +61,11 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
 
         addPrescriptionButton.setOnClickListener(this);
 
+        if((button_text.equals("RecentVisit"))||(button_text.equals("petHistory")))
+            addPrescriptionButton.setVisibility(View.GONE);
+
         add_text_button.setText(button_text);
-        pet_sex_TV.setText("("+pet_sex+")");
+        pet_name_TV.setText(pet_name+"("+pet_sex+")");
         pet_owner_name_TV.setText(pet_owner_name);
         pet_id_TV.setText(pet_unique_id);
         pet_owner_name_TV.setText(pet_owner_name);
@@ -202,6 +206,31 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
 
                 break;
 
+            case "11.0":
+
+                reports_headline_TV.setText("Recent Visit");
+                data.putString("reports_id","11");
+                data.putString("type","RecentVisit");
+                NewEntrysListFragment fragment11 = new NewEntrysListFragment();
+                fragment11.setArguments(data);
+                FragmentTransaction fragment11FT = getSupportFragmentManager().beginTransaction();
+                fragment11FT.replace(R.id.report_type_frame, fragment11);
+                fragment11FT.commit();
+
+                break;
+
+            case "12.0":
+                reports_headline_TV.setText("Recent Visit");
+                data.putString("reports_id","12");
+                data.putString("type","petHistory");
+                NewEntrysListFragment fragment12 = new NewEntrysListFragment();
+                fragment12.setArguments(data);
+                FragmentTransaction fragment12FT = getSupportFragmentManager().beginTransaction();
+                fragment12FT.replace(R.id.report_type_frame, fragment12);
+                fragment12FT.commit();
+                break;
+
+
 
         }
 
@@ -242,7 +271,6 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
         Intent petDetailsIntent = new Intent(this.getApplication(), AddClinicActivity.class);
         Bundle data = new Bundle();
         data.putString("pet_id",pet_id);
-        data.putString("pet_name",pet_name);
         data.putString("pet_parent",pet_owner_name);
         data.putString("pet_sex",pet_sex);
         data.putString("pet_unique_id",pet_unique_id);
@@ -256,7 +284,6 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
         Intent xRayIntent = new Intent(this,AddXRayDeatilsActivity.class);
         Bundle data = new Bundle();
         data.putString("pet_id",pet_id);
-        data.putString("pet_name",pet_name);
         data.putString("pet_parent",pet_owner_name);
         data.putString("pet_sex",pet_sex);
         data.putString("pet_unique_id",pet_unique_id);
@@ -269,7 +296,6 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
         Intent labWorkIntent = new Intent(this,AddLabWorkDeatilsActivity.class);
         Bundle data = new Bundle();
         data.putString("pet_id",pet_id);
-        data.putString("pet_name",pet_name);
         data.putString("pet_parent",pet_owner_name);
         data.putString("pet_sex",pet_sex);
         data.putString("pet_unique_id",pet_unique_id);
@@ -282,7 +308,6 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
         Intent hospitalIntent = new Intent(this,AddHospitalizationDeatilsActivity.class);
         Bundle data = new Bundle();
         data.putString("pet_id",pet_id);
-        data.putString("pet_name",pet_name);
         data.putString("pet_parent",pet_owner_name);
         data.putString("pet_sex",pet_sex);
         data.putString("pet_unique_id",pet_unique_id);

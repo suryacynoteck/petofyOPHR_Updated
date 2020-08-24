@@ -142,7 +142,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
     HashMap<String,String> petColorHashMap=new HashMap<>();
     HashMap<String,String> petSizeHashMap=new HashMap<>();
     HashMap<String,String> petSexHashMap=new HashMap<>();
-    HashMap<String,String> petExistingSearch=new HashMap<>();
+    HashMap<String,String> petExistingSearch;
 
     public AddNewPetFragment() {
         // Required empty public constructor
@@ -223,7 +223,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                 Intent petDetailsIntent = new Intent(getActivity().getApplication(), PetDetailsActivity.class);
                 Bundle data = new Bundle();
                 data.putString("pet_id",Id.substring(0,Id.length()-2));
-                data.putString("pet_name",PetName+"("+PetSex+")");
+                data.putString("pet_name",PetName);
                 data.putString("pet_parent",PetParentName);
                 data.putString("pet_sex",PetSex);
                 data.putString("pet_unique_id",PetUniqueId);
@@ -357,11 +357,12 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
             case "GetPetList":
                 try {
                     GetPetListResponse getPetListResponse = (GetPetListResponse) arg0.body();
-                    Log.d("DATALOG", getPetListResponse.toString());
+                    Log.d("GetPetList", getPetListResponse.toString());
                     int responseCode = Integer.parseInt(getPetListResponse.getResponse().getResponseCode());
 
                     if (responseCode== 109){
                         petUniueId=new ArrayList<>();
+                        petExistingSearch=new HashMap<>();
                         for(int i=0;i<getPetListResponse.getData().getPetList().size();i++){
                             petUniueId.add(getPetListResponse.getData().getPetList().get(i).getPetUniqueId()+":- "
                                     +getPetListResponse.getData().getPetList().get(i).getPetName()+"("+getPetListResponse.getData().getPetList().get(i).getPetSex()+","+getPetListResponse.getData().getPetList().get(i).getPetParentName()+")");
@@ -373,6 +374,10 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                                             +getPetListResponse.getData().getPetList().get(i).getPetSex()+","
                                             +getPetListResponse.getData().getPetList().get(i).getId());
                         }
+
+                        Log.d("jajajajjaja",""+petUniueId.size()+" \n"+ petUniueId.toString());
+                        Log.d("lllllllllll",""+petExistingSearch.size()+" \n"+ petExistingSearch);
+
                         ArrayAdapter<String> adapter = new ArrayAdapter<String>
                                 (getActivity(),android.R.layout.simple_list_item_1,petUniueId);
                         search_box_add_new.setThreshold(1);//will start working from first character
@@ -565,8 +570,9 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                     int responseCode = Integer.parseInt(getPetResponse.getResponse().getResponseCode());
                     if (responseCode == 109) {
                         Toast.makeText(getActivity(), "Success", Toast.LENGTH_SHORT).show();
-                        pet_parent_name_edit_dialog.setText(getPetResponse.getData().getPetParentName());
+                        pet_name_edit_dialog.setText(getPetResponse.getData().getPetParentName());
                         pet_contact_number_edit_dialog.setText(getPetResponse.getData().getContactNumber());
+                        pet_parent_name_edit_dialog.setText(getPetResponse.getData().getPetParentName());
                         calenderTextView_edit_dialog.setText(getPetResponse.getData().getDateOfBirth());
 
                     } else if (responseCode == 614) {
@@ -675,7 +681,8 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                         Intent petDetailsIntent = new Intent(getActivity().getApplication(), PetDetailsActivity.class);
                         Bundle data = new Bundle();
                         data.putString("pet_id",petId);
-                        data.putString("pet_name",newPetRegisterResponse.getData().getPetName()+"("+sexName+")");
+                        data.putString("pet_name",newPetRegisterResponse.getData().getPetName());
+                        data.putString("pet_sex",sexName);
                         data.putString("pet_parent",newPetRegisterResponse.getData().getPetParentName());
                         data.putString("pet_unique_id",newPetRegisterResponse.getData().getPetUniqueId());
                         petDetailsIntent.putExtras(data);
@@ -977,8 +984,8 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
 
         Intent petDetailsIntent = new Intent(getActivity().getApplication(), PetDetailsActivity.class);
         Bundle data = new Bundle();
-        data.putString("pet_id",petClinicVisitLists.get(position).getId().toString());
-        data.putString("pet_name",petClinicVisitLists.get(position).getPetName()+"("+petClinicVisitLists.get(position).getPetSex()+")");
+        data.putString("pet_id",petClinicVisitLists.get(position).getPetId().toString());
+        data.putString("pet_name",petClinicVisitLists.get(position).getPetName());
         data.putString("pet_parent",petClinicVisitLists.get(position).getPetParentName());
         data.putString("pet_sex",petClinicVisitLists.get(position).getPetSex());
         data.putString("pet_unique_id",petClinicVisitLists.get(position).getPetUniqueId());
@@ -1002,7 +1009,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
 
     @Override
     public void onProductEditClick(int position) {
-        editPrescriptionDialog(petClinicVisitLists.get(position).getId());
+        editPrescriptionDialog(petClinicVisitLists.get(position).getPetId());
     }
 
     @Override
@@ -1027,6 +1034,24 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                             InputMethodManager imm1 = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                             imm1.hideSoftInputFromWindow(search_box_add_new.getWindowToken(), 0);
                             back_arrow_IV_new_entry.setVisibility(View.VISIBLE);
+                            String value=petExistingSearch.get(search_box_add_new.getText().toString());
+                            Log.d("kakakka",""+value);
+                            StringTokenizer st = new StringTokenizer(value, ",");
+                            String PetUniqueId = st.nextToken();
+                            String PetName = st.nextToken();
+                            String PetParentName = st.nextToken();
+                            String PetSex = st.nextToken();
+                            String Id = st.nextToken();
+                            Log.d("ppppp",""+PetUniqueId+" "+PetName+" "+PetParentName+" "+PetSex+" "+Id);
+                            Intent petDetailsIntent = new Intent(getActivity().getApplication(), PetDetailsActivity.class);
+                            Bundle data = new Bundle();
+                            data.putString("pet_id",Id.substring(0,Id.length()-2));
+                            data.putString("pet_name",PetName);
+                            data.putString("pet_parent",PetParentName);
+                            data.putString("pet_sex",PetSex);
+                            data.putString("pet_unique_id",PetUniqueId);
+                            petDetailsIntent.putExtras(data);
+                            startActivity(petDetailsIntent);
                         }
                         else
                         {

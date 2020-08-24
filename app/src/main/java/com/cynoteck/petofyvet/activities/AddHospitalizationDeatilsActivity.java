@@ -20,8 +20,11 @@ import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.api.ApiClient;
 import com.cynoteck.petofyvet.api.ApiResponse;
 import com.cynoteck.petofyvet.api.ApiService;
+import com.cynoteck.petofyvet.params.addHospitalization.AddHospitalizationParam;
+import com.cynoteck.petofyvet.params.addHospitalization.AddHospitalizationRequest;
 import com.cynoteck.petofyvet.params.addPetClinicParamRequest.AddPetClinicParam;
 import com.cynoteck.petofyvet.params.addPetClinicParamRequest.AddPetClinicRequest;
+import com.cynoteck.petofyvet.response.addHospitalizationResponse.AddhospitalizationResposee;
 import com.cynoteck.petofyvet.response.clinicVisist.ClinicVisitResponse;
 import com.cynoteck.petofyvet.response.hospitalTypeListResponse.HospitalAddmissionTypeResp;
 import com.cynoteck.petofyvet.utils.Config;
@@ -45,7 +48,7 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
 
     DatePickerDialog picker;
 
-    String hospitalizationId="";
+    String hospitalizationId="",pet_id="",pet_name="",pet_owner_name="",pet_sex="",pet_unique_id="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,7 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
     }
 
     private void init() {
+        Bundle extras = getIntent().getExtras();
         veterian_name_ET=findViewById(R.id.veterian_name_ET);
         veterian_phone_ET=findViewById(R.id.veterian_phone_ET);
         hospital_name_ET=findViewById(R.id.hospital_name_ET);
@@ -69,6 +73,14 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
         calenderTextView_admission_date.setOnClickListener(this);
         calenderTextView_discharge_date_TV.setOnClickListener(this);
         save_BT.setOnClickListener(this);
+
+        if (extras != null) {
+            pet_id = extras.getString("pet_id");
+            pet_name = extras.getString("pet_name");
+            pet_owner_name = extras.getString("pet_owner_name");
+            pet_sex = extras.getString("pet_sex");
+            pet_unique_id = extras.getString("pet_unique_id");
+        }
 
         methods=new Methods(this);
 
@@ -171,12 +183,44 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
                     Toast.makeText(this, "Select Hospitalization type ", Toast.LENGTH_SHORT).show();
                 }
                 else{
+                    AddHospitalizationParam addHospitalizationParam=new AddHospitalizationParam();
+                    addHospitalizationParam.setPetId(pet_id);
+                    addHospitalizationParam.setRequestingVeterinarian(strRequstVeterian);
+                    addHospitalizationParam.setVeterinarianPhone(strPhoneNumber);
+                    addHospitalizationParam.setHospitalizationTypeId(hospitalizationId);
+                    addHospitalizationParam.setAdmissionDate(strHospitalAdmissionDt);
+                    addHospitalizationParam.setDischargeDate(strHospitalDischargeDt);
+                    addHospitalizationParam.setHospitalName(strHospitalName);
+                    addHospitalizationParam.setHospitalPhone(strHospitalphoneNumber);
+                    addHospitalizationParam.setAddress("");
+                    addHospitalizationParam.setCountryId("");
+                    addHospitalizationParam.setStateId("");
+                    addHospitalizationParam.setCityId("");
+                    addHospitalizationParam.setZipCode("");
+                    addHospitalizationParam.setReasonForHospitalization(strResonsOfHospitalization);
+                    addHospitalizationParam.setDiagnosisTreatmentProcedure(strResult);
+                    addHospitalizationParam.setDocuments("");
+                    AddHospitalizationRequest addHospitalizationRequest=new AddHospitalizationRequest();
+                    addHospitalizationRequest.setData(addHospitalizationParam);
+
+                    if (methods.isInternetOn()){
+                        addHospitalization(addHospitalizationRequest);
+                    }else {
+                        methods.DialogInternet();
+                    }
 
                 }
 
                 break;
 
         }
+
+    }
+
+    private void addHospitalization(AddHospitalizationRequest addHospitalizationRequest) {
+        ApiService<AddhospitalizationResposee> service = new ApiService<>();
+        service.get( this, ApiClient.getApiInterface().addPetHospitalization(Config.token,addHospitalizationRequest), "AddPetHospitalization");
+        Log.e("AddPetHospitalParam","===>"+addHospitalizationRequest);
 
     }
 
@@ -206,6 +250,24 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
                         setSpinnerHospitalizationType();
                     } else if (responseCode == 614) {
                         Toast.makeText(this, hospitalAddmissionTypeResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "AddPetHospitalization":
+                try {
+                    AddhospitalizationResposee addhospitalizationResposee = (AddhospitalizationResposee) arg0.body();
+                    Log.d("AddPetHospitalization", addhospitalizationResposee.toString());
+                    int responseCode = Integer.parseInt(addhospitalizationResposee.getResponse().getResponseCode());
+
+                    if (responseCode == 109) {
+
+                    } else if (responseCode == 614) {
+                        Toast.makeText(this, addhospitalizationResposee.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
                     }

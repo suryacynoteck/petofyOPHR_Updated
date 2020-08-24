@@ -20,6 +20,9 @@ import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.api.ApiClient;
 import com.cynoteck.petofyvet.api.ApiResponse;
 import com.cynoteck.petofyvet.api.ApiService;
+import com.cynoteck.petofyvet.params.addLabRequest.AddLabParams;
+import com.cynoteck.petofyvet.params.addLabRequest.AddLabRequest;
+import com.cynoteck.petofyvet.response.addLabWorkResponse.AddLabWorkResponse;
 import com.cynoteck.petofyvet.response.labTyperesponse.LabTypeResponse;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
@@ -43,7 +46,7 @@ public class AddLabWorkDeatilsActivity extends AppCompatActivity implements View
 
     DatePickerDialog picker;
 
-    String LabTypeId="";
+    String LabTypeId="",pet_id="",pet_name="",pet_owner_name="",pet_sex="",pet_unique_id="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +58,7 @@ public class AddLabWorkDeatilsActivity extends AppCompatActivity implements View
 
     private void init() {
         methods=new Methods(this);
-
+        Bundle extras = getIntent().getExtras();
         veterian_name_ET=findViewById(R.id.veterian_name_ET);
         veterian_phone_ET=findViewById(R.id.veterian_phone_ET);
         lab_name_ET=findViewById(R.id.lab_name_ET);
@@ -69,6 +72,14 @@ public class AddLabWorkDeatilsActivity extends AppCompatActivity implements View
 
         calenderTextViewVisitDt.setOnClickListener(this);
         save_BT.setOnClickListener(this);
+
+        if (extras != null) {
+            pet_id = extras.getString("pet_id");
+            pet_name = extras.getString("pet_name");
+            pet_owner_name = extras.getString("pet_owner_name");
+            pet_sex = extras.getString("pet_sex");
+            pet_unique_id = extras.getString("pet_unique_id");
+        }
 
         if (methods.isInternetOn()){
             getLabTypeList();
@@ -174,6 +185,34 @@ public class AddLabWorkDeatilsActivity extends AppCompatActivity implements View
                     test_name_ET.setError(null);
                     reson_of_visit_ET.setError(null);
                     result_ET.setError(null);
+                    AddLabParams addLabParams=new AddLabParams();
+                    addLabParams.setPetId(pet_id);
+                    addLabParams.setRequestingVeterinarian(strRequstVeterian);
+                    addLabParams.setVeterinarianPhone(strPhoneNumber);
+                    addLabParams.setVisitDate(strLabVisitDt);
+                    addLabParams.setLabTypeId(LabTypeId);
+                    addLabParams.setNameOfLab(strLabName);
+                    addLabParams.setLabPhone(strLabphoneNumber);
+                    addLabParams.setAddress1("");
+                    addLabParams.setAddress2("");
+                    addLabParams.setCountryId("");
+                    addLabParams.setStateId("");
+                    addLabParams.setCityId("");
+                    addLabParams.setZipCode("");
+                    addLabParams.setTestName(strNameofTest);
+                    addLabParams.setReasonOfTest(strReasonOfVisit);
+                    addLabParams.setResults(strRsult);
+                    addLabParams.setDocuments("");
+                    AddLabRequest addLabRequest=new AddLabRequest();
+                    addLabRequest.setAddPetParams(addLabParams);
+                    if(methods.isInternetOn())
+                    {
+                        addPetLabTestReport(addLabRequest);
+                    }
+                    else
+                    {
+                        methods.DialogInternet();
+                    }
 
                 }
 
@@ -187,6 +226,12 @@ public class AddLabWorkDeatilsActivity extends AppCompatActivity implements View
         ApiService<LabTypeResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().getLabTypeList(Config.token), "GetLabTypeList");
        }
+
+    private void addPetLabTestReport(AddLabRequest addLabRequest) {
+        ApiService<AddLabWorkResponse> service = new ApiService<>();
+        service.get( this, ApiClient.getApiInterface().addPetLabWork(Config.token,addLabRequest), "AddPetLabWork");
+        Log.d("addPetLabParams",""+addLabRequest);
+    }
 
     @Override
     public void onResponse(Response arg0, String key) {
@@ -209,6 +254,24 @@ public class AddLabWorkDeatilsActivity extends AppCompatActivity implements View
                         setSpinneerLabType();
                     } else if (responseCode == 614) {
                         Toast.makeText(this, labTypeResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "AddPetLabWork":
+                try {
+                    AddLabWorkResponse addLabWorkResponse = (AddLabWorkResponse) arg0.body();
+                    Log.d("AddPetLabWork", addLabWorkResponse.toString());
+                    int responseCode = Integer.parseInt(addLabWorkResponse.getResponse().getResponseCode());
+
+                    if (responseCode == 109) {
+                        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                    } else if (responseCode == 614) {
+                        Toast.makeText(this, addLabWorkResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
                     }
