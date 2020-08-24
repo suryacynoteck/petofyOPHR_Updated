@@ -1,5 +1,6 @@
 package com.cynoteck.petofyvet.api;
 
+import com.cynoteck.petofyvet.params.addHospitalization.AddHospitalizationRequest;
 import com.cynoteck.petofyvet.params.addLabRequest.AddLabRequest;
 import com.cynoteck.petofyvet.params.addParamRequest.AddPetRequset;
 import com.cynoteck.petofyvet.params.addPetClinicParamRequest.AddPetClinicRequest;
@@ -23,6 +24,7 @@ import com.cynoteck.petofyvet.params.registerRequest.Registerparams;
 import com.cynoteck.petofyvet.params.updateRequest.getValue.UpdateParams;
 import com.cynoteck.petofyvet.params.updateRequest.updateParamRequest.UpdatePetRequest;
 import com.cynoteck.petofyvet.response.InPetVeterian.InPetVeterianResponse;
+import com.cynoteck.petofyvet.response.addHospitalizationResponse.AddhospitalizationResposee;
 import com.cynoteck.petofyvet.response.addLabWorkResponse.AddLabWorkResponse;
 import com.cynoteck.petofyvet.response.addPet.addPetResponse.AddPetValueResponse;
 import com.cynoteck.petofyvet.response.addPet.breedResponse.BreedCatRespose;
@@ -228,11 +230,6 @@ public interface ApiInterface {
     @POST("pethealthrecord/DeletePetLabWork")
     Call<AddUpdateDeleteClinicVisitResponse> deleteLabTestWork(@Header("Authorization") String auth, @Body PetClinicVisitDetailsRequest petClinicVisitDetailsRequest);
 
-    @Headers({ "Content-Type: application/json;charset=UTF-8"})
-    @POST("pethealthrecord/AddTestXRay")
-    Call<AddTestXRayResponse> addTestXRay(@Header("Authorization") String auth, @Body AddTestXRayRequest addTestXRayRequest);
-
-
 
     //All Staff Section .....................................................
 
@@ -320,6 +317,20 @@ public interface ApiInterface {
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("pethealthrecord/AddPetLabWork")
     Call<AddLabWorkResponse> addPetLabWork(@Header("Authorization") String auth, @Body AddLabRequest addLabRequest);
+
+    //Add Pet Test And Xray
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("pethealthrecord/AddTestXRay")
+    Call<AddTestXRayResponse> addTestXRay(@Header("Authorization") String auth, @Body AddTestXRayRequest addTestXRayRequest);
+
+    //ADD PET HOSPITALIZATION
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("pethealthrecord/AddPetHospitalization")
+    Call<AddhospitalizationResposee> addPetHospitalization(@Header("Authorization") String auth, @Body AddHospitalizationRequest addHospitalizationRequest);
+
+
 
 }
 

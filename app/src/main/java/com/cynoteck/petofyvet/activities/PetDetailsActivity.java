@@ -77,7 +77,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
         view_history_arrow.setOnClickListener(this);
         back_arrow_IV.setOnClickListener(this);
         last_prescription_arrow.setOnClickListener(this);
-        pet_nameTV.setText(pet_name);
+        pet_nameTV.setText(pet_name+"("+pet_sex+")");
         pet_parentNameTV.setText(patent_name);
         view_xrayReport_arrow.setOnClickListener(this);
     }
@@ -126,7 +126,17 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 startActivity(petDetailsHospitalization);
                 break;
             case R.id.view_history_arrow:
-
+                Intent petHistory = new Intent(this, NewEntrysDetailsActivity.class);
+                Bundle dataHistry = new Bundle();
+                dataHistry.putString("pet_id",pet_id);
+                dataHistry.putString("pet_name",pet_name);
+                dataHistry.putString("pet_parent",patent_name);
+                dataHistry.putString("pet_unique_id",pet_unique_id);
+                dataHistry.putString("reports_id","12.0");
+                dataHistry.putString("pet_sex",pet_sex);
+                dataHistry.putString("add_button_text","petHistory");
+                petHistory.putExtras(dataHistry);
+                startActivity(petHistory);
                 break;
             case R.id.recent_visits_arrow:
                 Intent petDetailsLabVisits = new Intent(this, NewEntrysDetailsActivity.class);

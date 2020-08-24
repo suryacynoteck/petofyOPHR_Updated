@@ -20,6 +20,10 @@ import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.api.ApiClient;
 import com.cynoteck.petofyvet.api.ApiResponse;
 import com.cynoteck.petofyvet.api.ApiService;
+import com.cynoteck.petofyvet.params.addTestXRayParams.AddTestXRayParams;
+import com.cynoteck.petofyvet.params.addTestXRayParams.AddTestXRayRequest;
+import com.cynoteck.petofyvet.response.addLabWorkResponse.AddLabWorkResponse;
+import com.cynoteck.petofyvet.response.addTestAndXRayResponse.AddTestXRayResponse;
 import com.cynoteck.petofyvet.response.hospitalTypeListResponse.HospitalAddmissionTypeResp;
 import com.cynoteck.petofyvet.response.testResponse.XrayTestResponse;
 import com.cynoteck.petofyvet.utils.Config;
@@ -41,7 +45,7 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
 
     HashMap<String,String> testTypehas=new HashMap<>();
 
-    String testTypeId="";
+    String testTypeId="",pet_id="",pet_name="",pet_owner_name="",pet_sex="",pet_unique_id="";
 
     DatePickerDialog picker;
 
@@ -53,6 +57,7 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
     }
 
     private void init() {
+        Bundle extras = getIntent().getExtras();
         peto_edit_reg_number_dialog=findViewById(R.id.peto_edit_reg_number_dialog);
         calenderTextViewtestdate=findViewById(R.id.calenderTextViewtestdate);
         folow_up_dt_view=findViewById(R.id.folow_up_dt_view);
@@ -63,6 +68,15 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
         save_BT.setOnClickListener(this);
         calenderTextViewtestdate.setOnClickListener(this);
         folow_up_dt_view.setOnClickListener(this);
+
+        if (extras != null) {
+            pet_id = extras.getString("pet_id");
+            pet_name = extras.getString("pet_name");
+            pet_owner_name = extras.getString("pet_owner_name");
+            pet_sex = extras.getString("pet_sex");
+            pet_unique_id = extras.getString("pet_unique_id");
+        }
+
 
         methods=new Methods(this);
 
@@ -128,12 +142,31 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
                 else{
                     description_ET.setError(null);
                     calenderTextViewtestdate.setError(null);
+                    AddTestXRayParams addTestXRayParams=new AddTestXRayParams();
+                    addTestXRayParams.setPetId(pet_id);
+                    addTestXRayParams.setTypeOfTestId(testTypeId);
+                    AddTestXRayRequest addTestXRayRequest=new AddTestXRayRequest();
+                    addTestXRayRequest.setData(addTestXRayParams);
+                    if(methods.isInternetOn())
+                    {
+                        addPetXray(addTestXRayRequest);
+                    }
+                    else
+                    {
+                        methods.DialogInternet();
+                    }
                 }
 
                 break;
 
         }
 
+    }
+
+    private void addPetXray(AddTestXRayRequest addTestXRayRequest) {
+        ApiService<AddTestXRayResponse> service = new ApiService<>();
+        service.get( this, ApiClient.getApiInterface().addTestXRay(Config.token,addTestXRayRequest), "AddTestXRay");
+        Log.d("addPetLabParams",""+addTestXRayRequest);
     }
 
     private void getTestTypeList() {
@@ -161,6 +194,24 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
                         setSpinnerTestType();
                     } else if (responseCode == 614) {
                         Toast.makeText(this, xrayTestResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "AddTestXRay":
+                try {
+                    AddTestXRayResponse addTestXRayResponse = (AddTestXRayResponse) arg0.body();
+                    Log.d("GetTestTypeList", addTestXRayResponse.toString());
+                    int responseCode = Integer.parseInt(addTestXRayResponse.getResponse().getResponseCode());
+
+                    if (responseCode == 109) {
+
+                    } else if (responseCode == 614) {
+                        Toast.makeText(this, addTestXRayResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
                     }

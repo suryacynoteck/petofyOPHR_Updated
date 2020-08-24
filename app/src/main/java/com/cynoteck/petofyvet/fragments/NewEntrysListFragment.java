@@ -154,11 +154,7 @@ public class NewEntrysListFragment extends Fragment implements ApiResponse, Regi
         pet_unique_id = extras.getString("pet_unique_id");
         type=extras.getString("type");
 
-        petTestsAndXrayLists.clear();
-        petLabWorkLists.clear();
-        petHospitalizationsLists.clear();
-        petClinicVisitLists.clear();
-        getReportsTypeData.clear();
+
 
         routine_report_RV = view.findViewById(R.id.routine_report_RV);
 
@@ -172,7 +168,6 @@ public class NewEntrysListFragment extends Fragment implements ApiResponse, Regi
         petSexHashMap.put("Female","2");
 
         if (methods.isInternetOn()){
-            getPetNewList();
             petType();
             getPetBreed();
             getPetAge();
@@ -200,8 +195,13 @@ public class NewEntrysListFragment extends Fragment implements ApiResponse, Regi
             case "Hospitalization":
                 getHospitalizationReport();
                 break;
+
             case "RecentVisit":
                 getPetNewList();
+                break;
+
+            case "petHistory":
+                getPetClinicVisit();
                 break;
         }
 
