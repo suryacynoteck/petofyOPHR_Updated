@@ -96,7 +96,7 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, ViewD
     }
 
     private void getPetList() {
- //       methods.showCustomProgressBarDialog(getContext());
+        //       methods.showCustomProgressBarDialog(getContext());
         PetDataParams getPetDataParams = new PetDataParams();
         getPetDataParams.setPageNumber("1");//0
         getPetDataParams.setPageSize("2");//0

@@ -1058,8 +1058,6 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                         }
                         else
                         {
-                            
-                            clearSearch();
                             Log.d("Add Anotheer Veterian","vet");
                             AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                             alertDialog.setTitle("Are you sure?");
@@ -1069,10 +1067,12 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                                         public void onClick(DialogInterface dialog, int which) {
                                             InPetRegisterRequest inPetRegisterRequest = new InPetRegisterRequest();
                                             InPetregisterParams inPetregisterParams = new InPetregisterParams();
+                                            Log.d("kkakakka",""+search_box_add_new.getText().toString());
                                             inPetregisterParams.setUniqueId(search_box_add_new.getText().toString());
                                             inPetRegisterRequest.setData(inPetregisterParams);
                                             if (methods.isInternetOn()) {
                                                 chkVetInregister(inPetRegisterRequest);
+                                                clearSearch();
                                             } else {
                                                 methods.DialogInternet();
                                             }
