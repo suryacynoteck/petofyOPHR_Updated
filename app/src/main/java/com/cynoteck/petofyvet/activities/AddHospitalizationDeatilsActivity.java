@@ -124,6 +124,7 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
             pet_sex = extras.getString("pet_sex");
             pet_unique_id = extras.getString("pet_unique_id");
             hospitalization_peto_edit_reg_number_dialog.setText(pet_unique_id);
+            veterian_name_ET.setText(Config.user_Veterian_name);
         }
 
         methods=new Methods(this);

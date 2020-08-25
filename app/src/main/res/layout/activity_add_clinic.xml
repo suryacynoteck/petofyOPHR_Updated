@@ -176,8 +176,11 @@
                 android:paddingLeft="25dp"
                 android:textSize="18dp"
                 android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@id/visit_dt_TV"
-                tools:layout_editor_absoluteX="16dp" />
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/visit_dt_TV"/>
 
             <TextView
                 android:id="@+id/description_TV"
