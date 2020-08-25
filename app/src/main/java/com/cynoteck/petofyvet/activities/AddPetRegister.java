@@ -977,6 +977,7 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
                     int responseCode = Integer.parseInt(addPetValueResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
                         Toast.makeText(this, "Sucessss", Toast.LENGTH_SHORT).show();
+                        onBackPressed();
                     }else if (responseCode==614){
                         Toast.makeText(this, addPetValueResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
                     }else {

@@ -174,6 +174,7 @@
                 android:layout_height="wrap_content">
 
                 <Button
+                    android:textAllCaps="false"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:id="@+id/view_reg_pet_details_BT"
@@ -186,7 +187,7 @@
                     android:textColor="@color/whiteColor" />
 
                 <Button
-
+                    android:textAllCaps="false"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:id="@+id/view_ID_Card_BT"
