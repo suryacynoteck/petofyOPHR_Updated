@@ -144,6 +144,8 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
             pet_sex = extras.getString("pet_sex");
             pet_unique_id = extras.getString("pet_unique_id");
             clinic_peto_edit_reg_number_dialog.setText(pet_unique_id);
+            clinicVeterian_name_ET.setText(Config.user_Veterian_name);
+            clinicCalenderTextViewVisitDt.setText(Config.currentDate());
         }
 
         if (methods.isInternetOn()){

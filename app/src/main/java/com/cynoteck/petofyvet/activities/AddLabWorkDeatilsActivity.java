@@ -121,6 +121,8 @@ public class AddLabWorkDeatilsActivity extends AppCompatActivity implements View
             pet_sex = extras.getString("pet_sex");
             pet_unique_id = extras.getString("pet_unique_id");
             lab_peto_edit_reg_number_dialog.setText(pet_unique_id);
+            veterian_name_ET.setText(Config.user_Veterian_name);
+            calenderTextViewVisitDt.setText(Config.currentDate());
         }
 
         if (methods.isInternetOn()){
