@@ -12,6 +12,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <TextView
+            android:textSize="20sp"
+            android:id="@+id/printID_TV"
+            android:layout_margin="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Print"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="@color/black_color"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_gravity="center"
@@ -44,15 +54,13 @@
             <ImageView
                 android:scaleType="fitXY"
                 android:layout_marginTop="20dp"
-                android:layout_marginRight="550dp"
                 android:id="@+id/pet_image"
-                android:layout_width="0dp"
+                android:layout_width="300dp"
                 android:layout_height="0dp"
                 android:src="@drawable/id_logo"
                 app:layout_constraintTop_toBottomOf="@+id/line"
                 app:layout_constraintStart_toStartOf="@+id/headLine"
-                app:layout_constraintBottom_toTopOf="@+id/parentTV"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintBottom_toTopOf="@+id/parentTV" />
 
 
             <TextView

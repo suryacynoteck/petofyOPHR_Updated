@@ -34,7 +34,7 @@ import retrofit2.Response;
 
 public class PetDetailsActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse {
     String pet_id,pet_name,patent_name,pet_bread,pet_unique_id="",pet_sex="";
-    TextView pet_nameTV, pet_parentNameTV;
+    TextView pet_nameTV, pet_parentNameTV,pet_id_TV;
     ImageView back_arrow_IV,view_clinicVisits_arrow,view_xrayReport_arrow,view_labTestReport_arrow,view_Hospitalization_arrow,last_prescription_arrow,recent_visits_arrow,print_id_card_arrow,view_history_arrow;
     Methods methods;
     WebView webview;
@@ -67,7 +67,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
         view_labTestReport_arrow=findViewById(R.id.view_labTestReport_arrow);
         last_prescription_arrow=findViewById(R.id.last_prescription_arrow);
         webview=findViewById(R.id.webview);
-
+        pet_id_TV=findViewById(R.id.pet_id_TV);
         view_clinicVisits_arrow.setOnClickListener(this);
         view_labTestReport_arrow.setOnClickListener(this);
         view_Hospitalization_arrow.setOnClickListener(this);
@@ -78,6 +78,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
         last_prescription_arrow.setOnClickListener(this);
         pet_nameTV.setText(pet_name+"("+pet_sex+")");
         pet_parentNameTV.setText(patent_name);
+        pet_id_TV.setText(pet_unique_id);
         view_xrayReport_arrow.setOnClickListener(this);
     }
 
@@ -152,6 +153,9 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 break;
             case R.id.print_id_card_arrow:
                 Intent intent = new Intent(this,PetIdCardActivity.class);
+                Bundle idBundle = new Bundle();
+                idBundle.putString("id",pet_id);
+                intent.putExtras(idBundle);
                 startActivity(intent);
                 break;
             case R.id.view_clinicVisits_arrow:
@@ -188,7 +192,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
 
     private void getclinicVisitsReportDetails() {
         PetClinicVistsDetailsParams petClinicVistsDetailsParams = new PetClinicVistsDetailsParams();
-        petClinicVistsDetailsParams.setId(pet_id);
+        petClinicVistsDetailsParams.setId(pet_id.substring(0,pet_id.length()-2));
         PetClinicVisitDetailsRequest petClinicVisitDetailsRequest = new PetClinicVisitDetailsRequest();
         petClinicVisitDetailsRequest.setData(petClinicVistsDetailsParams);
         Log.d("petClinicVisitDetail",petClinicVisitDetailsRequest.toString());

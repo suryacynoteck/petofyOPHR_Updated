@@ -5,13 +5,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/ic_launcher" />
+
     <androidx.cardview.widget.CardView
+
+        android:id="@+id/card_view"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/printID_TV"
+            android:layout_margin="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Print"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="@color/black_color"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:paddingRight="30dp"
@@ -46,15 +65,13 @@
             <ImageView
                 android:scaleType="fitXY"
                 android:layout_marginTop="20dp"
-                android:layout_marginRight="550dp"
                 android:id="@+id/pet_image"
-                android:layout_width="0dp"
+                android:layout_width="180dp"
                 android:layout_height="0dp"
-                android:src="@drawable/id_logo"
+                android:src="@drawable/dog"
                 app:layout_constraintTop_toBottomOf="@+id/line"
                 app:layout_constraintStart_toStartOf="@+id/headLine"
-                app:layout_constraintBottom_toTopOf="@+id/parentTV"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintBottom_toTopOf="@+id/parentTV"/>
 
 
             <TextView
@@ -78,7 +95,7 @@
                 android:id="@+id/pet_name_TV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rustam,"
+                android:text=""
                 android:textColor="@color/grayColorCode"
                 android:textSize="15sp" />
 
@@ -88,7 +105,7 @@
                 android:id="@+id/pet_sex_TV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Male"
+                android:text=""
                 android:textColor="@color/grayColorCode"
                 android:textSize="15sp" />
 
@@ -112,7 +129,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/dobTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="04/05/2020,"
+                android:text=""
                 android:textColor="@color/grayColorCode"
                 android:textSize="15sp" />
 
@@ -137,7 +154,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/breedTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="German Shephard"
+                android:text=""
                 android:textColor="@color/grayColorCode"
                 android:textSize="15sp" />
 
@@ -169,7 +186,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/parentTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ashish Rawat"
+                android:text=""
                 android:textColor="@color/grayColorCode"
                 android:textSize="15sp" />
 
@@ -195,7 +212,7 @@
                 android:id="@+id/contact_TV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="9632589632"
+                android:text=""
                 android:textColor="@color/grayColorCode"
                 android:textSize="15sp" />
 
@@ -219,7 +236,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/line2"
                 app:layout_constraintStart_toStartOf="@id/contactTv"
                 android:src="@drawable/barcode"
-                android:layout_marginRight="150dp"/>
+                android:layout_marginRight="100dp"/>
 
             <TextView
                 android:textSize="18sp"
@@ -229,7 +246,7 @@
                 app:layout_constraintStart_toStartOf="@+id/bar_code_IV"
                 app:layout_constraintTop_toBottomOf="@+id/bar_code_IV"
                 app:layout_constraintEnd_toEndOf="@+id/bar_code_IV"
-                android:text="PETO-8523"
+                android:text="PETO_XYZ"
                 android:gravity="center"/>
 
 

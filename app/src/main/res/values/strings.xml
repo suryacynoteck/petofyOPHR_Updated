@@ -46,7 +46,7 @@
     <string name="reports">REPORTS</string>
     <string name="register_pets">Register Pets</string>
     <string name="add_pet">ADD PET</string>
-    <string name="pet_details">PET DETAILS</string>
+    <string name="pet_details">Pet Details</string>
     <string name="selectReports">Select Reports</string>
     <string name="petownwer">Pet Parent</string>
     <string name="double_Dot">:</string>
@@ -119,4 +119,13 @@
     <string name="labname">Lab Name</string>
     <string name="dischargeDate">Discharge Date*</string>
     <string name="hospitalphone">Hospital Phone</string>
+
+
+    <string name="sharing_text">Your sharing text goes here…</string>
+    <string name="share_title">Share Screenshot</string>
+    <string name="screenshot_take_failed">Failed to take screenshot!!</string>
+    <string name="wait">Please wait…</string>
+    <string name="full_page_screenshot">Full Page Screenshot</string>
+    <string name="hidden_text">Hidden Text</string>
+    <string name="custom_page_screenshot">Custom Page Screenshot</string>
 </resources>

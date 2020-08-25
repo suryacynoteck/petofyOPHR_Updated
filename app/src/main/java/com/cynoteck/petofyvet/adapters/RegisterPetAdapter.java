@@ -13,16 +13,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.getPetListResponse.PetList;
-import com.cynoteck.petofyvet.utils.RegisterRecyclerViewClickListener;
+import com.cynoteck.petofyvet.utils.ViewDeatilsAndIdCardClick;
 
 import java.util.List;
 
 public class RegisterPetAdapter extends RecyclerView.Adapter<RegisterPetAdapter.MyViewHolder> {
     Context context;
     List<PetList> profileList;
-    private RegisterRecyclerViewClickListener onProductItemClickListner;
+    private ViewDeatilsAndIdCardClick onProductItemClickListner;
 
-    public RegisterPetAdapter(Context context, List<PetList> profileList, RegisterRecyclerViewClickListener onProductItemClickListner) {
+    public RegisterPetAdapter(Context context, List<PetList> profileList, ViewDeatilsAndIdCardClick onProductItemClickListner) {
         this.context = context;
         this.profileList = profileList;
         this.onProductItemClickListner=onProductItemClickListner;
@@ -54,7 +54,7 @@ public class RegisterPetAdapter extends RecyclerView.Adapter<RegisterPetAdapter.
     public class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView petRegImage_IV;
         TextView pet_reg__id_TV,pet_reg_date_of_birth_TV,pet_reg_name_TV,pet_reg_gender_TV;
-        Button view_reg_pet_details_BT;
+        Button view_reg_pet_details_BT,view_ID_Card_BT;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -64,12 +64,22 @@ public class RegisterPetAdapter extends RecyclerView.Adapter<RegisterPetAdapter.
             pet_reg_name_TV = itemView.findViewById(R.id.pet_reg_name_TV);
             pet_reg_gender_TV = itemView.findViewById(R.id.pet_reg_gender_TV);
             view_reg_pet_details_BT = itemView.findViewById(R.id.view_reg_pet_details_BT);
+            view_ID_Card_BT=itemView.findViewById(R.id.view_ID_Card_BT);
 
             view_reg_pet_details_BT.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(onProductItemClickListner!=null){
-                        onProductItemClickListner.onProductClick(getAdapterPosition());
+                        onProductItemClickListner.onViewDetailsClick(getAdapterPosition());
+                    }
+                }
+            });
+
+            view_ID_Card_BT.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(onProductItemClickListner!=null){
+                        onProductItemClickListner.onIdCardClick(getAdapterPosition());
                     }
                 }
             });

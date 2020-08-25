@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.activities.AddPetRegister;
 import com.cynoteck.petofyvet.activities.GetPetDetailsActivity;
+import com.cynoteck.petofyvet.activities.PetIdCardActivity;
 import com.cynoteck.petofyvet.adapters.RegisterPetAdapter;
 import com.cynoteck.petofyvet.api.ApiClient;
 import com.cynoteck.petofyvet.api.ApiResponse;
@@ -28,7 +29,7 @@ import com.cynoteck.petofyvet.response.getPetReportsResponse.getPetListResponse.
 import com.cynoteck.petofyvet.response.getPetReportsResponse.getPetListResponse.PetList;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
-import com.cynoteck.petofyvet.utils.RegisterRecyclerViewClickListener;
+import com.cynoteck.petofyvet.utils.ViewDeatilsAndIdCardClick;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PetRegisterFragment extends Fragment implements  ApiResponse, RegisterRecyclerViewClickListener,View.OnClickListener{
+public class PetRegisterFragment extends Fragment implements  ApiResponse, ViewDeatilsAndIdCardClick,View.OnClickListener{
     View view;
     Context context;
     Methods methods;
@@ -160,19 +161,6 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, Regis
 
     }
 
-    @Override
-    public void onProductClick(int position) {
-        Log.d("positionssss",""+position);
-        Toast.makeText(getActivity(), categoryRecordArrayList.get(position).getId(), Toast.LENGTH_SHORT).show();
-        Log.d("pet_id",""+categoryRecordArrayList.get(position).getId());
-
-        StringTokenizer tokens = new StringTokenizer(categoryRecordArrayList.get(position).getId(), ".");
-        String first = tokens.nextToken();// this will contain "Fruit"
-
-        Intent intent=new Intent(getActivity(), GetPetDetailsActivity.class);
-        intent.putExtra("pet_id",first);
-        startActivity(intent);
-    }
 
     @Override
     public void onResume() {
@@ -185,5 +173,30 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, Regis
     public void onPause() {
         mShimmerViewContainer.stopShimmerAnimation();
         super.onPause();
+    }
+
+    @Override
+    public void onViewDetailsClick(int position) {
+        Log.d("positionssss",""+position);
+        Toast.makeText(getActivity(), categoryRecordArrayList.get(position).getId(), Toast.LENGTH_SHORT).show();
+        Log.d("pet_id",""+categoryRecordArrayList.get(position).getId());
+
+        StringTokenizer tokens = new StringTokenizer(categoryRecordArrayList.get(position).getId(), ".");
+        String first = tokens.nextToken();// this will contain "Fruit"
+
+        Intent intent=new Intent(getActivity(), GetPetDetailsActivity.class);
+        intent.putExtra("pet_id",first);
+        startActivity(intent);
+
+    }
+
+    @Override
+    public void onIdCardClick(int position) {
+        Log.d("positionssss",""+position);
+        Intent intent = new Intent(getContext(),PetIdCardActivity.class);
+        Bundle idBundle = new Bundle();
+        idBundle.putString("id",categoryRecordArrayList.get(position).getId());
+        intent.putExtras(idBundle);
+        startActivity(intent);
     }
 }
