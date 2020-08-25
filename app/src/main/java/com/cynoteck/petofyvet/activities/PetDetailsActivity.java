@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.print.PrintAttributes;
 import android.print.PrintDocumentAdapter;
 import android.print.PrintJob;
@@ -376,13 +377,29 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
         Context context=this;
         PrintManager printManager=(PrintManager)getSystemService(context.PRINT_SERVICE);
         PrintDocumentAdapter adapter=null;
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
-            adapter=webview.createPrintDocumentAdapter();
-        }
-        String JobName=getString(R.string.app_name) +"Document";
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
-            PrintJob printJob=printManager.print(JobName,adapter,new PrintAttributes.Builder().build());
-        }
+        new Handler().postDelayed(new Runnable(){
+            @Override
+            public void run() {
+                Context context=PetDetailsActivity.this;
+                PrintManager printManager=(PrintManager)getSystemService(context.PRINT_SERVICE);
+                PrintDocumentAdapter adapter=null;
+                if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
+                    adapter=webview.createPrintDocumentAdapter();
+                }
+                String JobName=getString(R.string.app_name) +"Document";
+                if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
+                    PrintJob printJob=printManager.print(JobName,adapter,new PrintAttributes.Builder().build());
+                }
+            }
+        }, 3000);
+
+//        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
+//            adapter=webview.createPrintDocumentAdapter();
+//        }
+//        String JobName=getString(R.string.app_name) +"Document";
+//        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
+//            PrintJob printJob=printManager.print(JobName,adapter,new PrintAttributes.Builder().build());
+//        }
     }
 
     @Override
