@@ -165,7 +165,9 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, ViewD
     @Override
     public void onResume() {
         super.onResume();
+        mShimmerViewContainer.setVisibility(View.VISIBLE);
         mShimmerViewContainer.startShimmerAnimation();
+        getPetList();
 
     }
 
