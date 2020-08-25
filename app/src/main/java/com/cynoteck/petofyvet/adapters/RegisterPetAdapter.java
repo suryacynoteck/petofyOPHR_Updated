@@ -84,7 +84,7 @@ public class RegisterPetAdapter extends RecyclerView.Adapter<RegisterPetAdapter.
                 }
             });
 
-            }
-
         }
+
     }
+}
