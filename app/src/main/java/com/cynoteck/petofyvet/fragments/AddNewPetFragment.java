@@ -702,10 +702,10 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
     }
 
 
-    ////////////////////////////////////ALEART DIALOG////////////////////////////////////////////////////////
+    ////////////////////////////////////////////ALEART DIALOG//////////////////////////////////////////////
 
 
-    public void editPrescriptionDialog(String petId)
+    public void editPrescriptionDialog(String petId,String petName, String petParentName)
     {
         editPetDilog = new Dialog(getContext());
         editPetDilog.setContentView(R.layout.edit_pet_layout);
@@ -725,6 +725,9 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
         save_changes_edit_dialog=editPetDilog.findViewById(R.id.save_edit_changes_dialog);
         cancel_edit_dialog=editPetDilog.findViewById(R.id.cancel_edit_dialog);
 
+        pet_name_edit_dialog.setText(petName);
+        pet_parent_name_edit_dialog.setText(petParentName);
+
         calenderTextView_edit_dialog.setOnClickListener(this);
         save_changes_edit_dialog.setOnClickListener(this);
         cancel_edit_dialog.setOnClickListener(this);
@@ -734,14 +737,14 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
         getPetListParams.setId(first);
         GetPetListRequest getPetListRequest = new GetPetListRequest();
         getPetListRequest.setData(getPetListParams);
-        if(methods.isInternetOn())
+        /*if(methods.isInternetOn())
         {
             getPetlistData(getPetListRequest);
         }
         else
         {
             methods.DialogInternet();
-        }
+        }*/
 
         setSpinnerEditPetSex();
         setPetTypeEditSpinner();
@@ -1004,12 +1007,12 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
 
     @Override
     public void onProductDownloadClick(int position) {
-        createPdf(petClinicVisitLists.get(position).getVeterinarian(),petClinicVisitLists.get(position).getCreatedByUser().getEmail(),petClinicVisitLists.get(position).getPetName(),petClinicVisitLists.get(position).getPetAge(),petClinicVisitLists.get(position).getPetSex(),petClinicVisitLists.get(position).getDateOfOnset(),petClinicVisitLists.get(position).getPetParentName(),petClinicVisitLists.get(position).getTemperature(),petClinicVisitLists.get(position).getDiagnosisProcedure(),petClinicVisitLists.get(position).getTreatmentRemarks(),petClinicVisitLists.get(position).getFollowUpDate());
+        createPdf(petClinicVisitLists.get(position).getVeterinarian(),petClinicVisitLists.get(position).getCreatedByUser().getProviderPhoneNumber(),petClinicVisitLists.get(position).getCreatedByUser().getCustomerEmail(),petClinicVisitLists.get(position).getPetName(),petClinicVisitLists.get(position).getPetAge(),petClinicVisitLists.get(position).getPetSex(),petClinicVisitLists.get(position).getDateOfOnset(),petClinicVisitLists.get(position).getPetParentName(),petClinicVisitLists.get(position).getTemperature(),petClinicVisitLists.get(position).getDiagnosisProcedure(),petClinicVisitLists.get(position).getTreatmentRemarks(),petClinicVisitLists.get(position).getFollowUpDate());
     }
 
     @Override
     public void onProductEditClick(int position) {
-        editPrescriptionDialog(petClinicVisitLists.get(position).getPetId());
+        editPrescriptionDialog(petClinicVisitLists.get(position).getPetId(),petClinicVisitLists.get(position).getPetName(),petClinicVisitLists.get(position).getPetParentName());
     }
 
     @Override
@@ -1310,7 +1313,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
         imm1.hideSoftInputFromWindow(search_box_add_new.getWindowToken(), 0);
     }
 
-    public void createPdf(String veterian, String strEmail, String strForA, String strAge,String strSex, String strDate,String strParntNm, String strTemparature, String strDiagnosis,String strRemark, String strNxtVisit)
+    public void createPdf(String veterian,String phoneNumber, String strEmail, String strForA, String strAge,String strSex, String strDate,String strParntNm, String strTemparature, String strDiagnosis,String strRemark, String strNxtVisit)
     {
         String care="Aviral Care";
         String pet_parent="Pramod Rana";
@@ -1367,14 +1370,14 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                 "                       \n" +
                 "                    </div>\n" +
                 "                    <div class=\"col-lg-6 col-md-6 col-xs-6 text-right\" style=\"font-size: 20px;\">\n" +
-                "                       <b> Mobile :"+strParntNm+" </b>\n" +
+                "                       <b> Mobile :"+phoneNumber+" </b>\n" +
                 "                    </div>\n" +
                 "                    \n" +
                 "                    <div class=\"col-lg-6 col-md-6 col-xs-6\" style=\"font-size: 17px;\">\n" +
                 "                       <b> Email: "+strEmail+" </b>\n" +
                 "                    </div>\n" +
                 "                    <div class=\"col-lg-6 col-md-6 col-xs-6 text-right\" style=\"font-size: 20px;\">\n" +
-                "                       <b> "+strParntNm+"</b>\n" +
+                "                       <b> "+phoneNumber+"</b>\n" +
                 "                    </div>\n" +
                 "                 \n" +
                 "                    \n" +
@@ -1450,16 +1453,23 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                 "</body>\n" +
                 "</html>";
         webview.loadDataWithBaseURL(null,str,"text/html","utf-8",null);
-        Context context=getActivity();
-        PrintManager printManager=(PrintManager)getActivity().getSystemService(context.PRINT_SERVICE);
-        PrintDocumentAdapter adapter=null;
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
-            adapter=webview.createPrintDocumentAdapter();
-        }
-        String JobName=getString(R.string.app_name) +"Document";
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
-            PrintJob printJob=printManager.print(JobName,adapter,new PrintAttributes.Builder().build());
-        }
+
+        new Handler().postDelayed(new Runnable(){
+            @Override
+            public void run() {
+                Context context=getActivity();
+                PrintManager printManager=(PrintManager)getActivity().getSystemService(context.PRINT_SERVICE);
+                PrintDocumentAdapter adapter=null;
+                if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
+                    adapter=webview.createPrintDocumentAdapter();
+                }
+                String JobName=getString(R.string.app_name) +"Document";
+                if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
+                    PrintJob printJob=printManager.print(JobName,adapter,new PrintAttributes.Builder().build());
+                }
+            }
+        }, 3000);
+
     }
 
 

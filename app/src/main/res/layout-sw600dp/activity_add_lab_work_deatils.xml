@@ -25,7 +25,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintTop_toTopOf="@id/toolbar"
-        android:text="@string/addTestXRay"
+        android:text="@string/manage_pet_lab_work"
         app:layout_constraintStart_toStartOf="@id/toolbar"
         app:layout_constraintEnd_toEndOf="@id/toolbar"
         app:layout_constraintBottom_toBottomOf="@id/toolbar"
@@ -36,7 +36,7 @@
     <ImageView
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:id="@+id/back_arrow_IV"
+        android:id="@+id/lab_back_arrow_IV"
         android:padding="8dp"
         android:visibility="visible"
         android:layout_width="50dp"
@@ -51,14 +51,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginBottom="10dp"
-        app:layout_constraintTop_toBottomOf="@id/back_arrow_IV">
+        app:layout_constraintTop_toBottomOf="@id/lab_back_arrow_IV">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/peto_edit_reg_number_dialog"
+                android:id="@+id/lab_peto_edit_reg_number_dialog"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="20dp"
@@ -79,7 +79,7 @@
                 android:background="#cccc"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/peto_edit_reg_number_dialog" />
+                app:layout_constraintTop_toBottomOf="@id/lab_peto_edit_reg_number_dialog" />
 
             <TextView
                 android:id="@+id/veterian_name_TV"
@@ -122,7 +122,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
                 android:gravity="center_vertical"
-                android:text="@string/RequestingContact"
+                android:text="@string/requestingVet"
                 android:textColor="@color/grey_add_pet"
                 app:layout_constraintEnd_toEndOf="@id/veterian_name_ET"
                 app:layout_constraintStart_toStartOf="parent"
@@ -137,7 +137,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edit_text_background"
                 android:gravity="center_vertical"
-                android:hint="@string/RequestingContact"
+                android:hint="veterinarian"
                 android:inputType="text"
                 android:maxLines="1"
                 android:paddingLeft="25dp"
@@ -388,13 +388,18 @@
                 >
 
                 <TextView
-                    android:id="@+id/upload_documents"
+                    android:id="@+id/lab_upload_documents"
                     style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/save_changes_back"
                     android:text="Upload Documents"
                     android:textColor="#6fac00"/>
+
+                <ImageView
+                    android:id="@+id/lab_document"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
 
             </LinearLayout>

@@ -74,11 +74,10 @@ public class AllStaffFragment extends Fragment implements ApiResponse, StaffList
         mShimmerViewContainer = view.findViewById(R.id.shimmer_view_container);
         add_staff_IV=view.findViewById(R.id.add_staff_IV);
         add_staff_IV.setOnClickListener(this);
+
         if (methods.isInternetOn()){
             getAllStaff();
-
         }else {
-
             methods.DialogInternet();
         }
     }
@@ -111,8 +110,6 @@ public class AllStaffFragment extends Fragment implements ApiResponse, StaffList
             button.setBackgroundResource(R.drawable.activated_status);
             button.setText("Activated");
             post_status = "true";
-
-
         }
 
         ChangeStaffStatusParams changeStaffStatusParams = new ChangeStaffStatusParams();
