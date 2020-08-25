@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.print.PrintAttributes;
 import android.print.PrintDocumentAdapter;
 import android.print.PrintJob;
@@ -155,6 +156,9 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 break;
             case R.id.print_id_card_arrow:
                 Intent intent = new Intent(this,PetIdCardActivity.class);
+                Bundle dataLabworkIdCard = new Bundle();
+                dataLabworkIdCard.putString("id",pet_id);
+                intent.putExtras(dataLabworkIdCard);
                 startActivity(intent);
                 break;
             case R.id.view_clinicVisits_arrow:
@@ -371,17 +375,21 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 "</script>\n" +
                 "</body>\n" +
                 "</html>";
-        webview.loadDataWithBaseURL(null,str,"text/html","utf-8",null);
-        Context context=this;
-        PrintManager printManager=(PrintManager)getSystemService(context.PRINT_SERVICE);
-        PrintDocumentAdapter adapter=null;
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
-            adapter=webview.createPrintDocumentAdapter();
-        }
-        String JobName=getString(R.string.app_name) +"Document";
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
-            PrintJob printJob=printManager.print(JobName,adapter,new PrintAttributes.Builder().build());
-        }
+        new Handler().postDelayed(new Runnable(){
+            @Override
+            public void run() {
+                Context context=PetDetailsActivity.this;
+                PrintManager printManager=(PrintManager)getSystemService(context.PRINT_SERVICE);
+                PrintDocumentAdapter adapter=null;
+                if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
+                    adapter=webview.createPrintDocumentAdapter();
+                }
+                String JobName=getString(R.string.app_name) +"Document";
+                if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
+                    PrintJob printJob=printManager.print(JobName,adapter,new PrintAttributes.Builder().build());
+                }
+            }
+        }, 3000);
     }
 
     @Override

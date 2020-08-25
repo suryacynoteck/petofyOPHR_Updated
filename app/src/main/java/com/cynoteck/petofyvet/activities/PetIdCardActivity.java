@@ -203,7 +203,7 @@ public class PetIdCardActivity extends AppCompatActivity implements ApiResponse 
                     parent_TV.setText(petIdCardResponse.getData().getPetParentName());
                     contact_TV.setText(petIdCardResponse.getData().getContactNumber());
                     pet_id_TV.setText(petIdCardResponse.getData().getPetUniqueId());
-//                    pet_image.setImageResource(Integer.parseInt(petIdCardResponse.getData().getPetProfileImageUrl()));
+ //                   pet_image.setImageResource(Integer.parseInt(petIdCardResponse.getData().getPetProfileImageUrl()));
 //                    bar_code_IV.setImageResource(Integer.parseInt(petIdCardResponse.getData().getBarcodeUrl()));
 
                 }
