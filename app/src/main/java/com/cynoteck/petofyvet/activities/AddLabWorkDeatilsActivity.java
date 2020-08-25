@@ -1,19 +1,34 @@
 package com.cynoteck.petofyvet.activities;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSpinner;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Response;
 
 import com.cynoteck.petofyvet.R;
@@ -23,20 +38,34 @@ import com.cynoteck.petofyvet.api.ApiService;
 import com.cynoteck.petofyvet.params.addLabRequest.AddLabParams;
 import com.cynoteck.petofyvet.params.addLabRequest.AddLabRequest;
 import com.cynoteck.petofyvet.response.addLabWorkResponse.AddLabWorkResponse;
+import com.cynoteck.petofyvet.response.addPet.imageUpload.ImageResponse;
 import com.cynoteck.petofyvet.response.labTyperesponse.LabTypeResponse;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.DexterError;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.PermissionRequestErrorListener;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 
 public class AddLabWorkDeatilsActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse {
 
     EditText veterian_name_ET,veterian_phone_ET,lab_name_ET,lab_phone_ET,test_name_ET,reson_of_visit_ET,result_ET;
     AppCompatSpinner labType_spinner;
-    TextView calenderTextViewVisitDt;
+    TextView calenderTextViewVisitDt,lab_upload_documents,lab_peto_edit_reg_number_dialog;
     Button save_BT;
+    ImageView lab_document,lab_back_arrow_IV;
 
     Methods methods;
 
@@ -46,32 +75,44 @@ public class AddLabWorkDeatilsActivity extends AppCompatActivity implements View
 
     DatePickerDialog picker;
 
-    String LabTypeId="",pet_id="",pet_name="",pet_owner_name="",pet_sex="",pet_unique_id="";
+    String LabTypeId="",pet_id="",pet_name="",pet_owner_name="",pet_sex="",pet_unique_id="",strDocumentUrl="";
+
+    private static final String IMAGE_DIRECTORY = "/Picture";
+    private int GALLERY = 1, CAMERA = 2;
+    File file = null;
+    Dialog dialog;
+    Bitmap bitmap, thumbnail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_lab_work_deatils);
         init();
-
+        requestMultiplePermissions();
     }
 
     private void init() {
         methods=new Methods(this);
         Bundle extras = getIntent().getExtras();
+        lab_peto_edit_reg_number_dialog=findViewById(R.id.lab_peto_edit_reg_number_dialog);
         veterian_name_ET=findViewById(R.id.veterian_name_ET);
         veterian_phone_ET=findViewById(R.id.veterian_phone_ET);
         lab_name_ET=findViewById(R.id.lab_name_ET);
         lab_phone_ET=findViewById(R.id.lab_phone_ET);
         test_name_ET=findViewById(R.id.test_name_ET);
         reson_of_visit_ET=findViewById(R.id.reson_of_visit_ET);
+        lab_upload_documents=findViewById(R.id.lab_upload_documents);
+        lab_document=findViewById(R.id.lab_document);
         result_ET=findViewById(R.id.result_ET);
         labType_spinner=findViewById(R.id.labType_spinner);
         calenderTextViewVisitDt=findViewById(R.id.calenderTextViewVisitDt);
         save_BT=findViewById(R.id.save_BT);
+        lab_back_arrow_IV=findViewById(R.id.lab_back_arrow_IV);
 
         calenderTextViewVisitDt.setOnClickListener(this);
         save_BT.setOnClickListener(this);
+        lab_upload_documents.setOnClickListener(this);
+        lab_back_arrow_IV.setOnClickListener(this);
 
         if (extras != null) {
             pet_id = extras.getString("pet_id");
@@ -79,6 +120,7 @@ public class AddLabWorkDeatilsActivity extends AppCompatActivity implements View
             pet_owner_name = extras.getString("pet_owner_name");
             pet_sex = extras.getString("pet_sex");
             pet_unique_id = extras.getString("pet_unique_id");
+            lab_peto_edit_reg_number_dialog.setText(pet_unique_id);
         }
 
         if (methods.isInternetOn()){
@@ -104,6 +146,9 @@ public class AddLabWorkDeatilsActivity extends AppCompatActivity implements View
                             }
                         }, dayFolwUpDt, monthFolwUpDt, yearFolwUpDt);
                 picker.show();
+                break;
+            case R.id.lab_upload_documents:
+                showPictureDialog();
                 break;
             case R.id.save_BT:
                 String strRequstVeterian=veterian_name_ET.getText().toString();
@@ -202,7 +247,7 @@ public class AddLabWorkDeatilsActivity extends AppCompatActivity implements View
                     addLabParams.setTestName(strNameofTest);
                     addLabParams.setReasonOfTest(strReasonOfVisit);
                     addLabParams.setResults(strRsult);
-                    addLabParams.setDocuments("");
+                    addLabParams.setDocuments(strDocumentUrl);
                     AddLabRequest addLabRequest=new AddLabRequest();
                     addLabRequest.setAddPetParams(addLabParams);
                     if(methods.isInternetOn())
@@ -215,11 +260,195 @@ public class AddLabWorkDeatilsActivity extends AppCompatActivity implements View
                     }
 
                 }
-
                 break;
+            case R.id.lab_back_arrow_IV:
+                onBackPressed();
+                break;
+        }
+
+    }
+
+    private void showPictureDialog() {
+        dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.dialog_layout);
+
+        TextView select_camera = (TextView) dialog.findViewById(R.id.select_camera);
+        TextView select_gallery = (TextView) dialog.findViewById(R.id.select_gallery);
+        TextView cancel_dialog = (TextView) dialog.findViewById(R.id.cancel_dialog);
+
+        select_camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                takePhotoFromCamera();
+            }
+        });
+
+        select_gallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                choosePhotoFromGallary();
+            }
+        });
+
+        cancel_dialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+    private void choosePhotoFromGallary() {
+
+
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+        startActivityForResult(galleryIntent, GALLERY);
+    }
+
+    private void takePhotoFromCamera() {
+
+        Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, CAMERA);
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.FROYO)
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        dialog.dismiss();
+        if (resultCode == RESULT_CANCELED) {
+            return;
+        }
+        if (requestCode == GALLERY) {
+            if (data != null) {
+
+                Uri contentURI = data.getData();
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), contentURI);
+                    lab_document.setImageBitmap(bitmap);
+                    saveImage(bitmap);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Toast.makeText(AddLabWorkDeatilsActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        }
+        else if (requestCode == CAMERA) {
+
+            if (data.getData() == null)
+            {
+                thumbnail = (Bitmap) data.getExtras().get("data");
+                Log.e("jghl",""+thumbnail);
+                lab_document.setImageBitmap(thumbnail);
+                saveImage(thumbnail);
+                Toast.makeText(AddLabWorkDeatilsActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
+            }
+
+            else{
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(AddLabWorkDeatilsActivity.this.getContentResolver(), data.getData());
+                    lab_document.setImageBitmap(bitmap);
+                    saveImage(bitmap);
+                    Toast.makeText(AddLabWorkDeatilsActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
 
         }
 
+        return;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.FROYO)
+    public String saveImage(Bitmap myBitmap) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        myBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+        File wallpaperDirectory = new File(
+                Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
+        // have the object build the directory structure, if needed.
+        if (!wallpaperDirectory.exists()) {
+            wallpaperDirectory.mkdirs();
+        }
+
+        try {
+            file = new File(wallpaperDirectory, Calendar.getInstance()
+                    .getTimeInMillis() + ".png");
+            file.createNewFile();
+            FileOutputStream fo = new FileOutputStream(file);
+            fo.write(bytes.toByteArray());
+            MediaScannerConnection.scanFile(this,
+                    new String[]{file.getPath()},
+                    new String[]{"image/png"}, null);
+            fo.close();
+            Log.d("TAG", "File Saved::---&gt;" + file.getAbsolutePath());
+            UploadImages(file);
+            return file.getAbsolutePath();
+
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+        return "";
+    }
+
+    private void UploadImages(File absolutePath) {
+        MultipartBody.Part userDpFilePart = null;
+        if (absolutePath != null) {
+            RequestBody userDpFile = RequestBody.create(MediaType.parse("image/*"), absolutePath);
+            userDpFilePart = MultipartBody.Part.createFormData("file", absolutePath.getName(), userDpFile);
+        }
+
+        ApiService<ImageResponse> service = new ApiService<>();
+        service.get( this, ApiClient.getApiInterface().uploadImages(Config.token,userDpFilePart), "UploadDocument");
+        Log.e("DATALOG","check1=> "+service);
+
+    }
+
+    private void requestMultiplePermissions() {
+        Dexter.withActivity(this)
+                .withPermissions(
+                        android.Manifest.permission.CAMERA,
+                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                        // check if all permissions are granted
+                        if (report.areAllPermissionsGranted()) {
+                            Toast.makeText(AddLabWorkDeatilsActivity.this, "All permissions are granted by user!", Toast.LENGTH_SHORT).show();
+                        }
+
+                        // check for permanent denial of any permission
+                        if (report.isAnyPermissionPermanentlyDenied()) {
+                            // show alert dialog navigating to Settings
+                            //openSettingsDialog();
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+
+
+                }).
+                withErrorListener(new PermissionRequestErrorListener() {
+                    @Override
+                    public void onError(DexterError error) {
+                        Toast.makeText(AddLabWorkDeatilsActivity.this, "Some Error! ", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .onSameThread()
+                .check();
     }
 
     private void getLabTypeList() {
@@ -259,6 +488,24 @@ public class AddLabWorkDeatilsActivity extends AppCompatActivity implements View
                     }
 
                 } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "UploadDocument":
+                try {
+                    Log.d("UploadDocument",arg0.body().toString());
+                    ImageResponse imageResponse = (ImageResponse) arg0.body();
+                    int responseCode = Integer.parseInt(imageResponse.getResponse().getResponseCode());
+                    if (responseCode== 109){
+                        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                        strDocumentUrl=imageResponse.getData().getDocumentUrl();
+                    }else if (responseCode==614){
+                        Toast.makeText(this, imageResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch(Exception e) {
                     e.printStackTrace();
                 }
                 break;

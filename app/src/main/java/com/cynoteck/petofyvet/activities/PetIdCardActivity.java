@@ -12,9 +12,6 @@ public class PetIdCardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.identity_card);
 
-
-
-
     }
 
 

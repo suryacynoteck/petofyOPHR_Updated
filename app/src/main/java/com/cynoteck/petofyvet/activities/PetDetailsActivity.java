@@ -34,7 +34,7 @@ import retrofit2.Response;
 
 public class PetDetailsActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse {
     String pet_id,pet_name,patent_name,pet_bread,pet_unique_id="",pet_sex="";
-    TextView pet_nameTV, pet_parentNameTV;
+    TextView pet_nameTV, pet_parentNameTV,pet_id_TV;
     ImageView back_arrow_IV,view_clinicVisits_arrow,view_xrayReport_arrow,view_labTestReport_arrow,view_Hospitalization_arrow,last_prescription_arrow,recent_visits_arrow,print_id_card_arrow,view_history_arrow;
     Methods methods;
     WebView webview;
@@ -58,6 +58,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
         pet_nameTV = findViewById(R.id.pet_name_TV);
         pet_parentNameTV = findViewById(R.id.pet_owner_name_TV);
         back_arrow_IV=findViewById(R.id.back_arrow_IV);
+        pet_id_TV=findViewById(R.id.pet_id_TV);
         view_Hospitalization_arrow=findViewById(R.id.view_Hospitalization_arrow);
         recent_visits_arrow=findViewById(R.id.recent_visits_arrow);
         print_id_card_arrow=findViewById(R.id.print_id_card_arrow);
@@ -76,9 +77,11 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
         view_history_arrow.setOnClickListener(this);
         back_arrow_IV.setOnClickListener(this);
         last_prescription_arrow.setOnClickListener(this);
+        view_xrayReport_arrow.setOnClickListener(this);
+
         pet_nameTV.setText(pet_name+"("+pet_sex+")");
         pet_parentNameTV.setText(patent_name);
-        view_xrayReport_arrow.setOnClickListener(this);
+        pet_id_TV.setText(pet_unique_id);
     }
 
 

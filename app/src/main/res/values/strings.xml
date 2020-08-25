@@ -60,6 +60,7 @@
     <string name="allpets">ALL PETS</string>
     <string name="allStaff">ALL STAFF</string>
     <string name="add_new_pet">Add New Pet</string>
+    <string name="add_clinic_data">Clinic Visit</string>
     <string name="name">Name</string>
     <string name="acitivated">Activated</string>
     <string name="add_staff">Add Staff</string>
@@ -115,6 +116,7 @@
     <string name="RecommendedFollowup">Recommended Follow-up</string>
     <string name="FollowupDate">Follow-up Date</string>
     <string name="addTestXRay">Add Test/X-rays</string>
+    <string name="manage_pet_lab_work">Manage pet-Lab work</string>
     <string name="addhospitalization">Add Hospitalizations/Surgeries</string>
     <string name="labname">Lab Name</string>
     <string name="dischargeDate">Discharge Date*</string>

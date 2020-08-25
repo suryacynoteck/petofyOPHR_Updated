@@ -32,7 +32,7 @@
                 android:id="@+id/doctorPrescription_headline_TV"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:text="@string/add_new_pet"
+                android:text="@string/add_clinic_data"
                 android:textColor="@color/black_color"
                 android:textSize="25sp"
                 android:textStyle="bold"/>
@@ -40,7 +40,7 @@
             <ImageView
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:id="@+id/back_arrow_IV"
+                android:id="@+id/clinic_back_arrow_IV"
                 android:padding="8dp"
                 android:visibility="visible"
                 android:layout_width="50dp"
@@ -69,7 +69,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/peto_edit_reg_number_dialog"
+                android:id="@+id/clinic_peto_edit_reg_number_dialog"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="20dp"
@@ -90,7 +90,7 @@
                 android:background="#cccc"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/peto_edit_reg_number_dialog" />
+                app:layout_constraintTop_toBottomOf="@id/clinic_peto_edit_reg_number_dialog" />
 
             <TextView
                 android:id="@+id/veterian_name_TV"
@@ -555,6 +555,11 @@
                     android:background="@drawable/save_changes_back"
                     android:text="Upload Documents"
                     android:textColor="#6fac00"/>
+
+                <ImageView
+                    android:id="@+id/document_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
 
             </LinearLayout>
