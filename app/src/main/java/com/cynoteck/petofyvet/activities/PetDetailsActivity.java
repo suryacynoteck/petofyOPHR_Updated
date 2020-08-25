@@ -58,7 +58,6 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
         pet_nameTV = findViewById(R.id.pet_name_TV);
         pet_parentNameTV = findViewById(R.id.pet_owner_name_TV);
         back_arrow_IV=findViewById(R.id.back_arrow_IV);
-        pet_id_TV=findViewById(R.id.pet_id_TV);
         view_Hospitalization_arrow=findViewById(R.id.view_Hospitalization_arrow);
         recent_visits_arrow=findViewById(R.id.recent_visits_arrow);
         print_id_card_arrow=findViewById(R.id.print_id_card_arrow);
@@ -68,7 +67,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
         view_labTestReport_arrow=findViewById(R.id.view_labTestReport_arrow);
         last_prescription_arrow=findViewById(R.id.last_prescription_arrow);
         webview=findViewById(R.id.webview);
-
+        pet_id_TV=findViewById(R.id.pet_id_TV);
         view_clinicVisits_arrow.setOnClickListener(this);
         view_labTestReport_arrow.setOnClickListener(this);
         view_Hospitalization_arrow.setOnClickListener(this);
@@ -77,11 +76,10 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
         view_history_arrow.setOnClickListener(this);
         back_arrow_IV.setOnClickListener(this);
         last_prescription_arrow.setOnClickListener(this);
-        view_xrayReport_arrow.setOnClickListener(this);
-
         pet_nameTV.setText(pet_name+"("+pet_sex+")");
         pet_parentNameTV.setText(patent_name);
         pet_id_TV.setText(pet_unique_id);
+        view_xrayReport_arrow.setOnClickListener(this);
     }
 
 
@@ -155,6 +153,9 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 break;
             case R.id.print_id_card_arrow:
                 Intent intent = new Intent(this,PetIdCardActivity.class);
+                Bundle idBundle = new Bundle();
+                idBundle.putString("id",pet_id);
+                intent.putExtras(idBundle);
                 startActivity(intent);
                 break;
             case R.id.view_clinicVisits_arrow:
@@ -191,7 +192,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
 
     private void getclinicVisitsReportDetails() {
         PetClinicVistsDetailsParams petClinicVistsDetailsParams = new PetClinicVistsDetailsParams();
-        petClinicVistsDetailsParams.setId(pet_id);
+        petClinicVistsDetailsParams.setId(pet_id.substring(0,pet_id.length()-2));
         PetClinicVisitDetailsRequest petClinicVisitDetailsRequest = new PetClinicVisitDetailsRequest();
         petClinicVisitDetailsRequest.setData(petClinicVistsDetailsParams);
         Log.d("petClinicVisitDetail",petClinicVisitDetailsRequest.toString());

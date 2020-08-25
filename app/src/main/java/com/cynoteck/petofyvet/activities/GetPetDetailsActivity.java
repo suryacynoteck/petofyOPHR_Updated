@@ -466,6 +466,7 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
                     int responseCode = Integer.parseInt(getPetResponse.getResponse().getResponseCode());
                     if (responseCode == 109) {
                         Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+
                         pet_details_name.setText(getPetResponse.getData().getPetName());
                         pet_details_parent_name.setText(getPetResponse.getData().getPetParentName());
                         pet_deatils_contact_number.setText(getPetResponse.getData().getContactNumber());
@@ -691,7 +692,9 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
         add_details_pet_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
-                // Showing selected spinner item
+                strSpnerItemPetNm=item;
+                Log.d("spnerType",""+strSpnerItemPetNm);
+                getStrSpnerItemPetNmId=petTypeHashMap.get(strSpnerItemPetNm);
             }
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -707,7 +710,9 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
                 // Showing selected spinner item
-                Log.d("spnerType",""+item);
+                strSpnrBreed=item;
+                Log.d("spnerType",""+strSpnrBreed);
+                strSpnrBreedId=petBreedHashMap.get(strSpnrBreed);
             }
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -723,7 +728,9 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
                 // Showing selected spinner item
-                Log.d("spnerType",""+item);
+                strSpnrAge=item;
+                Log.d("spnerType",""+strSpnrAge);
+                strSpnrAgeId=petAgeHashMap.get(strSpnrAge);
             }
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -740,7 +747,9 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
                 // Showing selected spinner item
-                Log.d("spnerType",""+item);
+                strSpnrColor=item;
+                Log.d("spnerType",""+strSpnrColor);
+                strSpnrColorId=petColorHashMap.get(strSpnrColor);
             }
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -757,8 +766,9 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
                 String item = parent.getItemAtPosition(position).toString();
                 // Showing selected spinner item
                 //strSpnrSize=item;
-                Log.d("spnerType",""+item);
-                //strSpneSizeId=petSizeHashMap.get(strSpnrSize);
+                strSpnrSize=item;
+                Log.d("spnerType",""+strSpnrSize);
+                strSpneSizeId=petSizeHashMap.get(strSpnrSize);
             }
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -775,8 +785,9 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
                 String item = parent.getItemAtPosition(position).toString();
                 // Showing selected spinner item
                 //strSpnrSex=item;
-                Log.d("spnerType",""+item);
-                //strSpnrSexId=petSexHashMap.get(strSpnrSex);
+                strSpnrSex=item;
+                Log.d("spnerType",""+strSpnrSex);
+                strSpnrSexId=petSexHashMap.get(strSpnrSex);
             }
             public void onNothingSelected(AdapterView<?> parent) {
             }

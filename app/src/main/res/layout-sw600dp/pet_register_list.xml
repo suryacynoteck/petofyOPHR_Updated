@@ -166,15 +166,43 @@
             </LinearLayout>
 
 
-            <Button
-                android:id="@+id/view_reg_pet_details_BT"
+            <LinearLayout
+                android:weightSum="2"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_marginBottom="10dp"
                 android:layout_weight="0.5"
-                android:background="@color/colorPrimary"
-                android:text="@string/viewDetails"
-                android:textColor="@color/whiteColor" />
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:id="@+id/view_reg_pet_details_BT"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/colorPrimary"
+                    android:text="@string/viewDetails"
+                    android:textColor="@color/whiteColor" />
+
+                <Button
+
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:id="@+id/view_ID_Card_BT"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/green_border_button"
+                    android:text="ID CARD"
+                    android:textColor="@color/colorPrimary" />
+
+
+            </LinearLayout>
+
+
+
 
         </LinearLayout>
 

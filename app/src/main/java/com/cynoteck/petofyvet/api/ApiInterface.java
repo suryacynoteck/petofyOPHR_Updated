@@ -38,20 +38,21 @@ import com.cynoteck.petofyvet.response.addTestAndXRayResponse.AddTestXRayRespons
 import com.cynoteck.petofyvet.response.clinicVisist.ClinicVisitResponse;
 import com.cynoteck.petofyvet.response.forgetAndChangePassResponse.PasswordResponse;
 import com.cynoteck.petofyvet.response.getLabTestReportResponse.getLabTestReportDetailsResponse.GetLabTestReportDeatilsResponse;
-import com.cynoteck.petofyvet.response.getPetDetailsResponse.GetPetResponse;
 import com.cynoteck.petofyvet.response.getLabTestReportResponse.getPetLabWorkListResponse.PetLabWorkResponse;
+import com.cynoteck.petofyvet.response.getPetDetailsResponse.GetPetResponse;
 import com.cynoteck.petofyvet.response.getPetHospitalizationResponse.getHospitalizationDeatilsResponse.GetHospitalizationDeatilsResponse;
+import com.cynoteck.petofyvet.response.getPetHospitalizationResponse.getHospitalizationListResponse.GetPetHospitalizationResponse;
+import com.cynoteck.petofyvet.response.getPetIdCardResponse.PetIdCardResponse;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.AddUpdateDeleteClinicVisitResponse;
+import com.cynoteck.petofyvet.response.getPetReportsResponse.GetReportsTypeResponse;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.getClinicVisitDetails.GetClinicVisitsDetailsResponse;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.getPetClinicVisitsListsResponse.GetPetClinicVisitListResponse;
-import com.cynoteck.petofyvet.response.getPetHospitalizationResponse.getHospitalizationListResponse.GetPetHospitalizationResponse;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.getPetListResponse.GetPetListResponse;
-import com.cynoteck.petofyvet.response.getXRayReports.getPetTestAndXRayResponse.GetPetTestAndXRayResponse;
-import com.cynoteck.petofyvet.response.getPetReportsResponse.GetReportsTypeResponse;
 import com.cynoteck.petofyvet.response.getStaffResponse.GetAllStaffResponse;
 import com.cynoteck.petofyvet.response.getStaffResponse.GetStaffDetailsResponse;
 import com.cynoteck.petofyvet.response.getStaffResponse.GetStaffStatusResponse;
 import com.cynoteck.petofyvet.response.getStaffResponse.GetUpdateStaffResponse;
+import com.cynoteck.petofyvet.response.getXRayReports.getPetTestAndXRayResponse.GetPetTestAndXRayResponse;
 import com.cynoteck.petofyvet.response.getXRayReports.getXRayReportDetailsResponse.GetXRayReportDeatilsResponse;
 import com.cynoteck.petofyvet.response.hospitalTypeListResponse.HospitalAddmissionTypeResp;
 import com.cynoteck.petofyvet.response.labTyperesponse.LabTypeResponse;
@@ -59,7 +60,6 @@ import com.cynoteck.petofyvet.response.loginRegisterResponse.LoginRegisterRespon
 import com.cynoteck.petofyvet.response.newPetResponse.NewPetRegisterResponse;
 import com.cynoteck.petofyvet.response.otpResponse.OtpResponse;
 import com.cynoteck.petofyvet.response.recentEntrys.RecentEntrysResponse;
-import com.cynoteck.petofyvet.response.recentVisitResponse.RecentVisitResponsee;
 import com.cynoteck.petofyvet.response.testResponse.XrayTestResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.CityResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.CountryResponse;
@@ -329,6 +329,10 @@ public interface ApiInterface {
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("pethealthrecord/AddPetHospitalization")
     Call<AddhospitalizationResposee> addPetHospitalization(@Header("Authorization") String auth, @Body AddHospitalizationRequest addHospitalizationRequest);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST(" pet/GetPetIdentityCard")
+    Call<PetIdCardResponse> getPetIdCard(@Header("Authorization") String auth, @Body PetClinicVisitDetailsRequest idCardRequest);
 
 
 
