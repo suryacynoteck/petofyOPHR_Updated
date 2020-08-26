@@ -35,6 +35,7 @@ import com.cynoteck.petofyvet.params.addTestXRayParams.AddTestXRayParams;
 import com.cynoteck.petofyvet.params.addTestXRayParams.AddTestXRayRequest;
 import com.cynoteck.petofyvet.response.addPet.imageUpload.ImageResponse;
 import com.cynoteck.petofyvet.response.addTestAndXRayResponse.AddTestXRayResponse;
+import com.cynoteck.petofyvet.response.clinicVisist.ClinicVisitResponse;
 import com.cynoteck.petofyvet.response.testResponse.XrayTestResponse;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
@@ -61,19 +62,22 @@ import okhttp3.RequestBody;
 import retrofit2.Response;
 
 public class AddXRayDeatilsActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse {
-    TextView peto_edit_reg_number_dialog,calenderTextViewtestdate,folow_up_dt_view,xray_test_upload_documents,xray_peto_edit_reg_number_dialog;
-    AppCompatSpinner nature_of_visit_spinner;
+    TextView peto_edit_reg_number_dialog,calenderTextViewtestdate,folow_up_dt_view,xray_test_upload_documents,xray_peto_edit_reg_number_dialog,doctorPrescription_headline_TV;
+    AppCompatSpinner nature_of_visit_spinner,clinicNext_visit_spinner;
     EditText description_ET;
-    Button save_BT,update_Bt;
+    Button save_BT;
     ImageView xray_document,x_ray_back_arrow_IV;
 
     Methods methods;
 
     ArrayList<String> testTypeList;
 
-    HashMap<String,String> testTypehas=new HashMap<>();
+    ArrayList<String> nextVisitList;
 
-    String testTypeId="",testIdName="",pet_id="",pet_name="",pet_owner_name="",pet_sex="",pet_unique_id="",strDocumentUrl="";
+    HashMap<String,String> testTypehas=new HashMap<>();
+    HashMap<String,String> nextVisitHas=new HashMap<>();
+
+    String  visitId="",visitIdString="",natureOfVistId="",follow_up_date="",testIdName="",pet_id="",pet_name="",pet_owner_name="",pet_sex="",pet_unique_id="",strDocumentUrl="",nature_of_visit="",test_date="",result="",type="";
 
     DatePickerDialog picker;
 
@@ -87,12 +91,15 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_x_ray_deatils);
+        methods=new Methods(this);
         init();
         requestMultiplePermissions();
     }
 
     private void init() {
         Bundle extras = getIntent().getExtras();
+        clinicNext_visit_spinner=findViewById(R.id.next_visit_spinner);
+        doctorPrescription_headline_TV=findViewById(R.id.doctorPrescription_headline_TV);
         xray_peto_edit_reg_number_dialog=findViewById(R.id.xray_peto_edit_reg_number_dialog);
         peto_edit_reg_number_dialog=findViewById(R.id.xray_peto_edit_reg_number_dialog);
         calenderTextViewtestdate=findViewById(R.id.calenderTextViewtestdate);
@@ -103,7 +110,6 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
         xray_document=findViewById(R.id.xray_document);
         save_BT=findViewById(R.id.save_BT);
         x_ray_back_arrow_IV=findViewById(R.id.x_ray_back_arrow_IV);
-        update_Bt=findViewById(R.id.update_BT);
         save_BT.setOnClickListener(this);
         calenderTextViewtestdate.setOnClickListener(this);
         folow_up_dt_view.setOnClickListener(this);
@@ -115,51 +121,76 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
             pet_name = extras.getString("pet_name");
             pet_owner_name = extras.getString("pet_owner_name");
             pet_sex = extras.getString("pet_sex");
+
             pet_unique_id = extras.getString("pet_unique_id");
-            xray_peto_edit_reg_number_dialog.setText(pet_unique_id);
+            nature_of_visit=extras.getString("nature_of_visit");
+            test_date=extras.getString("test_date");
+            result=extras.getString("result");
+            follow_up_date=extras.getString("follow_up_date");
+            type=extras.getString("type");
+            peto_edit_reg_number_dialog.setText(pet_unique_id);
+
         }
 
+        if(type.equals("Update Test/X-rays")) {
+            save_BT.setText("UPDATE");
+            description_ET.setText(result);
+            calenderTextViewtestdate.setText(test_date);
+            folow_up_dt_view.setText(follow_up_date);
+            doctorPrescription_headline_TV.setText(type);
+        }else {
+            save_BT.setText("SUBMIT");
+            calenderTextViewtestdate.setText(Config.currentDate());
+        }
 
-
-
-        methods=new Methods(this);
 
         if (methods.isInternetOn()){
             getTestTypeList();
+            getVisitTypes();
         }else {
+
             methods.DialogInternet();
         }
+
+
+    }
+
+    private void getVisitTypes() {
+        ApiService<ClinicVisitResponse> service = new ApiService<>();
+        service.get( this, ApiClient.getApiInterface().getClinicVisit(Config.token), "GetClinicVisitRoutineFollowupTypes");
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.folow_up_dt_view:
-                final Calendar cldrFolwUpDt = Calendar.getInstance();
-                int dayFolwUpDt = cldrFolwUpDt.get(Calendar.DAY_OF_MONTH);
-                int monthFolwUpDt = cldrFolwUpDt.get(Calendar.MONTH);
-                int yearFolwUpDt = cldrFolwUpDt.get(Calendar.YEAR);
+                final Calendar cldr1 = Calendar.getInstance();
+                int day1 = cldr1.get(Calendar.DAY_OF_MONTH);
+                int month1 = cldr1.get(Calendar.MONTH);
+                int year1 = cldr1.get(Calendar.YEAR);
+                // date picker dialog
                 picker = new DatePickerDialog(this,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                                 folow_up_dt_view.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
                             }
-                        }, dayFolwUpDt, monthFolwUpDt, yearFolwUpDt);
+                        }, year1, month1, day1);
                 picker.show();
                 break;
             case R.id.calenderTextViewtestdate:
-                final Calendar cldrDeschrgDt = Calendar.getInstance();
-                int dayDeschrgDt = cldrDeschrgDt.get(Calendar.DAY_OF_MONTH);
-                int monthDeschrgDt = cldrDeschrgDt.get(Calendar.MONTH);
-                int yearDeschrgDt = cldrDeschrgDt.get(Calendar.YEAR);
+                final Calendar cldr = Calendar.getInstance();
+                int day = cldr.get(Calendar.DAY_OF_MONTH);
+                int month = cldr.get(Calendar.MONTH);
+                int year = cldr.get(Calendar.YEAR);
+                // date picker dialog
                 picker = new DatePickerDialog(this,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                                 calenderTextViewtestdate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
                             }
-                        }, dayDeschrgDt, monthDeschrgDt, yearDeschrgDt);
+                        }, year, month, day);
                 picker.show();
                 break;
             case R.id.xray_test_upload_documents:
@@ -180,34 +211,47 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
                     description_ET.setError(null);
                     calenderTextViewtestdate.setError("Enter test Date");
                 }
-                else if(testTypeId.equals("Select Test Type"))
+                else if(natureOfVistId.equals("Select Test Type"))
                 {
                     description_ET.setError(null);
                     calenderTextViewtestdate.setError(null);
                     Toast.makeText(this, "Select Test type ", Toast.LENGTH_SHORT).show();
                 }
+//                else if(visitId.equals("Select Visit"))
+//                {
+//                    description_ET.setError(null);
+//                    calenderTextViewtestdate.setError(null);
+//                    Toast.makeText(this, "Select Test type ", Toast.LENGTH_SHORT).show();
+//                }
                 else{
+                    methods.showCustomProgressBarDialog(this);
                     description_ET.setError(null);
                     calenderTextViewtestdate.setError(null);
                     AddTestXRayParams addTestXRayParams=new AddTestXRayParams();
                     addTestXRayParams.setPetId(pet_id);
-                    addTestXRayParams.setTypeOfTestId(testTypeId);
+                    addTestXRayParams.setTypeOfTestId(natureOfVistId);
                     addTestXRayParams.setDocuments(strDocumentUrl);
+                    addTestXRayParams.setFollowUpId(visitId);
                     addTestXRayParams.setFollowUpDate(strFolowUpDt);
                     addTestXRayParams.setDateTested(strDt);
                     addTestXRayParams.setResults(strDescription);
                     AddTestXRayRequest addTestXRayRequest=new AddTestXRayRequest();
                     addTestXRayRequest.setData(addTestXRayParams);
-                    if(methods.isInternetOn())
-                    {
-                        addPetXray(addTestXRayRequest);
-                    }
-                    else
-                    {
-                        methods.DialogInternet();
-                    }
+                   if (type.equals("Update Test/X-rays")){
+                       if(methods.isInternetOn())
+                       { updateXray(addTestXRayRequest); }
+                       else
+                       { methods.DialogInternet(); }
+                    }else {
+                       if(methods.isInternetOn())
+                       { addPetXray(addTestXRayRequest); }
+                       else
+                       { methods.DialogInternet(); }
+                   }
+
                 }
                 break;
+
             case R.id.x_ray_back_arrow_IV:
                 onBackPressed();
                 break;
@@ -215,6 +259,8 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
         }
 
     }
+
+
 
     private void showPictureDialog() {
         dialog = new Dialog(this);
@@ -399,6 +445,12 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
                 .check();
     }
 
+
+    private void updateXray(AddTestXRayRequest addTestXRayRequest) {
+        ApiService<AddTestXRayResponse> service = new ApiService<>();
+        service.get( this, ApiClient.getApiInterface().updateTestXRay(Config.token,addTestXRayRequest), "UpdateTestXRay");
+        Log.d("addPetLabParams",""+addTestXRayRequest);
+    }
     private void addPetXray(AddTestXRayRequest addTestXRayRequest) {
         ApiService<AddTestXRayResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().addTestXRay(Config.token,addTestXRayRequest), "AddTestXRay");
@@ -413,6 +465,37 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
     @Override
     public void onResponse(Response arg0, String key) {
         switch (key) {
+            case "GetClinicVisitRoutineFollowupTypes":
+                try {
+                    ClinicVisitResponse clinicVisitResponse = (ClinicVisitResponse) arg0.body();
+                    Log.d("GetClinicVisit", clinicVisitResponse.toString());
+                    int responseCode = Integer.parseInt(clinicVisitResponse.getResponse().getResponseCode());
+
+                    if (responseCode== 109){
+                        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                        nextVisitList=new ArrayList<>();
+                        nextVisitList.add("Select Visit");
+                        for(int i=0;i<clinicVisitResponse.getData().size();i++)
+                        {
+                            nextVisitList.add(clinicVisitResponse.getData().get(i).getFollowUpTitle());
+                            nextVisitHas.put(clinicVisitResponse.getData().get(i).getFollowUpTitle(),clinicVisitResponse.getData().get(i).getId());
+                        }
+                        setSpinnerNextClinicVisit();
+                    }
+                    else if (responseCode==614){
+                        Toast.makeText(this, clinicVisitResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+
             case "GetTestTypeList":
                 try {
                     XrayTestResponse xrayTestResponse = (XrayTestResponse) arg0.body();
@@ -456,14 +539,18 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
                     e.printStackTrace();
                 }
                 break;
+
             case "AddTestXRay":
                 try {
+                    methods.customProgressDismiss();
                     AddTestXRayResponse addTestXRayResponse = (AddTestXRayResponse) arg0.body();
                     Log.d("GetTestTypeList", addTestXRayResponse.toString());
                     int responseCode = Integer.parseInt(addTestXRayResponse.getResponse().getResponseCode());
 
                     if (responseCode == 109) {
-
+                        Config.type ="XRay";
+                        onBackPressed();
+                        Toast.makeText(this, "Added Successfully", Toast.LENGTH_SHORT).show();
                     } else if (responseCode == 614) {
                         Toast.makeText(this, addTestXRayResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
                     } else {
@@ -475,8 +562,46 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
                 }
                 break;
 
+            case "UpdateTestXRay":
+                try {
+                    methods.customProgressDismiss();
+                    AddTestXRayResponse addTestXRayResponse = (AddTestXRayResponse) arg0.body();
+                    Log.d("UpdateTestXRay", addTestXRayResponse.toString());
+                    int responseCode = Integer.parseInt(addTestXRayResponse.getResponse().getResponseCode());
+
+                    if (responseCode == 109) {
+                        Config.type ="XRay";
+                        onBackPressed();
+                        Toast.makeText(this, "Updated Successfully", Toast.LENGTH_SHORT).show();
+                    } else if (responseCode == 614) {
+                        Toast.makeText(this, addTestXRayResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
         }
 
+    }
+
+    private void setSpinnerNextClinicVisit() {
+        ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,nextVisitList);
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Setting the ArrayAdapter data on the Spinner
+        clinicNext_visit_spinner.setAdapter(aa);
+        clinicNext_visit_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+                // Showing selected spinner item
+                Log.d("nextVisit",""+item);
+                visitIdString=item;
+                visitId=nextVisitHas.get(item);
+            }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
     }
 
     private void setSpinnerTestType() {
@@ -484,13 +609,17 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
         nature_of_visit_spinner.setAdapter(aa);
+        if (!nature_of_visit.equals("")){
+            int spinnerPosition = aa.getPosition(nature_of_visit);
+            nature_of_visit_spinner.setSelection(spinnerPosition);
+        }
         nature_of_visit_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
                 // Showing selected spinner item
-                Log.d("spnerType",""+item);
+                Log.d("natureofvist",""+item);
                 testIdName=item;
-                testTypeId=testTypehas.get(item);
+                natureOfVistId=testTypehas.get(item);
             }
             public void onNothingSelected(AdapterView<?> parent) {
             }

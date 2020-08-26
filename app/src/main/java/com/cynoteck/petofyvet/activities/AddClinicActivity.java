@@ -70,7 +70,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
             Remarks="",visitDate="",dtOfOnset="",flowUpDt="",weight="",temparature="",diagnosis="",
             strVacine="",strDewormerName="",strDewormerDose="",strToolbarName="";
     Bundle data = new Bundle();
-    TextView Dewormer_name_ET,Dewormer_name_TV,Dewormer_ET,Dewormer_TV,vaccine_TV,clinicFolow_up_dt_view,clinic_head_line,
+    TextView folow_up_dt_view,ilness_onset, Dewormer_name_ET,Dewormer_name_TV,Dewormer_ET,Dewormer_TV,vaccine_TV,clinicFolow_up_dt_view,clinic_head_line,
              clinicCalenderTextViewVisitDt,clinicIlness_onset,date_of_illness_TV,upload_documents,clinic_peto_edit_reg_number_dialog;
     ImageView document_name,clinic_back_arrow_IV;
     LinearLayout addPrescriptionButton;
@@ -118,6 +118,8 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         document_name = findViewById(R.id.document_name);
         upload_documents = findViewById(R.id.upload_documents);
         weight_ET = findViewById(R.id.weight_ET);
+        ilness_onset=findViewById(R.id.ilness_onset);
+        folow_up_dt_view=findViewById(R.id.folow_up_dt_view);
         vaccine_TV = findViewById(R.id.vaccine_TV);
         vacine_ET = findViewById(R.id.vacine_ET);
         Dewormer_TV = findViewById(R.id.Dewormer_TV);
@@ -174,8 +176,8 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
             if(!descrisption.equals(""))
                 clinicCescription_ET.setText(descrisption);
 
-            if(!weight.equals(""))
-                weight_ET.setText(weight);
+//            if(!weight.equals(""))
+//                weight_ET.setText(weight);
 
             if(!temparature.equals(""))
                 clinicTemparature_ET.setText(temparature);
@@ -225,31 +227,33 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                 picker.show();
                 break;
             case R.id.ilness_onset:
-                final Calendar cldrIlness = Calendar.getInstance();
-                int dayIlnes = cldrIlness.get(Calendar.DAY_OF_MONTH);
-                int monthIlnes = cldrIlness.get(Calendar.MONTH);
-                int yearIlnes = cldrIlness.get(Calendar.YEAR);
+                final Calendar cldrIll = Calendar.getInstance();
+                int dayIll = cldrIll.get(Calendar.DAY_OF_MONTH);
+                int monthIll = cldrIll.get(Calendar.MONTH);
+                int yearIll = cldrIll.get(Calendar.YEAR);
+                // date picker dialog
                 picker = new DatePickerDialog(this,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                clinicIlness_onset.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                                ilness_onset.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
                             }
-                        }, dayIlnes, monthIlnes, yearIlnes);
+                        }, yearIll, monthIll, dayIll);
                 picker.show();
                 break;
             case R.id.folow_up_dt_view:
-                final Calendar cldrFolwUpDt = Calendar.getInstance();
-                int dayFolwUpDt = cldrFolwUpDt.get(Calendar.DAY_OF_MONTH);
-                int monthFolwUpDt = cldrFolwUpDt.get(Calendar.MONTH);
-                int yearFolwUpDt = cldrFolwUpDt.get(Calendar.YEAR);
+                final Calendar cldrNext = Calendar.getInstance();
+                int dayNext = cldrNext.get(Calendar.DAY_OF_MONTH);
+                int monthNext = cldrNext.get(Calendar.MONTH);
+                int yearNext = cldrNext.get(Calendar.YEAR);
+                // date picker dialog
                 picker = new DatePickerDialog(this,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                clinicFolow_up_dt_view.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                                folow_up_dt_view.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
                             }
-                        }, dayFolwUpDt, monthFolwUpDt, yearFolwUpDt);
+                        }, yearNext, monthNext, dayNext);
                 picker.show();
                 break;
             case R.id.save_clinic_data:
@@ -343,6 +347,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     }
                     else
                     {
+                        methods.showCustomProgressBarDialog(this);
                         clinicVeterian_name_ET.setError(null);
                         clinicCescription_ET.setError(null);
                         clinicTreatment_remarks_ET.setError(null);
@@ -654,12 +659,14 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                 break;
             case "AddClinicVisit":
                 try {
+                    methods.customProgressDismiss();
                     AddpetClinicResponse addpetClinicResponse = (AddpetClinicResponse) arg0.body();
                     Log.d("AddClinicVisit", addpetClinicResponse.toString());
                     int responseCode = Integer.parseInt(addpetClinicResponse.getResponse().getResponseCode());
 
                     if (responseCode== 109){
                         Toast.makeText(this, "Add Data Successfully", Toast.LENGTH_SHORT).show();
+                        Config.type="list";
                         onBackPressed();
                     }
                     else if (responseCode==614){
@@ -698,12 +705,14 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                 break;
             case "UpdateClinicVisit":
                 try {
+                    methods.customProgressDismiss();
                     AddpetClinicResponse addpetClinicResponse = (AddpetClinicResponse) arg0.body();
                     Log.d("UpdateClinicVisit", addpetClinicResponse.toString());
                     int responseCode = Integer.parseInt(addpetClinicResponse.getResponse().getResponseCode());
 
                     if (responseCode== 109){
                         Toast.makeText(this, "Update Data Successfully", Toast.LENGTH_SHORT).show();
+                        Config.type="list";
                         onBackPressed();
                     }
                     else if (responseCode==614){
@@ -790,7 +799,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     Dewormer_name_ET.setVisibility(View.GONE);
 
                 }
-                Log.d("spnerType",""+item);
+                Log.d("Spinner",""+item);
             }
             public void onNothingSelected(AdapterView<?> parent) {
             }

@@ -138,7 +138,7 @@
                 android:background="@drawable/edit_text_background"
                 android:gravity="center_vertical"
                 android:hint="@string/vetPhone"
-                android:inputType="number"
+                android:inputType="phone"
                 android:maxLines="1"
                 android:paddingLeft="25dp"
                 android:textColor="@color/grey_add_pet"
@@ -254,7 +254,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
                 android:gravity="center_vertical"
-                android:inputType="text"
+                android:inputType="phone"
                 android:maxLines="1"
                 android:paddingLeft="25dp"
                 android:background="@drawable/edit_text_background"
@@ -318,7 +318,7 @@
                 android:gravity="center_vertical"
                 android:inputType="text"
                 android:background="@drawable/edit_text_background"
-                android:hint="Date Of Onset"
+                android:hint="@string/resaonoftest"
                 android:paddingLeft="25dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -410,20 +410,23 @@
 
 
     </ScrollView>
+
     <Button
-        android:id="@+id/save_BT"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/save_BT"
         android:background="@color/colorPrimary"
         android:textSize="25dp"
         android:theme="@style/MatButton"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:text="@string/save"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:textColor="@color/whiteColor"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         tools:ignore="MissingConstraints" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

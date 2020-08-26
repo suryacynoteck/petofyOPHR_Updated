@@ -26,10 +26,6 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSpinner;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import retrofit2.Response;
 
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.api.ApiClient;
@@ -59,11 +55,16 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Response;
+
 public class AddLabWorkDeatilsActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse {
 
     EditText veterian_name_ET,veterian_phone_ET,lab_name_ET,lab_phone_ET,test_name_ET,reson_of_visit_ET,result_ET;
     AppCompatSpinner labType_spinner;
-    TextView calenderTextViewVisitDt,lab_upload_documents,lab_peto_edit_reg_number_dialog;
+    TextView calenderTextViewVisitDt,lab_upload_documents,lab_peto_edit_reg_number_dialog,doctorPrescription_headline_TV;
     Button save_BT;
     ImageView lab_document,lab_back_arrow_IV;
 
@@ -75,7 +76,7 @@ public class AddLabWorkDeatilsActivity extends AppCompatActivity implements View
 
     DatePickerDialog picker;
 
-    String LabTypeId="",pet_id="",pet_name="",pet_owner_name="",pet_sex="",pet_unique_id="",strDocumentUrl="";
+    String lab_type_string="",LabTypeId="",pet_id="",pet_name="",pet_owner_name="",pet_sex="",pet_unique_id="",strDocumentUrl="",test_name="",lab_phone="",lab_name="",lab_type="",visit_date="",result="",reason="",type="";
 
     private static final String IMAGE_DIRECTORY = "/Picture";
     private int GALLERY = 1, CAMERA = 2;
@@ -94,6 +95,7 @@ public class AddLabWorkDeatilsActivity extends AppCompatActivity implements View
     private void init() {
         methods=new Methods(this);
         Bundle extras = getIntent().getExtras();
+
         lab_peto_edit_reg_number_dialog=findViewById(R.id.lab_peto_edit_reg_number_dialog);
         veterian_name_ET=findViewById(R.id.veterian_name_ET);
         veterian_phone_ET=findViewById(R.id.veterian_phone_ET);
@@ -108,7 +110,7 @@ public class AddLabWorkDeatilsActivity extends AppCompatActivity implements View
         calenderTextViewVisitDt=findViewById(R.id.calenderTextViewVisitDt);
         save_BT=findViewById(R.id.save_BT);
         lab_back_arrow_IV=findViewById(R.id.lab_back_arrow_IV);
-
+        doctorPrescription_headline_TV=findViewById(R.id.doctorPrescription_headline_TV);
         calenderTextViewVisitDt.setOnClickListener(this);
         save_BT.setOnClickListener(this);
         lab_upload_documents.setOnClickListener(this);
@@ -120,10 +122,37 @@ public class AddLabWorkDeatilsActivity extends AppCompatActivity implements View
             pet_owner_name = extras.getString("pet_owner_name");
             pet_sex = extras.getString("pet_sex");
             pet_unique_id = extras.getString("pet_unique_id");
+            test_name = extras.getString("test_name");
+            lab_phone = extras.getString("lab_phone");
+            lab_name = extras.getString("lab_name");
+            lab_type = extras.getString("lab_type");
+            visit_date = extras.getString("visit_date");
+            result = extras.getString("result");
+            reason = extras.getString("reason");
+            type = extras.getString("type");
+
+            Log.d("labType",lab_type);
+
             lab_peto_edit_reg_number_dialog.setText(pet_unique_id);
             veterian_name_ET.setText(Config.user_Veterian_name);
             calenderTextViewVisitDt.setText(Config.currentDate());
             veterian_phone_ET.setText(Config.user_Veterian_phone);
+        }
+
+        if (type.equals("Update Lab Work")){
+            save_BT.setText("UPDATE");
+            doctorPrescription_headline_TV.setText("Update Lab Work");
+            calenderTextViewVisitDt.setText(visit_date);
+            lab_name_ET.setText(lab_name);
+            lab_phone_ET.setText(lab_phone);
+            test_name_ET.setText(test_name);
+            result_ET.setText(result);
+            reson_of_visit_ET.setText(reason);
+
+        }else{
+            save_BT.setText("SUBMIT");
+            calenderTextViewVisitDt.setText(Config.currentDate());
+
         }
 
         if (methods.isInternetOn()){
@@ -137,17 +166,18 @@ public class AddLabWorkDeatilsActivity extends AppCompatActivity implements View
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.calenderTextViewVisitDt:
-                final Calendar cldrFolwUpDt = Calendar.getInstance();
-                int dayFolwUpDt = cldrFolwUpDt.get(Calendar.DAY_OF_MONTH);
-                int monthFolwUpDt = cldrFolwUpDt.get(Calendar.MONTH);
-                int yearFolwUpDt = cldrFolwUpDt.get(Calendar.YEAR);
+                final Calendar cldr = Calendar.getInstance();
+                int day = cldr.get(Calendar.DAY_OF_MONTH);
+                int month = cldr.get(Calendar.MONTH);
+                int year = cldr.get(Calendar.YEAR);
+                // date picker dialog
                 picker = new DatePickerDialog(this,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                                 calenderTextViewVisitDt.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
                             }
-                        }, dayFolwUpDt, monthFolwUpDt, yearFolwUpDt);
+                        }, year, month, day);
                 picker.show();
                 break;
             case R.id.lab_upload_documents:
@@ -224,9 +254,19 @@ public class AddLabWorkDeatilsActivity extends AppCompatActivity implements View
                     test_name_ET.setError(null);
                     reson_of_visit_ET.setError(null);
                     result_ET.setError(null);
+                    Toast.makeText(this, "Select Visit Date ", Toast.LENGTH_SHORT).show();
+                }else if (lab_type_string.isEmpty()||lab_type_string.equals("Select Lab Type")){
+
+                    veterian_name_ET.setError(null);
+                    veterian_phone_ET.setError(null);
+                    lab_name_ET.setError(null);
+                    test_name_ET.setError(null);
+                    reson_of_visit_ET.setError(null);
+                    result_ET.setError(null);
                     Toast.makeText(this, "Select Lab type ", Toast.LENGTH_SHORT).show();
                 }
                 else{
+                    methods.showCustomProgressBarDialog(this);
                     veterian_name_ET.setError(null);
                     veterian_phone_ET.setError(null);
                     lab_name_ET.setError(null);
@@ -253,21 +293,42 @@ public class AddLabWorkDeatilsActivity extends AppCompatActivity implements View
                     addLabParams.setDocuments(strDocumentUrl);
                     AddLabRequest addLabRequest=new AddLabRequest();
                     addLabRequest.setAddPetParams(addLabParams);
-                    if(methods.isInternetOn())
-                    {
-                        addPetLabTestReport(addLabRequest);
+
+                    if (type.equals("Update Lab Work")){
+                        if(methods.isInternetOn())
+                        {
+                            updateLabWork(addLabRequest);
+                        }
+                        else
+                        {
+                            methods.DialogInternet();
+                        }
+                    }else {
+                        if(methods.isInternetOn())
+                        {
+                            addPetLabTestReport(addLabRequest);
+                        }
+                        else
+                        {
+                            methods.DialogInternet();
+                        }
                     }
-                    else
-                    {
-                        methods.DialogInternet();
-                    }
+
 
                 }
                 break;
+
             case R.id.lab_back_arrow_IV:
                 onBackPressed();
                 break;
         }
+
+    }
+
+    private void updateLabWork(AddLabRequest addLabRequest) {
+        ApiService<AddLabWorkResponse> service = new ApiService<>();
+        service.get( this, ApiClient.getApiInterface().updatePetLabWork(Config.token,addLabRequest), "UpdatePetLabWork");
+        Log.d("updatePetLabParams",""+addLabRequest);
 
     }
 
@@ -514,12 +575,15 @@ public class AddLabWorkDeatilsActivity extends AppCompatActivity implements View
                 break;
             case "AddPetLabWork":
                 try {
+                    methods.customProgressDismiss();
                     AddLabWorkResponse addLabWorkResponse = (AddLabWorkResponse) arg0.body();
                     Log.d("AddPetLabWork", addLabWorkResponse.toString());
                     int responseCode = Integer.parseInt(addLabWorkResponse.getResponse().getResponseCode());
 
                     if (responseCode == 109) {
-                        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                        Config.type="Lab";
+                        onBackPressed();
+                        Toast.makeText(this, "Added Successfully", Toast.LENGTH_SHORT).show();
                     } else if (responseCode == 614) {
                         Toast.makeText(this, addLabWorkResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
                     } else {
@@ -531,6 +595,27 @@ public class AddLabWorkDeatilsActivity extends AppCompatActivity implements View
                 }
                 break;
 
+            case "UpdatePetLabWork":
+                try {
+                    methods.customProgressDismiss();
+                    AddLabWorkResponse addLabWorkResponse = (AddLabWorkResponse) arg0.body();
+                    Log.d("UpdatePetLabWork", addLabWorkResponse.toString());
+                    int responseCode = Integer.parseInt(addLabWorkResponse.getResponse().getResponseCode());
+
+                    if (responseCode == 109) {
+                        Config.type="Lab";
+                        onBackPressed();
+                        Toast.makeText(this, "Updated Successfully", Toast.LENGTH_SHORT).show();
+                    } else if (responseCode == 614) {
+                        Toast.makeText(this, addLabWorkResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
         }
 
     }
@@ -540,12 +625,18 @@ public class AddLabWorkDeatilsActivity extends AppCompatActivity implements View
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
         labType_spinner.setAdapter(aa);
+        if (!lab_type.equals("")) {
+            int spinnerPosition = aa.getPosition(lab_type);
+            labType_spinner.setSelection(spinnerPosition);
+        }
         labType_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
                 // Showing selected spinner item
-                Log.d("spnerType",""+item);
-                LabTypeId=labTypeHash.get(item);
+                lab_type_string =item;
+                LabTypeId=labTypeHash.get(lab_type_string);
+                Log.d("TYPE",""+item);
+
             }
             public void onNothingSelected(AdapterView<?> parent) {
             }

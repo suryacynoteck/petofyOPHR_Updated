@@ -26,10 +26,6 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import retrofit2.Response;
 
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.api.ApiClient;
@@ -37,11 +33,8 @@ import com.cynoteck.petofyvet.api.ApiResponse;
 import com.cynoteck.petofyvet.api.ApiService;
 import com.cynoteck.petofyvet.params.addHospitalization.AddHospitalizationParam;
 import com.cynoteck.petofyvet.params.addHospitalization.AddHospitalizationRequest;
-import com.cynoteck.petofyvet.params.addPetClinicParamRequest.AddPetClinicParam;
-import com.cynoteck.petofyvet.params.addPetClinicParamRequest.AddPetClinicRequest;
 import com.cynoteck.petofyvet.response.addHospitalizationResponse.AddhospitalizationResposee;
 import com.cynoteck.petofyvet.response.addPet.imageUpload.ImageResponse;
-import com.cynoteck.petofyvet.response.clinicVisist.ClinicVisitResponse;
 import com.cynoteck.petofyvet.response.hospitalTypeListResponse.HospitalAddmissionTypeResp;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
@@ -62,11 +55,16 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Response;
+
 public class AddHospitalizationDeatilsActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse {
     EditText veterian_name_ET,veterian_phone_ET,hospital_name_ET,hospital_phone_ET,reson_of_hospitalization_ET,result_ET;
     Spinner hospital_type_spinner;
     TextView calenderTextView_admission_date,hospitalization_peto_edit_reg_number_dialog,
-             calenderTextView_discharge_date_TV,hospitalization_upload_documents;
+             calenderTextView_discharge_date_TV,hospitalization_upload_documents,doctorPrescription_headline_TV;
     Button save_BT;
     ImageView hospitalization_document_name,hospitalization_back_arrow_IV;
 
@@ -78,7 +76,7 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
 
     DatePickerDialog picker;
 
-    String hospitalizationStr="",hospitalizationId="",pet_id="",pet_name="",pet_owner_name="",pet_sex="",pet_unique_id="",strDocumentUrl="";
+    String hospitalizationStr="",hospitalizationId="",pet_id="",pet_name="",pet_owner_name="",pet_sex="",pet_unique_id="",strDocumentUrl="",hospital_type,hospital_name,hospital_phone,admission,discharge,result,reason,type;
 
     private static final String IMAGE_DIRECTORY = "/Picture";
     private int GALLERY = 1, CAMERA = 2;
@@ -110,7 +108,7 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
         calenderTextView_discharge_date_TV=findViewById(R.id.calenderTextView_discharge_date_TV);
         save_BT=findViewById(R.id.save_BT);
         hospitalization_back_arrow_IV=findViewById(R.id.hospitalization_back_arrow_IV);
-
+        doctorPrescription_headline_TV=findViewById(R.id.doctorPrescription_headline_TV);
         calenderTextView_admission_date.setOnClickListener(this);
         calenderTextView_discharge_date_TV.setOnClickListener(this);
         save_BT.setOnClickListener(this);
@@ -123,12 +121,34 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
             pet_owner_name = extras.getString("pet_owner_name");
             pet_sex = extras.getString("pet_sex");
             pet_unique_id = extras.getString("pet_unique_id");
+            hospital_type = extras.getString("hospital_type");
+            hospital_name = extras.getString("hospital_name");
+            hospital_phone = extras.getString("hospital_phone");
+            admission = extras.getString("admission");
+            discharge = extras.getString("discharge");
+            result = extras.getString("result");
+            reason = extras.getString("reason");
+            type = extras.getString("type");
+
             hospitalization_peto_edit_reg_number_dialog.setText(pet_unique_id);
             veterian_name_ET.setText(Config.user_Veterian_name);
             veterian_phone_ET.setText(Config.user_Veterian_phone);
         }
 
         methods=new Methods(this);
+        if (type.equals("Update Hospitalization")){
+            doctorPrescription_headline_TV.setText(type);
+            calenderTextView_admission_date.setText(admission);
+            calenderTextView_discharge_date_TV.setText(discharge);
+            hospital_name_ET.setText(hospital_name);
+            hospital_phone_ET.setText(hospital_phone);
+            reson_of_hospitalization_ET.setText(reason);
+            result_ET.setText(result);
+            save_BT.setText("UPDATE");
+
+        }else {
+            save_BT.setText("Save");
+        }
 
         if (methods.isInternetOn()){
             getHospitalTypeList();
@@ -143,31 +163,33 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
 
         switch (view.getId()){
             case R.id.calenderTextView_admission_date:
-                final Calendar cldrFolwUpDt = Calendar.getInstance();
-                int dayFolwUpDt = cldrFolwUpDt.get(Calendar.DAY_OF_MONTH);
-                int monthFolwUpDt = cldrFolwUpDt.get(Calendar.MONTH);
-                int yearFolwUpDt = cldrFolwUpDt.get(Calendar.YEAR);
+                final Calendar cldr = Calendar.getInstance();
+                int day = cldr.get(Calendar.DAY_OF_MONTH);
+                int month = cldr.get(Calendar.MONTH);
+                int year = cldr.get(Calendar.YEAR);
+                // date picker dialog
                 picker = new DatePickerDialog(this,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                                 calenderTextView_admission_date.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
                             }
-                        }, dayFolwUpDt, monthFolwUpDt, yearFolwUpDt);
+                        }, year, month, day);
                 picker.show();
                 break;
             case R.id.calenderTextView_discharge_date_TV:
-                final Calendar cldrDeschrgDt = Calendar.getInstance();
-                int dayDeschrgDt = cldrDeschrgDt.get(Calendar.DAY_OF_MONTH);
-                int monthDeschrgDt = cldrDeschrgDt.get(Calendar.MONTH);
-                int yearDeschrgDt = cldrDeschrgDt.get(Calendar.YEAR);
+                final Calendar cldrDis = Calendar.getInstance();
+                int dayDis = cldrDis.get(Calendar.DAY_OF_MONTH);
+                int monthDis = cldrDis.get(Calendar.MONTH);
+                int yearDis = cldrDis.get(Calendar.YEAR);
+                // date picker dialog
                 picker = new DatePickerDialog(this,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                                 calenderTextView_discharge_date_TV.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
                             }
-                        }, dayDeschrgDt, monthDeschrgDt, yearDeschrgDt);
+                        }, yearDis, monthDis, dayDis);
                 picker.show();
                 break;
             case R.id.hospitalization_upload_documents:
@@ -231,8 +253,9 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
                     calenderTextView_discharge_date_TV.setError(null);
                     Toast.makeText(this, "Select Hospitalization type ", Toast.LENGTH_SHORT).show();
                 }
-                else{
-                    AddHospitalizationParam addHospitalizationParam=new AddHospitalizationParam();
+                else {
+                    methods.showCustomProgressBarDialog(this);
+                    AddHospitalizationParam addHospitalizationParam = new AddHospitalizationParam();
                     addHospitalizationParam.setPetId(pet_id);
                     addHospitalizationParam.setRequestingVeterinarian(strRequstVeterian);
                     addHospitalizationParam.setVeterinarianPhone(strPhoneNumber);
@@ -249,13 +272,20 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
                     addHospitalizationParam.setReasonForHospitalization(strResonsOfHospitalization);
                     addHospitalizationParam.setDiagnosisTreatmentProcedure(strResult);
                     addHospitalizationParam.setDocuments(strDocumentUrl);
-                    AddHospitalizationRequest addHospitalizationRequest=new AddHospitalizationRequest();
+                    AddHospitalizationRequest addHospitalizationRequest = new AddHospitalizationRequest();
                     addHospitalizationRequest.setData(addHospitalizationParam);
-
-                    if (methods.isInternetOn()){
-                        addHospitalization(addHospitalizationRequest);
-                    }else {
-                        methods.DialogInternet();
+                    if (type.equals("Update Hospitalization")) {
+                        if (methods.isInternetOn()) {
+                            updateHospitalization(addHospitalizationRequest);
+                        } else {
+                            methods.DialogInternet();
+                        }
+                    } else {
+                        if (methods.isInternetOn()) {
+                            addHospitalization(addHospitalizationRequest);
+                        } else {
+                            methods.DialogInternet();
+                        }
                     }
 
                 }
@@ -265,6 +295,13 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
                 break;
 
         }
+
+    }
+
+    private void updateHospitalization(AddHospitalizationRequest addHospitalizationRequest) {
+        ApiService<AddhospitalizationResposee> service = new ApiService<>();
+        service.get( this, ApiClient.getApiInterface().updatePetHospitalization(Config.token,addHospitalizationRequest), "UpdatePetHospitalization");
+        Log.e("AddPetHospitalParam","===>"+addHospitalizationRequest);
 
     }
 
@@ -512,12 +549,37 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
                 break;
             case "AddPetHospitalization":
                 try {
+                    methods.customProgressDismiss();
                     AddhospitalizationResposee addhospitalizationResposee = (AddhospitalizationResposee) arg0.body();
                     Log.d("AddPetHospitalization", addhospitalizationResposee.toString());
                     int responseCode = Integer.parseInt(addhospitalizationResposee.getResponse().getResponseCode());
 
                     if (responseCode == 109) {
+                        Config.type ="Hospitalization";
+                        onBackPressed();
+                        Toast.makeText(this, "Added Successfully", Toast.LENGTH_SHORT).show();
+                    } else if (responseCode == 614) {
+                        Toast.makeText(this, addhospitalizationResposee.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
 
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+
+            case "UpdatePetHospitalization":
+                try {
+                    methods.customProgressDismiss();
+                    AddhospitalizationResposee addhospitalizationResposee = (AddhospitalizationResposee) arg0.body();
+                    Log.d("UpdateHospitalization", addhospitalizationResposee.toString());
+                    int responseCode = Integer.parseInt(addhospitalizationResposee.getResponse().getResponseCode());
+
+                    if (responseCode == 109) {
+                        Config.type ="Hospitalization";
+                        onBackPressed();
+                        Toast.makeText(this, "Updated Successfully", Toast.LENGTH_SHORT).show();
                     } else if (responseCode == 614) {
                         Toast.makeText(this, addhospitalizationResposee.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
                     } else {
@@ -538,6 +600,10 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
         hospital_type_spinner.setAdapter(aa);
+        if (!hospital_type.equals("")) {
+            int spinnerPosition = aa.getPosition(hospital_type);
+            hospital_type_spinner.setSelection(spinnerPosition);
+        }
         hospital_type_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();

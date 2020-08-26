@@ -318,6 +318,7 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
         data.putString("pet_parent",pet_owner_name);
         data.putString("pet_sex",pet_sex);
         data.putString("pet_unique_id",pet_unique_id);
+        data.putString("type","Add Test/X-rays");
         xRayIntent.putExtras(data);
         startActivity(xRayIntent);
     }
@@ -330,6 +331,9 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
         data.putString("pet_parent",pet_owner_name);
         data.putString("pet_sex",pet_sex);
         data.putString("pet_unique_id",pet_unique_id);
+        data.putString("lab_type","");
+        data.putString("type","Add");
+
         labWorkIntent.putExtras(data);
         startActivity(labWorkIntent);
     }
@@ -342,6 +346,7 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
         data.putString("pet_parent",pet_owner_name);
         data.putString("pet_sex",pet_sex);
         data.putString("pet_unique_id",pet_unique_id);
+        data.putString("type","Add");
         hospitalIntent.putExtras(data);
         startActivity(hospitalIntent);
     }

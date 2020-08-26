@@ -339,9 +339,13 @@ public interface ApiInterface {
     //ADD PET HOSPITALIZATION
 
 
-    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+       @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("pethealthrecord/AddPetHospitalization")
     Call<AddhospitalizationResposee> addPetHospitalization(@Header("Authorization") String auth, @Body AddHospitalizationRequest addHospitalizationRequest);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("pethealthrecord/UpdateHospitalization")
+    Call<AddhospitalizationResposee> updatePetHospitalization(@Header("Authorization") String auth, @Body AddHospitalizationRequest addHospitalizationRequest);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST(" pet/GetPetIdentityCard")

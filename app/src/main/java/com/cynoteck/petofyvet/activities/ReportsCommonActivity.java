@@ -168,7 +168,11 @@ public class ReportsCommonActivity extends AppCompatActivity {
                 break;
 
             case "8.0":
-
+                if (button_type.equals("update")){
+                    data.putString("button_type",button_type);
+                }else if (button_type.equals("view")){
+                    data.putString("button_type","view");
+                }
                 reports_headline_TV.setText("Lab Tests");
                 data.putString("reports_id","8");
                 data.putString("type","LabTest");
@@ -181,7 +185,11 @@ public class ReportsCommonActivity extends AppCompatActivity {
                 break;
 
             case "9.0":
-
+                if (button_type.equals("update")){
+                    data.putString("button_type",button_type);
+                }else if (button_type.equals("view")){
+                    data.putString("button_type","view");
+                }
                 reports_headline_TV.setText("Hospitalization & Surgeries");
                 data.putString("reports_id","9");
                 data.putString("type","Hospitalization");

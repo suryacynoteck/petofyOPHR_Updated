@@ -16,6 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.activities.AddClinicActivity;
+import com.cynoteck.petofyvet.activities.AddHospitalizationDeatilsActivity;
+import com.cynoteck.petofyvet.activities.AddLabWorkDeatilsActivity;
+import com.cynoteck.petofyvet.activities.AddXRayDeatilsActivity;
 import com.cynoteck.petofyvet.activities.HospitalizationDetailsActivity;
 import com.cynoteck.petofyvet.activities.LabTestReportDeatilsActivity;
 import com.cynoteck.petofyvet.activities.ViewReportsDeatilsActivity;
@@ -292,9 +295,6 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
                             updateLabTestAdpater.notifyDataSetChanged();
                         }
 
-
-
-
                     }
                 }
                 catch(Exception e) {
@@ -400,17 +400,61 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
 
     @Override
     public void onUpdateXrayClick(int position) {
+        Toast.makeText(getContext(), "Upadte", Toast.LENGTH_SHORT).show();
+        Intent addXrayActivityIntent = new Intent(getActivity().getApplication(), AddXRayDeatilsActivity.class);
+        addXrayActivityIntent.putExtra("pet_id",pet_id);
+        addXrayActivityIntent.putExtra("pet_name",pet_name);
+        addXrayActivityIntent.putExtra("pet_unique_id",pet_unique_id);
+        addXrayActivityIntent.putExtra("pet_sex",pet_sex);
+        addXrayActivityIntent.putExtra("follow_up_date",petTestsAndXrayLists.get(position).getFollowUpDate());
+        addXrayActivityIntent.putExtra("nature_of_visit",petTestsAndXrayLists.get(position).getTypeOfTest().getTestType());
+        addXrayActivityIntent.putExtra("test_date",petTestsAndXrayLists.get(position).getDateTested());
+        addXrayActivityIntent.putExtra("result",petTestsAndXrayLists.get(position).getResults());
+        addXrayActivityIntent.putExtra("type","Update Test/X-rays");
+        addXrayActivityIntent.putExtras(addXrayActivityIntent);
+        startActivity(addXrayActivityIntent);
+        getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
 
     }
 
     @Override
     public void onUpdateLabTestReportsClick(int position) {
-
+        Intent addLabActivityIntent = new Intent(getActivity().getApplication(), AddLabWorkDeatilsActivity.class);
+        addLabActivityIntent.putExtra("pet_id",pet_id);
+        addLabActivityIntent.putExtra("pet_name",pet_name);
+        addLabActivityIntent.putExtra("pet_unique_id",pet_unique_id);
+        addLabActivityIntent.putExtra("pet_sex",pet_sex);
+        addLabActivityIntent.putExtra("test_name",petLabWorkLists.get(position).getTestName());
+        addLabActivityIntent.putExtra("lab_phone",petLabWorkLists.get(position).getLabPhone());
+        addLabActivityIntent.putExtra("lab_name",petLabWorkLists.get(position).getNameOfLab());
+        addLabActivityIntent.putExtra("lab_type",petLabWorkLists.get(position).getLabType().getLab());
+        addLabActivityIntent.putExtra("visit_date",petLabWorkLists.get(position).getVisitDate());
+        addLabActivityIntent.putExtra("result",petLabWorkLists.get(position).getResults());
+        addLabActivityIntent.putExtra("reason",petLabWorkLists.get(position).getReasonOfTest());
+        addLabActivityIntent.putExtra("type","Update Lab Work");
+        addLabActivityIntent.putExtras(addLabActivityIntent);
+        startActivity(addLabActivityIntent);
+        getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
     }
 
     @Override
     public void onUpdateHospitalizationClick(int position) {
-
+        Intent addHozpitalActivityIntent = new Intent(getActivity().getApplication(), AddHospitalizationDeatilsActivity.class);
+        addHozpitalActivityIntent.putExtra("pet_id",pet_id);
+        addHozpitalActivityIntent.putExtra("pet_name",pet_name);
+        addHozpitalActivityIntent.putExtra("pet_unique_id",pet_unique_id);
+        addHozpitalActivityIntent.putExtra("pet_sex",pet_sex);
+        addHozpitalActivityIntent.putExtra("hospital_type",petHospitalizationsLists.get(position).getHospitalizationType().getHospitalization());
+        addHozpitalActivityIntent.putExtra("hospital_name",petHospitalizationsLists.get(position).getHospitalName());
+        addHozpitalActivityIntent.putExtra("hospital_phone",petHospitalizationsLists.get(position).getHospitalPhone());
+        addHozpitalActivityIntent.putExtra("admission",petHospitalizationsLists.get(position).getAdmissionDate());
+        addHozpitalActivityIntent.putExtra("discharge",petHospitalizationsLists.get(position).getDischargeDate());
+        addHozpitalActivityIntent.putExtra("result",petHospitalizationsLists.get(position).getDiagnosisTreatmentProcedure());
+        addHozpitalActivityIntent.putExtra("reason",petHospitalizationsLists.get(position).getReasonForHospitalization());
+        addHozpitalActivityIntent.putExtra("type","Update Hospitalization");
+        addHozpitalActivityIntent.putExtras(addHozpitalActivityIntent);
+        startActivity(addHozpitalActivityIntent);
+        getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
     }
 
 

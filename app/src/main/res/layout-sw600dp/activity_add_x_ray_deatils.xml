@@ -169,6 +169,35 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/description_TV" />
 
+
+            <TextView
+                android:id="@+id/next_visit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:text="Next Visit"
+                android:textColor="@color/grey_add_pet"
+                app:layout_constraintEnd_toEndOf="@id/description_ET"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/description_ET" />
+
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/next_visit_spinner"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/spinner_background"
+                android:gravity="center_vertical"
+                android:textColor="@color/grey_add_pet"
+                app:layout_constraintEnd_toEndOf="@id/description_ET"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/next_visit" />
+
+
             <TextView
                 android:id="@+id/follow_up_dt"
                 android:layout_width="0dp"
@@ -180,7 +209,7 @@
                 android:textColor="@color/grey_add_pet"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/nature_of_visit_TV"
-                app:layout_constraintTop_toBottomOf="@id/description_ET" />
+                app:layout_constraintTop_toBottomOf="@id/next_visit_spinner" />
 
             <TextView
                 android:id="@+id/folow_up_dt_view"
@@ -251,20 +280,24 @@
 
 
     </ScrollView>
+
     <Button
-        android:id="@+id/save_BT"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/save_BT"
         android:background="@color/colorPrimary"
         android:textSize="25dp"
         android:theme="@style/MatButton"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:text="@string/save"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:textColor="@color/whiteColor"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         tools:ignore="MissingConstraints" />
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -223,7 +223,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                 Log.d("ppppp",""+PetUniqueId+" "+PetName+" "+PetParentName+" "+PetSex+" "+Id);
                 Intent petDetailsIntent = new Intent(getActivity().getApplication(), PetDetailsActivity.class);
                 Bundle data = new Bundle();
-                data.putString("pet_id",Id.substring(0,Id.length()-2));
+                data.putString("pet_id",Id);
                 data.putString("pet_name",PetName);
                 data.putString("pet_parent",PetParentName);
                 data.putString("pet_sex",PetSex);
