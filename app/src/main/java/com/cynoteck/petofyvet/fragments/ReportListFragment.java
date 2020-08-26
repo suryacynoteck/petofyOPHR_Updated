@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cynoteck.petofyvet.R;
+import com.cynoteck.petofyvet.activities.AddClinicActivity;
 import com.cynoteck.petofyvet.activities.HospitalizationDetailsActivity;
 import com.cynoteck.petofyvet.activities.LabTestReportDeatilsActivity;
 import com.cynoteck.petofyvet.activities.ViewReportsDeatilsActivity;
@@ -450,5 +451,23 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
     @Override
     public void onUpdateClick(int position) {
         Toast.makeText(getContext(), "Upadte", Toast.LENGTH_SHORT).show();
+        Intent viewReportsDeatilsActivityIntent = new Intent(getActivity().getApplication(), AddClinicActivity.class);
+        viewReportsDeatilsActivityIntent.putExtra("pet_id",pet_id);
+        viewReportsDeatilsActivityIntent.putExtra("pet_name",pet_name);
+        viewReportsDeatilsActivityIntent.putExtra("pet_unique_id",pet_unique_id);
+        viewReportsDeatilsActivityIntent.putExtra("pet_sex",pet_sex);
+        viewReportsDeatilsActivityIntent.putExtra("pet_owner_name",pet_owner_name);
+        viewReportsDeatilsActivityIntent.putExtra("nature_of_visit",petClinicVisitListArrayList.get(position).getNatureOfVisit().getNature());
+        viewReportsDeatilsActivityIntent.putExtra("visit_dt",petClinicVisitListArrayList.get(position).getVisitDate());
+        viewReportsDeatilsActivityIntent.putExtra("visit_description",petClinicVisitListArrayList.get(position).getDescription());
+        viewReportsDeatilsActivityIntent.putExtra("visit_weight",petClinicVisitListArrayList.get(position).getWeightOz());
+        viewReportsDeatilsActivityIntent.putExtra("visit_temparature",petClinicVisitListArrayList.get(position).getTemperature());
+        viewReportsDeatilsActivityIntent.putExtra("dt_of_illness",petClinicVisitListArrayList.get(position).getVisitDate());
+        viewReportsDeatilsActivityIntent.putExtra("pet_diognosis",petClinicVisitListArrayList.get(position).getDescription());
+        viewReportsDeatilsActivityIntent.putExtra("next_dt",petClinicVisitListArrayList.get(position).getFollowUpDate());
+        viewReportsDeatilsActivityIntent.putExtra("toolbar_name","Update Clinic");
+        viewReportsDeatilsActivityIntent.putExtras(viewReportsDeatilsActivityIntent);
+        startActivity(viewReportsDeatilsActivityIntent);
+        getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
     }
 }

@@ -342,7 +342,7 @@
 
             <EditText
                 android:layout_below="@id/pet_contact_TV"
-                android:inputType="text"
+                android:inputType="number"
                 android:maxLines="1"
                 android:paddingLeft="25dp"
                 android:layout_width="match_parent"
