@@ -295,6 +295,15 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
         data.putString("pet_parent",pet_owner_name);
         data.putString("pet_sex",pet_sex);
         data.putString("pet_unique_id",pet_unique_id);
+        data.putString("nature_of_visit","");
+        data.putString("visit_dt","");
+        data.putString("visit_description","");
+        data.putString("visit_weight","");
+        data.putString("visit_temparature","");
+        data.putString("dt_of_illness","");
+        data.putString("pet_diognosis","");
+        data.putString("next_dt","");
+        data.putString("toolbar_name","Add Clinic");
         petDetailsIntent.putExtras(data);
         startActivity(petDetailsIntent);
 

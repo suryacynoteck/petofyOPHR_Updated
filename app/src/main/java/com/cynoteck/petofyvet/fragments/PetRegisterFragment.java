@@ -190,6 +190,16 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, ViewD
 
         Intent intent=new Intent(getActivity(), GetPetDetailsActivity.class);
         intent.putExtra("pet_id",first);
+        intent.putExtra("pet_category",categoryRecordArrayList.get(position).getPetCategory());
+        intent.putExtra("pet_name",categoryRecordArrayList.get(position).getPetName());
+        intent.putExtra("pet_sex",categoryRecordArrayList.get(position).getPetSex());
+        intent.putExtra("pet_DOB",categoryRecordArrayList.get(position).getPetTestsAndXrey());
+        intent.putExtra("pet_age",categoryRecordArrayList.get(position).getPetAge());
+        intent.putExtra("pet_size",categoryRecordArrayList.get(position).getPetSize());
+        intent.putExtra("pet_breed",categoryRecordArrayList.get(position).getPetBreed());
+        intent.putExtra("pet_color",categoryRecordArrayList.get(position).getPetColor());
+        intent.putExtra("pet_parent",categoryRecordArrayList.get(position).getPetParentName());
+        intent.putExtra("pet_parent_contact",categoryRecordArrayList.get(position).getContactNumber());
         startActivity(intent);
 
     }

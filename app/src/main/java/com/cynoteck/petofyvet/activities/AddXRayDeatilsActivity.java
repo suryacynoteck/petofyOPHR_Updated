@@ -73,7 +73,7 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
 
     HashMap<String,String> testTypehas=new HashMap<>();
 
-    String testTypeId="",pet_id="",pet_name="",pet_owner_name="",pet_sex="",pet_unique_id="",strDocumentUrl="";
+    String testTypeId="",testIdName="",pet_id="",pet_name="",pet_owner_name="",pet_sex="",pet_unique_id="",strDocumentUrl="";
 
     DatePickerDialog picker;
 
@@ -180,7 +180,7 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
                     description_ET.setError(null);
                     calenderTextViewtestdate.setError("Enter test Date");
                 }
-                else if(testTypeId.isEmpty())
+                else if(testTypeId.equals("Select Test Type"))
                 {
                     description_ET.setError(null);
                     calenderTextViewtestdate.setError(null);
@@ -489,6 +489,7 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
                 String item = parent.getItemAtPosition(position).toString();
                 // Showing selected spinner item
                 Log.d("spnerType",""+item);
+                testIdName=item;
                 testTypeId=testTypehas.get(item);
             }
             public void onNothingSelected(AdapterView<?> parent) {

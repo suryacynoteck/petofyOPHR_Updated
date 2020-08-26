@@ -123,6 +123,7 @@ public class AddLabWorkDeatilsActivity extends AppCompatActivity implements View
             lab_peto_edit_reg_number_dialog.setText(pet_unique_id);
             veterian_name_ET.setText(Config.user_Veterian_name);
             calenderTextViewVisitDt.setText(Config.currentDate());
+            veterian_phone_ET.setText(Config.user_Veterian_phone);
         }
 
         if (methods.isInternetOn()){

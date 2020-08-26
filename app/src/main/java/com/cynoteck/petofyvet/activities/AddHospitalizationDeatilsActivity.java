@@ -78,7 +78,7 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
 
     DatePickerDialog picker;
 
-    String hospitalizationId="",pet_id="",pet_name="",pet_owner_name="",pet_sex="",pet_unique_id="",strDocumentUrl="";
+    String hospitalizationStr="",hospitalizationId="",pet_id="",pet_name="",pet_owner_name="",pet_sex="",pet_unique_id="",strDocumentUrl="";
 
     private static final String IMAGE_DIRECTORY = "/Picture";
     private int GALLERY = 1, CAMERA = 2;
@@ -125,6 +125,7 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
             pet_unique_id = extras.getString("pet_unique_id");
             hospitalization_peto_edit_reg_number_dialog.setText(pet_unique_id);
             veterian_name_ET.setText(Config.user_Veterian_name);
+            veterian_phone_ET.setText(Config.user_Veterian_phone);
         }
 
         methods=new Methods(this);
@@ -170,6 +171,7 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
                 picker.show();
                 break;
             case R.id.hospitalization_upload_documents:
+                showPictureDialog();
                 break;
             case R.id.save_BT:
                 String strRequstVeterian=veterian_name_ET.getText().toString();
@@ -220,7 +222,7 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
                     calenderTextView_admission_date.setError(null);
                     calenderTextView_discharge_date_TV.setError("Enter discharge Date");
                 }
-                else if(hospitalizationId.isEmpty())
+                else if(hospitalizationStr.equals("Select Hospital Type"))
                 {
                     veterian_name_ET.setError(null);
                     hospital_name_ET.setError(null);
@@ -541,7 +543,9 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
                 String item = parent.getItemAtPosition(position).toString();
                 // Showing selected spinner item
                 Log.d("spnerType",""+item);
+                hospitalizationStr=item;
                 hospitalizationId=hospitalTypeHashmap.get(item);
+                Log.d("Hospitalization_Id",""+hospitalizationId);
             }
             public void onNothingSelected(AdapterView<?> parent) {
             }

@@ -75,7 +75,6 @@ import okhttp3.RequestBody;
 import retrofit2.Response;
 
 public class GetPetDetailsActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse {
-    String pet_id = "",currentDateandTime="";
     Methods methods;
     TextView peto_details_reg_number;
     AppCompatSpinner add_details_pet_type,add_details_pet_age,add_details_pet_sex,add_details_pet_breed,add_detils_pet_color,
@@ -114,12 +113,13 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
     Bitmap bitmap, thumbnail;
     String capImage;
 
-    String strPetName="",strPetParentName="",strPetContactNumber="",strPetDescription="",strPetAdress="",strPetBirthDay="",
+    String pet_id = "",currentDateandTime="",strPetCategory="",strPetName="",strPetParentName="",
+            strPetContactNumber="",strPetDescription="",strPetAdress="",strPetBirthDay="",
             strSpnerItemPetNm="",getStrSpnerItemPetNmId="",strSpnrBreed="",strSpnrBreedId="",petUniqueId="",
             strSpnrAge="",strSpnrAgeId="",strSpnrColor="",strSpnrColorId="",strSpnrSize="",strSpneSizeId="",
             strSpnrSex="",strSpnrSexId="",selctProflImage="0",selctImgOne="0",selctImgtwo="0",
             slctImgThree="0",slctImgFour="0",slctImgFive="0",strProfileImgUrl="",strFirstImgUrl="",strSecondImgUrl="",
-            strThirdImgUrl="",strFourthImUrl="",strFifthImgUrl="";
+            strThirdImgUrl="",strFourthImUrl="",strFifthImgUrl="",strDateofBirthObject="";
     Dialog dialog;
 
 
@@ -146,6 +146,20 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
 
         if (extras != null) {
             pet_id = extras.getString("pet_id");
+            strSpnerItemPetNm = extras.getString("pet_category");
+            strPetName = extras.getString("pet_name");
+            strSpnrSex = extras.getString("pet_sex");
+            strDateofBirthObject = extras.getString("pet_DOB");
+            strSpnrAge = extras.getString("pet_age");
+            strSpnrSize = extras.getString("pet_size");
+            strSpnrBreed = extras.getString("pet_breed");
+            strSpnrColor = extras.getString("pet_color");
+            strPetParentName = extras.getString("pet_parent");
+            strPetContactNumber = extras.getString("pet_parent_contact");
+
+            pet_details_name.setText(strPetName);
+            pet_details_parent_name.setText(strPetParentName);
+            pet_deatils_contact_number.setText(strPetContactNumber);
         }
         GetPetListParams getPetListParams = new GetPetListParams();
         getPetListParams.setId(pet_id);
@@ -690,6 +704,10 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
         add_details_pet_type.setAdapter(aa);
+        if (!strSpnerItemPetNm.equals("")) {
+            int spinnerPosition = aa.getPosition(strSpnerItemPetNm);
+            add_details_pet_type.setSelection(spinnerPosition);
+        }
         add_details_pet_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
@@ -707,6 +725,10 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
         add_details_pet_breed.setAdapter(aa);
+        if (!strSpnrBreed.equals("")) {
+            int spinnerPosition = aa.getPosition(strSpnrBreed);
+            add_details_pet_breed.setSelection(spinnerPosition);
+        }
         add_details_pet_breed.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
@@ -725,6 +747,10 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
         add_details_pet_age.setAdapter(aa);
+        if (!strSpnrAge.equals("")) {
+            int spinnerPosition = aa.getPosition(strSpnrAge);
+            add_details_pet_age.setSelection(spinnerPosition);
+        }
         add_details_pet_age.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
@@ -744,6 +770,10 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
         add_detils_pet_color.setAdapter(aa);
+        if (!strSpnrColor.equals("")) {
+            int spinnerPosition = aa.getPosition(strSpnrColor);
+            add_detils_pet_color.setSelection(spinnerPosition);
+        }
         add_detils_pet_color.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
@@ -762,6 +792,10 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
         add_details_pet_size.setAdapter(aa);
+        if (!strSpnrSize.equals("")) {
+            int spinnerPosition = aa.getPosition(strSpnrSize);
+            add_details_pet_size.setSelection(spinnerPosition);
+        }
         add_details_pet_size.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
@@ -781,6 +815,10 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
         add_details_pet_sex.setAdapter(aa);
+        if (!strSpnrSex.equals("")) {
+            int spinnerPosition = aa.getPosition(strSpnrSex);
+            add_details_pet_sex.setSelection(spinnerPosition);
+        }
         add_details_pet_sex.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
