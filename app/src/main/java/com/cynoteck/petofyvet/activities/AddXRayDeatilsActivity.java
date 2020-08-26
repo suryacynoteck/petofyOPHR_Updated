@@ -26,10 +26,6 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSpinner;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import retrofit2.Response;
 
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.api.ApiClient;
@@ -37,10 +33,8 @@ import com.cynoteck.petofyvet.api.ApiResponse;
 import com.cynoteck.petofyvet.api.ApiService;
 import com.cynoteck.petofyvet.params.addTestXRayParams.AddTestXRayParams;
 import com.cynoteck.petofyvet.params.addTestXRayParams.AddTestXRayRequest;
-import com.cynoteck.petofyvet.response.addLabWorkResponse.AddLabWorkResponse;
 import com.cynoteck.petofyvet.response.addPet.imageUpload.ImageResponse;
 import com.cynoteck.petofyvet.response.addTestAndXRayResponse.AddTestXRayResponse;
-import com.cynoteck.petofyvet.response.hospitalTypeListResponse.HospitalAddmissionTypeResp;
 import com.cynoteck.petofyvet.response.testResponse.XrayTestResponse;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
@@ -61,11 +55,16 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Response;
+
 public class AddXRayDeatilsActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse {
     TextView peto_edit_reg_number_dialog,calenderTextViewtestdate,folow_up_dt_view,xray_test_upload_documents,xray_peto_edit_reg_number_dialog;
     AppCompatSpinner nature_of_visit_spinner;
     EditText description_ET;
-    Button save_BT;
+    Button save_BT,update_Bt;
     ImageView xray_document,x_ray_back_arrow_IV;
 
     Methods methods;
@@ -104,7 +103,7 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
         xray_document=findViewById(R.id.xray_document);
         save_BT=findViewById(R.id.save_BT);
         x_ray_back_arrow_IV=findViewById(R.id.x_ray_back_arrow_IV);
-
+        update_Bt=findViewById(R.id.update_BT);
         save_BT.setOnClickListener(this);
         calenderTextViewtestdate.setOnClickListener(this);
         folow_up_dt_view.setOnClickListener(this);

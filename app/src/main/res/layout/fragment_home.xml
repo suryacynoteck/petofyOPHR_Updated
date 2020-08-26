@@ -8,6 +8,7 @@
     android:background="@color/list_background"
     tools:context=".fragments.HomeFragment">
 
+
     <com.google.android.material.card.MaterialCardView
         android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
         app:cardElevation="35dp"
@@ -27,8 +28,6 @@
             android:textStyle="bold"/>
 
     </com.google.android.material.card.MaterialCardView>
-
-
 
 
     <LinearLayout
@@ -272,11 +271,6 @@
 
 
     </LinearLayout>
-
-
-
-
-
 
 
 

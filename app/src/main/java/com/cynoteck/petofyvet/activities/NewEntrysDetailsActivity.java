@@ -304,6 +304,7 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
     {
         Intent xRayIntent = new Intent(this,AddXRayDeatilsActivity.class);
         Bundle data = new Bundle();
+        data.putString("type","add");
         data.putString("pet_id",pet_id);
         data.putString("pet_parent",pet_owner_name);
         data.putString("pet_sex",pet_sex);

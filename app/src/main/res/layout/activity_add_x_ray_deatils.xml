@@ -47,7 +47,7 @@
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/save_BT"
+        app:layout_constraintBottom_toTopOf="@id/button_section"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginBottom="10dp"
@@ -251,20 +251,44 @@
 
 
     </ScrollView>
-    <Button
-        android:id="@+id/save_BT"
+
+    <RelativeLayout
+        android:id="@+id/button_section"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:background="@color/colorPrimary"
-        android:textSize="25dp"
-        android:theme="@style/MatButton"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:text="@string/save"
-        android:layout_width="0dp"
-        android:textColor="@color/whiteColor"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintBottom_toBottomOf="parent">
+        <Button
+            android:visibility="gone"
+            android:id="@+id/save_BT"
+            android:background="@color/colorPrimary"
+            android:textSize="25dp"
+            android:theme="@style/MatButton"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:text="@string/save"
+            android:layout_width="match_parent"
+            android:textColor="@color/whiteColor"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            tools:ignore="MissingConstraints" />
+
+        <Button
+            android:visibility="gone"
+            android:id="@+id/update_BT"
+            android:background="@color/colorPrimary"
+            android:textSize="25dp"
+            android:theme="@style/MatButton"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:text="@string/update"
+            android:layout_width="match_parent"
+            android:textColor="@color/whiteColor"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            tools:ignore="MissingConstraints" />
+    </RelativeLayout>
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

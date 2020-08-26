@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import com.bumptech.glide.Glide;
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.api.ApiClient;
 import com.cynoteck.petofyvet.api.ApiResponse;
@@ -204,10 +205,13 @@ public class PetIdCardActivity extends AppCompatActivity implements ApiResponse 
                     contact_TV.setText(petIdCardResponse.getData().getContactNumber());
                     pet_id_TV.setText(petIdCardResponse.getData().getPetUniqueId());
  //                   pet_image.setImageResource(Integer.parseInt(petIdCardResponse.getData().getPetProfileImageUrl()));
-//                    bar_code_IV.setImageResource(Integer.parseInt(petIdCardResponse.getData().getBarcodeUrl()));
+//                    RequestOptions options = new RequestOptions()
+//                            .centerCrop()
+//                            .placeholder(R.mipmap.ic_launcher_round)
+//                            .error(R.mipmap.ic_launcher_round);
 
+                    Glide.with(this).load(petIdCardResponse.getData().getBarcodeUrl()).into(bar_code_IV);
                 }
-
         }
 
     }

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cynoteck.petofyvet.R;
+import com.cynoteck.petofyvet.activities.AddXRayDeatilsActivity;
 import com.cynoteck.petofyvet.activities.HospitalizationDetailsActivity;
 import com.cynoteck.petofyvet.activities.LabTestReportDeatilsActivity;
 import com.cynoteck.petofyvet.activities.ViewReportsDeatilsActivity;
@@ -399,11 +400,22 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
 
     @Override
     public void onUpdateXrayClick(int position) {
-
+        Toast.makeText(getContext(), ""+petTestsAndXrayLists.get(position).getId(), Toast.LENGTH_SHORT).show();
+        Intent labIntent = new Intent(getContext(), AddXRayDeatilsActivity.class);
+        Bundle data = new Bundle();
+        data.putString("type","update");
+        data.putString("pet_id",pet_id);
+        data.putString("pet_parent",pet_owner_name);
+        data.putString("pet_sex",pet_sex);
+        data.putString("pet_unique_id",pet_unique_id);
+        labIntent.putExtras(data);
+        startActivity(labIntent);
+        getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
     }
 
     @Override
     public void onUpdateLabTestReportsClick(int position) {
+
 
     }
 

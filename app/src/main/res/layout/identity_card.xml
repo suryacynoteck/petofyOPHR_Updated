@@ -235,7 +235,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/line2"
                 app:layout_constraintStart_toStartOf="@id/contactTv"
-                android:src="@drawable/barcode"
                 android:layout_marginRight="100dp"/>
 
             <TextView
