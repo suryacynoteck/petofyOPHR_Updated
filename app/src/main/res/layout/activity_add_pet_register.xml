@@ -18,6 +18,16 @@
         android:elevation="1dp"
         app:cardElevation="30dp">
 
+        <ImageView
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/back_arrow_IV"
+            android:padding="8dp"
+            android:visibility="visible"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/back_arrow" />
+
     </androidx.cardview.widget.CardView>
 
 
@@ -324,7 +334,7 @@
 
             <EditText
                 android:layout_below="@id/pet_contact_TV"
-                android:inputType="text"
+                android:inputType="phone"
                 android:maxLines="1"
                 android:paddingLeft="25dp"
                 android:layout_width="match_parent"
