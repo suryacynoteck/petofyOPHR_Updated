@@ -633,6 +633,7 @@ public class NewEntrysListFragment extends Fragment implements ApiResponse, Regi
         data.putString("reports_id",getReportsTypeData.get(position).getId());
         data.putString("button_type","update");
         selectReportsIntent.putExtras(data);
+        Log.e("valueeeee",data.toString());
         startActivity(selectReportsIntent);
         getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
 

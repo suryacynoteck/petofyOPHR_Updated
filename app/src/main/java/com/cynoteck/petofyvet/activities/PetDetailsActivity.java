@@ -180,7 +180,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
             case R.id.view_clinicVisits_arrow:
                 Intent petDetailsClinicVisits = new Intent(this, NewEntrysDetailsActivity.class);
                 Bundle dataClinicVisits = new Bundle();
-                dataClinicVisits.putString("pet_id",pet_id+".0");
+                dataClinicVisits.putString("pet_id",pet_id);
                 dataClinicVisits.putString("pet_name",pet_name);
                 dataClinicVisits.putString("pet_parent",patent_name);
                 dataClinicVisits.putString("pet_unique_id",pet_unique_id);
