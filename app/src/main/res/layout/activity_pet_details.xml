@@ -473,6 +473,7 @@
 
 
             <RelativeLayout
+                android:visibility="gone"
                 android:id="@+id/recent_visits"
                 android:background="@drawable/reports_field"
                 android:layout_width="match_parent"

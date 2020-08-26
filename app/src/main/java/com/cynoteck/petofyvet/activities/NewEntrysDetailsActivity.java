@@ -17,10 +17,11 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.fragments.NewEntrysListFragment;
+import com.cynoteck.petofyvet.fragments.ReportListFragment;
 
 public class NewEntrysDetailsActivity extends AppCompatActivity implements View.OnClickListener {
     ImageView back_arrow_IV;
-    String pet_unique_id, pet_name,pet_sex, pet_owner_name,pet_owner_contact,pet_id ,report_type_id,button_text;
+    String pet_unique_id, pet_name,pet_sex, pet_owner_name,pet_owner_contact,pet_id ,report_type_id,button_text,button_type;
     Bundle data = new Bundle();
     TextView pet_name_TV,pet_sex_TV,pet_id_TV,pet_owner_name_TV,pet_owner_phone_no_TV,clinicFolow_up_dt_view,
             reports_headline_TV,add_text_button,clinicCalenderTextViewVisitDt,clinicIlness_onset;
@@ -44,6 +45,7 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
         pet_owner_name = extras.getString("pet_parent");
         pet_sex = extras.getString("pet_sex");
         pet_name = extras.getString("pet_name");
+        button_type=extras.getString("button_type");
 
         Log.e("jajajjaj",""+pet_name);
         pet_unique_id = extras.getString("pet_unique_id");
@@ -158,23 +160,32 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
 
             case "7.0":
 
+                if (button_type.equals("update")){
+                    data.putString("button_type",button_type);
+                }else if (button_type.equals("view")){
+                    data.putString("button_type","view");
+                }
                 reports_headline_TV.setText("Test/X-Ray Report");
                 data.putString("reports_id","7");
                 data.putString("type","XRay");
-                NewEntrysListFragment fragment6 = new NewEntrysListFragment();
+
+                ReportListFragment fragment6 = new ReportListFragment();
                 fragment6.setArguments(data);
                 FragmentTransaction fragment6FT = getSupportFragmentManager().beginTransaction();
                 fragment6FT.replace(R.id.report_type_frame, fragment6);
                 fragment6FT.commit();
-
                 break;
 
             case "8.0":
-
+                if (button_type.equals("update")){
+                    data.putString("button_type",button_type);
+                }else if (button_type.equals("view")){
+                    data.putString("button_type","view");
+                }
                 reports_headline_TV.setText("Lab Tests");
                 data.putString("reports_id","8");
                 data.putString("type","LabTest");
-                NewEntrysListFragment fragment7 = new NewEntrysListFragment();
+                ReportListFragment fragment7 = new ReportListFragment();
                 fragment7.setArguments(data);
                 FragmentTransaction fragment7FT = getSupportFragmentManager().beginTransaction();
                 fragment7FT.replace(R.id.report_type_frame, fragment7);
@@ -183,11 +194,15 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
                 break;
 
             case "9.0":
-
+                if (button_type.equals("update")){
+                    data.putString("button_type",button_type);
+                }else if (button_type.equals("view")){
+                    data.putString("button_type","view");
+                }
                 reports_headline_TV.setText("Hospitalization & Surgeries");
                 data.putString("reports_id","9");
                 data.putString("type","Hospitalization");
-                NewEntrysListFragment fragment8 = new NewEntrysListFragment();
+                ReportListFragment fragment8 = new ReportListFragment();
                 fragment8.setArguments(data);
                 FragmentTransaction fragment8FT = getSupportFragmentManager().beginTransaction();
                 fragment8FT.replace(R.id.report_type_frame, fragment8);
@@ -196,11 +211,15 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
                 break;
 
             case "10.0":
-
+                if (button_type.equals("update")){
+                    data.putString("button_type",button_type);
+                }else if (button_type.equals("view")){
+                    data.putString("button_type","view");
+                }
                 reports_headline_TV.setText("Clinic Visit Report");
                 data.putString("reports_id","10");
                 data.putString("type","ClinicVisitReport");
-                NewEntrysListFragment fragment9 = new NewEntrysListFragment();
+                ReportListFragment fragment9 = new ReportListFragment();
                 fragment9.setArguments(data);
                 FragmentTransaction fragment9FT = getSupportFragmentManager().beginTransaction();
                 fragment9FT.replace(R.id.report_type_frame, fragment9);

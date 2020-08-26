@@ -1010,7 +1010,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
 
         Intent petDetailsIntent = new Intent(getActivity().getApplication(), PetDetailsActivity.class);
         Bundle data = new Bundle();
-        data.putString("pet_id",petClinicVisitLists.get(position).getPetId().substring(0,petClinicVisitLists.get(position).getPetId().length()-2));
+        data.putString("pet_id",petClinicVisitLists.get(position).getPetId());
         data.putString("pet_name",petClinicVisitLists.get(position).getPetName());
         data.putString("pet_parent",petClinicVisitLists.get(position).getPetParentName());
         data.putString("pet_sex",petClinicVisitLists.get(position).getPetSex());

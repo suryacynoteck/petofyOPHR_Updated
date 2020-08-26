@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.print.PrintAttributes;
 import android.print.PrintDocumentAdapter;
 import android.print.PrintJob;
@@ -64,15 +63,12 @@ import com.cynoteck.petofyvet.response.getPetReportsResponse.getPetClinicVisitsL
 import com.cynoteck.petofyvet.response.getXRayReports.getPetTestAndXRayResponse.GetPetTestAndXRayResponse;
 import com.cynoteck.petofyvet.response.getXRayReports.getPetTestAndXRayResponse.PetTestsAndXrayList;
 import com.cynoteck.petofyvet.response.recentEntrys.RecentEntrysResponse;
-import com.cynoteck.petofyvet.response.recentVisitResponse.RecentVisitResponsee;
 import com.cynoteck.petofyvet.response.updateProfileResponse.PetTypeResponse;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
 import com.cynoteck.petofyvet.utils.NewEntryListClickListener;
-import com.cynoteck.petofyvet.utils.OnClickStaicLists;
 import com.cynoteck.petofyvet.utils.RegisterRecyclerViewClickListener;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
+import com.cynoteck.petofyvet.utils.ViewAndUpdateClickListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -81,7 +77,7 @@ import java.util.StringTokenizer;
 
 import retrofit2.Response;
 
-public class NewEntrysListFragment extends Fragment implements ApiResponse, RegisterRecyclerViewClickListener, OnClickStaicLists, NewEntryListClickListener, View.OnClickListener {
+public class NewEntrysListFragment extends Fragment implements ApiResponse, RegisterRecyclerViewClickListener, ViewAndUpdateClickListener, NewEntryListClickListener, View.OnClickListener {
     String pet_unique_id, pet_name,pet_sex, pet_owner_name,pet_owner_contact,pet_id ,report_type_id,type;
 
     RecyclerView routine_report_RV;
@@ -136,7 +132,6 @@ public class NewEntrysListFragment extends Fragment implements ApiResponse, Regi
     public NewEntrysListFragment() {
         // Required empty public constructor
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -626,6 +621,7 @@ public class NewEntrysListFragment extends Fragment implements ApiResponse, Regi
     @Override
     public void onProductClick(int position) {
         getReportsTypeData.get(position).getId();
+        Toast.makeText(getContext(), ""+getReportsTypeData.get(position).getId(), Toast.LENGTH_SHORT).show();
         Intent selectReportsIntent = new Intent(getContext(), ReportsCommonActivity.class);
         Bundle data = new Bundle();
         data.putString("pet_id",pet_id);
@@ -635,6 +631,7 @@ public class NewEntrysListFragment extends Fragment implements ApiResponse, Regi
         data.putString("pet_owner_name",pet_owner_name);
         data.putString("pet_owner_contact",pet_owner_contact);
         data.putString("reports_id",getReportsTypeData.get(position).getId());
+        data.putString("button_type","update");
         selectReportsIntent.putExtras(data);
         startActivity(selectReportsIntent);
         getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
@@ -809,20 +806,39 @@ public class NewEntrysListFragment extends Fragment implements ApiResponse, Regi
 
 
     @Override
+    public void onViewClick(int position) {
+
+    }
+
+    @Override
+    public void onUpdateClick(int position) {
+
+    }
+
+    @Override
     public void onViewXrayClick(int position) {
-        Toast.makeText(getContext(), ""+petTestsAndXrayLists.get(position).getId(), Toast.LENGTH_SHORT).show();
 
     }
 
     @Override
-    public void onViewLabTestReportsClick(int position) {
-        Toast.makeText(getContext(), ""+petLabWorkLists.get(position).getId(), Toast.LENGTH_SHORT).show();
+    public void onViewLabTestReportsClick(int position) { }
+
+    @Override
+    public void onViewHospitalizationClick(int position) { }
+
+    @Override
+    public void onUpdateXrayClick(int position) {
 
     }
 
     @Override
-    public void onViewHospitalizationClick(int position) {
-        Toast.makeText(getContext(), ""+petHospitalizationsLists.get(position).getId(), Toast.LENGTH_SHORT).show();
+    public void onUpdateLabTestReportsClick(int position) {
+
+    }
+
+    @Override
+    public void onUpdateHospitalizationClick(int position) {
+
     }
 
     private void getPetlistData(GetPetListRequest getPetListRequest) {

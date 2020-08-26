@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.response.getXRayReports.getPetTestAndXRayResponse.PetTestsAndXrayList;
-import com.cynoteck.petofyvet.utils.OnClickStaicLists;
+import com.cynoteck.petofyvet.utils.ViewAndUpdateClickListener;
 
 import java.util.List;
 
@@ -19,9 +19,9 @@ public class TestAndXRayAdpater extends RecyclerView.Adapter<TestAndXRayAdpater.
 
     Context context;
     List<PetTestsAndXrayList> petTestsAndXrayLists;
-    OnClickStaicLists onProductItemClickListner;
+    ViewAndUpdateClickListener onProductItemClickListner;
 
-    public TestAndXRayAdpater(Context context, List<PetTestsAndXrayList> petClinicVisitLists, OnClickStaicLists onProductItemClickListner) {
+    public TestAndXRayAdpater(Context context, List<PetTestsAndXrayList> petClinicVisitLists, ViewAndUpdateClickListener onProductItemClickListner) {
         this.context = context;
         this.petTestsAndXrayLists = petClinicVisitLists;
         this.onProductItemClickListner = onProductItemClickListner;

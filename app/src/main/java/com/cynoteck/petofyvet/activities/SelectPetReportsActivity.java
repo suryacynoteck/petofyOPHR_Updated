@@ -123,6 +123,8 @@ public class SelectPetReportsActivity extends AppCompatActivity implements ApiRe
         staticReportsData.putString("pet_owner_name",pet_owner_name);
         staticReportsData.putString("pet_owner_contact",pet_owner_contact);
         staticReportsData.putString("reports_id",report_id);
+        staticReportsData.putString("button_type","view");
+
         staticReportsIntent.putExtras(staticReportsData);
         startActivity(staticReportsIntent);
         overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
@@ -172,6 +174,7 @@ public class SelectPetReportsActivity extends AppCompatActivity implements ApiRe
         data.putString("pet_owner_name",pet_owner_name);
         data.putString("pet_owner_contact",pet_owner_contact);
         data.putString("reports_id",getReportsTypeData.get(position).getId());
+        data.putString("button_type","view");
         selectReportsIntent.putExtras(data);
         startActivity(selectReportsIntent);
         overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);

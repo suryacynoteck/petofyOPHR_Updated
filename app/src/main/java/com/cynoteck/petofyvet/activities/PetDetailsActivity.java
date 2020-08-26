@@ -90,6 +90,19 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.view_xrayReport_arrow:
+//                Intent staticReportsIntent = new Intent(this, ReportsCommonActivity.class);
+//                Bundle staticReportsData = new Bundle();
+//                staticReportsData.putString("pet_id",pet_id);
+//                staticReportsData.putString("pet_name",pet_name);
+//                staticReportsData.putString("pet_unique_id",pet_unique_id);
+//                staticReportsData.putString("pet_sex",pet_sex);
+//                staticReportsData.putString("pet_parent",patent_name);
+//                staticReportsData.putString("pet_owner_contact","");
+//                staticReportsData.putString("reports_id","7.0");
+//                staticReportsData.putString("button_type","update");
+//                staticReportsIntent.putExtras(staticReportsData);
+//                startActivity(staticReportsIntent);
+//                overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
                 Intent petDetailsXray = new Intent(this, NewEntrysDetailsActivity.class);
                 Bundle dataXray = new Bundle();
                 dataXray.putString("pet_id",pet_id);
@@ -99,6 +112,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 dataXray.putString("reports_id","7.0");
                 dataXray.putString("pet_sex",pet_sex);
                 dataXray.putString("add_button_text","Test/X-rays");
+                dataXray.putString("button_type","update");
                 petDetailsXray.putExtras(dataXray);
                 startActivity(petDetailsXray);
                 break;
@@ -111,6 +125,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 dataLabwork.putString("pet_unique_id",pet_unique_id);
                 dataLabwork.putString("reports_id","8.0");
                 dataLabwork.putString("pet_sex",pet_sex);
+                dataLabwork.putString("button_type","update");
                 dataLabwork.putString("add_button_text","Lab Work");
                 petDetailsLabWork.putExtras(dataLabwork);
                 startActivity(petDetailsLabWork);
@@ -124,6 +139,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 dataLabworkHospitalization.putString("pet_unique_id",pet_unique_id);
                 dataLabworkHospitalization.putString("reports_id","9.0");
                 dataLabworkHospitalization.putString("pet_sex",pet_sex);
+                dataLabworkHospitalization.putString("button_type","update");
                 dataLabworkHospitalization.putString("add_button_text","Hospitalization");
                 petDetailsHospitalization.putExtras(dataLabworkHospitalization);
                 startActivity(petDetailsHospitalization);

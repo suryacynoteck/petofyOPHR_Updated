@@ -13,7 +13,7 @@ import com.cynoteck.petofyvet.fragments.ReportListFragment;
 
 public class ReportsCommonActivity extends AppCompatActivity {
     ImageView back_arrow_IV;
-    String pet_unique_id, pet_name,pet_sex, pet_owner_name,pet_owner_contact,pet_id ,report_type_id;
+    String pet_unique_id, pet_name,pet_sex, pet_owner_name,pet_owner_contact,pet_id ,report_type_id,button_type;
     Bundle data = new Bundle();
     TextView pet_name_TV,pet_sex_TV,pet_id_TV,pet_owner_name_TV,pet_owner_phone_no_TV, reports_headline_TV;
 
@@ -30,6 +30,7 @@ public class ReportsCommonActivity extends AppCompatActivity {
         pet_sex = extras.getString("pet_sex");
         pet_name = extras.getString("pet_name");
         pet_unique_id = extras.getString("pet_unique_id");
+        button_type = extras.getString("button_type");
 
 
         reports_headline_TV = findViewById(R.id.reports_headline_TV);
@@ -54,7 +55,11 @@ public class ReportsCommonActivity extends AppCompatActivity {
         switch (report_type_id){
 
             case "1.0":
-
+                if (button_type.equals("update")){
+                    data.putString("button_type",button_type);
+                }else if (button_type.equals("view")){
+                    data.putString("button_type","view");
+                }
                 reports_headline_TV.setText("Routine Report");
                 data.putString("reports_id","1");
                 data.putString("type","list");
@@ -68,7 +73,11 @@ public class ReportsCommonActivity extends AppCompatActivity {
                 break;
 
             case "2.0":
-
+                if (button_type.equals("update")){
+                    data.putString("button_type",button_type);
+                }else if (button_type.equals("view")){
+                    data.putString("button_type","view");
+                }
                 reports_headline_TV.setText("Health problem");
                 data.putString("reports_id","2");
                 data.putString("type","list");
@@ -83,7 +92,11 @@ public class ReportsCommonActivity extends AppCompatActivity {
 
 
             case "4.0":
-
+                if (button_type.equals("update")){
+                    data.putString("button_type",button_type);
+                }else if (button_type.equals("view")){
+                    data.putString("button_type","view");
+                }
                 reports_headline_TV.setText("Immunization Report");
                 data.putString("reports_id","4");
                 data.putString("type","list");
@@ -98,7 +111,11 @@ public class ReportsCommonActivity extends AppCompatActivity {
 
 
             case "5.0":
-
+                if (button_type.equals("update")){
+                    data.putString("button_type",button_type);
+                }else if (button_type.equals("view")){
+                    data.putString("button_type","view");
+                }
                 reports_headline_TV.setText("Deworming");
                 data.putString("reports_id","5");
                 data.putString("type","list");
@@ -114,7 +131,11 @@ public class ReportsCommonActivity extends AppCompatActivity {
 
 
             case "6.0":
-
+                if (button_type.equals("update")){
+                    data.putString("button_type",button_type);
+                }else if (button_type.equals("view")){
+                    data.putString("button_type","view");
+                }
                 reports_headline_TV.setText("Other Report");
                 data.putString("reports_id","6");
                 data.putString("type","list");
@@ -129,10 +150,15 @@ public class ReportsCommonActivity extends AppCompatActivity {
 
 
             case "7.0":
-
+                if (button_type.equals("update")){
+                    data.putString("button_type",button_type);
+                }else if (button_type.equals("view")){
+                    data.putString("button_type","view");
+                }
                 reports_headline_TV.setText("Test/X-Ray Report");
                 data.putString("reports_id","7");
                 data.putString("type","XRay");
+
                 ReportListFragment fragment6 = new ReportListFragment();
                 fragment6.setArguments(data);
                 FragmentTransaction fragment6FT = getSupportFragmentManager().beginTransaction();
