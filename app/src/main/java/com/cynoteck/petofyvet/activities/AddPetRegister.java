@@ -78,7 +78,7 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
     AppCompatSpinner add_pet_age,add_pet_type,add_pet_sex,add_pet_breed,add_pet_color,add_pet_size;
     EditText pet_name,pet_parent_name,pet_contact_number,pet_description,pet_address;
     TextView peto_reg_number,calenderView;
-    ImageView service_cat_img_one,service_cat_img_two,service_cat_img_three,service_cat_img_four,
+    ImageView back_arrow_IV, service_cat_img_one,service_cat_img_two,service_cat_img_three,service_cat_img_four,
             service_cat_img_five;
     Button pet_submit;
     String strPetName="",strPetParentName="",strPetContactNumber="",strPetDescription="",strPetAdress="",strPetBirthDay="",
@@ -240,6 +240,7 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
         calenderView.setOnClickListener(this);
 
         //ImageView
+        back_arrow_IV=findViewById(R.id.back_arrow_IV);
         pet_profile_image=findViewById(R.id.pet_profile_image);
         service_cat_img_one=findViewById(R.id.service_cat_img_one);
         service_cat_img_two=findViewById(R.id.service_cat_img_two);
@@ -252,6 +253,7 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
         service_cat_img_three.setOnClickListener(this);
         service_cat_img_four.setOnClickListener(this);
         service_cat_img_five.setOnClickListener(this);
+        back_arrow_IV.setOnClickListener(this);
 
         //Button
         pet_submit=findViewById(R.id.pet_submit);
@@ -263,6 +265,10 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View view) {
         switch (view.getId()){
+
+            case R.id.back_arrow_IV:
+                onBackPressed();
+                break;
             case R.id.pet_submit:
                 strPetName= pet_name.getText().toString().trim();
                 strPetParentName = pet_parent_name.getText().toString().trim();
@@ -976,7 +982,8 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
                     AddPetValueResponse addPetValueResponse = (AddPetValueResponse) arg0.body();
                     int responseCode = Integer.parseInt(addPetValueResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
-                        Toast.makeText(this, "Sucessss", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Pet Added Successfully ", Toast.LENGTH_SHORT).show();
+                        Config.backCall = "Added";
                         onBackPressed();
                     }else if (responseCode==614){
                         Toast.makeText(this, addPetValueResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();

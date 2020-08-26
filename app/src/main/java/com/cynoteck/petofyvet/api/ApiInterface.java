@@ -288,6 +288,10 @@ public interface ApiInterface {
     @POST("pethealthrecord/AddClinicVisit")
     Call<AddpetClinicResponse> addClinicVisit(@Header("Authorization") String auth, @Body AddPetClinicRequest addPetClinicRequest);
 
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("pethealthrecord/UpdateClinicVisit")
+    Call<AddpetClinicResponse> updateClinicVisit(@Header("Authorization") String auth, @Body AddPetClinicRequest addPetClinicRequest);
+
     //HOSPITAL TYPE.........................................................................
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
@@ -318,11 +322,19 @@ public interface ApiInterface {
     @POST("pethealthrecord/AddPetLabWork")
     Call<AddLabWorkResponse> addPetLabWork(@Header("Authorization") String auth, @Body AddLabRequest addLabRequest);
 
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("pethealthrecord/UpdateLabWork")
+    Call<AddLabWorkResponse> updatePetLabWork(@Header("Authorization") String auth, @Body AddLabRequest addLabRequest);
+
     //Add Pet Test And Xray
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("pethealthrecord/AddTestXRay")
     Call<AddTestXRayResponse> addTestXRay(@Header("Authorization") String auth, @Body AddTestXRayRequest addTestXRayRequest);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("pethealthrecord/UpdateTestXRay")
+    Call<AddTestXRayResponse> updateTestXRay(@Header("Authorization") String auth, @Body AddTestXRayRequest addTestXRayRequest);
 
     //ADD PET HOSPITALIZATION
 
@@ -333,8 +345,6 @@ public interface ApiInterface {
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST(" pet/GetPetIdentityCard")
     Call<PetIdCardResponse> getPetIdCard(@Header("Authorization") String auth, @Body PetClinicVisitDetailsRequest idCardRequest);
-
-
 
 }
 
