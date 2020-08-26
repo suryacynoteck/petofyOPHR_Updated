@@ -170,6 +170,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
         webview = view.findViewById(R.id.webview);
         new_pet_search.setOnClickListener(this);
         addNewEntry.setOnClickListener(this);
+        addNewEntry.setEnabled(false);
         back_arrow_IV_new_entry.setOnClickListener(this);
         search_box_add_new.addTextChangedListener(this);
 
@@ -699,14 +700,19 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                 break;
         }
 
+        addNewEntry.setEnabled(true);
+
     }
 
 
     ////////////////////////////////////////////ALEART DIALOG//////////////////////////////////////////////
 
 
-    public void editPrescriptionDialog(String petId,String petName, String petParentName)
+    public void editPrescriptionDialog(String petSex, String petId, String petName, String petParentName,String petAge)
     {
+        strSpnrSex=petSex;
+        strSpnrAge=petAge;
+
         editPetDilog = new Dialog(getContext());
         editPetDilog.setContentView(R.layout.edit_pet_layout);
         petIdGetForUpdate=petId;
@@ -726,7 +732,16 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
         cancel_edit_dialog=editPetDilog.findViewById(R.id.cancel_edit_dialog);
 
         pet_name_edit_dialog.setText(petName);
-        pet_parent_name_edit_dialog.setText(petParentName);
+
+        StringTokenizer st = new StringTokenizer(petParentName, "(");
+        String[] parts = petParentName.split("\\(");
+        String onlyPetParentname = parts[0];
+        String onlyPhoneNumber = parts[1];
+        pet_parent_name_edit_dialog.setText(onlyPetParentname);
+        String number=onlyPhoneNumber.substring(0, onlyPhoneNumber.length()-1).replaceAll("[\\D]", "");
+        pet_contact_number_edit_dialog.setText(number);
+
+
 
         calenderTextView_edit_dialog.setOnClickListener(this);
         save_changes_edit_dialog.setOnClickListener(this);
@@ -898,6 +913,10 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
         add_pet_age_edit_dialog.setAdapter(aa);
+        if (!strSpnrAge.equals("")) {
+            int spinnerPosition = aa.getPosition(strSpnrAge);
+            add_pet_age_edit_dialog.setSelection(spinnerPosition);
+        }
         add_pet_age_edit_dialog.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
@@ -950,6 +969,10 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
         add_pet_sex_edit_dialog.setAdapter(aa);
+        if (!strSpnrSex.equals("")) {
+            int spinnerPosition = aa.getPosition(strSpnrSex);
+            add_pet_sex_edit_dialog.setSelection(spinnerPosition);
+        }
         add_pet_sex_edit_dialog.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
@@ -987,7 +1010,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
 
         Intent petDetailsIntent = new Intent(getActivity().getApplication(), PetDetailsActivity.class);
         Bundle data = new Bundle();
-        data.putString("pet_id",petClinicVisitLists.get(position).getPetId().toString());
+        data.putString("pet_id",petClinicVisitLists.get(position).getPetId().substring(0,petClinicVisitLists.get(position).getPetId().length()-2));
         data.putString("pet_name",petClinicVisitLists.get(position).getPetName());
         data.putString("pet_parent",petClinicVisitLists.get(position).getPetParentName());
         data.putString("pet_sex",petClinicVisitLists.get(position).getPetSex());
@@ -1012,7 +1035,11 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
 
     @Override
     public void onProductEditClick(int position) {
-        editPrescriptionDialog(petClinicVisitLists.get(position).getPetId(),petClinicVisitLists.get(position).getPetName(),petClinicVisitLists.get(position).getPetParentName());
+        editPrescriptionDialog(petClinicVisitLists.get(position).getPetSex(),
+                               petClinicVisitLists.get(position).getPetId(),
+                               petClinicVisitLists.get(position).getPetName(),
+                               petClinicVisitLists.get(position).getPetParentName(),
+                               petClinicVisitLists.get(position).getPetAge());
     }
 
     @Override
@@ -1344,7 +1371,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                 "            <div class=\"invoice-title \">\n" +
                 "                <div class=\"row\">\n" +
                 "                    <div class=\"col-lg-12 col-md-12 col-xs-12\" style=\"font-size: 25px;font-family: cizel;\">\n" +
-                "                       <b>"+veterian+"</b> \n" +
+                "                       <b>"+Config.user_Veterian_name+"</b> \n" +
                 "                    </div>\n" +
                 "                    <div class=\"col-lg-12 col-md-12 col-xs-12\" style=\"font-size: 20px; margin-bottom: 20px;\">\n" +
                 "                        MBBS,MVS \n" +
@@ -1353,14 +1380,14 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                 "                       \n" +
                 "                    </div>\n" +
                 "                    <div class=\"col-lg-6 col-md-6 col-xs-6 text-right\" style=\"font-size: 20px;\">\n" +
-                "                       <b> Mobile :"+phoneNumber+" </b>\n" +
+                "                       <b> Mobile :"+Config.user_Veterian_phone+" </b>\n" +
                 "                    </div>\n" +
                 "                    \n" +
                 "                    <div class=\"col-lg-6 col-md-6 col-xs-6\" style=\"font-size: 17px;\">\n" +
-                "                       <b> Email: "+strEmail+" </b>\n" +
+                "                       <b> Email: "+Config.user_Veterian_emial+" </b>\n" +
                 "                    </div>\n" +
                 "                    <div class=\"col-lg-6 col-md-6 col-xs-6 text-right\" style=\"font-size: 20px;\">\n" +
-                "                       <b> "+phoneNumber+"</b>\n" +
+                "                       <b> "+Config.user_Veterian_phone+"</b>\n" +
                 "                    </div>\n" +
                 "                 \n" +
                 "                    \n" +
@@ -1455,5 +1482,9 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
 
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        getPetList();
+    }
 }

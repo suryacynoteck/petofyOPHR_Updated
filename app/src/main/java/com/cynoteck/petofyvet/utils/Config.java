@@ -13,6 +13,8 @@ public class Config {
     public static String token="";
     public static String user_id="";
     public static String user_Veterian_name="";
+    public static String user_Veterian_phone="";
+    public static String user_Veterian_emial="";
     public static String type="";
     public static String backCall="";
 

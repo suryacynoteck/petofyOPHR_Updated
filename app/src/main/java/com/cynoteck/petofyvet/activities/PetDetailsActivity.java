@@ -164,7 +164,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
             case R.id.view_clinicVisits_arrow:
                 Intent petDetailsClinicVisits = new Intent(this, NewEntrysDetailsActivity.class);
                 Bundle dataClinicVisits = new Bundle();
-                dataClinicVisits.putString("pet_id",pet_id);
+                dataClinicVisits.putString("pet_id",pet_id+".0");
                 dataClinicVisits.putString("pet_name",pet_name);
                 dataClinicVisits.putString("pet_parent",patent_name);
                 dataClinicVisits.putString("pet_unique_id",pet_unique_id);
@@ -284,7 +284,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 "            <div class=\"invoice-title \">\n" +
                 "                <div class=\"row\">\n" +
                 "                    <div class=\"col-lg-12 col-md-12 col-xs-12\" style=\"font-size: 25px;font-family: cizel;\">\n" +
-                "                       <b>"+veterian+"</b> \n" +
+                "                       <b>"+Config.user_Veterian_name+"</b> \n" +
                 "                    </div>\n" +
                 "                    <div class=\"col-lg-12 col-md-12 col-xs-12\" style=\"font-size: 20px; margin-bottom: 20px;\">\n" +
                 "                        "+qualification+"\n" +
@@ -293,14 +293,14 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 "                       \n" +
                 "                    </div>\n" +
                 "                    <div class=\"col-lg-6 col-md-6 col-xs-6 text-right\" style=\"font-size: 20px;\">\n" +
-                "                       <b> Mobile :"+strParntNm+" </b>\n" +
+                "                       <b> Mobile :"+Config.user_Veterian_phone+" </b>\n" +
                 "                    </div>\n" +
                 "                    \n" +
                 "                    <div class=\"col-lg-6 col-md-6 col-xs-6\" style=\"font-size: 17px;\">\n" +
-                "                       <b> Email: "+strEmail+" </b>\n" +
+                "                       <b> Email: "+Config.user_Veterian_emial+" </b>\n" +
                 "                    </div>\n" +
                 "                    <div class=\"col-lg-6 col-md-6 col-xs-6 text-right\" style=\"font-size: 20px;\">\n" +
-                "                       <b> "+strParntNm+"</b>\n" +
+                "                       <b> "+Config.user_Veterian_phone+"</b>\n" +
                 "                    </div>\n" +
                 "                 \n" +
                 "                    \n" +

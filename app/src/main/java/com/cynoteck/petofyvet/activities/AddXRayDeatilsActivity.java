@@ -95,7 +95,7 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
     private void init() {
         Bundle extras = getIntent().getExtras();
         xray_peto_edit_reg_number_dialog=findViewById(R.id.xray_peto_edit_reg_number_dialog);
-        peto_edit_reg_number_dialog=findViewById(R.id.peto_edit_reg_number_dialog);
+        peto_edit_reg_number_dialog=findViewById(R.id.xray_peto_edit_reg_number_dialog);
         calenderTextViewtestdate=findViewById(R.id.calenderTextViewtestdate);
         folow_up_dt_view=findViewById(R.id.folow_up_dt_view);
         nature_of_visit_spinner=findViewById(R.id.nature_of_visit_spinner);
@@ -195,6 +195,8 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
                     addTestXRayParams.setTypeOfTestId(testTypeId);
                     addTestXRayParams.setDocuments(strDocumentUrl);
                     addTestXRayParams.setFollowUpDate(strFolowUpDt);
+                    addTestXRayParams.setDateTested(strDt);
+                    addTestXRayParams.setResults(strDescription);
                     AddTestXRayRequest addTestXRayRequest=new AddTestXRayRequest();
                     addTestXRayRequest.setData(addTestXRayParams);
                     if(methods.isInternetOn())

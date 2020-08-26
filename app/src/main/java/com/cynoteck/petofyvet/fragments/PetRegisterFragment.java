@@ -115,11 +115,11 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, ViewD
     @Override
     public void onResponse(Response response, String key) {
 //        methods.customProgressDismiss();
-        Log.e("sdjhfgsjkdfgsdfj","slfhksdfgsighf");
         switch (key){
             case "GetPetList":
                 try {
                     GetPetListResponse getPetListResponse = (GetPetListResponse) response.body();
+                    Log.d("GetPetList", getPetListResponse.toString());
                     int responseCode = Integer.parseInt(getPetListResponse.getResponse().getResponseCode());
                     Log.d("DATALOG", String.valueOf(getPetListResponse.getData().getPetList().get(0).getPetUniqueId()));
                     Log.d("DATALOG", String.valueOf(getPetListResponse.getData().getPetList().get(1).getPetUniqueId()));

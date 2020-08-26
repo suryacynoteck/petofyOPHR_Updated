@@ -699,7 +699,7 @@ public class NewEntrysListFragment extends Fragment implements ApiResponse, Regi
                 "            <div class=\"invoice-title \">\n" +
                 "                <div class=\"row\">\n" +
                 "                    <div class=\"col-lg-12 col-md-12 col-xs-12\" style=\"font-size: 25px;font-family: cizel;\">\n" +
-                "                       <b>"+veterian+"</b> \n" +
+                "                       <b>"+Config.user_Veterian_name+"</b> \n" +
                 "                    </div>\n" +
                 "                    <div class=\"col-lg-12 col-md-12 col-xs-12\" style=\"font-size: 20px; margin-bottom: 20px;\">\n" +
                 "                        MBBS,MVS \n" +
@@ -708,14 +708,14 @@ public class NewEntrysListFragment extends Fragment implements ApiResponse, Regi
                 "                       \n" +
                 "                    </div>\n" +
                 "                    <div class=\"col-lg-6 col-md-6 col-xs-6 text-right\" style=\"font-size: 20px;\">\n" +
-                "                       <b> Mobile :"+strParntNm+" </b>\n" +
+                "                       <b> Mobile :"+Config.user_Veterian_phone+" </b>\n" +
                 "                    </div>\n" +
                 "                    \n" +
                 "                    <div class=\"col-lg-6 col-md-6 col-xs-6\" style=\"font-size: 17px;\">\n" +
-                "                       <b> Email: "+strEmail+" </b>\n" +
+                "                       <b> Email: "+Config.user_Veterian_emial+" </b>\n" +
                 "                    </div>\n" +
                 "                    <div class=\"col-lg-6 col-md-6 col-xs-6 text-right\" style=\"font-size: 20px;\">\n" +
-                "                       <b> "+strParntNm+"</b>\n" +
+                "                       <b> "+Config.user_Veterian_phone+"</b>\n" +
                 "                    </div>\n" +
                 "                 \n" +
                 "                    \n" +

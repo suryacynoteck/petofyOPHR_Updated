@@ -52,7 +52,7 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
     TextView peto_reg_number_dialog,calenderTextView_dialog;
     String petUniqueId="",getStrSpnerItemPetNmId="",strSpnrBreedId="",strSpnrAgeId="",strSpnrColorId="",
             strSpneSizeId="",strSpnrSexId="",strSpnerItemPetType="",strSpnrBreed="",strSpnrAge="",strSpnrSex="",
-            currentDateandTime="",petIdGetForUpdate="",strResponseOtp="",petId="",petParentContactNumber="";
+            currentDateandTime="",strSexType="",strResponseOtp="",petId="",petParentContactNumber="";
     ImageView back_arrow_IV;
     DatePickerDialog picker;
     ArrayList<String> petType;
@@ -399,13 +399,18 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
                         Intent intentPetDetails = new Intent(this,PetDetailsActivity.class);
                         Bundle data = new Bundle();
                         data.putString("pet_id",addPetValueResponse.getData().getId().toString());
-                        data.putString("pet_name",addPetValueResponse.getData().getPetName()+"("+addPetValueResponse.getData().getSex()+")");
+                        data.putString("pet_name",addPetValueResponse.getData().getPetName());
                         data.putString("pet_parent",addPetValueResponse.getData().getPetParentName());
-                        data.putString("pet_sex",addPetValueResponse.getData().getSex());
+                        if(addPetValueResponse.getData().getSexId().equals("2.0"))
+                            strSexType="Female";
+                        else
+                            strSexType="Male";
+                        data.putString("pet_sex",strSexType);
                         data.putString("pet_unique_id",addPetValueResponse.getData().getPetUniqueId());
                         intentPetDetails.putExtras(data);
                         startActivity(intentPetDetails);
                         Toast.makeText(this, "Pet Added Successfully", Toast.LENGTH_SHORT).show();
+                        finish();
                     }else if (responseCode==614){
                         Toast.makeText(this, addPetValueResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
                     }else {

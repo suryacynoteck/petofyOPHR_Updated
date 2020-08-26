@@ -68,7 +68,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:text="PETO-1138"
+                android:text="PETO-"
                 android:textSize="20sp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

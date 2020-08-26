@@ -18,6 +18,7 @@ import android.webkit.WebView;
 import android.widget.Button;
 
 import com.cynoteck.petofyvet.R;
+import com.cynoteck.petofyvet.utils.Config;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -96,7 +97,7 @@ public class AppointementFragment extends Fragment {
                 "            <div class=\"invoice-title \">\n" +
                 "                <div class=\"row\">\n" +
                 "                    <div class=\"col-lg-12 col-md-12 col-xs-12\" style=\"font-size: 25px;font-family: cizel;\">\n" +
-                "                       <b>"+name+"</b> \n" +
+                "                       <b>"+Config.user_Veterian_name+"</b> \n" +
                 "                    </div>\n" +
                 "                    <div class=\"col-lg-12 col-md-12 col-xs-12\" style=\"font-size: 20px; margin-bottom: 20px;\">\n" +
                 "                        MBBS,MVS \n" +
@@ -105,14 +106,14 @@ public class AppointementFragment extends Fragment {
                 "                       \n" +
                 "                    </div>\n" +
                 "                    <div class=\"col-lg-6 col-md-6 col-xs-6 text-right\" style=\"font-size: 20px;\">\n" +
-                "                       <b> Mobile :"+mobile+" </b>\n" +
+                "                       <b> Mobile :"+Config.user_Veterian_phone+" </b>\n" +
                 "                    </div>\n" +
                 "                    \n" +
                 "                    <div class=\"col-lg-6 col-md-6 col-xs-6\" style=\"font-size: 17px;\">\n" +
-                "                       <b> Email: "+email+" </b>\n" +
+                "                       <b> Email: "+Config.user_Veterian_emial+" </b>\n" +
                 "                    </div>\n" +
                 "                    <div class=\"col-lg-6 col-md-6 col-xs-6 text-right\" style=\"font-size: 20px;\">\n" +
-                "                       <b> "+mobile1+"</b>\n" +
+                "                       <b> "+Config.user_Veterian_phone+"</b>\n" +
                 "                    </div>\n" +
                 "                 \n" +
                 "                    \n" +

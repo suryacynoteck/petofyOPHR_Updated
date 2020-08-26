@@ -335,7 +335,7 @@
 
 
             <EditText
-                android:inputType="text"
+                android:inputType="number"
                 android:maxLines="1"
                 android:paddingLeft="25dp"
                 android:layout_width="0dp"
