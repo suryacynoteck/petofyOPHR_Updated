@@ -308,7 +308,7 @@ public class NewEntrysListFragment extends Fragment implements ApiResponse, Regi
         petDataParams.setSearch_Data("");
         VisitTypeData visitTypeData = new VisitTypeData();
         visitTypeData.setVisitType(report_type_id);
-        visitTypeData.setPetId(pet_id);
+        visitTypeData.setPetId(pet_id.substring(0,pet_id.length()-2));
         visitTypeRequest.setHeader(petDataParams);
         visitTypeRequest.setData(visitTypeData);
         Log.d("visitTypeRequest",visitTypeRequest.toString());
