@@ -33,6 +33,8 @@ import com.cynoteck.petofyvet.api.ApiResponse;
 import com.cynoteck.petofyvet.api.ApiService;
 import com.cynoteck.petofyvet.params.addLabRequest.AddLabParams;
 import com.cynoteck.petofyvet.params.addLabRequest.AddLabRequest;
+import com.cynoteck.petofyvet.params.updateLapTestParams.UpdateLabTestParams;
+import com.cynoteck.petofyvet.params.updateLapTestParams.UpdateLabTestRequest;
 import com.cynoteck.petofyvet.response.addLabWorkResponse.AddLabWorkResponse;
 import com.cynoteck.petofyvet.response.addPet.imageUpload.ImageResponse;
 import com.cynoteck.petofyvet.response.labTyperesponse.LabTypeResponse;
@@ -76,7 +78,7 @@ public class AddLabWorkDeatilsActivity extends AppCompatActivity implements View
 
     DatePickerDialog picker;
 
-    String lab_type_string="",LabTypeId="",pet_id="",pet_name="",pet_owner_name="",pet_sex="",pet_unique_id="",strDocumentUrl="",test_name="",lab_phone="",lab_name="",lab_type="",visit_date="",result="",reason="",type="";
+    String report_id="",lab_type_string="",LabTypeId="",pet_id="",pet_name="",pet_owner_name="",pet_sex="",pet_unique_id="",strDocumentUrl="",test_name="",lab_phone="",lab_name="",lab_type="",visit_date="",result="",reason="",type="";
 
     private static final String IMAGE_DIRECTORY = "/Picture";
     private int GALLERY = 1, CAMERA = 2;
@@ -117,6 +119,7 @@ public class AddLabWorkDeatilsActivity extends AppCompatActivity implements View
         lab_back_arrow_IV.setOnClickListener(this);
 
         if (extras != null) {
+            report_id = extras.getString("report_id");
             pet_id = extras.getString("pet_id");
             pet_name = extras.getString("pet_name");
             pet_owner_name = extras.getString("pet_owner_name");
@@ -273,37 +276,59 @@ public class AddLabWorkDeatilsActivity extends AppCompatActivity implements View
                     test_name_ET.setError(null);
                     reson_of_visit_ET.setError(null);
                     result_ET.setError(null);
-                    AddLabParams addLabParams=new AddLabParams();
-                    addLabParams.setPetId(pet_id);
-                    addLabParams.setRequestingVeterinarian(strRequstVeterian);
-                    addLabParams.setVeterinarianPhone(strPhoneNumber);
-                    addLabParams.setVisitDate(strLabVisitDt);
-                    addLabParams.setLabTypeId(LabTypeId);
-                    addLabParams.setNameOfLab(strLabName);
-                    addLabParams.setLabPhone(strLabphoneNumber);
-                    addLabParams.setAddress1("");
-                    addLabParams.setAddress2("");
-                    addLabParams.setCountryId("");
-                    addLabParams.setStateId("");
-                    addLabParams.setCityId("");
-                    addLabParams.setZipCode("");
-                    addLabParams.setTestName(strNameofTest);
-                    addLabParams.setReasonOfTest(strReasonOfVisit);
-                    addLabParams.setResults(strRsult);
-                    addLabParams.setDocuments(strDocumentUrl);
-                    AddLabRequest addLabRequest=new AddLabRequest();
-                    addLabRequest.setAddPetParams(addLabParams);
+
 
                     if (type.equals("Update Lab Work")){
+                        UpdateLabTestParams updateLabTestParams=new UpdateLabTestParams();
+                        updateLabTestParams.setId(report_id);
+                        updateLabTestParams.setPetId(pet_id);
+                        updateLabTestParams.setRequestingVeterinarian(strRequstVeterian);
+                        updateLabTestParams.setVeterinarianPhone(strPhoneNumber);
+                        updateLabTestParams.setVisitDate(strLabVisitDt);
+                        updateLabTestParams.setLabTypeId(LabTypeId);
+                        updateLabTestParams.setNameOfLab(strLabName);
+                        updateLabTestParams.setLabPhone(strLabphoneNumber);
+                        updateLabTestParams.setAddress1("");
+                        updateLabTestParams.setAddress2("");
+                        updateLabTestParams.setCountryId("");
+                        updateLabTestParams.setStateId("");
+                        updateLabTestParams.setCityId("");
+                        updateLabTestParams.setZipCode("");
+                        updateLabTestParams.setTestName(strNameofTest);
+                        updateLabTestParams.setReasonOfTest(strReasonOfVisit);
+                        updateLabTestParams.setResults(strRsult);
+                        updateLabTestParams.setDocuments(strDocumentUrl);
+                        UpdateLabTestRequest updateLabTestRequest =new UpdateLabTestRequest();
+                        updateLabTestRequest.setAddPetParams(updateLabTestParams);
                         if(methods.isInternetOn())
                         {
-                            updateLabWork(addLabRequest);
+                            updateLabWork(updateLabTestRequest);
                         }
                         else
                         {
                             methods.DialogInternet();
                         }
                     }else {
+                        AddLabParams addLabParams=new AddLabParams();
+                        addLabParams.setPetId(pet_id);
+                        addLabParams.setRequestingVeterinarian(strRequstVeterian);
+                        addLabParams.setVeterinarianPhone(strPhoneNumber);
+                        addLabParams.setVisitDate(strLabVisitDt);
+                        addLabParams.setLabTypeId(LabTypeId);
+                        addLabParams.setNameOfLab(strLabName);
+                        addLabParams.setLabPhone(strLabphoneNumber);
+                        addLabParams.setAddress1("");
+                        addLabParams.setAddress2("");
+                        addLabParams.setCountryId("");
+                        addLabParams.setStateId("");
+                        addLabParams.setCityId("");
+                        addLabParams.setZipCode("");
+                        addLabParams.setTestName(strNameofTest);
+                        addLabParams.setReasonOfTest(strReasonOfVisit);
+                        addLabParams.setResults(strRsult);
+                        addLabParams.setDocuments(strDocumentUrl);
+                        AddLabRequest addLabRequest=new AddLabRequest();
+                        addLabRequest.setAddPetParams(addLabParams);
                         if(methods.isInternetOn())
                         {
                             addPetLabTestReport(addLabRequest);
@@ -325,10 +350,10 @@ public class AddLabWorkDeatilsActivity extends AppCompatActivity implements View
 
     }
 
-    private void updateLabWork(AddLabRequest addLabRequest) {
+    private void updateLabWork(UpdateLabTestRequest updateLabTestRequest) {
         ApiService<AddLabWorkResponse> service = new ApiService<>();
-        service.get( this, ApiClient.getApiInterface().updatePetLabWork(Config.token,addLabRequest), "UpdatePetLabWork");
-        Log.d("updatePetLabParams",""+addLabRequest);
+        service.get( this, ApiClient.getApiInterface().updatePetLabWork(Config.token,updateLabTestRequest), "UpdatePetLabWork");
+        Log.d("updatePetLabParams",""+updateLabTestRequest);
 
     }
 

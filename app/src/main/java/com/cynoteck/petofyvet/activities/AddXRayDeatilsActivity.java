@@ -33,6 +33,8 @@ import com.cynoteck.petofyvet.api.ApiResponse;
 import com.cynoteck.petofyvet.api.ApiService;
 import com.cynoteck.petofyvet.params.addTestXRayParams.AddTestXRayParams;
 import com.cynoteck.petofyvet.params.addTestXRayParams.AddTestXRayRequest;
+import com.cynoteck.petofyvet.params.updateXRayParams.UpdateXRayParams;
+import com.cynoteck.petofyvet.params.updateXRayParams.UpdateXrayRequest;
 import com.cynoteck.petofyvet.response.addPet.imageUpload.ImageResponse;
 import com.cynoteck.petofyvet.response.addTestAndXRayResponse.AddTestXRayResponse;
 import com.cynoteck.petofyvet.response.clinicVisist.ClinicVisitResponse;
@@ -77,7 +79,7 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
     HashMap<String,String> testTypehas=new HashMap<>();
     HashMap<String,String> nextVisitHas=new HashMap<>();
 
-    String  visitId="",visitIdString="",natureOfVistId="",follow_up_date="",testIdName="",pet_id="",pet_name="",pet_owner_name="",pet_sex="",pet_unique_id="",strDocumentUrl="",nature_of_visit="",test_date="",result="",type="";
+    String  report_id="",visitId="",visitIdString="",natureOfVistId="",follow_up_date="",testIdName="",pet_id="",pet_name="",pet_owner_name="",pet_sex="",pet_unique_id="",strDocumentUrl="",nature_of_visit="",test_date="",result="",type="";
 
     DatePickerDialog picker;
 
@@ -117,11 +119,11 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
         x_ray_back_arrow_IV.setOnClickListener(this);
 
         if (extras != null) {
+            report_id = extras.getString("report_id");
             pet_id = extras.getString("pet_id");
             pet_name = extras.getString("pet_name");
             pet_owner_name = extras.getString("pet_owner_name");
             pet_sex = extras.getString("pet_sex");
-
             pet_unique_id = extras.getString("pet_unique_id");
             nature_of_visit=extras.getString("nature_of_visit");
             test_date=extras.getString("test_date");
@@ -227,24 +229,39 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
                     methods.showCustomProgressBarDialog(this);
                     description_ET.setError(null);
                     calenderTextViewtestdate.setError(null);
-                    AddTestXRayParams addTestXRayParams=new AddTestXRayParams();
-                    addTestXRayParams.setPetId(pet_id);
-                    addTestXRayParams.setTypeOfTestId(natureOfVistId);
-                    addTestXRayParams.setDocuments(strDocumentUrl);
-                    addTestXRayParams.setFollowUpId(visitId);
-                    addTestXRayParams.setFollowUpDate(strFolowUpDt);
-                    addTestXRayParams.setDateTested(strDt);
-                    addTestXRayParams.setResults(strDescription);
-                    AddTestXRayRequest addTestXRayRequest=new AddTestXRayRequest();
-                    addTestXRayRequest.setData(addTestXRayParams);
+
                    if (type.equals("Update Test/X-rays")){
+                       UpdateXRayParams updateXRayParams =new UpdateXRayParams();
+                       updateXRayParams.setId(report_id);
+                       updateXRayParams.setPetId(pet_id);
+                       updateXRayParams.setTypeOfTestId(natureOfVistId);
+                       updateXRayParams.setDocuments(strDocumentUrl);
+                       updateXRayParams.setFollowUpId(visitId);
+                       updateXRayParams.setFollowUpDate(strFolowUpDt);
+                       updateXRayParams.setDateTested(strDt);
+                       updateXRayParams.setResults(strDescription);
+                       UpdateXrayRequest updateXrayRequest = new UpdateXrayRequest();
+                       updateXrayRequest.setData(updateXRayParams);
                        if(methods.isInternetOn())
-                       { updateXray(addTestXRayRequest); }
+                       {
+                           updateXray(updateXrayRequest);
+                       }
                        else
                        { methods.DialogInternet(); }
                     }else {
+                       AddTestXRayParams addTestXRayParams=new AddTestXRayParams();
+                       addTestXRayParams.setPetId(pet_id);
+                       addTestXRayParams.setTypeOfTestId(natureOfVistId);
+                       addTestXRayParams.setDocuments(strDocumentUrl);
+                       addTestXRayParams.setFollowUpId(visitId);
+                       addTestXRayParams.setFollowUpDate(strFolowUpDt);
+                       addTestXRayParams.setDateTested(strDt);
+                       addTestXRayParams.setResults(strDescription);
+                       AddTestXRayRequest addTestXRayRequest=new AddTestXRayRequest();
+                       addTestXRayRequest.setData(addTestXRayParams);
                        if(methods.isInternetOn())
-                       { addPetXray(addTestXRayRequest); }
+                       {
+                           addPetXray(addTestXRayRequest); }
                        else
                        { methods.DialogInternet(); }
                    }
@@ -446,10 +463,10 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
     }
 
 
-    private void updateXray(AddTestXRayRequest addTestXRayRequest) {
+    private void updateXray(UpdateXrayRequest updateXrayRequest) {
         ApiService<AddTestXRayResponse> service = new ApiService<>();
-        service.get( this, ApiClient.getApiInterface().updateTestXRay(Config.token,addTestXRayRequest), "UpdateTestXRay");
-        Log.d("addPetLabParams",""+addTestXRayRequest);
+        service.get( this, ApiClient.getApiInterface().updateTestXRay(Config.token,updateXrayRequest), "UpdateTestXRay");
+        Log.d("addPetLabParams",""+updateXrayRequest);
     }
     private void addPetXray(AddTestXRayRequest addTestXRayRequest) {
         ApiService<AddTestXRayResponse> service = new ApiService<>();
@@ -609,10 +626,10 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
         nature_of_visit_spinner.setAdapter(aa);
-        if (!nature_of_visit.equals("")){
-            int spinnerPosition = aa.getPosition(nature_of_visit);
-            nature_of_visit_spinner.setSelection(spinnerPosition);
-        }
+//        if (!nature_of_visit.equals("")){
+//            int spinnerPosition = aa.getPosition(nature_of_visit);
+//            nature_of_visit_spinner.setSelection(spinnerPosition);
+//        }
         nature_of_visit_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();

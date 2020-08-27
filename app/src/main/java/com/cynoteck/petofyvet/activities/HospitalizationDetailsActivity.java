@@ -91,7 +91,7 @@ public class HospitalizationDetailsActivity extends AppCompatActivity implements
         pet_sex = extras.getExtras().getString("pet_sex");
         pet_name = extras.getExtras().getString("pet_name");
         pet_unique_id = extras.getExtras().getString("pet_unique_id");
-        report_type_id=extras.getExtras().getString("id");
+        report_type_id=extras.getExtras().getString("report_id");
 
 
     }

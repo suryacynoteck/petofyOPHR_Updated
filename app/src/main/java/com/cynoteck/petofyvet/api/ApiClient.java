@@ -33,9 +33,9 @@ public class ApiClient {
         String mAuthToken = "";
         OkHttpClient.Builder httpClient = null;
         httpClient = new OkHttpClient.Builder()
-                .connectTimeout(300, TimeUnit.SECONDS)
-                .writeTimeout(300, TimeUnit.SECONDS)
-                .readTimeout(300, TimeUnit.SECONDS);
+                .connectTimeout(1000, TimeUnit.SECONDS)
+                .writeTimeout(1000, TimeUnit.SECONDS)
+                .readTimeout(1000, TimeUnit.SECONDS);
         Retrofit.Builder mBuilder = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create());
