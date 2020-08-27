@@ -1,5 +1,6 @@
 package com.cynoteck.petofyvet.response.getPetReportsResponse.getPetClinicVisitsListsResponse;
 
+import com.cynoteck.petofyvet.response.FollowUp;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.NatureOfVisit;
 
 public class PetClinicVisitList
@@ -24,7 +25,7 @@ public class PetClinicVisitList
 
     private String petName;
 
-    private String followUp;
+    private FollowUp followUp;
 
     private String dateOfOnset;
 
@@ -174,12 +175,12 @@ public class PetClinicVisitList
         this.petName = petName;
     }
 
-    public String getFollowUp ()
+    public FollowUp getFollowUp ()
 {
     return followUp;
 }
 
-    public void setFollowUp (String followUp)
+    public void setFollowUp (FollowUp followUp)
     {
         this.followUp = followUp;
     }

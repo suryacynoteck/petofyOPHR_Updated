@@ -79,7 +79,7 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
     HashMap<String,String> testTypehas=new HashMap<>();
     HashMap<String,String> nextVisitHas=new HashMap<>();
 
-    String  report_id="",visitId="",visitIdString="",natureOfVistId="",follow_up_date="",testIdName="",pet_id="",pet_name="",pet_owner_name="",pet_sex="",pet_unique_id="",strDocumentUrl="",nature_of_visit="",test_date="",result="",type="";
+    String next_visit="", report_id="",visitId="",visitIdString="",natureOfVistId="",follow_up_date="",testIdName="",pet_id="",pet_name="",pet_owner_name="",pet_sex="",pet_unique_id="",strDocumentUrl="",nature_of_visit="",test_date="",result="",type="";
 
     DatePickerDialog picker;
 
@@ -130,6 +130,7 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
             result=extras.getString("result");
             follow_up_date=extras.getString("follow_up_date");
             type=extras.getString("type");
+            next_visit = extras.getString("next_visit");
             peto_edit_reg_number_dialog.setText(pet_unique_id);
 
         }
@@ -604,6 +605,12 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
         clinicNext_visit_spinner.setAdapter(aa);
+        if (type.equals("Update Test/X-rays")) {
+            if (!next_visit.equals("")) {
+                int spinnerPosition = aa.getPosition(next_visit);
+                clinicNext_visit_spinner.setSelection(spinnerPosition);
+            }
+        }
         clinicNext_visit_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();

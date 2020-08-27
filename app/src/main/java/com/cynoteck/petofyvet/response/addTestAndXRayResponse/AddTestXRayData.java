@@ -1,239 +1,243 @@
 package com.cynoteck.petofyvet.response.addTestAndXRayResponse;
 
+import com.cynoteck.petofyvet.response.FollowUp;
+import com.cynoteck.petofyvet.response.getXRayReports.TypeOfTest;
+
 public class AddTestXRayData {
-    private String petId;
 
-    private String updatedBy;
+        private String petId;
 
-    private String documents;
+        private String updatedBy;
 
-    private String dateTested;
+        private String documents;
 
-    private String followUpId;
+        private String dateTested;
 
-    private String updatedOn;
+        private String followUpId;
 
-    private String veterinarianUserId;
+        private String updatedOn;
 
-    private String createdOn;
+        private String veterinarianUserId;
 
-    private String veterinarianUser;
+        private String createdOn;
 
-    private String createdByNavigation;
+        private String veterinarianUser;
 
-    private String typeOfTest;
+        private String createdByNavigation;
 
-    private String updatedByNavigation;
+        private TypeOfTest typeOfTest;
 
-    private String followUpDate;
+        private String updatedByNavigation;
 
-    private String followUp;
+        private String followUpDate;
 
-    private String typeOfTestId;
+        private FollowUp followUp;
 
-    private String createdBy;
+        private String typeOfTestId;
 
-    private String id;
+        private String createdBy;
 
-    private String results;
+        private String id;
 
-    private String pet;
+        private String results;
 
-    public String getPetId ()
-    {
-        return petId;
+        private String pet;
+
+        public String getPetId ()
+        {
+            return petId;
+        }
+
+        public void setPetId (String petId)
+        {
+            this.petId = petId;
+        }
+
+        public String getUpdatedBy ()
+        {
+            return updatedBy;
+        }
+
+        public void setUpdatedBy (String updatedBy)
+        {
+            this.updatedBy = updatedBy;
+        }
+
+        public String getDocuments ()
+        {
+            return documents;
+        }
+
+        public void setDocuments (String documents)
+        {
+            this.documents = documents;
+        }
+
+        public String getDateTested ()
+        {
+            return dateTested;
+        }
+
+        public void setDateTested (String dateTested)
+        {
+            this.dateTested = dateTested;
+        }
+
+        public String getFollowUpId ()
+        {
+            return followUpId;
+        }
+
+        public void setFollowUpId (String followUpId)
+        {
+            this.followUpId = followUpId;
+        }
+
+        public String getUpdatedOn ()
+        {
+            return updatedOn;
+        }
+
+        public void setUpdatedOn (String updatedOn)
+        {
+            this.updatedOn = updatedOn;
+        }
+
+        public String getVeterinarianUserId ()
+        {
+            return veterinarianUserId;
+        }
+
+        public void setVeterinarianUserId (String veterinarianUserId)
+        {
+            this.veterinarianUserId = veterinarianUserId;
+        }
+
+        public String getCreatedOn ()
+        {
+            return createdOn;
+        }
+
+        public void setCreatedOn (String createdOn)
+        {
+            this.createdOn = createdOn;
+        }
+
+        public String getVeterinarianUser ()
+        {
+            return veterinarianUser;
+        }
+
+        public void setVeterinarianUser (String veterinarianUser)
+        {
+            this.veterinarianUser = veterinarianUser;
+        }
+
+        public String getCreatedByNavigation ()
+        {
+            return createdByNavigation;
+        }
+
+        public void setCreatedByNavigation (String createdByNavigation)
+        {
+            this.createdByNavigation = createdByNavigation;
+        }
+
+        public TypeOfTest getTypeOfTest ()
+        {
+            return typeOfTest;
+        }
+
+        public void setTypeOfTest (TypeOfTest typeOfTest)
+        {
+            this.typeOfTest = typeOfTest;
+        }
+
+        public String getUpdatedByNavigation ()
+        {
+            return updatedByNavigation;
+        }
+
+        public void setUpdatedByNavigation (String updatedByNavigation)
+        {
+            this.updatedByNavigation = updatedByNavigation;
+        }
+
+        public String getFollowUpDate ()
+        {
+            return followUpDate;
+        }
+
+        public void setFollowUpDate (String followUpDate)
+        {
+            this.followUpDate = followUpDate;
+        }
+
+        public FollowUp getFollowUp ()
+        {
+            return followUp;
+        }
+
+        public void setFollowUp (FollowUp followUp)
+        {
+            this.followUp = followUp;
+        }
+
+        public String getTypeOfTestId ()
+        {
+            return typeOfTestId;
+        }
+
+        public void setTypeOfTestId (String typeOfTestId)
+        {
+            this.typeOfTestId = typeOfTestId;
+        }
+
+        public String getCreatedBy ()
+        {
+            return createdBy;
+        }
+
+        public void setCreatedBy (String createdBy)
+        {
+            this.createdBy = createdBy;
+        }
+
+        public String getId ()
+        {
+            return id;
+        }
+
+        public void setId (String id)
+        {
+            this.id = id;
+        }
+
+        public String getResults ()
+        {
+            return results;
+        }
+
+        public void setResults (String results)
+        {
+            this.results = results;
+        }
+
+        public String getPet ()
+        {
+            return pet;
+        }
+
+        public void setPet (String pet)
+        {
+            this.pet = pet;
+        }
+
+        @Override
+        public String toString()
+        {
+            return "ClassPojo [petId = "+petId+", updatedBy = "+updatedBy+", documents = "+documents+", dateTested = "+dateTested+", followUpId = "+followUpId+", updatedOn = "+updatedOn+", veterinarianUserId = "+veterinarianUserId+", createdOn = "+createdOn+", veterinarianUser = "+veterinarianUser+", createdByNavigation = "+createdByNavigation+", typeOfTest = "+typeOfTest+", updatedByNavigation = "+updatedByNavigation+", followUpDate = "+followUpDate+", followUp = "+followUp+", typeOfTestId = "+typeOfTestId+", createdBy = "+createdBy+", id = "+id+", results = "+results+", pet = "+pet+"]";
+        }
     }
-
-    public void setPetId (String petId)
-    {
-        this.petId = petId;
-    }
-
-    public String getUpdatedBy ()
-    {
-        return updatedBy;
-    }
-
-    public void setUpdatedBy (String updatedBy)
-    {
-        this.updatedBy = updatedBy;
-    }
-
-    public String getDocuments ()
-    {
-        return documents;
-    }
-
-    public void setDocuments (String documents)
-    {
-        this.documents = documents;
-    }
-
-    public String getDateTested ()
-    {
-        return dateTested;
-    }
-
-    public void setDateTested (String dateTested)
-    {
-        this.dateTested = dateTested;
-    }
-
-    public String getFollowUpId ()
-    {
-        return followUpId;
-    }
-
-    public void setFollowUpId (String followUpId)
-    {
-        this.followUpId = followUpId;
-    }
-
-    public String getUpdatedOn ()
-    {
-        return updatedOn;
-    }
-
-    public void setUpdatedOn (String updatedOn)
-    {
-        this.updatedOn = updatedOn;
-    }
-
-    public String getVeterinarianUserId ()
-    {
-        return veterinarianUserId;
-    }
-
-    public void setVeterinarianUserId (String veterinarianUserId)
-    {
-        this.veterinarianUserId = veterinarianUserId;
-    }
-
-    public String getCreatedOn ()
-    {
-        return createdOn;
-    }
-
-    public void setCreatedOn (String createdOn)
-    {
-        this.createdOn = createdOn;
-    }
-
-    public String getVeterinarianUser ()
-    {
-        return veterinarianUser;
-    }
-
-    public void setVeterinarianUser (String veterinarianUser)
-    {
-        this.veterinarianUser = veterinarianUser;
-    }
-
-    public String getCreatedByNavigation ()
-    {
-        return createdByNavigation;
-    }
-
-    public void setCreatedByNavigation (String createdByNavigation)
-    {
-        this.createdByNavigation = createdByNavigation;
-    }
-
-    public String getTypeOfTest ()
-    {
-        return typeOfTest;
-    }
-
-    public void setTypeOfTest (String typeOfTest)
-    {
-        this.typeOfTest = typeOfTest;
-    }
-
-    public String getUpdatedByNavigation ()
-    {
-        return updatedByNavigation;
-    }
-
-    public void setUpdatedByNavigation (String updatedByNavigation)
-    {
-        this.updatedByNavigation = updatedByNavigation;
-    }
-
-    public String getFollowUpDate ()
-    {
-        return followUpDate;
-    }
-
-    public void setFollowUpDate (String followUpDate)
-    {
-        this.followUpDate = followUpDate;
-    }
-
-    public String getFollowUp ()
-    {
-        return followUp;
-    }
-
-    public void setFollowUp (String followUp)
-    {
-        this.followUp = followUp;
-    }
-
-    public String getTypeOfTestId ()
-    {
-        return typeOfTestId;
-    }
-
-    public void setTypeOfTestId (String typeOfTestId)
-    {
-        this.typeOfTestId = typeOfTestId;
-    }
-
-    public String getCreatedBy ()
-    {
-        return createdBy;
-    }
-
-    public void setCreatedBy (String createdBy)
-    {
-        this.createdBy = createdBy;
-    }
-
-    public String getId ()
-    {
-        return id;
-    }
-
-    public void setId (String id)
-    {
-        this.id = id;
-    }
-
-    public String getResults ()
-    {
-        return results;
-    }
-
-    public void setResults (String results)
-    {
-        this.results = results;
-    }
-
-    public String getPet ()
-    {
-        return pet;
-    }
-
-    public void setPet (String pet)
-    {
-        this.pet = pet;
-    }
-
-    @Override
-    public String toString()
-    {
-        return "ClassPojo [ id = "+id+", petId = "+petId+", updatedBy = "+updatedBy+", documents = "+documents+", dateTested = "+dateTested+", followUpId = "+followUpId+", updatedOn = "+updatedOn+", veterinarianUserId = "+veterinarianUserId+", createdOn = "+createdOn+", veterinarianUser = "+veterinarianUser+", createdByNavigation = "+createdByNavigation+", typeOfTest = "+typeOfTest+", updatedByNavigation = "+updatedByNavigation+", followUpDate = "+followUpDate+", followUp = "+followUp+", typeOfTestId = "+typeOfTestId+", createdBy = "+createdBy+", id = "+id+", results = "+results+", pet = "+pet+"]";
-    }
-}
 			
-			
+					

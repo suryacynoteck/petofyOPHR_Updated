@@ -1,5 +1,6 @@
 package com.cynoteck.petofyvet.response.getXRayReports.getPetTestAndXRayResponse;
 
+import com.cynoteck.petofyvet.response.FollowUp;
 import com.cynoteck.petofyvet.response.getXRayReports.TypeOfTest;
 
 public class PetTestsAndXrayList
@@ -32,7 +33,7 @@ public class PetTestsAndXrayList
 
     private String followUpDate;
 
-    private String followUp;
+    private FollowUp followUp;
 
     private String typeOfTestId;
 
@@ -87,9 +88,9 @@ public class PetTestsAndXrayList
     }
 
     public String getDocuments ()
-{
-    return documents;
-}
+    {
+        return documents;
+    }
 
     public void setDocuments (String documents)
     {
@@ -117,9 +118,9 @@ public class PetTestsAndXrayList
     }
 
     public String getFollowUpId ()
-{
-    return followUpId;
-}
+    {
+        return followUpId;
+    }
 
     public void setFollowUpId (String followUpId)
     {
@@ -177,21 +178,21 @@ public class PetTestsAndXrayList
     }
 
     public String getFollowUpDate ()
-{
-    return followUpDate;
-}
+    {
+        return followUpDate;
+    }
 
     public void setFollowUpDate (String followUpDate)
     {
         this.followUpDate = followUpDate;
     }
 
-    public String getFollowUp ()
-{
-    return followUp;
-}
+    public FollowUp getFollowUp ()
+    {
+        return followUp;
+    }
 
-    public void setFollowUp (String followUp)
+    public void setFollowUp (FollowUp followUp)
     {
         this.followUp = followUp;
     }
@@ -262,3 +263,4 @@ public class PetTestsAndXrayList
         return "ClassPojo [updatedByUser = "+updatedByUser+", petId = "+petId+", updatedBy = "+updatedBy+", followUpList = "+followUpList+", documents = "+documents+", createdByUser = "+createdByUser+", dateTested = "+dateTested+", followUpId = "+followUpId+", updatedOn = "+updatedOn+", typeOfTestList = "+typeOfTestList+", createdOn = "+createdOn+", typeOfTest = "+typeOfTest+", petName = "+petName+", followUpDate = "+followUpDate+", followUp = "+followUp+", typeOfTestId = "+typeOfTestId+", createdBy = "+createdBy+", encryptedId = "+encryptedId+", petDetail = "+petDetail+", id = "+id+", results = "+results+"]";
     }
 }
+

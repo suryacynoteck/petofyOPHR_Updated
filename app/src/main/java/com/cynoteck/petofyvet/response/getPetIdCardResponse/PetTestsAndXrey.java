@@ -1,6 +1,7 @@
 package com.cynoteck.petofyvet.response.getPetIdCardResponse;
 
 import com.cynoteck.petofyvet.response.CreatedByUser;
+import com.cynoteck.petofyvet.response.FollowUp;
 import com.cynoteck.petofyvet.response.UpdatedByUser;
 import com.cynoteck.petofyvet.response.getXRayReports.TypeOfTest;
 
@@ -33,7 +34,7 @@ public class PetTestsAndXrey {
 
     private String followUpDate;
 
-    private String followUp;
+    private FollowUp followUp;
 
     private String typeOfTestId;
 
@@ -187,12 +188,12 @@ public class PetTestsAndXrey {
         this.followUpDate = followUpDate;
     }
 
-    public String getFollowUp ()
+    public FollowUp getFollowUp ()
     {
         return followUp;
     }
 
-    public void setFollowUp (String followUp)
+    public void setFollowUp (FollowUp followUp)
     {
         this.followUp = followUp;
     }

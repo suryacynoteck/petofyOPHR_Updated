@@ -633,6 +633,7 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
                     AddPetValueResponse addPetValueResponse = (AddPetValueResponse) arg0.body();
                     int responseCode = Integer.parseInt(addPetValueResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
+                        Config.backCall = "hit";
                         onBackPressed();
                         Toast.makeText(this, "Sucessss", Toast.LENGTH_SHORT).show();
                     }else if (responseCode==614){

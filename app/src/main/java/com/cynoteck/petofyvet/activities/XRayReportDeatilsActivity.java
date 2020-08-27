@@ -32,7 +32,7 @@ public class XRayReportDeatilsActivity extends AppCompatActivity implements ApiR
     Button deleteReport_BT;
     ImageView back_arrow_IV;
     TextView pet_name_TV,pet_sex_TV,pet_id_TV,pet_owner_name_TV,pet_owner_phone_no_TV;
-    String pet_unique_id, pet_name,pet_sex, pet_owner_name,pet_owner_contact,pet_id ,report_type_id,type,follow_up_date;
+    String nature="",date_of_test="",follow_up="",result="",pet_unique_id, pet_name,pet_sex, pet_owner_name,pet_owner_contact,pet_id ,report_type_id,type,follow_up_date;
 
     Methods methods;
     @Override
@@ -44,7 +44,7 @@ public class XRayReportDeatilsActivity extends AppCompatActivity implements ApiR
         getIntentData();
         init();
         setdataInFields();
-        getXRayReportDeatilsDeatils();
+        //getXRayReportDeatilsDeatils();
     }
 
 
@@ -56,6 +56,12 @@ public class XRayReportDeatilsActivity extends AppCompatActivity implements ApiR
         pet_owner_name_TV.setText(pet_owner_name);
         pet_owner_phone_no_TV.setText(pet_owner_contact);
         recommended_follow_up_date_textView.setText(follow_up_date);
+        recommended_follow_up_textView.setText(follow_up);
+
+        nature_of_visit_textView.setText(nature);
+        test_date_textView.setText(date_of_test);
+        Result_textView.setText(result);
+
     }
 
     private void init() {
@@ -88,7 +94,10 @@ public class XRayReportDeatilsActivity extends AppCompatActivity implements ApiR
         pet_unique_id = extras.getExtras().getString("pet_unique_id");
         report_type_id=extras.getExtras().getString("id");
         follow_up_date = extras.getExtras().getString("follow_up_date");
-
+        follow_up = extras.getExtras().getString("follow_up");
+        nature = extras.getExtras().getString("nature");
+        date_of_test = extras.getExtras().getString("date_of_test");
+        result = extras.getExtras().getString("result");
     }
 
     @Override
@@ -163,10 +172,10 @@ public class XRayReportDeatilsActivity extends AppCompatActivity implements ApiR
                     GetXRayReportDeatilsResponse getXRayReportDeatilsResponse  = (GetXRayReportDeatilsResponse) response.body();
                     int responseCode = Integer.parseInt(getXRayReportDeatilsResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
-                        nature_of_visit_textView.setText(getXRayReportDeatilsResponse.getData().getTypeOfTest().getTestType());
-                        test_date_textView.setText(getXRayReportDeatilsResponse.getData().getDateTested());
-                        Result_textView.setText(getXRayReportDeatilsResponse.getData().getResults());
-                        recommended_follow_up_textView.setText("");
+//                        nature_of_visit_textView.setText(getXRayReportDeatilsResponse.getData().getTypeOfTest().getTestType());
+//                        test_date_textView.setText(getXRayReportDeatilsResponse.getData().getDateTested());
+//                        Result_textView.setText(getXRayReportDeatilsResponse.getData().getResults());
+//                        recommended_follow_up_textView.setText("");
 //                        recommended_follow_up_date_textView.setText(getXRayReportDeatilsResponse.getData().getFollowUpDate());
                         Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show();
                     }

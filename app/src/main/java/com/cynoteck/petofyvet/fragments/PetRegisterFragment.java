@@ -170,6 +170,9 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, ViewD
         if (Config.backCall.equals("Added")) {
             Config.backCall ="";
             getPetList();
+        }if (Config.backCall.equals("hit")) {
+            Config.backCall ="";
+            getPetList();
         }
     }
 

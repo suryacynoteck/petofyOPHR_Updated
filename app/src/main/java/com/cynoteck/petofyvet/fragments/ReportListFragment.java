@@ -377,6 +377,11 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
         labIntent.putExtra("pet_sex",pet_sex);
         labIntent.putExtra("pet_owner_name",pet_owner_name);
         labIntent.putExtra("pet_owner_contact",pet_owner_contact);
+        labIntent.putExtra("nature",petTestsAndXrayLists.get(position).getTypeOfTest().getTestType());
+        labIntent.putExtra("date_of_test",petTestsAndXrayLists.get(position).getDateTested());
+        labIntent.putExtra("result",petTestsAndXrayLists.get(position).getResults());
+
+        labIntent.putExtra("follow_up",petTestsAndXrayLists.get(position).getFollowUp().getFollowUpTitle());
         labIntent.putExtra("follow_up_date",petTestsAndXrayLists.get(position).getFollowUpDate());
         labIntent.putExtra("id",petTestsAndXrayLists.get(position).getId());
         labIntent.putExtras(labIntent);
@@ -384,6 +389,27 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
         getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
     }
 
+    @Override
+    public void onUpdateXrayClick(int position) {
+        Toast.makeText(getContext(), "Upadte", Toast.LENGTH_SHORT).show();
+        Intent addXrayActivityIntent = new Intent(getActivity().getApplication(), AddXRayDeatilsActivity.class);
+        addXrayActivityIntent.putExtra("report_id",petTestsAndXrayLists.get(position).getId());
+        addXrayActivityIntent.putExtra("pet_id",pet_id);
+        addXrayActivityIntent.putExtra("pet_name",pet_name);
+        addXrayActivityIntent.putExtra("pet_unique_id",pet_unique_id);
+        addXrayActivityIntent.putExtra("pet_sex",pet_sex);
+        addXrayActivityIntent.putExtra("next_visit",petTestsAndXrayLists.get(position).getFollowUp().getFollowUpTitle());
+        addXrayActivityIntent.putExtra("date_of_test",petTestsAndXrayLists.get(position).getDateTested());
+        addXrayActivityIntent.putExtra("follow_up_date",petTestsAndXrayLists.get(position).getFollowUpDate());
+        addXrayActivityIntent.putExtra("nature_of_visit",petTestsAndXrayLists.get(position).getTypeOfTest().getTestType());
+        addXrayActivityIntent.putExtra("test_date",petTestsAndXrayLists.get(position).getDateTested());
+        addXrayActivityIntent.putExtra("result",petTestsAndXrayLists.get(position).getResults());
+        addXrayActivityIntent.putExtra("type","Update Test/X-rays");
+        addXrayActivityIntent.putExtras(addXrayActivityIntent);
+        startActivity(addXrayActivityIntent);
+        getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
+
+    }
     @Override
     public void onViewLabTestReportsClick(int position) {
         Toast.makeText(getContext(), ""+petLabWorkLists.get(position).getId(), Toast.LENGTH_SHORT).show();
@@ -419,25 +445,7 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
         getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
     }
 
-    @Override
-    public void onUpdateXrayClick(int position) {
-        Toast.makeText(getContext(), "Upadte", Toast.LENGTH_SHORT).show();
-        Intent addXrayActivityIntent = new Intent(getActivity().getApplication(), AddXRayDeatilsActivity.class);
-        addXrayActivityIntent.putExtra("report_id",petTestsAndXrayLists.get(position).getId());
-        addXrayActivityIntent.putExtra("pet_id",pet_id);
-        addXrayActivityIntent.putExtra("pet_name",pet_name);
-        addXrayActivityIntent.putExtra("pet_unique_id",pet_unique_id);
-        addXrayActivityIntent.putExtra("pet_sex",pet_sex);
-        addXrayActivityIntent.putExtra("follow_up_date",petTestsAndXrayLists.get(position).getFollowUpDate());
-        addXrayActivityIntent.putExtra("nature_of_visit",petTestsAndXrayLists.get(position).getTypeOfTest().getTestType());
-        addXrayActivityIntent.putExtra("test_date",petTestsAndXrayLists.get(position).getDateTested());
-        addXrayActivityIntent.putExtra("result",petTestsAndXrayLists.get(position).getResults());
-        addXrayActivityIntent.putExtra("type","Update Test/X-rays");
-        addXrayActivityIntent.putExtras(addXrayActivityIntent);
-        startActivity(addXrayActivityIntent);
-        getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
 
-    }
 
     @Override
     public void onUpdateLabTestReportsClick(int position) {
