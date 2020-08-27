@@ -5,6 +5,7 @@ import com.cynoteck.petofyvet.response.UpdatedByUser;
 import com.cynoteck.petofyvet.response.getXRayReports.TypeOfTest;
 
 public class GetXRayReportDetailsData {
+
     private UpdatedByUser updatedByUser;
 
     private String petId;
@@ -263,5 +264,3 @@ public class GetXRayReportDetailsData {
         return "ClassPojo [updatedByUser = "+updatedByUser+", petId = "+petId+", updatedBy = "+updatedBy+", followUpList = "+followUpList+", documents = "+documents+", createdByUser = "+createdByUser+", dateTested = "+dateTested+", followUpId = "+followUpId+", updatedOn = "+updatedOn+", typeOfTestList = "+typeOfTestList+", createdOn = "+createdOn+", typeOfTest = "+typeOfTest+", petName = "+petName+", followUpDate = "+followUpDate+", followUp = "+followUp+", typeOfTestId = "+typeOfTestId+", createdBy = "+createdBy+", encryptedId = "+encryptedId+", petDetail = "+petDetail+", id = "+id+", results = "+results+"]";
     }
 }
-			
-		

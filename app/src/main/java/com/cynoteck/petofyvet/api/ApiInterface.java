@@ -21,8 +21,12 @@ import com.cynoteck.petofyvet.params.petReportsRequest.PetClinicVisitDetailsRequ
 import com.cynoteck.petofyvet.params.petReportsRequest.PetDataRequest;
 import com.cynoteck.petofyvet.params.petReportsRequest.VisitTypeRequest;
 import com.cynoteck.petofyvet.params.registerRequest.Registerparams;
+import com.cynoteck.petofyvet.params.updateClinicVisitsParams.UpdateClinicReportsRequest;
+import com.cynoteck.petofyvet.params.updateHospitalizationParams.UpdateHospitalizationRequest;
+import com.cynoteck.petofyvet.params.updateLapTestParams.UpdateLabTestRequest;
 import com.cynoteck.petofyvet.params.updateRequest.getValue.UpdateParams;
 import com.cynoteck.petofyvet.params.updateRequest.updateParamRequest.UpdatePetRequest;
+import com.cynoteck.petofyvet.params.updateXRayParams.UpdateXrayRequest;
 import com.cynoteck.petofyvet.response.InPetVeterian.InPetVeterianResponse;
 import com.cynoteck.petofyvet.response.addHospitalizationResponse.AddhospitalizationResposee;
 import com.cynoteck.petofyvet.response.addLabWorkResponse.AddLabWorkResponse;
@@ -290,7 +294,7 @@ public interface ApiInterface {
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("pethealthrecord/UpdateClinicVisit")
-    Call<AddpetClinicResponse> updateClinicVisit(@Header("Authorization") String auth, @Body AddPetClinicRequest addPetClinicRequest);
+    Call<AddpetClinicResponse> updateClinicVisit(@Header("Authorization") String auth, @Body UpdateClinicReportsRequest updateClinicReportsRequest);
 
     //HOSPITAL TYPE.........................................................................
 
@@ -324,7 +328,7 @@ public interface ApiInterface {
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("pethealthrecord/UpdateLabWork")
-    Call<AddLabWorkResponse> updatePetLabWork(@Header("Authorization") String auth, @Body AddLabRequest addLabRequest);
+    Call<AddLabWorkResponse> updatePetLabWork(@Header("Authorization") String auth, @Body UpdateLabTestRequest updateLabTestRequest);
 
     //Add Pet Test And Xray
 
@@ -334,7 +338,7 @@ public interface ApiInterface {
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("pethealthrecord/UpdateTestXRay")
-    Call<AddTestXRayResponse> updateTestXRay(@Header("Authorization") String auth, @Body AddTestXRayRequest addTestXRayRequest);
+    Call<AddTestXRayResponse> updateTestXRay(@Header("Authorization") String auth, @Body UpdateXrayRequest updateXrayRequest);
 
     //ADD PET HOSPITALIZATION
 
@@ -345,7 +349,7 @@ public interface ApiInterface {
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("pethealthrecord/UpdateHospitalization")
-    Call<AddhospitalizationResposee> updatePetHospitalization(@Header("Authorization") String auth, @Body AddHospitalizationRequest addHospitalizationRequest);
+    Call<AddhospitalizationResposee> updatePetHospitalization(@Header("Authorization") String auth, @Body UpdateHospitalizationRequest updateHospitalizationRequest);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST(" pet/GetPetIdentityCard")

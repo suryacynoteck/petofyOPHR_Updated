@@ -186,21 +186,31 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
         currentDateAndTime();
 
         if (methods.isInternetOn()){
-            getPetList();
             getPetNewList();
+            getPetList();
             petType();
             getPetBreed();
             getPetAge();
             getPetColor();
             getPetSize();
 
-            /*new Handler().postDelayed(new Runnable(){
+/*<<<<<<< HEAD
+            *//*new Handler().postDelayed(new Runnable(){
                 @Override
                 public void run() {
                     if(petClinicVisitLists==null)
                         getPetNewList();
                 }
-            }, 10000);*/
+            }, 10000);*//*
+=======
+//            new Handler().postDelayed(new Runnable(){
+//                @Override
+//                public void run() {
+//                    if(petClinicVisitLists==null)
+//                        getPetNewList();
+//                }
+//            }, 10000);
+>>>>>>> d584de804489c39a6d9f3190de4c25151893b057*/
 
         }else {
 

@@ -34,6 +34,8 @@ import com.cynoteck.petofyvet.api.ApiResponse;
 import com.cynoteck.petofyvet.api.ApiService;
 import com.cynoteck.petofyvet.params.addPetClinicParamRequest.AddPetClinicParam;
 import com.cynoteck.petofyvet.params.addPetClinicParamRequest.AddPetClinicRequest;
+import com.cynoteck.petofyvet.params.updateClinicVisitsParams.UpdateClinicReportsParams;
+import com.cynoteck.petofyvet.params.updateClinicVisitsParams.UpdateClinicReportsRequest;
 import com.cynoteck.petofyvet.response.addPet.imageUpload.ImageResponse;
 import com.cynoteck.petofyvet.response.addPetClinicresponse.AddpetClinicResponse;
 import com.cynoteck.petofyvet.response.clinicVisist.ClinicVisitResponse;
@@ -65,7 +67,7 @@ import retrofit2.Response;
 public class AddClinicActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse {
 
     ImageView back_arrow_IV;
-    String visitIdString="",strNatureOfVist="", strDocumentUrl="",visitId="",natureOfVisit="",pet_id="",
+    String report_id="",visitIdString="",strNatureOfVist="", strDocumentUrl="",visitId="",natureOfVisit="",pet_id="",
             pet_name="",pet_owner_name="",pet_sex="",pet_unique_id="",veterian_name="",descrisption="",
             Remarks="",visitDate="",dtOfOnset="",flowUpDt="",weight="",temparature="",diagnosis="",
             strVacine="",strDewormerName="",strDewormerDose="",strToolbarName="";
@@ -144,6 +146,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         clinic_back_arrow_IV.setOnClickListener(this);
 
         if (extras != null) {
+            report_id = extras.getString("report_id");
             pet_id = extras.getString("pet_id");
             pet_name = extras.getString("pet_name");
             pet_owner_name = extras.getString("pet_owner_name");
@@ -355,28 +358,30 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                         vacine_ET.setError(null);
                         Dewormer_name_ET.setError(null);
                         Dewormer_ET.setError(null);
-                        AddPetClinicParam addPetClinicParam=new AddPetClinicParam();
-                        addPetClinicParam.setPetId(pet_id);
-                        addPetClinicParam.setVeterinarian(veterian_name);
-                        addPetClinicParam.setVisitDate(visitDate);
-                        addPetClinicParam.setNatureOfVisitId(strNatureOfVist);
-                        addPetClinicParam.setVaccine(strVacine);
-                        addPetClinicParam.setDescription(descrisption);
-                        addPetClinicParam.setWeightLbs(weight);
-                        addPetClinicParam.setWeightOz(weight);
-                        addPetClinicParam.setTemperature(temparature);
-                        addPetClinicParam.setDateOfOnset(dtOfOnset);
-                        addPetClinicParam.setDewormerName(strDewormerName);
-                        addPetClinicParam.setTreatmentRemarks(Remarks);
-                        addPetClinicParam.setDiagnosisProcedure(diagnosis);
-                        addPetClinicParam.setFollowUpId("");
-                        addPetClinicParam.setFollowUpDate(flowUpDt);
-                        addPetClinicParam.setDocuments(strDocumentUrl);
-                        AddPetClinicRequest addPetClinicRequest=new AddPetClinicRequest();
-                        addPetClinicRequest.setAddPetParams(addPetClinicParam);
+
                         if(strToolbarName.equals("Update Clinic")){
+                            UpdateClinicReportsParams updateClinicReportsParams =new UpdateClinicReportsParams();
+                            updateClinicReportsParams.setId(report_id);
+                            updateClinicReportsParams.setPetId(pet_id);
+                            updateClinicReportsParams.setVeterinarian(veterian_name);
+                            updateClinicReportsParams.setVisitDate(visitDate);
+                            updateClinicReportsParams.setNatureOfVisitId(strNatureOfVist);
+                            updateClinicReportsParams.setVaccine(strVacine);
+                            updateClinicReportsParams.setDescription(descrisption);
+                            updateClinicReportsParams.setWeightLbs(weight);
+                            updateClinicReportsParams.setWeightOz(weight);
+                            updateClinicReportsParams.setTemperature(temparature);
+                            updateClinicReportsParams.setDateOfOnset(dtOfOnset);
+                            updateClinicReportsParams.setDewormerName(strDewormerName);
+                            updateClinicReportsParams.setTreatmentRemarks(Remarks);
+                            updateClinicReportsParams.setDiagnosisProcedure(diagnosis);
+                            updateClinicReportsParams.setFollowUpId("");
+                            updateClinicReportsParams.setFollowUpDate(flowUpDt);
+                            updateClinicReportsParams.setDocuments(strDocumentUrl);
+                            UpdateClinicReportsRequest updateClinicReportsRequest =new UpdateClinicReportsRequest();
+                            updateClinicReportsRequest.setAddPetParams(updateClinicReportsParams);
                             if (methods.isInternetOn()){
-                                updateClinic(addPetClinicRequest);
+                                updateClinic(updateClinicReportsRequest);
                             }else {
 
                                 methods.DialogInternet();
@@ -385,6 +390,25 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                         }
                         else{
                             if (methods.isInternetOn()){
+                                AddPetClinicParam addPetClinicParam=new AddPetClinicParam();
+                                addPetClinicParam.setPetId(pet_id);
+                                addPetClinicParam.setVeterinarian(veterian_name);
+                                addPetClinicParam.setVisitDate(visitDate);
+                                addPetClinicParam.setNatureOfVisitId(strNatureOfVist);
+                                addPetClinicParam.setVaccine(strVacine);
+                                addPetClinicParam.setDescription(descrisption);
+                                addPetClinicParam.setWeightLbs(weight);
+                                addPetClinicParam.setWeightOz(weight);
+                                addPetClinicParam.setTemperature(temparature);
+                                addPetClinicParam.setDateOfOnset(dtOfOnset);
+                                addPetClinicParam.setDewormerName(strDewormerName);
+                                addPetClinicParam.setTreatmentRemarks(Remarks);
+                                addPetClinicParam.setDiagnosisProcedure(diagnosis);
+                                addPetClinicParam.setFollowUpId("");
+                                addPetClinicParam.setFollowUpDate(flowUpDt);
+                                addPetClinicParam.setDocuments(strDocumentUrl);
+                                AddPetClinicRequest addPetClinicRequest=new AddPetClinicRequest();
+                                addPetClinicRequest.setAddPetParams(addPetClinicParam);
                                 addPetClinicData(addPetClinicRequest);
                             }else {
 
@@ -600,10 +624,10 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         Log.d("AddClinicData==>",""+addPetClinicRequest);
     }
 
-    private void updateClinic(AddPetClinicRequest addPetClinicRequest) {
+    private void updateClinic(UpdateClinicReportsRequest updateClinicReportsRequest) {
         ApiService<AddpetClinicResponse> service = new ApiService<>();
-        service.get( this, ApiClient.getApiInterface().updateClinicVisit(Config.token,addPetClinicRequest), "UpdateClinicVisit");
-        Log.d("UpdateClinicData==>",""+addPetClinicRequest);
+        service.get( this, ApiClient.getApiInterface().updateClinicVisit(Config.token,updateClinicReportsRequest), "UpdateClinicVisit");
+        Log.d("UpdateClinicData==>",""+updateClinicReportsRequest);
     }
 
     @Override

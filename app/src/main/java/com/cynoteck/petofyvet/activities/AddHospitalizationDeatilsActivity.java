@@ -33,6 +33,8 @@ import com.cynoteck.petofyvet.api.ApiResponse;
 import com.cynoteck.petofyvet.api.ApiService;
 import com.cynoteck.petofyvet.params.addHospitalization.AddHospitalizationParam;
 import com.cynoteck.petofyvet.params.addHospitalization.AddHospitalizationRequest;
+import com.cynoteck.petofyvet.params.updateHospitalizationParams.UpdateHospitalizationParams;
+import com.cynoteck.petofyvet.params.updateHospitalizationParams.UpdateHospitalizationRequest;
 import com.cynoteck.petofyvet.response.addHospitalizationResponse.AddhospitalizationResposee;
 import com.cynoteck.petofyvet.response.addPet.imageUpload.ImageResponse;
 import com.cynoteck.petofyvet.response.hospitalTypeListResponse.HospitalAddmissionTypeResp;
@@ -76,7 +78,7 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
 
     DatePickerDialog picker;
 
-    String hospitalizationStr="",hospitalizationId="",pet_id="",pet_name="",pet_owner_name="",pet_sex="",pet_unique_id="",strDocumentUrl="",hospital_type,hospital_name,hospital_phone,admission,discharge,result,reason,type;
+    String report_id="",hospitalizationStr="",hospitalizationId="",pet_id="",pet_name="",pet_owner_name="",pet_sex="",pet_unique_id="",strDocumentUrl="",hospital_type,hospital_name,hospital_phone,admission,discharge,result,reason,type;
 
     private static final String IMAGE_DIRECTORY = "/Picture";
     private int GALLERY = 1, CAMERA = 2;
@@ -116,6 +118,7 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
         hospitalization_back_arrow_IV.setOnClickListener(this);
 
         if (extras != null) {
+            report_id = extras.getString("report_id");
             pet_id = extras.getString("pet_id");
             pet_name = extras.getString("pet_name");
             pet_owner_name = extras.getString("pet_owner_name");
@@ -255,32 +258,53 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
                 }
                 else {
                     methods.showCustomProgressBarDialog(this);
-                    AddHospitalizationParam addHospitalizationParam = new AddHospitalizationParam();
-                    addHospitalizationParam.setPetId(pet_id);
-                    addHospitalizationParam.setRequestingVeterinarian(strRequstVeterian);
-                    addHospitalizationParam.setVeterinarianPhone(strPhoneNumber);
-                    addHospitalizationParam.setHospitalizationTypeId(hospitalizationId);
-                    addHospitalizationParam.setAdmissionDate(strHospitalAdmissionDt);
-                    addHospitalizationParam.setDischargeDate(strHospitalDischargeDt);
-                    addHospitalizationParam.setHospitalName(strHospitalName);
-                    addHospitalizationParam.setHospitalPhone(strHospitalphoneNumber);
-                    addHospitalizationParam.setAddress("");
-                    addHospitalizationParam.setCountryId("");
-                    addHospitalizationParam.setStateId("");
-                    addHospitalizationParam.setCityId("");
-                    addHospitalizationParam.setZipCode("");
-                    addHospitalizationParam.setReasonForHospitalization(strResonsOfHospitalization);
-                    addHospitalizationParam.setDiagnosisTreatmentProcedure(strResult);
-                    addHospitalizationParam.setDocuments(strDocumentUrl);
-                    AddHospitalizationRequest addHospitalizationRequest = new AddHospitalizationRequest();
-                    addHospitalizationRequest.setData(addHospitalizationParam);
+
                     if (type.equals("Update Hospitalization")) {
+                        UpdateHospitalizationParams updateHospitalizationParams = new UpdateHospitalizationParams();
+                        updateHospitalizationParams.setId(report_id);
+                        updateHospitalizationParams.setPetId(pet_id);
+                        updateHospitalizationParams.setRequestingVeterinarian(strRequstVeterian);
+                        updateHospitalizationParams.setVeterinarianPhone(strPhoneNumber);
+                        updateHospitalizationParams.setHospitalizationTypeId(hospitalizationId);
+                        updateHospitalizationParams.setAdmissionDate(strHospitalAdmissionDt);
+                        updateHospitalizationParams.setDischargeDate(strHospitalDischargeDt);
+                        updateHospitalizationParams.setHospitalName(strHospitalName);
+                        updateHospitalizationParams.setHospitalPhone(strHospitalphoneNumber);
+                        updateHospitalizationParams.setAddress("");
+                        updateHospitalizationParams.setCountryId("");
+                        updateHospitalizationParams.setStateId("");
+                        updateHospitalizationParams.setCityId("");
+                        updateHospitalizationParams.setZipCode("");
+                        updateHospitalizationParams.setReasonForHospitalization(strResonsOfHospitalization);
+                        updateHospitalizationParams.setDiagnosisTreatmentProcedure(strResult);
+                        updateHospitalizationParams.setDocuments(strDocumentUrl);
+                        UpdateHospitalizationRequest updateHospitalizationRequest  = new UpdateHospitalizationRequest();
+                        updateHospitalizationRequest.setData(updateHospitalizationParams);
                         if (methods.isInternetOn()) {
-                            updateHospitalization(addHospitalizationRequest);
+                            updateHospitalization(updateHospitalizationRequest);
                         } else {
                             methods.DialogInternet();
                         }
                     } else {
+                        AddHospitalizationParam addHospitalizationParam = new AddHospitalizationParam();
+                        addHospitalizationParam.setPetId(pet_id);
+                        addHospitalizationParam.setRequestingVeterinarian(strRequstVeterian);
+                        addHospitalizationParam.setVeterinarianPhone(strPhoneNumber);
+                        addHospitalizationParam.setHospitalizationTypeId(hospitalizationId);
+                        addHospitalizationParam.setAdmissionDate(strHospitalAdmissionDt);
+                        addHospitalizationParam.setDischargeDate(strHospitalDischargeDt);
+                        addHospitalizationParam.setHospitalName(strHospitalName);
+                        addHospitalizationParam.setHospitalPhone(strHospitalphoneNumber);
+                        addHospitalizationParam.setAddress("");
+                        addHospitalizationParam.setCountryId("");
+                        addHospitalizationParam.setStateId("");
+                        addHospitalizationParam.setCityId("");
+                        addHospitalizationParam.setZipCode("");
+                        addHospitalizationParam.setReasonForHospitalization(strResonsOfHospitalization);
+                        addHospitalizationParam.setDiagnosisTreatmentProcedure(strResult);
+                        addHospitalizationParam.setDocuments(strDocumentUrl);
+                        AddHospitalizationRequest addHospitalizationRequest = new AddHospitalizationRequest();
+                        addHospitalizationRequest.setData(addHospitalizationParam);
                         if (methods.isInternetOn()) {
                             addHospitalization(addHospitalizationRequest);
                         } else {
@@ -298,10 +322,10 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
 
     }
 
-    private void updateHospitalization(AddHospitalizationRequest addHospitalizationRequest) {
+    private void updateHospitalization(UpdateHospitalizationRequest updateHospitalizationRequest) {
         ApiService<AddhospitalizationResposee> service = new ApiService<>();
-        service.get( this, ApiClient.getApiInterface().updatePetHospitalization(Config.token,addHospitalizationRequest), "UpdatePetHospitalization");
-        Log.e("AddPetHospitalParam","===>"+addHospitalizationRequest);
+        service.get( this, ApiClient.getApiInterface().updatePetHospitalization(Config.token,updateHospitalizationRequest), "UpdatePetHospitalization");
+        Log.e("AddPetHospitalParam","===>"+updateHospitalizationRequest);
 
     }
 

@@ -32,7 +32,7 @@ public class XRayReportDeatilsActivity extends AppCompatActivity implements ApiR
     Button deleteReport_BT;
     ImageView back_arrow_IV;
     TextView pet_name_TV,pet_sex_TV,pet_id_TV,pet_owner_name_TV,pet_owner_phone_no_TV;
-    String pet_unique_id, pet_name,pet_sex, pet_owner_name,pet_owner_contact,pet_id ,report_type_id,type;
+    String pet_unique_id, pet_name,pet_sex, pet_owner_name,pet_owner_contact,pet_id ,report_type_id,type,follow_up_date;
 
     Methods methods;
     @Override
@@ -55,6 +55,7 @@ public class XRayReportDeatilsActivity extends AppCompatActivity implements ApiR
         pet_id_TV.setText(pet_unique_id);
         pet_owner_name_TV.setText(pet_owner_name);
         pet_owner_phone_no_TV.setText(pet_owner_contact);
+        recommended_follow_up_date_textView.setText(follow_up_date);
     }
 
     private void init() {
@@ -63,7 +64,7 @@ public class XRayReportDeatilsActivity extends AppCompatActivity implements ApiR
         test_date_textView = findViewById(R.id.test_date_textView);
         Result_textView = findViewById(R.id.Result_textView);
         recommended_follow_up_textView = findViewById(R.id.recommended_follow_up_textView);
-        recommended_follow_up_date_textView = findViewById(R.id.lab_phone_textView);
+        recommended_follow_up_date_textView = findViewById(R.id.recommended_follow_up_date_textView);
 
         pet_name_TV = findViewById(R.id.pet_name_TV);
         pet_sex_TV = findViewById(R.id.pet_sex_TV);
@@ -86,6 +87,7 @@ public class XRayReportDeatilsActivity extends AppCompatActivity implements ApiR
         pet_name = extras.getExtras().getString("pet_name");
         pet_unique_id = extras.getExtras().getString("pet_unique_id");
         report_type_id=extras.getExtras().getString("id");
+        follow_up_date = extras.getExtras().getString("follow_up_date");
 
     }
 
@@ -165,7 +167,7 @@ public class XRayReportDeatilsActivity extends AppCompatActivity implements ApiR
                         test_date_textView.setText(getXRayReportDeatilsResponse.getData().getDateTested());
                         Result_textView.setText(getXRayReportDeatilsResponse.getData().getResults());
                         recommended_follow_up_textView.setText("");
-                        recommended_follow_up_date_textView.setText(getXRayReportDeatilsResponse.getData().getFollowUpDate());
+//                        recommended_follow_up_date_textView.setText(getXRayReportDeatilsResponse.getData().getFollowUpDate());
                         Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -195,7 +197,7 @@ public class XRayReportDeatilsActivity extends AppCompatActivity implements ApiR
 
     @Override
     public void onError(Throwable t, String key) {
-        Log.e("",t.getLocalizedMessage());
+        Log.e("error",t.getLocalizedMessage());
 
     }
 }
