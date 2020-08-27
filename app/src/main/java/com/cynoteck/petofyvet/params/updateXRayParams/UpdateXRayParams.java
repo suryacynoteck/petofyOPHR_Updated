@@ -97,6 +97,6 @@ public class UpdateXRayParams {
     @Override
     public String toString()
     {
-        return "ClassPojo [followUpDate = "+followUpDate+", petId = "+petId+", typeOfTestId = "+typeOfTestId+", documents = "+documents+", dateTested = "+dateTested+", followUpId = "+followUpId+", results = "+results+"]";
+        return "ClassPojo [id ="+id+", followUpDate = "+followUpDate+", petId = "+petId+", typeOfTestId = "+typeOfTestId+", documents = "+documents+", dateTested = "+dateTested+", followUpId = "+followUpId+", results = "+results+"]";
     }
 }

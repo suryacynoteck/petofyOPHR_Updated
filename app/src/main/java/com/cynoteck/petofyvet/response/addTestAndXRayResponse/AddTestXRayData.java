@@ -232,7 +232,7 @@ public class AddTestXRayData {
     @Override
     public String toString()
     {
-        return "ClassPojo [petId = "+petId+", updatedBy = "+updatedBy+", documents = "+documents+", dateTested = "+dateTested+", followUpId = "+followUpId+", updatedOn = "+updatedOn+", veterinarianUserId = "+veterinarianUserId+", createdOn = "+createdOn+", veterinarianUser = "+veterinarianUser+", createdByNavigation = "+createdByNavigation+", typeOfTest = "+typeOfTest+", updatedByNavigation = "+updatedByNavigation+", followUpDate = "+followUpDate+", followUp = "+followUp+", typeOfTestId = "+typeOfTestId+", createdBy = "+createdBy+", id = "+id+", results = "+results+", pet = "+pet+"]";
+        return "ClassPojo [ id = "+id+", petId = "+petId+", updatedBy = "+updatedBy+", documents = "+documents+", dateTested = "+dateTested+", followUpId = "+followUpId+", updatedOn = "+updatedOn+", veterinarianUserId = "+veterinarianUserId+", createdOn = "+createdOn+", veterinarianUser = "+veterinarianUser+", createdByNavigation = "+createdByNavigation+", typeOfTest = "+typeOfTest+", updatedByNavigation = "+updatedByNavigation+", followUpDate = "+followUpDate+", followUp = "+followUp+", typeOfTestId = "+typeOfTestId+", createdBy = "+createdBy+", id = "+id+", results = "+results+", pet = "+pet+"]";
     }
 }
 			

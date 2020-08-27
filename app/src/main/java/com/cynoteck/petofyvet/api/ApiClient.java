@@ -1,16 +1,8 @@
 package com.cynoteck.petofyvet.api;
 
-import android.text.TextUtils;
-
-import androidx.annotation.NonNull;
-
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -30,34 +22,15 @@ public class ApiClient {
     }
 
     private static ApiInterface setApiInterface() {
-        String mAuthToken = "";
-        OkHttpClient.Builder httpClient = null;
-        httpClient = new OkHttpClient.Builder()
-                .connectTimeout(1000, TimeUnit.SECONDS)
-                .writeTimeout(1000, TimeUnit.SECONDS)
-                .readTimeout(1000, TimeUnit.SECONDS);
+        OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .build();
         Retrofit.Builder mBuilder = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
+                .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
-        if (!TextUtils.isEmpty(mAuthToken)) {
-            final String finalMAuthToken = mAuthToken;
-            Interceptor interceptor = new Interceptor() {
-                @Override
-                public Response intercept(@NonNull Chain chain) throws IOException {
-                    Request original = chain.request();
-                    Request.Builder builder = original.newBuilder()
-                            .header("Authorization", finalMAuthToken);
-                    Request request = builder.build();
-                    return chain.proceed(request);
-                }
-            };
-
-            if (!httpClient.interceptors().contains(interceptor)) {
-                httpClient.addInterceptor(interceptor);
-                mBuilder.client(httpClient.build());
-                mApiInterface = mBuilder.build().create(ApiInterface.class);
-            }
-        } else
             mApiInterface = mBuilder.build().create(ApiInterface.class);
 
         return mApiInterface;

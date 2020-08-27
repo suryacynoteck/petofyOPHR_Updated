@@ -188,19 +188,20 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
         if (methods.isInternetOn()){
             getPetNewList();
             getPetList();
+
             petType();
             getPetBreed();
             getPetAge();
             getPetColor();
             getPetSize();
 
-//            new Handler().postDelayed(new Runnable(){
-//                @Override
-//                public void run() {
-//                    if(petClinicVisitLists==null)
-//                        getPetNewList();
-//                }
-//            }, 10000);
+            new Handler().postDelayed(new Runnable(){
+                @Override
+                public void run() {
+                    if(petClinicVisitLists==null)
+                        getPetNewList();
+                }
+            }, 10000);
 
         }else {
 
@@ -704,6 +705,15 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
 
     }
 
+    @Override
+    public void onError(Throwable t, String key) {
+        switch (key) {
+            case "GetRecentClinicVisits":
+                getPetNewList();
+                Log.d("GetRecentClinicVisits", t.getLocalizedMessage());
+
+        }
+    }
 
     ////////////////////////////////////////////ALEART DIALOG//////////////////////////////////////////////
 
@@ -988,11 +998,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    @Override
-    public void onError(Throwable t, String key) {
 
-        Log.d("error",t.getLocalizedMessage());
-    }
 
     @Override
     public void onViewDetailsClick(int position) {

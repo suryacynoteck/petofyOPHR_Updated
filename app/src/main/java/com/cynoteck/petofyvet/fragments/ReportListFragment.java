@@ -466,6 +466,7 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
     public void onUpdateHospitalizationClick(int position) {
         Intent addHozpitalActivityIntent = new Intent(getActivity().getApplication(), AddHospitalizationDeatilsActivity.class);
         addHozpitalActivityIntent.putExtra("pet_id",pet_id);
+        addHozpitalActivityIntent.putExtra("report_id",petHospitalizationsLists.get(position).getId());
         addHozpitalActivityIntent.putExtra("pet_name",pet_name);
         addHozpitalActivityIntent.putExtra("pet_unique_id",pet_unique_id);
         addHozpitalActivityIntent.putExtra("pet_sex",pet_sex);

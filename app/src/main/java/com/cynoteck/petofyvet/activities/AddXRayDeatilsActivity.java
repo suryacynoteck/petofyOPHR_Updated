@@ -626,10 +626,12 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
         nature_of_visit_spinner.setAdapter(aa);
-//        if (!nature_of_visit.equals("")){
-//            int spinnerPosition = aa.getPosition(nature_of_visit);
-//            nature_of_visit_spinner.setSelection(spinnerPosition);
-//        }
+        if (type.equals("Update Test/X-rays")) {
+            if (!nature_of_visit.equals("")) {
+                int spinnerPosition = aa.getPosition(nature_of_visit);
+                nature_of_visit_spinner.setSelection(spinnerPosition);
+            }
+        }
         nature_of_visit_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
@@ -646,5 +648,6 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
     @Override
     public void onError(Throwable t, String key) {
 
+        Log.e("error",t.getLocalizedMessage());
     }
 }
