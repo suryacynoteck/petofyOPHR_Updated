@@ -6,7 +6,7 @@
     tools:context=".fragments.ReportListFragment">
 
     <ImageView
-        android:visibility="gone"
+        android:visibility="invisible"
         android:id="@+id/empty_IV"
         android:src="@drawable/empty"
         android:layout_marginRight="20dp"
@@ -15,10 +15,15 @@
         android:layout_width="match_parent"
         android:layout_height="150dp"/>
 
+
+
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/routine_report_RV"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+
 
 
 </RelativeLayout>

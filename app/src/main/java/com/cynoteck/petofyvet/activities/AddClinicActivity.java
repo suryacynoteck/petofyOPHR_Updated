@@ -179,8 +179,8 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
             if(!descrisption.equals(""))
                 clinicCescription_ET.setText(descrisption);
 
-//            if(!weight.equals(""))
-//                weight_ET.setText(weight);
+            if(!weight.equals(""))
+                weight_ET.setText(weight);
 
             if(!temparature.equals(""))
                 clinicTemparature_ET.setText(temparature);
@@ -572,7 +572,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         ApiService<ImageResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().uploadImages(Config.token,userDpFilePart), "UploadDocument");
         Log.e("DATALOG","check1=> "+service);
-
+        methods.showCustomProgressBarDialog(this);
     }
 
     private void requestMultiplePermissions() {
@@ -670,11 +670,15 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     int responseCode = Integer.parseInt(imageResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
                         Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
-                            strDocumentUrl=imageResponse.getData().getDocumentUrl();
+                        strDocumentUrl=imageResponse.getData().getDocumentUrl();
+                        Toast.makeText(this, "Upload Successfully", Toast.LENGTH_SHORT).show();
+                        methods.customProgressDismiss();
                     }else if (responseCode==614){
                         Toast.makeText(this, imageResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                        methods.customProgressDismiss();
                     }else {
                         Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                        methods.customProgressDismiss();
                     }
                 }
                 catch(Exception e) {

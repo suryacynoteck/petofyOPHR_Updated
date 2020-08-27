@@ -147,7 +147,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
             case R.id.view_history_arrow:
                 Intent petHistory = new Intent(this, NewEntrysDetailsActivity.class);
                 Bundle dataHistry = new Bundle();
-                dataHistry.putString("pet_id",pet_id);
+                dataHistry.putString("pet_id",pet_id.substring(0,pet_id.length()-2));
                 dataHistry.putString("pet_name",pet_name);
                 dataHistry.putString("pet_parent",patent_name);
                 dataHistry.putString("pet_unique_id",pet_unique_id);
@@ -211,13 +211,13 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
 
     private void getclinicVisitsReportDetails() {
         PetClinicVistsDetailsParams petClinicVistsDetailsParams = new PetClinicVistsDetailsParams();
-        petClinicVistsDetailsParams.setId(pet_id);
+        petClinicVistsDetailsParams.setId(pet_id.substring(0,pet_id.length()-2));
         PetClinicVisitDetailsRequest petClinicVisitDetailsRequest = new PetClinicVisitDetailsRequest();
         petClinicVisitDetailsRequest.setData(petClinicVistsDetailsParams);
         Log.d("petClinicVisitDetail",petClinicVisitDetailsRequest.toString());
         ApiService<GetClinicVisitsDetailsResponse> service = new ApiService<>();
         service.get(this, ApiClient.getApiInterface().getLastPrescription(Config.token,petClinicVisitDetailsRequest), "GetPetClinicVisitDetails");
-
+        methods.showCustomProgressBarDialog(this);
     }
 
     @Override
@@ -229,6 +229,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                     Log.d("ResponseClinicVisit", arg0.body().toString());
                     GetClinicVisitsDetailsResponse getClinicVisitsDetailsResponse = (GetClinicVisitsDetailsResponse) arg0.body();
                     int responseCode = Integer.parseInt(getClinicVisitsDetailsResponse.getResponse().getResponseCode());
+                    Log.d("ajajjaja",""+responseCode);
                     if (responseCode == 109) {
                         lastPrescriptionPdf(getClinicVisitsDetailsResponse.getData().getVeterinarianDetails().getName(),
                                 getClinicVisitsDetailsResponse.getData().getVeterinarianDetails().getEmail(),
@@ -243,6 +244,10 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                                 getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getTreatmentRemarks(),
                                 getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getFollowUpDate()
                         );
+                    }
+                    else
+                    {
+                        methods.customProgressDismiss();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -346,7 +351,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 "                    <b>Pet Parant Name:"+pet_parent+"</b>\n" +
                 "                </div>\n" +
                 "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 10px;\">\n" +
-                "                    <b>Temparature(F): "+strTemparature+"</b>\n" +
+                "                    <b>Temparature(F): "+strTemparature+"\u2109</b>\n" +
                 "                </div>\n" +
                 "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 25px;\">\n" +
                 "                    <b>Symptons:</b>\n" +
@@ -391,9 +396,11 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 "</script>\n" +
                 "</body>\n" +
                 "</html>";
+        webview.loadDataWithBaseURL(null,str,"text/html","utf-8",null);
         new Handler().postDelayed(new Runnable(){
             @Override
             public void run() {
+                methods.customProgressDismiss();
                 Context context=PetDetailsActivity.this;
                 PrintManager printManager=(PrintManager)getSystemService(context.PRINT_SERVICE);
                 PrintDocumentAdapter adapter=null;

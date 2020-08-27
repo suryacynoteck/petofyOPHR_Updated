@@ -213,18 +213,13 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
                     description_ET.setError(null);
                     calenderTextViewtestdate.setError("Enter test Date");
                 }
-                else if(natureOfVistId.equals("Select Test Type"))
+                else if(testIdName.equals("Select Test Type"))
                 {
                     description_ET.setError(null);
                     calenderTextViewtestdate.setError(null);
                     Toast.makeText(this, "Select Test type ", Toast.LENGTH_SHORT).show();
                 }
-//                else if(visitId.equals("Select Visit"))
-//                {
-//                    description_ET.setError(null);
-//                    calenderTextViewtestdate.setError(null);
-//                    Toast.makeText(this, "Select Test type ", Toast.LENGTH_SHORT).show();
-//                }
+
                 else{
                     methods.showCustomProgressBarDialog(this);
                     description_ET.setError(null);
@@ -261,7 +256,8 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
                        addTestXRayRequest.setData(addTestXRayParams);
                        if(methods.isInternetOn())
                        {
-                           addPetXray(addTestXRayRequest); }
+                           addPetXray(addTestXRayRequest);
+                       }
                        else
                        { methods.DialogInternet(); }
                    }

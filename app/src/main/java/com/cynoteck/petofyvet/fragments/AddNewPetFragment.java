@@ -188,20 +188,11 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
         if (methods.isInternetOn()){
             getPetNewList();
             getPetList();
-
             petType();
             getPetBreed();
             getPetAge();
             getPetColor();
             getPetSize();
-
-            new Handler().postDelayed(new Runnable(){
-                @Override
-                public void run() {
-                    if(petClinicVisitLists==null)
-                        getPetNewList();
-                }
-            }, 10000);
 
         }else {
 
@@ -314,6 +305,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
     }
 
     private void updatePetDetails(UpdatePetRequest addPetRequset) {
+        methods.showCustomProgressBarDialog(getActivity());
         ApiService<AddPetValueResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().updatePetDetails(Config.token,addPetRequset), "UpdatePetDetails");
         Log.e("DATALOG","check1=> "+addPetRequset);
@@ -594,6 +586,8 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                     int responseCode = Integer.parseInt(addPetValueResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
                         Toast.makeText(getActivity(), "Sucessss", Toast.LENGTH_SHORT).show();
+                        methods.customProgressDismiss();
+                        editPetDilog.dismiss();
                     }else if (responseCode==614){
                         Toast.makeText(getActivity(), addPetValueResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
                     }else {
@@ -705,15 +699,6 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
 
     }
 
-    @Override
-    public void onError(Throwable t, String key) {
-        switch (key) {
-            case "GetRecentClinicVisits":
-                getPetNewList();
-                Log.d("GetRecentClinicVisits", t.getLocalizedMessage());
-
-        }
-    }
 
     ////////////////////////////////////////////ALEART DIALOG//////////////////////////////////////////////
 
@@ -855,16 +840,16 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
         parent_name.setText(veterian);
         //specilist.setText(strSpecialist);
         email.setText(strEmail);
-        for_a.setText(strForA);
-        age.setText(strAge);
-        sex.setText(strSex);
-        date.setText(strDate);
-        prnt_nm.setText(strParntNm);
-        temparature.setText(strTemparature);
+        for_a.setText("For A: "+strForA);
+        age.setText("Age: "+strAge);
+        sex.setText("Sex: "+strSex);
+        date.setText("date: "+strDate);
+        prnt_nm.setText("Pet Parent Name: "+strParntNm);
+        temparature.setText("Temparature(F): "+strTemparature+"\u2109");
         //symptoms.setText(strSymptoms);
-        diagnosis.setText(strDiagnosis);
-        remarks.setText(strRemark);
-        nxt_visit.setText(strNxtVisit);
+        diagnosis.setText("Diagnosis: "+strDiagnosis);
+        remarks.setText("Treatment Remarks: "+strRemark);
+        nxt_visit.setText("Next Visit: "+strNxtVisit);
 
 
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
@@ -998,7 +983,11 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    @Override
+    public void onError(Throwable t, String key) {
 
+        Log.d("error",t.getLocalizedMessage());
+    }
 
     @Override
     public void onViewDetailsClick(int position) {
@@ -1036,6 +1025,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
 
     @Override
     public void onProductDownloadClick(int position) {
+        methods.showCustomProgressBarDialog(getActivity());
         createPdf(petClinicVisitLists.get(position).getVeterinarian(),petClinicVisitLists.get(position).getCreatedByUser().getProviderPhoneNumber(),petClinicVisitLists.get(position).getCreatedByUser().getCustomerEmail(),petClinicVisitLists.get(position).getPetName(),petClinicVisitLists.get(position).getPetAge(),petClinicVisitLists.get(position).getPetSex(),petClinicVisitLists.get(position).getDateOfOnset(),petClinicVisitLists.get(position).getPetParentName(),petClinicVisitLists.get(position).getTemperature(),petClinicVisitLists.get(position).getDiagnosisProcedure(),petClinicVisitLists.get(position).getTreatmentRemarks(),petClinicVisitLists.get(position).getFollowUpDate());
     }
 
@@ -1081,7 +1071,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                             Log.d("ppppp",""+PetUniqueId+" "+PetName+" "+PetParentName+" "+PetSex+" "+Id);
                             Intent petDetailsIntent = new Intent(getActivity().getApplication(), PetDetailsActivity.class);
                             Bundle data = new Bundle();
-                            data.putString("pet_id",Id.substring(0,Id.length()-2));
+                            data.putString("pet_id",Id);
                             data.putString("pet_name",PetName);
                             data.putString("pet_parent",PetParentName);
                             data.putString("pet_sex",PetSex);
@@ -1219,7 +1209,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
 
                     UpdatePetRequest updatePetRequest = new UpdatePetRequest();
                     UpdatePetParam data = new UpdatePetParam();
-                    data.setId(petIdGetForUpdate);
+                    data.setId(petIdGetForUpdate.substring(0,petIdGetForUpdate.length()-2));
                     data.setPetCategoryId(getStrSpnerItemPetNmId);
                     data.setPetSexId(strSpnrSexId);
                     data.setPetAgeId(strSpnrAgeId);
@@ -1423,7 +1413,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                 "                    <b>Pet Parant Name:"+pet_parent+"</b>\n" +
                 "                </div>\n" +
                 "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 10px;\">\n" +
-                "                    <b>Temparature(F): "+strTemparature+"</b>\n" +
+                "                    <b>Temparature(F): "+strTemparature+"\u2109</b>\n" +
                 "                </div>\n" +
                 "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 25px;\">\n" +
                 "                    <b>Symptons:</b>\n" +
@@ -1473,6 +1463,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
         new Handler().postDelayed(new Runnable(){
             @Override
             public void run() {
+                methods.customProgressDismiss();
                 Context context=getActivity();
                 PrintManager printManager=(PrintManager)getActivity().getSystemService(context.PRINT_SERVICE);
                 PrintDocumentAdapter adapter=null;

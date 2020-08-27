@@ -97,7 +97,6 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
         pet_unique_id = extras.getString("pet_unique_id");
         type=extras.getString("type");
         button_type=extras.getString("button_type");
-
         routine_report_RV = view.findViewById(R.id.routine_report_RV);
         empty_IV=view.findViewById(R.id.empty_IV);
 
@@ -379,7 +378,6 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
         labIntent.putExtra("pet_owner_name",pet_owner_name);
         labIntent.putExtra("pet_owner_contact",pet_owner_contact);
         labIntent.putExtra("follow_up_date",petTestsAndXrayLists.get(position).getFollowUpDate());
-
         labIntent.putExtra("id",petTestsAndXrayLists.get(position).getId());
         labIntent.putExtras(labIntent);
         startActivity(labIntent);

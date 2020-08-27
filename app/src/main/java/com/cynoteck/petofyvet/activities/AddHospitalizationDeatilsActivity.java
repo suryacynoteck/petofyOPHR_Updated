@@ -642,6 +642,7 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+
     }
 
     @Override

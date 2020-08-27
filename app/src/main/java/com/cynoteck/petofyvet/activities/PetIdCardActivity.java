@@ -26,6 +26,7 @@ import com.cynoteck.petofyvet.params.petReportsRequest.PetClinicVisitDetailsRequ
 import com.cynoteck.petofyvet.params.petReportsRequest.PetClinicVistsDetailsParams;
 import com.cynoteck.petofyvet.response.getPetIdCardResponse.PetIdCardResponse;
 import com.cynoteck.petofyvet.utils.Config;
+import com.cynoteck.petofyvet.utils.Methods;
 import com.cynoteck.petofyvet.utils.ScreenshotUtils;
 
 import java.io.File;
@@ -39,12 +40,14 @@ public class PetIdCardActivity extends AppCompatActivity implements ApiResponse 
     ImageView imageView,bar_code_IV,pet_image;
     CardView card_view;
     String id;
+    Methods methods;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.identity_card);
+        methods=new Methods(this);
         Bundle extras = getIntent().getExtras();
         id = extras.getString("id");
 
@@ -87,6 +90,7 @@ public class PetIdCardActivity extends AppCompatActivity implements ApiResponse 
         ApiService<PetIdCardResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().getPetIdCard(Config.token,petClinicVisitDetailsRequest), "GetIdCard");
         Log.e("IDCARD_REQUEST","===>"+petClinicVisitDetailsRequest);
+        methods.showCustomProgressBarDialog(this);
 
     }
 
@@ -189,7 +193,7 @@ public class PetIdCardActivity extends AppCompatActivity implements ApiResponse 
     @Override
     public void onResponse(Response arg0, String key) {
         Log.e("IDCARD_REQUEST","===>"+arg0.body());
-
+        methods.customProgressDismiss();
         switch (key){
             case "GetIdCard":
 
