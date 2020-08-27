@@ -97,7 +97,6 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
         pet_unique_id = extras.getString("pet_unique_id");
         type=extras.getString("type");
         button_type=extras.getString("button_type");
-
         routine_report_RV = view.findViewById(R.id.routine_report_RV);
         empty_IV=view.findViewById(R.id.empty_IV);
 
@@ -132,7 +131,7 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
         petDataParams.setSearch_Data("");
         VisitTypeData visitTypeData = new VisitTypeData();
         visitTypeData.setVisitType(report_type_id);
-        visitTypeData.setPetId(pet_id);
+        visitTypeData.setPetId(pet_id.substring(0,pet_id.length()-2));
         visitTypeRequest.setHeader(petDataParams);
         visitTypeRequest.setData(visitTypeData);
         Log.d("HospitalizationRequest",visitTypeRequest.toString());
@@ -153,7 +152,7 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
         petDataParams.setSearch_Data("");
         VisitTypeData visitTypeData = new VisitTypeData();
         visitTypeData.setVisitType(report_type_id);
-        visitTypeData.setPetId(pet_id);
+        visitTypeData.setPetId(pet_id.substring(0,pet_id.length()-2));
         visitTypeRequest.setHeader(petDataParams);
         visitTypeRequest.setData(visitTypeData);
         Log.d("LabTestRequest",visitTypeRequest.toString());
@@ -174,7 +173,7 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
         petDataParams.setSearch_Data("");
         VisitTypeData visitTypeData = new VisitTypeData();
         visitTypeData.setVisitType(report_type_id);
-        visitTypeData.setPetId(pet_id);
+        visitTypeData.setPetId(pet_id.substring(0,pet_id.length()-2));
         visitTypeRequest.setHeader(petDataParams);
         visitTypeRequest.setData(visitTypeData);
         Log.d("visitTypeRequest",visitTypeRequest.toString());
@@ -194,7 +193,7 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
         getPetDataParams.setPageSize("10000");
         getPetDataParams.setSearch_Data("");
         VisitTypeData visitTypeData = new VisitTypeData();
-        visitTypeData.setPetId(pet_id);
+        visitTypeData.setPetId(pet_id.substring(0,pet_id.length()-2));
         VisitTypeRequest visitTypeRequest = new VisitTypeRequest();
         visitTypeRequest.setHeader(getPetDataParams);
         visitTypeRequest.setData(visitTypeData);
@@ -379,7 +378,6 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
         labIntent.putExtra("pet_owner_name",pet_owner_name);
         labIntent.putExtra("pet_owner_contact",pet_owner_contact);
         labIntent.putExtra("follow_up_date",petTestsAndXrayLists.get(position).getFollowUpDate());
-
         labIntent.putExtra("id",petTestsAndXrayLists.get(position).getId());
         labIntent.putExtras(labIntent);
         startActivity(labIntent);

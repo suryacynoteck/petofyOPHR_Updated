@@ -624,9 +624,11 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
         hospital_type_spinner.setAdapter(aa);
-        if (!hospital_type.equals("")) {
-            int spinnerPosition = aa.getPosition(hospital_type);
-            hospital_type_spinner.setSelection(spinnerPosition);
+        if (type.equals("Update Hospitalization")) {
+            if (!hospital_type.equals("")) {
+                int spinnerPosition = aa.getPosition(hospital_type);
+                hospital_type_spinner.setSelection(spinnerPosition);
+            }
         }
         hospital_type_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -640,6 +642,7 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+
     }
 
     @Override

@@ -16,51 +16,27 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class ApiClient {
-
-   private static final String BASE_URL = "https://petofyapi.azurewebsites.net/api/";
-
+    private static final String BASE_URL = "https://petofyapi.azurewebsites.net/api/";
     private ApiClient() {
     }
-
     private static ApiInterface mApiInterface;
-
     //service before login
     public static ApiInterface getApiInterface() {
         return (mApiInterface == null) ? setApiInterface() : mApiInterface;
     }
-
     private static ApiInterface setApiInterface() {
-        String mAuthToken = "";
-        OkHttpClient.Builder httpClient = null;
-        httpClient = new OkHttpClient.Builder()
-                .connectTimeout(1000, TimeUnit.SECONDS)
-                .writeTimeout(1000, TimeUnit.SECONDS)
-                .readTimeout(1000, TimeUnit.SECONDS);
+        OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .build();
         Retrofit.Builder mBuilder = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
+                .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
-        if (!TextUtils.isEmpty(mAuthToken)) {
-            final String finalMAuthToken = mAuthToken;
-            Interceptor interceptor = new Interceptor() {
-                @Override
-                public Response intercept(@NonNull Chain chain) throws IOException {
-                    Request original = chain.request();
-                    Request.Builder builder = original.newBuilder()
-                            .header("Authorization", finalMAuthToken);
-                    Request request = builder.build();
-                    return chain.proceed(request);
-                }
-            };
-
-            if (!httpClient.interceptors().contains(interceptor)) {
-                httpClient.addInterceptor(interceptor);
-                mBuilder.client(httpClient.build());
-                mApiInterface = mBuilder.build().create(ApiInterface.class);
-            }
-        } else
-            mApiInterface = mBuilder.build().create(ApiInterface.class);
-
+        mApiInterface = mBuilder.build().create(ApiInterface.class);
         return mApiInterface;
     }
+
 
 }

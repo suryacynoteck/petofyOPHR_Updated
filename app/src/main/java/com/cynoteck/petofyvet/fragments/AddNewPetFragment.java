@@ -194,24 +194,6 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
             getPetColor();
             getPetSize();
 
-/*<<<<<<< HEAD
-            *//*new Handler().postDelayed(new Runnable(){
-                @Override
-                public void run() {
-                    if(petClinicVisitLists==null)
-                        getPetNewList();
-                }
-            }, 10000);*//*
-=======
-//            new Handler().postDelayed(new Runnable(){
-//                @Override
-//                public void run() {
-//                    if(petClinicVisitLists==null)
-//                        getPetNewList();
-//                }
-//            }, 10000);
->>>>>>> d584de804489c39a6d9f3190de4c25151893b057*/
-
         }else {
 
             methods.DialogInternet();
@@ -231,11 +213,9 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                 String PetSex = st.nextToken();
                 String Id = st.nextToken();
                 Log.d("ppppp",""+PetUniqueId+" "+PetName+" "+PetParentName+" "+PetSex+" "+Id);
-                Log.d("searchItemClick",""+Id);
-                Log.d("searchItemClick",""+Id.substring(0,Id.length()-2));
                 Intent petDetailsIntent = new Intent(getActivity().getApplication(), PetDetailsActivity.class);
                 Bundle data = new Bundle();
-                data.putString("pet_id",Id.substring(0,Id.length()-2));
+                data.putString("pet_id",Id);
                 data.putString("pet_name",PetName);
                 data.putString("pet_parent",PetParentName);
                 data.putString("pet_sex",PetSex);
@@ -696,7 +676,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                         getPetList();
                         Intent petDetailsIntent = new Intent(getActivity().getApplication(), PetDetailsActivity.class);
                         Bundle data = new Bundle();
-                        data.putString("pet_id",petId.substring(0,petId.length()-2));
+                        data.putString("pet_id",petId);
                         data.putString("pet_name",newPetRegisterResponse.getData().getPetName());
                         data.putString("pet_sex",sexName);
                         data.putString("pet_parent",newPetRegisterResponse.getData().getPetParentName());
@@ -1025,9 +1005,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
 
         Intent petDetailsIntent = new Intent(getActivity().getApplication(), PetDetailsActivity.class);
         Bundle data = new Bundle();
-        Log.d("productClick",""+petClinicVisitLists.get(position).getPetId());
-        Log.d("productClick",""+petClinicVisitLists.get(position).getPetId().substring(0,petClinicVisitLists.get(position).getPetId().length()-2));
-        data.putString("pet_id",petClinicVisitLists.get(position).getPetId().substring(0,petClinicVisitLists.get(position).getPetId().length()-2));
+        data.putString("pet_id",petClinicVisitLists.get(position).getPetId());
         data.putString("pet_name",petClinicVisitLists.get(position).getPetName());
         data.putString("pet_parent",petClinicVisitLists.get(position).getPetParentName());
         data.putString("pet_sex",petClinicVisitLists.get(position).getPetSex());
@@ -1093,9 +1071,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                             Log.d("ppppp",""+PetUniqueId+" "+PetName+" "+PetParentName+" "+PetSex+" "+Id);
                             Intent petDetailsIntent = new Intent(getActivity().getApplication(), PetDetailsActivity.class);
                             Bundle data = new Bundle();
-                            Log.d("serchOnclick",""+Id);
-                            Log.d("serchOnclick",""+Id.substring(0,Id.length()-2));
-                            data.putString("pet_id",Id.substring(0,Id.length()-2));
+                            data.putString("pet_id",Id);
                             data.putString("pet_name",PetName);
                             data.putString("pet_parent",PetParentName);
                             data.putString("pet_sex",PetSex);

@@ -625,7 +625,7 @@ public class NewEntrysListFragment extends Fragment implements ApiResponse, Regi
         Toast.makeText(getContext(), ""+getReportsTypeData.get(position).getId(), Toast.LENGTH_SHORT).show();
         Intent selectReportsIntent = new Intent(getContext(), ReportsCommonActivity.class);
         Bundle data = new Bundle();
-        data.putString("pet_id",pet_id+".0");
+        data.putString("pet_id",pet_id);
         data.putString("pet_name",pet_name);
         data.putString("pet_unique_id",pet_unique_id);
         data.putString("pet_sex",pet_sex);
