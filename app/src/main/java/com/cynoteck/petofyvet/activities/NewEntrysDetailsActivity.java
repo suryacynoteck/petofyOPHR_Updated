@@ -41,6 +41,7 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
         Bundle extras = getIntent().getExtras();
         report_type_id = extras.getString("reports_id");
         pet_id = extras.getString("pet_id");
+        Log.d("akakkakakak",""+pet_id);
         pet_owner_contact = extras.getString("pet_owner_contact");
         pet_owner_name = extras.getString("pet_parent");
         pet_sex = extras.getString("pet_sex");

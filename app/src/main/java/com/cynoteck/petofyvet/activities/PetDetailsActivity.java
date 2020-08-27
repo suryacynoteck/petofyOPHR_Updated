@@ -173,7 +173,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
             case R.id.print_id_card_arrow:
                 Intent intent = new Intent(this,PetIdCardActivity.class);
                 Bundle dataLabworkIdCard = new Bundle();
-                dataLabworkIdCard.putString("id",pet_id);
+                dataLabworkIdCard.putString("id",pet_id+".0");
                 intent.putExtras(dataLabworkIdCard);
                 startActivity(intent);
                 break;

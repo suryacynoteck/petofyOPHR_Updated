@@ -142,6 +142,7 @@ public class NewEntrysListFragment extends Fragment implements ApiResponse, Regi
         Bundle extras = this.getArguments();
         report_type_id = extras.getString("reports_id");
         pet_id = extras.getString("pet_id");
+        Log.d("kakkaak",""+pet_id);
         pet_owner_contact = extras.getString("pet_owner_contact");
         pet_owner_name = extras.getString("pet_owner_name");
         pet_sex = extras.getString("pet_sex");
@@ -308,7 +309,7 @@ public class NewEntrysListFragment extends Fragment implements ApiResponse, Regi
         petDataParams.setSearch_Data("");
         VisitTypeData visitTypeData = new VisitTypeData();
         visitTypeData.setVisitType(report_type_id);
-        visitTypeData.setPetId(pet_id.substring(0,pet_id.length()-2));
+        visitTypeData.setPetId(pet_id);
         visitTypeRequest.setHeader(petDataParams);
         visitTypeRequest.setData(visitTypeData);
         Log.d("visitTypeRequest",visitTypeRequest.toString());
@@ -624,7 +625,7 @@ public class NewEntrysListFragment extends Fragment implements ApiResponse, Regi
         Toast.makeText(getContext(), ""+getReportsTypeData.get(position).getId(), Toast.LENGTH_SHORT).show();
         Intent selectReportsIntent = new Intent(getContext(), ReportsCommonActivity.class);
         Bundle data = new Bundle();
-        data.putString("pet_id",pet_id);
+        data.putString("pet_id",pet_id+".0");
         data.putString("pet_name",pet_name);
         data.putString("pet_unique_id",pet_unique_id);
         data.putString("pet_sex",pet_sex);
