@@ -445,7 +445,7 @@
                 app:layout_constraintTop_toBottomOf="@id/diagnosis_ET" />
 
 
-            <EditText
+            <MultiAutoCompleteTextView
                 android:id="@+id/treatment_remarks_ET"
                 android:layout_width="0dp"
                 android:layout_height="120dp"

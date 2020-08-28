@@ -11,16 +11,20 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +38,8 @@ import com.cynoteck.petofyvet.api.ApiResponse;
 import com.cynoteck.petofyvet.api.ApiService;
 import com.cynoteck.petofyvet.params.addPetClinicParamRequest.AddPetClinicParam;
 import com.cynoteck.petofyvet.params.addPetClinicParamRequest.AddPetClinicRequest;
+import com.cynoteck.petofyvet.params.searchRemarksParameter.SearchRemaksParametr;
+import com.cynoteck.petofyvet.params.searchRemarksParameter.SearchRemaksRequest;
 import com.cynoteck.petofyvet.params.updateClinicVisitsParams.UpdateClinicReportsParams;
 import com.cynoteck.petofyvet.params.updateClinicVisitsParams.UpdateClinicReportsRequest;
 import com.cynoteck.petofyvet.response.addPet.imageUpload.ImageResponse;
@@ -77,15 +83,17 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
              clinicCalenderTextViewVisitDt,clinicIlness_onset,date_of_illness_TV,upload_documents,clinic_peto_edit_reg_number_dialog;
     ImageView document_name,clinic_back_arrow_IV;
     LinearLayout addPrescriptionButton;
-    EditText clinicVeterian_name_ET,clinicCescription_ET,clinicTreatment_remarks_ET,
+    EditText clinicVeterian_name_ET,clinicCescription_ET,
             weight_ET,clinicTemparature_ET,clinicDiagnosis_ET,vacine_ET;
     AppCompatSpinner clinicNature_of_visit_spinner,clinicNext_visit_spinner;
     LinearLayout clinicDocument_layout;
+    MultiAutoCompleteTextView clinicTreatment_remarks_ET;
     Button clinicCancel_clinic_add_dialog,clinicSave_clinic_data;
     Methods methods;
 
     ArrayList<String> nextVisitList;
     ArrayList<String> natureOfVisitList;
+    ArrayList<String> remarksSearchList;
 
     HashMap<String,String> nextVisitHas=new HashMap<>();
     HashMap<String,String> natureOfVisitHashMap=new HashMap<>();
@@ -146,6 +154,45 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         upload_documents.setOnClickListener(this);
         clinic_back_arrow_IV.setOnClickListener(this);
 
+        /*final ArrayAdapter<String> randomArray = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, remarksSearchList);
+        clinicTreatment_remarks_ET.setThreshold(1);
+        clinicTreatment_remarks_ET.setAdapter(randomArray);
+        clinicTreatment_remarks_ET.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());*/
+
+        clinicTreatment_remarks_ET.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                Log.d("kkakakkakak","beforeTextChanged"+new String(charSequence.toString()));
+                Log.d("kkakakkakak","beforeTextChangedLength"+charSequence.length());
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                Log.d("kkakakkakak","onTextChanged"+new String(charSequence.toString()));
+                Log.d("kkakakkakak","onTextChangedLength"+charSequence.length());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                Log.d("kkakakkakak","afterTextChanged"+new String(editable.toString()));
+                String value=editable.toString();
+                SearchRemaksParametr searchRemaksParametr=new SearchRemaksParametr();
+                searchRemaksParametr.setPrefix(value);
+                SearchRemaksRequest searchRemaksRequest=new SearchRemaksRequest();
+                searchRemaksRequest.setAddPetParams(searchRemaksParametr);
+                if (methods.isInternetOn()){
+                    getTreatmentRemaks(searchRemaksRequest);
+                }else {
+                    methods.DialogInternet();
+                }
+
+            }
+        });
+
+
+
+
         if (extras != null) {
             report_id = extras.getString("report_id");
             pet_id = extras.getString("pet_id");
@@ -196,16 +243,22 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                 clinicFolow_up_dt_view.setText(flowUpDt);
         }
 
+
         if (methods.isInternetOn()){
             getClientVisit();
             getVisitTypes();
-            getTreatmentRemaks();
         }else {
 
             methods.DialogInternet();
         }
 
       }
+
+    private void getTreatmentRemaks(SearchRemaksRequest searchRemaksRequest) {
+        ApiService<SearchRemaksResponse> service = new ApiService<>();
+        service.get( this, ApiClient.getApiInterface().getSearchTreatmentRemarks(Config.token,searchRemaksRequest), "SearchTreatmentRemarks");
+
+    }
 
     private void getClientVisit() {
         ApiService<ClinicVisitResponse> service = new ApiService<>();
@@ -620,10 +673,6 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         service.get(this, ApiClient.getApiInterface().getReportsType(Config.token), "GetReportsType");
     }
 
-    private void getTreatmentRemaks() {
-        ApiService<SearchRemaksResponse> service = new ApiService<>();
-        service.get(this, ApiClient.getApiInterface().getSearchTreatmentRemarks(Config.token), "SearchTreatmentRemarks");
-    }
 
     private void addPetClinicData(AddPetClinicRequest addPetClinicRequest) {
         ApiService<AddpetClinicResponse> service = new ApiService<>();
@@ -769,8 +818,21 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     Log.d("SearchTreatmentRemarks", searchRemaksResponse.toString());
                     int responseCode = Integer.parseInt(searchRemaksResponse.getResponse().getResponseCode());
 
+
                     if (responseCode== 109){
                         Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                        remarksSearchList=new ArrayList<>();
+                        for(int i=0;i<searchRemaksResponse.getData().size();i++)
+                        {
+                            remarksSearchList.add(searchRemaksResponse.getData().get(i).getRemarks());
+                        }
+                        ArrayAdapter<String> randomArray = new ArrayAdapter<String>(this,
+                                android.R.layout.simple_list_item_1, remarksSearchList);
+                        clinicTreatment_remarks_ET.setThreshold(1);
+                        clinicTreatment_remarks_ET.setAdapter(randomArray);
+                        clinicTreatment_remarks_ET.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+                        clinicTreatment_remarks_ET.setOnItemClickListener(onItemClickListener);
+                        randomArray.notifyDataSetChanged();
                     }
                     else if (responseCode==614){
                         Toast.makeText(this, searchRemaksResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
@@ -862,4 +924,16 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
             }
         });
     }
+
+    private AdapterView.OnItemClickListener onItemClickListener =
+            new AdapterView.OnItemClickListener(){
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    Toast.makeText(AddClinicActivity.this,
+                            "Clicked item from auto completion list "
+                                    + adapterView.getItemAtPosition(i)
+                            , Toast.LENGTH_SHORT).show();
+                }
+            };
+
 }
