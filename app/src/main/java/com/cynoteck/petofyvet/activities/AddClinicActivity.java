@@ -40,6 +40,7 @@ import com.cynoteck.petofyvet.response.addPet.imageUpload.ImageResponse;
 import com.cynoteck.petofyvet.response.addPetClinicresponse.AddpetClinicResponse;
 import com.cynoteck.petofyvet.response.clinicVisist.ClinicVisitResponse;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.GetReportsTypeResponse;
+import com.cynoteck.petofyvet.response.searchRemaks.SearchRemaksResponse;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
 import com.karumi.dexter.Dexter;
@@ -198,6 +199,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         if (methods.isInternetOn()){
             getClientVisit();
             getVisitTypes();
+            getTreatmentRemaks();
         }else {
 
             methods.DialogInternet();
@@ -618,6 +620,11 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         service.get(this, ApiClient.getApiInterface().getReportsType(Config.token), "GetReportsType");
     }
 
+    private void getTreatmentRemaks() {
+        ApiService<SearchRemaksResponse> service = new ApiService<>();
+        service.get(this, ApiClient.getApiInterface().getSearchTreatmentRemarks(Config.token), "SearchTreatmentRemarks");
+    }
+
     private void addPetClinicData(AddPetClinicRequest addPetClinicRequest) {
         ApiService<AddpetClinicResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().addClinicVisit(Config.token,addPetClinicRequest), "AddClinicVisit");
@@ -745,6 +752,28 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     }
                     else if (responseCode==614){
                         Toast.makeText(this, addpetClinicResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "SearchTreatmentRemarks":
+                try {
+                    SearchRemaksResponse searchRemaksResponse = (SearchRemaksResponse) arg0.body();
+                    Log.d("SearchTreatmentRemarks", searchRemaksResponse.toString());
+                    int responseCode = Integer.parseInt(searchRemaksResponse.getResponse().getResponseCode());
+
+                    if (responseCode== 109){
+                        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                    }
+                    else if (responseCode==614){
+                        Toast.makeText(this, searchRemaksResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
                     }
                     else
                     {

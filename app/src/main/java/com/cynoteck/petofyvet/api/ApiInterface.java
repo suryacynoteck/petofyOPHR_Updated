@@ -64,6 +64,7 @@ import com.cynoteck.petofyvet.response.loginRegisterResponse.LoginRegisterRespon
 import com.cynoteck.petofyvet.response.newPetResponse.NewPetRegisterResponse;
 import com.cynoteck.petofyvet.response.otpResponse.OtpResponse;
 import com.cynoteck.petofyvet.response.recentEntrys.RecentEntrysResponse;
+import com.cynoteck.petofyvet.response.searchRemaks.SearchRemaksResponse;
 import com.cynoteck.petofyvet.response.testResponse.XrayTestResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.CityResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.CountryResponse;
@@ -286,11 +287,19 @@ public interface ApiInterface {
     @GET("pethealthrecord/GetClinicVisitRoutineFollowupTypes")
     Call<ClinicVisitResponse> getClinicVisit(@Header("Authorization") String auth);
 
+    //SEARCH TREATMENT & REMARKS..........................................................
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @GET("pethealthrecord/SearchTreatmentRemarks")
+    Call<SearchRemaksResponse> getSearchTreatmentRemarks(@Header("Authorization") String auth);
+
     //ADD CLINIC VISIT.....................................................................
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("pethealthrecord/AddClinicVisit")
     Call<AddpetClinicResponse> addClinicVisit(@Header("Authorization") String auth, @Body AddPetClinicRequest addPetClinicRequest);
+
+    //Update CLINIC VISIT...................................................................
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("pethealthrecord/UpdateClinicVisit")

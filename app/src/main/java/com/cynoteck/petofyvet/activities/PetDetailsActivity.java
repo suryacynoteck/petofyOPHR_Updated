@@ -38,7 +38,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
     String pet_id,pet_name,patent_name,pet_bread,pet_unique_id="",pet_sex="";
     TextView pet_nameTV, pet_parentNameTV,pet_id_TV;
     ImageView back_arrow_IV,view_clinicVisits_arrow,view_xrayReport_arrow,view_labTestReport_arrow,view_Hospitalization_arrow,last_prescription_arrow,recent_visits_arrow,print_id_card_arrow,view_history_arrow;
-    RelativeLayout hospitalization_surgeries,xray_test,lab_test_report,hospitalization_sugeries,clinics_visit,print_id_card,view_history;
+    RelativeLayout clinic_test,xray_test,lab_test_report,hospitalization_sugeries,clinics_visit,print_id_card,view_history;
     Methods methods;
     WebView webview;
 
@@ -64,7 +64,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
         pet_id_TV=findViewById(R.id.pet_id_TV);
         view_Hospitalization_arrow=findViewById(R.id.view_Hospitalization_arrow);
         hospitalization_sugeries=findViewById(R.id.hospitalization_sugeries);
-        hospitalization_surgeries=findViewById(R.id.hospitalization_surgeries);
+        clinic_test=findViewById(R.id.clinic_test);
         recent_visits_arrow=findViewById(R.id.recent_visits_arrow);
         print_id_card_arrow=findViewById(R.id.print_id_card_arrow);
         print_id_card=findViewById(R.id.print_id_card);
@@ -84,7 +84,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
         lab_test_report.setOnClickListener(this);
         view_Hospitalization_arrow.setOnClickListener(this);
         hospitalization_sugeries.setOnClickListener(this);
-        hospitalization_surgeries.setOnClickListener(this);
+        clinic_test.setOnClickListener(this);
         recent_visits_arrow.setOnClickListener(this);
         print_id_card_arrow.setOnClickListener(this);
         print_id_card.setOnClickListener(this);
@@ -145,7 +145,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 petDetailsLabWork.putExtras(dataLabwork);
                 startActivity(petDetailsLabWork);
                 break;
-            case R.id.hospitalization_surgeries:
+            case R.id.hospitalization_sugeries:
                 Intent petDetailsHospitalization = new Intent(this, NewEntrysDetailsActivity.class);
                 Bundle dataLabworkHospitalization = new Bundle();
                 dataLabworkHospitalization.putString("pet_id",pet_id);
@@ -192,7 +192,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 intent.putExtras(dataLabworkIdCard);
                 startActivity(intent);
                 break;
-            case R.id.clinics_visit:
+            case R.id.clinic_test:
                 Intent petDetailsClinicVisits = new Intent(this, NewEntrysDetailsActivity.class);
                 Bundle dataClinicVisits = new Bundle();
                 dataClinicVisits.putString("pet_id",pet_id);
