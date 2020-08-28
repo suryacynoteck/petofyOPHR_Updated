@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,6 +38,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
     String pet_id,pet_name,patent_name,pet_bread,pet_unique_id="",pet_sex="";
     TextView pet_nameTV, pet_parentNameTV,pet_id_TV;
     ImageView back_arrow_IV,view_clinicVisits_arrow,view_xrayReport_arrow,view_labTestReport_arrow,view_Hospitalization_arrow,last_prescription_arrow,recent_visits_arrow,print_id_card_arrow,view_history_arrow;
+    RelativeLayout hospitalization_surgeries,xray_test,lab_test_report,hospitalization_sugeries,clinics_visit,print_id_card,view_history;
     Methods methods;
     WebView webview;
 
@@ -61,24 +63,37 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
         back_arrow_IV=findViewById(R.id.back_arrow_IV);
         pet_id_TV=findViewById(R.id.pet_id_TV);
         view_Hospitalization_arrow=findViewById(R.id.view_Hospitalization_arrow);
+        hospitalization_sugeries=findViewById(R.id.hospitalization_sugeries);
+        hospitalization_surgeries=findViewById(R.id.hospitalization_surgeries);
         recent_visits_arrow=findViewById(R.id.recent_visits_arrow);
         print_id_card_arrow=findViewById(R.id.print_id_card_arrow);
+        print_id_card=findViewById(R.id.print_id_card);
         view_clinicVisits_arrow=findViewById(R.id.view_clinicVisits_arrow);
+        clinics_visit=findViewById(R.id.clinics_visit);
         view_history_arrow=findViewById(R.id.view_history_arrow);
+        view_history=findViewById(R.id.view_history);
         view_xrayReport_arrow=findViewById(R.id.view_xrayReport_arrow);
+        xray_test=findViewById(R.id.xray_test);
         view_labTestReport_arrow=findViewById(R.id.view_labTestReport_arrow);
+        lab_test_report=findViewById(R.id.lab_test_report);
         last_prescription_arrow=findViewById(R.id.last_prescription_arrow);
         webview=findViewById(R.id.webview);
 
         view_clinicVisits_arrow.setOnClickListener(this);
         view_labTestReport_arrow.setOnClickListener(this);
+        lab_test_report.setOnClickListener(this);
         view_Hospitalization_arrow.setOnClickListener(this);
+        hospitalization_sugeries.setOnClickListener(this);
+        hospitalization_surgeries.setOnClickListener(this);
         recent_visits_arrow.setOnClickListener(this);
         print_id_card_arrow.setOnClickListener(this);
+        print_id_card.setOnClickListener(this);
         view_history_arrow.setOnClickListener(this);
+        view_history.setOnClickListener(this);
         back_arrow_IV.setOnClickListener(this);
         last_prescription_arrow.setOnClickListener(this);
         view_xrayReport_arrow.setOnClickListener(this);
+        xray_test.setOnClickListener(this);
 
         pet_nameTV.setText(pet_name+"("+pet_sex+")");
         pet_parentNameTV.setText(patent_name);
@@ -89,7 +104,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.view_xrayReport_arrow:
+            case R.id.xray_test:
 //                Intent staticReportsIntent = new Intent(this, ReportsCommonActivity.class);
 //                Bundle staticReportsData = new Bundle();
 //                staticReportsData.putString("pet_id",pet_id);
@@ -116,7 +131,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 petDetailsXray.putExtras(dataXray);
                 startActivity(petDetailsXray);
                 break;
-            case R.id.view_labTestReport_arrow:
+            case R.id.lab_test_report:
                 Intent petDetailsLabWork = new Intent(this, NewEntrysDetailsActivity.class);
                 Bundle dataLabwork = new Bundle();
                 dataLabwork.putString("pet_id",pet_id);
@@ -130,7 +145,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 petDetailsLabWork.putExtras(dataLabwork);
                 startActivity(petDetailsLabWork);
                 break;
-            case R.id.view_Hospitalization_arrow:
+            case R.id.hospitalization_surgeries:
                 Intent petDetailsHospitalization = new Intent(this, NewEntrysDetailsActivity.class);
                 Bundle dataLabworkHospitalization = new Bundle();
                 dataLabworkHospitalization.putString("pet_id",pet_id);
@@ -144,7 +159,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 petDetailsHospitalization.putExtras(dataLabworkHospitalization);
                 startActivity(petDetailsHospitalization);
                 break;
-            case R.id.view_history_arrow:
+            case R.id.view_history:
                 Intent petHistory = new Intent(this, NewEntrysDetailsActivity.class);
                 Bundle dataHistry = new Bundle();
                 dataHistry.putString("pet_id",pet_id.substring(0,pet_id.length()-2));
@@ -170,14 +185,14 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 petDetailsLabVisits.putExtras(dataLabworkVisits);
                 startActivity(petDetailsLabVisits);
                 break;
-            case R.id.print_id_card_arrow:
+            case R.id.print_id_card:
                 Intent intent = new Intent(this,PetIdCardActivity.class);
                 Bundle dataLabworkIdCard = new Bundle();
                 dataLabworkIdCard.putString("id",pet_id);
                 intent.putExtras(dataLabworkIdCard);
                 startActivity(intent);
                 break;
-            case R.id.view_clinicVisits_arrow:
+            case R.id.clinics_visit:
                 Intent petDetailsClinicVisits = new Intent(this, NewEntrysDetailsActivity.class);
                 Bundle dataClinicVisits = new Bundle();
                 dataClinicVisits.putString("pet_id",pet_id);

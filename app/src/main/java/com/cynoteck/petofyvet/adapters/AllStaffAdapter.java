@@ -42,12 +42,12 @@ public class AllStaffAdapter extends RecyclerView.Adapter<AllStaffAdapter.MyView
 
         if (getAllStaffData.get(position).getIsActive().equals("false")){
             holder.staff_status_BT.setBackgroundResource(R.drawable.deactivate_status);
-            holder.staff_status_BT.setText("Deactivated");
+            holder.staff_status_BT.setText("Deactivate");
 
         }else {
 
             holder.staff_status_BT.setBackgroundResource(R.drawable.activated_status);
-            holder.staff_status_BT.setText("Activated");
+            holder.staff_status_BT.setText("Activate");
 
         }
         holder.staff_name_TV.setText(getAllStaffData.get(position).getFirstName()+" "+getAllStaffData.get(position).getLastName());

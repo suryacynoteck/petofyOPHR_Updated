@@ -45,12 +45,12 @@
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
+
     <WebView
         android:id="@+id/webview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"/>
-
     <LinearLayout
         android:visibility="gone"
         android:id="@+id/addNewEntry"
@@ -127,7 +127,7 @@
 
 
             <LinearLayout
-                android:layout_marginLeft="50dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:id="@+id/double_dot_LL"
                 android:layout_toRightOf="@id/pet_info_LL"
@@ -209,7 +209,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/grayColorCode"
-                    android:text="PETO1883"/>
+                    android:text=""/>
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
@@ -272,7 +272,7 @@
 
 
                 <ImageView
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginLeft="20dp"
                     android:layout_alignParentStart="true"
                     android:id="@+id/view_clinicVisits_IV"
                     android:layout_centerInParent="true"
@@ -296,7 +296,7 @@
                 <ImageView
                     android:layout_alignParentEnd="true"
                     android:layout_toRightOf="@+id/report_clinicVisits_TV"
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginLeft="20dp"
                     android:id="@+id/view_clinicVisits_arrow"
                     android:layout_centerInParent="true"
                     android:src="@drawable/forward_arrow"
@@ -307,13 +307,14 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/xray_test"
                 android:background="@drawable/reports_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
 
                 <ImageView
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginLeft="20dp"
                     android:layout_alignParentStart="true"
                     android:id="@+id/view_xrayReport_IV"
                     android:layout_centerInParent="true"
@@ -337,7 +338,7 @@
                 <ImageView
                     android:layout_alignParentEnd="true"
                     android:layout_toRightOf="@+id/report_xrayReport_TV"
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginLeft="20dp"
                     android:id="@+id/view_xrayReport_arrow"
                     android:layout_centerInParent="true"
                     android:src="@drawable/forward_arrow"
@@ -348,13 +349,14 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/lab_test_report"
                 android:background="@drawable/reports_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
 
                 <ImageView
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginLeft="20dp"
                     android:layout_alignParentStart="true"
                     android:id="@+id/view_labTestReport_IV"
                     android:layout_centerInParent="true"
@@ -378,7 +380,7 @@
                 <ImageView
                     android:layout_alignParentEnd="true"
                     android:layout_toRightOf="@+id/report_labTestReport_TV"
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginLeft="20dp"
                     android:id="@+id/view_labTestReport_arrow"
                     android:layout_centerInParent="true"
                     android:src="@drawable/forward_arrow"
@@ -389,13 +391,14 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/hospitalization_sugeries"
                 android:background="@drawable/reports_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
 
                 <ImageView
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginLeft="20dp"
                     android:layout_alignParentStart="true"
                     android:id="@+id/view_Hospitalization_IV"
                     android:layout_centerInParent="true"
@@ -419,7 +422,7 @@
                 <ImageView
                     android:layout_alignParentEnd="true"
                     android:layout_toRightOf="@+id/report_Hospitalization_TV"
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginLeft="20dp"
                     android:id="@+id/view_Hospitalization_arrow"
                     android:layout_centerInParent="true"
                     android:src="@drawable/forward_arrow"
@@ -437,7 +440,7 @@
 
 
                 <ImageView
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginLeft="20dp"
                     android:layout_alignParentStart="true"
                     android:id="@+id/last_prescription_IV"
                     android:layout_centerInParent="true"
@@ -461,7 +464,7 @@
                 <ImageView
                     android:layout_alignParentEnd="true"
                     android:layout_toRightOf="@+id/last_prescription_TV"
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginLeft="20dp"
                     android:id="@+id/last_prescription_arrow"
                     android:layout_centerInParent="true"
                     android:src="@drawable/forward_arrow"
@@ -481,7 +484,7 @@
 
 
                 <ImageView
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginLeft="20dp"
                     android:layout_alignParentStart="true"
                     android:id="@+id/recent_visits_IV"
                     android:layout_centerInParent="true"
@@ -505,7 +508,7 @@
                 <ImageView
                     android:layout_alignParentEnd="true"
                     android:layout_toRightOf="@+id/recent_visits_TV"
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginLeft="20dp"
                     android:id="@+id/recent_visits_arrow"
                     android:layout_centerInParent="true"
                     android:src="@drawable/forward_arrow"
@@ -523,7 +526,7 @@
 
 
                 <ImageView
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginLeft="20dp"
                     android:layout_alignParentStart="true"
                     android:id="@+id/print_id_card_IV"
                     android:layout_centerInParent="true"
@@ -547,7 +550,7 @@
                 <ImageView
                     android:layout_alignParentEnd="true"
                     android:layout_toRightOf="@+id/print_id_card_TV"
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginLeft="20dp"
                     android:id="@+id/print_id_card_arrow"
                     android:layout_centerInParent="true"
                     android:src="@drawable/forward_arrow"
@@ -565,7 +568,7 @@
 
 
                 <ImageView
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginLeft="20dp"
                     android:layout_alignParentStart="true"
                     android:id="@+id/view_history_IV"
                     android:layout_centerInParent="true"
@@ -589,7 +592,7 @@
                 <ImageView
                     android:layout_alignParentEnd="true"
                     android:layout_toRightOf="@+id/view_history_TV"
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginLeft="20dp"
                     android:id="@+id/view_history_arrow"
                     android:layout_centerInParent="true"
                     android:src="@drawable/forward_arrow"
