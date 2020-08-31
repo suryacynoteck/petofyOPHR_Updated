@@ -66,7 +66,7 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
     EditText veterian_name_ET,veterian_phone_ET,hospital_name_ET,hospital_phone_ET,reson_of_hospitalization_ET,result_ET;
     Spinner hospital_type_spinner;
     TextView calenderTextView_admission_date,hospitalization_peto_edit_reg_number_dialog,
-             calenderTextView_discharge_date_TV,hospitalization_upload_documents,doctorPrescription_headline_TV;
+            calenderTextView_discharge_date_TV,hospitalization_upload_documents,doctorPrescription_headline_TV;
     Button save_BT;
     ImageView hospitalization_document_name,hospitalization_back_arrow_IV;
 

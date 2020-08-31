@@ -21,6 +21,7 @@ import com.cynoteck.petofyvet.params.petReportsRequest.PetClinicVisitDetailsRequ
 import com.cynoteck.petofyvet.params.petReportsRequest.PetDataRequest;
 import com.cynoteck.petofyvet.params.petReportsRequest.VisitTypeRequest;
 import com.cynoteck.petofyvet.params.registerRequest.Registerparams;
+import com.cynoteck.petofyvet.params.searchRemarksParameter.SearchRemaksRequest;
 import com.cynoteck.petofyvet.params.updateClinicVisitsParams.UpdateClinicReportsRequest;
 import com.cynoteck.petofyvet.params.updateHospitalizationParams.UpdateHospitalizationRequest;
 import com.cynoteck.petofyvet.params.updateLapTestParams.UpdateLabTestRequest;
@@ -290,8 +291,8 @@ public interface ApiInterface {
     //SEARCH TREATMENT & REMARKS..........................................................
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
-    @GET("pethealthrecord/SearchTreatmentRemarks")
-    Call<SearchRemaksResponse> getSearchTreatmentRemarks(@Header("Authorization") String auth);
+    @POST("pethealthrecord/SearchTreatmentRemarks")
+    Call<SearchRemaksResponse> getSearchTreatmentRemarks(@Header("Authorization") String auth, @Body SearchRemaksRequest searchRemaksRequest);
 
     //ADD CLINIC VISIT.....................................................................
 

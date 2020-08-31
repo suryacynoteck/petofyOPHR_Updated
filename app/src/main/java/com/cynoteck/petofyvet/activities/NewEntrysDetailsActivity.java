@@ -21,17 +21,11 @@ import com.cynoteck.petofyvet.fragments.ReportListFragment;
 
 public class NewEntrysDetailsActivity extends AppCompatActivity implements View.OnClickListener {
     ImageView back_arrow_IV;
-    String pet_unique_id, pet_name,pet_sex, pet_owner_name,pet_owner_contact,pet_id ,report_type_id,button_text,button_type;
+    String pet_unique_id, pet_name,pet_sex,pet_age,pet_owner_name,pet_owner_contact,pet_id ,report_type_id,button_text,button_type;
     Bundle data = new Bundle();
-    TextView pet_name_TV,pet_sex_TV,pet_id_TV,pet_owner_name_TV,pet_owner_phone_no_TV,clinicFolow_up_dt_view,
-            reports_headline_TV,add_text_button,clinicCalenderTextViewVisitDt,clinicIlness_onset;
+    TextView pet_name_TV,pet_sex_TV,pet_id_TV,pet_owner_name_TV,pet_owner_phone_no_TV,
+            reports_headline_TV,add_text_button;
     LinearLayout addPrescriptionButton;
-    Dialog clinicDialog;
-    EditText clinicVeterian_name_ET,clinicCescription_ET,clinicTreatment_remarks_ET,
-            clinicAdd_edit_pet_age_dialog,clinicTemparature_ET,clinicDiagnosis_ET;
-    AppCompatSpinner clinicNature_of_visit_spinner,clinicNext_visit_spinner;
-    LinearLayout clinicDocument_layout;
-    Button clinicCancel_clinic_add_dialog,clinicSave_clinic_data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +39,7 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
         pet_owner_contact = extras.getString("pet_owner_contact");
         pet_owner_name = extras.getString("pet_parent");
         pet_sex = extras.getString("pet_sex");
+        pet_age = extras.getString(pet_age);
         pet_name = extras.getString("pet_name");
         button_type=extras.getString("button_type");
 
@@ -80,6 +75,7 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
         data.putString("pet_name",pet_name);
         data.putString("pet_unique_id",pet_unique_id);
         data.putString("pet_sex",pet_sex);
+        data.putString("pet_age",pet_age);
         data.putString("pet_owner_name",pet_owner_name);
         data.putString("pet_owner_contact",pet_owner_contact);
         switch (report_type_id){
@@ -295,6 +291,7 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
         data.putString("pet_id",pet_id);
         data.putString("pet_parent",pet_owner_name);
         data.putString("pet_sex",pet_sex);
+        data.putString("pet_age",pet_age);
         data.putString("pet_unique_id",pet_unique_id);
         data.putString("nature_of_visit","");
         data.putString("visit_dt","");
@@ -318,6 +315,7 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
         data.putString("pet_id",pet_id);
         data.putString("pet_parent",pet_owner_name);
         data.putString("pet_sex",pet_sex);
+        data.putString("pet_age",pet_age);
         data.putString("pet_unique_id",pet_unique_id);
         data.putString("type","Add Test/X-rays");
         xRayIntent.putExtras(data);
@@ -331,6 +329,7 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
         data.putString("pet_id",pet_id);
         data.putString("pet_parent",pet_owner_name);
         data.putString("pet_sex",pet_sex);
+        data.putString("pet_age",pet_age);
         data.putString("pet_unique_id",pet_unique_id);
         data.putString("lab_type","");
         data.putString("type","Add");
@@ -346,6 +345,7 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
         data.putString("pet_id",pet_id);
         data.putString("pet_parent",pet_owner_name);
         data.putString("pet_sex",pet_sex);
+        data.putString("pet_age",pet_age);
         data.putString("pet_unique_id",pet_unique_id);
         data.putString("type","Add");
         hospitalIntent.putExtras(data);

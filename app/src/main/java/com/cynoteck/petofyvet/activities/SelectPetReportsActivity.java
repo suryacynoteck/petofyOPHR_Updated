@@ -32,8 +32,10 @@ public class SelectPetReportsActivity extends AppCompatActivity implements ApiRe
     VisitTypesAdapter visitTypesAdapter;
     RecyclerView reports_types_RV;
     RelativeLayout reports_list_RL;
-    RelativeLayout view_xrayReport_RL ,view_labTestReport_RL,view_Hospitalization_RL;
+    ImageView view_xrayReport_arrow ,view_labTestReport_arrow,view_Hospitalization_arrow;
     ArrayList<GetReportsTypeData> getReportsTypeData;
+    RelativeLayout xray_layout,lab_test_layout,hospitalization_layout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +45,9 @@ public class SelectPetReportsActivity extends AppCompatActivity implements ApiRe
         init();
         setDeatils();
         getVisitTypes();
-        
+
+
+
     }
 
     private void setDeatils() {
@@ -71,14 +75,17 @@ public class SelectPetReportsActivity extends AppCompatActivity implements ApiRe
         pet_owner_name_TV = findViewById(R.id.pet_owner_name_TV);
         pet_owner_phone_no_TV = findViewById(R.id.pet_owner_phone_no_TV);
         reports_list_RL=findViewById(R.id.reports_list_RL);
-        view_xrayReport_RL=findViewById(R.id.view_xrayReport_RL);
-        view_labTestReport_RL=findViewById(R.id.view_labTestReport_RL);
-        view_Hospitalization_RL=findViewById(R.id.view_Hospitalization_RL);
+        view_xrayReport_arrow=findViewById(R.id.view_xrayReport_arrow);
+        xray_layout=findViewById(R.id.xray_layout);
+        view_labTestReport_arrow=findViewById(R.id.view_labTestReport_arrow);
+        lab_test_layout=findViewById(R.id.lab_test_layout);
+        view_Hospitalization_arrow=findViewById(R.id.view_Hospitalization_arrow);
+        hospitalization_layout=findViewById(R.id.hospitalization_layout);
 
         back_arrow_IV.setOnClickListener(this);
-        view_xrayReport_RL.setOnClickListener(this);
-        view_labTestReport_RL.setOnClickListener(this);
-        view_Hospitalization_RL.setOnClickListener(this);
+        xray_layout.setOnClickListener(this);
+        lab_test_layout.setOnClickListener(this);
+        hospitalization_layout.setOnClickListener(this);
 
     }
 
@@ -94,17 +101,17 @@ public class SelectPetReportsActivity extends AppCompatActivity implements ApiRe
                 onBackPressed();
                 break;
 
-            case R.id.view_xrayReport_RL:
+            case R.id.xray_layout:
                 intentStaticReports("7.0");
 
                 break;
 
-            case R.id.view_labTestReport_RL:
+            case R.id.lab_test_layout:
                 intentStaticReports("8.0");
 
                 break;
 
-            case R.id.view_Hospitalization_RL:
+            case R.id.hospitalization_layout:
                 intentStaticReports("9.0");
 
                 break;

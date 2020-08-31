@@ -211,14 +211,16 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                 String PetName = st.nextToken();
                 String PetParentName = st.nextToken();
                 String PetSex = st.nextToken();
+                String PetAge = st.nextToken();
                 String Id = st.nextToken();
-                Log.d("ppppp",""+PetUniqueId+" "+PetName+" "+PetParentName+" "+PetSex+" "+Id);
+                Log.d("ppppp",""+PetUniqueId+" "+PetName+" "+PetParentName+" "+PetSex+" "+petAge+" "+Id);
                 Intent petDetailsIntent = new Intent(getActivity().getApplication(), PetDetailsActivity.class);
                 Bundle data = new Bundle();
                 data.putString("pet_id",Id);
                 data.putString("pet_name",PetName);
                 data.putString("pet_parent",PetParentName);
                 data.putString("pet_sex",PetSex);
+                data.putString("pet_age",PetAge);
                 data.putString("pet_unique_id",PetUniqueId);
                 petDetailsIntent.putExtras(data);
                 startActivity(petDetailsIntent);
@@ -366,6 +368,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                                             +getPetListResponse.getData().getPetList().get(i).getPetName()+","
                                             +getPetListResponse.getData().getPetList().get(i).getPetParentName()+","
                                             +getPetListResponse.getData().getPetList().get(i).getPetSex()+","
+                                            +getPetListResponse.getData().getPetList().get(i).getPetAge()+","
                                             +getPetListResponse.getData().getPetList().get(i).getId());
                         }
 
@@ -680,6 +683,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                         data.putString("pet_name",newPetRegisterResponse.getData().getPetName());
                         data.putString("pet_sex",sexName);
                         data.putString("pet_parent",newPetRegisterResponse.getData().getPetParentName());
+                        data.putString("pet_age","puppy");
                         data.putString("pet_unique_id",newPetRegisterResponse.getData().getPetUniqueId());
                         petDetailsIntent.putExtras(data);
                         startActivity(petDetailsIntent);
@@ -1009,6 +1013,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
         data.putString("pet_name",petClinicVisitLists.get(position).getPetName());
         data.putString("pet_parent",petClinicVisitLists.get(position).getPetParentName());
         data.putString("pet_sex",petClinicVisitLists.get(position).getPetSex());
+        data.putString("pet_age",petClinicVisitLists.get(position).getPetAge());
         data.putString("pet_unique_id",petClinicVisitLists.get(position).getPetUniqueId());
         petDetailsIntent.putExtras(data);
         startActivity(petDetailsIntent);
@@ -1067,14 +1072,16 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                             String PetName = st.nextToken();
                             String PetParentName = st.nextToken();
                             String PetSex = st.nextToken();
+                            String petAge = st.nextToken();
                             String Id = st.nextToken();
-                            Log.d("ppppp",""+PetUniqueId+" "+PetName+" "+PetParentName+" "+PetSex+" "+Id);
+                            Log.d("ppppp",""+PetUniqueId+" "+PetName+" "+PetParentName+" "+PetSex+" "+petAge+" "+Id);
                             Intent petDetailsIntent = new Intent(getActivity().getApplication(), PetDetailsActivity.class);
                             Bundle data = new Bundle();
                             data.putString("pet_id",Id);
                             data.putString("pet_name",PetName);
                             data.putString("pet_parent",PetParentName);
                             data.putString("pet_sex",PetSex);
+                            data.putString("pet_age",petAge);
                             data.putString("pet_unique_id",PetUniqueId);
                             petDetailsIntent.putExtras(data);
                             startActivity(petDetailsIntent);

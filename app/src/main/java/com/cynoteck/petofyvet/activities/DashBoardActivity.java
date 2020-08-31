@@ -53,6 +53,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         Config.user_Veterian_phone=sharedPreferences.getString("phoneNumber", "");
         Config.user_Veterian_emial=sharedPreferences.getString("email", "");
         Config.user_Veterian_name=sharedPreferences.getString("firstName", "")+" "+sharedPreferences.getString("lastName", "");
+        Config.user_Veterian_address=sharedPreferences.getString("address", "");
 
         if(methods.isInternetOn())
         {
@@ -94,7 +95,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void getUserDetails() {
-        methods.showCustomProgressBarDialog(this);
+       // methods.showCustomProgressBarDialog(this);
         ApiService<UserResponse> service = new ApiService<>();
         service.get(this, ApiClient.getApiInterface().getUserDetailsApi(Config.token), "GetUserDetails");
 
@@ -106,17 +107,15 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         {
             case "GetUserDetails":
                 try {
+                    methods.customProgressDismiss();
                     Log.d("GetUserDetails",response.body().toString());
                     UserResponse userResponse = (UserResponse) response.body();
                     int responseCode = Integer.parseInt(userResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
+                        methods.customProgressDismiss();
                         Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
                         IsVeterinarian=userResponse.getData().getIsVeterinarian();
                         Log.d("IsVeterinarian",""+userResponse.getData().getIsVeterinarian());
-                        /*SharedPreferences sharedPreferences = DashBoardActivity.this.getSharedPreferences("userdetails", 0);
-                        SharedPreferences.Editor login_editor = sharedPreferences.edit();
-                        login_editor.putString("IsVeterinarian","");
-                        login_editor.commit();*/
                         if(IsVeterinarian.equals("false")){
                             startActivity(new Intent(DashBoardActivity.this,UpdateProfileActivity.class));
                             finish();

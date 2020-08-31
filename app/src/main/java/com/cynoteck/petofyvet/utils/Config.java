@@ -15,6 +15,7 @@ public class Config {
     public static String user_Veterian_name="";
     public static String user_Veterian_phone="";
     public static String user_Veterian_emial="";
+    public static String user_Veterian_address="";
     public static String type="";
     public static String backCall="";
 
