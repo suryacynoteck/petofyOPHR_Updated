@@ -3,6 +3,7 @@ package com.cynoteck.petofyvet.activities;
 import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.MediaScannerConnection;
@@ -16,6 +17,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -77,17 +79,17 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
     String report_id="",visitIdString="",strNatureOfVist="", strDocumentUrl="",visitId="",natureOfVisit="",pet_id="",
             pet_name="",pet_owner_name="",pet_sex="",pet_unique_id="",veterian_name="",descrisption="",
             Remarks="",visitDate="",dtOfOnset="",flowUpDt="",weight="",temparature="",diagnosis="",
-            strVacine="",strDewormerName="",strDewormerDose="",strToolbarName="";
+            strVacine="",strDewormerName="",strDewormerDose="",strToolbarName="",cocatVal=null;
     Bundle data = new Bundle();
     TextView folow_up_dt_view,ilness_onset, Dewormer_name_ET,Dewormer_name_TV,Dewormer_ET,Dewormer_TV,vaccine_TV,clinicFolow_up_dt_view,clinic_head_line,
              clinicCalenderTextViewVisitDt,clinicIlness_onset,date_of_illness_TV,upload_documents,clinic_peto_edit_reg_number_dialog;
     ImageView document_name,clinic_back_arrow_IV;
     LinearLayout addPrescriptionButton;
-    EditText clinicVeterian_name_ET,clinicCescription_ET,
+    EditText clinicVeterian_name_ET,clinicCescription_ET,remaks_TV,
             weight_ET,clinicTemparature_ET,clinicDiagnosis_ET,vacine_ET;
     AppCompatSpinner clinicNature_of_visit_spinner,clinicNext_visit_spinner;
     LinearLayout clinicDocument_layout;
-    MultiAutoCompleteTextView clinicTreatment_remarks_ET;
+    MultiAutoCompleteTextView clinicTreatment_remarks_MT;
     Button clinicCancel_clinic_add_dialog,clinicSave_clinic_data;
     Methods methods;
 
@@ -127,6 +129,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         clinicCescription_ET = findViewById(R.id.description_ET);
         date_of_illness_TV = findViewById(R.id.date_of_illness_TV);
         document_name = findViewById(R.id.document_name);
+        remaks_TV = findViewById(R.id.remaks_TV);
         upload_documents = findViewById(R.id.upload_documents);
         weight_ET = findViewById(R.id.weight_ET);
         ilness_onset=findViewById(R.id.ilness_onset);
@@ -140,7 +143,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         clinicTemparature_ET = findViewById(R.id.temparature_ET);
         clinicIlness_onset = findViewById(R.id.ilness_onset);
         clinicDiagnosis_ET = findViewById(R.id.diagnosis_ET);
-        clinicTreatment_remarks_ET = findViewById(R.id.treatment_remarks_ET);
+        clinicTreatment_remarks_MT = findViewById(R.id.clinicTreatment_remarks_MT);
         clinicNext_visit_spinner = findViewById(R.id.next_visit_spinner);
         clinicFolow_up_dt_view = findViewById(R.id.folow_up_dt_view);
         clinicDocument_layout = findViewById(R.id.document_layout);
@@ -154,13 +157,8 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         upload_documents.setOnClickListener(this);
         clinic_back_arrow_IV.setOnClickListener(this);
 
-        /*final ArrayAdapter<String> randomArray = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, remarksSearchList);
-        clinicTreatment_remarks_ET.setThreshold(1);
-        clinicTreatment_remarks_ET.setAdapter(randomArray);
-        clinicTreatment_remarks_ET.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());*/
 
-        clinicTreatment_remarks_ET.addTextChangedListener(new TextWatcher() {
+        clinicTreatment_remarks_MT.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 Log.d("kkakakkakak","beforeTextChanged"+new String(charSequence.toString()));
@@ -257,7 +255,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
     private void getTreatmentRemaks(SearchRemaksRequest searchRemaksRequest) {
         ApiService<SearchRemaksResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().getSearchTreatmentRemarks(Config.token,searchRemaksRequest), "SearchTreatmentRemarks");
-
+        Log.d("SearchTreatmentRemarks","parameter"+searchRemaksRequest);
     }
 
     private void getClientVisit() {
@@ -317,7 +315,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
             case R.id.save_clinic_data:
                 veterian_name=clinicVeterian_name_ET.getText().toString();
                 descrisption=clinicCescription_ET.getText().toString();
-                Remarks=clinicTreatment_remarks_ET.getText().toString();
+                Remarks=remaks_TV.getText().toString();
                 visitDate=clinicCalenderTextViewVisitDt.getText().toString();
                 dtOfOnset=clinicIlness_onset.getText().toString();
                 flowUpDt=clinicFolow_up_dt_view.getText().toString();
@@ -330,7 +328,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                 if(veterian_name.isEmpty()){
                     clinicVeterian_name_ET.setError("Enter Veterinarian Name");
                     clinicCescription_ET.setError(null);
-                    clinicTreatment_remarks_ET.setError(null);
+                    remaks_TV.setError(null);
                     clinicDiagnosis_ET.setError(null);
                     vacine_ET.setError(null);
                     Dewormer_name_ET.setError(null);
@@ -339,7 +337,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                 else if(descrisption.isEmpty()){
                     clinicVeterian_name_ET.setError(null);
                     clinicCescription_ET.setError("Enter Description");
-                    clinicTreatment_remarks_ET.setError(null);
+                    remaks_TV.setError(null);
                     clinicDiagnosis_ET.setError(null);
                     vacine_ET.setError(null);
                     Dewormer_name_ET.setError(null);
@@ -348,7 +346,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                 else if(Remarks.isEmpty()){
                     clinicVeterian_name_ET.setError(null);
                     clinicCescription_ET.setError(null);
-                    clinicTreatment_remarks_ET.setError("Enter Remarks");
+                    remaks_TV.setError("Enter Remarks");
                     clinicDiagnosis_ET.setError(null);
                     vacine_ET.setError(null);
                     Dewormer_name_ET.setError(null);
@@ -357,7 +355,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                 else if(diagnosis.isEmpty()){
                     clinicVeterian_name_ET.setError(null);
                     clinicCescription_ET.setError(null);
-                    clinicTreatment_remarks_ET.setError(null);
+                    remaks_TV.setError(null);
                     clinicDiagnosis_ET.setError("Enter Diagnosis");
                     vacine_ET.setError(null);
                     Dewormer_name_ET.setError(null);
@@ -366,7 +364,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                 else if(natureOfVisit.isEmpty()||(natureOfVisit.equals("Select Visit"))){
                     clinicVeterian_name_ET.setError(null);
                     clinicCescription_ET.setError(null);
-                    clinicTreatment_remarks_ET.setError(null);
+                    remaks_TV.setError(null);
                     clinicDiagnosis_ET.setError(null);
                     vacine_ET.setError(null);
                     Dewormer_name_ET.setError(null);
@@ -377,7 +375,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     {
                         clinicVeterian_name_ET.setError(null);
                         clinicCescription_ET.setError(null);
-                        clinicTreatment_remarks_ET.setError(null);
+                        remaks_TV.setError(null);
                         clinicDiagnosis_ET.setError(null);
                         vacine_ET.setError("Enter Vaccine name");
                         Dewormer_name_ET.setError(null);
@@ -387,7 +385,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     {
                         clinicVeterian_name_ET.setError(null);
                         clinicCescription_ET.setError(null);
-                        clinicTreatment_remarks_ET.setError(null);
+                        remaks_TV.setError(null);
                         clinicDiagnosis_ET.setError(null);
                         Dewormer_name_ET.setError(null);
                         vacine_ET.setError(null);
@@ -397,7 +395,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     {
                         clinicVeterian_name_ET.setError(null);
                         clinicCescription_ET.setError(null);
-                        clinicTreatment_remarks_ET.setError(null);
+                        remaks_TV.setError(null);
                         clinicDiagnosis_ET.setError(null);
                         vacine_ET.setError(null);
                         Dewormer_name_ET.setError(null);
@@ -408,7 +406,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                         methods.showCustomProgressBarDialog(this);
                         clinicVeterian_name_ET.setError(null);
                         clinicCescription_ET.setError(null);
-                        clinicTreatment_remarks_ET.setError(null);
+                        remaks_TV.setError(null);
                         clinicDiagnosis_ET.setError(null);
                         vacine_ET.setError(null);
                         Dewormer_name_ET.setError(null);
@@ -820,7 +818,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
 
 
                     if (responseCode== 109){
-                        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                        /*Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();*/
                         remarksSearchList=new ArrayList<>();
                         for(int i=0;i<searchRemaksResponse.getData().size();i++)
                         {
@@ -828,10 +826,9 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                         }
                         ArrayAdapter<String> randomArray = new ArrayAdapter<String>(this,
                                 android.R.layout.simple_list_item_1, remarksSearchList);
-                        clinicTreatment_remarks_ET.setThreshold(1);
-                        clinicTreatment_remarks_ET.setAdapter(randomArray);
-                        clinicTreatment_remarks_ET.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
-                        clinicTreatment_remarks_ET.setOnItemClickListener(onItemClickListener);
+                        clinicTreatment_remarks_MT.setAdapter(randomArray);
+                        clinicTreatment_remarks_MT.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+                        clinicTreatment_remarks_MT.setOnItemClickListener(onItemClickListener);
                         randomArray.notifyDataSetChanged();
                     }
                     else if (responseCode==614){
@@ -931,9 +928,27 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     Toast.makeText(AddClinicActivity.this,
                             "Clicked item from auto completion list "
-                                    + adapterView.getItemAtPosition(i)
-                            , Toast.LENGTH_SHORT).show();
+                                    + adapterView.getItemAtPosition(i), Toast.LENGTH_SHORT).show();
+                    if(clinicTreatment_remarks_MT.getText().toString().isEmpty())
+                    {
+
+                    }
+                    else{
+                        String val=String.valueOf(adapterView.getItemAtPosition(i));
+
+                        if(cocatVal==null)
+                            cocatVal=val;
+                        else
+                            cocatVal=cocatVal+","+val;
+                        remaks_TV.setText(cocatVal);
+                        clearSearch();
+                    }
                 }
             };
 
+    private void clearSearch() {
+        clinicTreatment_remarks_MT.getText().clear();
+        InputMethodManager imm1 = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm1.hideSoftInputFromWindow(clinicTreatment_remarks_MT.getWindowToken(), 0);
+    }
 }
