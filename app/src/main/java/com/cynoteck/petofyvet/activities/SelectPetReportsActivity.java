@@ -32,7 +32,7 @@ public class SelectPetReportsActivity extends AppCompatActivity implements ApiRe
     VisitTypesAdapter visitTypesAdapter;
     RecyclerView reports_types_RV;
     RelativeLayout reports_list_RL;
-    ImageView view_xrayReport_arrow ,view_labTestReport_arrow,view_Hospitalization_arrow;
+    RelativeLayout view_xrayReport_RL ,view_labTestReport_RL,view_Hospitalization_RL;
     ArrayList<GetReportsTypeData> getReportsTypeData;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +43,7 @@ public class SelectPetReportsActivity extends AppCompatActivity implements ApiRe
         init();
         setDeatils();
         getVisitTypes();
-
-
-
+        
     }
 
     private void setDeatils() {
@@ -73,14 +71,14 @@ public class SelectPetReportsActivity extends AppCompatActivity implements ApiRe
         pet_owner_name_TV = findViewById(R.id.pet_owner_name_TV);
         pet_owner_phone_no_TV = findViewById(R.id.pet_owner_phone_no_TV);
         reports_list_RL=findViewById(R.id.reports_list_RL);
-        view_xrayReport_arrow=findViewById(R.id.view_xrayReport_arrow);
-        view_labTestReport_arrow=findViewById(R.id.view_labTestReport_arrow);
-        view_Hospitalization_arrow=findViewById(R.id.view_Hospitalization_arrow);
+        view_xrayReport_RL=findViewById(R.id.view_xrayReport_RL);
+        view_labTestReport_RL=findViewById(R.id.view_labTestReport_RL);
+        view_Hospitalization_RL=findViewById(R.id.view_Hospitalization_RL);
 
         back_arrow_IV.setOnClickListener(this);
-        view_xrayReport_arrow.setOnClickListener(this);
-        view_labTestReport_arrow.setOnClickListener(this);
-        view_Hospitalization_arrow.setOnClickListener(this);
+        view_xrayReport_RL.setOnClickListener(this);
+        view_labTestReport_RL.setOnClickListener(this);
+        view_Hospitalization_RL.setOnClickListener(this);
 
     }
 
@@ -96,17 +94,17 @@ public class SelectPetReportsActivity extends AppCompatActivity implements ApiRe
                 onBackPressed();
                 break;
 
-            case R.id.view_xrayReport_arrow:
+            case R.id.view_xrayReport_RL:
                 intentStaticReports("7.0");
 
                 break;
 
-            case R.id.view_labTestReport_arrow:
+            case R.id.view_labTestReport_RL:
                 intentStaticReports("8.0");
 
                 break;
 
-            case R.id.view_Hospitalization_arrow:
+            case R.id.view_Hospitalization_RL:
                 intentStaticReports("9.0");
 
                 break;

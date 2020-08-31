@@ -4,6 +4,7 @@
     android:layout_height="wrap_content">
 
     <RelativeLayout
+        android:id="@+id/clinic_visit_click"
         android:background="@drawable/reports_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -24,7 +25,7 @@
             android:textSize="18dp"
             android:textColor="@color/black_color"
             android:layout_centerInParent="true"
-            android:layout_width="250dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:id="@+id/report_type_TV"
             android:text="Health problem"
@@ -38,7 +39,7 @@
             android:id="@+id/view_reports_arrow"
             android:layout_centerInParent="true"
             android:src="@drawable/forward_arrow"
-            android:layout_width="50dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
 

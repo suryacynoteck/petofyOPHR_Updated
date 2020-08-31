@@ -236,7 +236,7 @@
         <RelativeLayout
             android:background="@color/list_background"
             android:id="@+id/reports_list_RL"
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -253,6 +253,7 @@
                 android:layout_height="wrap_content">
 
                 <RelativeLayout
+                    android:id="@+id/view_xrayReport_RL"
                     android:background="@drawable/reports_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -273,7 +274,7 @@
                         android:textSize="18dp"
                         android:textColor="@color/black_color"
                         android:layout_centerInParent="true"
-                        android:layout_width="250dp"
+                        android:layout_width="200dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/report_xrayReport_TV"
                         android:text="@string/xrayReport"
@@ -287,13 +288,14 @@
                         android:id="@+id/view_xrayReport_arrow"
                         android:layout_centerInParent="true"
                         android:src="@drawable/forward_arrow"
-                        android:layout_width="50dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
 
 
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/view_labTestReport_RL"
                     android:background="@drawable/reports_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -314,7 +316,7 @@
                         android:textSize="18dp"
                         android:textColor="@color/black_color"
                         android:layout_centerInParent="true"
-                        android:layout_width="250dp"
+                        android:layout_width="200dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/report_labTestReport_TV"
                         android:text="@string/labTestReport"
@@ -328,7 +330,7 @@
                         android:id="@+id/view_labTestReport_arrow"
                         android:layout_centerInParent="true"
                         android:src="@drawable/forward_arrow"
-                        android:layout_width="50dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
 
 
@@ -336,6 +338,7 @@
 
 
                 <RelativeLayout
+                    android:id="@+id/view_Hospitalization_RL"
                     android:background="@drawable/reports_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -356,7 +359,7 @@
                         android:textSize="18dp"
                         android:textColor="@color/black_color"
                         android:layout_centerInParent="true"
-                        android:layout_width="250dp"
+                        android:layout_width="200dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/report_Hospitalization_TV"
                         android:text="@string/Hospitalization"
@@ -370,7 +373,7 @@
                         android:id="@+id/view_Hospitalization_arrow"
                         android:layout_centerInParent="true"
                         android:src="@drawable/forward_arrow"
-                        android:layout_width="50dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
 
 

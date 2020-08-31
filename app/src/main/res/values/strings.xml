@@ -52,7 +52,7 @@
     <string name="double_Dot">:</string>
     <string name="xrayReport">Test/X-Ray Report</string>
     <string name="labTestReport">Lab Test Report</string>
-    <string name="Hospitalization"><![CDATA[Hospitalization & Surgeries]]></string>
+    <string name="Hospitalization"><![CDATA[Hospitalization]]></string>
     <string name="clinicVisits">Clinic Visit Report</string>
     <string name="emailtext">Email</string>
     <string name="appointments">APPOINTMENTS</string>

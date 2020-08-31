@@ -15,33 +15,34 @@
         android:background="@color/whiteColor"
         tools:ignore="MissingConstraints">
 
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
+            android:layout_height="match_parent"
             android:orientation="horizontal">
 
+
+            <ImageView
+                app:layout_constraintStart_toStartOf="parent"
+                android:id="@+id/back_arrow_IV"
+                android:padding="8dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/back_arrow" />
+
+
             <TextView
+                android:layout_marginRight="30dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/back_arrow_IV"
                 android:id="@+id/reports_headline_TV"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_centerVertical="true"
                 android:gravity="center"
                 android:textColor="#000"
                 android:textSize="25sp"
                 android:textStyle="bold" />
 
-            <ImageView
-                android:id="@+id/back_arrow_IV"
-                android:padding="8dp"
-                android:visibility="visible"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/back_arrow" />
-
-        </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
 
