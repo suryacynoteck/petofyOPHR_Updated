@@ -78,7 +78,7 @@ import java.util.StringTokenizer;
 import retrofit2.Response;
 
 public class NewEntrysListFragment extends Fragment implements ApiResponse, RegisterRecyclerViewClickListener, ViewAndUpdateClickListener, NewEntryListClickListener, View.OnClickListener {
-    String pet_unique_id, pet_name,pet_sex, pet_owner_name,pet_owner_contact,pet_id ,report_type_id,type;
+    String pet_unique_id, pet_name,pet_sex,pet_age, pet_owner_name,pet_owner_contact,pet_id ,report_type_id,type;
 
     RecyclerView routine_report_RV;
     View view;
@@ -146,6 +146,7 @@ public class NewEntrysListFragment extends Fragment implements ApiResponse, Regi
         pet_owner_contact = extras.getString("pet_owner_contact");
         pet_owner_name = extras.getString("pet_owner_name");
         pet_sex = extras.getString("pet_sex");
+        pet_age = extras.getString("pet_age");
         pet_name = extras.getString("pet_name");
         pet_unique_id = extras.getString("pet_unique_id");
         type=extras.getString("type");

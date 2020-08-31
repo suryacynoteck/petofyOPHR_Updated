@@ -543,7 +543,7 @@ public class AddLabWorkDeatilsActivity extends AppCompatActivity implements View
     private void getLabTypeList() {
         ApiService<LabTypeResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().getLabTypeList(Config.token), "GetLabTypeList");
-       }
+    }
 
     private void addPetLabTestReport(AddLabRequest addLabRequest) {
         ApiService<AddLabWorkResponse> service = new ApiService<>();

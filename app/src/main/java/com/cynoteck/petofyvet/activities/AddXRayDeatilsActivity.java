@@ -226,42 +226,42 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
                     description_ET.setError(null);
                     calenderTextViewtestdate.setError(null);
 
-                   if (type.equals("Update Test/X-rays")){
-                       UpdateXRayParams updateXRayParams =new UpdateXRayParams();
-                       updateXRayParams.setId(report_id);
-                       updateXRayParams.setPetId(pet_id);
-                       updateXRayParams.setTypeOfTestId(natureOfVistId);
-                       updateXRayParams.setDocuments(strDocumentUrl);
-                       updateXRayParams.setFollowUpId(visitId);
-                       updateXRayParams.setFollowUpDate(strFolowUpDt);
-                       updateXRayParams.setDateTested(strDt);
-                       updateXRayParams.setResults(strDescription);
-                       UpdateXrayRequest updateXrayRequest = new UpdateXrayRequest();
-                       updateXrayRequest.setData(updateXRayParams);
-                       if(methods.isInternetOn())
-                       {
-                           updateXray(updateXrayRequest);
-                       }
-                       else
-                       { methods.DialogInternet(); }
+                    if (type.equals("Update Test/X-rays")){
+                        UpdateXRayParams updateXRayParams =new UpdateXRayParams();
+                        updateXRayParams.setId(report_id);
+                        updateXRayParams.setPetId(pet_id);
+                        updateXRayParams.setTypeOfTestId(natureOfVistId);
+                        updateXRayParams.setDocuments(strDocumentUrl);
+                        updateXRayParams.setFollowUpId(visitId);
+                        updateXRayParams.setFollowUpDate(strFolowUpDt);
+                        updateXRayParams.setDateTested(strDt);
+                        updateXRayParams.setResults(strDescription);
+                        UpdateXrayRequest updateXrayRequest = new UpdateXrayRequest();
+                        updateXrayRequest.setData(updateXRayParams);
+                        if(methods.isInternetOn())
+                        {
+                            updateXray(updateXrayRequest);
+                        }
+                        else
+                        { methods.DialogInternet(); }
                     }else {
-                       AddTestXRayParams addTestXRayParams=new AddTestXRayParams();
-                       addTestXRayParams.setPetId(pet_id);
-                       addTestXRayParams.setTypeOfTestId(natureOfVistId);
-                       addTestXRayParams.setDocuments(strDocumentUrl);
-                       addTestXRayParams.setFollowUpId(visitId);
-                       addTestXRayParams.setFollowUpDate(strFolowUpDt);
-                       addTestXRayParams.setDateTested(strDt);
-                       addTestXRayParams.setResults(strDescription);
-                       AddTestXRayRequest addTestXRayRequest=new AddTestXRayRequest();
-                       addTestXRayRequest.setData(addTestXRayParams);
-                       if(methods.isInternetOn())
-                       {
-                           addPetXray(addTestXRayRequest);
-                       }
-                       else
-                       { methods.DialogInternet(); }
-                   }
+                        AddTestXRayParams addTestXRayParams=new AddTestXRayParams();
+                        addTestXRayParams.setPetId(pet_id);
+                        addTestXRayParams.setTypeOfTestId(natureOfVistId);
+                        addTestXRayParams.setDocuments(strDocumentUrl);
+                        addTestXRayParams.setFollowUpId(visitId);
+                        addTestXRayParams.setFollowUpDate(strFolowUpDt);
+                        addTestXRayParams.setDateTested(strDt);
+                        addTestXRayParams.setResults(strDescription);
+                        AddTestXRayRequest addTestXRayRequest=new AddTestXRayRequest();
+                        addTestXRayRequest.setData(addTestXRayParams);
+                        if(methods.isInternetOn())
+                        {
+                            addPetXray(addTestXRayRequest);
+                        }
+                        else
+                        { methods.DialogInternet(); }
+                    }
 
                 }
                 break;

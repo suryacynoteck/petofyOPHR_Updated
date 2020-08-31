@@ -64,9 +64,19 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintVertical_bias="1.0">
 
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+
+            <WebView
+                android:visibility="gone"
+                android:id="@+id/webview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:ignore="MissingConstraints"/>
+
 
             <TextView
                 android:id="@+id/clinic_peto_edit_reg_number_dialog"
@@ -448,7 +458,7 @@
             <LinearLayout
                 android:id="@+id/treatment_remarks_LL"
                 android:layout_width="0dp"
-                android:layout_height="120dp"
+                android:layout_height="150dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edit_text_background"
@@ -465,7 +475,7 @@
                     android:id="@+id/clinicTreatment_remarks_MT"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:hint="Enter Treatment Remarks"
+                    android:hint="Find Treatment Remarks"
                     android:gravity="center_vertical"
                     android:background="@drawable/remarks_texview_shape"/>
 
@@ -474,12 +484,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textColor="@color/grey_add_pet"
-                    android:maxLines="20"
+                    android:maxLines="2"
                     />
-
-
-
-
             </LinearLayout>
 
 

@@ -35,7 +35,7 @@ import java.util.HashMap;
 import retrofit2.Response;
 
 public class PetDetailsActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse {
-    String pet_id,pet_name,patent_name,pet_bread,pet_unique_id="",pet_sex="";
+    String pet_id,pet_name,patent_name,pet_bread,pet_unique_id="",pet_sex="",pet_age="";
     TextView pet_nameTV, pet_parentNameTV,pet_id_TV;
     ImageView back_arrow_IV,view_clinicVisits_arrow,view_xrayReport_arrow,view_labTestReport_arrow,view_Hospitalization_arrow,last_prescription_arrow,recent_visits_arrow,print_id_card_arrow,view_history_arrow;
     RelativeLayout clinic_test,xray_test,lab_test_report,hospitalization_sugeries,clinics_visit,print_id_card,view_history;
@@ -57,6 +57,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
         patent_name=extras.getString("pet_parent");
         pet_unique_id=extras.getString("pet_unique_id");
         pet_sex=extras.getString("pet_sex");
+        pet_age=extras.getString("pet_age");
 
         pet_nameTV = findViewById(R.id.pet_name_TV);
         pet_parentNameTV = findViewById(R.id.pet_owner_name_TV);
@@ -126,6 +127,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 dataXray.putString("pet_unique_id",pet_unique_id);
                 dataXray.putString("reports_id","7.0");
                 dataXray.putString("pet_sex",pet_sex);
+                dataXray.putString("pet_age",pet_age);
                 dataXray.putString("add_button_text","Test/X-rays");
                 dataXray.putString("button_type","update");
                 petDetailsXray.putExtras(dataXray);
@@ -140,6 +142,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 dataLabwork.putString("pet_unique_id",pet_unique_id);
                 dataLabwork.putString("reports_id","8.0");
                 dataLabwork.putString("pet_sex",pet_sex);
+                dataLabwork.putString("pet_age",pet_age);
                 dataLabwork.putString("button_type","update");
                 dataLabwork.putString("add_button_text","Lab Work");
                 petDetailsLabWork.putExtras(dataLabwork);
@@ -154,6 +157,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 dataLabworkHospitalization.putString("pet_unique_id",pet_unique_id);
                 dataLabworkHospitalization.putString("reports_id","9.0");
                 dataLabworkHospitalization.putString("pet_sex",pet_sex);
+                dataLabworkHospitalization.putString("pet_age",pet_age);
                 dataLabworkHospitalization.putString("button_type","update");
                 dataLabworkHospitalization.putString("add_button_text","Hospitalization");
                 petDetailsHospitalization.putExtras(dataLabworkHospitalization);
@@ -168,6 +172,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 dataHistry.putString("pet_unique_id",pet_unique_id);
                 dataHistry.putString("reports_id","12.0");
                 dataHistry.putString("pet_sex",pet_sex);
+                dataHistry.putString("pet_age",pet_age);
                 dataHistry.putString("add_button_text","petHistory");
                 petHistory.putExtras(dataHistry);
                 startActivity(petHistory);
@@ -181,6 +186,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 dataLabworkVisits.putString("pet_unique_id",pet_unique_id);
                 dataLabworkVisits.putString("reports_id","11.0");
                 dataLabworkVisits.putString("pet_sex",pet_sex);
+                dataLabworkVisits.putString("pet_age",pet_age);
                 dataLabworkVisits.putString("add_button_text","RecentVisit");
                 petDetailsLabVisits.putExtras(dataLabworkVisits);
                 startActivity(petDetailsLabVisits);
@@ -201,6 +207,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 dataClinicVisits.putString("pet_unique_id",pet_unique_id);
                 dataClinicVisits.putString("reports_id","1.0");
                 dataClinicVisits.putString("pet_sex",pet_sex);
+                dataClinicVisits.putString("pet_age",pet_age);
                 dataClinicVisits.putString("add_button_text","Clinic_visits");
                 petDetailsClinicVisits.putExtras(dataClinicVisits);
                 startActivity(petDetailsClinicVisits);
@@ -257,7 +264,10 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                                 getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getTemperature(),
                                 getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getDiagnosisProcedure(),
                                 getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getTreatmentRemarks(),
-                                getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getFollowUpDate()
+                                getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getFollowUpDate(),
+                                getClinicVisitsDetailsResponse.getData().getVeterinarianDetails().getVetRegistrationNumber(),
+                                getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getDescription(),
+                                getClinicVisitsDetailsResponse.getData().getVeterinarianDetails().getAddress()
                         );
                     }
                     else
@@ -272,13 +282,9 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
 
     }
 
-    public void lastPrescriptionPdf(String veterian, String strEmail,String qualification,String strForA, String strAge,String strSex, String strDate,String strParntNm, String strTemparature, String strDiagnosis,String strRemark, String strNxtVisit)
+    public void lastPrescriptionPdf(String veterian, String strEmail,String qualification,String strForA, String strAge,String strSex, String strDate,String pet_parent, String strTemparature, String strDiagnosis,String strRemark, String strNxtVisit,String registration_number, String Symptons,String address)
     {
         String care="Aviral Care";
-        String pet_parent="Pramod Rana";
-        String Symptons="Problems";
-        String address="Dehradun";
-        String registration_number="VET-00987";
         String str="<!DOCTYPE html>\n"+
                 "<html>\n" +
                 "<head>\n" +

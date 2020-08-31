@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -48,12 +49,14 @@ public class VisitTypesAdapter extends RecyclerView.Adapter<VisitTypesAdapter.My
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView reports_type_TV;
         ImageView view_reports_arrow;
+        RelativeLayout clinic_parent_layout;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             reports_type_TV =itemView.findViewById(R.id.report_type_TV);
             view_reports_arrow = itemView.findViewById(R.id.view_reports_arrow);
+            clinic_parent_layout = itemView.findViewById(R.id.clinic_parent_layout);
 
-            view_reports_arrow.setOnClickListener(new View.OnClickListener() {
+            clinic_parent_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (onProductItemClickListener!=null){

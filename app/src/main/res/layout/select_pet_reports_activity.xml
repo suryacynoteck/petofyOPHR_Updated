@@ -253,6 +253,7 @@
                 android:layout_height="wrap_content">
 
                 <RelativeLayout
+                    android:id="@+id/xray_layout"
                     android:background="@drawable/reports_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -294,6 +295,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/lab_test_layout"
                     android:background="@drawable/reports_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -336,6 +338,7 @@
 
 
                 <RelativeLayout
+                    android:id="@+id/hospitalization_layout"
                     android:background="@drawable/reports_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
