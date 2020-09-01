@@ -15,9 +15,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-
-
-
     <supports-screens
         android:anyDensity="true"
         android:largeScreens="true"
@@ -25,6 +22,7 @@
         android:smallScreens="true" />
 
     <application
+        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@drawable/logo_petofy"
@@ -33,11 +31,11 @@
         android:roundIcon="@drawable/logo_petofy"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.PetIdCardActivity"
+        <activity
+            android:name=".activities.PetIdCardActivity"
             android:screenOrientation="landscape"
             tools:ignore="LockedOrientationActivity" />
-
-        <activity android:name=".activities.AddNewPetActivity"></activity>
+        <activity android:name=".activities.AddNewPetActivity" />
         <activity android:name=".activities.AddHospitalizationDeatilsActivity" />
         <activity android:name=".activities.AddLabWorkDeatilsActivity" />
         <activity android:name=".activities.AddXRayDeatilsActivity" />
@@ -91,6 +89,10 @@
         <activity
             android:name=".activities.LoginActivity"
             android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".activities.SplashScreenActivity"
+            android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -98,7 +100,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

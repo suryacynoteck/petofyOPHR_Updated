@@ -2,7 +2,6 @@ package com.cynoteck.petofyvet.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -18,6 +17,7 @@ public class Config {
     public static String user_Veterian_address="";
     public static String type="";
     public static String backCall="";
+    public static String IpAddress="";
 
 
     public static RequestBody toRequestBody (String value) {
