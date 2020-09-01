@@ -225,13 +225,11 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
                         routine_report_RV.setNestedScrollingEnabled(false);
 
                         if (button_type.equals("view")){
-                            empty_IV.setVisibility(View.GONE);
                             routine_report_RV.setVisibility(View.VISIBLE);
                             reportsTypeAdapter = new ReportsTypeAdapter(getContext(), petServiceResponse.getData().getPetClinicVisitList(), this);
                             routine_report_RV.setAdapter(reportsTypeAdapter);
                             reportsTypeAdapter.notifyDataSetChanged();
                         }else if (button_type.equals("update")){
-                            empty_IV.setVisibility(View.GONE);
                             routine_report_RV.setVisibility(View.VISIBLE);
                             updateClinicVisitAdapter = new UpdateClinicVisitAdapter(getContext(), petServiceResponse.getData().getPetClinicVisitList(), this);
                             routine_report_RV.setAdapter(updateClinicVisitAdapter);
@@ -260,13 +258,11 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
                             empty_IV.setVisibility(View.VISIBLE);
                             routine_report_RV.setVisibility(View.GONE);
                         }else if (button_type.equals("view")){
-                            empty_IV.setVisibility(View.GONE);
                             routine_report_RV.setVisibility(View.VISIBLE);
                             testAndXRayAdpater = new TestAndXRayAdpater(getContext(), getPetTestAndXRayResponse.getData().getPetTestsAndXrayList(), this);
                             routine_report_RV.setAdapter(testAndXRayAdpater);
                             testAndXRayAdpater.notifyDataSetChanged();
                         }else if (button_type.equals("update")){
-                            empty_IV.setVisibility(View.GONE);
                             routine_report_RV.setVisibility(View.VISIBLE);
                             Toast.makeText(getContext(), "update", Toast.LENGTH_SHORT).show();
                             updateXRayAdpater = new UpdateXRayAdpater(getContext(), getPetTestAndXRayResponse.getData().getPetTestsAndXrayList(), this);

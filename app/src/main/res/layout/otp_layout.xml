@@ -18,6 +18,8 @@
         android:padding="8dp">
 
         <TextView
+            android:gravity="center"
+            android:id="@+id/otpHeading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Ask parent and Enter OTP"

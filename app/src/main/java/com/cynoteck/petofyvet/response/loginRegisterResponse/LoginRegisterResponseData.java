@@ -30,11 +30,15 @@ public class LoginRegisterResponseData
 
     private String confirmPassword;
 
+    private String userSalt;
+
     private String profileImageUrl;
 
     private String email;
 
     private String petParentConfirmPassword;
+
+    private String enableTwoStepVerification;
 
     private String address;
 
@@ -220,6 +224,16 @@ public class LoginRegisterResponseData
         this.confirmPassword = confirmPassword;
     }
 
+    public String getUserSalt ()
+{
+    return userSalt;
+}
+
+    public void setUserSalt (String userSalt)
+    {
+        this.userSalt = userSalt;
+    }
+
     public String getProfileImageUrl ()
 {
     return profileImageUrl;
@@ -248,6 +262,16 @@ public class LoginRegisterResponseData
     public void setPetParentConfirmPassword (String petParentConfirmPassword)
     {
         this.petParentConfirmPassword = petParentConfirmPassword;
+    }
+
+    public String getEnableTwoStepVerification ()
+    {
+        return enableTwoStepVerification;
+    }
+
+    public void setEnableTwoStepVerification (String enableTwoStepVerification)
+    {
+        this.enableTwoStepVerification = enableTwoStepVerification;
     }
 
     public String getAddress ()
@@ -473,6 +497,8 @@ public class LoginRegisterResponseData
     @Override
     public String toString()
     {
-        return "ClassPojo [lastName = "+lastName+", zipCode = "+zipCode+", notificationStatus = "+notificationStatus+", providerLastName = "+providerLastName+", providerPhoneNumber = "+providerPhoneNumber+", cityId = "+cityId+", isActive = "+isActive+", isEmailVerified = "+isEmailVerified+", isLogin = "+isLogin+", password = "+password+", locationId = "+locationId+", latLong = "+latLong+", customerEmail = "+customerEmail+", confirmPassword = "+confirmPassword+", profileImageUrl = "+profileImageUrl+", email = "+email+", petParentConfirmPassword = "+petParentConfirmPassword+", address = "+address+", roleId = "+roleId+", fullName = "+fullName+", areYouProvider = "+areYouProvider+", guestEmail = "+guestEmail+", userId = "+userId+", petParentPassword = "+petParentPassword+", forgotPasswordEmail = "+forgotPasswordEmail+", isPrivacyPolicyCheck = "+isPrivacyPolicyCheck+", firstName = "+firstName+", locationList = "+locationList+", providerConfirmPassword = "+providerConfirmPassword+", isMobileNumberVerified = "+isMobileNumberVerified+", phoneNumber = "+phoneNumber+", providerPassword = "+providerPassword+", encryptedId = "+encryptedId+", customerPassword = "+customerPassword+", providerFirstName = "+providerFirstName+", rememberMe = "+rememberMe+", userRole = "+userRole+", providerEmail = "+providerEmail+", status = "+status+"]";
+        return "ClassPojo [lastName = "+lastName+", zipCode = "+zipCode+", notificationStatus = "+notificationStatus+", providerLastName = "+providerLastName+", providerPhoneNumber = "+providerPhoneNumber+", cityId = "+cityId+", isActive = "+isActive+", isEmailVerified = "+isEmailVerified+", isLogin = "+isLogin+", password = "+password+", locationId = "+locationId+", latLong = "+latLong+", customerEmail = "+customerEmail+", confirmPassword = "+confirmPassword+", userSalt = "+userSalt+", profileImageUrl = "+profileImageUrl+", email = "+email+", petParentConfirmPassword = "+petParentConfirmPassword+", enableTwoStepVerification = "+enableTwoStepVerification+", address = "+address+", roleId = "+roleId+", fullName = "+fullName+", areYouProvider = "+areYouProvider+", guestEmail = "+guestEmail+", userId = "+userId+", petParentPassword = "+petParentPassword+", forgotPasswordEmail = "+forgotPasswordEmail+", isPrivacyPolicyCheck = "+isPrivacyPolicyCheck+", firstName = "+firstName+", locationList = "+locationList+", providerConfirmPassword = "+providerConfirmPassword+", isMobileNumberVerified = "+isMobileNumberVerified+", phoneNumber = "+phoneNumber+", providerPassword = "+providerPassword+", encryptedId = "+encryptedId+", customerPassword = "+customerPassword+", providerFirstName = "+providerFirstName+", rememberMe = "+rememberMe+", userRole = "+userRole+", providerEmail = "+providerEmail+", status = "+status+"]";
     }
 }
+			
+		
