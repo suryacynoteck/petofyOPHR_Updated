@@ -26,7 +26,7 @@ public class Config {
     }
    public static String currentDate()
    {
-       String date = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+       String date = new SimpleDateFormat("dd/mm/yyyy").format(Calendar.getInstance().getTime());
        return date;
    }
 }
