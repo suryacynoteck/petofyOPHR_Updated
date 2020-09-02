@@ -433,7 +433,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/clinics_visit"
+                android:id="@+id/last_prescription"
                 android:background="@drawable/reports_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">

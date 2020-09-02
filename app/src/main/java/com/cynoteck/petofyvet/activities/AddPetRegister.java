@@ -141,10 +141,6 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
         {
             petType();
             genaretePetUniqueKey();
-            getPetBreed();
-            getPetAge();
-            getPetColor();
-            getPetSize();
             setSpinnerPetSex();
         }
         else
@@ -174,18 +170,25 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
 
     private void getPetBreed() {
         BreedRequest breedRequest = new BreedRequest();
-        breedRequest.setGetAll("true");
+        breedRequest.setGetAll("false");
+        if(!getStrSpnerItemPetNmId.equals("0"))
+        breedRequest.setPetCategoryId(getStrSpnerItemPetNmId);
+        else
         breedRequest.setPetCategoryId("1");
         BreedParams breedParams = new BreedParams();
         breedParams.setData(breedRequest);
 
         ApiService<BreedCatRespose> service = new ApiService<>();
         service.get(this, ApiClient.getApiInterface().getGetPetBreedApi(Config.token,breedParams), "GetPetBreed");
+        Log.d("Diolog_Breed","===>"+breedParams);
     }
 
     private void getPetAge() {
         BreedRequest breedRequest = new BreedRequest();
-        breedRequest.setGetAll("true");
+        breedRequest.setGetAll("false");
+        if(!getStrSpnerItemPetNmId.equals("0"))
+        breedRequest.setPetCategoryId(getStrSpnerItemPetNmId);
+        else
         breedRequest.setPetCategoryId("1");
         BreedParams breedParams = new BreedParams();
         breedParams.setData(breedRequest);
@@ -196,7 +199,10 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
 
     private void getPetColor() {
         BreedRequest breedRequest = new BreedRequest();
-        breedRequest.setGetAll("true");
+        breedRequest.setGetAll("false");
+        if(!getStrSpnerItemPetNmId.equals("0"))
+        breedRequest.setPetCategoryId(getStrSpnerItemPetNmId);
+        else
         breedRequest.setPetCategoryId("1");
         BreedParams breedParams = new BreedParams();
         breedParams.setData(breedRequest);
@@ -207,7 +213,10 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
 
     private void getPetSize() {
         BreedRequest breedRequest = new BreedRequest();
-        breedRequest.setGetAll("true");
+        breedRequest.setGetAll("false");
+        if(!getStrSpnerItemPetNmId.equals("0"))
+        breedRequest.setPetCategoryId(getStrSpnerItemPetNmId);
+        else
         breedRequest.setPetCategoryId("1");
         BreedParams breedParams = new BreedParams();
         breedParams.setData(breedRequest);
@@ -789,7 +798,7 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                         // check if all permissions are granted
                         if (report.areAllPermissionsGranted()) {
-                            Toast.makeText(AddPetRegister.this, "All permissions are granted by user!", Toast.LENGTH_SHORT).show();
+                            Log.d("Debuging","All Permission Granted");
                         }
 
                         // check for permanent denial of any permission
@@ -809,7 +818,7 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
                 withErrorListener(new PermissionRequestErrorListener() {
                     @Override
                     public void onError(DexterError error) {
-                        Toast.makeText(AddPetRegister.this, "Some Error! ", Toast.LENGTH_SHORT).show();
+                        Log.d("Debuging","Some Error");
                     }
                 })
                 .onSameThread()
@@ -837,6 +846,7 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
                     if (responseCode== 109){
                         petType=new ArrayList<>();
                         petType.add("Select Pet Type");
+                        petTypeHashMap.put("Select Pet Type","0");
                         Log.d("lalal",""+petTypeResponse.getData().size());
                         for(int i=0; i<petTypeResponse.getData().size(); i++){
                             Log.d("petttt",""+petTypeResponse.getData().get(i).getPetType1());
@@ -882,6 +892,7 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
                     if (responseCode== 109){
                         petBreed=new ArrayList<>();
                         petBreed.add("Pet Breed");
+                        petBreedHashMap.put("Pet Breed","0");
                         Log.d("lalal",""+breedCatRespose.getData().size());
                         for(int i=0; i<breedCatRespose.getData().size(); i++){
                             Log.d("petttt",""+breedCatRespose.getData().get(i).getBreed());
@@ -1060,6 +1071,14 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
                 strSpnerItemPetNm=item;
                 Log.d("spnerType",""+strSpnerItemPetNm);
                 getStrSpnerItemPetNmId=petTypeHashMap.get(strSpnerItemPetNm);
+                if(!getStrSpnerItemPetNmId.equals("0"))
+                {
+                    getPetBreed();
+                    getPetAge();
+                    getPetColor();
+                    getPetSize();
+                }
+
             }
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -1078,6 +1097,7 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
                 strSpnrBreed=item;
                 Log.d("spnerType",""+strSpnrBreed);
                 strSpnrBreedId=petBreedHashMap.get(strSpnrBreed);
+
             }
             public void onNothingSelected(AdapterView<?> parent) {
             }

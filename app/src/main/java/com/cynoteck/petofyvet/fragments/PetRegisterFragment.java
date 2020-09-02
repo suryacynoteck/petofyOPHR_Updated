@@ -3,11 +3,17 @@ package com.cynoteck.petofyvet.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
@@ -40,16 +46,19 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PetRegisterFragment extends Fragment implements  ApiResponse, ViewDeatilsAndIdCardClick,View.OnClickListener{
+public class PetRegisterFragment extends Fragment implements  ApiResponse, ViewDeatilsAndIdCardClick,View.OnClickListener,TextWatcher{
     View view;
     Context context;
     Methods methods;
     CardView materialCardView;
     RecyclerView register_pet_RV;
-    ImageView register_add_TV;
+    ImageView register_add_TV,search_register_pet,back_arrow_IV;
     private ArrayList<PetList> categoryRecordArrayList;
     RegisterPetAdapter registerPetAdapter;
     private ShimmerFrameLayout mShimmerViewContainer;
+    RelativeLayout search_boxRL;
+    EditText search_box;
+    TextView regiter_pet_headline_TV;
 
     @Override
     public void onAttach(Context context) {
@@ -81,8 +90,16 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, ViewD
         materialCardView = view.findViewById(R.id.toolbar);
         register_pet_RV=view.findViewById(R.id.register_pet_RV);
         register_add_TV=view.findViewById(R.id.register_add_TV);
+        search_register_pet=view.findViewById(R.id.search_register_pet);
+        back_arrow_IV=view.findViewById(R.id.back_arrow_IV);
+        search_boxRL=view.findViewById(R.id.search_boxRL);
+        search_box=view.findViewById(R.id.search_box);
+        regiter_pet_headline_TV=view.findViewById(R.id.regiter_pet_headline_TV);
         methods = new Methods(getContext());
         register_add_TV.setOnClickListener(this);
+        search_register_pet.setOnClickListener(this);
+        back_arrow_IV.setOnClickListener(this);
+        search_box.addTextChangedListener(this);
     }
 
     @Override
@@ -90,6 +107,19 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, ViewD
         switch (v.getId()){
             case R.id.register_add_TV:
                 startActivity(new Intent(getActivity(),AddPetRegister.class));
+                break;
+            case R.id.search_register_pet:
+                search_boxRL.setVisibility(View.VISIBLE);
+                search_box.requestFocus();
+                InputMethodManager imm1 = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm1.showSoftInput(search_box, InputMethodManager.SHOW_FORCED);
+                search_register_pet.setVisibility(View.GONE);
+                back_arrow_IV.setVisibility(View.VISIBLE);
+                regiter_pet_headline_TV.setVisibility(View.GONE);
+                register_add_TV.setVisibility(View.GONE);
+                break;
+            case R.id.back_arrow_IV:
+                clearSearch();
                 break;
         }
 
@@ -135,6 +165,7 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, ViewD
                         registerPetAdapter.notifyDataSetChanged();
                         categoryRecordArrayList = getPetListResponse.getData().getPetList();
                         mShimmerViewContainer.stopShimmerAnimation();
+                        search_register_pet.setVisibility(View.VISIBLE);
                         mShimmerViewContainer.setVisibility(View.GONE);
 
                     }
@@ -215,5 +246,31 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, ViewD
         idBundle.putString("id",categoryRecordArrayList.get(position).getId());
         intent.putExtras(idBundle);
         startActivity(intent);
+    }
+
+    private void clearSearch() {
+        search_box.getText().clear();
+        search_register_pet.setVisibility(View.VISIBLE);
+        search_boxRL.setVisibility(View.GONE);
+        back_arrow_IV.setVisibility(View.GONE);
+        regiter_pet_headline_TV.setVisibility(View.VISIBLE);
+        register_add_TV.setVisibility(View.VISIBLE);
+        InputMethodManager imm1 = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm1.hideSoftInputFromWindow(search_box.getWindowToken(), 0);
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        registerPetAdapter.getFilter().filter(charSequence.toString());
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+
     }
 }
