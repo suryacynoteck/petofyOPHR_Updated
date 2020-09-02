@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,18 +17,20 @@ import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.getPetListResponse.PetList;
 import com.cynoteck.petofyvet.utils.ViewDeatilsAndIdCardClick;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class RegisterPetAdapter extends RecyclerView.Adapter<RegisterPetAdapter.MyViewHolder> {
+public class RegisterPetAdapter extends RecyclerView.Adapter<RegisterPetAdapter.MyViewHolder> implements Filterable {
     Context context;
     List<PetList> profileList;
+    List<PetList> filterProfileList;
     private ViewDeatilsAndIdCardClick onProductItemClickListner;
 
     public RegisterPetAdapter(Context context, List<PetList> profileList, ViewDeatilsAndIdCardClick onProductItemClickListner) {
         this.context = context;
         this.profileList = profileList;
         this.onProductItemClickListner=onProductItemClickListner;
-
+        filterProfileList = new ArrayList<>(profileList);
     }
 
     @NonNull
@@ -50,6 +54,47 @@ public class RegisterPetAdapter extends RecyclerView.Adapter<RegisterPetAdapter.
     public int getItemCount() {
         return profileList.size();
     }
+
+    @Override
+    public Filter getFilter() {
+        return filterList;
+    }
+
+    private Filter filterList = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+
+            List<PetList> filteredList = new ArrayList<>();
+            if (constraint == null || constraint.length()==0){
+                filteredList.addAll(filterProfileList);
+            }else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+                for (PetList item : filterProfileList){
+                    if (item.getPetUniqueId().toLowerCase().contains(filterPattern)){
+                        filteredList.add(item);
+                    }else if (item.getContactNumber().toLowerCase().contains(filterPattern)){
+                        filteredList.add(item);
+                    }else if (item.getPetName().toLowerCase().contains(filterPattern)){
+                        filteredList.add(item);
+                    }else if (item.getPetParentName().toLowerCase().contains(filterPattern)){
+                        filteredList.add(item);
+                    }
+                }
+            }
+            FilterResults filterResults = new FilterResults();
+            filterResults.values = filteredList;
+
+            return filterResults;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            profileList.clear();
+            profileList.addAll((List<PetList>)results.values);
+            notifyDataSetChanged();
+
+        }
+    };
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView petRegImage_IV;

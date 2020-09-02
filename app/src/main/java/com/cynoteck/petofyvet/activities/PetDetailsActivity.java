@@ -38,7 +38,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
     String pet_id,pet_name,patent_name,pet_bread,pet_unique_id="",pet_sex="",pet_age="";
     TextView pet_nameTV, pet_parentNameTV,pet_id_TV;
     ImageView back_arrow_IV,view_clinicVisits_arrow,view_xrayReport_arrow,view_labTestReport_arrow,view_Hospitalization_arrow,last_prescription_arrow,recent_visits_arrow,print_id_card_arrow,view_history_arrow;
-    RelativeLayout clinic_test,xray_test,lab_test_report,hospitalization_sugeries,clinics_visit,print_id_card,view_history;
+    RelativeLayout clinic_test,xray_test,lab_test_report,hospitalization_sugeries,last_prescription,print_id_card,view_history;
     Methods methods;
     WebView webview;
 
@@ -70,7 +70,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
         print_id_card_arrow=findViewById(R.id.print_id_card_arrow);
         print_id_card=findViewById(R.id.print_id_card);
         view_clinicVisits_arrow=findViewById(R.id.view_clinicVisits_arrow);
-        clinics_visit=findViewById(R.id.clinics_visit);
+        last_prescription=findViewById(R.id.last_prescription);
         view_history_arrow=findViewById(R.id.view_history_arrow);
         view_history=findViewById(R.id.view_history);
         view_xrayReport_arrow=findViewById(R.id.view_xrayReport_arrow);
@@ -92,7 +92,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
         view_history_arrow.setOnClickListener(this);
         view_history.setOnClickListener(this);
         back_arrow_IV.setOnClickListener(this);
-        last_prescription_arrow.setOnClickListener(this);
+        last_prescription.setOnClickListener(this);
         view_xrayReport_arrow.setOnClickListener(this);
         xray_test.setOnClickListener(this);
 
@@ -212,7 +212,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 petDetailsClinicVisits.putExtras(dataClinicVisits);
                 startActivity(petDetailsClinicVisits);
                 break;
-            case R.id.last_prescription_arrow:
+            case R.id.last_prescription:
                 if(methods.isInternetOn())
                 {
                     getclinicVisitsReportDetails();
@@ -284,139 +284,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
 
     public void lastPrescriptionPdf(String veterian, String strEmail,String qualification,String strForA, String strAge,String strSex, String strDate,String pet_parent, String strTemparature, String strDiagnosis,String strRemark, String strNxtVisit,String registration_number, String Symptons,String address)
     {
-        String care="Aviral Care";
-        String str="<!DOCTYPE html>\n"+
-                "<html>\n" +
-                "<head>\n" +
-                "<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css\">\n" +
-                "<script src=\"//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js\"></script>\n" +
-                "<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js\"></script>\n" +
-                "    \n" +
-                "<link rel=\"stylesheet\" type=\"text/css\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css\">\n" +
-                "\n" +
-                "    <title>Invioce</title>\n" +
-                "</head>\n" +
-                "<style type=\"text/css\">\n" +
-                "    .invoice-title h2, .invoice-title h3 {\n" +
-                "        display: inline-block;\n" +
-                "    }\n" +
-                "\n" +
-                "    .table > tbody > tr > .no-line {\n" +
-                "        border-top: none;\n" +
-                "    }\n" +
-                "\n" +
-                "    .table > thead > tr > .no-line {\n" +
-                "        border-bottom: none;\n" +
-                "    }\n" +
-                "\n" +
-                "    .table > tbody > tr > .thick-line {\n" +
-                "        border-top: 2px solid;\n" +
-                "    }\n" +
-                "    @page {\n" +
-                "      size: A4;\n" +
-                "      margin: 15px;\n" +
-                "    }\n" +
-                "</style>\n" +
-                "\n" +
-                "<body>\n" +
-                "    <div class=\"container\">\n" +
-                "        <p><?=date('d/m/Y')?></p> \n" +
-                "    <div class=\"row\">\n" +
-                "        <div class=\"col-xs-12\">\n" +
-                "            <div class=\"invoice-title \">\n" +
-                "                <div class=\"row\">\n" +
-                "                    <div class=\"col-lg-12 col-md-12 col-xs-12\" style=\"font-size: 25px;font-family: cizel;\">\n" +
-                "                       <b>"+Config.user_Veterian_name+"</b> \n" +
-                "                    </div>\n" +
-                "                    <div class=\"col-lg-12 col-md-12 col-xs-12\" style=\"font-size: 20px; margin-bottom: 20px;\">\n" +
-                "                        "+qualification+"\n" +
-                "                    </div>\n" +
-                "                    <div class=\"col-lg-6 col-md-6 col-xs-6\" style=\"font-size: 20px; \" >\n" +care+
-                "                       \n" +
-                "                    </div>\n" +
-                "                    <div class=\"col-lg-6 col-md-6 col-xs-6 text-right\" style=\"font-size: 20px;\">\n" +
-                "                       <b> Mobile :"+Config.user_Veterian_phone+" </b>\n" +
-                "                    </div>\n" +
-                "                    \n" +
-                "                    <div class=\"col-lg-6 col-md-6 col-xs-6\" style=\"font-size: 17px;\">\n" +
-                "                       <b> Email: "+Config.user_Veterian_emial+" </b>\n" +
-                "                    </div>\n" +
-                "                    <div class=\"col-lg-6 col-md-6 col-xs-6 text-right\" style=\"font-size: 20px;\">\n" +
-                "                       <b> "+Config.user_Veterian_phone+"</b>\n" +
-                "                    </div>\n" +
-                "                 \n" +
-                "                    \n" +
-                "                </div>\n" +
-                "               \n" +
-                "                \n" +
-                "            </div>\n" +
-                "            <div class=\"row\">\n" +
-                "                <div class=\"col-md-12\" style=\"border: 1px solid black;\"></div>\n" +
-                "            </div>\n" +
-                "            <div class=\"row\">\n" +
-                "                <div class=\"col-xs-3\" style=\"font-size: 20px;\">\n" +
-                "                    <b>For a: "+strForA+"</b>\n" +
-                "                </div>\n" +
-                "                <div class=\"col-xs-3\" style=\"font-size: 20px;\">\n" +
-                "                    <b>Age: "+strAge+"</b>\n" +
-                "                </div>\n" +
-                "                <div class=\"col-xs-3\" style=\"font-size: 20px;\">\n" +
-                "                    <b>Sex: "+strSex+"</b>\n" +
-                "                </div>\n" +
-                "                <div class=\"col-xs-3\" style=\"font-size: 20px; margin-bottom: 25px;\">\n" +
-                "                    <b>Date:"+strDate+" <?=date('d/m/Y')?></b>\n" +
-                "                </div>\n" +
-                "\n" +
-                "\n" +
-                "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 25px;\">\n" +
-                "                    <b>Pet Parant Name:"+pet_parent+"</b>\n" +
-                "                </div>\n" +
-                "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 10px;\">\n" +
-                "                    <b>Temparature(F): "+strTemparature+"\u2109</b>\n" +
-                "                </div>\n" +
-                "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 25px;\">\n" +
-                "                    <b>Symptons:</b>\n" +
-                "                </div>\n" +
-                "                <div class=\"col-xs-12\" style=\"margin-bottom: 10px;\">\n" +
-                "                    <p>"+Symptons+"</p>\n" +
-                "                </div>\n" +
-                "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 25px;\">\n" +
-                "                    <b>Diagnosis:</b>\n" +
-                "                </div>\n" +
-                "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 10px;\">\n" +
-                "                    <p>"+strDiagnosis+"</p>\n" +
-                "                </div>\n" +
-                "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 25px;\">\n" +
-                "                    <b>Treatment Remarks:</b>\n" +
-                "                </div>\n" +
-                "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 10px;\">\n" +
-                "                    <p>"+strRemark+"</p>\n" +
-                "                </div>\n" +
-                "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 25px;\">\n" +
-                "                    <b>Next Visit:</b>\n" +
-                "                </div>\n" +
-                "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 10px;\">\n" +
-                "                    <p>"+strNxtVisit+"</p>\n" +
-                "                </div>\n" +
-                "\n" +
-                "            </div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>\n" +
-                "            <div class=\"col-md-12\" style=\"border: 1px solid black;\"></div>\n" +
-                "            <div class=\"col-md-12\" style=\"font-size: 25px; text-align: center;\">Address: "+address+", Registration Number: "+registration_number+"</div>\n" +
-                "            \n" +
-                "        </div>\n" +
-                "\n" +
-                "\n" +
-                "    </div>\n" +
-                "\n" +
-                "</div>\n" +
-                "<script type=\"text/javascript\">\n" +
-                "    $(function(){\n" +
-                "        window.print();\n" +
-                "        window.close();\n" +
-                "    });\n" +
-                "</script>\n" +
-                "</body>\n" +
-                "</html>";
+        String str=methods.pdfGenarator(strForA,strAge,strSex,pet_parent,strTemparature,Symptons,strDiagnosis,strRemark,strNxtVisit,registration_number);
         webview.loadDataWithBaseURL(null,str,"text/html","utf-8",null);
         new Handler().postDelayed(new Runnable(){
             @Override

@@ -170,10 +170,6 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
             getPetlistData(getPetListRequest);
             petTypee();
             genaretePetUniqueKey();
-            getPetBreed();
-            getPetAge();
-            getPetColor();
-            getPetSize();
             setSpinnerPetSex();
         }
         else
@@ -249,19 +245,26 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
 
     private void getPetBreed() {
         BreedRequest breedRequest = new BreedRequest();
-        breedRequest.setGetAll("true");
-        breedRequest.setPetCategoryId("1");
+        breedRequest.setGetAll("false");
+        if(!getStrSpnerItemPetNmId.equals("0"))
+            breedRequest.setPetCategoryId(getStrSpnerItemPetNmId);
+        else
+            breedRequest.setPetCategoryId("1");
         BreedParams breedParams = new BreedParams();
         breedParams.setData(breedRequest);
 
         ApiService<BreedCatRespose> service = new ApiService<>();
         service.get(this, ApiClient.getApiInterface().getGetPetBreedApi(Config.token,breedParams), "GetPetBreed");
+        Log.d("Diolog_Breed","===>"+breedParams);
     }
 
     private void getPetAge() {
         BreedRequest breedRequest = new BreedRequest();
-        breedRequest.setGetAll("true");
-        breedRequest.setPetCategoryId("1");
+        breedRequest.setGetAll("false");
+        if(!getStrSpnerItemPetNmId.equals("0"))
+            breedRequest.setPetCategoryId(getStrSpnerItemPetNmId);
+        else
+            breedRequest.setPetCategoryId("1");
         BreedParams breedParams = new BreedParams();
         breedParams.setData(breedRequest);
 
@@ -271,8 +274,11 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
 
     private void getPetColor() {
         BreedRequest breedRequest = new BreedRequest();
-        breedRequest.setGetAll("true");
-        breedRequest.setPetCategoryId("1");
+        breedRequest.setGetAll("false");
+        if(!getStrSpnerItemPetNmId.equals("0"))
+            breedRequest.setPetCategoryId(getStrSpnerItemPetNmId);
+        else
+            breedRequest.setPetCategoryId("1");
         BreedParams breedParams = new BreedParams();
         breedParams.setData(breedRequest);
 
@@ -282,8 +288,11 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
 
     private void getPetSize() {
         BreedRequest breedRequest = new BreedRequest();
-        breedRequest.setGetAll("true");
-        breedRequest.setPetCategoryId("1");
+        breedRequest.setGetAll("false");
+        if(!getStrSpnerItemPetNmId.equals("0"))
+            breedRequest.setPetCategoryId(getStrSpnerItemPetNmId);
+        else
+            breedRequest.setPetCategoryId("1");
         BreedParams breedParams = new BreedParams();
         breedParams.setData(breedRequest);
 
@@ -508,6 +517,7 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
                     if (responseCode== 109){
                         petType=new ArrayList<>();
                         petType.add("Select Pet Type");
+                        petTypeHashMap.put("Select Pet Type","0");
                         Log.d("lalal",""+petTypeResponse.getData().size());
                         for(int i=0; i<petTypeResponse.getData().size(); i++){
                             Log.d("petttt",""+petTypeResponse.getData().get(i).getPetType1());
@@ -715,6 +725,13 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
                 strSpnerItemPetNm=item;
                 Log.d("spnerType",""+strSpnerItemPetNm);
                 getStrSpnerItemPetNmId=petTypeHashMap.get(strSpnerItemPetNm);
+                if(!getStrSpnerItemPetNmId.equals("0"))
+                {
+                    getPetBreed();
+                    getPetAge();
+                    getPetColor();
+                    getPetSize();
+                }
             }
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -1187,7 +1204,7 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                         // check if all permissions are granted
                         if (report.areAllPermissionsGranted()) {
-                            Toast.makeText(GetPetDetailsActivity.this, "All permissions are granted by user!", Toast.LENGTH_SHORT).show();
+                            Log.d("Debuging","All Permission Granted");
                         }
 
                         // check for permanent denial of any permission
@@ -1207,7 +1224,7 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
                 withErrorListener(new PermissionRequestErrorListener() {
                     @Override
                     public void onError(DexterError error) {
-                        Toast.makeText(GetPetDetailsActivity.this, "Some Error! ", Toast.LENGTH_SHORT).show();
+                        Log.d("Debuging","Some Error");
                     }
                 })
                 .onSameThread()

@@ -33,6 +33,7 @@
                 android:layout_height="50dp"
                 android:layout_alignParentStart="true"
                 android:src="@drawable/back_arrow" />
+
             <RelativeLayout
                 android:visibility="gone"
                 android:layout_toRightOf="@id/back_arrow_IV"

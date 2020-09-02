@@ -189,11 +189,6 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
             getPetNewList();
             getPetList();
             petType();
-            getPetBreed();
-            getPetAge();
-            getPetColor();
-            getPetSize();
-
         }else {
 
             methods.DialogInternet();
@@ -251,8 +246,11 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
 
     private void getPetBreed() {
         BreedRequest breedRequest = new BreedRequest();
-        breedRequest.setGetAll("true");
-        breedRequest.setPetCategoryId("1");
+        breedRequest.setGetAll("false");
+        if(!getStrSpnerItemPetNmId.equals("0"))
+            breedRequest.setPetCategoryId(getStrSpnerItemPetNmId);
+        else
+            breedRequest.setPetCategoryId("1");
         BreedParams breedParams = new BreedParams();
         breedParams.setData(breedRequest);
 
@@ -262,8 +260,11 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
 
     private void getPetAge() {
         BreedRequest breedRequest = new BreedRequest();
-        breedRequest.setGetAll("true");
-        breedRequest.setPetCategoryId("1");
+        breedRequest.setGetAll("false");
+        if(!getStrSpnerItemPetNmId.equals("0"))
+            breedRequest.setPetCategoryId(getStrSpnerItemPetNmId);
+        else
+            breedRequest.setPetCategoryId("1");
         BreedParams breedParams = new BreedParams();
         breedParams.setData(breedRequest);
 
@@ -273,8 +274,11 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
 
     private void getPetColor() {
         BreedRequest breedRequest = new BreedRequest();
-        breedRequest.setGetAll("true");
-        breedRequest.setPetCategoryId("1");
+        breedRequest.setGetAll("false");
+        if(!getStrSpnerItemPetNmId.equals("0"))
+            breedRequest.setPetCategoryId(getStrSpnerItemPetNmId);
+        else
+            breedRequest.setPetCategoryId("1");
         BreedParams breedParams = new BreedParams();
         breedParams.setData(breedRequest);
 
@@ -284,8 +288,11 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
 
     private void getPetSize() {
         BreedRequest breedRequest = new BreedRequest();
-        breedRequest.setGetAll("true");
-        breedRequest.setPetCategoryId("1");
+        breedRequest.setGetAll("false");
+        if(!getStrSpnerItemPetNmId.equals("0"))
+            breedRequest.setPetCategoryId(getStrSpnerItemPetNmId);
+        else
+            breedRequest.setPetCategoryId("1");
         BreedParams breedParams = new BreedParams();
         breedParams.setData(breedRequest);
 
@@ -424,6 +431,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                     if (responseCode== 109){
                         petType=new ArrayList<>();
                         petType.add("Select Pet Type");
+                        petTypeHashMap.put("Select Pet Type","0");
                         Log.d("lalal",""+petTypeResponse.getData().size());
                         for(int i=0; i<petTypeResponse.getData().size(); i++){
                             Log.d("petttt",""+petTypeResponse.getData().get(i).getPetType1());
@@ -456,6 +464,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                             petBreed.add(breedCatRespose.getData().get(i).getBreed());
                             petBreedHashMap.put(breedCatRespose.getData().get(i).getBreed(),breedCatRespose.getData().get(i).getId());
                         }
+                        setPetBreeEditSpinner();
 
                     }else if (responseCode==614){
                         Toast.makeText(getActivity(), breedCatRespose.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
@@ -481,7 +490,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                             petAge.add(petAgeValueResponse.getData().get(i).getAge());
                             petAgeHashMap.put(petAgeValueResponse.getData().get(i).getAge(),petAgeValueResponse.getData().get(i).getId());
                         }
-
+                        setPetAgeEditSpinner();
                     }else if (responseCode==614){
                         Toast.makeText(getActivity(), petAgeValueResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
                     }else {
@@ -507,6 +516,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                             petColor.add(petColorValueResponse.getData().get(i).getColor());
                             petColorHashMap.put(petColorValueResponse.getData().get(i).getColor(),petColorValueResponse.getData().get(i).getId());
                         }
+                        setPetColorEditSpinner();
                     }else if (responseCode==614){
                         Toast.makeText(getActivity(), petColorValueResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
                     }else {
@@ -531,7 +541,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                             petSize.add(petSizeValueResponse.getData().get(i).getSize());
                             petSizeHashMap.put(petSizeValueResponse.getData().get(i).getSize(),petSizeValueResponse.getData().get(i).getId());
                         }
-
+                        setPetSizeEditSpinner();
                     }else if (responseCode==614){
                         Toast.makeText(getActivity(), petSizeValueResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
                     }else {
@@ -751,21 +761,14 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
         getPetListParams.setId(first);
         GetPetListRequest getPetListRequest = new GetPetListRequest();
         getPetListRequest.setData(getPetListParams);
-        /*if(methods.isInternetOn())
-        {
-            getPetlistData(getPetListRequest);
-        }
-        else
-        {
-            methods.DialogInternet();
-        }*/
 
-        setSpinnerEditPetSex();
-        setPetTypeEditSpinner();
-        setPetBreeEditSpinner();
-        setPetAgeEditSpinner();
-        setPetColorEditSpinner();
-        setPetSizeEditSpinner();
+        Log.d("kkaakakak",""+getStrSpnerItemPetNmId);
+
+        if(getStrSpnerItemPetNmId.equals("")){
+            setSpinnerEditPetSex();
+            setPetTypeEditSpinner();
+        }
+
 
 
 
@@ -834,12 +837,6 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
 
         cancel.setOnClickListener(this);
 
-       /* crrete_pdf.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                createPdf(veterian,  strEmail,  strForA,  strAge, strSex, strDate, strParntNm, strTemparature, strDiagnosis, strRemark, strNxtVisit);
-            }
-        });*/
 
         parent_name.setText(veterian);
         //specilist.setText(strSpecialist);
@@ -883,6 +880,14 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                 Log.d("spnerType",""+item);
                 strSpnerItemPetType=item;
                 getStrSpnerItemPetNmId=petTypeHashMap.get(item);
+                Log.e("lallalala",""+getStrSpnerItemPetNmId);
+                if(!getStrSpnerItemPetNmId.equals("0")){
+                    getPetBreed();
+                    getPetAge();
+                    getPetColor();
+                    getPetSize();
+
+                }
             }
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -1031,7 +1036,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
     @Override
     public void onProductDownloadClick(int position) {
         methods.showCustomProgressBarDialog(getActivity());
-        createPdf(petClinicVisitLists.get(position).getVeterinarian(),petClinicVisitLists.get(position).getCreatedByUser().getProviderPhoneNumber(),petClinicVisitLists.get(position).getCreatedByUser().getCustomerEmail(),petClinicVisitLists.get(position).getPetName(),petClinicVisitLists.get(position).getPetAge(),petClinicVisitLists.get(position).getPetSex(),petClinicVisitLists.get(position).getDateOfOnset(),petClinicVisitLists.get(position).getPetParentName(),petClinicVisitLists.get(position).getTemperature(),petClinicVisitLists.get(position).getDiagnosisProcedure(),petClinicVisitLists.get(position).getTreatmentRemarks(),petClinicVisitLists.get(position).getFollowUpDate());
+        createPdf(petClinicVisitLists.get(position).getVeterinarian(),petClinicVisitLists.get(position).getCreatedByUser().getProviderPhoneNumber(),petClinicVisitLists.get(position).getCreatedByUser().getCustomerEmail(),petClinicVisitLists.get(position).getPetName(),petClinicVisitLists.get(position).getPetAge(),petClinicVisitLists.get(position).getPetSex(),petClinicVisitLists.get(position).getDateOfOnset(),petClinicVisitLists.get(position).getPetParentName(),petClinicVisitLists.get(position).getTemperature(),petClinicVisitLists.get(position).getDiagnosisProcedure(),petClinicVisitLists.get(position).getTreatmentRemarks(),petClinicVisitLists.get(position).getFollowUpDate(),petClinicVisitLists.get(position).getDescription());
     }
 
     @Override
@@ -1255,17 +1260,6 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                     pet_parent_mobile_number.setError("Enter A valid Mobile Number");
                 }
                 else{
-                   /* pet_parent_mobile_number.setError(null);
-                    SendOtpRequest sendOtpRequest = new SendOtpRequest();
-                    SendOtpParameter data = new SendOtpParameter();
-                    data.setPhoneNumber(StrmobileNumber);
-                    data.setEmailId("");
-                    sendOtpRequest.setData(data);
-                    if (methods.isInternetOn()) {
-                        sendotpUsingMobileNumber(sendOtpRequest);
-                    } else {
-                        methods.DialogInternet();
-                    }*/
                 }
                 break;
             case R.id.submit_parent_otp:
@@ -1326,145 +1320,10 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
         imm1.hideSoftInputFromWindow(search_box_add_new.getWindowToken(), 0);
     }
 
-    public void createPdf(String veterian,String phoneNumber, String strEmail, String strForA, String strAge,String strSex, String strDate,String strParntNm, String strTemparature, String strDiagnosis,String strRemark, String strNxtVisit)
+    public void createPdf(String veterian,String phoneNumber, String strEmail, String strForA, String strAge,String strSex, String strDate,String strParntNm, String strTemparature, String strDiagnosis,String strRemark, String strNxtVisit, String description)
     {
-        String care="Aviral Care";
-        String pet_parent="Pramod Rana";
-        String Symptons="Problems";
-        String address="Dehradun";
-        String registration_number="VET-00987";
-        String str="<!DOCTYPE html>\n"+
-                "<html>\n" +
-                "<head>\n" +
-                "<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css\">\n" +
-                "<script src=\"//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js\"></script>\n" +
-                "<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js\"></script>\n" +
-                "    \n" +
-                "<link rel=\"stylesheet\" type=\"text/css\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css\">\n" +
-                "\n" +
-                "    <title>Invioce</title>\n" +
-                "</head>\n" +
-                "<style type=\"text/css\">\n" +
-                "    .invoice-title h2, .invoice-title h3 {\n" +
-                "        display: inline-block;\n" +
-                "    }\n" +
-                "\n" +
-                "    .table > tbody > tr > .no-line {\n" +
-                "        border-top: none;\n" +
-                "    }\n" +
-                "\n" +
-                "    .table > thead > tr > .no-line {\n" +
-                "        border-bottom: none;\n" +
-                "    }\n" +
-                "\n" +
-                "    .table > tbody > tr > .thick-line {\n" +
-                "        border-top: 2px solid;\n" +
-                "    }\n" +
-                "    @page {\n" +
-                "      size: A4;\n" +
-                "      margin: 15px;\n" +
-                "    }\n" +
-                "</style>\n" +
-                "\n" +
-                "<body>\n" +
-                "    <div class=\"container\">\n" +
-                "        <p><?=date('d/m/Y')?></p> \n" +
-                "    <div class=\"row\">\n" +
-                "        <div class=\"col-xs-12\">\n" +
-                "            <div class=\"invoice-title \">\n" +
-                "                <div class=\"row\">\n" +
-                "                    <div class=\"col-lg-12 col-md-12 col-xs-12\" style=\"font-size: 25px;font-family: cizel;\">\n" +
-                "                       <b>"+Config.user_Veterian_name+"</b> \n" +
-                "                    </div>\n" +
-                "                    <div class=\"col-lg-12 col-md-12 col-xs-12\" style=\"font-size: 20px; margin-bottom: 20px;\">\n" +
-                "                        MBBS,MVS \n" +
-                "                    </div>\n" +
-                "                    <div class=\"col-lg-6 col-md-6 col-xs-6\" style=\"font-size: 20px; \" >\n" +care+
-                "                       \n" +
-                "                    </div>\n" +
-                "                    <div class=\"col-lg-6 col-md-6 col-xs-6 text-right\" style=\"font-size: 20px;\">\n" +
-                "                       <b> Mobile :"+Config.user_Veterian_phone+" </b>\n" +
-                "                    </div>\n" +
-                "                    \n" +
-                "                    <div class=\"col-lg-6 col-md-6 col-xs-6\" style=\"font-size: 17px;\">\n" +
-                "                       <b> Email: "+Config.user_Veterian_emial+" </b>\n" +
-                "                    </div>\n" +
-                "                    <div class=\"col-lg-6 col-md-6 col-xs-6 text-right\" style=\"font-size: 20px;\">\n" +
-                "                       <b> "+Config.user_Veterian_phone+"</b>\n" +
-                "                    </div>\n" +
-                "                 \n" +
-                "                    \n" +
-                "                </div>\n" +
-                "               \n" +
-                "                \n" +
-                "            </div>\n" +
-                "            <div class=\"row\">\n" +
-                "                <div class=\"col-md-12\" style=\"border: 1px solid black;\"></div>\n" +
-                "            </div>\n" +
-                "            <div class=\"row\">\n" +
-                "                <div class=\"col-xs-3\" style=\"font-size: 20px;\">\n" +
-                "                    <b>For a: "+strForA+"</b>\n" +
-                "                </div>\n" +
-                "                <div class=\"col-xs-3\" style=\"font-size: 20px;\">\n" +
-                "                    <b>Age: "+strAge+"</b>\n" +
-                "                </div>\n" +
-                "                <div class=\"col-xs-3\" style=\"font-size: 20px;\">\n" +
-                "                    <b>Sex: "+strSex+"</b>\n" +
-                "                </div>\n" +
-                "                <div class=\"col-xs-3\" style=\"font-size: 20px; margin-bottom: 25px;\">\n" +
-                "                    <b>Date: <?=date('d/m/Y')?></b>\n" +
-                "                </div>\n" +
-                "\n" +
-                "\n" +
-                "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 25px;\">\n" +
-                "                    <b>Pet Parant Name:"+pet_parent+"</b>\n" +
-                "                </div>\n" +
-                "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 10px;\">\n" +
-                "                    <b>Temparature(F): "+strTemparature+"\u2109</b>\n" +
-                "                </div>\n" +
-                "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 25px;\">\n" +
-                "                    <b>Symptons:</b>\n" +
-                "                </div>\n" +
-                "                <div class=\"col-xs-12\" style=\"margin-bottom: 10px;\">\n" +
-                "                    <p>"+Symptons+"</p>\n" +
-                "                </div>\n" +
-                "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 25px;\">\n" +
-                "                    <b>Diagnosis:</b>\n" +
-                "                </div>\n" +
-                "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 10px;\">\n" +
-                "                    <p>"+strDiagnosis+"</p>\n" +
-                "                </div>\n" +
-                "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 25px;\">\n" +
-                "                    <b>Treatment Remarks:</b>\n" +
-                "                </div>\n" +
-                "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 10px;\">\n" +
-                "                    <p>"+strRemark+"</p>\n" +
-                "                </div>\n" +
-                "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 25px;\">\n" +
-                "                    <b>Next Visit:</b>\n" +
-                "                </div>\n" +
-                "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 10px;\">\n" +
-                "                    <p>"+strNxtVisit+"</p>\n" +
-                "                </div>\n" +
-                "\n" +
-                "            </div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>\n" +
-                "            <div class=\"col-md-12\" style=\"border: 1px solid black;\"></div>\n" +
-                "            <div class=\"col-md-12\" style=\"font-size: 25px; text-align: center;\">Address: "+address+", Registration Number: "+registration_number+"</div>\n" +
-                "            \n" +
-                "        </div>\n" +
-                "\n" +
-                "\n" +
-                "    </div>\n" +
-                "\n" +
-                "</div>\n" +
-                "<script type=\"text/javascript\">\n" +
-                "    $(function(){\n" +
-                "        window.print();\n" +
-                "        window.close();\n" +
-                "    });\n" +
-                "</script>\n" +
-                "</body>\n" +
-                "</html>";
+        String str=methods.pdfGenarator(strForA,strAge,strSex,strParntNm,strTemparature,
+                description,strDiagnosis,strRemark,strNxtVisit,"");
         webview.loadDataWithBaseURL(null,str,"text/html","utf-8",null);
 
         new Handler().postDelayed(new Runnable(){

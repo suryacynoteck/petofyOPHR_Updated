@@ -106,10 +106,6 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
         if (methods.isInternetOn()){
             petType();
             genaretePetUniqueKey();
-            getPetBreed();
-            getPetAge();
-            getPetColor();
-            getPetSize();
         }else {
 
             methods.DialogInternet();
@@ -243,6 +239,7 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
                     if (responseCode== 109){
                         petType=new ArrayList<>();
                         petType.add("Select Pet Type");
+                        petTypeHashMap.put("Select Pet Type","0");
                         Log.d("lalal",""+petTypeResponse.getData().size());
                         for(int i=0; i<petTypeResponse.getData().size(); i++){
                             Log.d("petttt",""+petTypeResponse.getData().get(i).getPetType1());
@@ -524,6 +521,15 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
                 Log.d("spnerType",""+item);
                 strSpnerItemPetType=item;
                 getStrSpnerItemPetNmId=petTypeHashMap.get(item);
+                if(!getStrSpnerItemPetNmId.equals("0"))
+                {
+                    getPetBreed();
+                    getPetAge();
+                    getPetColor();
+                    getPetSize();
+
+                }
+
             }
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -552,8 +558,11 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
     }
     private void getPetBreed() {
         BreedRequest breedRequest = new BreedRequest();
-        breedRequest.setGetAll("true");
-        breedRequest.setPetCategoryId("1");
+        breedRequest.setGetAll("false");
+        if(!getStrSpnerItemPetNmId.equals("0"))
+            breedRequest.setPetCategoryId(getStrSpnerItemPetNmId);
+        else
+            breedRequest.setPetCategoryId("1");
         BreedParams breedParams = new BreedParams();
         breedParams.setData(breedRequest);
 
@@ -566,8 +575,11 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
     }
     private void getPetAge() {
         BreedRequest breedRequest = new BreedRequest();
-        breedRequest.setGetAll("true");
-        breedRequest.setPetCategoryId("1");
+        breedRequest.setGetAll("false");
+        if(!getStrSpnerItemPetNmId.equals("0"))
+            breedRequest.setPetCategoryId(getStrSpnerItemPetNmId);
+        else
+            breedRequest.setPetCategoryId("1");
         BreedParams breedParams = new BreedParams();
         breedParams.setData(breedRequest);
 
@@ -577,8 +589,11 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
     private void getPetColor() {
         methods.showCustomProgressBarDialog(this);
         BreedRequest breedRequest = new BreedRequest();
-        breedRequest.setGetAll("true");
-        breedRequest.setPetCategoryId("1");
+        breedRequest.setGetAll("false");
+        if(!getStrSpnerItemPetNmId.equals("0"))
+            breedRequest.setPetCategoryId(getStrSpnerItemPetNmId);
+        else
+            breedRequest.setPetCategoryId("1");
         BreedParams breedParams = new BreedParams();
         breedParams.setData(breedRequest);
 
@@ -587,8 +602,11 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
     }
     private void getPetSize() {
         BreedRequest breedRequest = new BreedRequest();
-        breedRequest.setGetAll("true");
-        breedRequest.setPetCategoryId("1");
+        breedRequest.setGetAll("false");
+        if(!getStrSpnerItemPetNmId.equals("0"))
+            breedRequest.setPetCategoryId(getStrSpnerItemPetNmId);
+        else
+            breedRequest.setPetCategoryId("1");
         BreedParams breedParams = new BreedParams();
         breedParams.setData(breedRequest);
 
