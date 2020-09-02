@@ -40,6 +40,7 @@ import com.cynoteck.petofyvet.response.addPet.petSizeResponse.PetSizeValueRespon
 import com.cynoteck.petofyvet.response.addPet.uniqueIdResponse.UniqueResponse;
 import com.cynoteck.petofyvet.response.addPetClinicresponse.AddpetClinicResponse;
 import com.cynoteck.petofyvet.response.addTestAndXRayResponse.AddTestXRayResponse;
+import com.cynoteck.petofyvet.response.appointmentResponse.GetAppointmentResponse;
 import com.cynoteck.petofyvet.response.clinicVisist.ClinicVisitResponse;
 import com.cynoteck.petofyvet.response.forgetAndChangePassResponse.PasswordResponse;
 import com.cynoteck.petofyvet.response.getLabTestReportResponse.getLabTestReportDetailsResponse.GetLabTestReportDeatilsResponse;
@@ -364,6 +365,14 @@ public interface ApiInterface {
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST(" pet/GetPetIdentityCard")
     Call<PetIdCardResponse> getPetIdCard(@Header("Authorization") String auth, @Body PetClinicVisitDetailsRequest idCardRequest);
+
+
+    //APPOINTMENTS......................
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("appointment/getappointment")
+    Call<GetAppointmentResponse> getAppointment(@Header("Authorization") String auth);
+
 
 }
 

@@ -30,7 +30,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
     ImageView reports_IV;
     RelativeLayout mainHome;
     Methods methods;
-    CardView reports_CV, all_staff_CV, allPets_CV;
+    CardView reports_CV, all_staff_CV, allPets_CV,appoint_CV;
 
     @Override
     public void onAttach(Context context) {
@@ -60,10 +60,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
         pet_list_RV=view.findViewById(R.id.pet_id_TV);
         add_new_visit=view.findViewById(R.id.add_new_visit);
         allPets_CV=view.findViewById(R.id.allPets_CV);
+        appoint_CV=view.findViewById(R.id.appoint_CV);
+
         allPets_CV.setOnClickListener(this);
         reports_CV.setOnClickListener(this);
         all_staff_CV.setOnClickListener(this);
         add_new_visit.setOnClickListener(this);
+        appoint_CV.setOnClickListener(this);
     }
 
     @Override
@@ -93,6 +96,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
             case R.id.allPets_CV:
                 PetRegisterFragment petRegisterFragment = new PetRegisterFragment();
                 replaceFragment(petRegisterFragment);
+
+                break;
+
+            case R.id.appoint_CV:
+                AppointementFragment appointementFragment = new AppointementFragment();
+                replaceFragment(appointementFragment);
 
                 break;
         }

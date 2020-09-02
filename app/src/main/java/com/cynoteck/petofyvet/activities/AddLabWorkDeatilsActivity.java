@@ -555,31 +555,31 @@ public class AddLabWorkDeatilsActivity extends AppCompatActivity implements View
     public void onResponse(Response arg0, String key) {
 
         switch (key) {
-            case "GetLabTypeList":
-                try {
-                    LabTypeResponse labTypeResponse = (LabTypeResponse) arg0.body();
-                    Log.d("GetLabTypeList", labTypeResponse.toString());
-                    int responseCode = Integer.parseInt(labTypeResponse.getResponse().getResponseCode());
+                case "GetLabTypeList":
+                    try {
+                        LabTypeResponse labTypeResponse = (LabTypeResponse) arg0.body();
+                        Log.d("GetLabTypeList", labTypeResponse.toString());
+                        int responseCode = Integer.parseInt(labTypeResponse.getResponse().getResponseCode());
 
-                    if (responseCode == 109) {
-                        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
-                        labTypeArrayList = new ArrayList<>();
-                        labTypeArrayList.add("Select Lab Type");
-                        for (int i = 0; i < labTypeResponse.getData().size(); i++) {
-                            labTypeArrayList.add(labTypeResponse.getData().get(i).getLab());
-                            labTypeHash.put(labTypeResponse.getData().get(i).getLab(), labTypeResponse.getData().get(i).getId());
+                        if (responseCode == 109) {
+                            Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                            labTypeArrayList = new ArrayList<>();
+                            labTypeArrayList.add("Select Lab Type");
+                            for (int i = 0; i < labTypeResponse.getData().size(); i++) {
+                                labTypeArrayList.add(labTypeResponse.getData().get(i).getLab());
+                                labTypeHash.put(labTypeResponse.getData().get(i).getLab(), labTypeResponse.getData().get(i).getId());
+                            }
+                            setSpinneerLabType();
+                        } else if (responseCode == 614) {
+                            Toast.makeText(this, labTypeResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
                         }
-                        setSpinneerLabType();
-                    } else if (responseCode == 614) {
-                        Toast.makeText(this, labTypeResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
-                    }
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
             case "UploadDocument":
                 try {
                     Log.d("UploadDocument",arg0.body().toString());
