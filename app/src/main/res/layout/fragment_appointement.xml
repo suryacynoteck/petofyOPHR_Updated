@@ -6,17 +6,10 @@
     tools:context=".fragments.AppointementFragment"
     android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
-    <WebView
-        android:id="@+id/web_invoice"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:text="appoint" />
+   <androidx.recyclerview.widget.RecyclerView
+       android:id="@+id/date_day_RV"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"/>
 
-    <Button
-        android:id="@+id/pdf_format"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        />
 
 </LinearLayout>
