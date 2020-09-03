@@ -1,5 +1,6 @@
 package com.cynoteck.petofyvet.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,15 +12,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.response.appointmentResponse.AppointmentList;
+import com.cynoteck.petofyvet.utils.AppointmentsClickListner;
 
 import java.util.ArrayList;
 
 public class AppointmentListAdapter extends RecyclerView.Adapter<AppointmentListAdapter.MyViewHolder> {
 
     ArrayList<AppointmentList> appointmentList;
+    AppointmentsClickListner appointmentsClickListner;
+    Context context;
 
-    public AppointmentListAdapter(ArrayList<AppointmentList> appointmentList) {
+    public AppointmentListAdapter(Context context,ArrayList<AppointmentList> appointmentList, AppointmentsClickListner appointmentsClickListner) {
         this.appointmentList = appointmentList;
+        this.appointmentsClickListner = appointmentsClickListner;
+        this.context = context;
 
     }
 
@@ -33,8 +39,9 @@ public class AppointmentListAdapter extends RecyclerView.Adapter<AppointmentList
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AppointmentListAdapter.MyViewHolder holder, int position)
+    public void onBindViewHolder(@NonNull AppointmentListAdapter.MyViewHolder holder, final int position)
     {
+
         if (appointmentList.get(position).getIsApproved().equals("true")){
             holder.join_BT.setVisibility(View.VISIBLE);
         }else {
@@ -65,17 +72,23 @@ public class AppointmentListAdapter extends RecyclerView.Adapter<AppointmentList
             approve_BT = itemView.findViewById(R.id.approve_BT);
             join_BT = itemView.findViewById(R.id.join_BT);
 
-            approve_BT.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
-
             join_BT.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
+                    if (appointmentsClickListner!=null){
+                        appointmentsClickListner.onJoinClick(getAdapterPosition());
+                    }
+                }
+            });
+
+            approve_BT.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    if (appointmentsClickListner!=null){
+                        appointmentsClickListner.onApproveClick(getAdapterPosition());
+                    }
                 }
             });
 

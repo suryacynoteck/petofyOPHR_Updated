@@ -1,23 +1,21 @@
-package com.cynoteck.petofyvet.response.appointmentResponse;
+package com.cynoteck.petofyvet.response.getAppointmentsStatusResponse;
 
 import com.cynoteck.petofyvet.response.Header;
 import com.cynoteck.petofyvet.response.Response;
 
-import java.util.ArrayList;
-
-public class GetAppointmentResponse {
-    private ArrayList<GetAppointmentDates> data;
+public class AppointmentStatusResponse {
+    private AppointmentStausData data;
 
     private Response response;
 
     private Header header;
 
-    public ArrayList<GetAppointmentDates> getData ()
+    public AppointmentStausData getData ()
     {
         return data;
     }
 
-    public void setData (ArrayList<GetAppointmentDates> data)
+    public void setData (AppointmentStausData data)
     {
         this.data = data;
     }
@@ -49,5 +47,4 @@ public class GetAppointmentResponse {
     }
 }
 
-			
-			
+

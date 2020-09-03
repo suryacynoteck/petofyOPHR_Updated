@@ -13,22 +13,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.response.appointmentResponse.GetAppointmentDates;
+import com.cynoteck.petofyvet.utils.AppointmentsClickListner;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class DateListAdapter extends RecyclerView.Adapter<DateListAdapter.MyViewHolder> {
+public class DateListAdapter extends RecyclerView.Adapter<DateListAdapter.MyViewHolder>   {
 
     RecyclerView.RecycledViewPool recycledViewPool = new RecyclerView.RecycledViewPool();
-
     List<GetAppointmentDates> getAppointmentDates;
-
+    AppointmentsClickListner appointmentsClickListner;
     Context context;
 
-    public DateListAdapter(List<GetAppointmentDates> getAppointmentDates, Context context) {
+    public DateListAdapter(List<GetAppointmentDates> getAppointmentDates, Context context,AppointmentsClickListner appointmentsClickListner) {
         this.getAppointmentDates = getAppointmentDates;
         this.context = context;
+        this.appointmentsClickListner = appointmentsClickListner;
+
     }
 
     @NonNull
@@ -41,9 +43,7 @@ public class DateListAdapter extends RecyclerView.Adapter<DateListAdapter.MyView
     }
 
     @Override
-    public void onBindViewHolder(@NonNull DateListAdapter.MyViewHolder holder, int position)
-    {
-
+    public void onBindViewHolder(@NonNull DateListAdapter.MyViewHolder holder, int position) {
         if (getAppointmentDates.get(position).getAppointmentList().isEmpty()){
             holder.empty_CV.setVisibility(View.VISIBLE);
         }
@@ -59,7 +59,7 @@ public class DateListAdapter extends RecyclerView.Adapter<DateListAdapter.MyView
             holder.date_TV.setText(formats1.substring(0,6));
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(holder.event_list.getContext(), LinearLayoutManager.VERTICAL, false);
             linearLayoutManager.setInitialPrefetchItemCount(getAppointmentDates.size());
-            AppointmentListAdapter appointmentListAdapter = new AppointmentListAdapter(getAppointmentDates.get(position).getAppointmentList());
+            AppointmentListAdapter appointmentListAdapter = new AppointmentListAdapter(context,getAppointmentDates.get(position).getAppointmentList(),appointmentsClickListner);
             holder.event_list.setLayoutManager(linearLayoutManager);
             holder.event_list.setAdapter(appointmentListAdapter);
             holder.event_list.setRecycledViewPool(recycledViewPool);

@@ -1,7 +1,9 @@
 package com.cynoteck.petofyvet.activities;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -77,7 +79,8 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
         init();
 
         if (checkPermission()) {
-            getDeviceId();
+            imeiNumber = IMEI.get_dev_id(this);
+//            getDeviceId();
         } else {
             if (!checkPermission()) {
                 requestPermission();
@@ -104,7 +107,9 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
 
     private void requestPermission() {
         ActivityCompat.requestPermissions(this, new String[]{ACCESS_FINE_LOCATION,CAMERA,READ_PHONE_STATE,READ_EXTERNAL_STORAGE,WRITE_EXTERNAL_STORAGE,ACCESS_WIFI_STATE,ACCESS_NETWORK_STATE}, PERMISSION_REQUEST_CODE);
-        getDeviceId();
+//        getDeviceId();
+        imeiNumber = IMEI.get_dev_id(this);
+
     }
 
     private void init() {
@@ -142,7 +147,8 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                     password_TIET.setError(null);
                 } else if (imeiNumber.isEmpty()) {
                     if (checkPermission()) {
-                        getDeviceId();
+                        imeiNumber = IMEI.get_dev_id(this);
+//                        getDeviceId();
                     } else {
                         if (!checkPermission()) {
                             requestPermission();
@@ -370,4 +376,19 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
         }
         imeiNumber = telephonyManager.getDeviceId();
     }
+
+    public static class IMEI {
+
+        public static String get_dev_id(Context ctx){
+
+            //Getting the Object of TelephonyManager
+            TelephonyManager tManager = (TelephonyManager)ctx.getSystemService(Context.TELEPHONY_SERVICE);
+
+            //Getting IMEI Number of Devide
+            @SuppressLint("MissingPermission") String Imei=tManager.getDeviceId();
+
+            return Imei;
+        }
+    }
+
 }

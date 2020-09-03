@@ -9,6 +9,7 @@ import com.cynoteck.petofyvet.params.allStaffRequest.AddStaffRequest;
 import com.cynoteck.petofyvet.params.allStaffRequest.ChangeStaffStatusRequest;
 import com.cynoteck.petofyvet.params.allStaffRequest.StaffDeatilsRequest;
 import com.cynoteck.petofyvet.params.allStaffRequest.UpdateStaffRequest;
+import com.cynoteck.petofyvet.params.appointmentParams.AppointmentsStatusRequest;
 import com.cynoteck.petofyvet.params.changePassRequest.ChangePassRequest;
 import com.cynoteck.petofyvet.params.checkpetInVetRegister.InPetRegisterRequest;
 import com.cynoteck.petofyvet.params.forgetPassRequest.ForgetPassRequest;
@@ -373,7 +374,9 @@ public interface ApiInterface {
     @POST("appointment/getappointment")
     Call<GetAppointmentResponse> getAppointment(@Header("Authorization") String auth);
 
-
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("appointment/ApproveRejectAppointment")
+    Call<GetAppointmentResponse> appointmentApproveReject(@Header("Authorization") String auth, AppointmentsStatusRequest appointmentsStatusRequest);
 }
 
 

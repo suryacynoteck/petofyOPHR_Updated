@@ -22,7 +22,6 @@
         android:smallScreens="true" />
 
     <application
-        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@drawable/logo_petofy"
@@ -30,7 +29,9 @@
         android:largeHeap="true"
         android:roundIcon="@drawable/logo_petofy"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".activities.ViewFullProfileVetActivity"></activity>
         <activity
             android:name=".activities.PetIdCardActivity"
             android:screenOrientation="landscape"
