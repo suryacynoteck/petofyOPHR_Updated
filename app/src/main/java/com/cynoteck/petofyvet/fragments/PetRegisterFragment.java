@@ -196,8 +196,8 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, ViewD
     @Override
     public void onResume() {
         super.onResume();
-        mShimmerViewContainer.setVisibility(View.VISIBLE);
-        mShimmerViewContainer.startShimmerAnimation();
+       /* mShimmerViewContainer.setVisibility(View.VISIBLE);
+        mShimmerViewContainer.startShimmerAnimation();*/
         if (Config.backCall.equals("Added")) {
             Config.backCall ="";
             getPetList();
@@ -209,14 +209,13 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, ViewD
 
     @Override
     public void onPause() {
-        mShimmerViewContainer.stopShimmerAnimation();
+        /*mShimmerViewContainer.stopShimmerAnimation();*/
         super.onPause();
     }
 
     @Override
     public void onViewDetailsClick(int position) {
         Log.d("positionssss",""+position);
-        Toast.makeText(getActivity(), categoryRecordArrayList.get(position).getId(), Toast.LENGTH_SHORT).show();
         Log.d("pet_id",""+categoryRecordArrayList.get(position).getId());
 
         StringTokenizer tokens = new StringTokenizer(categoryRecordArrayList.get(position).getId(), ".");
