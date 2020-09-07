@@ -29,6 +29,7 @@ import com.cynoteck.petofyvet.params.updateLapTestParams.UpdateLabTestRequest;
 import com.cynoteck.petofyvet.params.updateRequest.getValue.UpdateParams;
 import com.cynoteck.petofyvet.params.updateRequest.updateParamRequest.UpdatePetRequest;
 import com.cynoteck.petofyvet.params.updateXRayParams.UpdateXrayRequest;
+import com.cynoteck.petofyvet.params.workingHoursParameter.WorkingHoursParameter;
 import com.cynoteck.petofyvet.response.InPetVeterian.InPetVeterianResponse;
 import com.cynoteck.petofyvet.response.addHospitalizationResponse.AddhospitalizationResposee;
 import com.cynoteck.petofyvet.response.addLabWorkResponse.AddLabWorkResponse;
@@ -59,6 +60,7 @@ import com.cynoteck.petofyvet.response.getStaffResponse.GetAllStaffResponse;
 import com.cynoteck.petofyvet.response.getStaffResponse.GetStaffDetailsResponse;
 import com.cynoteck.petofyvet.response.getStaffResponse.GetStaffStatusResponse;
 import com.cynoteck.petofyvet.response.getStaffResponse.GetUpdateStaffResponse;
+import com.cynoteck.petofyvet.response.getWorkingHoursResponse.WorkingHoursResponse;
 import com.cynoteck.petofyvet.response.getXRayReports.getPetTestAndXRayResponse.GetPetTestAndXRayResponse;
 import com.cynoteck.petofyvet.response.getXRayReports.getXRayReportDetailsResponse.GetXRayReportDeatilsResponse;
 import com.cynoteck.petofyvet.response.hospitalTypeListResponse.HospitalAddmissionTypeResp;
@@ -67,6 +69,7 @@ import com.cynoteck.petofyvet.response.loginRegisterResponse.LoginRegisterRespon
 import com.cynoteck.petofyvet.response.newPetResponse.NewPetRegisterResponse;
 import com.cynoteck.petofyvet.response.otpResponse.OtpResponse;
 import com.cynoteck.petofyvet.response.recentEntrys.RecentEntrysResponse;
+import com.cynoteck.petofyvet.response.saveWorkingReponse.SaveWorkingHoursResponse;
 import com.cynoteck.petofyvet.response.searchRemaks.SearchRemaksResponse;
 import com.cynoteck.petofyvet.response.testResponse.XrayTestResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.CityResponse;
@@ -376,7 +379,20 @@ public interface ApiInterface {
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("appointment/ApproveRejectAppointment")
-    Call<GetAppointmentResponse> appointmentApproveReject(@Header("Authorization") String auth, AppointmentsStatusRequest appointmentsStatusRequest);
+    Call<GetAppointmentResponse> appointmentApproveReject(@Header("Authorization") String auth, @Body AppointmentsStatusRequest appointmentsStatusRequest);
+
+
+   //TODO=================GET OPERATING HOURS===========================
+
+   @Headers({ "Content-Type: application/json;charset=UTF-8"})
+   @POST("user/GetOperatingHours")
+   Call<WorkingHoursResponse> getOperatingHours(@Header("Authorization") String auth);
+
+  //TODO==================SAVE OPERATING HOURS===========================
+
+  @Headers({ "Content-Type: application/json;charset=UTF-8"})
+  @POST("user/SaveOperatingHours")
+  Call<SaveWorkingHoursResponse> saveOperatingHours(@Header("Authorization") String auth, @Body WorkingHoursParameter workingHoursParameter);
 }
 
 

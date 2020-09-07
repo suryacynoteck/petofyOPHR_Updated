@@ -131,8 +131,16 @@
     <string name="hidden_text">Hidden Text</string>
     <string name="custom_page_screenshot">Custom Page Screenshot</string>
     <string name="profile">Profile</string>
+    <string name="operating_hrs">Operating Hours</string>
     <string name="OnlineAppointment">Online Appointment</string>
     <string name="fullProfile">Veterinarian Full Profile</string>
     <string name="Settings">Settings</string>
     <string name="hours">Operating Hours</string>
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
 </resources>
