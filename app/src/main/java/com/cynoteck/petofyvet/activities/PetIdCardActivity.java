@@ -208,12 +208,10 @@ public class PetIdCardActivity extends AppCompatActivity implements ApiResponse 
                     parent_TV.setText(petIdCardResponse.getData().getPetParentName());
                     contact_TV.setText(petIdCardResponse.getData().getContactNumber());
                     pet_id_TV.setText(petIdCardResponse.getData().getPetUniqueId());
- //                   pet_image.setImageResource(Integer.parseInt(petIdCardResponse.getData().getPetProfileImageUrl()));
-//                    RequestOptions options = new RequestOptions()
-//                            .centerCrop()
-//                            .placeholder(R.mipmap.ic_launcher_round)
-//                            .error(R.mipmap.ic_launcher_round);
-
+                    Glide.with(this)
+                            .load(petIdCardResponse.getData().getPetProfileImageUrl())
+                            .placeholder(R.drawable.pet_image)
+                            .into(pet_image);
                     Glide.with(this).load(petIdCardResponse.getData().getBarcodeUrl()).into(bar_code_IV);
                 }
         }
