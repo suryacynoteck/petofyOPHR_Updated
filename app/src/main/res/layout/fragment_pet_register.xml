@@ -65,8 +65,7 @@
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
                     android:singleLine="true"
-                    android:textSize="20sp"
-                    android:drawableRight="@drawable/searchicon"/>
+                    android:textSize="20sp"/>
             </RelativeLayout>
 
             <TextView

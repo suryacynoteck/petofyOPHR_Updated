@@ -80,7 +80,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
 
         if (checkPermission()) {
 //            imeiNumber = IMEI.get_dev_id(this);
-            getDeviceId();
+//            getDeviceId();
         } else {
             if (!checkPermission()) {
                 requestPermission();
@@ -107,7 +107,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
 
     private void requestPermission() {
         ActivityCompat.requestPermissions(this, new String[]{ACCESS_FINE_LOCATION,CAMERA,READ_PHONE_STATE,READ_EXTERNAL_STORAGE,WRITE_EXTERNAL_STORAGE,ACCESS_WIFI_STATE,ACCESS_NETWORK_STATE}, PERMISSION_REQUEST_CODE);
-        getDeviceId();
+//        getDeviceId();
 //        imeiNumber = IMEI.get_dev_id(this);
 
     }
@@ -145,10 +145,10 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                 } else if (passwordString.isEmpty()) {
                     email_TIET.setError("Password is empty");
                     password_TIET.setError(null);
-                } else if (imeiNumber.isEmpty()) {
+                }/* else if (imeiNumber.isEmpty()) {
                     if (checkPermission()) {
 //                        imeiNumber = IMEI.get_dev_id(this);
-                        getDeviceId();
+//                        getDeviceId();
                     } else {
                         if (!checkPermission()) {
                             requestPermission();
@@ -156,7 +156,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                             Toast.makeText(this, "Permission already granted.", Toast.LENGTH_SHORT).show();
                         }
                     }
-                } else {
+                }*/ else {
                     email_TIET.setError(null);
                     password_TIET.setError(null);
                     Loginparams loginparams = new Loginparams();
