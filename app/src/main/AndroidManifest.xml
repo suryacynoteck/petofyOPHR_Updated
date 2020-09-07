@@ -31,8 +31,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.AddUpdateAppointmentActivity"></activity>
-        <activity android:name=".activities.ViewFullProfileVetActivity" />
+        <activity android:name=".activities.ViewFullProfileVetActivity"></activity>
         <activity
             android:name=".activities.PetIdCardActivity"
             android:screenOrientation="landscape"
