@@ -1,9 +1,7 @@
-package com.cynoteck.petofyvet.response.loginRegisterResponse;
+package com.cynoteck.petofyvet.response.appointmentResponse;
 
-public class LoginRegisterResponseData
+public class Veterinarian
 {
-    private String vetRegistrationNumber;
-
     private String lastName;
 
     private String zipCode;
@@ -38,8 +36,6 @@ public class LoginRegisterResponseData
 
     private String email;
 
-    private String onlineAppointmentStatus;
-
     private String petParentConfirmPassword;
 
     private String enableTwoStepVerification;
@@ -61,8 +57,6 @@ public class LoginRegisterResponseData
     private String forgotPasswordEmail;
 
     private String isPrivacyPolicyCheck;
-
-    private String vetRQualification;
 
     private String firstName;
 
@@ -92,20 +86,10 @@ public class LoginRegisterResponseData
 
     private String status;
 
-    public String getVetRegistrationNumber ()
-    {
-        return vetRegistrationNumber;
-    }
-
-    public void setVetRegistrationNumber (String vetRegistrationNumber)
-    {
-        this.vetRegistrationNumber = vetRegistrationNumber;
-    }
-
     public String getLastName ()
-    {
-        return lastName;
-    }
+{
+    return lastName;
+}
 
     public void setLastName (String lastName)
     {
@@ -193,9 +177,9 @@ public class LoginRegisterResponseData
     }
 
     public String getPassword ()
-    {
-        return password;
-    }
+{
+    return password;
+}
 
     public void setPassword (String password)
     {
@@ -213,9 +197,9 @@ public class LoginRegisterResponseData
     }
 
     public String getLatLong ()
-    {
-        return latLong;
-    }
+{
+    return latLong;
+}
 
     public void setLatLong (String latLong)
     {
@@ -272,16 +256,6 @@ public class LoginRegisterResponseData
         this.email = email;
     }
 
-    public String getOnlineAppointmentStatus ()
-    {
-        return onlineAppointmentStatus;
-    }
-
-    public void setOnlineAppointmentStatus (String onlineAppointmentStatus)
-    {
-        this.onlineAppointmentStatus = onlineAppointmentStatus;
-    }
-
     public String getPetParentConfirmPassword ()
 {
     return petParentConfirmPassword;
@@ -303,9 +277,9 @@ public class LoginRegisterResponseData
     }
 
     public String getAddress ()
-    {
-        return address;
-    }
+{
+    return address;
+}
 
     public void setAddress (String address)
     {
@@ -313,9 +287,9 @@ public class LoginRegisterResponseData
     }
 
     public String getRoleId ()
-    {
-        return roleId;
-    }
+{
+    return roleId;
+}
 
     public void setRoleId (String roleId)
     {
@@ -323,9 +297,9 @@ public class LoginRegisterResponseData
     }
 
     public String getFullName ()
-{
-    return fullName;
-}
+    {
+        return fullName;
+    }
 
     public void setFullName (String fullName)
     {
@@ -392,20 +366,10 @@ public class LoginRegisterResponseData
         this.isPrivacyPolicyCheck = isPrivacyPolicyCheck;
     }
 
-    public String getVetRQualification ()
-    {
-        return vetRQualification;
-    }
-
-    public void setVetRQualification (String vetRQualification)
-    {
-        this.vetRQualification = vetRQualification;
-    }
-
     public String getFirstName ()
-    {
-        return firstName;
-    }
+{
+    return firstName;
+}
 
     public void setFirstName (String firstName)
     {
@@ -463,9 +427,9 @@ public class LoginRegisterResponseData
     }
 
     public String getEncryptedId ()
-    {
-        return encryptedId;
-    }
+{
+    return encryptedId;
+}
 
     public void setEncryptedId (String encryptedId)
     {
@@ -513,9 +477,9 @@ public class LoginRegisterResponseData
     }
 
     public String getUserRole ()
-    {
-        return userRole;
-    }
+{
+    return userRole;
+}
 
     public void setUserRole (String userRole)
     {
@@ -545,8 +509,6 @@ public class LoginRegisterResponseData
     @Override
     public String toString()
     {
-        return "ClassPojo [vetRegistrationNumber = "+vetRegistrationNumber+", lastName = "+lastName+", zipCode = "+zipCode+", notificationStatus = "+notificationStatus+", providerLastName = "+providerLastName+", providerPhoneNumber = "+providerPhoneNumber+", cityId = "+cityId+", isActive = "+isActive+", isEmailVerified = "+isEmailVerified+", isLogin = "+isLogin+", password = "+password+", locationId = "+locationId+", latLong = "+latLong+", customerEmail = "+customerEmail+", confirmPassword = "+confirmPassword+", userSalt = "+userSalt+", profileImageUrl = "+profileImageUrl+", email = "+email+", onlineAppointmentStatus = "+onlineAppointmentStatus+", petParentConfirmPassword = "+petParentConfirmPassword+", enableTwoStepVerification = "+enableTwoStepVerification+", address = "+address+", roleId = "+roleId+", fullName = "+fullName+", areYouProvider = "+areYouProvider+", guestEmail = "+guestEmail+", userId = "+userId+", petParentPassword = "+petParentPassword+", forgotPasswordEmail = "+forgotPasswordEmail+", isPrivacyPolicyCheck = "+isPrivacyPolicyCheck+", vetRQualification = "+vetRQualification+", firstName = "+firstName+", locationList = "+locationList+", providerConfirmPassword = "+providerConfirmPassword+", isMobileNumberVerified = "+isMobileNumberVerified+", phoneNumber = "+phoneNumber+", providerPassword = "+providerPassword+", encryptedId = "+encryptedId+", customerPassword = "+customerPassword+", providerFirstName = "+providerFirstName+", rememberMe = "+rememberMe+", userPermissionMasterList = "+userPermissionMasterList+", userRole = "+userRole+", providerEmail = "+providerEmail+", status = "+status+"]";
+        return "ClassPojo [lastName = "+lastName+", zipCode = "+zipCode+", notificationStatus = "+notificationStatus+", providerLastName = "+providerLastName+", providerPhoneNumber = "+providerPhoneNumber+", cityId = "+cityId+", isActive = "+isActive+", isEmailVerified = "+isEmailVerified+", isLogin = "+isLogin+", password = "+password+", locationId = "+locationId+", latLong = "+latLong+", customerEmail = "+customerEmail+", confirmPassword = "+confirmPassword+", userSalt = "+userSalt+", profileImageUrl = "+profileImageUrl+", email = "+email+", petParentConfirmPassword = "+petParentConfirmPassword+", enableTwoStepVerification = "+enableTwoStepVerification+", address = "+address+", roleId = "+roleId+", fullName = "+fullName+", areYouProvider = "+areYouProvider+", guestEmail = "+guestEmail+", userId = "+userId+", petParentPassword = "+petParentPassword+", forgotPasswordEmail = "+forgotPasswordEmail+", isPrivacyPolicyCheck = "+isPrivacyPolicyCheck+", firstName = "+firstName+", locationList = "+locationList+", providerConfirmPassword = "+providerConfirmPassword+", isMobileNumberVerified = "+isMobileNumberVerified+", phoneNumber = "+phoneNumber+", providerPassword = "+providerPassword+", encryptedId = "+encryptedId+", customerPassword = "+customerPassword+", providerFirstName = "+providerFirstName+", rememberMe = "+rememberMe+", userPermissionMasterList = "+userPermissionMasterList+", userRole = "+userRole+", providerEmail = "+providerEmail+", status = "+status+"]";
     }
 }
-			
-		

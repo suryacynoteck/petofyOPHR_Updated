@@ -10,6 +10,8 @@ import com.cynoteck.petofyvet.params.allStaffRequest.ChangeStaffStatusRequest;
 import com.cynoteck.petofyvet.params.allStaffRequest.StaffDeatilsRequest;
 import com.cynoteck.petofyvet.params.allStaffRequest.UpdateStaffRequest;
 import com.cynoteck.petofyvet.params.appointmentParams.AppointmentsStatusRequest;
+import com.cynoteck.petofyvet.params.appointmentParams.CreateAppointRequest;
+import com.cynoteck.petofyvet.params.appointmentParams.UpdateAppointmentRequest;
 import com.cynoteck.petofyvet.params.changePassRequest.ChangePassRequest;
 import com.cynoteck.petofyvet.params.checkpetInVetRegister.InPetRegisterRequest;
 import com.cynoteck.petofyvet.params.forgetPassRequest.ForgetPassRequest;
@@ -41,15 +43,19 @@ import com.cynoteck.petofyvet.response.addPet.petSizeResponse.PetSizeValueRespon
 import com.cynoteck.petofyvet.response.addPet.uniqueIdResponse.UniqueResponse;
 import com.cynoteck.petofyvet.response.addPetClinicresponse.AddpetClinicResponse;
 import com.cynoteck.petofyvet.response.addTestAndXRayResponse.AddTestXRayResponse;
+import com.cynoteck.petofyvet.response.appointmentResponse.AppointmentDetailsResponse;
+import com.cynoteck.petofyvet.response.appointmentResponse.CreateAppointmentResponse;
 import com.cynoteck.petofyvet.response.appointmentResponse.GetAppointmentResponse;
 import com.cynoteck.petofyvet.response.clinicVisist.ClinicVisitResponse;
 import com.cynoteck.petofyvet.response.forgetAndChangePassResponse.PasswordResponse;
+import com.cynoteck.petofyvet.response.getAppointmentsStatusResponse.AppointmentStatusResponse;
 import com.cynoteck.petofyvet.response.getLabTestReportResponse.getLabTestReportDetailsResponse.GetLabTestReportDeatilsResponse;
 import com.cynoteck.petofyvet.response.getLabTestReportResponse.getPetLabWorkListResponse.PetLabWorkResponse;
 import com.cynoteck.petofyvet.response.getPetDetailsResponse.GetPetResponse;
 import com.cynoteck.petofyvet.response.getPetHospitalizationResponse.getHospitalizationDeatilsResponse.GetHospitalizationDeatilsResponse;
 import com.cynoteck.petofyvet.response.getPetHospitalizationResponse.getHospitalizationListResponse.GetPetHospitalizationResponse;
 import com.cynoteck.petofyvet.response.getPetIdCardResponse.PetIdCardResponse;
+import com.cynoteck.petofyvet.response.getPetParentResponse.GetPetParentResponse;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.AddUpdateDeleteClinicVisitResponse;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.GetReportsTypeResponse;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.getClinicVisitDetails.GetClinicVisitsDetailsResponse;
@@ -376,7 +382,25 @@ public interface ApiInterface {
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("appointment/ApproveRejectAppointment")
-    Call<GetAppointmentResponse> appointmentApproveReject(@Header("Authorization") String auth, AppointmentsStatusRequest appointmentsStatusRequest);
+    Call<AppointmentStatusResponse> appointmentApproveReject(@Header("Authorization") String auth,@Body AppointmentsStatusRequest appointmentsStatusRequest);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("appointment/CreateAppointment")
+    Call<CreateAppointmentResponse> createAppointment(@Header("Authorization") String auth, @Body CreateAppointRequest createAppointRequest);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("appointment/UpdateAppointment")
+    Call<CreateAppointmentResponse> updateAppointment(@Header("Authorization") String auth, @Body UpdateAppointmentRequest updateAppointmentRequest);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("user/GetPetParentList")
+    Call<GetPetParentResponse> getPetParentList(@Header("Authorization") String auth);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("appointment/GetAppointmentById")
+    Call<AppointmentDetailsResponse> getAppointmentsDetails(@Header("Authorization") String auth,
+                                                            @Body GetPetListRequest addPetRequset);
+
 }
 
 

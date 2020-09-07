@@ -22,6 +22,8 @@ public class AppointmentList
 
     private String userId;
 
+    private String meetingUrl;
+
     private String encryptionId;
 
     private String vetName;
@@ -44,7 +46,19 @@ public class AppointmentList
 
     private String isApproved;
 
+    private String petParentMeetingUrl;
+
     private String endDateString;
+
+    private String paymentStatus;
+
+    public String getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(String paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
 
     public String getStatusColor ()
     {
@@ -144,6 +158,16 @@ public class AppointmentList
     public void setUserId (String userId)
     {
         this.userId = userId;
+    }
+
+    public String getMeetingUrl ()
+    {
+        return meetingUrl;
+    }
+
+    public void setMeetingUrl (String meetingUrl)
+    {
+        this.meetingUrl = meetingUrl;
     }
 
     public String getEncryptionId ()
@@ -256,6 +280,16 @@ public class AppointmentList
         this.isApproved = isApproved;
     }
 
+    public String getPetParentMeetingUrl ()
+    {
+        return petParentMeetingUrl;
+    }
+
+    public void setPetParentMeetingUrl (String petParentMeetingUrl)
+    {
+        this.petParentMeetingUrl = petParentMeetingUrl;
+    }
+
     public String getEndDateString ()
     {
         return endDateString;
@@ -269,9 +303,11 @@ public class AppointmentList
     @Override
     public String toString()
     {
-        return "ClassPojo [statusColor = "+statusColor+", subject = "+subject+", companyName = "+companyName+", isVideoCall = "+isVideoCall+", description = "+description+", className = "+className+", meetingId = "+meetingId+", veterinarianUserId = "+veterinarianUserId+", title = "+title+", userId = "+userId+", encryptionId = "+encryptionId+", vetName = "+vetName+", someImportantKeyID = "+someImportantKeyID+", eventFirstImage = "+eventFirstImage+", statusString = "+statusString+", petParentName = "+petParentName+", ngoUserId = "+ngoUserId+", location = "+location+", id = "+id+", startDateString = "+startDateString+", isApproved = "+isApproved+", endDateString = "+endDateString+"]";
+        return "ClassPojo [statusColor = "+statusColor+", subject = "+subject+", companyName = "+companyName+", isVideoCall = "+isVideoCall+", description = "+description+", className = "+className+", meetingId = "+meetingId+", veterinarianUserId = "+veterinarianUserId+", title = "+title+", userId = "+userId+", meetingUrl = "+meetingUrl+", encryptionId = "+encryptionId+", vetName = "+vetName+", someImportantKeyID = "+someImportantKeyID+", eventFirstImage = "+eventFirstImage+", statusString = "+statusString+", petParentName = "+petParentName+", ngoUserId = "+ngoUserId+", location = "+location+", id = "+id+", startDateString = "+startDateString+", isApproved = "+isApproved+", petParentMeetingUrl = "+petParentMeetingUrl+", endDateString = "+endDateString+"]";
     }
 }
+			
+		
 			
 		
 			

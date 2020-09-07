@@ -1,6 +1,6 @@
-package com.cynoteck.petofyvet.response.getAppointmentsStatusResponse;
+package com.cynoteck.petofyvet.response.getPetParentResponse;
 
-public class User {
+public class GetPetParentListData {
     private String[] forumSubTopic;
 
     private String lastLogin;
@@ -727,6 +727,5 @@ public class User {
         return "ClassPojo [forumSubTopic = "+forumSubTopic+", lastLogin = "+lastLogin+", petHospitalizationsSurgeriesUpdatedByNavigation = "+petHospitalizationsSurgeriesUpdatedByNavigation+", cityId = "+cityId+", isActive = "+isActive+", cart = "+cart+", petTestsAndXreyVeterinarianUser = "+petTestsAndXreyVeterinarianUser+", password = "+password+", latLong = "+latLong+", petLabworkUpdatedByNavigation = "+petLabworkUpdatedByNavigation+", productRating = "+productRating+", requestToNgo = "+requestToNgo+", petDonation = "+petDonation+", enableTwoStepVerification = "+enableTwoStepVerification+", eventCreatedByNavigation = "+eventCreatedByNavigation+", veterinaryStaffVeterinary = "+veterinaryStaffVeterinary+", veterinaryStaffStaff = "+veterinaryStaffStaff+", firstName = "+firstName+", petClinicVisitVeterinarianUser = "+petClinicVisitVeterinarianUser+", phoneNumber = "+phoneNumber+", petDetail = "+petDetail+", veterinarianAppointmentUser = "+veterinarianAppointmentUser+", lastName = "+lastName+", userNavigation = "+userNavigation+", notificationNotifiedByNavigation = "+notificationNotifiedByNavigation+", petTestsAndXreyCreatedByNavigation = "+petTestsAndXreyCreatedByNavigation+", city = "+city+", veterinarianPetRegister = "+veterinarianPetRegister+", forumTopic = "+forumTopic+", petLabworkVeterinarianUser = "+petLabworkVeterinarianUser+", isEmailVerified = "+isEmailVerified+", forumComment = "+forumComment+", provider = "+provider+", locationId = "+locationId+", petLabworkCreatedByNavigation = "+petLabworkCreatedByNavigation+", userSalt = "+userSalt+", forumDiscussion = "+forumDiscussion+", veterinarianAppointmentVeterinarianUser = "+veterinarianAppointmentVeterinarianUser+", email = "+email+", eventNgoUser = "+eventNgoUser+", isProvider = "+isProvider+", address = "+address+", petHospitalizationsSurgeriesVeterinarianUser = "+petHospitalizationsSurgeriesVeterinarianUser+", petTestsAndXreyUpdatedByNavigation = "+petTestsAndXreyUpdatedByNavigation+", userProfileDetail = "+userProfileDetail+", forumSubject = "+forumSubject+", userPermission = "+userPermission+", privacyPolicy = "+privacyPolicy+", petAdoption = "+petAdoption+", rescueInjuredAnimalNgo = "+rescueInjuredAnimalNgo+", rescueInjuredAnimalUser = "+rescueInjuredAnimalUser+", providerRating = "+providerRating+", userId = "+userId+", notificationNotifiedToNavigation = "+notificationNotifiedToNavigation+", petClinicVisitCreatedByNavigation = "+petClinicVisitCreatedByNavigation+", petClinicVisitUpdatedByNavigation = "+petClinicVisitUpdatedByNavigation+", isMobileNumberVerified = "+isMobileNumberVerified+", petHospitalizationsSurgeriesCreatedByNavigation = "+petHospitalizationsSurgeriesCreatedByNavigation+", userDeviceInformation = "+userDeviceInformation+", location = "+location+"]";
     }
 }
+			
 
-			
-			

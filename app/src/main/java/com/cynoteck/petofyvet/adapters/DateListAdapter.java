@@ -46,7 +46,11 @@ public class DateListAdapter extends RecyclerView.Adapter<DateListAdapter.MyView
     public void onBindViewHolder(@NonNull DateListAdapter.MyViewHolder holder, int position) {
         if (getAppointmentDates.get(position).getAppointmentList().isEmpty()){
             holder.empty_CV.setVisibility(View.VISIBLE);
+        }else {
+            holder.empty_CV.setVisibility(View.GONE);
         }
+
+
         holder.day_TV.setText(getAppointmentDates.get(position).getAppointmentDay().substring(0,3));
         if (position==0){
         holder.day_TV.setText("Today");
@@ -63,6 +67,7 @@ public class DateListAdapter extends RecyclerView.Adapter<DateListAdapter.MyView
             holder.event_list.setLayoutManager(linearLayoutManager);
             holder.event_list.setAdapter(appointmentListAdapter);
             holder.event_list.setRecycledViewPool(recycledViewPool);
+            appointmentListAdapter.notifyDataSetChanged();
 
     }
 

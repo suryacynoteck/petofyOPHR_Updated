@@ -79,8 +79,8 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
         init();
 
         if (checkPermission()) {
-            imeiNumber = IMEI.get_dev_id(this);
-//            getDeviceId();
+//            imeiNumber = IMEI.get_dev_id(this);
+            getDeviceId();
         } else {
             if (!checkPermission()) {
                 requestPermission();
@@ -107,8 +107,8 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
 
     private void requestPermission() {
         ActivityCompat.requestPermissions(this, new String[]{ACCESS_FINE_LOCATION,CAMERA,READ_PHONE_STATE,READ_EXTERNAL_STORAGE,WRITE_EXTERNAL_STORAGE,ACCESS_WIFI_STATE,ACCESS_NETWORK_STATE}, PERMISSION_REQUEST_CODE);
-//        getDeviceId();
-        imeiNumber = IMEI.get_dev_id(this);
+        getDeviceId();
+//        imeiNumber = IMEI.get_dev_id(this);
 
     }
 
@@ -147,8 +147,8 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                     password_TIET.setError(null);
                 } else if (imeiNumber.isEmpty()) {
                     if (checkPermission()) {
-                        imeiNumber = IMEI.get_dev_id(this);
-//                        getDeviceId();
+//                        imeiNumber = IMEI.get_dev_id(this);
+                        getDeviceId();
                     } else {
                         if (!checkPermission()) {
                             requestPermission();
@@ -295,6 +295,10 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
         login_editor.putString("phoneNumber", responseLogin.getData().getPhoneNumber());
         login_editor.putString("address", responseLogin.getData().getAddress());
         login_editor.putString("token", responseLogin.getResponseLogin().getToken());
+        login_editor.putString("profilePic", responseLogin.getData().getProfileImageUrl());
+        login_editor.putString("study", responseLogin.getData().getVetRQualification());
+        login_editor.putString("vetid", responseLogin.getData().getVetRegistrationNumber());
+        login_editor.putString("onlineAppoint", responseLogin.getData().getOnlineAppointmentStatus());
         Config.token = responseLogin.getResponseLogin().getToken();
         login_editor.putString("loggedIn", "loggedIn");
         login_editor.commit();
