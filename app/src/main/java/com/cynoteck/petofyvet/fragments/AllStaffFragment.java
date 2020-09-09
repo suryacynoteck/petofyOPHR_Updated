@@ -1,6 +1,7 @@
 package com.cynoteck.petofyvet.fragments;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -18,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cynoteck.petofyvet.R;
+import com.cynoteck.petofyvet.activities.StaffPermissionActivity;
 import com.cynoteck.petofyvet.adapters.AllStaffAdapter;
 import com.cynoteck.petofyvet.api.ApiClient;
 import com.cynoteck.petofyvet.api.ApiResponse;
@@ -53,6 +56,7 @@ public class AllStaffFragment extends Fragment implements ApiResponse, StaffList
     Dialog add_staff_dialog, edit_staff_dialog;
     String email_id, first_name, last_name, password, confirm_password, phone_number,encrypt_id;
     EditText nameET,lastET,emailET,mobileET,passwordET,confirmPassET;
+    TextView staff_permission;
     Button cancel_button, submit_button, update_button,update_cancel_button;
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
@@ -70,10 +74,12 @@ public class AllStaffFragment extends Fragment implements ApiResponse, StaffList
 
     private void init() {
         methods = new Methods(getContext());
+        staff_permission = view.findViewById(R.id.staff_permission);
         all_staff_RV = view.findViewById(R.id.all_staff_List_RV);
         mShimmerViewContainer = view.findViewById(R.id.shimmer_view_container);
         add_staff_IV=view.findViewById(R.id.add_staff_IV);
         add_staff_IV.setOnClickListener(this);
+        staff_permission.setOnClickListener(this);
 
         if (methods.isInternetOn()){
             getAllStaff();
@@ -302,8 +308,10 @@ public class AllStaffFragment extends Fragment implements ApiResponse, StaffList
                         methods.DialogInternet();
                     }
                 }
+                break;
 
-
+            case R.id.staff_permission:
+                startActivity(new Intent(getActivity(), StaffPermissionActivity.class));
                 break;
         }
 

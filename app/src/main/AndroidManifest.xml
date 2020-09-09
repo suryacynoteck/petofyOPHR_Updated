@@ -31,7 +31,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.OperatingHoursActivity"></activity>
+        <activity android:name=".activities.StaffPermissionActivity"></activity>
+        <activity android:name=".activities.OperatingHoursActivity" />
         <activity android:name=".activities.ViewFullProfileVetActivity" />
         <activity
             android:name=".activities.PetIdCardActivity"

@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -34,6 +36,8 @@ import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.CustomTimePickerDialog;
 import com.cynoteck.petofyvet.utils.Methods;
 import com.cynoteck.petofyvet.utils.OperatingHoursClickListener;
+import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.android.material.card.MaterialCardView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -50,12 +54,15 @@ public class OperatingHoursActivity extends AppCompatActivity implements View.On
             sunday_start_time,sunday_close_time,mon_day_id,mon_id,tues_day_id,tues_id,wed_day_id,wed_id,thurs_day_id,thurs_id,
             fri_day_id,fri_id,satr_day_id,satr_id,sun_day_id,sun_id;
 
-
     CheckBox monday_tfhrs_chkbox,monday_close_chkbox,tuesday_tfhrs_chkbox,tuesday_close_chkbox,wednessday_tfhrs_chkbox,
             wednessday_close_chkbox,thusday_tfhrs_chkbox,thusday_close_chkbox,friday_tfhrs_chkbox,friday_close_chkbox,saturday_tfhrs_chkbox,
             saturday_close_chkbox,sunday_tfhrs_chkbox,sunday_close_chkbox;
 
     Button save_working_hours;
+    ImageView back;
+    ScrollView main_view;
+    ShimmerFrameLayout shimmer_view_container;
+
 
     /*RecyclerView operarting_hrs_list;*/
     /*OperatingHoursAdaptear operatingHoursAdaptear;*/
@@ -82,6 +89,9 @@ public class OperatingHoursActivity extends AppCompatActivity implements View.On
     private void initialize() {
        /* operarting_hrs_list=findViewById(R.id.operarting_hrs_list);*/
 
+        back=findViewById(R.id.back);
+        main_view=findViewById(R.id.main_view);
+        shimmer_view_container=findViewById(R.id.shimmer_view_container);
         moday_start_time=findViewById(R.id.moday_start_time);
         moday_close_time=findViewById(R.id.moday_close_time);
         tuesday_start_time=findViewById(R.id.tuesday_start_time);
@@ -128,6 +138,7 @@ public class OperatingHoursActivity extends AppCompatActivity implements View.On
         sunday_start_time.setOnClickListener(this);
         sunday_close_time.setOnClickListener(this);
         save_working_hours.setOnClickListener(this);
+        back.setOnClickListener(this);
 
         monday_tfhrs_chkbox=findViewById(R.id.monday_tfhrs_chkbox);
         monday_close_chkbox=findViewById(R.id.monday_close_chkbox);
@@ -168,6 +179,7 @@ public class OperatingHoursActivity extends AppCompatActivity implements View.On
     }
 
     private void getWorkingHours() {
+        shimmer_view_container.startShimmerAnimation();
         ApiService<WorkingHoursResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().getOperatingHours(Config.token), "GetOperatingHours");
     }
@@ -235,6 +247,8 @@ public class OperatingHoursActivity extends AppCompatActivity implements View.On
                 if(((CompoundButton) view).isChecked()){
                     moday_start_time.setText("12:00 AM");
                     moday_close_time.setText("12:00 PM");
+                    if(monday_close_chkbox.isChecked())
+                        monday_close_chkbox.setChecked(false);
                 } else {
                     moday_start_time.setHint("09:30 AM");
                     moday_close_time.setHint("06:30 PM");
@@ -245,6 +259,8 @@ public class OperatingHoursActivity extends AppCompatActivity implements View.On
                 if(((CompoundButton) view).isChecked()){
                     moday_start_time.setText("00:00 AM");
                     moday_close_time.setText("00:00 PM");
+                    if(monday_tfhrs_chkbox.isChecked())
+                        monday_tfhrs_chkbox.setChecked(false);
                 } else {
                     moday_start_time.setHint("09:30 AM");
                     moday_close_time.setHint("06:30 PM");
@@ -255,6 +271,8 @@ public class OperatingHoursActivity extends AppCompatActivity implements View.On
                 if(((CompoundButton) view).isChecked()){
                     tuesday_start_time.setText("12:00 AM");
                     tuesday_close_time.setText("12:00 PM");
+                    if(tuesday_close_chkbox.isChecked())
+                        tuesday_close_chkbox.setChecked(false);
                 } else {
                     tuesday_start_time.setHint("09:30 AM");
                     tuesday_close_time.setHint("06:30 PM");
@@ -264,6 +282,8 @@ public class OperatingHoursActivity extends AppCompatActivity implements View.On
                 if(((CompoundButton) view).isChecked()){
                     tuesday_start_time.setText("00:00 AM");
                     tuesday_close_time.setText("00:00 PM");
+                    if(tuesday_tfhrs_chkbox.isChecked())
+                        tuesday_tfhrs_chkbox.setChecked(false);
                 } else {
                     tuesday_start_time.setHint("09:30 AM");
                     tuesday_close_time.setHint("06:30 PM");
@@ -273,6 +293,8 @@ public class OperatingHoursActivity extends AppCompatActivity implements View.On
                 if(((CompoundButton) view).isChecked()){
                     wednessday_start_time.setText("12:00 AM");
                     wednessday_close_time.setText("12:00 PM");
+                    if(wednessday_close_chkbox.isChecked())
+                        wednessday_close_chkbox.setChecked(false);
                 } else {
                     wednessday_start_time.setHint("09:30 AM");
                     wednessday_close_time.setHint("06:30 PM");
@@ -282,6 +304,8 @@ public class OperatingHoursActivity extends AppCompatActivity implements View.On
                 if(((CompoundButton) view).isChecked()){
                     wednessday_start_time.setText("00:00 AM");
                     wednessday_close_time.setText("00:00 PM");
+                    if(wednessday_tfhrs_chkbox.isChecked())
+                        wednessday_tfhrs_chkbox.setChecked(false);
                 } else {
                     wednessday_start_time.setHint("09:30 AM");
                     wednessday_close_time.setHint("06:30 PM");
@@ -291,6 +315,8 @@ public class OperatingHoursActivity extends AppCompatActivity implements View.On
                 if(((CompoundButton) view).isChecked()){
                     thusday_start_time.setText("12:00 AM");
                     thusday_close_time.setText("12:00 PM");
+                    if(thusday_close_chkbox.isChecked())
+                        thusday_close_chkbox.setChecked(false);
                 } else {
                     thusday_start_time.setHint("09:30 AM");
                     thusday_close_time.setHint("06:30 PM");
@@ -300,6 +326,8 @@ public class OperatingHoursActivity extends AppCompatActivity implements View.On
                 if(((CompoundButton) view).isChecked()){
                     thusday_start_time.setText("00:00 AM");
                     thusday_close_time.setText("00:00 PM");
+                    if(thusday_tfhrs_chkbox.isChecked())
+                        thusday_tfhrs_chkbox.setChecked(false);
                 } else {
                     thusday_start_time.setHint("09:30 AM");
                     thusday_close_time.setHint("06:30 PM");
@@ -309,6 +337,8 @@ public class OperatingHoursActivity extends AppCompatActivity implements View.On
                 if(((CompoundButton) view).isChecked()){
                     friday_start_time.setText("12:00 AM");
                     friday_close_time.setText("12:00 PM");
+                    if(friday_close_chkbox.isChecked())
+                        friday_close_chkbox.setChecked(false);
                 } else {
                     friday_start_time.setHint("09:30 AM");
                     friday_close_time.setHint("06:30 PM");
@@ -318,6 +348,8 @@ public class OperatingHoursActivity extends AppCompatActivity implements View.On
                 if(((CompoundButton) view).isChecked()){
                     friday_start_time.setText("00:00 AM");
                     friday_close_time.setText("00:00 PM");
+                    if(friday_tfhrs_chkbox.isChecked())
+                        friday_tfhrs_chkbox.setChecked(false);
                 } else {
                     friday_start_time.setHint("09:30 AM");
                     friday_close_time.setHint("06:30 PM");
@@ -327,6 +359,8 @@ public class OperatingHoursActivity extends AppCompatActivity implements View.On
                 if(((CompoundButton) view).isChecked()){
                     saturday_start_time.setText("12:00 AM");
                     saturday_close_time.setText("12:00 PM");
+                    if(saturday_close_chkbox.isChecked())
+                        saturday_close_chkbox.setChecked(false);
                 } else {
                     saturday_start_time.setHint("09:30 AM");
                     saturday_close_time.setHint("06:30 PM");
@@ -336,6 +370,8 @@ public class OperatingHoursActivity extends AppCompatActivity implements View.On
                 if(((CompoundButton) view).isChecked()){
                     saturday_start_time.setText("00:00 AM");
                     saturday_close_time.setText("00:00 PM");
+                    if(saturday_tfhrs_chkbox.isChecked())
+                        saturday_tfhrs_chkbox.setChecked(false);
                 } else {
                     saturday_start_time.setHint("09:30 AM");
                     saturday_close_time.setHint("06:30 PM");
@@ -345,6 +381,8 @@ public class OperatingHoursActivity extends AppCompatActivity implements View.On
                 if(((CompoundButton) view).isChecked()){
                     sunday_start_time.setText("12:00 AM");
                     sunday_close_time.setText("12:00 PM");
+                    if(sunday_close_chkbox.isChecked())
+                        sunday_close_chkbox.setChecked(false);
                 } else {
                     sunday_start_time.setHint("09:30 AM");
                     sunday_close_time.setHint("06:30 PM");
@@ -354,12 +392,22 @@ public class OperatingHoursActivity extends AppCompatActivity implements View.On
                 if(((CompoundButton) view).isChecked()){
                     sunday_start_time.setText("00:00 AM");
                     sunday_close_time.setText("00:00 PM");
+                    if(sunday_tfhrs_chkbox.isChecked())
+                        sunday_tfhrs_chkbox.setChecked(false);
                 } else {
                     sunday_start_time.setHint("09:30 AM");
                     sunday_close_time.setHint("06:30 PM");
                 }
                 break;
+
+            case R.id.back:
+                onBackPressed();
+                break;
+
             case R.id.save_working_hours:
+                main_view.setVisibility(View.GONE);
+                shimmer_view_container.setVisibility(View.VISIBLE);
+
                 ArrayList<HashMap<String,String>>actualList=new ArrayList<>();
                 innerHashMap=new HashMap<>();
                 innerHashMap.put("id",mon_id.getText().toString());
@@ -625,7 +673,9 @@ public class OperatingHoursActivity extends AppCompatActivity implements View.On
                             innerHashMap.put("allDayOpen",workingHoursResponse.getData().get(i).getAllDayOpen());
                             outerHashmap.put(workingHoursResponse.getData().get(i).getDayId(),innerHashMap);
                         }
-
+                        shimmer_view_container.stopShimmerAnimation();
+                        shimmer_view_container.setVisibility(View.GONE);
+                        main_view.setVisibility(View.VISIBLE);
                         Log.e("outerHashMap",""+outerHashmap);
                     }
 

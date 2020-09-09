@@ -59,6 +59,7 @@
     <string name="staff">STAFF</string>
     <string name="allpets">ALL PETS</string>
     <string name="allStaff">ALL STAFF</string>
+    <string name="permission">PERMISSION</string>
     <string name="add_new_pet">Add New Pet</string>
     <string name="add_clinic_data">Clinic Visit</string>
     <string name="name">Name</string>
@@ -131,7 +132,7 @@
     <string name="hidden_text">Hidden Text</string>
     <string name="custom_page_screenshot">Custom Page Screenshot</string>
     <string name="profile">Profile</string>
-    <string name="operating_hrs">Operating Hours</string>
+    <string name="operating_hrs">OPERATING HOURS</string>
     <string name="OnlineAppointment">Online Appointment</string>
     <string name="fullProfile">Veterinarian Full Profile</string>
     <string name="Settings">Settings</string>
