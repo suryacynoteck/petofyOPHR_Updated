@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.getPetListResponse.PetList;
 import com.cynoteck.petofyvet.utils.ViewDeatilsAndIdCardClick;
@@ -48,6 +49,10 @@ public class RegisterPetAdapter extends RecyclerView.Adapter<RegisterPetAdapter.
         holder.pet_reg_name_TV.setText(profileList.get(position).getPetName());
         holder.pet_reg_gender_TV.setText(profileList.get(position).getPetSex());
 
+        Glide.with(context)
+                .load(profileList.get(position).getPetProfileImageUrl())
+                .placeholder(R.drawable.pet_image)
+                .into(holder.petRegImage_IV);
     }
 
     @Override

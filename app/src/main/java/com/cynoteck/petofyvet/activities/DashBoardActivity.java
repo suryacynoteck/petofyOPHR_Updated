@@ -55,6 +55,10 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         Config.user_Veterian_emial=sharedPreferences.getString("email", "");
         Config.user_Veterian_name=sharedPreferences.getString("firstName", "")+" "+sharedPreferences.getString("lastName", "");
         Config.user_Veterian_address=sharedPreferences.getString("address", "");
+//        Config.user_Veterian_online=sharedPreferences.getString("onlineAppoint", "");
+        Config.user_Veterian_id=sharedPreferences.getString("vetid", "");
+        Config.user_Veterian_study=sharedPreferences.getString("study", "");
+        Config.user_Veterian_url=sharedPreferences.getString("profilePic", "");
 
         if(methods.isInternetOn())
         {

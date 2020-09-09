@@ -137,6 +137,9 @@
     <string name="fullProfile">Veterinarian Full Profile</string>
     <string name="Settings">Settings</string>
     <string name="hours">Operating Hours</string>
+    <string name="title">Title</string>
+    <string name="appointmentDate">Appointment Date</string>
+    <string name="appointmentTime">Appointment Time</string>
     <string name="monday">Monday</string>
     <string name="tuesday">Tuesday</string>
     <string name="wednesday">Wednesday</string>

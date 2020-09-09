@@ -116,6 +116,7 @@
                 android:layout_height="100dp">
 
                 <ImageView
+                    android:id="@+id/vet_profile_pic"
                     android:scaleType="fitXY"
                     android:src="@drawable/dog"
                     android:layout_width="match_parent"
@@ -139,6 +140,7 @@
 
 
             <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/online_switch"
                 app:track="@drawable/track"
                 android:thumb="@drawable/thumb"
                 android:layout_gravity="center"

@@ -28,11 +28,6 @@
         android:layout_height="wrap_content"
         android:text=""/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_below="@+id/date_TV"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/event_list"/>
 
 
 
@@ -81,6 +76,11 @@
 
     </androidx.cardview.widget.CardView>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@+id/empty_CV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/event_list"/>
 
 
 </RelativeLayout>

@@ -7,6 +7,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/appointment_CV"
         android:layout_marginTop="3dp"
         android:layout_marginBottom="7dp"
         android:layout_width="match_parent"
@@ -26,7 +27,7 @@
                 app:layout_constraintTop_toTopOf="parent"/>
 
             <Button
-                android:visibility="gone"
+                android:visibility="visible"
                 style="?android:attr/borderlessButtonStyle"
                 android:background="@drawable/join_bt_bg"
                 android:layout_marginTop="8dp"
@@ -52,6 +53,7 @@
                 android:layout_height="35dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
+
             <TextView
                 android:id="@+id/appoint_subject_TV"
                 android:textColor="@color/black_color"
@@ -89,6 +91,21 @@
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
 
+            <TextView
+                android:visibility="gone"
+                android:layout_marginRight="20dp"
+                android:id="@+id/payment_ststus_TV"
+                android:textColor="@color/deactivate_red"
+                android:textSize="15sp"
+                android:layout_marginBottom="8dp"
+                android:text="Payment Pending"
+                android:layout_width="0dp"
+                android:gravity="end"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@+id/pet_parent_TV"
+                app:layout_constraintStart_toEndOf="@+id/pet_parent_TV"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -99,14 +116,14 @@
     </androidx.cardview.widget.CardView>
 
 
-<!--    <TextView-->
-<!--        android:textColor="@color/black_color"-->
-<!--        android:textSize="20dp"-->
-<!--        android:layout_marginTop="20dp"-->
-<!--        android:layout_marginLeft="20dp"-->
-<!--        android:id="@+id/event_TV"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Appoint"/>-->
+    <!--    <TextView-->
+    <!--        android:textColor="@color/black_color"-->
+    <!--        android:textSize="20dp"-->
+    <!--        android:layout_marginTop="20dp"-->
+    <!--        android:layout_marginLeft="20dp"-->
+    <!--        android:id="@+id/event_TV"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Appoint"/>-->
 
 </LinearLayout>

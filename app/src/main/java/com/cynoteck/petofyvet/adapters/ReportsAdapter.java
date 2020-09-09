@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.getPetListResponse.PetList;
 import com.cynoteck.petofyvet.utils.RegisterRecyclerViewClickListener;
@@ -49,9 +50,10 @@ public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.MyViewHo
         holder.pet_name_TV.setText(profileList.get(position).getPetName());
         holder.pet_color_TV.setText(profileList.get(position).getPetColor());
 
-//        Glide.with(context)
-//                .load(profileList.get(position).getPetProfileImageUrl())
-//                .into(holder.pet_profile_IV);
+        Glide.with(context)
+                .load(profileList.get(position).getPetProfileImageUrl())
+                .placeholder(R.drawable.pet_image)
+                .into(holder.pet_profile_IV);
 
     }
 

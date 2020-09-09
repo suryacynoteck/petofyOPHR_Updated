@@ -14,7 +14,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
@@ -196,8 +195,8 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, ViewD
     @Override
     public void onResume() {
         super.onResume();
-       /* mShimmerViewContainer.setVisibility(View.VISIBLE);
-        mShimmerViewContainer.startShimmerAnimation();*/
+        mShimmerViewContainer.setVisibility(View.VISIBLE);
+        mShimmerViewContainer.startShimmerAnimation();
         if (Config.backCall.equals("Added")) {
             Config.backCall ="";
             getPetList();
