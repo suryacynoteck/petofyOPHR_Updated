@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "159066454116",
-    "firebase_url": "https://petofy-vet.firebaseio.com",
-    "project_id": "petofy-vet",
-    "storage_bucket": "petofy-vet.appspot.com"
+    "project_number": "839322253402",
+    "firebase_url": "https://petofy-2015.firebaseio.com",
+    "project_id": "petofy-2015",
+    "storage_bucket": "petofy-2015.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:159066454116:android:3d18afd9a4a335bbcc4771",
+        "mobilesdk_app_id": "1:839322253402:android:5e89f52cfece3a40df0063",
         "android_client_info": {
           "package_name": "com.cynoteck.petofyvet"
         }
       },
       "oauth_client": [
         {
-          "client_id": "159066454116-98kj1bsfj7m8co34qbkqt25f1e7of0qr.apps.googleusercontent.com",
+          "client_id": "839322253402-gnvh21fbmv29aq7m5vbj7hhvtn1nigjk.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.cynoteck.petofyvet",
@@ -23,20 +23,20 @@
           }
         },
         {
-          "client_id": "159066454116-vfm09t0oj4o7png7coblle1j0g09kc0n.apps.googleusercontent.com",
+          "client_id": "839322253402-vhoqmfq0ngvkjpaveqr0mp4nufs8m3ig.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDtw7OYX0LWl9hxSpBf3D99p2P0jNNbIik"
+          "current_key": "AIzaSyDHiW1-CTRBwi9h1gtum5fK-ff_fE85PGk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "159066454116-vfm09t0oj4o7png7coblle1j0g09kc0n.apps.googleusercontent.com",
+              "client_id": "839322253402-vhoqmfq0ngvkjpaveqr0mp4nufs8m3ig.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

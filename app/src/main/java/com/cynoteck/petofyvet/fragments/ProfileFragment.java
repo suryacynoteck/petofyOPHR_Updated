@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ import com.bumptech.glide.Glide;
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.activities.LoginActivity;
 import com.cynoteck.petofyvet.activities.OperatingHoursActivity;
+import com.cynoteck.petofyvet.activities.ViewFullProfileVetActivity;
 import com.cynoteck.petofyvet.utils.Config;
 
 /**
@@ -42,7 +44,13 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_profile, container, false);
         initialize();
+        getVetInfo();
+        switchOnline();
 
+        return view;
+    }
+
+    private void getVetInfo() {
         Glide.with(this)
                 .load(Config.user_Veterian_url)
                 .into(vet_profile_pic);
@@ -56,9 +64,21 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         }else {
             online_switch.setChecked(false);
         }
-        return view;
     }
 
+    private void switchOnline() {
+        online_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    Config.user_Veterian_online = "true";
+                }else {
+                    Config.user_Veterian_online = "false";
+
+                }
+            }
+        });
+    }
     public  void initialize()
     {
         veterian_full_profile_layout=view.findViewById(R.id.veterian_full_profile_layout);
@@ -84,6 +104,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         switch (view.getId())
         {
             case R.id.veterian_full_profile_layout:
+                Intent intent = new Intent(getContext(), ViewFullProfileVetActivity.class);
+                startActivity(intent);
                 break;
 
             case R.id.operating_hrs_layout:

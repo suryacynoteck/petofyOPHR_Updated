@@ -5,14 +5,12 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -20,13 +18,14 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatSpinner;
 
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.api.ApiClient;
@@ -43,9 +42,6 @@ import com.cynoteck.petofyvet.response.updateProfileResponse.StateResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.UserResponse;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
-import com.google.gson.JsonObject;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -53,8 +49,6 @@ import com.karumi.dexter.listener.DexterError;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-
-import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -71,26 +65,18 @@ import okhttp3.RequestBody;
 import retrofit2.Response;
 
 public class UpdateProfileActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse {
-    TextInputEditText first_name_updt,last_name_updt,email_updt,phone_updt,address_updt,
+    EditText first_name_updt,last_name_updt,email_updt,phone_updt,address_updt,
             postal_code_updt,website_updt,social_media_url_updt,registration_num_updt,
             vet_qualification_updt;
-    Spinner country_spnr_updt,state_spnr_updt,city_spnr_updt;
-    Button update_profile,select_Category,select_service_Category;
-    TextView pet_category_updt,service_category_updt;
-    ImageView category_img_one,category_img_two,service_cat_img_one,service_cat_img_two,
-            service_cat_img_three,service_cat_img_four,service_cat_img_five,cancel ;
-
-    TextInputLayout first_nm_layout,last_nm_layout,emil_layout,phone_number_layout,address_layout,postal_code_layout,
-            website_layout,social_media_url_layout,vet_registration_layout,vet_qualification_layout;
+    AppCompatSpinner country_spnr_updt,state_spnr_updt,city_spnr_updt;
+    Button update_profile;
+    TextView select_Category,select_service_Category;
+    ImageView back_arrow, category_img_one,category_img_two,service_cat_img_one,service_cat_img_two,
+            service_cat_img_three,service_cat_img_four,service_cat_img_five ;
 
     int slctCatOneImage=0,slctCatTwoImage=0,slctServcOneImage=0,slctServcTwoImage=0,slctServcThreeImage=0,
             slctServcfourImage=0,slctServcFiveImage=0,spnrCountry=0,spnrState=0,spnrCity=0;
-
-    String imagename,strFirstNm="",strLstNm="",strEmlUpdt="",strPhUpdt="",strAddrsUpdt="",strPostlUpdt="",
-            strWbUpdt="",strSoclMdUelUpdt="",strRegistNumUpdt="",strVetQulafctnUpdt="",strPetCatUpdt="",
-            strSrvcCatUpdt="",strContrySpnr="",strStateSpnr="",strCitySpnr="",strCountryId="",strStringCityId="",
-            strStateId="",strCatId="",strSrvsCatId="",strCatUrl1="",strCatUrl2="",strSrvsUrl1="",strSrvsUrl2,
-            strSrvsUrl3,strSrvsUrl4,strSrvsUrl5;
+    CountryResponse stateResponse;
     Uri fileUri;
     Methods methods;
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
@@ -134,11 +120,38 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
     ArrayList<String>listCategoryId=new ArrayList<>();
     ArrayList<String>listServiceCatId=new ArrayList<>();
 
+    String imagename,strFirstNm="",strLstNm="",strEmlUpdt="",strPhUpdt="",strAddrsUpdt="",strPostlUpdt="",
+            strWbUpdt="",strSoclMdUelUpdt="",strRegistNumUpdt="",strVetQulafctnUpdt="",strPetCatUpdt="",
+            strSrvcCatUpdt="",strContrySpnr="",strStateSpnr="",strCitySpnr="",strCountryId="",strStringCityId="",
+            strStateId="",strCatId="",strSrvsCatId="",strCatUrl1="",strCatUrl2="",strSrvsUrl1="",strSrvsUrl2,
+            strSrvsUrl3,strSrvsUrl4,strSrvsUrl5,country;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_profile);
         methods = new Methods(this);
+        Intent intent = getIntent();
+        strFirstNm = intent.getStringExtra("firstName");
+        strLstNm = intent.getStringExtra("lastName");
+        strEmlUpdt = intent.getStringExtra("email");
+        strPhUpdt = intent.getStringExtra("phone");
+        strAddrsUpdt = intent.getStringExtra("address");
+        strPostlUpdt = intent.getStringExtra("pincode");
+        strWbUpdt = intent.getStringExtra("website");
+        strSoclMdUelUpdt = intent.getStringExtra("socialMedia");
+        strRegistNumUpdt = intent.getStringExtra("vetRegNo");
+        strVetQulafctnUpdt = intent.getStringExtra("vetStudy");
+        strPetCatUpdt = intent.getStringExtra("category");
+        strSrvcCatUpdt = intent.getStringExtra("service");
+        strCountryId = intent.getStringExtra("country");
+        strStateId = intent.getStringExtra("state");
+        strStringCityId = intent.getStringExtra("city");
+        strSrvsUrl1 = intent.getStringExtra("serviceImage1");
+        strSrvsUrl2 = intent.getStringExtra("serviceImage2");
+        strSrvsUrl3 = intent.getStringExtra("serviceImage3");
+        strSrvsUrl4 = intent.getStringExtra("serviceImage4");
+        strSrvsUrl5 = intent.getStringExtra("serviceImage5");
+
         init();
         setValueFromSharePref();
         requestMultiplePermissions();
@@ -186,19 +199,6 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
     }
 
     private void init() {
-        //TextInputLayout
-        first_nm_layout=findViewById(R.id.first_nm_layout);
-        last_nm_layout=findViewById(R.id.last_nm_layout);
-        emil_layout=findViewById(R.id.emil_layout);
-        phone_number_layout=findViewById(R.id.phone_number_layout);
-        address_layout=findViewById(R.id.address_layout);
-        postal_code_layout=findViewById(R.id.postal_code_layout);
-        website_layout=findViewById(R.id.website_layout);
-        social_media_url_layout=findViewById(R.id.social_media_url_layout);
-        vet_registration_layout=findViewById(R.id.vet_registration_layout);
-        vet_qualification_layout=findViewById(R.id.vet_qualification_layout);
-
-
         //TextInputEditText
         first_name_updt=findViewById(R.id.first_name_updt);
         last_name_updt=findViewById(R.id.last_name_updt);
@@ -216,10 +216,6 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
         state_spnr_updt=findViewById(R.id.state_spnr_updt);
         city_spnr_updt=findViewById(R.id.city_spnr_updt);
 
-        //Text View
-        pet_category_updt=findViewById(R.id.pet_category_updt);
-        service_category_updt=findViewById(R.id.service_category_updt);
-
         //Image View
         category_img_one=findViewById(R.id.category_img_one);
         category_img_two=findViewById(R.id.category_img_two);
@@ -228,7 +224,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
         service_cat_img_three=findViewById(R.id.service_cat_img_three);
         service_cat_img_four=findViewById(R.id.service_cat_img_four);
         service_cat_img_five=findViewById(R.id.service_cat_img_five);
-        cancel=findViewById(R.id.cancel);
+        back_arrow = findViewById(R.id.back_arrow);
 
         category_img_one.setOnClickListener(this);
         category_img_two.setOnClickListener(this);
@@ -237,7 +233,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
         service_cat_img_three.setOnClickListener(this);
         service_cat_img_four.setOnClickListener(this);
         service_cat_img_five.setOnClickListener(this);
-        cancel.setOnClickListener(this);
+        back_arrow.setOnClickListener(this);
 
         //Button
         update_profile=findViewById(R.id.update_profile);
@@ -251,29 +247,24 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
     }
 
     private void setValueFromSharePref() {
-        SharedPreferences sharedPreferences = getSharedPreferences("userdetails", 0);
-        String email = sharedPreferences.getString("email", "");
-        if(!email.equals("null"))
-            email_updt.setText(email);
-        String firstName=sharedPreferences.getString("firstName", "");
-        if(!firstName.equals("null"))
-            first_name_updt.setText(firstName);
-        String lastName=sharedPreferences.getString("lastName", "");
-        if(!lastName.equals("null"))
-            last_name_updt.setText(lastName);
-        String phoneNumber=sharedPreferences.getString("phoneNumber", "");
-        if(!phoneNumber.equals("null"))
-            phone_updt.setText(phoneNumber);
-        String address=sharedPreferences.getString("address","");
-        if(!address.equals("null"))
-            address_updt.setText(address);
-
+        postal_code_updt.setText(strPostlUpdt);
+        website_updt.setText(strWbUpdt);
+        social_media_url_updt.setText(strSoclMdUelUpdt);
+        email_updt.setText(strEmlUpdt);
+        first_name_updt.setText(strFirstNm);
+        last_name_updt.setText(strLstNm);
+        phone_updt.setText(strPhUpdt);
+        address_updt.setText(strAddrsUpdt);
+        vet_qualification_updt.setText(strVetQulafctnUpdt);
+        registration_num_updt.setText(strRegistNumUpdt);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-
+            case R.id.back_arrow:
+                onBackPressed();
+                break;
             case R.id.update_profile:
                 strFirstNm= first_name_updt.getText().toString().trim();
                 strLstNm = last_name_updt.getText().toString().trim();
@@ -285,175 +276,177 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                 strSoclMdUelUpdt = social_media_url_updt.getText().toString().trim();
                 strRegistNumUpdt = registration_num_updt.getText().toString().trim();
                 strVetQulafctnUpdt = vet_qualification_updt.getText().toString().trim();
-                strPetCatUpdt = pet_category_updt.getText().toString().trim();
-                strSrvcCatUpdt = service_category_updt.getText().toString().trim();
+                strPetCatUpdt = select_Category.getText().toString().trim();
+                strSrvcCatUpdt = select_service_Category.getText().toString().trim();
 
 
 
                 if(strFirstNm.isEmpty())
                 {
-                    pet_category_updt.setError(null);
-                    service_category_updt.setError(null);
-                    first_nm_layout.setError("Name is empty");
-                    last_nm_layout.setError(null);
-                    emil_layout.setError(null);
-                    phone_number_layout.setError(null);
-                    address_layout.setError(null);
-                    postal_code_layout.setError(null);
-                    website_layout.setError(null);
-                    social_media_url_layout.setError(null);
-                    vet_registration_layout.setError(null);
-                    vet_qualification_layout.setError(null);
+                    select_Category.setError(null);
+                    select_service_Category.setError(null);
+                    first_name_updt.setError("Name is empty");
+                    last_name_updt.setError(null);
+                    email_updt.setError(null);
+                    phone_updt.setError(null);
+                    address_updt.setError(null);
+                    postal_code_updt.setError(null);
+                    website_updt.setError(null);
+                    social_media_url_updt.setError(null);
+                    registration_num_updt.setError(null);
+                    vet_qualification_updt.setError(null);
                 }
                 else if(strLstNm.isEmpty())
                 {
-                    pet_category_updt.setError(null);
-                    service_category_updt.setError(null);
-                    first_nm_layout.setError(null);
-                    last_nm_layout.setError("Last Name is empty");
-                    emil_layout.setError(null);
-                    phone_number_layout.setError(null);
-                    address_layout.setError(null);
-                    postal_code_layout.setError(null);
-                    website_layout.setError(null);
-                    social_media_url_layout.setError(null);
-                    vet_registration_layout.setError(null);
-                    vet_qualification_layout.setError(null);
+                    select_Category.setError(null);
+                    select_service_Category.setError(null);
+                    first_name_updt.setError(null);
+                    last_name_updt.setError("Last Name is empty");
+                    email_updt.setError(null);
+                    phone_updt.setError(null);
+                    address_updt.setError(null);
+                    postal_code_updt.setError(null);
+                    website_updt.setError(null);
+                    social_media_url_updt.setError(null);
+                    registration_num_updt.setError(null);
+                    vet_qualification_updt.setError(null);
                 }
                 else if(strEmlUpdt.isEmpty())
                 {
-                    pet_category_updt.setError(null);
-                    service_category_updt.setError(null);
-                    first_nm_layout.setError(null);
-                    last_nm_layout.setError(null);
-                    emil_layout.setError("Email Id is Empty");
-                    phone_number_layout.setError(null);
-                    address_layout.setError(null);
-                    postal_code_layout.setError(null);
-                    website_layout.setError(null);
-                    social_media_url_layout.setError(null);
-                    vet_registration_layout.setError(null);
-                    vet_qualification_layout.setError(null);
+                    select_Category.setError(null);
+                    select_service_Category.setError(null);
+                    first_name_updt.setError(null);
+                    last_name_updt.setError(null);
+                    email_updt.setError("Email Id is Empty");
+                    phone_updt.setError(null);
+                    address_updt.setError(null);
+                    postal_code_updt.setError(null);
+                    website_updt.setError(null);
+                    social_media_url_updt.setError(null);
+                    registration_num_updt.setError(null);
+                    vet_qualification_updt.setError(null);
                 }
                 else if (!strEmlUpdt.matches(emailPattern))
                 {
-                    emil_layout.setError("Invalid Email");
-                    pet_category_updt.setError(null);
-                    service_category_updt.setError(null);
-                    first_nm_layout.setError(null);
-                    last_nm_layout.setError(null);
-                    phone_number_layout.setError(null);
-                    address_layout.setError(null);
-                    postal_code_layout.setError(null);
-                    website_layout.setError(null);
-                    social_media_url_layout.setError(null);
-                    vet_registration_layout.setError(null);
-                    vet_qualification_layout.setError(null);
+                    select_Category.setError(null);
+                    select_service_Category.setError(null);
+                    email_updt.setError("Invalid Email");
+                    select_Category.setError(null);
+                    select_service_Category.setError(null);
+                    first_name_updt.setError(null);
+                    last_name_updt.setError(null);
+                    phone_updt.setError(null);
+                    address_updt.setError(null);
+                    postal_code_updt.setError(null);
+                    website_updt.setError(null);
+                    social_media_url_updt.setError(null);
+                    registration_num_updt.setError(null);
+                    vet_qualification_updt.setError(null);
                 }
                 else if(strPhUpdt.isEmpty())
                 {
-                    pet_category_updt.setError(null);
-                    service_category_updt.setError(null);
-                    first_nm_layout.setError(null);
-                    last_nm_layout.setError(null);
-                    emil_layout.setError(null);
-                    phone_number_layout.setError("Phone number is empty");
-                    address_layout.setError(null);
-                    postal_code_layout.setError(null);
-                    website_layout.setError(null);
-                    social_media_url_layout.setError(null);
-                    vet_registration_layout.setError(null);
-                    vet_qualification_layout.setError(null);
+                    select_Category.setError(null);
+                    select_service_Category.setError(null);
+                    first_name_updt.setError(null);
+                    last_name_updt.setError(null);
+                    email_updt.setError(null);
+                    phone_updt.setError("Phone number is empty");
+                    address_updt.setError(null);
+                    postal_code_updt.setError(null);
+                    website_updt.setError(null);
+                    social_media_url_updt.setError(null);
+                    registration_num_updt.setError(null);
+                    vet_qualification_updt.setError(null);
                 }
                 else if(strAddrsUpdt.isEmpty())
                 {
-                    pet_category_updt.setError(null);
-                    service_category_updt.setError(null);
-                    first_nm_layout.setError(null);
-                    last_nm_layout.setError(null);
-                    emil_layout.setError(null);
-                    phone_number_layout.setError(null);
-                    address_layout.setError("Address is empty");
-                    postal_code_layout.setError(null);
-                    website_layout.setError(null);
-                    social_media_url_layout.setError(null);
-                    vet_registration_layout.setError(null);
-                    vet_qualification_layout.setError(null);
+                    select_Category.setError(null);
+                    select_service_Category.setError(null);
+                    first_name_updt.setError(null);
+                    last_name_updt.setError(null);
+                    email_updt.setError(null);
+                    phone_updt.setError(null);
+                    address_updt.setError("Address is empty");
+                    postal_code_updt.setError(null);
+                    website_updt.setError(null);
+                    social_media_url_updt.setError(null);
+                    registration_num_updt.setError(null);
+                    vet_qualification_updt.setError(null);
                 }
                 else if(strPostlUpdt.isEmpty())
                 {
-                    pet_category_updt.setError(null);
-                    service_category_updt.setError(null);
-                    first_nm_layout.setError(null);
-                    last_nm_layout.setError(null);
-                    emil_layout.setError(null);
-                    phone_number_layout.setError(null);
-                    address_layout.setError(null);
-                    postal_code_layout.setError("Postal code is empty");
-                    website_layout.setError(null);
-                    social_media_url_layout.setError(null);
-                    vet_registration_layout.setError(null);
-                    vet_qualification_layout.setError(null);
+                    select_Category.setError(null);
+                    select_service_Category.setError(null);
+                    first_name_updt.setError(null);
+                    last_name_updt.setError(null);
+                    email_updt.setError(null);
+                    phone_updt.setError(null);
+                    address_updt.setError(null);
+                    postal_code_updt.setError("Postal code is empty");
+                    website_updt.setError(null);
+                    social_media_url_updt.setError(null);
+                    registration_num_updt.setError(null);
+                    vet_qualification_updt.setError(null);
                 }
                 else if(strRegistNumUpdt.isEmpty())
                 {
-                    pet_category_updt.setError(null);
-                    service_category_updt.setError(null);
-                    first_nm_layout.setError(null);
-                    last_nm_layout.setError(null);
-                    emil_layout.setError(null);
-                    phone_number_layout.setError(null);
-                    address_layout.setError(null);
-                    postal_code_layout.setError(null);
-                    website_layout.setError(null);
-                    social_media_url_layout.setError(null);
-                    vet_registration_layout.setError("Registration no empty");
-                    vet_qualification_layout.setError(null);
+                    select_Category.setError(null);
+                    select_service_Category.setError(null);
+                    first_name_updt.setError(null);
+                    last_name_updt.setError(null);
+                    email_updt.setError(null);
+                    phone_updt.setError(null);
+                    address_updt.setError(null);
+                    postal_code_updt.setError(null);
+                    website_updt.setError(null);
+                    social_media_url_updt.setError(null);
+                    registration_num_updt.setError("Registration no empty");
+                    vet_qualification_updt.setError(null);
                 }
                 else if(strVetQulafctnUpdt.isEmpty())
                 {
-                    pet_category_updt.setError(null);
-                    service_category_updt.setError(null);
-                    first_nm_layout.setError(null);
-                    last_nm_layout.setError(null);
-                    emil_layout.setError(null);
-                    phone_number_layout.setError(null);
-                    address_layout.setError(null);
-                    postal_code_layout.setError(null);
-                    website_layout.setError(null);
-                    social_media_url_layout.setError(null);
-                    vet_registration_layout.setError(null);
-                    vet_qualification_layout.setError("Qualification empty");
+                    select_Category.setError(null);
+                    select_service_Category.setError(null);
+                    first_name_updt.setError(null);
+                    last_name_updt.setError(null);
+                    email_updt.setError(null);
+                    phone_updt.setError(null);
+                    address_updt.setError(null);
+                    postal_code_updt.setError(null);
+                    website_updt.setError(null);
+                    social_media_url_updt.setError(null);
+                    registration_num_updt.setError(null);
+                    vet_qualification_updt.setError("Qualification empty");
                 }
                 else if(strPetCatUpdt.isEmpty()||(strPetCatUpdt.equals("Set Category")))
                 {
-                    pet_category_updt.setError("Set Category");
-                    service_category_updt.setError(null);
-                    first_nm_layout.setError(null);
-                    last_nm_layout.setError(null);
-                    emil_layout.setError(null);
-                    phone_number_layout.setError(null);
-                    address_layout.setError(null);
-                    postal_code_layout.setError(null);
-                    website_layout.setError(null);
-                    social_media_url_layout.setError(null);
-                    vet_registration_layout.setError(null);
-                    vet_qualification_layout.setError(null);
+                    select_Category.setError("Set Category");
+                    select_service_Category.setError(null);
+                    first_name_updt.setError(null);
+                    last_name_updt.setError(null);
+                    email_updt.setError(null);
+                    phone_updt.setError(null);
+                    address_updt.setError(null);
+                    postal_code_updt.setError(null);
+                    website_updt.setError(null);
+                    social_media_url_updt.setError(null);
+                    registration_num_updt.setError(null);
+                    vet_qualification_updt.setError(null);
                 }
                 else if(strSrvcCatUpdt.isEmpty()||(strSrvcCatUpdt.equals("Set Services")))
                 {
-                    service_category_updt.setError("Set Services");
-                    pet_category_updt.setError(null);
-                    first_nm_layout.setError(null);
-                    last_nm_layout.setError(null);
-                    emil_layout.setError(null);
-                    phone_number_layout.setError(null);
-                    address_layout.setError(null);
-                    postal_code_layout.setError(null);
-                    website_layout.setError(null);
-                    social_media_url_layout.setError(null);
-                    vet_registration_layout.setError(null);
-                    vet_qualification_layout.setError(null);
+                    select_service_Category.setError("Set Services");
+                    select_Category.setError(null);
+                    first_name_updt.setError(null);
+                    last_name_updt.setError(null);
+                    email_updt.setError(null);
+                    phone_updt.setError(null);
+                    address_updt.setError(null);
+                    postal_code_updt.setError(null);
+                    website_updt.setError(null);
+                    social_media_url_updt.setError(null);
+                    registration_num_updt.setError(null);
+                    vet_qualification_updt.setError(null);
                 }
                 else if(strCitySpnr.isEmpty()||(strCitySpnr.equals("Select City")))
                 {
@@ -470,18 +463,18 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                 else
                 {
                     //All data update api call from here.
-                    service_category_updt.setError(null);
-                    pet_category_updt.setError(null);
-                    first_nm_layout.setError(null);
-                    last_nm_layout.setError(null);
-                    emil_layout.setError(null);
-                    phone_number_layout.setError(null);
-                    address_layout.setError(null);
-                    postal_code_layout.setError(null);
-                    website_layout.setError(null);
-                    social_media_url_layout.setError(null);
-                    vet_registration_layout.setError(null);
-                    vet_qualification_layout.setError(null);
+                    select_service_Category.setError(null);
+                    select_Category.setError(null);
+                    first_name_updt.setError(null);
+                    last_name_updt.setError(null);
+                    email_updt.setError(null);
+                    phone_updt.setError(null);
+                    address_updt.setError(null);
+                    postal_code_updt.setError(null);
+                    website_updt.setError(null);
+                    social_media_url_updt.setError(null);
+                    registration_num_updt.setError(null);
+                    vet_qualification_updt.setError(null);
                     UpdateParams updateParams = new UpdateParams();
                     UpdateRequest data = new UpdateRequest();
                     data.setId(Config.user_id);
@@ -563,10 +556,10 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                         //Log.d("Selected_item_category",""+item);
                         if(item.equals(""))
                         {
-                            pet_category_updt.setText("Set Category");
+                            select_Category.setText("Set Category");
                         }
                         else {
-                            pet_category_updt.setText(item);
+                            select_Category.setText(item);
                         }
                     }
                 });
@@ -585,7 +578,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                             chkItems[i]=false;
                             muserItem.clear();
                             listCategoryId.clear();
-                            pet_category_updt.setText("Set Category");
+                            select_Category.setText("Set Category");
                         }
                     }
                 });
@@ -627,10 +620,10 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                         }
                         Log.d("Selected_item_category",""+item);
                         if(item.equals("")){
-                            service_category_updt.setText("Set Services");
+                            select_service_Category.setText("Set Services");
                         }
                         else {
-                            service_category_updt.setText(item);
+                            select_service_Category.setText(item);
                         }
                     }
                 });
@@ -649,7 +642,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                             chkItemsSevice[i]=false;
                             muserItemService.clear();
                             listServiceCatId.clear();
-                            service_category_updt.setText("Set Sevices");
+                            select_service_Category.setText("Set Sevices");
                         }
                     }
                 });
@@ -686,9 +679,6 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                 showPictureDialog();
                 slctServcFiveImage=1;
                 break;
-            case R.id.cancel:
-                startActivity(new Intent(UpdateProfileActivity.this,DashBoardActivity.class));
-                finish();
         }
 
     }
@@ -1093,7 +1083,6 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                         // check if all permissions are granted
                         if (report.areAllPermissionsGranted()) {
-                            Toast.makeText(UpdateProfileActivity.this, "All permissions are granted by user!", Toast.LENGTH_SHORT).show();
                         }
 
                         // check for permanent denial of any permission
@@ -1127,6 +1116,30 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
         Log.d("kkdkkd",""+key);
         switch (key)
         {
+
+            case "GetUserDetails":
+                try {
+                    Log.d("GetUserDetails",response.body().toString());
+                    UserResponse userResponse = (UserResponse) response.body();
+                    int responseCode = Integer.parseInt(userResponse.getResponse().getResponseCode());
+                    if (responseCode== 109){
+                        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                        last_name_updt.setText(userResponse.getData().getLastName());
+                        email_updt.setText(userResponse.getData().getEmail());
+                        phone_updt.setText(userResponse.getData().getPhone());
+                        address_updt.setText(userResponse.getData().getAddress());
+                        postal_code_updt.setText(userResponse.getData().getPostalCode());
+
+
+                    }else if (responseCode==614){
+                        Toast.makeText(this, userResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
             case "GetState":
                 try {
                     Log.d("getState",response.body().toString());
@@ -1156,7 +1169,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
             case "GetCountry":
                 try {
                     Log.d("GetCountry",response.body().toString());
-                    CountryResponse stateResponse = (CountryResponse) response.body();
+                    stateResponse = (CountryResponse) response.body();
                     int responseCode = Integer.parseInt(stateResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
                         countery=new ArrayList<>();
@@ -1332,6 +1345,10 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
         country_spnr_updt.setAdapter(aa);
+        if (!strCountryId.equals("")) {
+//            int spinnerPosition = aa.getPosition(countryHasmap.get(sco));
+            country_spnr_updt.setSelection(1);
+        }
         country_spnr_updt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
@@ -1367,6 +1384,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
         ArrayAdapter aa = new ArrayAdapter(UpdateProfileActivity.this,android.R.layout.simple_spinner_item,city);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
+
         city_spnr_updt.setAdapter(aa);
         city_spnr_updt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -1379,25 +1397,5 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    @Override
-    public void onBackPressed() {
-            if (doubleBackToExitPressedOnce) {
-                super.onBackPressed();
-                finishAffinity();
-                System.exit(0);
-                return;
-            }
-            this.doubleBackToExitPressedOnce = true;
-            Toast.makeText(this, "Please click back again to exit", Toast.LENGTH_SHORT).show();
-            new Handler().postDelayed(new Runnable() {
-
-                @Override
-                public void run() {
-                    doubleBackToExitPressedOnce=false;
-                }
-            }, 2000);
     }
 }

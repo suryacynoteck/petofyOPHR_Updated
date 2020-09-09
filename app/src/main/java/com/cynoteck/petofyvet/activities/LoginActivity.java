@@ -1,14 +1,17 @@
 package com.cynoteck.petofyvet.activities;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
@@ -36,8 +40,12 @@ import com.cynoteck.petofyvet.response.loginRegisterResponse.LoginRegisterRespon
 import com.cynoteck.petofyvet.response.otpResponse.OtpResponse;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import retrofit2.Response;
 
@@ -70,6 +78,10 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
     TelephonyManager telephonyManager;
     String imeiNumber = "", token = "";
     String deviceIp, strResponseOtp = "";
+    public static final String channel_id="channel_id";
+    private static final String channel_name="channel_name";
+    private static final String channel_desc="channel_desc";
+    private static final String TAG = "LoginActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,10 +89,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         methods = new Methods(this);
         init();
-
         if (checkPermission()) {
-//            imeiNumber = IMEI.get_dev_id(this);
-//            getDeviceId();
         } else {
             if (!checkPermission()) {
                 requestPermission();
@@ -89,8 +98,33 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
             }
         }
 
-    }
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+//To do//
+                            return;
+                        }
 
+// Get the Instance ID token//
+                        String token = task.getResult().getToken();
+                        String msg = getString(R.string.fcm_token, token);
+                        Log.d(TAG, msg);
+
+                    }
+                });
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O)
+        {
+            NotificationChannel notificationChannel=new NotificationChannel(channel_id, channel_name, NotificationManager.IMPORTANCE_DEFAULT);
+            notificationChannel.setDescription(channel_desc);
+            NotificationManager notificationManager=getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(notificationChannel);
+
+        }
+
+
+    }
 
     private boolean checkPermission() {
 
@@ -107,8 +141,6 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
 
     private void requestPermission() {
         ActivityCompat.requestPermissions(this, new String[]{ACCESS_FINE_LOCATION,CAMERA,READ_PHONE_STATE,READ_EXTERNAL_STORAGE,WRITE_EXTERNAL_STORAGE,ACCESS_WIFI_STATE,ACCESS_NETWORK_STATE}, PERMISSION_REQUEST_CODE);
-//        getDeviceId();
-//        imeiNumber = IMEI.get_dev_id(this);
 
     }
 
@@ -134,8 +166,10 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
         switch (v.getId()) {
 
             case R.id.login_BT:
+                getDeviceId();
                 emailString = email_TIET.getText().toString().trim();
                 passwordString = password_TIET.getText().toString().trim();
+                Toast.makeText(this, ""+imeiNumber, Toast.LENGTH_LONG).show();
                 if (emailString.isEmpty()) {
                     email_TIET.setError("Email is empty");
                     password_TIET.setError(null);
@@ -145,10 +179,9 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                 } else if (passwordString.isEmpty()) {
                     email_TIET.setError("Password is empty");
                     password_TIET.setError(null);
-                }/* else if (imeiNumber.isEmpty()) {
+                } else if (imeiNumber.isEmpty()) {
                     if (checkPermission()) {
-//                        imeiNumber = IMEI.get_dev_id(this);
-//                        getDeviceId();
+                        getDeviceId();
                     } else {
                         if (!checkPermission()) {
                             requestPermission();
@@ -156,7 +189,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                             Toast.makeText(this, "Permission already granted.", Toast.LENGTH_SHORT).show();
                         }
                     }
-                }*/ else {
+                } else {
                     email_TIET.setError(null);
                     password_TIET.setError(null);
                     Loginparams loginparams = new Loginparams();
@@ -299,6 +332,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
         login_editor.putString("study", responseLogin.getData().getVetRQualification());
         login_editor.putString("vetid", responseLogin.getData().getVetRegistrationNumber());
         login_editor.putString("onlineAppoint", responseLogin.getData().getOnlineAppointmentStatus());
+
         Config.token = responseLogin.getResponseLogin().getToken();
         login_editor.putString("loggedIn", "loggedIn");
         login_editor.commit();
@@ -374,24 +408,28 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
     }
 
     private void getDeviceId() {
-        telephonyManager = (TelephonyManager) getSystemService(this.TELEPHONY_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        imeiNumber = telephonyManager.getDeviceId();
-    }
-
-    public static class IMEI {
-
-        public static String get_dev_id(Context ctx){
-
-            //Getting the Object of TelephonyManager
-            TelephonyManager tManager = (TelephonyManager)ctx.getSystemService(Context.TELEPHONY_SERVICE);
-
-            //Getting IMEI Number of Devide
-            @SuppressLint("MissingPermission") String Imei=tManager.getDeviceId();
-
-            return Imei;
+        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (checkSelfPermission(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+                if (telephonyManager != null) {
+                    try {
+                        imeiNumber = telephonyManager.getImei();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        imeiNumber = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
+                    }
+                }
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, 1010);
+            }
+        } else {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+                if (telephonyManager != null) {
+                    imeiNumber = telephonyManager.getDeviceId();
+                }
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, 1010);
+            }
         }
     }
 

@@ -22,6 +22,7 @@ public class Config {
     public static String user_Veterian_id="";
     public static String user_Veterian_online="";
     public static String user_Veterian_url="";
+    public static String user_Veterian_details="";
 
     public static String type="";
     public static String backCall="";
