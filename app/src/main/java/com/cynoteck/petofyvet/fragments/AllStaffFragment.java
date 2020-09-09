@@ -59,6 +59,7 @@ public class AllStaffFragment extends Fragment implements ApiResponse, StaffList
     TextView staff_permission;
     Button cancel_button, submit_button, update_button,update_cancel_button;
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+    String staffUserId="";
 
     public AllStaffFragment() {
     }
@@ -74,12 +75,10 @@ public class AllStaffFragment extends Fragment implements ApiResponse, StaffList
 
     private void init() {
         methods = new Methods(getContext());
-        staff_permission = view.findViewById(R.id.staff_permission);
         all_staff_RV = view.findViewById(R.id.all_staff_List_RV);
         mShimmerViewContainer = view.findViewById(R.id.shimmer_view_container);
         add_staff_IV=view.findViewById(R.id.add_staff_IV);
         add_staff_IV.setOnClickListener(this);
-        staff_permission.setOnClickListener(this);
 
         if (methods.isInternetOn()){
             getAllStaff();
@@ -96,7 +95,8 @@ public class AllStaffFragment extends Fragment implements ApiResponse, StaffList
         String staff_last_name = getAllStaffData.get(position).getLastName();
         String staff_email_id = getAllStaffData.get(position).getEmail();
         String staff_phone = getAllStaffData.get(position).getPhoneNumber();
-        showEditStaffDialog(staff_first_name,staff_last_name,staff_email_id,staff_phone);
+        String staff_user_id= getAllStaffData.get(position).getUserId();
+        showEditStaffDialog(staff_first_name,staff_last_name,staff_email_id,staff_phone,staff_user_id);
 
     }
 
@@ -311,7 +311,9 @@ public class AllStaffFragment extends Fragment implements ApiResponse, StaffList
                 break;
 
             case R.id.staff_permission:
-                startActivity(new Intent(getActivity(), StaffPermissionActivity.class));
+                Intent intent=new Intent(getActivity(), StaffPermissionActivity.class);
+                intent.putExtra("staffUserId",staffUserId);
+                startActivity(intent);
                 break;
         }
 
@@ -382,15 +384,18 @@ public class AllStaffFragment extends Fragment implements ApiResponse, StaffList
 
     }
 
-    private void showEditStaffDialog(String staff_first_name, String staff_last_name, String staff_email_id, String staff_phone) {
+    private void showEditStaffDialog(String staff_first_name, String staff_last_name, String staff_email_id, String staff_phone, String staff_user_id) {
 
         edit_staff_dialog = new Dialog(getContext());
         edit_staff_dialog.setContentView(R.layout.edit_staff_dialog);
-
+        staffUserId=staff_user_id;
+        staff_permission=edit_staff_dialog.findViewById(R.id.staff_permission);
         nameET=edit_staff_dialog.findViewById(R.id.first_nameET);
         lastET=edit_staff_dialog.findViewById(R.id.last_nameET);
         emailET=edit_staff_dialog.findViewById(R.id.emailET);
         mobileET=edit_staff_dialog.findViewById(R.id.mobileET);
+
+        staff_permission.setOnClickListener(this);
 
         nameET.setText(staff_first_name);
         lastET.setText(staff_last_name);

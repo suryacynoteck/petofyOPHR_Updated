@@ -22,7 +22,6 @@ import android.widget.Toast;
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.adapters.AllStaffAdapter;
 import com.cynoteck.petofyvet.adapters.DateListAdapter;
-import com.cynoteck.petofyvet.adapters.OperatingHoursAdaptear;
 import com.cynoteck.petofyvet.api.ApiClient;
 import com.cynoteck.petofyvet.api.ApiResponse;
 import com.cynoteck.petofyvet.api.ApiService;
@@ -47,7 +46,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class OperatingHoursActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse, OperatingHoursClickListener {
+public class OperatingHoursActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse {
 
     TextView moday_start_time,moday_close_time,tuesday_start_time,tuesday_close_time,wednessday_start_time,wednessday_close_time,thusday_start_time,
              thusday_close_time,friday_start_time,friday_close_time,saturday_start_time,saturday_close_time,
@@ -711,10 +710,6 @@ public class OperatingHoursActivity extends AppCompatActivity implements View.On
     @Override
     public void onError(Throwable t, String key) {
 
-    }
-    @Override
-    public void onViewSetTime(int position, String id, String DayId, String startTime, String endTime, String isClose, String allDayOpen, String timeType) {
-       // selectTimeDialog(DayId);
     }
 
 

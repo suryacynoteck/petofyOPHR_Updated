@@ -12,6 +12,7 @@ import com.cynoteck.petofyvet.params.allStaffRequest.UpdateStaffRequest;
 import com.cynoteck.petofyvet.params.appointmentParams.AppointmentsStatusRequest;
 import com.cynoteck.petofyvet.params.appointmentParams.CreateAppointRequest;
 import com.cynoteck.petofyvet.params.appointmentParams.UpdateAppointmentRequest;
+import com.cynoteck.petofyvet.params.assignAndRemovePermission.AssignRemovePermissionRequest;
 import com.cynoteck.petofyvet.params.changePassRequest.ChangePassRequest;
 import com.cynoteck.petofyvet.params.checkpetInVetRegister.InPetRegisterRequest;
 import com.cynoteck.petofyvet.params.forgetPassRequest.ForgetPassRequest;
@@ -25,6 +26,7 @@ import com.cynoteck.petofyvet.params.petReportsRequest.PetDataRequest;
 import com.cynoteck.petofyvet.params.petReportsRequest.VisitTypeRequest;
 import com.cynoteck.petofyvet.params.registerRequest.Registerparams;
 import com.cynoteck.petofyvet.params.searchRemarksParameter.SearchRemaksRequest;
+import com.cynoteck.petofyvet.params.staffPermission.StaffPermissionRequest;
 import com.cynoteck.petofyvet.params.updateClinicVisitsParams.UpdateClinicReportsRequest;
 import com.cynoteck.petofyvet.params.updateHospitalizationParams.UpdateHospitalizationRequest;
 import com.cynoteck.petofyvet.params.updateLapTestParams.UpdateLabTestRequest;
@@ -77,6 +79,7 @@ import com.cynoteck.petofyvet.response.otpResponse.OtpResponse;
 import com.cynoteck.petofyvet.response.recentEntrys.RecentEntrysResponse;
 import com.cynoteck.petofyvet.response.saveWorkingReponse.SaveWorkingHoursResponse;
 import com.cynoteck.petofyvet.response.searchRemaks.SearchRemaksResponse;
+import com.cynoteck.petofyvet.response.staffPermissionListResponse.StaffPermissionResponse;
 import com.cynoteck.petofyvet.response.testResponse.XrayTestResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.CityResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.CountryResponse;
@@ -415,6 +418,24 @@ public interface ApiInterface {
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("user/SaveOperatingHours")
     Call<SaveWorkingHoursResponse> saveOperatingHours(@Header("Authorization") String auth, @Body WorkingHoursParameter workingHoursParameter);
+
+    //TODO===================GetStaffPermissionList====================
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("Staff/GetStaffPermissionList")
+    Call<StaffPermissionResponse> getStaffPermissionList(@Header("Authorization") String auth, @Body StaffPermissionRequest staffPermissionRequest);
+
+    //TODO===================AssignPermission==========================
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("Staff/AssignPermission")
+    Call<StaffPermissionResponse> assignPermission(@Header("Authorization") String auth, @Body AssignRemovePermissionRequest assignRemovePermissionRequest);
+
+    //TODO====================RemovePermission==========================
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("Staff/RemovePermission")
+    Call<StaffPermissionResponse> removePermission(@Header("Authorization") String auth, @Body AssignRemovePermissionRequest assignRemovePermissionRequest);
 
 
 }
