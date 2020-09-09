@@ -1,6 +1,7 @@
 package com.cynoteck.petofyvet.fragments;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -18,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cynoteck.petofyvet.R;
+import com.cynoteck.petofyvet.activities.StaffPermissionActivity;
 import com.cynoteck.petofyvet.adapters.AllStaffAdapter;
 import com.cynoteck.petofyvet.api.ApiClient;
 import com.cynoteck.petofyvet.api.ApiResponse;
@@ -53,8 +56,10 @@ public class AllStaffFragment extends Fragment implements ApiResponse, StaffList
     Dialog add_staff_dialog, edit_staff_dialog;
     String email_id, first_name, last_name, password, confirm_password, phone_number,encrypt_id;
     EditText nameET,lastET,emailET,mobileET,passwordET,confirmPassET;
+    TextView staff_permission;
     Button cancel_button, submit_button, update_button,update_cancel_button;
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+    String staffUserId="";
 
     public AllStaffFragment() {
     }
@@ -90,7 +95,8 @@ public class AllStaffFragment extends Fragment implements ApiResponse, StaffList
         String staff_last_name = getAllStaffData.get(position).getLastName();
         String staff_email_id = getAllStaffData.get(position).getEmail();
         String staff_phone = getAllStaffData.get(position).getPhoneNumber();
-        showEditStaffDialog(staff_first_name,staff_last_name,staff_email_id,staff_phone);
+        String staff_user_id= getAllStaffData.get(position).getUserId();
+        showEditStaffDialog(staff_first_name,staff_last_name,staff_email_id,staff_phone,staff_user_id);
 
     }
 
@@ -302,8 +308,12 @@ public class AllStaffFragment extends Fragment implements ApiResponse, StaffList
                         methods.DialogInternet();
                     }
                 }
+                break;
 
-
+            case R.id.staff_permission:
+                Intent intent=new Intent(getActivity(), StaffPermissionActivity.class);
+                intent.putExtra("staffUserId",staffUserId);
+                startActivity(intent);
                 break;
         }
 
@@ -374,15 +384,18 @@ public class AllStaffFragment extends Fragment implements ApiResponse, StaffList
 
     }
 
-    private void showEditStaffDialog(String staff_first_name, String staff_last_name, String staff_email_id, String staff_phone) {
+    private void showEditStaffDialog(String staff_first_name, String staff_last_name, String staff_email_id, String staff_phone, String staff_user_id) {
 
         edit_staff_dialog = new Dialog(getContext());
         edit_staff_dialog.setContentView(R.layout.edit_staff_dialog);
-
+        staffUserId=staff_user_id;
+        staff_permission=edit_staff_dialog.findViewById(R.id.staff_permission);
         nameET=edit_staff_dialog.findViewById(R.id.first_nameET);
         lastET=edit_staff_dialog.findViewById(R.id.last_nameET);
         emailET=edit_staff_dialog.findViewById(R.id.emailET);
         mobileET=edit_staff_dialog.findViewById(R.id.mobileET);
+
+        staff_permission.setOnClickListener(this);
 
         nameET.setText(staff_first_name);
         lastET.setText(staff_last_name);

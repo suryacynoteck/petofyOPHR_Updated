@@ -26,6 +26,21 @@
             android:textColor="@color/black_color"
             android:layout_marginTop="8dp"
             android:paddingLeft="10dp"/>
+
+        <TextView
+            android:visibility="visible"
+            android:id="@+id/staff_permission"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:padding="5dp"
+            android:text="Permission"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"/>
         <View
             android:background="@color/grayColor"
             android:layout_height="1dp"
