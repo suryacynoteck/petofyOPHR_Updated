@@ -97,41 +97,6 @@ public class StaffPermissionActivity extends AppCompatActivity implements View.O
 
     }
 
-    @Override
-    public void onViewSetTime(int position, String id, String state) {
-        Log.d("annananan",""+id+" "+state);
-        if(state.equals("true"))
-        {
-            Log.d("call Asign","");
-            AssignRemovePermissionModel assignRemovePermissionModel=new AssignRemovePermissionModel();
-            assignRemovePermissionModel.setUserId(staffId);
-            assignRemovePermissionModel.setPermissionId(id.substring(0,id.length()-2));
-            AssignRemovePermissionRequest assignRemovePermissionRequest=new AssignRemovePermissionRequest();
-            assignRemovePermissionRequest.setData(assignRemovePermissionModel);
-
-            if(methods.isInternetOn())
-                assignPermission(assignRemovePermissionRequest);
-            else
-                methods.isInternetOn();
-
-        }
-        else
-        {
-            Log.d("call remove","");
-            AssignRemovePermissionModel assignRemovePermissionModel=new AssignRemovePermissionModel();
-            assignRemovePermissionModel.setUserId(staffId);
-            assignRemovePermissionModel.setPermissionId(id.substring(0,id.length()-2));
-            AssignRemovePermissionRequest assignRemovePermissionRequest=new AssignRemovePermissionRequest();
-            assignRemovePermissionRequest.setData(assignRemovePermissionModel);
-
-            if(methods.isInternetOn())
-                removePermission(assignRemovePermissionRequest);
-            else
-                methods.isInternetOn();
-        }
-
-    }
-
     private void assignPermission(AssignRemovePermissionRequest assignRemovePermissionRequest) {
         ApiService<StaffPermissionResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().assignPermission(Config.token,assignRemovePermissionRequest), "AssignPermission");
@@ -235,6 +200,41 @@ public class StaffPermissionActivity extends AppCompatActivity implements View.O
 
     @Override
     public void onError(Throwable t, String key) {
+
+    }
+
+    @Override
+    public void onViewSetTime(int position, String id, String state) {
+        Log.d("annananan",""+id+" "+state);
+        if(state.equals("true"))
+        {
+            Log.d("call Asign","");
+            AssignRemovePermissionModel assignRemovePermissionModel=new AssignRemovePermissionModel();
+            assignRemovePermissionModel.setUserId(staffId);
+            assignRemovePermissionModel.setPermissionId(id.substring(0,id.length()-2));
+            AssignRemovePermissionRequest assignRemovePermissionRequest=new AssignRemovePermissionRequest();
+            assignRemovePermissionRequest.setData(assignRemovePermissionModel);
+
+            if(methods.isInternetOn())
+                assignPermission(assignRemovePermissionRequest);
+            else
+                methods.isInternetOn();
+
+        }
+        else
+        {
+            Log.d("call remove","");
+            AssignRemovePermissionModel assignRemovePermissionModel=new AssignRemovePermissionModel();
+            assignRemovePermissionModel.setUserId(staffId);
+            assignRemovePermissionModel.setPermissionId(id.substring(0,id.length()-2));
+            AssignRemovePermissionRequest assignRemovePermissionRequest=new AssignRemovePermissionRequest();
+            assignRemovePermissionRequest.setData(assignRemovePermissionModel);
+
+            if(methods.isInternetOn())
+                removePermission(assignRemovePermissionRequest);
+            else
+                methods.isInternetOn();
+        }
 
     }
 
