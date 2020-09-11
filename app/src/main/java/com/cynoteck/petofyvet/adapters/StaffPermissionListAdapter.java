@@ -47,11 +47,14 @@ public class StaffPermissionListAdapter extends RecyclerView.Adapter<StaffPermis
     }
 
     @Override
-    public void onBindViewHolder(@NonNull StaffPermissionListAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull StaffPermissionListAdapter.MyViewHolder holder, final int position) {
 
     holder.permission_name.setText(staffPermissionResponseModels.get(position).getPermissionName());
+
     if(staffPermissionResponseModels.get(position).getIsSelected().equals("true"))
-    holder.permission_switch.setChecked(true);
+         holder.permission_switch.setChecked(true);
+    else
+        holder.permission_switch.setChecked(false);
 
     }
 
@@ -70,19 +73,20 @@ public class StaffPermissionListAdapter extends RecyclerView.Adapter<StaffPermis
             permission_name = itemView.findViewById(R.id.permission_name);
             permission_switch = itemView.findViewById(R.id.permission_switch);
 
-
-            permission_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        // The toggle is enabled
+            permission_switch.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(((CompoundButton) view).isChecked()){
                         operatingHoursClickListener.onViewSetTime(getAdapterPosition(),staffPermissionResponseModels.get(getAdapterPosition()).getId(),"true");
-                    } else {
-                        // The toggle is disabled
+                    }
+                    else
+                    {
                         operatingHoursClickListener.onViewSetTime(getAdapterPosition(),staffPermissionResponseModels.get(getAdapterPosition()).getId(),"false");
 
                     }
                 }
             });
+
         }
     }
 }

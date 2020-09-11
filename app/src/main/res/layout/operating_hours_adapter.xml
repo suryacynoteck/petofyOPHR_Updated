@@ -54,6 +54,7 @@
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:switchMinWidth="56dp"
+                        android:checked="false"
                         android:layout_marginRight="20dp"/>
 
 

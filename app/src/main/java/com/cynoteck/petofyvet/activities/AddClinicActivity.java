@@ -203,7 +203,8 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
 
 
 
-
+     //8583896504(Suresh Das).
+	 
         if (extras != null) {
             report_id = extras.getString("report_id");
             pet_id = extras.getString("pet_id");
