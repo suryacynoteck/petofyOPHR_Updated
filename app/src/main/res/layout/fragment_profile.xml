@@ -251,6 +251,42 @@
 
 
             </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+                app:cardElevation="15dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="65dp">
+
+                <RelativeLayout
+                    android:id="@+id/changePass_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:textColor="@color/black_color"
+                        android:textSize="20sp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_alignParentStart="true"
+                        android:gravity="center_vertical"
+                        android:text="Change Password"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+
+                    <ImageView
+                        android:layout_alignParentEnd="true"
+                        android:padding="10dp"
+                        android:src="@drawable/forward_arrow"
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent"/>
+
+                </RelativeLayout>
+
+
+
+            </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
                 android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"

@@ -191,13 +191,14 @@
                 android:layout_marginRight="20dp">
 
                 <TextView
+                    android:padding="10dp"
                     android:layout_weight="1"
                     android:id="@+id/time_TV"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:background="@drawable/time_bg"
                     android:gravity="center_vertical"
-                    android:hint="HH:MM "
+                    android:hint="10:10 AM"
                     android:layout_marginTop="10dp"
                     android:paddingLeft="25dp"
                     android:textSize="18dp"

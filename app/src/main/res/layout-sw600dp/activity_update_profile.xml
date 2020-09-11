@@ -45,6 +45,7 @@
     </com.google.android.material.card.MaterialCardView>
 
     <ScrollView
+        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toTopOf="@+id/update_profile"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
@@ -135,7 +136,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edit_text_background"
                 android:gravity="center_vertical"
-                android:hint="First Name"
+                android:hint="@string/emailtext"
                 android:inputType="text"
                 android:maxLines="1"
                 android:paddingLeft="25dp"
@@ -257,9 +258,11 @@
                     android:layout_weight="1"/>
 
                 <EditText
+                    android:paddingLeft="20dp"
                     android:hint="@string/postal_code"
                     android:id="@+id/postal_code_updt"
                     android:layout_width="match_parent"
+                    android:inputType="number"
                     android:layout_marginLeft="2dp"
                     android:layout_height="50dp"
                     android:background="@drawable/edit_text_background"
@@ -488,7 +491,7 @@
                 app:layout_constraintStart_toStartOf="@id/first_name_TV"
                 app:layout_constraintEnd_toEndOf="@id/first_name_TV"
                 app:layout_constraintTop_toBottomOf="@id/cat_images_LL"
-                android:text="Category Images"
+                android:text="Service Images"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/grey_add_pet"/>
 

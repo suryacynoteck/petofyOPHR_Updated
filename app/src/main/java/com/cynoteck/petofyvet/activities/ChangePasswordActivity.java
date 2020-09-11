@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +28,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements ApiResp
     Button change_password_BT;
     Methods methods;
     String current_password="", new_password="", confirm_password="";
+    ImageView back_arrow_IV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +38,11 @@ public class ChangePasswordActivity extends AppCompatActivity implements ApiResp
 
         current_password_ET = findViewById(R.id.current_password_ET);
         new_password_ET = findViewById(R.id.new_password_ET);
+        back_arrow_IV=findViewById(R.id.back_arrow_IV);
         confirm_password_ET = findViewById(R.id.confirm_password_ET);
         change_password_BT = findViewById(R.id.change_password_BT);
         change_password_BT.setOnClickListener(this);
+        back_arrow_IV.setOnClickListener(this);
     }
 
     @Override
@@ -97,6 +101,10 @@ public class ChangePasswordActivity extends AppCompatActivity implements ApiResp
 
                 }
 
+                break;
+
+            case R.id.back_arrow_IV:
+                onBackPressed();
                 break;
         }
 

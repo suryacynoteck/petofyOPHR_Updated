@@ -30,7 +30,7 @@ import com.cynoteck.petofyvet.params.staffPermission.StaffPermissionRequest;
 import com.cynoteck.petofyvet.params.updateClinicVisitsParams.UpdateClinicReportsRequest;
 import com.cynoteck.petofyvet.params.updateHospitalizationParams.UpdateHospitalizationRequest;
 import com.cynoteck.petofyvet.params.updateLapTestParams.UpdateLabTestRequest;
-import com.cynoteck.petofyvet.params.updateRequest.getValue.UpdateParams;
+import com.cynoteck.petofyvet.params.updateRequest.getValue.UpdateRequest;
 import com.cynoteck.petofyvet.params.updateRequest.updateParamRequest.UpdatePetRequest;
 import com.cynoteck.petofyvet.params.updateXRayParams.UpdateXrayRequest;
 import com.cynoteck.petofyvet.params.workingHoursParameter.WorkingHoursParameter;
@@ -75,7 +75,9 @@ import com.cynoteck.petofyvet.response.hospitalTypeListResponse.HospitalAddmissi
 import com.cynoteck.petofyvet.response.labTyperesponse.LabTypeResponse;
 import com.cynoteck.petofyvet.response.loginRegisterResponse.LoginRegisterResponse;
 import com.cynoteck.petofyvet.response.newPetResponse.NewPetRegisterResponse;
+import com.cynoteck.petofyvet.response.onlineAppointmentOnOff.OnlineAppointmentResponse;
 import com.cynoteck.petofyvet.response.otpResponse.OtpResponse;
+import com.cynoteck.petofyvet.response.profileImageresponse.ProfileImageResponse;
 import com.cynoteck.petofyvet.response.recentEntrys.RecentEntrysResponse;
 import com.cynoteck.petofyvet.response.saveWorkingReponse.SaveWorkingHoursResponse;
 import com.cynoteck.petofyvet.response.searchRemaks.SearchRemaksResponse;
@@ -87,6 +89,7 @@ import com.cynoteck.petofyvet.response.updateProfileResponse.PetServiceResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.PetTypeResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.StateResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.UserResponse;
+import com.cynoteck.petofyvet.response.updateVetDetailsresponse.UpdateVetResponse;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;
@@ -132,7 +135,7 @@ public interface ApiInterface {
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("user/UpdateVeterinarian")
-    Call<UserResponse> updateUser(@Header("Authorization") String auth, @Body UpdateParams registerparams);
+    Call<UpdateVetResponse> updateUser(@Header("Authorization") String auth, @Body UpdateRequest updateRequest);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @GET("User/GetUserDetails")
@@ -189,7 +192,10 @@ public interface ApiInterface {
     Call<ImageResponse> uploadImages(@Header("Authorization") String auth,
                                       @Part MultipartBody.Part file);
 
-
+    @Multipart
+    @POST("user/ChangeProfileImage")
+    Call<ProfileImageResponse> uploadProfile(@Header("Authorization") String auth,
+                                             @Part MultipartBody.Part file);
     //reports section.........................................
 
 
@@ -406,6 +412,16 @@ public interface ApiInterface {
     @POST("appointment/GetAppointmentById")
     Call<AppointmentDetailsResponse> getAppointmentsDetails(@Header("Authorization") String auth,
                                                             @Body GetPetListRequest addPetRequset);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("user/EnableDisableOnlineAppointments")
+    Call<OnlineAppointmentResponse> onlineAppointmentOnOff(@Header("Authorization") String auth,
+                                                           @Body GetPetListRequest addPetRequset);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("user/EnableTwoStepAuthentication")
+    Call<OnlineAppointmentResponse> enableDisableTowFactorAuth(@Header("Authorization") String auth,
+                                                           @Body GetPetListRequest addPetRequset);
 
     //TODO=================GET OPERATING HOURS===========================
 

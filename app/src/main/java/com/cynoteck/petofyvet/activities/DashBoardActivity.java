@@ -59,6 +59,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         Config.user_Veterian_id=sharedPreferences.getString("vetid", "");
         Config.user_Veterian_study=sharedPreferences.getString("study", "");
         Config.user_Veterian_url=sharedPreferences.getString("profilePic", "");
+        Config.two_fact_auth_status=sharedPreferences.getString("twoFactAuth", "");
 
         if(methods.isInternetOn())
         {

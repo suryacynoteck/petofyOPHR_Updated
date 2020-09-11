@@ -3,6 +3,8 @@ package com.cynoteck.petofyvet.response.updateProfileResponse;
 import com.cynoteck.petofyvet.response.getPetDetailsResponse.PetTypeList;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.getClinicVisitDetails.City;
 
+import java.util.ArrayList;
+
 public class UserModel {
     private String isVeterinarian;
 
@@ -30,6 +32,8 @@ public class UserModel {
 
     private String password;
 
+    private String stateName;
+
     private String id;
 
     private String profileImageUrl;
@@ -38,7 +42,7 @@ public class UserModel {
 
     private String enableTwoStepVerification;
 
-    private PetTypeList[] petTypeList;
+    private ArrayList<PetTypeList> petTypeList;
 
     private String countryList;
 
@@ -58,6 +62,8 @@ public class UserModel {
 
     private String name;
 
+    private String countryName;
+
     private String lastName;
 
     private String distance;
@@ -76,7 +82,7 @@ public class UserModel {
 
     private String description;
 
-    private ServiceTypeList[] serviceTypeList;
+    private ArrayList<ServiceTypeList> serviceTypeList;
 
     private String countryId;
 
@@ -85,6 +91,8 @@ public class UserModel {
     private String hasLogInAccount;
 
     private String[] serviceImages;
+
+    private String cityName;
 
     private String imageUrl;
 
@@ -280,6 +288,16 @@ public class UserModel {
         this.password = password;
     }
 
+    public String getStateName ()
+    {
+        return stateName;
+    }
+
+    public void setStateName (String stateName)
+    {
+        this.stateName = stateName;
+    }
+
     public String getId ()
     {
         return id;
@@ -320,12 +338,12 @@ public class UserModel {
         this.enableTwoStepVerification = enableTwoStepVerification;
     }
 
-    public PetTypeList[] getPetTypeList ()
+    public ArrayList<PetTypeList> getPetTypeList ()
     {
         return petTypeList;
     }
 
-    public void setPetTypeList (PetTypeList[] petTypeList)
+    public void setPetTypeList (ArrayList<PetTypeList> petTypeList)
     {
         this.petTypeList = petTypeList;
     }
@@ -420,6 +438,16 @@ public class UserModel {
         this.name = name;
     }
 
+    public String getCountryName ()
+    {
+        return countryName;
+    }
+
+    public void setCountryName (String countryName)
+    {
+        this.countryName = countryName;
+    }
+
     public String getLastName ()
     {
         return lastName;
@@ -510,12 +538,12 @@ public class UserModel {
         this.description = description;
     }
 
-    public ServiceTypeList[] getServiceTypeList ()
+    public ArrayList<ServiceTypeList> getServiceTypeList ()
     {
         return serviceTypeList;
     }
 
-    public void setServiceTypeList (ServiceTypeList[] serviceTypeList)
+    public void setServiceTypeList (ArrayList<ServiceTypeList> serviceTypeList)
     {
         this.serviceTypeList = serviceTypeList;
     }
@@ -558,6 +586,16 @@ public class UserModel {
     public void setServiceImages (String[] serviceImages)
     {
         this.serviceImages = serviceImages;
+    }
+
+    public String getCityName ()
+    {
+        return cityName;
+    }
+
+    public void setCityName (String cityName)
+    {
+        this.cityName = cityName;
     }
 
     public String getImageUrl ()
@@ -883,8 +921,9 @@ public class UserModel {
     @Override
     public String toString()
     {
-        return "ClassPojo [isVeterinarian = "+isVeterinarian+", vetRegistrationNumber = "+vetRegistrationNumber+", providerServiceTypeList = "+providerServiceTypeList+", enableOnlineAppointments = "+enableOnlineAppointments+", postalCode = "+postalCode+", phone2 = "+phone2+", secondServiceImageUrl = "+secondServiceImageUrl+", rating = "+rating+", cityId = "+cityId+", isActive = "+isActive+", operatingHourList = "+operatingHourList+", providerUserId = "+providerUserId+", password = "+password+", id = "+id+", profileImageUrl = "+profileImageUrl+", longitude = "+longitude+", enableTwoStepVerification = "+enableTwoStepVerification+", petTypeList = "+petTypeList+", countryList = "+countryList+", thirdServiceImageUrl = "+thirdServiceImageUrl+", firstName = "+firstName+", fourthServiceImageUrl = "+fourthServiceImageUrl+", isNGO = "+isNGO+", route = "+route+", phone = "+phone+", socialMediaUrl = "+socialMediaUrl+", name = "+name+", lastName = "+lastName+", distance = "+distance+", city = "+city+", coverImageUrl = "+coverImageUrl+", latitude = "+latitude+", origin = "+origin+", destination = "+destination+", providerPetTypeList = "+providerPetTypeList+", description = "+description+", serviceTypeList = "+serviceTypeList+", countryId = "+countryId+", isEmailVerified = "+isEmailVerified+", hasLogInAccount = "+hasLogInAccount+", serviceImages = "+serviceImages+", imageUrl = "+imageUrl+", hasLogIn = "+hasLogIn+", confirmPassword = "+confirmPassword+", company = "+company+", userEmail = "+userEmail+", fifthServiceImageUrl = "+fifthServiceImageUrl+", categories = "+categories+", referredById = "+referredById+", email = "+email+", selectedServiceTypeIds = "+selectedServiceTypeIds+", website = "+website+", isExistingProvider = "+isExistingProvider+", address = "+address+", isVetRegistration = "+isVetRegistration+", providerImageList = "+providerImageList+", address2 = "+address2+", selectedCountryId = "+selectedCountryId+", stateId = "+stateId+", stateList = "+stateList+", selectedPetTypeIds = "+selectedPetTypeIds+", vetQualifications = "+vetQualifications+", services = "+services+", cityList = "+cityList+", userRating = "+userRating+", onlineConsultationCharges = "+onlineConsultationCharges+", providerLocationList = "+providerLocationList+", providerRatingList = "+providerRatingList+", isMobileNumberVerified = "+isMobileNumberVerified+", firstServiceImageUrl = "+firstServiceImageUrl+", encryptedId = "+encryptedId+", serviceImageUrl = "+serviceImageUrl+", referredBy = "+referredBy+"]";
+        return "ClassPojo [isVeterinarian = "+isVeterinarian+", vetRegistrationNumber = "+vetRegistrationNumber+", providerServiceTypeList = "+providerServiceTypeList+", enableOnlineAppointments = "+enableOnlineAppointments+", postalCode = "+postalCode+", phone2 = "+phone2+", secondServiceImageUrl = "+secondServiceImageUrl+", rating = "+rating+", cityId = "+cityId+", isActive = "+isActive+", operatingHourList = "+operatingHourList+", providerUserId = "+providerUserId+", password = "+password+", stateName = "+stateName+", id = "+id+", profileImageUrl = "+profileImageUrl+", longitude = "+longitude+", enableTwoStepVerification = "+enableTwoStepVerification+", petTypeList = "+petTypeList+", countryList = "+countryList+", thirdServiceImageUrl = "+thirdServiceImageUrl+", firstName = "+firstName+", fourthServiceImageUrl = "+fourthServiceImageUrl+", isNGO = "+isNGO+", route = "+route+", phone = "+phone+", socialMediaUrl = "+socialMediaUrl+", name = "+name+", countryName = "+countryName+", lastName = "+lastName+", distance = "+distance+", city = "+city+", coverImageUrl = "+coverImageUrl+", latitude = "+latitude+", origin = "+origin+", destination = "+destination+", providerPetTypeList = "+providerPetTypeList+", description = "+description+", serviceTypeList = "+serviceTypeList+", countryId = "+countryId+", isEmailVerified = "+isEmailVerified+", hasLogInAccount = "+hasLogInAccount+", serviceImages = "+serviceImages+", cityName = "+cityName+", imageUrl = "+imageUrl+", hasLogIn = "+hasLogIn+", confirmPassword = "+confirmPassword+", company = "+company+", userEmail = "+userEmail+", fifthServiceImageUrl = "+fifthServiceImageUrl+", categories = "+categories+", referredById = "+referredById+", email = "+email+", selectedServiceTypeIds = "+selectedServiceTypeIds+", website = "+website+", isExistingProvider = "+isExistingProvider+", address = "+address+", isVetRegistration = "+isVetRegistration+", providerImageList = "+providerImageList+", address2 = "+address2+", selectedCountryId = "+selectedCountryId+", stateId = "+stateId+", stateList = "+stateList+", selectedPetTypeIds = "+selectedPetTypeIds+", vetQualifications = "+vetQualifications+", services = "+services+", cityList = "+cityList+", userRating = "+userRating+", onlineConsultationCharges = "+onlineConsultationCharges+", providerLocationList = "+providerLocationList+", providerRatingList = "+providerRatingList+", isMobileNumberVerified = "+isMobileNumberVerified+", firstServiceImageUrl = "+firstServiceImageUrl+", encryptedId = "+encryptedId+", serviceImageUrl = "+serviceImageUrl+", referredBy = "+referredBy+"]";
     }
 }
+	
 			
 

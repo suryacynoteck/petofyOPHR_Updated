@@ -27,6 +27,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSpinner;
 
+import com.bumptech.glide.Glide;
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.api.ApiClient;
 import com.cynoteck.petofyvet.api.ApiResponse;
@@ -40,6 +41,7 @@ import com.cynoteck.petofyvet.response.updateProfileResponse.PetServiceResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.PetTypeResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.StateResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.UserResponse;
+import com.cynoteck.petofyvet.response.updateVetDetailsresponse.UpdateVetResponse;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
 import com.karumi.dexter.Dexter;
@@ -73,9 +75,10 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
     TextView select_Category,select_service_Category;
     ImageView back_arrow, category_img_one,category_img_two,service_cat_img_one,service_cat_img_two,
             service_cat_img_three,service_cat_img_four,service_cat_img_five ;
-
-    int slctCatOneImage=0,slctCatTwoImage=0,slctServcOneImage=0,slctServcTwoImage=0,slctServcThreeImage=0,
-            slctServcfourImage=0,slctServcFiveImage=0,spnrCountry=0,spnrState=0,spnrCity=0;
+    Dialog dialog;
+    String slctCatOneImage="",slctCatTwoImage="",slctServcOneImage="",slctServcTwoImage="",slctServcThreeImage="",
+            slctServcfourImage="",slctServcFiveImage="",id="",password="";
+    int spnrCountry=0,spnrState=0,spnrCity=0;
     CountryResponse stateResponse;
     Uri fileUri;
     Methods methods;
@@ -124,13 +127,16 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
             strWbUpdt="",strSoclMdUelUpdt="",strRegistNumUpdt="",strVetQulafctnUpdt="",strPetCatUpdt="",
             strSrvcCatUpdt="",strContrySpnr="",strStateSpnr="",strCitySpnr="",strCountryId="",strStringCityId="",
             strStateId="",strCatId="",strSrvsCatId="",strCatUrl1="",strCatUrl2="",strSrvsUrl1="",strSrvsUrl2,
-            strSrvsUrl3,strSrvsUrl4,strSrvsUrl5,country;
+            strSrvsUrl3,strSrvsUrl4,strSrvsUrl5;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_profile);
         methods = new Methods(this);
         Intent intent = getIntent();
+        id = intent.getStringExtra("id");
+        password = intent.getStringExtra("password");
         strFirstNm = intent.getStringExtra("firstName");
         strLstNm = intent.getStringExtra("lastName");
         strEmlUpdt = intent.getStringExtra("email");
@@ -143,9 +149,9 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
         strVetQulafctnUpdt = intent.getStringExtra("vetStudy");
         strPetCatUpdt = intent.getStringExtra("category");
         strSrvcCatUpdt = intent.getStringExtra("service");
-        strCountryId = intent.getStringExtra("country");
-        strStateId = intent.getStringExtra("state");
-        strStringCityId = intent.getStringExtra("city");
+        strContrySpnr = intent.getStringExtra("country");
+        strStateSpnr = intent.getStringExtra("state");
+        strCitySpnr = intent.getStringExtra("city");
         strSrvsUrl1 = intent.getStringExtra("serviceImage1");
         strSrvsUrl2 = intent.getStringExtra("serviceImage2");
         strSrvsUrl3 = intent.getStringExtra("serviceImage3");
@@ -153,6 +159,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
         strSrvsUrl5 = intent.getStringExtra("serviceImage5");
 
         init();
+        setImages();
         setValueFromSharePref();
         requestMultiplePermissions();
         if(methods.isInternetOn())
@@ -169,6 +176,38 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
             methods.DialogInternet();
         }
 
+    }
+    private void setImages() {
+        if (strSrvsUrl1.isEmpty()){
+        }else {
+            Glide.with(this)
+                    .load(strSrvsUrl1)
+                    .into(service_cat_img_one);
+        }
+        if (strSrvsUrl2.isEmpty()){
+
+        }else {
+            Glide.with(this)
+                    .load(strSrvsUrl2)
+                    .into(service_cat_img_two);
+        }if (strSrvsUrl3.isEmpty()){
+
+        }else {
+            Glide.with(this)
+                    .load(strSrvsUrl3)
+                    .into(service_cat_img_three);
+        }if (strSrvsUrl4.isEmpty()){
+
+        }else {
+            Glide.with(this)
+                    .load(strSrvsUrl4)
+                    .into(service_cat_img_four);
+        }if (strSrvsUrl5.isEmpty()){
+        }else {
+            Glide.with(this)
+                    .load(strSrvsUrl5)
+                    .into(service_cat_img_five);
+        }
     }
 
     private void getState() {
@@ -459,6 +498,11 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                 else if(strContrySpnr.isEmpty()||(strContrySpnr.equals("Select Country")))
                 {
                     Toast.makeText(this, "Select Country!!", Toast.LENGTH_SHORT).show();
+                }else if (strCatId.isEmpty()){
+                    Toast.makeText(this, "Select Pet Type !", Toast.LENGTH_SHORT).show();
+                }else if (strSrvsCatId.isEmpty()){
+                    Toast.makeText(this, "Select Service Type !", Toast.LENGTH_SHORT).show();
+
                 }
                 else
                 {
@@ -475,21 +519,21 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     social_media_url_updt.setError(null);
                     registration_num_updt.setError(null);
                     vet_qualification_updt.setError(null);
-                    UpdateParams updateParams = new UpdateParams();
-                    UpdateRequest data = new UpdateRequest();
-                    data.setId(Config.user_id);
+
+                    UpdateParams data = new UpdateParams();
+                    data.setId(id);
+                    data.setFirstName(strFirstNm.trim());
+                    data.setLastName(strLstNm.trim());
                     data.setName(strFirstNm+" "+strLstNm);
-                    data.setFirstName(strFirstNm);
-                    data.setLastName(strLstNm);
                     data.setPassword("pass@123");
                     data.setConfirmPassword("pass@123");
-                    data.setCompany("null");
-                    data.setDescription("null");
+                    data.setCompany("Aviral Care");
+                    data.setDescription("Doctors, also known as Physicians, are licensed health professionals who maintain and restore human health through the practice of medicine. They examine patients, review their medical history, diagnose illnesses or injuries, administer treatment and counsel patients on their health and well being");
                     data.setPhone(strPhUpdt);
-                    data.setPhone2("null");
+                    data.setPhone2("");
                     data.setEmail(strEmlUpdt);
                     data.setAddress(strAddrsUpdt);
-                    data.setAddress2("null");
+                    data.setAddress2("Mount View Colony, Dehradun");
                     data.setWebsite(strWbUpdt);
                     data.setSocialMediaUrl(strSoclMdUelUpdt);
                     data.setCityId(strStringCityId);
@@ -498,22 +542,56 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     data.setPostalCode(strPostlUpdt);
                     data.setSelectedPetTypeIds(methods.removeLastElement(strCatId));
                     data.setSelectedServiceTypeIds(methods.removeLastElement(strSrvsCatId));
-                    data.setProfileImageUrl(strCatUrl1);
-                    data.setServiceImageUrl("null");
-                    data.setServiceImages("null");
+                    data.setProfileImageUrl(Config.user_Veterian_url);
+                    data.setServiceImageUrl("");
                     data.setFirstServiceImageUrl(strSrvsUrl1);
-                    data.setSecondServiceImageUrl(strSrvsUrl2);
+                    data.setSecondServiceImageUrl(strCatUrl2);
                     data.setThirdServiceImageUrl(strSrvsUrl3);
                     data.setFourthServiceImageUrl(strSrvsUrl4);
                     data.setFifthServiceImageUrl(strSrvsUrl5);
-                    data.setCoverImageUrl(strCatUrl2);
+                    data.setCoverImageUrl("");
                     data.setIsVeterinarian("true");
                     data.setVetQualifications(strVetQulafctnUpdt);
                     data.setVetRegistrationNumber(strRegistNumUpdt);
-                    updateParams.setUpdateRequest(data);
+
+//                    data.setId(id);
+//                    data.setFirstName("aviral");
+//                    data.setLastName("rana");
+//                    data.setName("aviral rana");
+//                    data.setPassword(password);
+//                    data.setConfirmPassword(password);
+//                    data.setCompany("");
+//                    data.setDescription("");
+//                    data.setPhone("999-788-7756");
+//                    data.setPhone2("999-788-7756");
+//                    data.setEmail(strEmlUpdt);
+//                    data.setAddress(strAddrsUpdt);
+//                    data.setAddress2("");
+//                    data.setWebsite(strWbUpdt);
+//                    data.setSocialMediaUrl(strSoclMdUelUpdt);
+//                    data.setCityId(strStringCityId);
+//                    data.setStateId(strStateId);
+//                    data.setCountryId(strCountryId);
+//                    data.setPostalCode(strPostlUpdt);
+//                    data.setSelectedPetTypeIds("1,2");
+//                    data.setSelectedServiceTypeIds("1,3");
+//                    data.setProfileImageUrl(Config.user_Veterian_url);
+//                    data.setServiceImageUrl("");
+//                    data.setFirstServiceImageUrl(strSrvsUrl1);
+//                    data.setSecondServiceImageUrl(strSrvsUrl2);
+//                    data.setThirdServiceImageUrl(strSrvsUrl3);
+//                    data.setFourthServiceImageUrl(strSrvsUrl4);
+//                    data.setFifthServiceImageUrl(strSrvsUrl5);
+//                    data.setCoverImageUrl(strCatUrl2);
+//                    data.setIsVeterinarian("1");
+//                    data.setVetQualifications(strVetQulafctnUpdt);
+//                    data.setVetRegistrationNumber(strRegistNumUpdt);
+
+                    UpdateRequest updateRequest = new UpdateRequest();
+                    updateRequest.setData(data);
                     if(methods.isInternetOn())
                     {
-                        updateUser(updateParams);
+                        updateUser(updateRequest);
                     }
                     else
                     {
@@ -652,47 +730,47 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                 break;
 
             case R.id.category_img_one:
+                slctCatOneImage="1";
                 showPictureDialog();
-                slctCatOneImage=1;
                 break;
             case R.id.category_img_two:
+                slctCatTwoImage="1";
                 showPictureDialog();
-                slctCatTwoImage=1;
                 break;
             case R.id.service_cat_img_one:
+                slctServcOneImage="1";
                 showPictureDialog();
-                slctServcOneImage=1;
                 break;
             case R.id.service_cat_img_two:
+                slctServcTwoImage="1";
                 showPictureDialog();
-                slctServcTwoImage=1;
                 break;
             case R.id.service_cat_img_three:
+                slctServcThreeImage="1";
                 showPictureDialog();
-                slctServcThreeImage=1;
                 break;
             case R.id.service_cat_img_four:
+                slctServcfourImage="1";
                 showPictureDialog();
-                slctServcfourImage=1;
                 break;
             case R.id.service_cat_img_five:
+                slctServcFiveImage="1";
                 showPictureDialog();
-                slctServcFiveImage=1;
                 break;
         }
 
     }
 
-    private void updateUser(UpdateParams updateParams) {
+    private void updateUser(UpdateRequest updateRequest) {
         methods.showCustomProgressBarDialog(this);
-        ApiService<UserResponse> service = new ApiService<>();
-        service.get( this, ApiClient.getApiInterface().updateUser(Config.token,updateParams), "UpdateVeterinarian");
-        Log.e("DATALOG","checkUpdate=> "+updateParams);
+        ApiService<UpdateVetResponse> service = new ApiService<>();
+        service.get( this, ApiClient.getApiInterface().updateUser(Config.token,updateRequest), "UpdateVeterinarian");
+        Log.e("DATALOG","checkUpdate=> "+updateRequest);
 
     }
 
     private void showPictureDialog() {
-        final Dialog dialog = new Dialog(this);
+        dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.dialog_layout);
@@ -718,26 +796,26 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
         cancel_dialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(slctCatOneImage==1){
-                    slctCatOneImage=0;
+                if(slctCatOneImage.equals("1")){
+                    slctCatOneImage="0";
                 }
-                if(slctCatTwoImage==1){
-                    slctCatTwoImage=0;
+                if(slctCatOneImage.equals("1")){
+                    slctCatTwoImage="0";
                 }
-                if(slctServcOneImage==1){
-                    slctServcOneImage=0;
+                if(slctServcOneImage.equals("1")){
+                    slctServcOneImage="0";
                 }
-                if(slctServcTwoImage==1){
-                    slctServcTwoImage=0;
+                if(slctServcTwoImage.equals("1")){
+                    slctServcTwoImage="0";
                 }
-                if(slctServcThreeImage==1){
-                    slctServcThreeImage=0;
+                if(slctServcThreeImage.equals("1")){
+                    slctServcThreeImage="0";
                 }
-                if(slctServcfourImage==1){
-                    slctServcfourImage=0;
+                if(slctServcfourImage.equals("1")){
+                    slctServcfourImage="0";
                 }
-                if(slctServcFiveImage==1){
-                    slctServcFiveImage=0;
+                if(slctServcFiveImage.equals("1")){
+                    slctServcFiveImage="0";
                 }
                 dialog.dismiss();
             }
@@ -767,6 +845,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        dialog.dismiss();
         if (resultCode == RESULT_CANCELED) {
             return;
         }
@@ -776,66 +855,57 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                 Uri contentURI = data.getData();
                 try {
                     bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), contentURI);
-                    if(slctCatOneImage==1){
+                    if(slctCatOneImage.equals("1")){
                         category_img_one.setImageBitmap(bitmap);
-                        slctCatOneImage=0;
                         saveImage(bitmap);
                     }
-                    if(slctCatTwoImage==1){
+                    if(slctCatOneImage.equals("1")){
                         category_img_two.setImageBitmap(bitmap);
-                        slctCatTwoImage=0;
                         saveImage(bitmap);
                     }
-                    if(slctServcOneImage==1){
+                    if(slctServcOneImage.equals("1")){
                         service_cat_img_one.setImageBitmap(bitmap);
-                        slctServcOneImage=0;
                         saveImage(bitmap);
                     }
-                    if(slctServcTwoImage==1){
+                    if(slctServcTwoImage.equals("1")){
                         service_cat_img_two.setImageBitmap(bitmap);
-                        slctServcTwoImage=0;
                         saveImage(bitmap);
                     }
-                    if(slctServcThreeImage==1){
+                    if(slctServcThreeImage.equals("1")){
                         service_cat_img_three.setImageBitmap(bitmap);
-                        slctServcThreeImage=0;
                         saveImage(bitmap);
                     }
-                    if(slctServcfourImage==1){
+                    if(slctServcfourImage.equals("1")){
                         service_cat_img_four.setImageBitmap(bitmap);
-                        slctServcfourImage=0;
                         saveImage(bitmap);
                     }
-                    if(slctServcFiveImage==1){
+                    if(slctServcFiveImage.equals("1")){
                         service_cat_img_five.setImageBitmap(bitmap);
-                        slctServcFiveImage=0;
                         saveImage(bitmap);
                     }
-
-
 
                 } catch (IOException e) {
                     e.printStackTrace();
-                    if(slctCatOneImage==1){
-                        slctCatOneImage=0;
+                    if(slctCatOneImage.equals("1")){
+                        slctCatOneImage="0";
                     }
-                    if(slctCatTwoImage==1){
-                        slctCatTwoImage=0;
+                    if(slctCatOneImage.equals("1")){
+                        slctCatTwoImage="0";
                     }
-                    if(slctServcOneImage==1){
-                        slctServcOneImage=0;
+                    if(slctServcOneImage.equals("1")){
+                        slctServcOneImage="0";
                     }
-                    if(slctServcTwoImage==1){
-                        slctServcTwoImage=0;
+                    if(slctServcTwoImage.equals("1")){
+                        slctServcTwoImage="0";
                     }
-                    if(slctServcThreeImage==1){
-                        slctServcThreeImage=0;
+                    if(slctServcThreeImage.equals("1")){
+                        slctServcThreeImage="0";
                     }
-                    if(slctServcfourImage==1){
-                        slctServcfourImage=0;
+                    if(slctServcfourImage.equals("1")){
+                        slctServcfourImage="0";
                     }
-                    if(slctServcFiveImage==1){
-                        slctServcFiveImage=0;
+                    if(slctServcFiveImage.equals("1")){
+                        slctServcFiveImage="0";
                     }
                     Toast.makeText(UpdateProfileActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
                 }
@@ -848,31 +918,31 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
             {
                 thumbnail = (Bitmap) data.getExtras().get("data");
                 Log.e("jghl",""+thumbnail);
-                if(slctCatOneImage==1){
+                if(slctCatOneImage.equals("1")){
                     category_img_one.setImageBitmap(thumbnail);
                     saveImage(thumbnail);
                 }
-                if(slctCatTwoImage==1){
+                if(slctCatOneImage.equals("1")){
                     category_img_two.setImageBitmap(thumbnail);
                     saveImage(thumbnail);
                 }
-                if(slctServcOneImage==1){
+                if(slctServcOneImage.equals("1")){
                     service_cat_img_one.setImageBitmap(thumbnail);
                     saveImage(thumbnail);
                 }
-                if(slctServcTwoImage==1){
+                if(slctServcTwoImage.equals("1")){
                     service_cat_img_two.setImageBitmap(thumbnail);
                     saveImage(thumbnail);
                 }
-                if(slctServcThreeImage==1){
+                if(slctServcThreeImage.equals("1")){
                     service_cat_img_three.setImageBitmap(thumbnail);
                     saveImage(thumbnail);
                 }
-                if(slctServcfourImage==1){
+                if(slctServcfourImage.equals("1")){
                     service_cat_img_four.setImageBitmap(thumbnail);
                     saveImage(thumbnail);
                 }
-                if(slctServcFiveImage==1){
+                if(slctServcFiveImage.equals("1")){
                     service_cat_img_five.setImageBitmap(thumbnail);
                     saveImage(thumbnail);
                 }
@@ -882,56 +952,56 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                 try {
                     bitmap = MediaStore.Images.Media.getBitmap(UpdateProfileActivity.this.getContentResolver(), data.getData());
 
-                    if(slctCatOneImage==1){
+                    if(slctCatOneImage.equals("1")){
                         category_img_one.setImageBitmap(bitmap);
                         saveImage(bitmap);
                     }
-                    if(slctCatTwoImage==1){
+                    if(slctCatOneImage.equals("1")){
                         category_img_two.setImageBitmap(bitmap);
                         saveImage(bitmap);
                     }
-                    if(slctServcOneImage==1){
+                    if(slctServcOneImage.equals("1")){
                         service_cat_img_one.setImageBitmap(bitmap);
                         saveImage(bitmap);
                     }
-                    if(slctServcTwoImage==1){
+                    if(slctServcTwoImage.equals("1")){
                         service_cat_img_two.setImageBitmap(bitmap);
                         saveImage(bitmap);
                     }
-                    if(slctServcThreeImage==1){
+                    if(slctServcThreeImage.equals("1")){
                         service_cat_img_three.setImageBitmap(bitmap);
                         saveImage(bitmap);
                     }
-                    if(slctServcfourImage==1){
+                    if(slctServcfourImage.equals("1")){
                         service_cat_img_four.setImageBitmap(bitmap);
                         saveImage(bitmap);
                     }
-                    if(slctServcFiveImage==1){
+                    if(slctServcFiveImage.equals("1")){
                         service_cat_img_five.setImageBitmap(bitmap);
                         saveImage(bitmap);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
-                    if(slctCatOneImage==1){
-                        slctCatOneImage=0;
+                    if(slctCatOneImage.equals("1")){
+                        slctCatOneImage="0";
                     }
-                    if(slctCatTwoImage==1){
-                        slctCatTwoImage=0;
+                    if(slctCatOneImage.equals("1")){
+                        slctCatTwoImage="0";
                     }
-                    if(slctServcOneImage==1){
-                        slctServcOneImage=0;
+                    if(slctServcOneImage.equals("1")){
+                        slctServcOneImage="0";
                     }
-                    if(slctServcTwoImage==1){
-                        slctServcTwoImage=0;
+                    if(slctServcTwoImage.equals("1")){
+                        slctServcTwoImage="0";
                     }
-                    if(slctServcThreeImage==1){
-                        slctServcThreeImage=0;
+                    if(slctServcThreeImage.equals("1")){
+                        slctServcThreeImage="0";
                     }
-                    if(slctServcfourImage==1){
-                        slctServcfourImage=0;
+                    if(slctServcfourImage.equals("1")){
+                        slctServcfourImage="0";
                     }
-                    if(slctServcFiveImage==1){
-                        slctServcFiveImage=0;
+                    if(slctServcFiveImage.equals("1")){
+                        slctServcFiveImage="0";
                     }
                     Toast.makeText(UpdateProfileActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
                 }
@@ -954,7 +1024,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
         }
 
         try {
-            if(slctCatOneImage==1){
+            if(slctCatOneImage.equals("1")){
                 catfile1 = new File(wallpaperDirectory, Calendar.getInstance()
                         .getTimeInMillis() + ".jpg");
                 catfile1.createNewFile();
@@ -968,7 +1038,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                 UploadImages(catfile1);
                 return catfile1.getAbsolutePath();
             }
-            if(slctCatTwoImage==1){
+            if(slctCatOneImage.equals("1")){
                 catfile2 = new File(wallpaperDirectory, Calendar.getInstance()
                         .getTimeInMillis() + ".jpg");
                 catfile2.createNewFile();
@@ -982,7 +1052,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                 UploadImages(catfile2);
                 return catfile2.getAbsolutePath();
             }
-            if(slctServcOneImage==1){
+            if(slctServcOneImage.equals("1")){
                 srvcfile1 = new File(wallpaperDirectory, Calendar.getInstance()
                         .getTimeInMillis() + ".jpg");
                 srvcfile1.createNewFile();
@@ -996,7 +1066,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                 UploadImages(srvcfile1);
                 return srvcfile1.getAbsolutePath();
             }
-            if(slctServcTwoImage==1){
+            if(slctServcTwoImage.equals("1")){
                 srvcfile2 = new File(wallpaperDirectory, Calendar.getInstance()
                         .getTimeInMillis() + ".jpg");
                 srvcfile2.createNewFile();
@@ -1010,7 +1080,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                 UploadImages(srvcfile2);
                 return srvcfile2.getAbsolutePath();
             }
-            if(slctServcThreeImage==1){
+            if(slctServcThreeImage.equals("1")){
                 srvcfile3 = new File(wallpaperDirectory, Calendar.getInstance()
                         .getTimeInMillis() + ".jpg");
                 srvcfile3.createNewFile();
@@ -1024,7 +1094,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                 UploadImages(srvcfile3);
                 return srvcfile3.getAbsolutePath();
             }
-            if(slctServcfourImage==1){
+            if(slctServcfourImage.equals("1")){
                 srvcfile4 = new File(wallpaperDirectory, Calendar.getInstance()
                         .getTimeInMillis() + ".jpg");
                 srvcfile4.createNewFile();
@@ -1038,7 +1108,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                 UploadImages(srvcfile4);
                 return srvcfile4.getAbsolutePath();
             }
-            if(slctServcFiveImage==1){
+            if(slctServcFiveImage.equals("1")){
                 srvcfile5 = new File(wallpaperDirectory, Calendar.getInstance()
                         .getTimeInMillis() + ".jpg");
                 srvcfile5.createNewFile();
@@ -1124,6 +1194,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     int responseCode = Integer.parseInt(userResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
                         Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+
                         last_name_updt.setText(userResponse.getData().getLastName());
                         email_updt.setText(userResponse.getData().getEmail());
                         phone_updt.setText(userResponse.getData().getPhone());
@@ -1272,11 +1343,14 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
 
             case "UpdateVeterinarian":
                 try {
-                    Log.d("UpdateVeterinarian",response.body().toString());
-                    UserResponse userResponse = (UserResponse) response.body();
+                    Log.e("update", String.valueOf(response.code()));
+                    Log.e("ttttt", response.body().toString());
+                    UpdateVetResponse userResponse = (UpdateVetResponse) response.body();
                     int responseCode = Integer.parseInt(userResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
                         Toast.makeText(UpdateProfileActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                        Config.backCall ="hit";
+                        onBackPressed();
                     }else if (responseCode==614){
                         Toast.makeText(UpdateProfileActivity.this, userResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
                     }else {
@@ -1285,6 +1359,9 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                 }
                 catch(Exception e) {
                     e.printStackTrace();
+                    Log.e("error",e.getMessage());
+                    Log.e("error",e.getLocalizedMessage());
+
                 }
                 break;
 
@@ -1295,33 +1372,33 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     int responseCode = Integer.parseInt(imageResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
                         Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
-                        if(slctCatOneImage==1){
+                        if(slctCatOneImage.equals("1")){
                             strCatUrl1=imageResponse.getData().getDocumentUrl();
-                            slctCatOneImage=0;
+                            slctCatOneImage="0";
                         }
-                        if(slctCatTwoImage==1){
+                        if(slctCatOneImage.equals("1")){
                             strCatUrl2=imageResponse.getData().getDocumentUrl();
-                            slctCatTwoImage=0;
+                            slctCatTwoImage="0";
                         }
-                        if(slctServcOneImage==1){
+                        if(slctServcOneImage.equals("1")){
                             strSrvsUrl1=imageResponse.getData().getDocumentUrl();
-                            slctServcOneImage=0;
+                            slctServcOneImage="0";
                         }
-                        if(slctServcTwoImage==1){
+                        if(slctServcTwoImage.equals("1")){
                             strSrvsUrl2=imageResponse.getData().getDocumentUrl();
-                            slctServcTwoImage=0;
+                            slctServcTwoImage="0";
                         }
-                        if(slctServcThreeImage==1){
+                        if(slctServcThreeImage.equals("1")){
                             strSrvsUrl3=imageResponse.getData().getDocumentUrl();
-                            slctServcThreeImage=0;
+                            slctServcThreeImage="0";
                         }
-                        if(slctServcfourImage==1){
+                        if(slctServcfourImage.equals("1")){
                             strSrvsUrl4=imageResponse.getData().getDocumentUrl();
-                            slctServcfourImage=0;
+                            slctServcfourImage="0";
                         }
-                        if(slctServcFiveImage==1){
+                        if(slctServcFiveImage.equals("1")){
                             strSrvsUrl5=imageResponse.getData().getDocumentUrl();
-                            slctServcFiveImage=0;
+                            slctServcFiveImage="0";
                         }
 
                     }else if (responseCode==614){
@@ -1338,16 +1415,19 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
     }
 
     @Override
-    public void onError(Throwable t, String key) {methods.customProgressDismiss();}
+    public void onError(Throwable t, String key) {
+        methods.customProgressDismiss();
+        Log.e("error",t.getLocalizedMessage());
+    }
 
     private void setCountrySpinner() {
         ArrayAdapter aa = new ArrayAdapter(UpdateProfileActivity.this,android.R.layout.simple_spinner_item,countery);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
         country_spnr_updt.setAdapter(aa);
-        if (!strCountryId.equals("")) {
-//            int spinnerPosition = aa.getPosition(countryHasmap.get(sco));
-            country_spnr_updt.setSelection(1);
+        if (!strContrySpnr.equals("")) {
+            int spinnerPosition = aa.getPosition(strContrySpnr);
+            country_spnr_updt.setSelection(spinnerPosition);
         }
         country_spnr_updt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -1367,6 +1447,10 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
         state_spnr_updt.setAdapter(aa);
+        if (!strStateSpnr.equals("")) {
+            int spinnerPosition = aa.getPosition(strStateSpnr);
+            state_spnr_updt.setSelection(spinnerPosition);
+        }
         state_spnr_updt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
@@ -1386,6 +1470,10 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
         //Setting the ArrayAdapter data on the Spinner
 
         city_spnr_updt.setAdapter(aa);
+        if (!strCitySpnr.equals("")) {
+            int spinnerPosition = aa.getPosition(strCitySpnr);
+            city_spnr_updt.setSelection(spinnerPosition);
+        }
         city_spnr_updt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
@@ -1397,5 +1485,10 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

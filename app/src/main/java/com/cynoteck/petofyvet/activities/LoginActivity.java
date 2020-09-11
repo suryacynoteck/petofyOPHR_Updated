@@ -169,7 +169,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                 getDeviceId();
                 emailString = email_TIET.getText().toString().trim();
                 passwordString = password_TIET.getText().toString().trim();
-                Toast.makeText(this, ""+imeiNumber, Toast.LENGTH_LONG).show();
+//                Toast.makeText(this, ""+imeiNumber, Toast.LENGTH_LONG).show();
                 if (emailString.isEmpty()) {
                     email_TIET.setError("Email is empty");
                     password_TIET.setError(null);
@@ -179,7 +179,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                 } else if (passwordString.isEmpty()) {
                     email_TIET.setError("Password is empty");
                     password_TIET.setError(null);
-                } else if (imeiNumber.isEmpty()) {
+                } /*else if (imeiNumber.isEmpty()) {
                     if (checkPermission()) {
                         getDeviceId();
                     } else {
@@ -189,7 +189,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                             Toast.makeText(this, "Permission already granted.", Toast.LENGTH_SHORT).show();
                         }
                     }
-                } else {
+                }*/ else {
                     email_TIET.setError(null);
                     password_TIET.setError(null);
                     Loginparams loginparams = new Loginparams();
@@ -332,7 +332,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
         login_editor.putString("study", responseLogin.getData().getVetRQualification());
         login_editor.putString("vetid", responseLogin.getData().getVetRegistrationNumber());
         login_editor.putString("onlineAppoint", responseLogin.getData().getOnlineAppointmentStatus());
-
+        login_editor.putString("twoFactAuth", responseLogin.getData().getEnableTwoStepVerification());
         Config.token = responseLogin.getResponseLogin().getToken();
         login_editor.putString("loggedIn", "loggedIn");
         login_editor.commit();

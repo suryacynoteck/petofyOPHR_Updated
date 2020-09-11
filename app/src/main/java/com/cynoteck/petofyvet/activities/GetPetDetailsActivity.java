@@ -959,8 +959,6 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
                         saveImage(bitmap);
                     }
 
-
-
                 } catch (IOException e) {
                     e.printStackTrace();
                     if(selctProflImage.equals("1")){
