@@ -1,6 +1,8 @@
 package com.cynoteck.petofyvet.params.appointmentParams;
 
 public class CreateAppointParams {
+    private String petId;
+
     private String duration;
 
     private String description;
@@ -12,6 +14,14 @@ public class CreateAppointParams {
     private String userId;
 
     private String eventStartDate;
+
+    public String getPetId() {
+        return petId;
+    }
+
+    public void setPetId(String petId) {
+        this.petId = petId;
+    }
 
     public String getDuration ()
     {
@@ -76,7 +86,7 @@ public class CreateAppointParams {
     @Override
     public String toString()
     {
-        return "ClassPojo [duration = "+duration+", description = "+description+", eventStartTime = "+eventStartTime+", title = "+title+", userId = "+userId+", eventStartDate = "+eventStartDate+"]";
+        return "ClassPojo [petId = "+petId+", duration = "+duration+", description = "+description+", eventStartTime = "+eventStartTime+", title = "+title+", userId = "+userId+", eventStartDate = "+eventStartDate+"]";
     }
 }
 

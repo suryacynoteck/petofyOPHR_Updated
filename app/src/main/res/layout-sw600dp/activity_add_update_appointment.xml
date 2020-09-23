@@ -113,10 +113,10 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
-                android:text="@string/petParent"
+                android:text="Pet Details"
                 android:textColor="@color/grey_add_pet"/>
 
-            <TextView
+            <AutoCompleteTextView
                 android:gravity="center_vertical"
                 app:layout_constraintEnd_toEndOf="@id/pet_parent_TV"
                 app:layout_constraintStart_toStartOf="parent"
@@ -126,6 +126,22 @@
                 android:id="@+id/pet_parent_ACTV"
                 android:paddingLeft="25dp"
                 android:hint="Search pet parent....."
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_width="0dp"
+                android:background="@drawable/edit_text_background"/>
+            <TextView
+                android:visibility="gone"
+                android:gravity="center_vertical"
+                app:layout_constraintEnd_toEndOf="@id/pet_parent_TV"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/pet_parent_TV"
+                android:imeOptions="actionSearch"
+                android:singleLine="true"
+                android:id="@+id/parent_TV"
+                android:paddingLeft="25dp"
+                android:hint=""
                 android:layout_height="50dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
@@ -191,13 +207,14 @@
                 android:layout_marginRight="20dp">
 
                 <TextView
+                    android:padding="10dp"
                     android:layout_weight="1"
                     android:id="@+id/time_TV"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:background="@drawable/time_bg"
                     android:gravity="center_vertical"
-                    android:hint="HH:MM "
+                    android:hint="10:10 AM"
                     android:layout_marginTop="10dp"
                     android:paddingLeft="25dp"
                     android:textSize="18dp"

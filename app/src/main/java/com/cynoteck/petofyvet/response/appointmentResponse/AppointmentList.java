@@ -2,6 +2,10 @@ package com.cynoteck.petofyvet.response.appointmentResponse;
 
 public class AppointmentList
 {
+    private String petId;
+
+    private String petAge;
+
     private String statusColor;
 
     private String subject;
@@ -16,29 +20,13 @@ public class AppointmentList
 
     private String meetingId;
 
-    private String veterinarianUserId;
-
     private String title;
 
-    private String userId;
-
-    private String meetingUrl;
-
-    private String encryptionId;
-
     private String vetName;
-
-    private String someImportantKeyID;
-
-    private String eventFirstImage;
-
-    private String statusString;
 
     private String petParentName;
 
     private String ngoUserId;
-
-    private String location;
 
     private String id;
 
@@ -48,16 +36,48 @@ public class AppointmentList
 
     private String petParentMeetingUrl;
 
-    private String endDateString;
+    private String petUniqueId;
 
     private String paymentStatus;
 
-    public String getPaymentStatus() {
-        return paymentStatus;
+    private String petSex;
+
+    private String veterinarianUserId;
+
+    private String userId;
+
+    private String meetingUrl;
+
+    private String encryptionId;
+
+    private String someImportantKeyID;
+
+    private String eventFirstImage;
+
+    private String statusString;
+
+    private String location;
+
+    private String endDateString;
+
+    public String getPetId ()
+    {
+        return petId;
     }
 
-    public void setPaymentStatus(String paymentStatus) {
-        this.paymentStatus = paymentStatus;
+    public void setPetId (String petId)
+    {
+        this.petId = petId;
+    }
+
+    public String getPetAge ()
+    {
+        return petAge;
+    }
+
+    public void setPetAge (String petAge)
+    {
+        this.petAge = petAge;
     }
 
     public String getStatusColor ()
@@ -130,16 +150,6 @@ public class AppointmentList
         this.meetingId = meetingId;
     }
 
-    public String getVeterinarianUserId ()
-    {
-        return veterinarianUserId;
-    }
-
-    public void setVeterinarianUserId (String veterinarianUserId)
-    {
-        this.veterinarianUserId = veterinarianUserId;
-    }
-
     public String getTitle ()
     {
         return title;
@@ -150,36 +160,6 @@ public class AppointmentList
         this.title = title;
     }
 
-    public String getUserId ()
-    {
-        return userId;
-    }
-
-    public void setUserId (String userId)
-    {
-        this.userId = userId;
-    }
-
-    public String getMeetingUrl ()
-    {
-        return meetingUrl;
-    }
-
-    public void setMeetingUrl (String meetingUrl)
-    {
-        this.meetingUrl = meetingUrl;
-    }
-
-    public String getEncryptionId ()
-    {
-        return encryptionId;
-    }
-
-    public void setEncryptionId (String encryptionId)
-    {
-        this.encryptionId = encryptionId;
-    }
-
     public String getVetName ()
     {
         return vetName;
@@ -188,36 +168,6 @@ public class AppointmentList
     public void setVetName (String vetName)
     {
         this.vetName = vetName;
-    }
-
-    public String getSomeImportantKeyID ()
-    {
-        return someImportantKeyID;
-    }
-
-    public void setSomeImportantKeyID (String someImportantKeyID)
-    {
-        this.someImportantKeyID = someImportantKeyID;
-    }
-
-    public String getEventFirstImage ()
-{
-    return eventFirstImage;
-}
-
-    public void setEventFirstImage (String eventFirstImage)
-    {
-        this.eventFirstImage = eventFirstImage;
-    }
-
-    public String getStatusString ()
-    {
-        return statusString;
-    }
-
-    public void setStatusString (String statusString)
-    {
-        this.statusString = statusString;
     }
 
     public String getPetParentName ()
@@ -238,16 +188,6 @@ public class AppointmentList
     public void setNgoUserId (String ngoUserId)
     {
         this.ngoUserId = ngoUserId;
-    }
-
-    public String getLocation ()
-{
-    return location;
-}
-
-    public void setLocation (String location)
-    {
-        this.location = location;
     }
 
     public String getId ()
@@ -290,6 +230,116 @@ public class AppointmentList
         this.petParentMeetingUrl = petParentMeetingUrl;
     }
 
+    public String getPetUniqueId ()
+    {
+        return petUniqueId;
+    }
+
+    public void setPetUniqueId (String petUniqueId)
+    {
+        this.petUniqueId = petUniqueId;
+    }
+
+    public String getPaymentStatus ()
+    {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus (String paymentStatus)
+    {
+        this.paymentStatus = paymentStatus;
+    }
+
+    public String getPetSex ()
+    {
+        return petSex;
+    }
+
+    public void setPetSex (String petSex)
+    {
+        this.petSex = petSex;
+    }
+
+    public String getVeterinarianUserId ()
+    {
+        return veterinarianUserId;
+    }
+
+    public void setVeterinarianUserId (String veterinarianUserId)
+    {
+        this.veterinarianUserId = veterinarianUserId;
+    }
+
+    public String getUserId ()
+    {
+        return userId;
+    }
+
+    public void setUserId (String userId)
+    {
+        this.userId = userId;
+    }
+
+    public String getMeetingUrl ()
+    {
+        return meetingUrl;
+    }
+
+    public void setMeetingUrl (String meetingUrl)
+    {
+        this.meetingUrl = meetingUrl;
+    }
+
+    public String getEncryptionId ()
+    {
+        return encryptionId;
+    }
+
+    public void setEncryptionId (String encryptionId)
+    {
+        this.encryptionId = encryptionId;
+    }
+
+    public String getSomeImportantKeyID ()
+    {
+        return someImportantKeyID;
+    }
+
+    public void setSomeImportantKeyID (String someImportantKeyID)
+    {
+        this.someImportantKeyID = someImportantKeyID;
+    }
+
+    public String getEventFirstImage ()
+{
+    return eventFirstImage;
+}
+
+    public void setEventFirstImage (String eventFirstImage)
+    {
+        this.eventFirstImage = eventFirstImage;
+    }
+
+    public String getStatusString ()
+    {
+        return statusString;
+    }
+
+    public void setStatusString (String statusString)
+    {
+        this.statusString = statusString;
+    }
+
+    public String getLocation ()
+{
+    return location;
+}
+
+    public void setLocation (String location)
+    {
+        this.location = location;
+    }
+
     public String getEndDateString ()
     {
         return endDateString;
@@ -303,11 +353,8 @@ public class AppointmentList
     @Override
     public String toString()
     {
-        return "ClassPojo [statusColor = "+statusColor+", subject = "+subject+", companyName = "+companyName+", isVideoCall = "+isVideoCall+", description = "+description+", className = "+className+", meetingId = "+meetingId+", veterinarianUserId = "+veterinarianUserId+", title = "+title+", userId = "+userId+", meetingUrl = "+meetingUrl+", encryptionId = "+encryptionId+", vetName = "+vetName+", someImportantKeyID = "+someImportantKeyID+", eventFirstImage = "+eventFirstImage+", statusString = "+statusString+", petParentName = "+petParentName+", ngoUserId = "+ngoUserId+", location = "+location+", id = "+id+", startDateString = "+startDateString+", isApproved = "+isApproved+", petParentMeetingUrl = "+petParentMeetingUrl+", endDateString = "+endDateString+"]";
+        return "ClassPojo [petId = "+petId+", petAge = "+petAge+", statusColor = "+statusColor+", subject = "+subject+", companyName = "+companyName+", isVideoCall = "+isVideoCall+", description = "+description+", className = "+className+", meetingId = "+meetingId+", title = "+title+", vetName = "+vetName+", petParentName = "+petParentName+", ngoUserId = "+ngoUserId+", id = "+id+", startDateString = "+startDateString+", isApproved = "+isApproved+", petParentMeetingUrl = "+petParentMeetingUrl+", petUniqueId = "+petUniqueId+", paymentStatus = "+paymentStatus+", petSex = "+petSex+", veterinarianUserId = "+veterinarianUserId+", userId = "+userId+", meetingUrl = "+meetingUrl+", encryptionId = "+encryptionId+", someImportantKeyID = "+someImportantKeyID+", eventFirstImage = "+eventFirstImage+", statusString = "+statusString+", location = "+location+", endDateString = "+endDateString+"]";
     }
 }
 			
-		
-			
-		
-			
+					

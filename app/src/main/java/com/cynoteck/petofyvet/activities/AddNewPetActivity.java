@@ -52,7 +52,7 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
     TextView peto_reg_number_dialog,calenderTextView_dialog;
     String petUniqueId="",getStrSpnerItemPetNmId="",strSpnrBreedId="",strSpnrAgeId="",strSpnrColorId="",
             strSpneSizeId="",strSpnrSexId="",strSpnerItemPetType="",strSpnrBreed="",strSpnrAge="",strSpnrSex="",
-            currentDateandTime="",strSexType="",strResponseOtp="",petId="",petParentContactNumber="";
+            currentDateandTime="",strSexType="",strResponseOtp="",petId="",petParentContactNumber="",type="";
     ImageView back_arrow_IV;
     DatePickerDialog picker;
     ArrayList<String> petType;
@@ -75,6 +75,29 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_pet2);
         methods = new Methods(this);
+        Intent intent = getIntent();
+        type = intent.getStringExtra("appointment");
+        intlization();
+        petSex=new ArrayList<>();
+        petSex.add("Pet Sex");
+        petSex.add("Male");
+        petSex.add("Female");
+        petSexHashMap.put("Pet Sex","0");
+        petSexHashMap.put("Male","1");
+        petSexHashMap.put("Female","2");
+
+        currentDateAndTime();
+        if (methods.isInternetOn()){
+            petType();
+            genaretePetUniqueKey();
+        }else {
+
+            methods.DialogInternet();
+        }
+        setSpinnerPetSex();
+    }
+
+    private void intlization() {
         peto_reg_number_dialog=findViewById(R.id.peto_reg_number_dialog);
         calenderTextView_dialog=findViewById(R.id.calenderTextView_dialog);
         add_pet_type=findViewById(R.id.add_pet_type);
@@ -93,25 +116,8 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
         save_BT.setOnClickListener(this);
         back_arrow_IV.setOnClickListener(this);
         calenderTextView_dialog.setOnClickListener(this);
-        petSex=new ArrayList<>();
-        petSex.add("Pet Sex");
-        petSex.add("Male");
-        petSex.add("Female");
-
-        petSexHashMap.put("Pet Sex","0");
-        petSexHashMap.put("Male","1");
-        petSexHashMap.put("Female","2");
-
-        currentDateAndTime();
-        if (methods.isInternetOn()){
-            petType();
-            genaretePetUniqueKey();
-        }else {
-
-            methods.DialogInternet();
-        }
-        setSpinnerPetSex();
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -393,21 +399,36 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
 
                     int responseCode = Integer.parseInt(addPetValueResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
-                        Intent intentPetDetails = new Intent(this,PetDetailsActivity.class);
-                        Bundle data = new Bundle();
-                        data.putString("pet_id",addPetValueResponse.getData().getId().toString());
-                        data.putString("pet_name",addPetValueResponse.getData().getPetName());
-                        data.putString("pet_parent",addPetValueResponse.getData().getPetParentName());
-                        if(addPetValueResponse.getData().getSexId().equals("2.0"))
-                            strSexType="Female";
-                        else
-                            strSexType="Male";
-                        data.putString("pet_sex",strSexType);
-                        data.putString("pet_unique_id",addPetValueResponse.getData().getPetUniqueId());
-                        intentPetDetails.putExtras(data);
-                        startActivity(intentPetDetails);
-                        Toast.makeText(this, "Pet Added Successfully", Toast.LENGTH_SHORT).show();
-                        finish();
+                        if (type.equals("appointment")){
+                            Intent intent = new Intent();
+                            intent.putExtra("userId", addPetValueResponse.getData().getUserId());
+                            intent.putExtra("uniqueId", addPetValueResponse.getData().getPetUniqueId());
+                            intent.putExtra("parent", addPetValueResponse.getData().getPetParentName());
+                            intent.putExtra("sex", addPetValueResponse.getData().getPetSex());
+                            intent.putExtra("age", addPetValueResponse.getData().getPetAge());
+                            intent.putExtra("petName", addPetValueResponse.getData().getPetName());
+                            intent.putExtra("petId", addPetValueResponse.getData().getId());
+                            setResult(RESULT_OK, intent);
+                            finish();
+                            Toast.makeText(this, "Pet Added Successfully", Toast.LENGTH_SHORT).show();
+                        }else {
+                            Intent intentPetDetails = new Intent(this, PetDetailsActivity.class);
+                            Bundle data = new Bundle();
+                            data.putString("pet_id", addPetValueResponse.getData().getId().toString());
+                            data.putString("pet_name", addPetValueResponse.getData().getPetName());
+                            data.putString("pet_parent", addPetValueResponse.getData().getPetParentName());
+                            if (addPetValueResponse.getData().getPetSexId().equals("2.0"))
+                                strSexType = "Female";
+                            else
+                                strSexType = "Male";
+                            data.putString("pet_sex", strSexType);
+                            data.putString("pet_unique_id", addPetValueResponse.getData().getPetUniqueId());
+                            intentPetDetails.putExtras(data);
+                            startActivity(intentPetDetails);
+                            Toast.makeText(this, "Pet Added Successfully", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+
                     }else if (responseCode==614){
                         Toast.makeText(this, addPetValueResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
                     }else {

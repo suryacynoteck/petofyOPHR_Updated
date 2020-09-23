@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,7 +35,7 @@ public class SelectPetReportsActivity extends AppCompatActivity implements ApiRe
     RelativeLayout reports_list_RL;
     ImageView view_xrayReport_arrow ,view_labTestReport_arrow,view_Hospitalization_arrow;
     ArrayList<GetReportsTypeData> getReportsTypeData;
-    RelativeLayout xray_layout,lab_test_layout,hospitalization_layout;
+    CardView xray_layout,lab_test_layout,hospitalization_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +46,6 @@ public class SelectPetReportsActivity extends AppCompatActivity implements ApiRe
         init();
         setDeatils();
         getVisitTypes();
-
-
 
     }
 

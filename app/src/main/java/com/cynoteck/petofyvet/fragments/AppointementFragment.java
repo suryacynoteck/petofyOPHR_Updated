@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cynoteck.petofyvet.R;
+import com.cynoteck.petofyvet.activities.AddClinicActivity;
 import com.cynoteck.petofyvet.activities.AddUpdateAppointmentActivity;
 import com.cynoteck.petofyvet.adapters.DateListAdapter;
 import com.cynoteck.petofyvet.api.ApiClient;
@@ -51,7 +52,7 @@ public class AppointementFragment extends Fragment implements ApiResponse ,View.
     ArrayList<GetAppointmentDates> getAppointmentDates;
     Methods methods;
     ArrayList<AppointmentList> appointmentList;
-    String mettingId="", status="";
+    String mettingId="", status="",pet_id="",pet_owner_name="",pet_sex="",pet_age="",pet_unique_id="";
 
     private ShimmerFrameLayout mShimmerViewContainer;
     AppointmentsClickListner appointmentsClickListner;
@@ -113,6 +114,7 @@ public class AppointementFragment extends Fragment implements ApiResponse ,View.
                     int responseCode = Integer.parseInt(getAppointmentResponse.getResponse().getResponseCode());
                     if (responseCode == 109) {
 //                        approveAndReject("19","false");
+
                         mShimmerViewContainer.setVisibility(View.GONE);
                         create_appointment_FBT.setVisibility(View.VISIBLE);
                         mShimmerViewContainer.stopShimmerAnimation();
@@ -122,6 +124,7 @@ public class AppointementFragment extends Fragment implements ApiResponse ,View.
                                 Intent intent = new Intent(getContext(),AddUpdateAppointmentActivity.class);
                                 intent.putExtra("type","update");
                                 intent.putExtra("id",appointmentLists.get(position).getId());
+                                intent.putExtra("petParent",appointmentLists.get(position).getPetUniqueId());
 
                                 startActivity(intent);
 
@@ -130,8 +133,28 @@ public class AppointementFragment extends Fragment implements ApiResponse ,View.
                             @Override
                             public void onJoinClick(int position, ArrayList<AppointmentList> appointmentLists, Button button) {
                                 Uri uri = Uri.parse(appointmentLists.get(position).getMeetingUrl()); // missing 'http://' will cause crashed
-                                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                                startActivity(intent);
+//                                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+//                                startActivity(intent);
+                                Intent petDetailsIntent = new Intent(getContext(), AddClinicActivity.class);
+                                Bundle data = new Bundle();
+                                data.putString("pet_id",appointmentLists.get(position).getPetId());
+                                data.putString("pet_parent",appointmentLists.get(position).getPetParentName());
+                                data.putString("pet_sex",appointmentLists.get(position).getPetSex());
+                                data.putString("pet_age",appointmentLists.get(position).getPetAge());
+                                data.putString("pet_unique_id",appointmentLists.get(position).getPetUniqueId());
+                                data.putString("nature_of_visit","");
+                                data.putString("visit_dt","");
+                                data.putString("visit_description","");
+                                data.putString("visit_weight","");
+                                data.putString("visit_temparature","");
+                                data.putString("dt_of_illness","");
+                                data.putString("pet_diognosis","");
+                                data.putString("next_dt","");
+                                data.putString("appointment","join");
+                                data.putString("appoint_link", String.valueOf((Uri.parse(appointmentLists.get(position).getMeetingUrl()))));
+                                data.putString("toolbar_name","Add Clinic");
+                                petDetailsIntent.putExtras(data);
+                                startActivity(petDetailsIntent);
                             }
 
                             @Override

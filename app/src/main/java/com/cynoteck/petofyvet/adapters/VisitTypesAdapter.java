@@ -5,10 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cynoteck.petofyvet.R;
@@ -49,7 +49,7 @@ public class VisitTypesAdapter extends RecyclerView.Adapter<VisitTypesAdapter.My
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView reports_type_TV;
         ImageView view_reports_arrow;
-        RelativeLayout clinic_parent_layout;
+        CardView clinic_parent_layout;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             reports_type_TV =itemView.findViewById(R.id.report_type_TV);

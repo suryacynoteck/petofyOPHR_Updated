@@ -14,10 +14,10 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.api.ApiClient;
@@ -38,7 +38,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
     String pet_id,pet_name,patent_name,pet_bread,pet_unique_id="",pet_sex="",pet_age="";
     TextView pet_nameTV, pet_parentNameTV,pet_id_TV;
     ImageView back_arrow_IV,view_clinicVisits_arrow,view_xrayReport_arrow,view_labTestReport_arrow,view_Hospitalization_arrow,last_prescription_arrow,recent_visits_arrow,print_id_card_arrow,view_history_arrow;
-    RelativeLayout clinic_test,xray_test,lab_test_report,hospitalization_sugeries,last_prescription,print_id_card,view_history;
+    CardView clinic_test,xray_test,lab_test_report,hospitalization_sugeries,last_prescription,print_id_card,view_history;
     Methods methods;
     WebView webview;
 
@@ -208,7 +208,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 dataClinicVisits.putString("reports_id","1.0");
                 dataClinicVisits.putString("pet_sex",pet_sex);
                 dataClinicVisits.putString("pet_age",pet_age);
-                dataClinicVisits.putString("add_button_text","Clinic_visits");
+                dataClinicVisits.putString("add_button_text","Clinic Visits");
                 petDetailsClinicVisits.putExtras(dataClinicVisits);
                 startActivity(petDetailsClinicVisits);
                 break;

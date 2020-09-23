@@ -1302,6 +1302,10 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                             categoryHasmap.put(petTypeResponse.getData().get(i).getPetType1(),petTypeResponse.getData().get(i).getId());
                         }
                         chkItems=new boolean[petCategory.length];
+                        Log.d("CheckBox chkItems",chkItems.toString());
+                        Log.d("CheckBox petCategory ",petCategory.toString());
+                        Log.d("CheckBox Hasmap",categoryHasmap.toString());
+
 
                     }else if (responseCode==614){
                         Toast.makeText(UpdateProfileActivity.this, petTypeResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();

@@ -43,11 +43,11 @@
             <Button
                 android:visibility="gone"
                 style="?android:attr/borderlessButtonStyle"
-                android:background="@drawable/approve_bt_bg"
+                android:background="@drawable/approve"
                 android:layout_marginTop="8dp"
                 android:layout_marginRight="10dp"
                 android:text="Approve"
-                android:textColor="@color/deactivate_red"
+                android:textColor="#3c8dbc"
                 android:id="@+id/approve_BT"
                 android:layout_width="0dp"
                 android:layout_height="35dp"

@@ -1,18 +1,14 @@
 package com.cynoteck.petofyvet.activities;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.cynoteck.petofyvet.R;
@@ -277,7 +273,7 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
                 {
                     HospitalizationDialog();
                 }
-                else if(button_text.equals("Clinic_visits"))
+                else if(button_text.equals("Clinic Visits"))
                     clinicDialog();
                 break;
 
@@ -301,6 +297,8 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
         data.putString("dt_of_illness","");
         data.putString("pet_diognosis","");
         data.putString("next_dt","");
+        data.putString("appointment","");
+        data.putString("appoint_link", "");
         data.putString("toolbar_name","Add Clinic");
         petDetailsIntent.putExtras(data);
         startActivity(petDetailsIntent);

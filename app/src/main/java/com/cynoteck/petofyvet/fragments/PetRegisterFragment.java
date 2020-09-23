@@ -22,8 +22,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.activities.AddPetRegister;
-import com.cynoteck.petofyvet.activities.GetPetDetailsActivity;
 import com.cynoteck.petofyvet.activities.PetIdCardActivity;
+import com.cynoteck.petofyvet.activities.PetProfileActivity;
 import com.cynoteck.petofyvet.adapters.RegisterPetAdapter;
 import com.cynoteck.petofyvet.api.ApiClient;
 import com.cynoteck.petofyvet.api.ApiResponse;
@@ -220,18 +220,18 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, ViewD
         StringTokenizer tokens = new StringTokenizer(categoryRecordArrayList.get(position).getId(), ".");
         String first = tokens.nextToken();// this will contain "Fruit"
 
-        Intent intent=new Intent(getActivity(), GetPetDetailsActivity.class);
+        Intent intent=new Intent(getActivity(), PetProfileActivity.class);
         intent.putExtra("pet_id",first);
-        intent.putExtra("pet_category",categoryRecordArrayList.get(position).getPetCategory());
-        intent.putExtra("pet_name",categoryRecordArrayList.get(position).getPetName());
-        intent.putExtra("pet_sex",categoryRecordArrayList.get(position).getPetSex());
-        intent.putExtra("pet_DOB",categoryRecordArrayList.get(position).getPetTestsAndXrey());
-        intent.putExtra("pet_age",categoryRecordArrayList.get(position).getPetAge());
-        intent.putExtra("pet_size",categoryRecordArrayList.get(position).getPetSize());
-        intent.putExtra("pet_breed",categoryRecordArrayList.get(position).getPetBreed());
-        intent.putExtra("pet_color",categoryRecordArrayList.get(position).getPetColor());
-        intent.putExtra("pet_parent",categoryRecordArrayList.get(position).getPetParentName());
-        intent.putExtra("pet_parent_contact",categoryRecordArrayList.get(position).getContactNumber());
+//        intent.putExtra("pet_category",categoryRecordArrayList.get(position).getPetCategory());
+//        intent.putExtra("pet_name",categoryRecordArrayList.get(position).getPetName());
+//        intent.putExtra("pet_sex",categoryRecordArrayList.get(position).getPetSex());
+//        intent.putExtra("pet_DOB",categoryRecordArrayList.get(position).getPetTestsAndXrey());
+//        intent.putExtra("pet_age",categoryRecordArrayList.get(position).getPetAge());
+//        intent.putExtra("pet_size",categoryRecordArrayList.get(position).getPetSize());
+//        intent.putExtra("pet_breed",categoryRecordArrayList.get(position).getPetBreed());
+//        intent.putExtra("pet_color",categoryRecordArrayList.get(position).getPetColor());
+//        intent.putExtra("pet_parent",categoryRecordArrayList.get(position).getPetParentName());
+//        intent.putExtra("pet_parent_contact",categoryRecordArrayList.get(position).getContactNumber());
         startActivity(intent);
 
     }

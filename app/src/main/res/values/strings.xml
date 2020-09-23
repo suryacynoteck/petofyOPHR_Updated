@@ -44,7 +44,7 @@
     <string name="viewReports">View Reports</string>
     <string name="viewDetails">View Details</string>
     <string name="reports">REPORTS</string>
-    <string name="register_pets">Register Pets</string>
+    <string name="register_pets">Pet Register</string>
     <string name="add_pet">ADD PET</string>
     <string name="pet_details">Pet Details</string>
     <string name="selectReports">Select Reports</string>
@@ -149,5 +149,6 @@
     <string name="sunday">Sunday</string>
     <string name="fcm_token">FCM Token: %s</string>
     <string name="Editprofile">Edit Profile</string>
+    <string name="LastPrescription">Last Prescription</string>
 
 </resources>

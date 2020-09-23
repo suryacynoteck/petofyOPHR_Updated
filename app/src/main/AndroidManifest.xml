@@ -31,7 +31,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.SettingActivity"></activity>
+        <activity android:name=".activities.PetProfileActivity"></activity>
+        <activity android:name=".activities.SettingActivity" />
         <activity android:name=".activities.StaffPermissionActivity" />
         <activity android:name=".activities.OperatingHoursActivity" />
         <activity android:name=".activities.AddUpdateAppointmentActivity" />

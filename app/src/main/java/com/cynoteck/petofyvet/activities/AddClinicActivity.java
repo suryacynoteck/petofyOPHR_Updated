@@ -26,7 +26,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -85,7 +84,7 @@ import retrofit2.Response;
 public class AddClinicActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse {
 
     ImageView back_arrow_IV;
-    String report_id="",visitIdString="",pet_age="",strNatureOfVist="", strDocumentUrl="",visitId="",natureOfVisit="",pet_id="",
+    String appoint_join="",appointment_link="",report_id="",visitIdString="",pet_age="",strNatureOfVist="", strDocumentUrl="",visitId="",natureOfVisit="",pet_id="",
             pet_name="",pet_owner_name="",pet_sex="",pet_unique_id="",veterian_name="",descrisption="",
             Remarks="",visitDate="",dtOfOnset="",flowUpDt="",weight="",temparature="",diagnosis="",
             strVacine="",strDewormerName="",strDewormerDose="",strToolbarName="",cocatVal=null;
@@ -99,7 +98,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
     AppCompatSpinner clinicNature_of_visit_spinner,clinicNext_visit_spinner;
     LinearLayout clinicDocument_layout;
     MultiAutoCompleteTextView clinicTreatment_remarks_MT;
-    Button clinicCancel_clinic_add_dialog,clinicSave_clinic_data;
+    Button clinicCancel_clinic_add_dialog,clinicSave_clinic_data,join_BT;
     WebView webview;
 
     Methods methods;
@@ -162,7 +161,9 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         clinicSave_clinic_data = findViewById(R.id.save_clinic_data);
         clinic_back_arrow_IV = findViewById(R.id.clinic_back_arrow_IV);
         webview = findViewById(R.id.webview);
+        join_BT=findViewById(R.id.join_BT);
 
+        join_BT.setOnClickListener(this);
         clinicCalenderTextViewVisitDt.setOnClickListener(this);
         clinicIlness_onset.setOnClickListener(this);
         clinicFolow_up_dt_view.setOnClickListener(this);
@@ -222,12 +223,18 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
             diagnosis = extras.getString("pet_diognosis");
             flowUpDt= extras.getString("next_dt");
             strToolbarName= extras.getString("toolbar_name");
+            appoint_join=extras.getString("appointment");
+            appointment_link = extras.getString("appoint_link");
 
-            if(strToolbarName.equals("Update Clinic"))
+            if(strToolbarName.equals("Update Clinic")) {
                 clinicSave_clinic_data.setText("UPDATE");
-            else
+            }
+            else {
+                if (appoint_join.equals("join")) {
+                    join_BT.setVisibility(View.VISIBLE);
+                }else {join_BT.setVisibility(View.GONE);}
                 clinicSave_clinic_data.setText("SUBMIT");
-
+            }
             clinic_head_line.setText(strToolbarName);
             clinic_peto_edit_reg_number_dialog.setText(pet_unique_id);
             clinicVeterian_name_ET.setText(Config.user_Veterian_name);
@@ -282,6 +289,11 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onClick(View view) {
         switch (view.getId()){
+
+            case R.id.join_BT:
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(appointment_link));
+                startActivity(intent);
+                break;
             case R.id.calenderTextViewVisitDt:
                 final Calendar cldr = Calendar.getInstance();
                 int day = cldr.get(Calendar.DAY_OF_MONTH);
@@ -654,7 +666,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                         // check if all permissions are granted
                         if (report.areAllPermissionsGranted()) {
-                            Toast.makeText(AddClinicActivity.this, "All permissions are granted by user!", Toast.LENGTH_SHORT).show();
+                            Log.d("logPrint","All permissions are granted by user!");
                         }
 
                         // check for permanent denial of any permission

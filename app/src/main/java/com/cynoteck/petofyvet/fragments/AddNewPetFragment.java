@@ -1141,6 +1141,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
 
             case R.id.addNewEntry:
                 Intent addNewPetIntent = new Intent(getContext(), AddNewPetActivity.class);
+                addNewPetIntent.putExtra("appointment","");
                 startActivity(addNewPetIntent);
                 break;
             case R.id.cancel:
