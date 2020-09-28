@@ -35,7 +35,7 @@ import java.util.HashMap;
 import retrofit2.Response;
 
 public class PetDetailsActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse {
-    String pet_id,pet_name,patent_name,pet_bread,pet_unique_id="",pet_sex="",pet_age="";
+    String pet_id,pet_name,patent_name,pet_bread,pet_unique_id="",pet_sex="",pet_age="",pet_DOB="";
     TextView pet_nameTV, pet_parentNameTV,pet_id_TV;
     ImageView back_arrow_IV,view_clinicVisits_arrow,view_xrayReport_arrow,view_labTestReport_arrow,view_Hospitalization_arrow,last_prescription_arrow,recent_visits_arrow,print_id_card_arrow,view_history_arrow;
     CardView clinic_test,xray_test,lab_test_report,hospitalization_sugeries,last_prescription,print_id_card,view_history;
@@ -58,6 +58,8 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
         pet_unique_id=extras.getString("pet_unique_id");
         pet_sex=extras.getString("pet_sex");
         pet_age=extras.getString("pet_age");
+        pet_DOB=extras.getString("pet_DOB");
+        Log.d("nannan",""+pet_DOB);
 
         pet_nameTV = findViewById(R.id.pet_name_TV);
         pet_parentNameTV = findViewById(R.id.pet_owner_name_TV);
@@ -209,6 +211,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 dataClinicVisits.putString("pet_sex",pet_sex);
                 dataClinicVisits.putString("pet_age",pet_age);
                 dataClinicVisits.putString("add_button_text","Clinic Visits");
+                dataClinicVisits.putString("pet_DOB",pet_DOB);
                 petDetailsClinicVisits.putExtras(dataClinicVisits);
                 startActivity(petDetailsClinicVisits);
                 break;

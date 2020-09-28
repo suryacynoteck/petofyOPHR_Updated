@@ -17,6 +17,7 @@ import com.cynoteck.petofyvet.params.changePassRequest.ChangePassRequest;
 import com.cynoteck.petofyvet.params.checkpetInVetRegister.InPetRegisterRequest;
 import com.cynoteck.petofyvet.params.forgetPassRequest.ForgetPassRequest;
 import com.cynoteck.petofyvet.params.getPetListRequest.GetPetListRequest;
+import com.cynoteck.petofyvet.params.immunizationRequest.ImmunizationRequestt;
 import com.cynoteck.petofyvet.params.loginRequest.Loginparams;
 import com.cynoteck.petofyvet.params.newPetEntryParams.NewPetRequest;
 import com.cynoteck.petofyvet.params.otpRequest.SendOtpRequest;
@@ -72,6 +73,7 @@ import com.cynoteck.petofyvet.response.getWorkingHoursResponse.WorkingHoursRespo
 import com.cynoteck.petofyvet.response.getXRayReports.getPetTestAndXRayResponse.GetPetTestAndXRayResponse;
 import com.cynoteck.petofyvet.response.getXRayReports.getXRayReportDetailsResponse.GetXRayReportDeatilsResponse;
 import com.cynoteck.petofyvet.response.hospitalTypeListResponse.HospitalAddmissionTypeResp;
+import com.cynoteck.petofyvet.response.immunizationVaccineType.ImmunizationVaccineResponse;
 import com.cynoteck.petofyvet.response.labTyperesponse.LabTypeResponse;
 import com.cynoteck.petofyvet.response.loginRegisterResponse.LoginRegisterResponse;
 import com.cynoteck.petofyvet.response.newPetResponse.NewPetRegisterResponse;
@@ -452,6 +454,12 @@ public interface ApiInterface {
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("Staff/RemovePermission")
     Call<StaffPermissionResponse> removePermission(@Header("Authorization") String auth, @Body AssignRemovePermissionRequest assignRemovePermissionRequest);
+
+    //TODO====================Immunization Data=========================
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("immunization/GetRecommendedVaccine")
+    Call<ImmunizationVaccineResponse> getRecommendedVaccine(@Header("Authorization") String auth, @Body ImmunizationRequestt immunizationRequestt);
 
 
 }

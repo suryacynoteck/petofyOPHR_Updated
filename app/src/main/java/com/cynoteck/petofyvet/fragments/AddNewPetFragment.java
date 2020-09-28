@@ -208,7 +208,8 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                 String PetSex = st.nextToken();
                 String PetAge = st.nextToken();
                 String Id = st.nextToken();
-                Log.d("ppppp",""+PetUniqueId+" "+PetName+" "+PetParentName+" "+PetSex+" "+petAge+" "+Id);
+                String pet_DOB = st.nextToken();
+                Log.d("ppppp",""+PetUniqueId+" "+PetName+" "+PetParentName+" "+PetSex+" "+petAge+" "+Id+" "+pet_DOB);
                 Intent petDetailsIntent = new Intent(getActivity().getApplication(), PetDetailsActivity.class);
                 Bundle data = new Bundle();
                 data.putString("pet_id",Id);
@@ -217,6 +218,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                 data.putString("pet_sex",PetSex);
                 data.putString("pet_age",PetAge);
                 data.putString("pet_unique_id",PetUniqueId);
+                data.putString("pet_DOB",pet_DOB);
                 petDetailsIntent.putExtras(data);
                 startActivity(petDetailsIntent);
                 clearSearch();
@@ -369,14 +371,16 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                         for(int i=0;i<getPetListResponse.getData().getPetList().size();i++){
                             petUniueId.add(getPetListResponse.getData().getPetList().get(i).getPetUniqueId()+":- "
                                     +getPetListResponse.getData().getPetList().get(i).getPetName()+"("+getPetListResponse.getData().getPetList().get(i).getPetSex()+","+getPetListResponse.getData().getPetList().get(i).getPetParentName()+")");
+
                             petExistingSearch.put(getPetListResponse.getData().getPetList().get(i).getPetUniqueId()+":- "
                                             +getPetListResponse.getData().getPetList().get(i).getPetName()+"("+getPetListResponse.getData().getPetList().get(i).getPetSex()+","+getPetListResponse.getData().getPetList().get(i).getPetParentName()+")",
-                                    getPetListResponse.getData().getPetList().get(i).getPetUniqueId()+","
+                                             getPetListResponse.getData().getPetList().get(i).getPetUniqueId()+","
                                             +getPetListResponse.getData().getPetList().get(i).getPetName()+","
                                             +getPetListResponse.getData().getPetList().get(i).getPetParentName()+","
                                             +getPetListResponse.getData().getPetList().get(i).getPetSex()+","
                                             +getPetListResponse.getData().getPetList().get(i).getPetAge()+","
-                                            +getPetListResponse.getData().getPetList().get(i).getId());
+                                            +getPetListResponse.getData().getPetList().get(i).getId()+","
+                                            +getPetListResponse.getData().getPetList().get(i).getDateOfBirth());
                         }
 
                         Log.d("jajajajjaja",""+petUniueId.size()+" \n"+ petUniueId.toString());
@@ -695,6 +699,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                         data.putString("pet_parent",newPetRegisterResponse.getData().getPetParentName());
                         data.putString("pet_age","puppy");
                         data.putString("pet_unique_id",newPetRegisterResponse.getData().getPetUniqueId());
+                        data.putString("pet_DOB",newPetRegisterResponse.getData().getDateOfBirth());
                         petDetailsIntent.putExtras(data);
                         startActivity(petDetailsIntent);
                     }else if (responseCode==614){
@@ -1020,6 +1025,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
         data.putString("pet_sex",petClinicVisitLists.get(position).getPetSex());
         data.putString("pet_age",petClinicVisitLists.get(position).getPetAge());
         data.putString("pet_unique_id",petClinicVisitLists.get(position).getPetUniqueId());
+        data.putString("pet_DOB",petClinicVisitLists.get(position).getPetDOB());
         petDetailsIntent.putExtras(data);
         startActivity(petDetailsIntent);
 
@@ -1079,7 +1085,8 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                             String PetSex = st.nextToken();
                             String petAge = st.nextToken();
                             String Id = st.nextToken();
-                            Log.d("ppppp",""+PetUniqueId+" "+PetName+" "+PetParentName+" "+PetSex+" "+petAge+" "+Id);
+                            String pet_DOB = st.nextToken();
+                            Log.d("ppppp",""+PetUniqueId+" "+PetName+" "+PetParentName+" "+PetSex+" "+petAge+" "+Id+" "+pet_DOB);
                             Intent petDetailsIntent = new Intent(getActivity().getApplication(), PetDetailsActivity.class);
                             Bundle data = new Bundle();
                             data.putString("pet_id",Id);
@@ -1088,6 +1095,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                             data.putString("pet_sex",PetSex);
                             data.putString("pet_age",petAge);
                             data.putString("pet_unique_id",PetUniqueId);
+                            data.putString("pet_DOB",pet_DOB);
                             petDetailsIntent.putExtras(data);
                             startActivity(petDetailsIntent);
                         }
