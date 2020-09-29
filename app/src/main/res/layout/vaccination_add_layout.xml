@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:gravity="center">
 
      <androidx.appcompat.widget.AppCompatSpinner
          android:id="@+id/vaccine_type"
@@ -13,13 +14,19 @@
     <androidx.appcompat.widget.AppCompatSpinner
         android:id="@+id/vaccine_name"
         android:layout_width="match_parent"
-        android:layout_height="50dp"/>
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"/>
 
     <Button
         android:id="@+id/add_vaccine_data"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="ADD"/>
+        android:background="@color/colorPrimary"
+        android:text="ADD"
+        android:textColor="@color/whiteColor"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"/>
 
 
 

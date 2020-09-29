@@ -26,7 +26,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -41,7 +40,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSpinner;
 
 import com.cynoteck.petofyvet.R;
-import com.cynoteck.petofyvet.adapters.HospitalizationReportsAdapter;
 import com.cynoteck.petofyvet.adapters.ImmunazationVaccineAdopter;
 import com.cynoteck.petofyvet.api.ApiClient;
 import com.cynoteck.petofyvet.api.ApiResponse;
@@ -64,7 +62,11 @@ import com.cynoteck.petofyvet.response.getPetReportsResponse.getClinicVisitDetai
 import com.cynoteck.petofyvet.response.immunizationVaccineType.ImmunizationVaccineResponse;
 import com.cynoteck.petofyvet.response.searchRemaks.SearchRemaksResponse;
 import com.cynoteck.petofyvet.utils.Config;
+import com.cynoteck.petofyvet.utils.ImmunizationOnclickListener;
 import com.cynoteck.petofyvet.utils.Methods;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -72,8 +74,6 @@ import com.karumi.dexter.listener.DexterError;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-
-import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -83,6 +83,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -91,12 +92,12 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Response;
 
-public class AddClinicActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse {
+public class AddClinicActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse,ImmunizationOnclickListener {
 
     ImageView back_arrow_IV;
     String report_id="",visitIdString="",pet_age="",strNatureOfVist="",pet_DOB="",strDocumentUrl="",visitId="",natureOfVisit="",pet_id="",
-            pet_name="",pet_owner_name="",pet_sex="",pet_unique_id="",veterian_name="",descrisption="",
-            Remarks="",visitDate="",dtOfOnset="",flowUpDt="",weight="",temparature="",diagnosis="",
+            pet_name="",pet_owner_name="",pet_sex="",pet_unique_id="",veterian_name="",descrisption="",strPetAge="",
+            Remarks="",visitDate="",dtOfOnset="",flowUpDt="",weight="",temparature="",diagnosis="",strNextVisitDate="",
             strVacine="",strDewormerName="",strDewormerDose="",strToolbarName="",cocatVal=null,strVaccineType="",strVaccineName="";
     Bundle data = new Bundle();
     TextView folow_up_dt_view,ilness_onset, Dewormer_name_ET,Dewormer_name_TV,Dewormer_ET,Dewormer_TV,clinicFolow_up_dt_view,clinic_head_line,
@@ -104,9 +105,9 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
     ImageView document_name,clinic_back_arrow_IV;
     LinearLayout addPrescriptionButton,vaccine_layout;
     EditText clinicVeterian_name_ET,clinicCescription_ET,remaks_ET,
-            weight_ET,clinicTemparature_ET,clinicDiagnosis_ET,vacine_ET;
+            weight_ET,clinicTemparature_ET,clinicDiagnosis_ET;
     AppCompatSpinner clinicNature_of_visit_spinner,clinicNext_visit_spinner,vaccine_type,vaccine_name;
-    LinearLayout clinicDocument_layout;
+    LinearLayout clinicDocument_layout,treatment_remarks_LL;
     MultiAutoCompleteTextView clinicTreatment_remarks_MT;
     Button add_immunization_data,clinicSave_clinic_data;
     WebView webview;
@@ -118,25 +119,27 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
     ArrayList<String> remarksSearchList;
     ArrayList<String> vaccineTypeList;
     ArrayList<String> vaccineNameList;
+    ArrayList<HashMap<String,String>> vaccinationModels;
+    HashMap<String,String> vaccinationationModelHash;
     ImmunazationVaccineAdopter hospitalizationReportsAdapter;
     HashMap<String,String> nextVisitHas=new HashMap<>();
     HashMap<String,String> natureOfVisitHashMap=new HashMap<>();
     ArrayList<String>VaccineList=new ArrayList<String>();
     DatePickerDialog picker;
+    TextView description_TV,weight_TV,temparature_TV,diagnosis_TV,treatment_remaks_TV,pet_age_TV;
 
     private static final String IMAGE_DIRECTORY = "/Picture";
     private int GALLERY = 1, CAMERA = 2;
     File file = null;
     Dialog dialog,vaccineDialog;
     Bitmap bitmap, thumbnail;
-
     int backPressVal=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_add_clinic);
-        setContentView(R.layout.test_layout);
+        setContentView(R.layout.activity_add_clinic);
+        //setContentView(R.layout.test_layout);
 
         init();
         requestMultiplePermissions();
@@ -155,11 +158,14 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         document_name = findViewById(R.id.document_name);
         remaks_ET = findViewById(R.id.remaks_TV);
         upload_documents = findViewById(R.id.upload_documents);
+        weight_TV = findViewById(R.id.weight_TV);
         weight_ET = findViewById(R.id.weight_ET);
         ilness_onset=findViewById(R.id.ilness_onset);
         folow_up_dt_view=findViewById(R.id.folow_up_dt_view);
         Dewormer_TV = findViewById(R.id.Dewormer_TV);
         Dewormer_ET = findViewById(R.id.Dewormer_ET);
+        diagnosis_TV = findViewById(R.id.diagnosis_TV);
+        treatment_remaks_TV = findViewById(R.id.treatment_remaks_TV);
         Dewormer_name_TV = findViewById(R.id.Dewormer_name_TV);
         Dewormer_name_ET = findViewById(R.id.Dewormer_name_ET);
         clinicTemparature_ET = findViewById(R.id.temparature_ET);
@@ -169,11 +175,15 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         clinicNext_visit_spinner = findViewById(R.id.next_visit_spinner);
         clinicFolow_up_dt_view = findViewById(R.id.folow_up_dt_view);
         clinicDocument_layout = findViewById(R.id.document_layout);
+        treatment_remarks_LL = findViewById(R.id.treatment_remarks_LL);
         clinicSave_clinic_data = findViewById(R.id.save_clinic_data);
+        pet_age_TV = findViewById(R.id.pet_age_TV);
         clinic_back_arrow_IV = findViewById(R.id.clinic_back_arrow_IV);
         vaccine_layout = findViewById(R.id.vaccine_layout);
         add_immunization_data = findViewById(R.id.add_immunization_data);
         immunization_data = findViewById(R.id.immunization_data);
+        description_TV = findViewById(R.id.description_TV);
+        temparature_TV = findViewById(R.id.temparature_TV);
         webview = findViewById(R.id.webview);
 
         clinicCalenderTextViewVisitDt.setOnClickListener(this);
@@ -353,154 +363,175 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                 weight=weight_ET.getText().toString();
                 temparature=clinicTemparature_ET.getText().toString();
                 diagnosis=clinicDiagnosis_ET.getText().toString();
-                strVacine=vacine_ET.getText().toString();
                 strDewormerName=Dewormer_ET.getText().toString();
                 strDewormerDose=Dewormer_name_ET.getText().toString();
-                if(veterian_name.isEmpty()){
-                    clinicVeterian_name_ET.setError("Enter Veterinarian Name");
-                    clinicCescription_ET.setError(null);
-                    remaks_ET.setError(null);
-                    clinicDiagnosis_ET.setError(null);
-                    vacine_ET.setError(null);
-                    Dewormer_name_ET.setError(null);
-                    Dewormer_ET.setError(null);
-                }
-                else if(descrisption.isEmpty()){
-                    clinicVeterian_name_ET.setError(null);
-                    clinicCescription_ET.setError("Enter Description");
-                    remaks_ET.setError(null);
-                    clinicDiagnosis_ET.setError(null);
-                    vacine_ET.setError(null);
-                    Dewormer_name_ET.setError(null);
-                    Dewormer_ET.setError(null);
-                }
-                else if(Remarks.isEmpty()){
-                    clinicVeterian_name_ET.setError(null);
-                    clinicCescription_ET.setError(null);
-                    remaks_ET.setError("Enter Remarks");
-                    clinicDiagnosis_ET.setError(null);
-                    vacine_ET.setError(null);
-                    Dewormer_name_ET.setError(null);
-                    Dewormer_ET.setError(null);
-                }
-                else if(diagnosis.isEmpty()){
-                    clinicVeterian_name_ET.setError(null);
-                    clinicCescription_ET.setError(null);
-                    remaks_ET.setError(null);
-                    clinicDiagnosis_ET.setError("Enter Diagnosis");
-                    vacine_ET.setError(null);
-                    Dewormer_name_ET.setError(null);
-                    Dewormer_ET.setError(null);
-                }
-                else if(natureOfVisit.isEmpty()||(natureOfVisit.equals("Select Visit"))){
-                    clinicVeterian_name_ET.setError(null);
-                    clinicCescription_ET.setError(null);
-                    remaks_ET.setError(null);
-                    clinicDiagnosis_ET.setError(null);
-                    vacine_ET.setError(null);
-                    Dewormer_name_ET.setError(null);
-                    Dewormer_ET.setError(null);
-                    Toast.makeText(this, "Select Nature of Visit", Toast.LENGTH_SHORT).show();
-                }
-                else if((natureOfVisit.equals("Immunization"))&&(strVacine.isEmpty()))
-                {
-                    clinicVeterian_name_ET.setError(null);
-                    clinicCescription_ET.setError(null);
-                    remaks_ET.setError(null);
-                    clinicDiagnosis_ET.setError(null);
-                    vacine_ET.setError("Enter Vaccine name");
-                    Dewormer_name_ET.setError(null);
-                    Dewormer_ET.setError(null);
-                }
-                else if((natureOfVisit.equals("Deworming"))&&(strDewormerName.isEmpty()))
-                {
-                    clinicVeterian_name_ET.setError(null);
-                    clinicCescription_ET.setError(null);
-                    remaks_ET.setError(null);
-                    clinicDiagnosis_ET.setError(null);
-                    Dewormer_name_ET.setError(null);
-                    vacine_ET.setError(null);
-                    Dewormer_ET.setError("Enter Dewormer Name");
-                }
-                else if((natureOfVisit.equals("Deworming"))&&(strDewormerDose.isEmpty()))
-                {
-                    clinicVeterian_name_ET.setError(null);
-                    clinicCescription_ET.setError(null);
-                    remaks_ET.setError(null);
-                    clinicDiagnosis_ET.setError(null);
-                    vacine_ET.setError(null);
-                    Dewormer_name_ET.setError(null);
-                    Dewormer_ET.setError("Enter Dose");
-                }
-                else
-                {
-                    methods.showCustomProgressBarDialog(this);
-                    clinicVeterian_name_ET.setError(null);
-                    clinicCescription_ET.setError(null);
-                    remaks_ET.setError(null);
-                    clinicDiagnosis_ET.setError(null);
-                    vacine_ET.setError(null);
-                    Dewormer_name_ET.setError(null);
-                    Dewormer_ET.setError(null);
-
-                    if(strToolbarName.equals("Update Clinic")){
-                        UpdateClinicReportsParams updateClinicReportsParams =new UpdateClinicReportsParams();
-                        updateClinicReportsParams.setId(report_id);
-                        updateClinicReportsParams.setPetId(pet_id);
-                        updateClinicReportsParams.setVeterinarian(veterian_name);
-                        updateClinicReportsParams.setVisitDate(visitDate);
-                        updateClinicReportsParams.setNatureOfVisitId(strNatureOfVist);
-                        updateClinicReportsParams.setVaccine(strVacine);
-                        updateClinicReportsParams.setDescription(descrisption);
-                        updateClinicReportsParams.setWeightLbs(weight);
-                        updateClinicReportsParams.setWeightOz(weight);
-                        updateClinicReportsParams.setTemperature(temparature);
-                        updateClinicReportsParams.setDateOfOnset(dtOfOnset);
-                        updateClinicReportsParams.setDewormerName(strDewormerName);
-                        updateClinicReportsParams.setTreatmentRemarks(Remarks);
-                        updateClinicReportsParams.setDiagnosisProcedure(diagnosis);
-                        updateClinicReportsParams.setFollowUpId("");
-                        updateClinicReportsParams.setFollowUpDate(flowUpDt);
-                        updateClinicReportsParams.setDocuments(strDocumentUrl);
-                        UpdateClinicReportsRequest updateClinicReportsRequest =new UpdateClinicReportsRequest();
-                        updateClinicReportsRequest.setAddPetParams(updateClinicReportsParams);
-                        if (methods.isInternetOn()){
-                            updateClinic(updateClinicReportsRequest);
-                        }else {
-
-                            methods.DialogInternet();
+                 if(natureOfVisit.equals("Immunization"))
+                    {
+                        if((natureOfVisit.equals("Immunization"))&&(VaccineList.size()<1)){
+                            clinicVeterian_name_ET.setError(null);
+                            clinicCescription_ET.setError(null);
+                            remaks_ET.setError(null);
+                            clinicDiagnosis_ET.setError(null);
+                            Dewormer_name_ET.setError(null);
+                            Dewormer_ET.setError(null);
+                            Toast.makeText(this, "Add Vaccine Type and Name", Toast.LENGTH_LONG).show();
                         }
-
-                    }
-                    else{
-                        if (methods.isInternetOn()){
-                            AddPetClinicParam addPetClinicParam=new AddPetClinicParam();
-                            addPetClinicParam.setPetId(pet_id);
-                            addPetClinicParam.setVeterinarian(veterian_name);
-                            addPetClinicParam.setVisitDate(visitDate);
-                            addPetClinicParam.setNatureOfVisitId(strNatureOfVist);
-                            addPetClinicParam.setVaccine(strVacine);
-                            addPetClinicParam.setDescription(descrisption);
-                            addPetClinicParam.setWeightLbs(weight);
-                            addPetClinicParam.setWeightOz(weight);
-                            addPetClinicParam.setTemperature(temparature);
-                            addPetClinicParam.setDateOfOnset(dtOfOnset);
-                            addPetClinicParam.setDewormerName(strDewormerName);
-                            addPetClinicParam.setTreatmentRemarks(Remarks);
-                            addPetClinicParam.setDiagnosisProcedure(diagnosis);
-                            addPetClinicParam.setFollowUpId("");
-                            addPetClinicParam.setFollowUpDate(flowUpDt);
-                            addPetClinicParam.setDocuments(strDocumentUrl);
-                            AddPetClinicRequest addPetClinicRequest=new AddPetClinicRequest();
-                            addPetClinicRequest.setAddPetParams(addPetClinicParam);
-                            addPetClinicData(addPetClinicRequest);
-                        }else {
-
-                            methods.DialogInternet();
+                    else
+                    {
+                        vaccinationModels=new ArrayList<HashMap<String, String>>();
+                        for(int i=0;i<VaccineList.size();i++){
+                            vaccinationationModelHash=new HashMap<>();
+                            StringTokenizer st = new StringTokenizer(VaccineList.get(i), ",");
+                            String brandType = st.nextToken();
+                            String vaccine_name = st.nextToken();
+                            vaccinationationModelHash.put("id",String.valueOf(i));
+                            vaccinationationModelHash.put("vaccineType",brandType);
+                            vaccinationationModelHash.put("brandName",vaccine_name);
+                            vaccinationationModelHash.put("vaccine","null");
+                            vaccinationationModelHash.put("vaccineDose","null");
+                            vaccinationationModelHash.put("immunizationDate","null");
+                            vaccinationModels.add(vaccinationationModelHash);
                         }
+                        Gson gson = new GsonBuilder().create();
+                        JsonArray myCustomArray = gson.toJsonTree(vaccinationModels).getAsJsonArray();
+                        Log.d("nannananna",""+myCustomArray);
+                        Toast.makeText(this, "Successfully Immunization add", Toast.LENGTH_SHORT).show();
+
                     }
 
                 }
+                 else{
+                     if(veterian_name.isEmpty()){
+                         clinicVeterian_name_ET.setError("Enter Veterinarian Name");
+                         clinicCescription_ET.setError(null);
+                         remaks_ET.setError(null);
+                         clinicDiagnosis_ET.setError(null);
+                         Dewormer_name_ET.setError(null);
+                         Dewormer_ET.setError(null);
+                     }
+                     else if(descrisption.isEmpty()){
+                         clinicVeterian_name_ET.setError(null);
+                         clinicCescription_ET.setError("Enter Description");
+                         remaks_ET.setError(null);
+                         clinicDiagnosis_ET.setError(null);
+                         Dewormer_name_ET.setError(null);
+                         Dewormer_ET.setError(null);
+                     }
+                     else if(Remarks.isEmpty()){
+                         clinicVeterian_name_ET.setError(null);
+                         clinicCescription_ET.setError(null);
+                         remaks_ET.setError("Enter Remarks");
+                         clinicDiagnosis_ET.setError(null);
+                         Dewormer_name_ET.setError(null);
+                         Dewormer_ET.setError(null);
+                     }
+                     else if(diagnosis.isEmpty()){
+                         clinicVeterian_name_ET.setError(null);
+                         clinicCescription_ET.setError(null);
+                         remaks_ET.setError(null);
+                         clinicDiagnosis_ET.setError("Enter Diagnosis");
+                         Dewormer_name_ET.setError(null);
+                         Dewormer_ET.setError(null);
+                     }
+                     else if(natureOfVisit.isEmpty()||(natureOfVisit.equals("Select Visit"))){
+                         clinicVeterian_name_ET.setError(null);
+                         clinicCescription_ET.setError(null);
+                         remaks_ET.setError(null);
+                         clinicDiagnosis_ET.setError(null);
+                         Dewormer_name_ET.setError(null);
+                         Dewormer_ET.setError(null);
+                         Toast.makeText(this, "Select Nature of Visit", Toast.LENGTH_SHORT).show();
+                     }
+
+                     else if((natureOfVisit.equals("Deworming"))&&(strDewormerName.isEmpty()))
+                     {
+                         clinicVeterian_name_ET.setError(null);
+                         clinicCescription_ET.setError(null);
+                         remaks_ET.setError(null);
+                         clinicDiagnosis_ET.setError(null);
+                         Dewormer_name_ET.setError(null);
+                         Dewormer_ET.setError("Enter Dewormer Name");
+                     }
+                     else if((natureOfVisit.equals("Deworming"))&&(strDewormerDose.isEmpty()))
+                     {
+                         clinicVeterian_name_ET.setError(null);
+                         clinicCescription_ET.setError(null);
+                         remaks_ET.setError(null);
+                         clinicDiagnosis_ET.setError(null);
+                         Dewormer_name_ET.setError(null);
+                         Dewormer_ET.setError("Enter Dose");
+                     }
+                     else
+                     {
+                         methods.showCustomProgressBarDialog(this);
+                         clinicVeterian_name_ET.setError(null);
+                         clinicCescription_ET.setError(null);
+                         remaks_ET.setError(null);
+                         clinicDiagnosis_ET.setError(null);
+                         Dewormer_name_ET.setError(null);
+                         Dewormer_ET.setError(null);
+
+
+                         if(strToolbarName.equals("Update Clinic")){
+                             UpdateClinicReportsParams updateClinicReportsParams =new UpdateClinicReportsParams();
+                             updateClinicReportsParams.setId(report_id);
+                             updateClinicReportsParams.setPetId(pet_id);
+                             updateClinicReportsParams.setVeterinarian(veterian_name);
+                             updateClinicReportsParams.setVisitDate(visitDate);
+                             updateClinicReportsParams.setNatureOfVisitId(strNatureOfVist);
+                             updateClinicReportsParams.setVaccine(strVacine);
+                             updateClinicReportsParams.setDescription(descrisption);
+                             updateClinicReportsParams.setWeightLbs(weight);
+                             updateClinicReportsParams.setWeightOz(weight);
+                             updateClinicReportsParams.setTemperature(temparature);
+                             updateClinicReportsParams.setDateOfOnset(dtOfOnset);
+                             updateClinicReportsParams.setDewormerName(strDewormerName);
+                             updateClinicReportsParams.setTreatmentRemarks(Remarks);
+                             updateClinicReportsParams.setDiagnosisProcedure(diagnosis);
+                             updateClinicReportsParams.setFollowUpId("");
+                             updateClinicReportsParams.setFollowUpDate(flowUpDt);
+                             updateClinicReportsParams.setDocuments(strDocumentUrl);
+                             UpdateClinicReportsRequest updateClinicReportsRequest =new UpdateClinicReportsRequest();
+                             updateClinicReportsRequest.setAddPetParams(updateClinicReportsParams);
+                             if (methods.isInternetOn()){
+                                 updateClinic(updateClinicReportsRequest);
+                             }else {
+
+                                 methods.DialogInternet();
+                             }
+
+                         }
+
+                         else{
+                             if (methods.isInternetOn()){
+                                 AddPetClinicParam addPetClinicParam=new AddPetClinicParam();
+                                 addPetClinicParam.setPetId(pet_id);
+                                 addPetClinicParam.setVeterinarian(veterian_name);
+                                 addPetClinicParam.setVisitDate(visitDate);
+                                 addPetClinicParam.setNatureOfVisitId(strNatureOfVist);
+                                 addPetClinicParam.setVaccine(strVacine);
+                                 addPetClinicParam.setDescription(descrisption);
+                                 addPetClinicParam.setWeightLbs(weight);
+                                 addPetClinicParam.setWeightOz(weight);
+                                 addPetClinicParam.setTemperature(temparature);
+                                 addPetClinicParam.setDateOfOnset(dtOfOnset);
+                                 addPetClinicParam.setDewormerName(strDewormerName);
+                                 addPetClinicParam.setTreatmentRemarks(Remarks);
+                                 addPetClinicParam.setDiagnosisProcedure(diagnosis);
+                                 addPetClinicParam.setFollowUpId("");
+                                 addPetClinicParam.setFollowUpDate(flowUpDt);
+                                 addPetClinicParam.setDocuments(strDocumentUrl);
+                                 AddPetClinicRequest addPetClinicRequest=new AddPetClinicRequest();
+                                 addPetClinicRequest.setAddPetParams(addPetClinicParam);
+                                 addPetClinicData(addPetClinicRequest);
+                             }else {
+
+                                 methods.DialogInternet();
+                             }
+                         }
+
+                     }
+                 }
                 break;
             case R.id.upload_documents:
                 showPictureDialog();
@@ -519,8 +550,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
 
         vaccineDialog = new Dialog(this);
         vaccineDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        vaccineDialog.setCancelable(false);
-        vaccineDialog.setContentView(R.layout.test_layout_two);
+        vaccineDialog.setContentView(R.layout.vaccination_add_layout);
 
         vaccine_type = (AppCompatSpinner) vaccineDialog.findViewById(R.id.vaccine_type);
         vaccine_name = (AppCompatSpinner) vaccineDialog.findViewById(R.id.vaccine_name);
@@ -533,21 +563,27 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
             @Override
             public void onClick(View view) {
                 Log.e("vaccinlist_before",""+VaccineList.size());
-                VaccineList.add(strVaccineType+", "+strVaccineName);
-                Log.e("vaccinlist_after",""+VaccineList.size());
-                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(AddClinicActivity.this);
-                immunization_data.setLayoutManager(linearLayoutManager);
-                immunization_data.setNestedScrollingEnabled(false);
-               if(VaccineList.size()>0){
-                   hospitalizationReportsAdapter = new ImmunazationVaccineAdopter(AddClinicActivity.this, VaccineList);
-                   immunization_data.setAdapter(hospitalizationReportsAdapter);
-                   hospitalizationReportsAdapter.notifyDataSetChanged();
-                   vaccineDialog.dismiss();
-               }
-               else
-               {
-                   vaccineDialog.dismiss();
-               }
+                if(strVaccineType.equals("Select Vaccine Type")||strVaccineName.equals("Select Vaccine Name"))
+                {
+                    vaccineDialog.dismiss();
+                }
+                else
+                { VaccineList.add(strVaccineType+", "+strVaccineName);
+                    Log.e("vaccinlist_after",""+VaccineList.size());
+                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(AddClinicActivity.this);
+                    immunization_data.setLayoutManager(linearLayoutManager);
+                    immunization_data.setNestedScrollingEnabled(false);
+                    if(VaccineList.size()>0){
+                        hospitalizationReportsAdapter = new ImmunazationVaccineAdopter(AddClinicActivity.this,AddClinicActivity.this, VaccineList);
+                        immunization_data.setAdapter(hospitalizationReportsAdapter);
+                        hospitalizationReportsAdapter.notifyDataSetChanged();
+                        vaccineDialog.dismiss();
+                    }
+                    else
+                    {
+                        vaccineDialog.dismiss();
+                    }
+                }
 
 
 
@@ -779,7 +815,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
     private void getImmunizationData() {
         ImmunizationParameter immunizationParameter=new ImmunizationParameter();
         immunizationParameter.setCategoryId("1");
-        immunizationParameter.setPetDOB("12/05/2020");
+        immunizationParameter.setPetDOB(pet_DOB);
         immunizationParameter.setEncryptedId("MTQ=");
         ImmunizationRequestt immunizationRequestt=new ImmunizationRequestt();
         immunizationRequestt.setImmunizationData(immunizationParameter);
@@ -1028,17 +1064,20 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     int responseCode = Integer.parseInt(immunizationVaccineResponse.getResponse().getResponseCode());
                     vaccineTypeList=new ArrayList<>();
                     vaccineTypeList.add("Select Vaccine Type");
-                    vaccineTypeList.add("Primary");
+                  /*  vaccineTypeList.add("Primary");
                     vaccineTypeList.add("BoosterOne");
                     vaccineTypeList.add("BoosterTwo");
-                    vaccineTypeList.add("Periodic");
+                    vaccineTypeList.add("Periodic");*/
                     vaccineNameList=new ArrayList<>();
+                    vaccineNameList.add("Select Vaccine Name");
                     vaccineNameList.add("abc");
                     vaccineNameList.add("Puppy DP");
                     vaccineNameList.add("CCV");
                     vaccineNameList.add("DHLPPA");
                     vaccineNameList.add("CKC");
                     if (responseCode == 109) {
+                        strNextVisitDate=immunizationVaccineResponse.getData().getNextVisitDate();
+                        strPetAge=immunizationVaccineResponse.getData().getAge();
 
                        if(immunizationVaccineResponse.getData().getVaccineTypeList().size()>0){
                            for(int i=0;i<immunizationVaccineResponse.getData().getVaccineTypeList().size();i++)
@@ -1109,14 +1148,26 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                 {
                     date_of_illness_TV.setVisibility(View.GONE);
                     clinicIlness_onset.setVisibility(View.GONE);
-                    /*vaccine_TV.setVisibility(View.VISIBLE);
-             //       vacine_ET.setVisibility(View.VISIBLE);*/
+                    description_TV.setVisibility(View.GONE);
+                    clinicCescription_ET.setVisibility(View.GONE);
+                    weight_TV.setVisibility(View.GONE);
+                    weight_ET.setVisibility(View.GONE);
+                    temparature_TV.setVisibility(View.GONE);
+                    clinicTemparature_ET.setVisibility(View.GONE);
+                    diagnosis_TV.setVisibility(View.GONE);
+                    clinicDiagnosis_ET.setVisibility(View.GONE);
+                    treatment_remaks_TV.setVisibility(View.GONE);
+                    treatment_remarks_LL.setVisibility(View.GONE);
+                    pet_age_TV.setVisibility(View.VISIBLE);
+                    pet_age_TV.setText(strPetAge+" Days");
+                    folow_up_dt_view.setText(strNextVisitDate);
                     vaccine_layout.setVisibility(View.VISIBLE);
                 }
                 else if(natureOfVisit.equals("Deworming"))
                 {
                     date_of_illness_TV.setVisibility(View.GONE);
                     clinicIlness_onset.setVisibility(View.GONE);
+                    pet_age_TV.setVisibility(View.GONE);
                     //vaccine_TV.setVisibility(View.GONE);
                     vaccine_layout.setVisibility(View.GONE);
               //      vacine_ET.setVisibility(View.GONE);
@@ -1124,13 +1175,28 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     Dewormer_ET.setVisibility(View.VISIBLE);
                     Dewormer_name_TV.setVisibility(View.VISIBLE);
                     Dewormer_name_ET.setVisibility(View.VISIBLE);
+                    folow_up_dt_view.setText("");
 
                 }
                 else{
                     date_of_illness_TV.setVisibility(View.VISIBLE);
                     clinicIlness_onset.setVisibility(View.VISIBLE);
+                    date_of_illness_TV.setVisibility(View.VISIBLE);
+                    clinicIlness_onset.setVisibility(View.VISIBLE);
+                    description_TV.setVisibility(View.VISIBLE);
+                    clinicCescription_ET.setVisibility(View.VISIBLE);
+                    weight_TV.setVisibility(View.VISIBLE);
+                    weight_ET.setVisibility(View.VISIBLE);
+                    temparature_TV.setVisibility(View.VISIBLE);
+                    clinicTemparature_ET.setVisibility(View.VISIBLE);
+                    diagnosis_TV.setVisibility(View.VISIBLE);
+                    clinicDiagnosis_ET.setVisibility(View.VISIBLE);
+                    treatment_remaks_TV.setVisibility(View.VISIBLE);
+                    treatment_remarks_LL.setVisibility(View.VISIBLE);
+                    folow_up_dt_view.setText("");
                    // vaccine_TV.setVisibility(View.GONE);
                     vaccine_layout.setVisibility(View.GONE);
+                    pet_age_TV.setVisibility(View.GONE);
 //                    vacine_ET.setVisibility(View.GONE);
                     Dewormer_TV.setVisibility(View.GONE);
                     Dewormer_ET.setVisibility(View.GONE);
@@ -1180,5 +1246,18 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         super.onResume();
         if(backPressVal==1)
             onBackPressed();
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        VaccineList.remove(position);
+        Log.e("vaccinlist_after",""+VaccineList.size());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(AddClinicActivity.this);
+        immunization_data.setLayoutManager(linearLayoutManager);
+        immunization_data.setNestedScrollingEnabled(false);
+            hospitalizationReportsAdapter = new ImmunazationVaccineAdopter(AddClinicActivity.this,AddClinicActivity.this, VaccineList);
+            immunization_data.setAdapter(hospitalizationReportsAdapter);
+            hospitalizationReportsAdapter.notifyDataSetChanged();
+
     }
 }

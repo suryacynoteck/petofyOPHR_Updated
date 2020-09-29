@@ -28,29 +28,13 @@
             android:text="Name of Vaccine"
             android:gravity="center"/>
 
-        <TextView
-            android:id="@+id/vaccine_edit"
-            android:layout_width="0dp"
-            android:layout_weight=".5"
-            android:layout_height="wrap_content"
-            android:text="edit"/>
-
-        <TextView
-            android:visibility="gone"
-            android:id="@+id/vaccine_save"
-            android:layout_width="0dp"
-            android:layout_weight=".5"
-            android:layout_height="wrap_content"
-            android:text="save"/>
-
-
-
-        <TextView
+        <ImageView
             android:id="@+id/vaccine_delete"
             android:layout_width="0dp"
-            android:layout_weight=".5"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="delete"/>
+            android:src="@drawable/ic_cancel"
+            android:gravity="center"/>
 
 
     </LinearLayout>
