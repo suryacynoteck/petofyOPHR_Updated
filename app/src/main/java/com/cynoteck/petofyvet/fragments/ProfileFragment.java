@@ -176,6 +176,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, A
                     int responseCode = Integer.parseInt(onlineAppointmentResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
                         if (status.equals("1")){
+                            Toast.makeText(getContext(), "Enable Online Appointment", Toast.LENGTH_SHORT).show();
                             SharedPreferences sharedPreferences = getActivity().getSharedPreferences("userdetails", 0);
                             SharedPreferences.Editor login_editor;
                             login_editor = sharedPreferences.edit();
@@ -184,6 +185,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, A
                             Config.user_Veterian_online ="true";
 
                         }else {
+                            Toast.makeText(getContext(), "Disable Online Appointment", Toast.LENGTH_SHORT).show();
                             SharedPreferences sharedPreferences = getActivity().getSharedPreferences("userdetails", 0);
                             SharedPreferences.Editor login_editor;
                             login_editor = sharedPreferences.edit();

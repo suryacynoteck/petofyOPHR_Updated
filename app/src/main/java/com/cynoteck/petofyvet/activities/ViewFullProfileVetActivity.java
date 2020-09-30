@@ -1,6 +1,7 @@
 package com.cynoteck.petofyvet.activities;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -35,7 +36,9 @@ import com.cynoteck.petofyvet.api.ApiService;
 import com.cynoteck.petofyvet.params.getPetListRequest.GetPetListParams;
 import com.cynoteck.petofyvet.params.getPetListRequest.GetPetListRequest;
 import com.cynoteck.petofyvet.response.addPet.imageUpload.ImageResponse;
+import com.cynoteck.petofyvet.response.getPetDetailsResponse.PetTypeList;
 import com.cynoteck.petofyvet.response.onlineAppointmentOnOff.OnlineAppointmentResponse;
+import com.cynoteck.petofyvet.response.updateProfileResponse.ServiceTypeList;
 import com.cynoteck.petofyvet.response.updateProfileResponse.UserResponse;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
@@ -51,8 +54,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -76,6 +81,15 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
     private static final String IMAGE_DIRECTORY = "/Picture";
     File catfile1 = null;
     String status;
+    ArrayList<ServiceTypeList> petService = new ArrayList<>();
+    ArrayList<PetTypeList> petType = new ArrayList<>();
+
+    List<String> petServiceText = new ArrayList<>();
+    List<String> petServiceValue = new ArrayList<>();
+
+
+    List<String> petTypeText = new ArrayList<>();
+    List<String> petTypeValue = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -359,6 +373,7 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
 
     }
 
+    @SuppressLint("NewApi")
     @Override
     public void onResponse(Response response, String key) {
         switch (key){
@@ -371,7 +386,27 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
                     int responseCode = Integer.parseInt(userResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
                         edit_image.setVisibility(View.VISIBLE);
-                        setPetType(); setServiceType(); setImages(); setInfo();
+                        setPetType();
+                        petType = userResponse.getData().getPetTypeList();
+                        for (int i =0;i<petType.size();i++) {
+                            petTypeText.add( petType.get(i).getText());
+                            petTypeValue.add(petType.get(i).getValue());
+                        }
+                        Log.e("petTypeText",petTypeText.stream().collect(Collectors.joining(",")));
+                        Log.e("petTypeValue",petTypeValue.stream().collect(Collectors.joining(",")));
+
+                        setServiceType();
+                        petService = userResponse.getData().getServiceTypeList();
+                        for (int i =0;i<petService.size();i++) {
+                            petServiceText.add( petService.get(i).getText());
+                            petServiceValue.add(petService.get(i).getValue());
+                        }
+                        Log.e("petServiceText",petServiceText.stream().collect(Collectors.joining(",")));
+                        Log.e("petServiceValue",petServiceValue.stream().collect(Collectors.joining(",")));
+
+                        setImages();
+                        setInfo();
+
                     }else if (responseCode==614){
                         Toast.makeText(this, userResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
                     }else {
@@ -410,6 +445,7 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
                     int responseCode = Integer.parseInt(onlineAppointmentResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
                         if (status.equals("1")){
+                            Toast.makeText(this, "Enable Online Appointment", Toast.LENGTH_SHORT).show();
                             SharedPreferences sharedPreferences = getSharedPreferences("userdetails", 0);
                             SharedPreferences.Editor login_editor;
                             login_editor = sharedPreferences.edit();
@@ -418,6 +454,7 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
                             Config.user_Veterian_online ="true";
 
                         }else {
+                            Toast.makeText(this, "Disable Online Appointment", Toast.LENGTH_SHORT).show();
                             SharedPreferences sharedPreferences = getSharedPreferences("userdetails", 0);
                             SharedPreferences.Editor login_editor;
                             login_editor = sharedPreferences.edit();
@@ -457,6 +494,8 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
     }
 
     private void setServiceType() {
+
+
         service_type_RV.setLayoutManager(new GridLayoutManager(this, 2));
         serviceTypeListAdpater  = new ServiceTypeListAdpater(this,userResponse.getData().getServiceTypeList());
         service_type_RV.setAdapter(serviceTypeListAdpater);
@@ -464,6 +503,15 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
     }
 
     private void setPetType() {
+//        for(int i=0; i<userResponse.getData().getServiceTypeList().size(); i++){
+//            Log.d("petttt",""+userResponse.getData().getServiceTypeList().get(i).getText());
+//            petCategory[i] = userResponse.getData().getServiceTypeList().get(i).getText();
+//            categoryHasmap.put(userResponse.getData().getServiceTypeList().get(i).getText(),userResponse.getData().getServiceTypeList().get(i).getValue());
+//        }
+//        chkItems=new boolean[petCategory.length];
+//        Log.d("CheckBox chkItems",chkItems.toString());
+//        Log.d("CheckBox petCategory ",petCategory.toString());
+//        Log.d("CheckBox Hasmap",categoryHasmap.toString());
         pet_type_RV.setLayoutManager(new GridLayoutManager(this, 2));
         petTypeListAdapter  = new PetTypeListAdapter(this,userResponse.getData().getPetTypeList());
         pet_type_RV.setAdapter(petTypeListAdapter);
@@ -515,6 +563,7 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
         Log.e("error",t.getLocalizedMessage());
     }
 
+    @SuppressLint("NewApi")
     @Override
     public void onClick(View v) {
 
@@ -575,6 +624,10 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
                 intent.putExtra("serviceImage3",userResponse.getData().getThirdServiceImageUrl());
                 intent.putExtra("serviceImage4",userResponse.getData().getFourthServiceImageUrl());
                 intent.putExtra("serviceImage5",userResponse.getData().getFirstServiceImageUrl());
+                intent.putExtra("petService",petServiceText.stream().collect(Collectors.joining(",")));
+                intent.putExtra("petServiceValue",petServiceValue.stream().collect(Collectors.joining(",")));
+                intent.putExtra("petType",petTypeText.stream().collect(Collectors.joining(",")));
+                intent.putExtra("petTypeValue",petTypeValue.stream().collect(Collectors.joining(",")));
 
 
 

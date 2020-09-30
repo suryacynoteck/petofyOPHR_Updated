@@ -106,7 +106,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="ADD NEW PETS"
+            android:text="ADD NEW PET"
             android:textColor="#fff"
             android:textSize="14sp"
             android:gravity="center"

@@ -1,5 +1,6 @@
 package com.cynoteck.petofyvet.api;
 
+import com.cynoteck.petofyvet.params.addEditImmunizationSchedule.AddEditImmunizationRequest;
 import com.cynoteck.petofyvet.params.addHospitalization.AddHospitalizationRequest;
 import com.cynoteck.petofyvet.params.addImmunizationClinic.ImmunizationClinicData;
 import com.cynoteck.petofyvet.params.addLabRequest.AddLabRequest;
@@ -18,7 +19,7 @@ import com.cynoteck.petofyvet.params.changePassRequest.ChangePassRequest;
 import com.cynoteck.petofyvet.params.checkpetInVetRegister.InPetRegisterRequest;
 import com.cynoteck.petofyvet.params.forgetPassRequest.ForgetPassRequest;
 import com.cynoteck.petofyvet.params.getPetListRequest.GetPetListRequest;
-import com.cynoteck.petofyvet.params.immunizationRequest.ImmunizationRequestt;
+import com.cynoteck.petofyvet.params.immunizationRequest.ImmunizationRequest;
 import com.cynoteck.petofyvet.params.loginRequest.Loginparams;
 import com.cynoteck.petofyvet.params.newPetEntryParams.NewPetRequest;
 import com.cynoteck.petofyvet.params.otpRequest.SendOtpRequest;
@@ -36,7 +37,9 @@ import com.cynoteck.petofyvet.params.updateRequest.getValue.UpdateRequest;
 import com.cynoteck.petofyvet.params.updateRequest.updateParamRequest.UpdatePetRequest;
 import com.cynoteck.petofyvet.params.updateXRayParams.UpdateXrayRequest;
 import com.cynoteck.petofyvet.params.workingHoursParameter.WorkingHoursParameter;
+import com.cynoteck.petofyvet.response.CheckTrueFalseStatus;
 import com.cynoteck.petofyvet.response.InPetVeterian.InPetVeterianResponse;
+import com.cynoteck.petofyvet.response.addEditImmunizationResponse.AddEditImmunizationResponse;
 import com.cynoteck.petofyvet.response.addHospitalizationResponse.AddhospitalizationResposee;
 import com.cynoteck.petofyvet.response.addImmunizationClinicResponse.ImmunizationAddResponse;
 import com.cynoteck.petofyvet.response.addLabWorkResponse.AddLabWorkResponse;
@@ -75,7 +78,8 @@ import com.cynoteck.petofyvet.response.getWorkingHoursResponse.WorkingHoursRespo
 import com.cynoteck.petofyvet.response.getXRayReports.getPetTestAndXRayResponse.GetPetTestAndXRayResponse;
 import com.cynoteck.petofyvet.response.getXRayReports.getXRayReportDetailsResponse.GetXRayReportDeatilsResponse;
 import com.cynoteck.petofyvet.response.hospitalTypeListResponse.HospitalAddmissionTypeResp;
-import com.cynoteck.petofyvet.response.immunizationVaccineType.ImmunizationVaccineResponse;
+import com.cynoteck.petofyvet.response.immunizationListResponse.ImmunizationModelResponse;
+import com.cynoteck.petofyvet.response.immunizationListResponse.ImmunizationResponse;
 import com.cynoteck.petofyvet.response.labTyperesponse.LabTypeResponse;
 import com.cynoteck.petofyvet.response.loginRegisterResponse.LoginRegisterResponse;
 import com.cynoteck.petofyvet.response.newPetResponse.NewPetRegisterResponse;
@@ -463,12 +467,29 @@ public interface ApiInterface {
     @POST("Staff/RemovePermission")
     Call<StaffPermissionResponse> removePermission(@Header("Authorization") String auth, @Body AssignRemovePermissionRequest assignRemovePermissionRequest);
 
-    //TODO====================Immunization Data=========================
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("immunization/GetVaccinationSchedule")
+    Call<ImmunizationResponse> getImmunizationList(@Header("Authorization") String auth, @Body ImmunizationRequest immunizationRequest);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
-    @POST("immunization/GetRecommendedVaccine")
-    Call<ImmunizationVaccineResponse> getRecommendedVaccine(@Header("Authorization") String auth, @Body ImmunizationRequestt immunizationRequestt);
+    @POST("immunization/GetImmunizationModel")
+    Call<ImmunizationModelResponse> getImmunizationModel(@Header("Authorization") String auth, @Body ImmunizationRequest immunizationRequest);
 
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("immunization/AddVaccinationSchedule")
+    Call<AddEditImmunizationResponse> addImmunizationSchedule(@Header("Authorization") String auth, @Body AddEditImmunizationRequest addEditImmunizationRequest);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("immunization/EditVaccinationSchedule")
+    Call<AddEditImmunizationResponse> editImmunizationSchedule(@Header("Authorization") String auth, @Body AddEditImmunizationRequest addEditImmunizationRequest);
+
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("immunization/DeleteVaccinationSchedule")
+    Call<CheckTrueFalseStatus> deleteImmunizationSchedule(@Header("Authorization") String auth, @Body ImmunizationRequest immunizationRequest);
+
+
+    //Bank Account .........................................
 
 }
 

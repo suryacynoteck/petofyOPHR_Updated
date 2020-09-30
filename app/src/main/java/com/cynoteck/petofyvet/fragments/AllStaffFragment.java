@@ -352,7 +352,7 @@ public class AllStaffFragment extends Fragment implements ApiResponse, StaffList
         addStaffRequest.setData(addStaffParams);
         ApiService<GetStaffDetailsResponse> service = new ApiService<>();
         service.get(this, ApiClient.getApiInterface().addNewStaff(Config.token, addStaffRequest), "AddStaff");
-
+        Log.e("addstaff",addStaffRequest.toString());
     }
 
     private void showAddStaffDilaog() {
@@ -484,6 +484,12 @@ public class AllStaffFragment extends Fragment implements ApiResponse, StaffList
                         mShimmerViewContainer.setVisibility(View.GONE);
                         all_staff_RV.setVisibility(View.VISIBLE);
                         Toast.makeText(getContext(), "Staff Added Successfully", Toast.LENGTH_SHORT).show();
+                    }else{
+                        getAllStaff();
+                        mShimmerViewContainer.setVisibility(View.GONE);
+                        all_staff_RV.setVisibility(View.VISIBLE);
+                        Toast.makeText(getContext(), "Something Went Wrong !", Toast.LENGTH_SHORT).show();
+
                     }
                 }
                 catch(Exception e) {

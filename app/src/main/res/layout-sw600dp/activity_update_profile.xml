@@ -105,7 +105,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edit_text_background"
                 android:gravity="center_vertical"
-                android:hint="First Name"
+                android:hint="@string/lastname"
                 android:inputType="text"
                 android:maxLines="1"
                 android:paddingLeft="25dp"
@@ -174,6 +174,34 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/phone_TV" />
 
+            <TextView
+                android:id="@+id/clinicCode_TV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/first_name_TV"
+                app:layout_constraintEnd_toEndOf="@id/first_name_TV"
+                app:layout_constraintTop_toBottomOf="@id/phone_updt"
+                android:hint="@string/clinicCode"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/grey_add_pet"/>
+
+            <EditText
+                android:id="@+id/clinicCode_updt"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edit_text_background"
+                android:gravity="center_vertical"
+                android:hint="@string/clinicCode"
+                android:inputType="text"
+                android:maxLines="1"
+                android:paddingLeft="25dp"
+                android:textColor="@color/grey_add_pet"
+                app:layout_constraintEnd_toEndOf="@id/first_name_TV"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/clinicCode_TV" />
+
 
             <TextView
                 android:id="@+id/address_TV"
@@ -181,7 +209,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="@id/first_name_TV"
                 app:layout_constraintEnd_toEndOf="@id/first_name_TV"
-                app:layout_constraintTop_toBottomOf="@id/phone_updt"
+                app:layout_constraintTop_toBottomOf="@id/clinicCode_updt"
                 android:text="@string/address"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/grey_add_pet"/>

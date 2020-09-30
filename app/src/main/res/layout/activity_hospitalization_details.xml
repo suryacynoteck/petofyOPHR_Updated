@@ -218,6 +218,8 @@
 
     </androidx.cardview.widget.CardView>
 
+
+
     <View
         app:layout_constraintTop_toBottomOf="@+id/petInfo_CV"
         app:layout_constraintStart_toStartOf="parent"
@@ -229,6 +231,7 @@
 
 
     <androidx.cardview.widget.CardView
+        android:visibility="gone"
         android:id="@+id/card_view"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
@@ -599,9 +602,20 @@
 
 
     </androidx.cardview.widget.CardView>
-
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view_green_line"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
+        android:visibility="gone"
         android:id="@+id/deleteReport_BT"
         android:text="@string/DeleteReport"
         android:textColor="@color/whiteColor"

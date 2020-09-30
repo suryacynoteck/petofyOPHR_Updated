@@ -8,10 +8,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.api.ApiClient;
@@ -33,8 +35,9 @@ public class HospitalizationDetailsActivity extends AppCompatActivity implements
     ImageView back_arrow_IV;
     TextView pet_name_TV,pet_sex_TV,pet_id_TV,pet_owner_name_TV,pet_owner_phone_no_TV;
     String pet_unique_id, pet_name,pet_sex, pet_owner_name,pet_owner_contact,pet_id ,report_type_id,type;
-
+    ProgressBar progressBar;
     Methods methods;
+    CardView card_view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +61,8 @@ public class HospitalizationDetailsActivity extends AppCompatActivity implements
     }
 
     private void init() {
-
+        card_view = findViewById(R.id.card_view);
+        progressBar = findViewById(R.id.progressBar);
         vet_name_textView = findViewById(R.id.vet_name_textView);
         requesting_contact_textView = findViewById(R.id.requesting_contact_textView);
         hospital_type_textView = findViewById(R.id.hospital_type_textView);
@@ -167,6 +171,9 @@ public class HospitalizationDetailsActivity extends AppCompatActivity implements
                     GetHospitalizationDeatilsResponse getHospitalizationDeatilsResponse = (GetHospitalizationDeatilsResponse) response.body();
                     int responseCode = Integer.parseInt(getHospitalizationDeatilsResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
+                        progressBar.setVisibility(View.GONE);
+                        card_view.setVisibility(View.VISIBLE);
+                        deleteReport_BT.setVisibility(View.VISIBLE);
                         vet_name_textView.setText(getHospitalizationDeatilsResponse.getData().getRequestingVeterinarian());
                         requesting_contact_textView.setText(getHospitalizationDeatilsResponse.getData().getVeterinarianPhone());
                         hospital_type_textView.setText(getHospitalizationDeatilsResponse.getData().getHospitalizationType().getHospitalization());
