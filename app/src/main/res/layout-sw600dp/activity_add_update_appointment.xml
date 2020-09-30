@@ -131,6 +131,19 @@
                 android:layout_marginTop="10dp"
                 android:layout_width="0dp"
                 android:background="@drawable/edit_text_background"/>
+
+            <ImageView
+                app:layout_constraintEnd_toEndOf="@id/pet_parent_ACTV"
+                app:layout_constraintTop_toTopOf="@id/pet_parent_ACTV"
+                app:layout_constraintBottom_toBottomOf="@id/pet_parent_ACTV"
+                android:visibility="visible"
+                android:id="@+id/new_pet_search"
+                android:layout_margin="5dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="10dp"
+                android:padding="10dp"
+                android:src="@drawable/searchicon" />
             <TextView
                 android:visibility="gone"
                 android:gravity="center_vertical"

@@ -9,10 +9,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.api.ApiClient;
@@ -36,6 +38,8 @@ public class ViewReportsDeatilsActivity extends AppCompatActivity implements Api
     String pet_unique_id, pet_name,pet_sex, pet_owner_name,pet_owner_contact,pet_id ,report_type_id;
     TextView pet_name_TV,pet_sex_TV,pet_id_TV,pet_owner_name_TV,pet_owner_phone_no_TV;
     Methods methods;
+    ProgressBar progressBar;
+    CardView card_view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,8 +86,8 @@ public class ViewReportsDeatilsActivity extends AppCompatActivity implements Api
         pet_unique_id = extras.getExtras().getString("pet_unique_id");
         report_type_id=extras.getExtras().getString("id");
 
-
-
+        card_view = findViewById(R.id.card_view);
+        progressBar = findViewById(R.id.progressBar);
         deleteReport_BT=findViewById(R.id.deleteReport_BT);
         vet_name_textView=findViewById(R.id.vet_name_textView);
         visit_date_textView=findViewById(R.id.visit_date_textView);
@@ -115,6 +119,9 @@ public class ViewReportsDeatilsActivity extends AppCompatActivity implements Api
                     GetClinicVisitsDetailsResponse getClinicVisitsDetailsResponse = (GetClinicVisitsDetailsResponse) response.body();
                     int responseCode = Integer.parseInt(getClinicVisitsDetailsResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
+                        deleteReport_BT.setVisibility(View.VISIBLE);
+                        progressBar.setVisibility(View.GONE);
+                        card_view.setVisibility(View.VISIBLE);
                         vet_name_textView.setText(getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getVeterinarian());
                         visit_date_textView.setText(getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getVisitDate());
                         nature_ofVist_textView.setText(getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getNatureOfVisit().getNature());

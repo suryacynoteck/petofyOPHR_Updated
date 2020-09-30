@@ -1,8 +1,11 @@
 package com.cynoteck.petofyvet.activities;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -37,18 +41,29 @@ import com.cynoteck.petofyvet.params.appointmentParams.CreateAppointParams;
 import com.cynoteck.petofyvet.params.appointmentParams.CreateAppointRequest;
 import com.cynoteck.petofyvet.params.appointmentParams.UpdateAppointmentParams;
 import com.cynoteck.petofyvet.params.appointmentParams.UpdateAppointmentRequest;
+import com.cynoteck.petofyvet.params.checkpetInVetRegister.InPetRegisterRequest;
+import com.cynoteck.petofyvet.params.checkpetInVetRegister.InPetregisterParams;
 import com.cynoteck.petofyvet.params.getPetListRequest.GetPetListParams;
 import com.cynoteck.petofyvet.params.getPetListRequest.GetPetListRequest;
+import com.cynoteck.petofyvet.params.newPetEntryParams.NewPetParams;
+import com.cynoteck.petofyvet.params.newPetEntryParams.NewPetRequest;
+import com.cynoteck.petofyvet.params.otpRequest.SendOtpParameter;
+import com.cynoteck.petofyvet.params.otpRequest.SendOtpRequest;
 import com.cynoteck.petofyvet.params.petReportsRequest.PetDataParams;
 import com.cynoteck.petofyvet.params.petReportsRequest.PetDataRequest;
+import com.cynoteck.petofyvet.response.InPetVeterian.InPetVeterianResponse;
 import com.cynoteck.petofyvet.response.appointmentResponse.AppointmentDetailsResponse;
 import com.cynoteck.petofyvet.response.appointmentResponse.CreateAppointmentResponse;
 import com.cynoteck.petofyvet.response.getPetParentResponse.GetPetParentListData;
 import com.cynoteck.petofyvet.response.getPetParentResponse.GetPetParentResponse;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.getPetListResponse.GetPetListResponse;
+import com.cynoteck.petofyvet.response.newPetResponse.NewPetRegisterResponse;
+import com.cynoteck.petofyvet.response.otpResponse.OtpResponse;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
 import com.cynoteck.petofyvet.utils.RegisterRecyclerViewClickListener;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -59,20 +74,23 @@ import retrofit2.Response;
 
 public class AddUpdateAppointmentActivity extends AppCompatActivity implements ApiResponse, View.OnClickListener, RegisterRecyclerViewClickListener, TextWatcher {
     Button create_appointment_BT;
-    ImageView appointment_headline_back,add_new_pet;
-    TextView appointment_headline ,calenderTextViewAppointDt ,time_TV,parent_TV;
+    ImageView appointment_headline_back,add_new_pet,new_pet_search;
+    TextView appointment_headline ,calenderTextViewAppointDt ,time_TV,parent_TV,cancelOtpDialog;
     EditText title_ET, duration_TV, description_ET;
     AutoCompleteTextView pet_parent_TV;
     Methods methods;
     ArrayList<GetPetParentListData> petParent = new ArrayList<>();
     PetParentAdapter petParentAdapter;
     Dialog petParentDilog;
-    String petName="",petSex="",petAge="",petId="",id="",appointmentID="",userID="", type="", titleString="",descriptionString="",dateString="",timeString ="",durationString="",petParentString="", petUniqueID="";
+    String strResponseOtp="",petParentContactNumber="",petName="",petSex="",petAge="",petId="",id="",appointmentID="",userID="", type="", titleString="",descriptionString="",dateString="",timeString ="",durationString="",petParentString="", petUniqueID="";
     DatePickerDialog picker;
     TimePicker timePicker;
     ArrayList<String> petUniueId=null;
     HashMap<String,String> petExistingSearch;
-
+    Dialog otpDialog;
+    TextInputLayout mobile_numberTL,otp_TL;
+    TextInputEditText pet_parent_mobile_number, pet_parent_otp;
+    Button submit_parent_otp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -144,8 +162,8 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
 //        search_boxRL.setVisibility(View.GONE);
 //        back_arrow_IV_new_entry.setVisibility(View.GONE);
 //        staff_headline_TV.setVisibility(View.VISIBLE);
-//        InputMethodManager imm1 = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-//        imm1.hideSoftInputFromWindow(search_box_add_new.getWindowToken(), 0);
+//        InputMethodManager imm1 = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+//        imm1.hideSoftInputFromWindow(pet_parent_TV.getWindowToken(), 0);
 //
 //    }
 
@@ -178,8 +196,10 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
         create_appointment_BT=findViewById(R.id.create_appointment_BT);
         parent_TV = findViewById(R.id.parent_TV);
         add_new_pet=findViewById(R.id.add_new_pet);
+        new_pet_search= findViewById(R.id.new_pet_search);
 
         add_new_pet.setOnClickListener(this);
+        new_pet_search.setOnClickListener(this);
         appointment_headline_back.setOnClickListener(this);
         create_appointment_BT.setOnClickListener(this);
         calenderTextViewAppointDt.setOnClickListener(this);
@@ -192,6 +212,111 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
     public void onClick(View v) {
 
         switch (v.getId()){
+            case R.id.submit_parent_otp:
+                String otp=pet_parent_otp.getText().toString();
+                if(otp.isEmpty())
+                {
+                    pet_parent_otp.setError("Enter Correct OTP");
+                }
+                else if(!otp.equals(strResponseOtp))
+                {
+                    pet_parent_otp.setError("Enter Wrong OTP");
+                }
+                else
+                {
+                    pet_parent_otp.setError(null);
+                    NewPetRequest newPetRequest = new NewPetRequest();
+                    NewPetParams data = new NewPetParams();
+                    data.setId(petId);
+                    newPetRequest.setData(data);
+                    if (methods.isInternetOn()) {
+                        addNewRegisterPet(newPetRequest);
+                    } else {
+                        methods.DialogInternet();
+                    }
+                }
+                break;
+
+            case R.id.cancelOtpDialog:
+                otpDialog.dismiss();
+                break;
+            case R.id.new_pet_search:
+                Log.d("hahahhahah",""+petUniueId.contains(pet_parent_TV.getText().toString()));
+                String petoUniqueIdSplit = pet_parent_TV.getText().toString().substring(0,4);
+                Log.d("petoUniqueIdSplit",""+petoUniqueIdSplit);
+                if(petoUniqueIdSplit.equals("PETO"))
+                {
+                    if(petUniueId.contains(pet_parent_TV.getText().toString())==true)
+                    {
+//                        search_boxRL.setVisibility(View.VISIBLE);
+//                        staff_headline_TV.setVisibility(View.GONE);
+                        InputMethodManager imm1 = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm1.hideSoftInputFromWindow(pet_parent_TV.getWindowToken(), 0);
+//                        back_arrow_IV_new_entry.setVisibility(View.VISIBLE);
+                        String value=petExistingSearch.get(pet_parent_TV.getText().toString());
+                        Log.d("kakakka",""+value);
+                        StringTokenizer st = new StringTokenizer(value, ",");
+                        String PetUniqueId = st.nextToken();
+                        String PetName = st.nextToken();
+                        String PetParentName = st.nextToken();
+                        String PetSex = st.nextToken();
+                        String petAge = st.nextToken();
+                        String Id = st.nextToken();
+                        Log.d("ppppp",""+PetUniqueId+" "+PetName+" "+PetParentName+" "+PetSex+" "+petAge+" "+Id);
+                        Intent petDetailsIntent = new Intent(this.getApplication(), PetDetailsActivity.class);
+                        Bundle data = new Bundle();
+                        data.putString("pet_id",Id);
+                        data.putString("pet_name",PetName);
+                        data.putString("pet_parent",PetParentName);
+                        data.putString("pet_sex",PetSex);
+                        data.putString("pet_age",petAge);
+                        data.putString("pet_unique_id",PetUniqueId);
+                        petDetailsIntent.putExtras(data);
+                        startActivity(petDetailsIntent);
+                    }
+                    else
+                    {
+                        Log.d("Add Anotheer Veterian","vet");
+                        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+                        alertDialog.setTitle("Are you sure?");
+                        alertDialog.setMessage("This pet is not registered with you. Do you want to add ?");
+                        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        InPetRegisterRequest inPetRegisterRequest = new InPetRegisterRequest();
+                                        InPetregisterParams inPetregisterParams = new InPetregisterParams();
+                                        Log.d("kkakakka",""+pet_parent_TV.getText().toString());
+                                        inPetregisterParams.setUniqueId(pet_parent_TV.getText().toString());
+                                        inPetRegisterRequest.setData(inPetregisterParams);
+                                        if (methods.isInternetOn()) {
+                                            chkVetInregister(inPetRegisterRequest);
+                                            clearSearch();
+                                        } else {
+                                            methods.DialogInternet();
+                                        }
+                                        dialog.dismiss();
+                                    }
+                                });
+                        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                });
+                        alertDialog.show();
+                    }
+                }
+                else{
+                    pet_parent_TV.requestFocus();
+//                    search_boxRL.setVisibility(View.VISIBLE);
+//                    staff_headline_TV.setVisibility(View.GONE);
+                    InputMethodManager imm1 = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm1.showSoftInput(pet_parent_TV, InputMethodManager.SHOW_IMPLICIT);
+//                    back_arrow_IV_new_entry.setVisibility(View.VISIBLE);
+                }
+                
+                break;
 
             case R.id.add_new_pet:
                 Intent adNewIntent = new Intent(this,AddNewPetActivity.class);
@@ -326,6 +451,16 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
         }
 
     }
+
+    private void clearSearch() {
+        pet_parent_TV.getText().clear();
+//        search_boxRL.setVisibility(View.GONE);
+//        back_arrow_IV_new_entry.setVisibility(View.GONE);
+//        staff_headline_TV.setVisibility(View.VISIBLE);
+        InputMethodManager imm1 = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm1.hideSoftInputFromWindow(pet_parent_TV.getWindowToken(), 0);
+    }
+
     private void getAppointmentDeatils(GetPetListRequest id) {
         ApiService<AppointmentDetailsResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().getAppointmentsDetails(Config.token,id), "GetAppointmentDetails");
@@ -348,7 +483,23 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
         ApiService<CreateAppointmentResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().createAppointment(Config.token,createAppointRequest), "CreateAppointment");
     }
+    private void chkVetInregister(InPetRegisterRequest inPetRegisterRequest) {
+        ApiService<InPetVeterianResponse> service = new ApiService<>();
+        service.get( this, ApiClient.getApiInterface().checkPetInVetRegister(Config.token,inPetRegisterRequest), "CheckPetInVetRegister");
+        Log.e("DATALOG","check1=> "+inPetRegisterRequest);
+    }
 
+    private void sendotpUsingMobileNumber(SendOtpRequest sendOtpRequest) {
+        ApiService<OtpResponse> service = new ApiService<>();
+        service.get( this, ApiClient.getApiInterface().senOtp(Config.token,sendOtpRequest), "SendOtp");
+        Log.e("DATALOG","check1=> "+sendOtpRequest);
+    }
+
+    private void addNewRegisterPet(NewPetRequest newPetRequest) {
+        ApiService<NewPetRegisterResponse> service = new ApiService<>();
+        service.get( this, ApiClient.getApiInterface().addPetToRegister(Config.token,newPetRequest), "AddPetToRegister");
+        Log.e("DATALOG","check1=> "+newPetRequest);
+    }
     private void openParentDiloag() {
 
         petParentDilog = new Dialog(this);
@@ -387,6 +538,7 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
                 parent_TV.setVisibility(View.VISIBLE);
                 petId = data.getStringExtra("petId");
                 userID = data.getStringExtra("userId");
+                Log.d("userId",userID.toString());
                 petUniqueID = data.getStringExtra("uniqueId");
                 petParentString = data.getStringExtra("parent");
                 petSex= data.getStringExtra("sex");
@@ -522,6 +674,100 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
                 catch(Exception e) {
                     e.printStackTrace();
                 }
+                
+                break;
+
+            case "CheckPetInVetRegister":
+                try {
+                    Log.d("CheckPetInVetRegister",arg0.body().toString());
+                    InPetVeterianResponse inPetVeterianResponse = (InPetVeterianResponse) arg0.body();
+                    int responseCode = Integer.parseInt(inPetVeterianResponse.getResponse().getResponseCode());
+                    if (responseCode== 109){
+                        if(!inPetVeterianResponse.getData().getPetId().equals("0"))
+                        {
+                            petId=inPetVeterianResponse.getData().getPetId();
+                            petParentContactNumber=inPetVeterianResponse.getData().getPetParentContactNumber();
+                            String actualNumber=petParentContactNumber.replaceAll("-", "");
+                            SendOtpRequest sendOtpRequest = new SendOtpRequest();
+                            SendOtpParameter data = new SendOtpParameter();
+                            data.setPhoneNumber(actualNumber);
+                            data.setEmailId("");
+                            sendOtpRequest.setData(data);
+                            if (methods.isInternetOn()) {
+                                sendotpUsingMobileNumber(sendOtpRequest);
+                            } else {
+                                methods.DialogInternet();
+                            }
+                        }
+                        else
+                        {
+                            Toast.makeText(this, "Invalid pet unique Id", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }else if (responseCode==614){
+                        Toast.makeText(this, inPetVeterianResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "SendOtp":
+                try {
+                    Log.d("SendOtp",arg0.body().toString());
+                    OtpResponse otpResponse = (OtpResponse) arg0.body();
+                    int responseCode = Integer.parseInt(otpResponse.getResponse().getResponseCode());
+                    if (responseCode== 109){
+                        if(otpResponse.getData().getSuccess().equals("true"))
+                        {
+                            strResponseOtp=otpResponse.getData().getOtp();
+                            otpDialog();
+                        }
+                        else
+                        {
+                            Toast.makeText(this, "Invalid Mobile Number", Toast.LENGTH_SHORT).show();
+                        }
+                    }else if (responseCode==614){
+                        Toast.makeText(this, otpResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+
+            case "AddPetToRegister":
+                try {
+                    Log.d("SendOtp",arg0.body().toString());
+                    NewPetRegisterResponse newPetRegisterResponse = (NewPetRegisterResponse) arg0.body();
+                    int responseCode = Integer.parseInt(newPetRegisterResponse.getResponse().getResponseCode());
+                    if (responseCode== 109){
+                        otpDialog.dismiss();
+                        Toast.makeText(this, "success", Toast.LENGTH_SHORT).show();
+                        String sexName="";
+                        if(newPetRegisterResponse.getData().getSexId().equals("2.0"))
+                            sexName="Female";
+                        else
+                            sexName="Male";
+                        getPetList();
+                        pet_parent_TV.setText(newPetRegisterResponse.getData().getPetUniqueId()+":-"+newPetRegisterResponse.getData().getPetName()+"("+sexName+","+newPetRegisterResponse.getData().getPetParentName()+")");
+                        userID = newPetRegisterResponse.getData().getUserId();
+                        petId = newPetRegisterResponse.getData().getId();
+
+                    }else if (responseCode==614){
+                        Toast.makeText(this, newPetRegisterResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+                break;
         }
     }
 
@@ -552,6 +798,32 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
         userID=petParent.get(position).getUserId();
 //        pet_parent_TV.setText(petParent.get(position).getFirstName()+" "+petParent.get(position).getLastName());
 
+
+    }
+    public void otpDialog()
+    {
+        otpDialog=new Dialog(this);
+        otpDialog.setContentView(R.layout.otp_layout);
+
+        otp_TL=otpDialog.findViewById(R.id.otp_TL);
+        pet_parent_otp=otpDialog.findViewById(R.id.pet_parent_otp);
+        submit_parent_otp=otpDialog.findViewById(R.id.submit_parent_otp);
+        cancelOtpDialog=otpDialog.findViewById(R.id.cancelOtpDialog);
+
+        submit_parent_otp.setOnClickListener(this);
+        cancelOtpDialog.setOnClickListener(this);
+
+
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = otpDialog.getWindow();
+        lp.copyFrom(window.getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+        window.setAttributes(lp);
+        otpDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        otpDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        otpDialog.show();
 
     }
 }

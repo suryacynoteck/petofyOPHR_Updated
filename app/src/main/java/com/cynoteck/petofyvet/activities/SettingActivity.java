@@ -1,5 +1,6 @@
 package com.cynoteck.petofyvet.activities;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,7 +26,7 @@ import retrofit2.Response;
 
 public class SettingActivity extends AppCompatActivity implements ApiResponse, View.OnClickListener {
     ImageView back_arrow_IV;
-    TextView two_fact_auth_TV;
+    TextView two_fact_auth_TV,immunization_chart_TV;
     SwitchCompat two_fact_auth_SC;
     String status="";
 
@@ -36,6 +37,8 @@ public class SettingActivity extends AppCompatActivity implements ApiResponse, V
         back_arrow_IV = findViewById(R.id.back_arrow_IV);
         two_fact_auth_SC =findViewById(R.id.two_fact_auth_SC);
         two_fact_auth_TV=findViewById(R.id.two_fact_auth_TV);
+        immunization_chart_TV = findViewById(R.id.immunization_chart_TV);
+        immunization_chart_TV.setOnClickListener(this);
         back_arrow_IV.setOnClickListener(this);
         setTwoFactData();
         switchOnline();
@@ -118,6 +121,7 @@ public class SettingActivity extends AppCompatActivity implements ApiResponse, V
                         Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
                     }
                 }
+
                 catch(Exception e) {
                     e.printStackTrace();
                 }
@@ -138,6 +142,11 @@ public class SettingActivity extends AppCompatActivity implements ApiResponse, V
             onBackPressed();
 
             break;
+
+            case R.id.immunization_chart_TV:
+                Intent intent = new Intent(this,ImmunizationChartActivity.class);
+                startActivity(intent);
+                break;
         }
     }
 }

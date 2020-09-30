@@ -72,7 +72,7 @@
     <string name="recentVisits">Recent Visits</string>
     <string name="printIdCard">Print Id Card</string>
     <string name="view_history">View History</string>
-    <string name="addNewVisits">ADD NEW VISITS</string>
+    <string name="addNewVisits">ADD NEW VISIT</string>
     <string name="pet_category">Pet Category</string>
     <string name="pet_name">Pet Name</string>
     <string name="veterinarian">Veterinarian*</string>
@@ -150,5 +150,25 @@
     <string name="fcm_token">FCM Token: %s</string>
     <string name="Editprofile">Edit Profile</string>
     <string name="LastPrescription">Last Prescription</string>
+    <string name="immunization">Immunization Schedule</string>
+    <string name="createNew">CREATE NEW</string>
+    <string name="primaryVaccineName">Primary Vaccine Name</string>
+    <string name="ageGroup">Age Group</string>
+    <string name="immunizationChart">Immunization Schedule</string>
+    <string name="createImmue">Create Immunization</string>
+    <string name="serialNumber">Serial Number</string>
+    <string name="age_unit">Age Unit</string>
+    <string name="miniAge">Minimum Age</string>
+    <string name="maxAge">Maximun Age</string>
+    <string name="boosterone">Booster One</string>
+    <string name="boostertwo">Booster Two</string>
+    <string name="isperiodicvaccine">Is Periodic Vaccine</string>
+    <string name="VaccinationPeriod">Vaccination Period</string>
+    <string name="boosterOneGap">Days gap between Primary and First Booster</string>
+    <string name="boosterTwoGap">Days gap between Primary and IInd Booster</string>
+    <string name="BankAccount">Bank Account Details</string>
+    <string name="ifsc">IFSC</string>
+    <string name="accountNumber">Account Number</string>
+    <string name="clinicCode">Clinic Code</string>
 
 </resources>

@@ -68,7 +68,7 @@ import retrofit2.Response;
 
 public class UpdateProfileActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse {
     EditText first_name_updt,last_name_updt,email_updt,phone_updt,address_updt,
-            postal_code_updt,website_updt,social_media_url_updt,registration_num_updt,
+            postal_code_updt,website_updt,social_media_url_updt,registration_num_updt,clinicCode_updt,
             vet_qualification_updt;
     AppCompatSpinner country_spnr_updt,state_spnr_updt,city_spnr_updt;
     Button update_profile;
@@ -127,7 +127,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
             strWbUpdt="",strSoclMdUelUpdt="",strRegistNumUpdt="",strVetQulafctnUpdt="",strPetCatUpdt="",
             strSrvcCatUpdt="",strContrySpnr="",strStateSpnr="",strCitySpnr="",strCountryId="",strStringCityId="",
             strStateId="",strCatId="",strSrvsCatId="",strCatUrl1="",strCatUrl2="",strSrvsUrl1="",strSrvsUrl2,
-            strSrvsUrl3,strSrvsUrl4,strSrvsUrl5;
+            strSrvsUrl3,strSrvsUrl4,strSrvsUrl5,strClinicCode,intentService="",intentType="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,6 +157,10 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
         strSrvsUrl3 = intent.getStringExtra("serviceImage3");
         strSrvsUrl4 = intent.getStringExtra("serviceImage4");
         strSrvsUrl5 = intent.getStringExtra("serviceImage5");
+        intentService = intent.getStringExtra("petService");
+        intentType = intent.getStringExtra("petType");
+        strCatId = intent.getStringExtra("petTypeValue");
+        strSrvsCatId = intent.getStringExtra("petTypeValue");
 
         init();
         setImages();
@@ -249,6 +253,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
         social_media_url_updt=findViewById(R.id.social_media_url_updt);
         registration_num_updt=findViewById(R.id.registration_num_updt);
         vet_qualification_updt=findViewById(R.id.vet_qualification_updt);
+        clinicCode_updt=findViewById(R.id.clinicCode_updt);
 
         //Spinner
         country_spnr_updt=findViewById(R.id.country_spnr_updt);
@@ -282,6 +287,9 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
         update_profile.setOnClickListener(this);
         select_Category.setOnClickListener(this);
         select_service_Category.setOnClickListener(this);
+
+        select_service_Category.setText(intentService);
+        select_Category.setText(intentType);
 
     }
 
@@ -317,6 +325,8 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                 strVetQulafctnUpdt = vet_qualification_updt.getText().toString().trim();
                 strPetCatUpdt = select_Category.getText().toString().trim();
                 strSrvcCatUpdt = select_service_Category.getText().toString().trim();
+                strClinicCode = clinicCode_updt.getText().toString().trim();
+
 
 
 
@@ -540,8 +550,8 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     data.setStateId(strStateId);
                     data.setCountryId(strCountryId);
                     data.setPostalCode(strPostlUpdt);
-                    data.setSelectedPetTypeIds(methods.removeLastElement(strCatId));
-                    data.setSelectedServiceTypeIds(methods.removeLastElement(strSrvsCatId));
+                    data.setSelectedPetTypeIds(strCatId);
+                    data.setSelectedServiceTypeIds(strSrvsCatId);
                     data.setProfileImageUrl(Config.user_Veterian_url);
                     data.setServiceImageUrl("");
                     data.setFirstServiceImageUrl(strSrvsUrl1);
@@ -553,6 +563,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     data.setIsVeterinarian("true");
                     data.setVetQualifications(strVetQulafctnUpdt);
                     data.setVetRegistrationNumber(strRegistNumUpdt);
+                    data.setClinicCode(strClinicCode);
 
 //                    data.setId(id);
 //                    data.setFirstName("aviral");
@@ -630,7 +641,8 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                                 item=item+", ";
                                 strCatId=strCatId+",";
                             }
-                        }
+                        }strCatId =methods.removeLastElement(strCatId);
+                    Log.e("hhhhhh",strCatId);
                         //Log.d("Selected_item_category",""+item);
                         if(item.equals(""))
                         {
@@ -695,7 +707,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                                 item=item+", ";
                                 strSrvsCatId=strSrvsCatId+",";
                             }
-                        }
+                        }strSrvsCatId =methods.removeLastElement(strSrvsCatId);
                         Log.d("Selected_item_category",""+item);
                         if(item.equals("")){
                             select_service_Category.setText("Set Services");

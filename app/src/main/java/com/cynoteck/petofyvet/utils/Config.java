@@ -24,6 +24,7 @@ public class Config {
     public static String user_Veterian_url="";
     public static String user_Veterian_details="";
     public static String two_fact_auth_status="";
+    public static String pet_type_for_immue="";
 
     public static String type="";
     public static String backCall="";

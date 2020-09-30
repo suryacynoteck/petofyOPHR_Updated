@@ -14,7 +14,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
@@ -24,7 +23,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.activities.SelectPetReportsActivity;
 import com.cynoteck.petofyvet.adapters.ReportsAdapter;
-import com.cynoteck.petofyvet.utils.RegisterRecyclerViewClickListener;
 import com.cynoteck.petofyvet.api.ApiClient;
 import com.cynoteck.petofyvet.api.ApiResponse;
 import com.cynoteck.petofyvet.api.ApiService;
@@ -34,6 +32,7 @@ import com.cynoteck.petofyvet.response.getPetReportsResponse.getPetListResponse.
 import com.cynoteck.petofyvet.response.getPetReportsResponse.getPetListResponse.PetList;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
+import com.cynoteck.petofyvet.utils.RegisterRecyclerViewClickListener;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.ArrayList;
@@ -153,7 +152,7 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
         categoryRecordArrayList.get(position).getPetUniqueId();
         Intent selectReportsIntent = new Intent(getActivity().getApplication(), SelectPetReportsActivity.class);
         Bundle data = new Bundle();
-        Toast.makeText(getContext(), ""+categoryRecordArrayList.get(position).getId(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), ""+categoryRecordArrayList.get(position).getId(), Toast.LENGTH_SHORT).show();
         data.putString("pet_id",categoryRecordArrayList.get(position).getId());
         data.putString("pet_name",categoryRecordArrayList.get(position).getPetName());
         data.putString("pet_unique_id",categoryRecordArrayList.get(position).getPetUniqueId());
