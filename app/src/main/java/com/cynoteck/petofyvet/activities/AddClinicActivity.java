@@ -1176,17 +1176,17 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     int responseCode = Integer.parseInt(immunizationVaccineResponse.getResponse().getResponseCode());
                     vaccineTypeList=new ArrayList<>();
                     vaccineTypeList.add("Select Vaccine Type");
-                    vaccineTypeList.add("Primary");
+                    /*vaccineTypeList.add("Primary");
                     vaccineTypeList.add("BoosterOne");
                     vaccineTypeList.add("BoosterTwo");
-                    vaccineTypeList.add("Periodic");
+                    vaccineTypeList.add("Periodic");*/
                     vaccineNameList=new ArrayList<>();
                     vaccineNameList.add("Select Vaccine Name");
-                    vaccineNameList.add("abc");
+                   /* vaccineNameList.add("abc");
                     vaccineNameList.add("Puppy DP");
                     vaccineNameList.add("CCV");
                     vaccineNameList.add("DHLPPA");
-                    vaccineNameList.add("CKC");
+                    vaccineNameList.add("CKC");*/
                     if (responseCode == 109) {
                         strNextVisitDate=immunizationVaccineResponse.getData().getNextVisitDate();
                         strPetAge=immunizationVaccineResponse.getData().getAge();
