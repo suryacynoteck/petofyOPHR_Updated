@@ -114,7 +114,7 @@
                     android:textColor="@color/colorPrimary"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    />
+                     />
 
                 <TextView
                     android:id="@+id/pet_age_TV"
@@ -128,7 +128,7 @@
                     android:textStyle="bold"
                     android:visibility="gone"
                     android:layout_marginTop="10dp"
-                    />
+                />
             </LinearLayout>
 
 
@@ -363,35 +363,35 @@
                 app:layout_constraintTop_toBottomOf="@id/ilness_onset"
                 android:orientation="vertical">
 
-                <!-- <TextView
-                     android:visibility="gone"
-                     android:id="@+id/vaccine_TV"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:layout_marginLeft="20dp"
-                     android:layout_marginTop="10dp"
-                     android:gravity="center_vertical"
-                     android:text="Vaccine*"
-                     android:textColor="@color/grey_add_pet"/>
+               <!-- <TextView
+                    android:visibility="gone"
+                    android:id="@+id/vaccine_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical"
+                    android:text="Vaccine*"
+                    android:textColor="@color/grey_add_pet"/>
 
-                 <EditText
-                     android:visibility="gone"
-                     android:id="@+id/vacine_ET"
-                     android:layout_width="match_parent"
-                     android:layout_height="50dp"
-                     android:layout_marginLeft="20dp"
-                     android:layout_marginTop="10dp"
-                     android:layout_marginRight="20dp"
-                     android:gravity="center_vertical"
-                     android:inputType="text"
-                     android:background="@drawable/edit_text_background"
-                     android:hint="Vaccine"
-                     android:paddingLeft="25dp"
-                     app:layout_constraintEnd_toEndOf="parent"
-                     app:layout_constraintStart_toStartOf="parent"
-                     app:layout_constraintTop_toBottomOf="@id/vaccine_TV" />
+                <EditText
+                    android:visibility="gone"
+                    android:id="@+id/vacine_ET"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:gravity="center_vertical"
+                    android:inputType="text"
+                    android:background="@drawable/edit_text_background"
+                    android:hint="Vaccine"
+                    android:paddingLeft="25dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/vaccine_TV" />
 
- -->
+-->
 
                 <Button
                     android:id="@+id/add_immunization_data"

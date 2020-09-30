@@ -113,9 +113,9 @@ public class LoginRegisterResponseData
     }
 
     public String getZipCode ()
-{
-    return zipCode;
-}
+    {
+        return zipCode;
+    }
 
     public void setZipCode (String zipCode)
     {
@@ -133,9 +133,9 @@ public class LoginRegisterResponseData
     }
 
     public String getProviderLastName ()
-{
-    return providerLastName;
-}
+    {
+        return providerLastName;
+    }
 
     public void setProviderLastName (String providerLastName)
     {
@@ -143,9 +143,9 @@ public class LoginRegisterResponseData
     }
 
     public String getProviderPhoneNumber ()
-{
-    return providerPhoneNumber;
-}
+    {
+        return providerPhoneNumber;
+    }
 
     public void setProviderPhoneNumber (String providerPhoneNumber)
     {
@@ -223,9 +223,9 @@ public class LoginRegisterResponseData
     }
 
     public String getCustomerEmail ()
-{
-    return customerEmail;
-}
+    {
+        return customerEmail;
+    }
 
     public void setCustomerEmail (String customerEmail)
     {
@@ -233,9 +233,9 @@ public class LoginRegisterResponseData
     }
 
     public String getConfirmPassword ()
-{
-    return confirmPassword;
-}
+    {
+        return confirmPassword;
+    }
 
     public void setConfirmPassword (String confirmPassword)
     {
@@ -243,9 +243,9 @@ public class LoginRegisterResponseData
     }
 
     public String getUserSalt ()
-{
-    return userSalt;
-}
+    {
+        return userSalt;
+    }
 
     public void setUserSalt (String userSalt)
     {
@@ -283,9 +283,9 @@ public class LoginRegisterResponseData
     }
 
     public String getPetParentConfirmPassword ()
-{
-    return petParentConfirmPassword;
-}
+    {
+        return petParentConfirmPassword;
+    }
 
     public void setPetParentConfirmPassword (String petParentConfirmPassword)
     {
@@ -323,9 +323,9 @@ public class LoginRegisterResponseData
     }
 
     public String getFullName ()
-{
-    return fullName;
-}
+    {
+        return fullName;
+    }
 
     public void setFullName (String fullName)
     {
@@ -343,9 +343,9 @@ public class LoginRegisterResponseData
     }
 
     public String getGuestEmail ()
-{
-    return guestEmail;
-}
+    {
+        return guestEmail;
+    }
 
     public void setGuestEmail (String guestEmail)
     {
@@ -363,9 +363,9 @@ public class LoginRegisterResponseData
     }
 
     public String getPetParentPassword ()
-{
-    return petParentPassword;
-}
+    {
+        return petParentPassword;
+    }
 
     public void setPetParentPassword (String petParentPassword)
     {
@@ -373,9 +373,9 @@ public class LoginRegisterResponseData
     }
 
     public String getForgotPasswordEmail ()
-{
-    return forgotPasswordEmail;
-}
+    {
+        return forgotPasswordEmail;
+    }
 
     public void setForgotPasswordEmail (String forgotPasswordEmail)
     {
@@ -413,9 +413,9 @@ public class LoginRegisterResponseData
     }
 
     public String getLocationList ()
-{
-    return locationList;
-}
+    {
+        return locationList;
+    }
 
     public void setLocationList (String locationList)
     {
@@ -423,9 +423,9 @@ public class LoginRegisterResponseData
     }
 
     public String getProviderConfirmPassword ()
-{
-    return providerConfirmPassword;
-}
+    {
+        return providerConfirmPassword;
+    }
 
     public void setProviderConfirmPassword (String providerConfirmPassword)
     {
@@ -453,9 +453,9 @@ public class LoginRegisterResponseData
     }
 
     public String getProviderPassword ()
-{
-    return providerPassword;
-}
+    {
+        return providerPassword;
+    }
 
     public void setProviderPassword (String providerPassword)
     {
@@ -473,9 +473,9 @@ public class LoginRegisterResponseData
     }
 
     public String getCustomerPassword ()
-{
-    return customerPassword;
-}
+    {
+        return customerPassword;
+    }
 
     public void setCustomerPassword (String customerPassword)
     {
@@ -483,9 +483,9 @@ public class LoginRegisterResponseData
     }
 
     public String getProviderFirstName ()
-{
-    return providerFirstName;
-}
+    {
+        return providerFirstName;
+    }
 
     public void setProviderFirstName (String providerFirstName)
     {
@@ -523,9 +523,9 @@ public class LoginRegisterResponseData
     }
 
     public String getProviderEmail ()
-{
-    return providerEmail;
-}
+    {
+        return providerEmail;
+    }
 
     public void setProviderEmail (String providerEmail)
     {
@@ -548,5 +548,5 @@ public class LoginRegisterResponseData
         return "ClassPojo [vetRegistrationNumber = "+vetRegistrationNumber+", lastName = "+lastName+", zipCode = "+zipCode+", notificationStatus = "+notificationStatus+", providerLastName = "+providerLastName+", providerPhoneNumber = "+providerPhoneNumber+", cityId = "+cityId+", isActive = "+isActive+", isEmailVerified = "+isEmailVerified+", isLogin = "+isLogin+", password = "+password+", locationId = "+locationId+", latLong = "+latLong+", customerEmail = "+customerEmail+", confirmPassword = "+confirmPassword+", userSalt = "+userSalt+", profileImageUrl = "+profileImageUrl+", email = "+email+", onlineAppointmentStatus = "+onlineAppointmentStatus+", petParentConfirmPassword = "+petParentConfirmPassword+", enableTwoStepVerification = "+enableTwoStepVerification+", address = "+address+", roleId = "+roleId+", fullName = "+fullName+", areYouProvider = "+areYouProvider+", guestEmail = "+guestEmail+", userId = "+userId+", petParentPassword = "+petParentPassword+", forgotPasswordEmail = "+forgotPasswordEmail+", isPrivacyPolicyCheck = "+isPrivacyPolicyCheck+", vetRQualification = "+vetRQualification+", firstName = "+firstName+", locationList = "+locationList+", providerConfirmPassword = "+providerConfirmPassword+", isMobileNumberVerified = "+isMobileNumberVerified+", phoneNumber = "+phoneNumber+", providerPassword = "+providerPassword+", encryptedId = "+encryptedId+", customerPassword = "+customerPassword+", providerFirstName = "+providerFirstName+", rememberMe = "+rememberMe+", userPermissionMasterList = "+userPermissionMasterList+", userRole = "+userRole+", providerEmail = "+providerEmail+", status = "+status+"]";
     }
 }
-			
-		
+
+

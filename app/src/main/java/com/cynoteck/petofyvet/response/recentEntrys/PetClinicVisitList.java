@@ -15,6 +15,7 @@ public class PetClinicVisitList {
     private String petName;
     private String petUniqueId;
     private String petParentName;
+    private String petDOB;
     private String petAge;
     private String petSex;
     private String veterinarian;
@@ -93,6 +94,14 @@ public class PetClinicVisitList {
 
     public void setPetParentName(String petParentName) {
         this.petParentName = petParentName;
+    }
+
+    public String getPetDOB() {
+        return petDOB;
+    }
+
+    public void setPetDOB(String petDOB) {
+        this.petDOB = petDOB;
     }
 
     public String getPetAge() {
@@ -345,7 +354,7 @@ public class PetClinicVisitList {
 
     @Override
     public String toString() {
-        return "ClassPojo [id=" + id +", encryptedId=" + encryptedId +", petId=" + petId +", petName=" + petName +", petUniqueId=" + petUniqueId +", petParentName=" + petParentName +", petAge=" + petAge +", petSex=" + petSex +", veterinarian='" + veterinarian +", visitDate=" + visitDate +", natureOfVisitId=" + natureOfVisitId +", natureOfVisitList=" + natureOfVisitList +", vaccine=" + vaccine +", optionalVaccine=" + optionalVaccine +", description='" + description  +", weightLbs='" + weightLbs +", weightOz=" + weightOz +", temperature='" + temperature +", dateOfOnset='" + dateOfOnset +", dewormerName=" + dewormerName +", treatmentRemarks='" + treatmentRemarks +", diagnosisProcedure='" + diagnosisProcedure +", followUpId=" + followUpId +", followUpList=" + followUpList +", followUpDate='" + followUpDate +", documents=" + documents +", createdOn='" + createdOn +", createdBy='" + createdBy +", updatedOn='" + updatedOn  +", updatedBy='" + updatedBy + ", veterinarianUserId=" + veterinarianUserId +", natureOfVisit=" + natureOfVisit +", pet=" + pet +", createdByUser=" + createdByUser +", updatedByUser=" + updatedByUser +", followUp=" + followUp +", petAgeList=" + petAgeList +"]";
+        return "ClassPojo [id=" + id +", encryptedId=" + encryptedId +", petId=" + petId +", petName=" + petName +", petUniqueId=" + petUniqueId +", petParentName=" + petParentName +",petDOB= "+petDOB+"petAge=" + petAge +", petSex=" + petSex +", veterinarian='" + veterinarian +", visitDate=" + visitDate +", natureOfVisitId=" + natureOfVisitId +", natureOfVisitList=" + natureOfVisitList +", vaccine=" + vaccine +", optionalVaccine=" + optionalVaccine +", description='" + description  +", weightLbs='" + weightLbs +", weightOz=" + weightOz +", temperature='" + temperature +", dateOfOnset='" + dateOfOnset +", dewormerName=" + dewormerName +", treatmentRemarks='" + treatmentRemarks +", diagnosisProcedure='" + diagnosisProcedure +", followUpId=" + followUpId +", followUpList=" + followUpList +", followUpDate='" + followUpDate +", documents=" + documents +", createdOn='" + createdOn +", createdBy='" + createdBy +", updatedOn='" + updatedOn  +", updatedBy='" + updatedBy + ", veterinarianUserId=" + veterinarianUserId +", natureOfVisit=" + natureOfVisit +", pet=" + pet +", createdByUser=" + createdByUser +", updatedByUser=" + updatedByUser +", followUp=" + followUp +", petAgeList=" + petAgeList +"]";
     }
 
 }
