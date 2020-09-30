@@ -1,6 +1,7 @@
 package com.cynoteck.petofyvet.api;
 
 import com.cynoteck.petofyvet.params.addHospitalization.AddHospitalizationRequest;
+import com.cynoteck.petofyvet.params.addImmunizationClinic.ImmunizationClinicData;
 import com.cynoteck.petofyvet.params.addLabRequest.AddLabRequest;
 import com.cynoteck.petofyvet.params.addParamRequest.AddPetRequset;
 import com.cynoteck.petofyvet.params.addPetClinicParamRequest.AddPetClinicRequest;
@@ -37,6 +38,7 @@ import com.cynoteck.petofyvet.params.updateXRayParams.UpdateXrayRequest;
 import com.cynoteck.petofyvet.params.workingHoursParameter.WorkingHoursParameter;
 import com.cynoteck.petofyvet.response.InPetVeterian.InPetVeterianResponse;
 import com.cynoteck.petofyvet.response.addHospitalizationResponse.AddhospitalizationResposee;
+import com.cynoteck.petofyvet.response.addImmunizationClinicResponse.ImmunizationAddResponse;
 import com.cynoteck.petofyvet.response.addLabWorkResponse.AddLabWorkResponse;
 import com.cynoteck.petofyvet.response.addPet.addPetResponse.AddPetValueResponse;
 import com.cynoteck.petofyvet.response.addPet.breedResponse.BreedCatRespose;
@@ -321,6 +323,12 @@ public interface ApiInterface {
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("pethealthrecord/AddClinicVisit")
     Call<AddpetClinicResponse> addClinicVisit(@Header("Authorization") String auth, @Body AddPetClinicRequest addPetClinicRequest);
+
+    //ADD IMMUNAZATION DATA................................................................
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("pethealthrecord/AddPetVaccination")
+    Call<ImmunizationAddResponse> addPetVaccination(@Header("Authorization") String auth, @Body ImmunizationClinicData immunizationClinicData);
 
     //Update CLINIC VISIT...................................................................
 
