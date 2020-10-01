@@ -506,10 +506,6 @@ public interface ApiInterface {
     @POST("immunization/DeleteVaccinationSchedule")
     Call<CheckTrueFalseStatus> deleteImmunizationSchedule(@Header("Authorization") String auth, @Body ImmunizationRequest immunizationRequest);
 
-
-    @Headers({ "Content-Type: application/json;charset=UTF-8"})
-    @POST("immunization/GetRecommendedVaccine")
-    Call<ImmunizationVaccineResponse> getRecommendedVaccine(@Header("Authorization") String auth, @Body ImmunizationRequestt immunizationRequestt);
     //Bank Account .........................................
 
 
