@@ -5,6 +5,7 @@ import com.cynoteck.petofyvet.params.addBankAccountParams.CheckAccountRequest;
 import com.cynoteck.petofyvet.params.addBankAccountParams.ValidateIfscRequest;
 import com.cynoteck.petofyvet.params.addEditImmunizationSchedule.AddEditImmunizationRequest;
 import com.cynoteck.petofyvet.params.addHospitalization.AddHospitalizationRequest;
+import com.cynoteck.petofyvet.params.addImmunizationClinic.ImmunizationClinicData;
 import com.cynoteck.petofyvet.params.addLabRequest.AddLabRequest;
 import com.cynoteck.petofyvet.params.addParamRequest.AddPetRequset;
 import com.cynoteck.petofyvet.params.addPetClinicParamRequest.AddPetClinicRequest;
@@ -46,6 +47,7 @@ import com.cynoteck.petofyvet.response.CheckTrueFalseStatus;
 import com.cynoteck.petofyvet.response.InPetVeterian.InPetVeterianResponse;
 import com.cynoteck.petofyvet.response.addEditImmunizationResponse.AddEditImmunizationResponse;
 import com.cynoteck.petofyvet.response.addHospitalizationResponse.AddhospitalizationResposee;
+import com.cynoteck.petofyvet.response.addImmunizationClinicResponse.ImmunizationAddResponse;
 import com.cynoteck.petofyvet.response.addLabWorkResponse.AddLabWorkResponse;
 import com.cynoteck.petofyvet.response.addPet.addPetResponse.AddPetValueResponse;
 import com.cynoteck.petofyvet.response.addPet.breedResponse.BreedCatRespose;
@@ -221,6 +223,12 @@ public interface ApiInterface {
     @GET("report/GetVisitTypes")
     Call<GetReportsTypeResponse> getReportsType(@Header("Authorization") String auth);
 
+    //GetRecomender Vaccine
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("immunization/GetRecommendedVaccine")
+    Call<ImmunizationVaccineResponse> getRecommendedVaccine(@Header("Authorization") String auth, @Body ImmunizationRequestt immunizationRequestt);
+
+
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("report/GetPetClinicVisits")
     Call<GetPetClinicVisitListResponse> getPetClinicVisits(@Header("Authorization") String auth, @Body VisitTypeRequest visitTypeRequest);
@@ -337,6 +345,12 @@ public interface ApiInterface {
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("pethealthrecord/AddClinicVisit")
     Call<AddpetClinicResponse> addClinicVisit(@Header("Authorization") String auth, @Body AddPetClinicRequest addPetClinicRequest);
+
+    //ADD IMMUNAZATION DATA................................................................
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("pethealthrecord/AddPetVaccination")
+    Call<ImmunizationAddResponse> addPetVaccination(@Header("Authorization") String auth, @Body ImmunizationClinicData immunizationClinicData);
 
     //Update CLINIC VISIT...................................................................
 
