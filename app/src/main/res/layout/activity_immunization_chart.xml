@@ -52,8 +52,6 @@
 
     </androidx.cardview.widget.CardView>
 
-
-
     <androidx.cardview.widget.CardView
         app:cardElevation="10dp"
         android:elevation="1dp"

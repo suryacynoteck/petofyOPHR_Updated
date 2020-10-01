@@ -31,7 +31,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.BankAccountDetailsActivity"></activity>
+        <activity android:name=".activities.AllVisitsActivity"></activity>
+        <activity android:name=".activities.UpcomingVisitsActivity" />
+        <activity android:name=".activities.GetAllBankAccountsActivity" />
+        <activity android:name=".activities.BankAccountDetailsActivity" />
         <activity android:name=".activities.AddEditImmunizationActivity" />
         <activity android:name=".activities.ImmunizationChartActivity" />
         <activity android:name=".activities.PetProfileActivity" />

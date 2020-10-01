@@ -86,5 +86,19 @@
         android:layout_height="wrap_content"/>
 
 
+    <TextView
+        android:id="@+id/bank_account_details_TV"
+        app:layout_constraintTop_toBottomOf="@+id/immunization_chart_TV"
+        app:layout_constraintStart_toStartOf="@+id/immunization_chart_TV"
+        app:layout_constraintEnd_toEndOf="@id/two_fact_auth_SC"
+        android:layout_marginTop="10dp"
+        android:text="@string/BankAccount"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:textColor="@color/black_color"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"/>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 

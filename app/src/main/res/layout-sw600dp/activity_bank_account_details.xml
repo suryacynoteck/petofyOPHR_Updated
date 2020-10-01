@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -37,7 +39,7 @@
                 android:paddingRight="25dp"
                 android:id="@+id/create_headline_TV"
                 android:layout_width="0dp"
-                android:text="@string/BankAccount"
+                android:text="@string/addAccount"
                 android:layout_height="0dp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@id/back_arrow_IV"
@@ -74,7 +76,7 @@
         android:background="@drawable/edit_text_background"
         android:gravity="center_vertical"
         android:hint="@string/name"
-        android:inputType="numberDecimal"
+        android:inputType="text"
         android:maxLines="1"
         android:paddingLeft="25dp"
         android:textColor="@color/grey_add_pet"
@@ -106,7 +108,7 @@
         android:background="@drawable/edit_text_background"
         android:gravity="center_vertical"
         android:hint="@string/email"
-        android:inputType="numberDecimal"
+        android:inputType="text"
         android:maxLines="1"
         android:paddingLeft="25dp"
         android:textColor="@color/grey_add_pet"
@@ -137,7 +139,7 @@
         android:background="@drawable/edit_text_background"
         android:gravity="center_vertical"
         android:hint="@string/phoneNumber"
-        android:inputType="numberDecimal"
+        android:inputType="text"
         android:maxLines="1"
         android:paddingLeft="25dp"
         android:textColor="@color/grey_add_pet"
@@ -161,6 +163,8 @@
         android:textColor="@color/grey_add_pet" />
 
     <EditText
+        android:textAllCaps="true"
+        android:maxLength="11"
         android:id="@+id/ifsc_for_bank_ET"
         android:layout_width="0dp"
         android:layout_height="50dp"
@@ -168,8 +172,7 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/edit_text_background"
         android:gravity="center_vertical"
-        android:text="@string/ifsc"
-        android:inputType="numberDecimal"
+        android:hint="@string/ifsc"
         android:maxLines="1"
         android:paddingLeft="25dp"
         android:textColor="@color/grey_add_pet"
@@ -177,12 +180,36 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ifsc_for_bank_TV" />
 
+    <TextView
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ifsc_for_bank_ET"
+        android:id="@+id/ifsc_for_bank_details_TV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:gravity="center_vertical"/>
 
+    <ProgressBar
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ifsc_for_bank_ET"
+        android:id="@+id/progressBar"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:gravity="start"
+        android:textColor="@color/colorAccent" />
 
     <TextView
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ifsc_for_bank_ET"
+        app:layout_constraintTop_toBottomOf="@id/ifsc_for_bank_details_TV"
         android:id="@+id/account_for_bank_TV"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -201,14 +228,46 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/edit_text_background"
         android:gravity="center_vertical"
-        android:text="@string/accountNumber"
-        android:inputType="numberDecimal"
+        android:hint="@string/accountNumber"
+        android:inputType="text"
         android:maxLines="1"
         android:paddingLeft="25dp"
         android:textColor="@color/grey_add_pet"
         app:layout_constraintEnd_toEndOf="@id/account_for_bank_TV"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/account_for_bank_TV" />
+
+
+    <TextView
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/account_for_bank_ET"
+        android:id="@+id/confirm_account_for_bank_TV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:gravity="center_vertical"
+        android:text="@string/confirmAccount"
+        android:textColor="@color/grey_add_pet" />
+
+    <EditText
+        android:id="@+id/confirm_account_for_bank_ET"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/edit_text_background"
+        android:gravity="center_vertical"
+        android:hint="@string/confirmAccount"
+        android:inputType="text"
+        android:maxLines="1"
+        android:paddingLeft="25dp"
+        android:textColor="@color/grey_add_pet"
+        app:layout_constraintEnd_toEndOf="@id/confirm_account_for_bank_TV"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/confirm_account_for_bank_TV" />
 
 
 

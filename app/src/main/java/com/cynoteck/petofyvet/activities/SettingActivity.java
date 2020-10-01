@@ -26,7 +26,7 @@ import retrofit2.Response;
 
 public class SettingActivity extends AppCompatActivity implements ApiResponse, View.OnClickListener {
     ImageView back_arrow_IV;
-    TextView two_fact_auth_TV,immunization_chart_TV;
+    TextView two_fact_auth_TV,immunization_chart_TV,bank_account_details_TV;
     SwitchCompat two_fact_auth_SC;
     String status="";
 
@@ -38,7 +38,9 @@ public class SettingActivity extends AppCompatActivity implements ApiResponse, V
         two_fact_auth_SC =findViewById(R.id.two_fact_auth_SC);
         two_fact_auth_TV=findViewById(R.id.two_fact_auth_TV);
         immunization_chart_TV = findViewById(R.id.immunization_chart_TV);
+        bank_account_details_TV=findViewById(R.id.bank_account_details_TV);
         immunization_chart_TV.setOnClickListener(this);
+        bank_account_details_TV.setOnClickListener(this);
         back_arrow_IV.setOnClickListener(this);
         setTwoFactData();
         switchOnline();
@@ -147,6 +149,10 @@ public class SettingActivity extends AppCompatActivity implements ApiResponse, V
                 Intent intent = new Intent(this,ImmunizationChartActivity.class);
                 startActivity(intent);
                 break;
+
+            case R.id.bank_account_details_TV:
+                Intent  intent1 = new Intent(this,GetAllBankAccountsActivity.class);
+                startActivity(intent1);
         }
     }
 }
