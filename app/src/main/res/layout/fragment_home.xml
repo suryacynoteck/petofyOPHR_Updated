@@ -29,35 +29,91 @@
 
     </com.google.android.material.card.MaterialCardView>
 
-
     <LinearLayout
+        android:id="@+id/three_button"
         android:layout_below="@+id/toolbar"
-        android:id="@+id/add_new_visit"
-        android:layout_width="180dp"
-        android:layout_height="50dp"
-        android:background="@drawable/oval"
         android:orientation="horizontal"
-        android:layout_marginTop="20dp"
-        android:padding="10dp"
-        android:layout_marginLeft="10dp">
-
-        <TextView
+        android:weightSum="3"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        >
+        <LinearLayout
+            android:layout_weight="1"
+            android:id="@+id/add_new_visit"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/addNewVisits"
-            android:textColor="#fff"
-            android:textSize="14sp"
-            android:gravity="center"
-            android:drawableRight="@drawable/ic_baseline_add_white"/>
+            android:background="@drawable/oval"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:padding="10dp"
+            android:layout_marginLeft="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/addNewVisits"
+                android:textColor="#fff"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:drawableRight="@drawable/ic_baseline_add_white"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:id="@+id/upcoming_visit"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/oval"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:padding="8dp"
+            android:layout_marginLeft="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/upcominVists"
+                android:textColor="#fff"
+                android:textSize="14sp"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:id="@+id/all_visit"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/oval"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:padding="8dp"
+            android:layout_marginLeft="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/allvisits"
+                android:textColor="#fff"
+                android:textSize="14sp"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
 
     </LinearLayout>
+
+
+
+
 
 
     <LinearLayout
         android:orientation="vertical"
         android:weightSum="2"
         android:layout_marginTop="10dp"
-        android:layout_below="@id/add_new_visit"
+        android:layout_below="@id/three_button"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

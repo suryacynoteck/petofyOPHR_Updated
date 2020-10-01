@@ -166,9 +166,18 @@
     <string name="VaccinationPeriod">Vaccination Period</string>
     <string name="boosterOneGap">Days gap between Primary and First Booster</string>
     <string name="boosterTwoGap">Days gap between Primary and IInd Booster</string>
-    <string name="BankAccount">Bank Account Details</string>
+    <string name="BankAccount">Bank Accounts</string>
+    <string name="addAccount">Add Bank Account</string>
+
     <string name="ifsc">IFSC</string>
     <string name="accountNumber">Account Number</string>
     <string name="clinicCode">Clinic Code</string>
+    <string name="confirmAccount">Confirm Account Number</string>
+    <string name="accountType">Account Type</string>
+    <string name="lastvisitDate">Last Visit Date</string>
+    <string name="nextVisitDate">Next Visit Date</string>
+    <string name="typeOfvisit">Type Of Visit</string>
+    <string name="upcominVists">Upcoming Visits</string>
+    <string name="allvisits">All Visits (Date Wise)</string>
 
 </resources>

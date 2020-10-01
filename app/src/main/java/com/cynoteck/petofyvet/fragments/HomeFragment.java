@@ -1,6 +1,7 @@
 package com.cynoteck.petofyvet.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cynoteck.petofyvet.R;
+import com.cynoteck.petofyvet.activities.AllVisitsActivity;
+import com.cynoteck.petofyvet.activities.UpcomingVisitsActivity;
 import com.cynoteck.petofyvet.api.ApiResponse;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
@@ -26,7 +29,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
     RecyclerView pet_list_RV;
     Context context;
     View view;
-    LinearLayout add_new_visit;
+    LinearLayout add_new_visit,upcoming_visit,all_visit;
     ImageView reports_IV;
     RelativeLayout mainHome;
     Methods methods;
@@ -61,12 +64,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
         add_new_visit=view.findViewById(R.id.add_new_visit);
         allPets_CV=view.findViewById(R.id.allPets_CV);
         appoint_CV=view.findViewById(R.id.appoint_CV);
+        upcoming_visit = view.findViewById(R.id.upcoming_visit);
+        all_visit = view.findViewById(R.id.all_visit);
 
         allPets_CV.setOnClickListener(this);
         reports_CV.setOnClickListener(this);
         all_staff_CV.setOnClickListener(this);
         add_new_visit.setOnClickListener(this);
         appoint_CV.setOnClickListener(this);
+        upcoming_visit.setOnClickListener(this);
+        all_visit.setOnClickListener(this);
     }
 
     @Override
@@ -104,6 +111,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
                 replaceFragment(appointementFragment);
 
                 break;
+
+            case R.id.upcoming_visit:
+                Intent intent = new Intent(getContext(), UpcomingVisitsActivity.class);
+                startActivity(intent);
+                break;
+
+            case R.id.all_visit:
+                Intent intent1 = new Intent(getContext(), AllVisitsActivity.class);
+                startActivity(intent1);
+                break;
+
         }
 
     }

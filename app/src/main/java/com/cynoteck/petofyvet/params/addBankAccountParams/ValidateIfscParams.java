@@ -1,21 +1,21 @@
 package com.cynoteck.petofyvet.params.addBankAccountParams;
 
 public class ValidateIfscParams {
-    private String ifsc;
+    private String ifscCode;
 
-    public String getIfsc ()
+    public String getIfscCode ()
     {
-        return ifsc;
+        return ifscCode;
     }
 
-    public void setIfsc (String ifsc)
+    public void setIfscCode (String ifscCode)
     {
-        this.ifsc = ifsc;
+        this.ifscCode = ifscCode;
     }
 
     @Override
     public String toString()
     {
-        return "ClassPojo [ifsc = "+ifsc+"]";
+        return "ClassPojo [ifscCode = "+ifscCode+"]";
     }
 }
