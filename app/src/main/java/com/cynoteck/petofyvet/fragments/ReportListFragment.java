@@ -539,6 +539,7 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
         viewReportsDeatilsActivityIntent.putExtra("next_dt",petClinicVisitListArrayList.get(position).getFollowUpDate());
         viewReportsDeatilsActivityIntent.putExtra("report_id",petClinicVisitListArrayList.get(position).getId());
         viewReportsDeatilsActivityIntent.putExtra("pet_DOB","");
+        viewReportsDeatilsActivityIntent.putExtra("pet_encrypted_id","");
         viewReportsDeatilsActivityIntent.putExtra("appointment","");
         viewReportsDeatilsActivityIntent.putExtra("appoint_link", "");
         viewReportsDeatilsActivityIntent.putExtra("toolbar_name","Update Clinic");

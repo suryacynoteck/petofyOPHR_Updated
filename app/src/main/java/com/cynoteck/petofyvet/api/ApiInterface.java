@@ -19,6 +19,7 @@ import com.cynoteck.petofyvet.params.changePassRequest.ChangePassRequest;
 import com.cynoteck.petofyvet.params.checkpetInVetRegister.InPetRegisterRequest;
 import com.cynoteck.petofyvet.params.forgetPassRequest.ForgetPassRequest;
 import com.cynoteck.petofyvet.params.getPetListRequest.GetPetListRequest;
+import com.cynoteck.petofyvet.params.getVaccinationDetails.GetVaccinationRequest;
 import com.cynoteck.petofyvet.params.immunizationRequest.ImmunizationRequest;
 import com.cynoteck.petofyvet.params.immunizationRequest.ImmunizationRequestt;
 import com.cynoteck.petofyvet.params.loginRequest.Loginparams;
@@ -37,6 +38,7 @@ import com.cynoteck.petofyvet.params.updateLapTestParams.UpdateLabTestRequest;
 import com.cynoteck.petofyvet.params.updateRequest.getValue.UpdateRequest;
 import com.cynoteck.petofyvet.params.updateRequest.updateParamRequest.UpdatePetRequest;
 import com.cynoteck.petofyvet.params.updateXRayParams.UpdateXrayRequest;
+import com.cynoteck.petofyvet.params.vaccinationSaveParams.VaccinationRequest;
 import com.cynoteck.petofyvet.params.workingHoursParameter.WorkingHoursParameter;
 import com.cynoteck.petofyvet.response.CheckTrueFalseStatus;
 import com.cynoteck.petofyvet.response.InPetVeterian.InPetVeterianResponse;
@@ -75,6 +77,7 @@ import com.cynoteck.petofyvet.response.getStaffResponse.GetAllStaffResponse;
 import com.cynoteck.petofyvet.response.getStaffResponse.GetStaffDetailsResponse;
 import com.cynoteck.petofyvet.response.getStaffResponse.GetStaffStatusResponse;
 import com.cynoteck.petofyvet.response.getStaffResponse.GetUpdateStaffResponse;
+import com.cynoteck.petofyvet.response.getVaccinationResponse.GetVaccineResponse;
 import com.cynoteck.petofyvet.response.getWorkingHoursResponse.WorkingHoursResponse;
 import com.cynoteck.petofyvet.response.getXRayReports.getPetTestAndXRayResponse.GetPetTestAndXRayResponse;
 import com.cynoteck.petofyvet.response.getXRayReports.getXRayReportDetailsResponse.GetXRayReportDeatilsResponse;
@@ -89,6 +92,7 @@ import com.cynoteck.petofyvet.response.onlineAppointmentOnOff.OnlineAppointmentR
 import com.cynoteck.petofyvet.response.otpResponse.OtpResponse;
 import com.cynoteck.petofyvet.response.profileImageresponse.ProfileImageResponse;
 import com.cynoteck.petofyvet.response.recentEntrys.RecentEntrysResponse;
+import com.cynoteck.petofyvet.response.saveImmunizationData.SaveImmunizationResponse;
 import com.cynoteck.petofyvet.response.saveWorkingReponse.SaveWorkingHoursResponse;
 import com.cynoteck.petofyvet.response.searchRemaks.SearchRemaksResponse;
 import com.cynoteck.petofyvet.response.staffPermissionListResponse.StaffPermissionResponse;
@@ -388,6 +392,14 @@ public interface ApiInterface {
     @POST("pethealthrecord/AddTestXRay")
     Call<AddTestXRayResponse> addTestXRay(@Header("Authorization") String auth, @Body AddTestXRayRequest addTestXRayRequest);
 
+    //GetVaccinationScheduleChart
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("immunization/GetVaccinationScheduleChart")
+    Call<GetVaccineResponse> getVaccinationScheduleChart(@Header("Authorization") String auth, @Body GetVaccinationRequest getVaccinationRequest);
+
+
+
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("pethealthrecord/UpdateTestXRay")
     Call<AddTestXRayResponse> updateTestXRay(@Header("Authorization") String auth, @Body UpdateXrayRequest updateXrayRequest);
@@ -498,6 +510,12 @@ public interface ApiInterface {
 
 
     //Bank Account .........................................
+
+    //Save Immunization.....................................
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("immunization/SaveImmunizationDetails")
+    Call<SaveImmunizationResponse> saveImmunizationDetails(@Header("Authorization") String auth, @Body VaccinationRequest vaccinationRequest);
 
 }
 

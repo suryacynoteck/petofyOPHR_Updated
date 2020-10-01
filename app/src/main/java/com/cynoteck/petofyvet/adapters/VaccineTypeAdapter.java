@@ -1,0 +1,107 @@
+package com.cynoteck.petofyvet.adapters;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.cynoteck.petofyvet.R;
+import com.cynoteck.petofyvet.response.getPetReportsResponse.GetReportsTypeData;
+import com.cynoteck.petofyvet.response.getVaccinationResponse.GetVaccineResponseModel;
+import com.cynoteck.petofyvet.utils.ImmunizationOnclickListener;
+import com.cynoteck.petofyvet.utils.RegisterRecyclerViewClickListener;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
+
+public class VaccineTypeAdapter extends RecyclerView.Adapter<VaccineTypeAdapter.MyViewHolder> {
+    Context context;
+    ArrayList<GetVaccineResponseModel> getVaccineResponseModels;
+    private ImmunizationOnclickListener immunizationOnclickListener;
+
+    public VaccineTypeAdapter(Context context, ArrayList<GetVaccineResponseModel> getVaccineResponseModels, ImmunizationOnclickListener immunizationOnclickListener) {
+        this.context = context;
+        this.getVaccineResponseModels = getVaccineResponseModels;
+        this.immunizationOnclickListener = immunizationOnclickListener;
+    }
+    @NonNull
+    @Override
+    public VaccineTypeAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.vaccine_type_adapter, parent, false);
+        VaccineTypeAdapter.MyViewHolder vh = new VaccineTypeAdapter.MyViewHolder(v);
+        return vh;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull VaccineTypeAdapter.MyViewHolder holder, int position) {
+     String min_age=getVaccineResponseModels.get(position).getVaccinationSchedule().getMinimunAge().substring(0,getVaccineResponseModels.get(position).getVaccinationSchedule().getMinimunAge().length()-3);
+     String max_age=getVaccineResponseModels.get(position).getVaccinationSchedule().getMaximunAge().substring(0,getVaccineResponseModels.get(position).getVaccinationSchedule().getMaximunAge().length()-3);
+
+     String boosterOne=getVaccineResponseModels.get(position).getVaccinationSchedule().getBoosterOne();
+     String boosterTwo=getVaccineResponseModels.get(position).getVaccinationSchedule().getBoosterTwo();
+
+     if(boosterOne.equals("true"))
+     {
+         holder.booster_one.setVisibility(View.VISIBLE);
+     }
+     if(boosterTwo.equals("true"))
+     {
+         holder.booster_two.setVisibility(View.VISIBLE);
+     }
+
+
+
+     holder.age_group.setText(min_age+" - "+max_age+" Days");
+     holder.vaccine_name.setText(getVaccineResponseModels.get(position).getVaccinationSchedule().getPrimaryVaccine());
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return getVaccineResponseModels.size();
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView age_group,vaccine_name;
+        CheckBox Primary,booster_one,booster_two;
+
+        public MyViewHolder(@NonNull View itemView) {
+            super(itemView);
+            age_group =itemView.findViewById(R.id.age_group);
+            vaccine_name = itemView.findViewById(R.id.vaccine_name);
+            Primary = itemView.findViewById(R.id.Primary);
+            booster_one = itemView.findViewById(R.id.booster_one);
+            booster_two = itemView.findViewById(R.id.booster_two);
+
+            Primary.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    immunizationOnclickListener.onItemClickImmunizationPrimary(getAdapterPosition());
+                }
+            });
+
+            booster_one.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    immunizationOnclickListener.onItemClickImmunizationBoosterOne(getAdapterPosition());
+                }
+            });
+
+            booster_one.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    immunizationOnclickListener.onItemClickImmunizationBoosterTwo(getAdapterPosition());
+                }
+            });
+
+        }
+    }
+}

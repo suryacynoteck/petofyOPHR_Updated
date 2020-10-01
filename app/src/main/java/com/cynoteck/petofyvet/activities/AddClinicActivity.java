@@ -42,6 +42,7 @@ import androidx.appcompat.widget.AppCompatSpinner;
 
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.adapters.ImmunazationVaccineAdopter;
+import com.cynoteck.petofyvet.adapters.VaccineTypeAdapter;
 import com.cynoteck.petofyvet.api.ApiClient;
 import com.cynoteck.petofyvet.api.ApiResponse;
 import com.cynoteck.petofyvet.api.ApiService;
@@ -49,6 +50,8 @@ import com.cynoteck.petofyvet.params.addImmunizationClinic.ImmunizationAddClinic
 import com.cynoteck.petofyvet.params.addImmunizationClinic.ImmunizationClinicData;
 import com.cynoteck.petofyvet.params.addPetClinicParamRequest.AddPetClinicParam;
 import com.cynoteck.petofyvet.params.addPetClinicParamRequest.AddPetClinicRequest;
+import com.cynoteck.petofyvet.params.getVaccinationDetails.GetVaccinationModelParameter;
+import com.cynoteck.petofyvet.params.getVaccinationDetails.GetVaccinationRequest;
 import com.cynoteck.petofyvet.params.immunizationRequest.ImmunizationParameter;
 import com.cynoteck.petofyvet.params.immunizationRequest.ImmunizationRequestt;
 import com.cynoteck.petofyvet.params.petReportsRequest.PetClinicVisitDetailsRequest;
@@ -57,13 +60,18 @@ import com.cynoteck.petofyvet.params.searchRemarksParameter.SearchRemaksParametr
 import com.cynoteck.petofyvet.params.searchRemarksParameter.SearchRemaksRequest;
 import com.cynoteck.petofyvet.params.updateClinicVisitsParams.UpdateClinicReportsParams;
 import com.cynoteck.petofyvet.params.updateClinicVisitsParams.UpdateClinicReportsRequest;
+import com.cynoteck.petofyvet.params.vaccinationSaveParams.VaccinationParameter;
+import com.cynoteck.petofyvet.params.vaccinationSaveParams.VaccinationRequest;
 import com.cynoteck.petofyvet.response.addImmunizationClinicResponse.ImmunizationAddResponse;
 import com.cynoteck.petofyvet.response.addPet.imageUpload.ImageResponse;
 import com.cynoteck.petofyvet.response.addPetClinicresponse.AddpetClinicResponse;
 import com.cynoteck.petofyvet.response.clinicVisist.ClinicVisitResponse;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.GetReportsTypeResponse;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.getClinicVisitDetails.GetClinicVisitsDetailsResponse;
+import com.cynoteck.petofyvet.response.getVaccinationResponse.GetVaccineResponse;
+import com.cynoteck.petofyvet.response.getVaccinationResponse.GetVaccineResponseModel;
 import com.cynoteck.petofyvet.response.immunizationVaccineType.ImmunizationVaccineResponse;
+import com.cynoteck.petofyvet.response.saveImmunizationData.SaveImmunizationResponse;
 import com.cynoteck.petofyvet.response.searchRemaks.SearchRemaksResponse;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.ImmunizationOnclickListener;
@@ -99,7 +107,7 @@ import retrofit2.Response;
 public class AddClinicActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse,ImmunizationOnclickListener {
 
     ImageView back_arrow_IV;
-    String report_id="",visitIdString="",pet_age="",strNatureOfVist="",pet_DOB="",strDocumentUrl="",visitId="",natureOfVisit="",pet_id="",
+    String report_id="",visitIdString="",pet_age="",strNatureOfVist="",pet_DOB="",pet_encrypted_id="",strDocumentUrl="",visitId="",natureOfVisit="",pet_id="",
             pet_name="",pet_owner_name="",pet_sex="",pet_unique_id="",veterian_name="",descrisption="",strPetAge="",
             Remarks="",visitDate="",dtOfOnset="",flowUpDt="",weight="",temparature="",diagnosis="",strNextVisitDate="",
             strVacine="",strDewormerName="",strDewormerDose="",strToolbarName="",cocatVal=null,strVaccineType="",strVaccineName="";
@@ -126,6 +134,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
     ArrayList<HashMap<String,String>> vaccinationModels;
     HashMap<String,String> vaccinationationModelHash;
     ImmunazationVaccineAdopter hospitalizationReportsAdapter;
+    VaccineTypeAdapter vaccineTypeAdapter;
     HashMap<String,String> nextVisitHas=new HashMap<>();
     HashMap<String,String> natureOfVisitHashMap=new HashMap<>();
     ArrayList<String>VaccineList=new ArrayList<String>();
@@ -135,9 +144,10 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
     private static final String IMAGE_DIRECTORY = "/Picture";
     private int GALLERY = 1, CAMERA = 2;
     File file = null;
-    Dialog dialog,vaccineDialog;
+    Dialog dialog,vaccineDialog,vaccineDetailsDialog;
     Bitmap bitmap, thumbnail;
     int backPressVal=0;
+    private ArrayList<GetVaccineResponseModel> getVaccineResponseModels;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,6 +157,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
 
         init();
         requestMultiplePermissions();
+        //vaccineDetailsDialog();
     }
 
     private void init() {
@@ -250,6 +261,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
             diagnosis = extras.getString("pet_diognosis");
             flowUpDt= extras.getString("next_dt");
             pet_DOB= extras.getString("pet_DOB");
+            pet_encrypted_id= extras.getString("pet_encrypted_id");
             strToolbarName= extras.getString("toolbar_name");
 
             if(strToolbarName.equals("Update Clinic"))
@@ -290,6 +302,8 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
             getClientVisit();
             getVisitTypes();
             getImmunizationData();
+            getVaccinationDetails();
+
         }else {
 
             methods.DialogInternet();
@@ -671,6 +685,43 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         vaccineDialog.show();
     }
 
+    private void vaccineDetailsDialog()
+    {
+        vaccineDetailsDialog = new Dialog(this);
+        vaccineDetailsDialog.setContentView(R.layout.test_layout);
+
+        TextView pet_details=vaccineDetailsDialog.findViewById(R.id.pet_details);
+        ImageView clinic_back_arrow_IV=vaccineDetailsDialog.findViewById(R.id.clinic_back_arrow_IV);
+        RecyclerView vaccine_type_name_list=vaccineDetailsDialog.findViewById(R.id.vaccine_type_name_list);
+        RecyclerView pereodic_list=vaccineDetailsDialog.findViewById(R.id.pereodic_list);
+        RecyclerView immunization_history_list=vaccineDetailsDialog.findViewById(R.id.immunization_history_list);
+        pereodic_list.setVisibility(View.GONE);
+        pet_details.setText("Pet Name : "+pet_name+"( "+pet_unique_id+") Age :"+ strPetAge+" Days");
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(AddClinicActivity.this);
+        vaccine_type_name_list.setLayoutManager(linearLayoutManager);
+        vaccine_type_name_list.setNestedScrollingEnabled(false);
+        vaccineTypeAdapter = new VaccineTypeAdapter(AddClinicActivity.this, getVaccineResponseModels,AddClinicActivity.this);
+        vaccine_type_name_list.setAdapter(vaccineTypeAdapter);
+        vaccineTypeAdapter.notifyDataSetChanged();
+
+        clinic_back_arrow_IV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                vaccineDetailsDialog.dismiss();
+            }
+        });
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = vaccineDetailsDialog.getWindow();
+        lp.copyFrom(window.getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+        window.setAttributes(lp);
+        vaccineDetailsDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        vaccineDetailsDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        vaccineDetailsDialog.show();
+    }
+
     private void setVaccineTypeSpinner() {
         ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,vaccineTypeList);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -894,7 +945,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         ImmunizationParameter immunizationParameter=new ImmunizationParameter();
         immunizationParameter.setCategoryId("1");
         immunizationParameter.setPetDOB(pet_DOB);
-        immunizationParameter.setEncryptedId("MTQ=");
+        immunizationParameter.setEncryptedId(pet_encrypted_id);
         ImmunizationRequestt immunizationRequestt=new ImmunizationRequestt();
         immunizationRequestt.setImmunizationData(immunizationParameter);
         ApiService<ImmunizationVaccineResponse> service = new ApiService<>();
@@ -935,6 +986,23 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         ApiService<GetClinicVisitsDetailsResponse> service = new ApiService<>();
         service.get(this, ApiClient.getApiInterface().getLastPrescription(Config.token,petClinicVisitDetailsRequest), "GetPetClinicVisitDetails");
         methods.showCustomProgressBarDialog(this);
+    }
+
+    private void getVaccinationDetails() {
+        GetVaccinationModelParameter getVaccinationModelParameter=new GetVaccinationModelParameter();
+        //getVaccinationModelParameter.setEncryptedId(pet_encrypted_id);
+        getVaccinationModelParameter.setEncryptedId("MTQ=");
+        GetVaccinationRequest getVaccinationRequest=new GetVaccinationRequest();
+        getVaccinationRequest.setData(getVaccinationModelParameter);
+        ApiService<GetVaccineResponse> service = new ApiService<>();
+        service.get( this, ApiClient.getApiInterface().getVaccinationScheduleChart(Config.token,getVaccinationRequest), "GetVaccinationScheduleChart");
+        Log.e("GetVaccinSchedule==>",""+getVaccinationRequest);
+    }
+
+    private void saveVaccineData(VaccinationRequest vaccinationRequest) {
+        ApiService<SaveImmunizationResponse> service = new ApiService<>();
+        service.get( this, ApiClient.getApiInterface().saveImmunizationDetails(Config.token,vaccinationRequest), "SaveImmunizationDetails");
+        Log.e("GetVaccinSchedule==>",""+vaccinationRequest);
     }
 
     @Override
@@ -1214,6 +1282,44 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     e.printStackTrace();
                 }
                 break;
+            case "GetVaccinationScheduleChart":
+                try {
+                    Log.d("GetVaccinationSchedul", arg0.body().toString());
+                    GetVaccineResponse getVaccineResponse = (GetVaccineResponse) arg0.body();
+                    int responseCode = Integer.parseInt(getVaccineResponse.getResponse().getResponseCode());
+                    if (responseCode == 109) {
+                        Log.e("amamamammamamam","Vaccine Detailsss"+getVaccineResponse.getData().size());
+                        getVaccineResponseModels = getVaccineResponse.getData();
+                        Log.d("knananannan",""+getVaccineResponse.getData().get(1).getVaccinationSchedule().getMaximunAge());
+
+                    }
+                    else
+                    {
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+
+            case "SaveImmunizationDetails":
+                try {
+                    Log.d("SaveImmunizationDetails", arg0.body().toString());
+                    SaveImmunizationResponse getVaccineResponse = (SaveImmunizationResponse) arg0.body();
+                    int responseCode = Integer.parseInt(getVaccineResponse.getResponse().getResponseCode());
+                    if (responseCode == 109) {
+                        Toast.makeText(this, "Save Successfully", Toast.LENGTH_SHORT).show();
+                        vaccineDetailsDialog.dismiss();
+                    }
+                    else
+                    {
+                        Toast.makeText(this, "Not Save", Toast.LENGTH_SHORT).show();
+                        vaccineDetailsDialog.dismiss();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
         }
 
     }
@@ -1274,6 +1380,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     pet_age_TV.setText(strPetAge+" Days");
                     folow_up_dt_view.setText(strNextVisitDate);
                     vaccine_layout.setVisibility(View.VISIBLE);
+                    vaccineDetailsDialog();
                 }
                 else if(natureOfVisit.equals("Deworming"))
                 {
@@ -1371,5 +1478,46 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
             immunization_data.setAdapter(hospitalizationReportsAdapter);
             hospitalizationReportsAdapter.notifyDataSetChanged();
 
+    }
+
+    @Override
+    public void onItemClickImmunizationPrimary(int position) {
+        Log.e("vaccinlist_primery","");
+        VaccinationParameter vaccinationParameter=new VaccinationParameter();
+        vaccinationParameter.setEncryptedId(pet_encrypted_id);
+        vaccinationParameter.setVaccinationScheduleId(getVaccineResponseModels.get(position).getVaccinationSchedule().getId());
+        vaccinationParameter.setVaccine(getVaccineResponseModels.get(position).getVaccinationSchedule().getPrimaryVaccine());
+        vaccinationParameter.setVaccineType("Primary");
+        VaccinationRequest vaccinationRequest=new VaccinationRequest();
+        vaccinationRequest.setData(vaccinationParameter);
+        saveVaccineData(vaccinationRequest);
+
+    }
+    @Override
+    public void onItemClickImmunizationBoosterOne(int position) {
+        Log.e("vaccinlist_booster_one","");
+        VaccinationParameter vaccinationParameter=new VaccinationParameter();
+        vaccinationParameter.setEncryptedId(pet_encrypted_id);
+        vaccinationParameter.setVaccinationScheduleId(getVaccineResponseModels.get(position).getVaccinationSchedule().getId());
+        vaccinationParameter.setVaccine(getVaccineResponseModels.get(position).getVaccinationSchedule().getPrimaryVaccine());
+        vaccinationParameter.setVaccineType("Booster One");
+        VaccinationRequest vaccinationRequest=new VaccinationRequest();
+        vaccinationRequest.setData(vaccinationParameter);
+        saveVaccineData(vaccinationRequest);
+    }
+
+
+
+    @Override
+    public void onItemClickImmunizationBoosterTwo(int position) {
+        Log.e("vaccinlist_Booster_two","");
+        VaccinationParameter vaccinationParameter=new VaccinationParameter();
+        vaccinationParameter.setEncryptedId(pet_encrypted_id);
+        vaccinationParameter.setVaccinationScheduleId(getVaccineResponseModels.get(position).getVaccinationSchedule().getId());
+        vaccinationParameter.setVaccine(getVaccineResponseModels.get(position).getVaccinationSchedule().getPrimaryVaccine());
+        vaccinationParameter.setVaccineType("Booster Two");
+        VaccinationRequest vaccinationRequest=new VaccinationRequest();
+        vaccinationRequest.setData(vaccinationParameter);
+        saveVaccineData(vaccinationRequest);
     }
 }

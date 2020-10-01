@@ -209,7 +209,8 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                 String PetAge = st.nextToken();
                 String Id = st.nextToken();
                 String pet_DOB = st.nextToken();
-                Log.d("ppppp",""+PetUniqueId+" "+PetName+" "+PetParentName+" "+PetSex+" "+petAge+" "+Id+" "+pet_DOB);
+                String pet_encrypted_id = st.nextToken();
+                Log.d("ppppp",""+PetUniqueId+" "+PetName+" "+PetParentName+" "+PetSex+" "+petAge+" "+Id+" "+pet_DOB+" "+pet_encrypted_id);
                 Intent petDetailsIntent = new Intent(getActivity().getApplication(), PetDetailsActivity.class);
                 Bundle data = new Bundle();
                 data.putString("pet_id",Id);
@@ -219,6 +220,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                 data.putString("pet_age",PetAge);
                 data.putString("pet_unique_id",PetUniqueId);
                 data.putString("pet_DOB",pet_DOB);
+                data.putString("pet_encrypted_id",pet_encrypted_id);
                 petDetailsIntent.putExtras(data);
                 startActivity(petDetailsIntent);
                 clearSearch();
@@ -380,7 +382,8 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                                             +getPetListResponse.getData().getPetList().get(i).getPetSex()+","
                                             +getPetListResponse.getData().getPetList().get(i).getPetAge()+","
                                             +getPetListResponse.getData().getPetList().get(i).getId()+","
-                                            +getPetListResponse.getData().getPetList().get(i).getDateOfBirth());
+                                            +getPetListResponse.getData().getPetList().get(i).getDateOfBirth()+","
+                                            +getPetListResponse.getData().getPetList().get(i).getEncryptedId());
                         }
 
                         Log.d("jajajajjaja",""+petUniueId.size()+" \n"+ petUniueId.toString());
@@ -700,6 +703,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                         data.putString("pet_age","puppy");
                         data.putString("pet_unique_id",newPetRegisterResponse.getData().getPetUniqueId());
                         data.putString("pet_DOB",newPetRegisterResponse.getData().getDateOfBirth());
+                        data.putString("pet_encrypted_id","");
                         petDetailsIntent.putExtras(data);
                         startActivity(petDetailsIntent);
                     }else if (responseCode==614){
@@ -1026,6 +1030,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
         data.putString("pet_age",petClinicVisitLists.get(position).getPetAge());
         data.putString("pet_unique_id",petClinicVisitLists.get(position).getPetUniqueId());
         data.putString("pet_DOB",petClinicVisitLists.get(position).getPetDOB());
+        data.putString("pet_encrypted_id",petClinicVisitLists.get(position).getEncryptedId());
         petDetailsIntent.putExtras(data);
         startActivity(petDetailsIntent);
 
@@ -1086,7 +1091,8 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                             String petAge = st.nextToken();
                             String Id = st.nextToken();
                             String pet_DOB = st.nextToken();
-                            Log.d("ppppp",""+PetUniqueId+" "+PetName+" "+PetParentName+" "+PetSex+" "+petAge+" "+Id+" "+pet_DOB);
+                            String pet_encrypted_id = st.nextToken();
+                            Log.d("ppppp",""+PetUniqueId+" "+PetName+" "+PetParentName+" "+PetSex+" "+petAge+" "+Id+" "+pet_DOB+" "+pet_encrypted_id);
                             Intent petDetailsIntent = new Intent(getActivity().getApplication(), PetDetailsActivity.class);
                             Bundle data = new Bundle();
                             data.putString("pet_id",Id);
@@ -1096,6 +1102,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                             data.putString("pet_age",petAge);
                             data.putString("pet_unique_id",PetUniqueId);
                             data.putString("pet_DOB",pet_DOB);
+                            data.putString("pet_encrypted_id",pet_encrypted_id);
                             petDetailsIntent.putExtras(data);
                             startActivity(petDetailsIntent);
                         }

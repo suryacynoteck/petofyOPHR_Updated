@@ -423,6 +423,8 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
                                 strSexType = "Male";
                             data.putString("pet_sex", strSexType);
                             data.putString("pet_unique_id", addPetValueResponse.getData().getPetUniqueId());
+                            data.putString("pet_DOB",addPetValueResponse.getData().getDateOfBirth());
+                            data.putString("pet_encrypted_id",addPetValueResponse.getData().getEncryptedId());
                             intentPetDetails.putExtras(data);
                             startActivity(intentPetDetails);
                             Toast.makeText(this, "Pet Added Successfully", Toast.LENGTH_SHORT).show();

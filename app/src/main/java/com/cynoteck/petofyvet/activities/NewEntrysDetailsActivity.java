@@ -17,7 +17,8 @@ import com.cynoteck.petofyvet.fragments.ReportListFragment;
 
 public class NewEntrysDetailsActivity extends AppCompatActivity implements View.OnClickListener {
     ImageView back_arrow_IV;
-    String pet_unique_id, pet_name,pet_sex,pet_age,pet_DOB,pet_owner_name,pet_owner_contact,pet_id ,report_type_id,button_text,button_type;
+    String pet_unique_id, pet_name,pet_sex,pet_age,pet_DOB,pet_owner_name,pet_owner_contact,pet_id ,
+            report_type_id,button_text,button_type,pet_encrypted_id;
     Bundle data = new Bundle();
     TextView pet_name_TV,pet_sex_TV,pet_id_TV,pet_owner_name_TV,pet_owner_phone_no_TV,
             reports_headline_TV,add_text_button;
@@ -39,6 +40,7 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
         pet_name = extras.getString("pet_name");
         button_type=extras.getString("button_type");
         pet_DOB=extras.getString("pet_DOB");
+        pet_encrypted_id=extras.getString("pet_encrypted_id");
 
         Log.e("jajajjaj",""+pet_DOB);
         pet_unique_id = extras.getString("pet_unique_id");
@@ -286,11 +288,13 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
         Intent petDetailsIntent = new Intent(this.getApplication(), AddClinicActivity.class);
         Bundle data = new Bundle();
         data.putString("pet_id",pet_id);
+        data.putString("pet_name",pet_name);
         data.putString("pet_parent",pet_owner_name);
         data.putString("pet_sex",pet_sex);
         data.putString("pet_age",pet_age);
         data.putString("pet_unique_id",pet_unique_id);
         data.putString("pet_DOB",pet_DOB);
+        data.putString("pet_encrypted_id",pet_encrypted_id);
         data.putString("nature_of_visit","");
         data.putString("visit_dt","");
         data.putString("visit_description","");
