@@ -1,5 +1,8 @@
 package com.cynoteck.petofyvet.api;
 
+import com.cynoteck.petofyvet.params.addBankAccountParams.AddBankAccountRequest;
+import com.cynoteck.petofyvet.params.addBankAccountParams.CheckAccountRequest;
+import com.cynoteck.petofyvet.params.addBankAccountParams.ValidateIfscRequest;
 import com.cynoteck.petofyvet.params.addEditImmunizationSchedule.AddEditImmunizationRequest;
 import com.cynoteck.petofyvet.params.addHospitalization.AddHospitalizationRequest;
 import com.cynoteck.petofyvet.params.addImmunizationClinic.ImmunizationClinicData;
@@ -18,6 +21,7 @@ import com.cynoteck.petofyvet.params.assignAndRemovePermission.AssignRemovePermi
 import com.cynoteck.petofyvet.params.changePassRequest.ChangePassRequest;
 import com.cynoteck.petofyvet.params.checkpetInVetRegister.InPetRegisterRequest;
 import com.cynoteck.petofyvet.params.forgetPassRequest.ForgetPassRequest;
+import com.cynoteck.petofyvet.params.getMyVisitPetRecordRequest.GetMyVisistPetRecordRequest;
 import com.cynoteck.petofyvet.params.getPetListRequest.GetPetListRequest;
 import com.cynoteck.petofyvet.params.getVaccinationDetails.GetVaccinationRequest;
 import com.cynoteck.petofyvet.params.immunizationRequest.ImmunizationRequest;
@@ -32,6 +36,7 @@ import com.cynoteck.petofyvet.params.petReportsRequest.VisitTypeRequest;
 import com.cynoteck.petofyvet.params.registerRequest.Registerparams;
 import com.cynoteck.petofyvet.params.searchRemarksParameter.SearchRemaksRequest;
 import com.cynoteck.petofyvet.params.staffPermission.StaffPermissionRequest;
+import com.cynoteck.petofyvet.params.upcommingVisitsRequest.UpcommingVisitsRequest;
 import com.cynoteck.petofyvet.params.updateClinicVisitsParams.UpdateClinicReportsRequest;
 import com.cynoteck.petofyvet.params.updateHospitalizationParams.UpdateHospitalizationRequest;
 import com.cynoteck.petofyvet.params.updateLapTestParams.UpdateLabTestRequest;
@@ -58,11 +63,15 @@ import com.cynoteck.petofyvet.response.addTestAndXRayResponse.AddTestXRayRespons
 import com.cynoteck.petofyvet.response.appointmentResponse.AppointmentDetailsResponse;
 import com.cynoteck.petofyvet.response.appointmentResponse.CreateAppointmentResponse;
 import com.cynoteck.petofyvet.response.appointmentResponse.GetAppointmentResponse;
+import com.cynoteck.petofyvet.response.bankAccountResponse.AddBankAccountResponse;
+import com.cynoteck.petofyvet.response.bankAccountResponse.GetBankAccoutsResponse;
+import com.cynoteck.petofyvet.response.bankAccountResponse.ValidateIfscCodeResponse;
 import com.cynoteck.petofyvet.response.clinicVisist.ClinicVisitResponse;
 import com.cynoteck.petofyvet.response.forgetAndChangePassResponse.PasswordResponse;
 import com.cynoteck.petofyvet.response.getAppointmentsStatusResponse.AppointmentStatusResponse;
 import com.cynoteck.petofyvet.response.getLabTestReportResponse.getLabTestReportDetailsResponse.GetLabTestReportDeatilsResponse;
 import com.cynoteck.petofyvet.response.getLabTestReportResponse.getPetLabWorkListResponse.PetLabWorkResponse;
+import com.cynoteck.petofyvet.response.getMyVisitedPetRecordResponse.GetMyVisitPetRecordResponse;
 import com.cynoteck.petofyvet.response.getPetDetailsResponse.GetPetResponse;
 import com.cynoteck.petofyvet.response.getPetHospitalizationResponse.getHospitalizationDeatilsResponse.GetHospitalizationDeatilsResponse;
 import com.cynoteck.petofyvet.response.getPetHospitalizationResponse.getHospitalizationListResponse.GetPetHospitalizationResponse;
@@ -97,6 +106,7 @@ import com.cynoteck.petofyvet.response.saveWorkingReponse.SaveWorkingHoursRespon
 import com.cynoteck.petofyvet.response.searchRemaks.SearchRemaksResponse;
 import com.cynoteck.petofyvet.response.staffPermissionListResponse.StaffPermissionResponse;
 import com.cynoteck.petofyvet.response.testResponse.XrayTestResponse;
+import com.cynoteck.petofyvet.response.upcommingVisitsResponse.UpcommingVisitsResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.CityResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.CountryResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.PetServiceResponse;
@@ -199,12 +209,12 @@ public interface ApiInterface {
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("pet/GetPetIdentityCard")
     Call<GetPetResponse> getPetIdentyCard(@Header("Authorization") String auth,
-                                       @Body GetPetListRequest addPetRequset);
+                                          @Body GetPetListRequest addPetRequset);
 
     @Multipart
     @POST("document/UploadDocument")
     Call<ImageResponse> uploadImages(@Header("Authorization") String auth,
-                                      @Part MultipartBody.Part file);
+                                     @Part MultipartBody.Part file);
 
     @Multipart
     @POST("user/ChangeProfileImage")
@@ -392,14 +402,6 @@ public interface ApiInterface {
     @POST("pethealthrecord/AddTestXRay")
     Call<AddTestXRayResponse> addTestXRay(@Header("Authorization") String auth, @Body AddTestXRayRequest addTestXRayRequest);
 
-    //GetVaccinationScheduleChart
-
-    @Headers({ "Content-Type: application/json;charset=UTF-8"})
-    @POST("immunization/GetVaccinationScheduleChart")
-    Call<GetVaccineResponse> getVaccinationScheduleChart(@Header("Authorization") String auth, @Body GetVaccinationRequest getVaccinationRequest);
-
-
-
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("pethealthrecord/UpdateTestXRay")
     Call<AddTestXRayResponse> updateTestXRay(@Header("Authorization") String auth, @Body UpdateXrayRequest updateXrayRequest);
@@ -407,7 +409,7 @@ public interface ApiInterface {
     //ADD PET HOSPITALIZATION
 
 
-       @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("pethealthrecord/AddPetHospitalization")
     Call<AddhospitalizationResposee> addPetHospitalization(@Header("Authorization") String auth, @Body AddHospitalizationRequest addHospitalizationRequest);
 
@@ -455,7 +457,7 @@ public interface ApiInterface {
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("user/EnableTwoStepAuthentication")
     Call<OnlineAppointmentResponse> enableDisableTowFactorAuth(@Header("Authorization") String auth,
-                                                           @Body GetPetListRequest addPetRequset);
+                                                               @Body GetPetListRequest addPetRequset);
 
     //TODO=================GET OPERATING HOURS===========================
 
@@ -508,8 +510,39 @@ public interface ApiInterface {
     @POST("immunization/DeleteVaccinationSchedule")
     Call<CheckTrueFalseStatus> deleteImmunizationSchedule(@Header("Authorization") String auth, @Body ImmunizationRequest immunizationRequest);
 
-
     //Bank Account .........................................
+
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("paymentgateway/getaccounts")
+    Call<GetBankAccoutsResponse> getBankAccouts(@Header("Authorization") String auth);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("paymentgateway/addbank")
+    Call<AddBankAccountResponse> addBankAccount(@Header("Authorization") String auth, @Body AddBankAccountRequest addBankAccountRequest);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("paymentgateway/validateifsccode")
+    Call<ValidateIfscCodeResponse> validateIfscCode(@Header("Authorization") String auth, @Body ValidateIfscRequest validateIfscRequest);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("paymentgateway/checkaccountnumber")
+    Call<CheckTrueFalseStatus> checkAccountNumber(@Header("Authorization") String auth, @Body CheckAccountRequest checkAccountRequest);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("pethealthrecord/UpComingVisitsData")
+    Call<UpcommingVisitsResponse> getUpcomingVisits(@Header("Authorization") String auth, @Body UpcommingVisitsRequest upcommingVisitsRequest);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("pethealthrecord/GetMyVisitedPetRecord")
+    Call<GetMyVisitPetRecordResponse> getMyVisitedPetRecord(@Header("Authorization") String auth, @Body GetMyVisistPetRecordRequest getMyVisistPetRecordRequest);
+
+    //GetVaccinationScheduleChart
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("immunization/GetVaccinationScheduleChart")
+    Call<GetVaccineResponse> getVaccinationScheduleChart(@Header("Authorization") String auth, @Body GetVaccinationRequest getVaccinationRequest);
+
 
     //Save Immunization.....................................
 
