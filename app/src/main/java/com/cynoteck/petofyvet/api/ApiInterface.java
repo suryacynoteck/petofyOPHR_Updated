@@ -24,6 +24,7 @@ import com.cynoteck.petofyvet.params.forgetPassRequest.ForgetPassRequest;
 import com.cynoteck.petofyvet.params.getMyVisitPetRecordRequest.GetMyVisistPetRecordRequest;
 import com.cynoteck.petofyvet.params.getPetListRequest.GetPetListRequest;
 import com.cynoteck.petofyvet.params.getVaccinationDetails.GetVaccinationRequest;
+import com.cynoteck.petofyvet.params.immunizationHistory.ImmunizationHistoryRequest;
 import com.cynoteck.petofyvet.params.immunizationRequest.ImmunizationRequest;
 import com.cynoteck.petofyvet.params.immunizationRequest.ImmunizationRequestt;
 import com.cynoteck.petofyvet.params.loginRequest.Loginparams;
@@ -94,6 +95,7 @@ import com.cynoteck.petofyvet.response.hospitalTypeListResponse.HospitalAddmissi
 import com.cynoteck.petofyvet.response.immunizationListResponse.ImmunizationModelResponse;
 import com.cynoteck.petofyvet.response.immunizationListResponse.ImmunizationResponse;
 import com.cynoteck.petofyvet.response.immunizationVaccineType.ImmunizationVaccineResponse;
+import com.cynoteck.petofyvet.response.immuniztionHistory.ImmunizationHistoryResponse;
 import com.cynoteck.petofyvet.response.labTyperesponse.LabTypeResponse;
 import com.cynoteck.petofyvet.response.loginRegisterResponse.LoginRegisterResponse;
 import com.cynoteck.petofyvet.response.newPetResponse.NewPetRegisterResponse;
@@ -549,6 +551,11 @@ public interface ApiInterface {
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("immunization/SaveImmunizationDetails")
     Call<SaveImmunizationResponse> saveImmunizationDetails(@Header("Authorization") String auth, @Body VaccinationRequest vaccinationRequest);
+
+    //Get Immunization History..............................
+
+    @POST("pethealthrecord/GetPetImmunizationHistory")
+    Call<ImmunizationHistoryResponse> getPetImmunizationHistory(@Body GetVaccinationRequest immunizationHistoryRequest);
 
 }
 
