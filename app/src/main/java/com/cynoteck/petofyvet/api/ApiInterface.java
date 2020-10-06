@@ -69,7 +69,6 @@ import com.cynoteck.petofyvet.response.bankAccountResponse.ValidateIfscCodeRespo
 import com.cynoteck.petofyvet.response.clinicVisist.ClinicVisitResponse;
 import com.cynoteck.petofyvet.response.forgetAndChangePassResponse.PasswordResponse;
 import com.cynoteck.petofyvet.response.getAppointmentsStatusResponse.AppointmentStatusResponse;
-import com.cynoteck.petofyvet.response.getImmunizationReport.PetImmunizationRecordResponse;
 import com.cynoteck.petofyvet.response.getLabTestReportResponse.getLabTestReportDetailsResponse.GetLabTestReportDeatilsResponse;
 import com.cynoteck.petofyvet.response.getLabTestReportResponse.getPetLabWorkListResponse.PetLabWorkResponse;
 import com.cynoteck.petofyvet.response.getMyVisitedPetRecordResponse.GetMyVisitPetRecordResponse;
@@ -511,12 +510,8 @@ public interface ApiInterface {
     @POST("immunization/DeleteVaccinationSchedule")
     Call<CheckTrueFalseStatus> deleteImmunizationSchedule(@Header("Authorization") String auth, @Body ImmunizationRequest immunizationRequest);
 
-
-    @Headers({ "Content-Type: application/json;charset=UTF-8"})
-    @POST("pethealthrecord/ViewPetVaccination")
-    Call<PetImmunizationRecordResponse> viewPetVaccination(@Header("Authorization") String auth, @Body ImmunizationRequest immunizationRequest);
-
     //Bank Account .........................................
+
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("paymentgateway/getaccounts")
@@ -548,13 +543,12 @@ public interface ApiInterface {
     @POST("immunization/GetVaccinationScheduleChart")
     Call<GetVaccineResponse> getVaccinationScheduleChart(@Header("Authorization") String auth, @Body GetVaccinationRequest getVaccinationRequest);
 
+
     //Save Immunization.....................................
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("immunization/SaveImmunizationDetails")
     Call<SaveImmunizationResponse> saveImmunizationDetails(@Header("Authorization") String auth, @Body VaccinationRequest vaccinationRequest);
-
-
 
 }
 
