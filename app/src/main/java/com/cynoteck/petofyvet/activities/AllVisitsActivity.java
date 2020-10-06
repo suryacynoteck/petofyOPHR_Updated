@@ -1,9 +1,18 @@
 package com.cynoteck.petofyvet.activities;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.print.PrintAttributes;
+import android.print.PrintDocumentAdapter;
+import android.print.PrintJob;
+import android.print.PrintManager;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
@@ -13,6 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,10 +35,19 @@ import com.cynoteck.petofyvet.api.ApiResponse;
 import com.cynoteck.petofyvet.api.ApiService;
 import com.cynoteck.petofyvet.params.getMyVisitPetRecordRequest.GetMyVisistPetRecordParams;
 import com.cynoteck.petofyvet.params.getMyVisitPetRecordRequest.GetMyVisistPetRecordRequest;
+import com.cynoteck.petofyvet.params.immunizationRequest.ImmunizationParams;
+import com.cynoteck.petofyvet.params.immunizationRequest.ImmunizationRequest;
+import com.cynoteck.petofyvet.params.petReportsRequest.PetClinicVisitDetailsRequest;
+import com.cynoteck.petofyvet.params.petReportsRequest.PetClinicVistsDetailsParams;
+import com.cynoteck.petofyvet.response.getImmunizationReport.PetImmunizationRecordResponse;
 import com.cynoteck.petofyvet.response.getMyVisitedPetRecordResponse.GetMyVisitPetRecordResponse;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.GetReportsTypeResponse;
+import com.cynoteck.petofyvet.response.getPetReportsResponse.getClinicVisitDetails.GetClinicVisitsDetailsResponse;
+import com.cynoteck.petofyvet.utils.AllVisitsDateWieseOnClick;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -36,7 +55,7 @@ import java.util.HashMap;
 
 import retrofit2.Response;
 
-public class AllVisitsActivity extends AppCompatActivity implements ApiResponse, View.OnClickListener {
+public class AllVisitsActivity extends AppCompatActivity implements ApiResponse, View.OnClickListener, AllVisitsDateWieseOnClick {
     AllVisitsAdapter allVisitsAdapter;
     LinearLayout search_visits;
     TextView lastVisitDt, nextVisitDt;
@@ -51,6 +70,8 @@ public class AllVisitsActivity extends AppCompatActivity implements ApiResponse,
     ProgressBar progressBar;
     String lastDate, nextDate;
     GetMyVisitPetRecordResponse getMyVisitPetRecordResponse;
+    String petNameImmun="",petSeximmun="",petAgeImmun="",petParentImmun="";
+    WebView webview;
 
 
     @Override
@@ -75,7 +96,9 @@ public class AllVisitsActivity extends AppCompatActivity implements ApiResponse,
         lastVisitDt = findViewById(R.id.lastVisitDt);
         nextVisitDt = findViewById(R.id.nextVisitDt);
         progressBar = findViewById(R.id.progressBar);
-
+        webview = findViewById(R.id.webview);
+        WebSettings webSettings = webview.getSettings();
+        webSettings.setJavaScriptEnabled(true);
 
         back_arrow_IV.setOnClickListener(this);
         search_visits.setOnClickListener(this);
@@ -208,7 +231,7 @@ public class AllVisitsActivity extends AppCompatActivity implements ApiResponse,
                         all_visits_RV.setVisibility(View.VISIBLE);
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
                         all_visits_RV.setLayoutManager(linearLayoutManager);
-                        allVisitsAdapter = new AllVisitsAdapter(this, getMyVisitPetRecordResponse.getData().getPetClinicVisitList());
+                        allVisitsAdapter = new AllVisitsAdapter(this, getMyVisitPetRecordResponse.getData().getPetClinicVisitList(),this);
                         all_visits_RV.setAdapter(allVisitsAdapter);
                     } else if (responseCode == 614) {
                         Toast.makeText(this, getMyVisitPetRecordResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
@@ -220,6 +243,96 @@ public class AllVisitsActivity extends AppCompatActivity implements ApiResponse,
                     e.printStackTrace();
                 }
 
+                break;
+
+            case "GetImmunization":
+                try {
+                    methods.customProgressDismiss();
+                    Log.d("GetImmunization",arg0.body().toString());
+                    PetImmunizationRecordResponse immunizationRecordResponse = (PetImmunizationRecordResponse) arg0.body();
+                    int responseCode = Integer.parseInt(immunizationRecordResponse.getResponse().getResponseCode());
+                    if (responseCode== 109){
+                        if (immunizationRecordResponse.getData().getPetImmunizationDetailModels().isEmpty()){
+                            Toast.makeText(this, "No Record Found !", Toast.LENGTH_SHORT).show();
+                        }else {
+                            ArrayList<String> immunizationDate = new ArrayList<>();
+                            ArrayList<String> vaccineClass = new ArrayList<>();
+                            ArrayList<String> nextDueDate = new ArrayList<>();
+
+                            for (int i = 0; i < immunizationRecordResponse.getData().getPetImmunizationDetailModels().size(); i++) {
+                                immunizationDate.add(immunizationRecordResponse.getData().getPetImmunizationDetailModels().get(i).getImmunizationDate().substring(0, immunizationRecordResponse.getData().getPetImmunizationDetailModels().get(i).getImmunizationDate().length() - 11));
+                                vaccineClass.add(immunizationRecordResponse.getData().getPetImmunizationDetailModels().get(i).getVaccine());
+                                nextDueDate.add(immunizationRecordResponse.getData().getPetImmunizationDetailModels().get(i).getNextDueDate());
+                            }
+                            JSONArray date = new JSONArray(immunizationDate);
+                            JSONArray vaccine = new JSONArray(vaccineClass);
+                            JSONArray nextDate = new JSONArray(nextDueDate);
+                            Log.e("aaaaaa", vaccineClass.toString());
+                            Log.e("aaaaaa", vaccine.toString());
+                            String immunizationSet = methods.immunizationPdfGenarator(petNameImmun, petAgeImmun, petSeximmun, petParentImmun, "4564564644465", date, vaccine, nextDate);
+
+                            webview.loadDataWithBaseURL(null, immunizationSet, "text/html", "utf-8", null);
+                            new Handler().postDelayed(new Runnable() {
+                                @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                                @Override
+                                public void run() {
+                                    Context context = AllVisitsActivity.this;
+                                    PrintManager printManager = (PrintManager) getSystemService(context.PRINT_SERVICE);
+                                    PrintDocumentAdapter adapter = null;
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                                        adapter = webview.createPrintDocumentAdapter();
+                                    }
+                                    String JobName = getString(R.string.app_name) + "Document";
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                                        PrintJob printJob = printManager.print(JobName, adapter, new PrintAttributes.Builder().build());
+                                    }
+                                }
+                            }, 3000);
+
+                        }
+
+                    }else if (responseCode==614){
+                        Toast.makeText(this, immunizationRecordResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+
+            case "GetPetClinicVisitDetails":
+                try {
+                    Log.d("ResponseClinicVisit", arg0.body().toString());
+                    GetClinicVisitsDetailsResponse getClinicVisitsDetailsResponse = (GetClinicVisitsDetailsResponse) arg0.body();
+                    int responseCode = Integer.parseInt(getClinicVisitsDetailsResponse.getResponse().getResponseCode());
+                    Log.d("ajajjaja",""+responseCode);
+                    if (responseCode == 109) {
+                        lastPrescriptionPdf(getClinicVisitsDetailsResponse.getData().getVeterinarianDetails().getName(),
+                                getClinicVisitsDetailsResponse.getData().getVeterinarianDetails().getEmail(),
+                                getClinicVisitsDetailsResponse.getData().getVeterinarianDetails().getVetQualifications(),
+                                getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getPetName(),
+                                getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getPetAge(),
+                                getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getPetSex(),
+                                getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getVisitDate(),
+                                getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getPetParentName(),
+                                getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getTemperature(),
+                                getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getDiagnosisProcedure(),
+                                getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getTreatmentRemarks(),
+                                getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getFollowUpDate(),
+                                getClinicVisitsDetailsResponse.getData().getVeterinarianDetails().getVetRegistrationNumber(),
+                                getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getDescription(),
+                                getClinicVisitsDetailsResponse.getData().getVeterinarianDetails().getAddress()
+                        );
+                    }
+                    else
+                    {
+                        methods.customProgressDismiss();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
         }
     }
@@ -249,5 +362,59 @@ public class AllVisitsActivity extends AppCompatActivity implements ApiResponse,
     @Override
     public void onError(Throwable t, String key) {
 
+    }
+
+    @Override
+    public void onPrecriptionButton(int position) {
+        PetClinicVistsDetailsParams petClinicVistsDetailsParams = new PetClinicVistsDetailsParams();
+        petClinicVistsDetailsParams.setId(getMyVisitPetRecordResponse.getData().getPetClinicVisitList().get(position).getPetId().substring(0,getMyVisitPetRecordResponse.getData().getPetClinicVisitList().get(position).getPetId().length()-2));
+        PetClinicVisitDetailsRequest petClinicVisitDetailsRequest = new PetClinicVisitDetailsRequest();
+        petClinicVisitDetailsRequest.setData(petClinicVistsDetailsParams);
+        Log.d("petClinicVisitDetail",petClinicVisitDetailsRequest.toString());
+        ApiService<GetClinicVisitsDetailsResponse> service = new ApiService<>();
+        service.get(this, ApiClient.getApiInterface().getLastPrescription(Config.token,petClinicVisitDetailsRequest), "GetPetClinicVisitDetails");
+        methods.showCustomProgressBarDialog(this);
+    }
+
+    @Override
+    public void onImmunizationButton(int position) {
+        methods.showCustomProgressBarDialog(this);
+//        Toast.makeText(this, "Immization", Toast.LENGTH_SHORT).show();
+        petNameImmun = getMyVisitPetRecordResponse.getData().getPetClinicVisitList().get(position).getPetName();
+        petSeximmun = getMyVisitPetRecordResponse.getData().getPetClinicVisitList().get(position).getPetSex();
+        petAgeImmun = getMyVisitPetRecordResponse.getData().getPetClinicVisitList().get(position).getPetAge();
+        petParentImmun = getMyVisitPetRecordResponse.getData().getPetClinicVisitList().get(position).getPetParentName();
+
+        ImmunizationParams immunizationParams = new ImmunizationParams();
+        immunizationParams.setEncryptedId(getMyVisitPetRecordResponse.getData().getPetClinicVisitList().get(position).getEncryptedId());
+//        immunizationParams.setEncryptedId(getPetListResponse.getData().getPetClinicVisitList().get(position).getEncryptedId());
+        ImmunizationRequest immunizationRequest = new ImmunizationRequest();
+        immunizationRequest.setData(immunizationParams);
+
+        ApiService<PetImmunizationRecordResponse> service = new ApiService<>();
+        service.get(this, ApiClient.getApiInterface().viewPetVaccination(Config.token,immunizationRequest), "GetImmunization");
+        Log.d("GetImmunization",immunizationRequest.toString());
+
+    }
+    public void lastPrescriptionPdf(String veterian, String strEmail,String qualification,String strForA, String strAge,String strSex, String strDate,String pet_parent, String strTemparature, String strDiagnosis,String strRemark, String strNxtVisit,String registration_number, String Symptons,String address)
+    {
+        String str=methods.pdfGenarator(strForA,strAge,strSex,pet_parent,strTemparature,Symptons,strDiagnosis,strRemark,strNxtVisit,registration_number);
+        webview.loadDataWithBaseURL(null,str,"text/html","utf-8",null);
+        new Handler().postDelayed(new Runnable(){
+            @Override
+            public void run() {
+                methods.customProgressDismiss();
+                Context context=AllVisitsActivity.this;
+                PrintManager printManager=(PrintManager)getSystemService(context.PRINT_SERVICE);
+                PrintDocumentAdapter adapter=null;
+                if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
+                    adapter=webview.createPrintDocumentAdapter();
+                }
+                String JobName=getString(R.string.app_name) +"Document";
+                if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
+                    PrintJob printJob=printManager.print(JobName,adapter,new PrintAttributes.Builder().build());
+                }
+            }
+        }, 3000);
     }
 }

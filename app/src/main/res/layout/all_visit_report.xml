@@ -17,14 +17,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:weightSum="2">
+            android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/pet_deatils_LL"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1.5"
                 android:orientation="horizontal"
                 android:padding="10dp"
                 android:weightSum="2">
@@ -224,6 +222,52 @@
 
 
 
+            <LinearLayout
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_weight=".8"
+                android:weightSum="2"
+                android:orientation="horizontal"
+                android:background="#67C162">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".1"/>
+
+
+                <TextView
+                    android:id="@+id/precription"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".9"
+                    android:drawableLeft="@drawable/prescription_icon"
+                    android:text="Prescription"
+                    android:textColor="#fff"
+                    android:textSize="12sp"
+                    android:gravity="center"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".1"/>
+
+
+
+                <TextView
+                    android:id="@+id/immunization"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".9"
+                    android:drawableLeft="@drawable/prescription_icon"
+                    android:text="Immunization"
+                    android:textColor="#fff"
+                    android:textSize="12sp"
+                    android:gravity="center"/>
+
+
+            </LinearLayout>
 
 
 

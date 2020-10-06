@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.response.getMyVisitedPetRecordResponse.GetMyVisitPetRecordPetClinicVisitList;
+import com.cynoteck.petofyvet.utils.AllVisitsDateWieseOnClick;
 
 import java.util.List;
 
@@ -18,10 +19,13 @@ public class AllVisitsAdapter extends RecyclerView.Adapter<AllVisitsAdapter.MyVi
 
     Context context;
     List<GetMyVisitPetRecordPetClinicVisitList> getMyVisitPetRecordPetClinicVisitLists;
+    private AllVisitsDateWieseOnClick allVisitsDateWieseOnClick;
 
-    public AllVisitsAdapter(Context context, List<GetMyVisitPetRecordPetClinicVisitList> getMyVisitPetRecordPetClinicVisitLists) {
+
+    public AllVisitsAdapter(Context context, List<GetMyVisitPetRecordPetClinicVisitList> getMyVisitPetRecordPetClinicVisitLists, AllVisitsDateWieseOnClick allVisitsDateWieseOnClick) {
         this.context = context;
         this.getMyVisitPetRecordPetClinicVisitLists = getMyVisitPetRecordPetClinicVisitLists;
+        this.allVisitsDateWieseOnClick = allVisitsDateWieseOnClick;
     }
 
     @NonNull
@@ -52,7 +56,7 @@ public class AllVisitsAdapter extends RecyclerView.Adapter<AllVisitsAdapter.MyVi
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView pet_reg_name_TV, pet_reg__id_TV,pet_parent_name_TV,pet_phone_TV,pet_nature_of_visit_TV,pet_remakrs_TV,VisitDate_TV,follow_up_date_TV;
+        TextView pet_reg_name_TV, pet_reg__id_TV,pet_parent_name_TV,pet_phone_TV,pet_nature_of_visit_TV,pet_remakrs_TV,VisitDate_TV,follow_up_date_TV,precription,immunization;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             pet_reg_name_TV = itemView.findViewById(R.id.pet_reg_name_TV);
@@ -63,6 +67,25 @@ public class AllVisitsAdapter extends RecyclerView.Adapter<AllVisitsAdapter.MyVi
             pet_remakrs_TV = itemView.findViewById(R.id.pet_remakrs_TV);
             VisitDate_TV = itemView.findViewById(R.id.VisitDate_TV);
             follow_up_date_TV = itemView.findViewById(R.id.follow_up_date_TV);
+            immunization= itemView.findViewById(R.id.immunization);
+            precription = itemView.findViewById(R.id.precription);
+
+           immunization.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View v) {
+                   if (allVisitsDateWieseOnClick!=null){
+                       allVisitsDateWieseOnClick.onImmunizationButton(getAdapterPosition());
+                   }
+               }
+           });
+            precription.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (allVisitsDateWieseOnClick!=null){
+                        allVisitsDateWieseOnClick.onPrecriptionButton(getAdapterPosition());
+                    }
+                }
+            });
 
         }
     }
