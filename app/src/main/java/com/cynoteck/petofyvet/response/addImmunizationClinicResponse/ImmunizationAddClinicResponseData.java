@@ -292,4 +292,41 @@ public class ImmunizationAddClinicResponseData {
         this.petVaccinationDetail = petVaccinationDetail;
     }
 
+    @Override
+    public String toString() {
+        return "ClassPojo[" +
+                "id=" + id +
+                ", petId=" + petId +
+                ", veterinarian=" + veterinarian +
+                ", visitDate=" + visitDate +
+                ", natureOfVisitId=" + natureOfVisitId +
+                ", vaccine=" + vaccine +
+                ", description=" + description +
+                ", weightLbs=" + weightLbs +
+                ", weightOz=" + weightOz +
+                ", temperature=" + temperature +
+                ", dateOfOnset=" + dateOfOnset +
+                ", diagnosisProcedure=" + diagnosisProcedure +
+                ", treatmentRemarks=" + treatmentRemarks +
+                ", dewormerName=" + dewormerName +
+                ", documents=" + documents +
+                ", createdOn=" + createdOn +
+                ", createdBy=" + createdBy +
+                ", updatedOn=" + updatedOn +
+                ", updatedBy=" + updatedBy +
+                ", followUpId=" + followUpId +
+                ", followUpDate=" + followUpDate +
+                ", veterinarianUserId=" + veterinarianUserId +
+                ", dewormerDose=" + dewormerDose +
+                ", isOnLineAppointment=" + isOnLineAppointment +
+                ", createdByNavigation=" + createdByNavigation +
+                ", followUp=" + followUp +
+                ", natureOfVisit=" + natureOfVisit +
+                ", pet=" + pet +
+                ", updatedByNavigation=" + updatedByNavigation +
+                ", veterinarianUser=" + veterinarianUser +
+                ", veterinarianAppointment=" + veterinarianAppointment +
+                ", petVaccinationDetail=" + petVaccinationDetail +
+                "]";
+    }
 }

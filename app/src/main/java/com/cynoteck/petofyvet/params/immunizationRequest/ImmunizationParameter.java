@@ -9,7 +9,7 @@ public class ImmunizationParameter {
         return CategoryId;
     }
 
-    public void setCategoryId(String categoryId) {
+    public void setCategoryId(String CategoryId) {
         this.CategoryId = CategoryId;
     }
 
