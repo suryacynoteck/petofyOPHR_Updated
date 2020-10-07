@@ -5,22 +5,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.cynoteck.petofyvet.R;
-import com.cynoteck.petofyvet.response.getPetReportsResponse.GetReportsTypeData;
 import com.cynoteck.petofyvet.response.getVaccinationResponse.GetVaccineResponseModel;
 import com.cynoteck.petofyvet.utils.ImmunizationOnclickListener;
-import com.cynoteck.petofyvet.utils.RegisterRecyclerViewClickListener;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class VaccineTypeAdapter extends RecyclerView.Adapter<VaccineTypeAdapter.MyViewHolder> {
     Context context;
@@ -35,13 +31,13 @@ public class VaccineTypeAdapter extends RecyclerView.Adapter<VaccineTypeAdapter.
     @NonNull
     @Override
     public VaccineTypeAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.vaccine_type_adapter, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.vaccine_type_list, parent, false);
         VaccineTypeAdapter.MyViewHolder vh = new VaccineTypeAdapter.MyViewHolder(v);
         return vh;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull VaccineTypeAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final VaccineTypeAdapter.MyViewHolder holder, int position) {
      String min_age=getVaccineResponseModels.get(position).getVaccinationSchedule().getMinimunAge().substring(0,getVaccineResponseModels.get(position).getVaccinationSchedule().getMinimunAge().length()-3);
      String max_age=getVaccineResponseModels.get(position).getVaccinationSchedule().getMaximunAge().substring(0,getVaccineResponseModels.get(position).getVaccinationSchedule().getMaximunAge().length()-3);
 
@@ -57,10 +53,26 @@ public class VaccineTypeAdapter extends RecyclerView.Adapter<VaccineTypeAdapter.
          holder.booster_two.setVisibility(View.VISIBLE);
      }
 
-
-
      holder.age_group.setText(min_age+" - "+max_age+" Days");
      holder.vaccine_name.setText(getVaccineResponseModels.get(position).getVaccinationSchedule().getPrimaryVaccine());
+     holder.down_IV.setOnClickListener(new View.OnClickListener() {
+         @Override
+         public void onClick(View v) {
+             holder.up_IV.setVisibility(View.VISIBLE);
+             holder.down_IV.setVisibility(View.GONE);
+             holder.vaccine_type_expand_LL.setVisibility(View.VISIBLE);
+
+         }
+     });
+
+     holder.up_IV.setOnClickListener(new View.OnClickListener() {
+         @Override
+         public void onClick(View v) {
+             holder.up_IV.setVisibility(View.GONE);
+             holder.down_IV.setVisibility(View.VISIBLE);
+             holder.vaccine_type_expand_LL.setVisibility(View.GONE);
+         }
+     });
 
     }
 
@@ -72,6 +84,8 @@ public class VaccineTypeAdapter extends RecyclerView.Adapter<VaccineTypeAdapter.
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView age_group,vaccine_name;
         CheckBox Primary,booster_one,booster_two;
+        LinearLayout vaccine_type_expand_LL;
+        ImageView up_IV, down_IV;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -80,6 +94,9 @@ public class VaccineTypeAdapter extends RecyclerView.Adapter<VaccineTypeAdapter.
             Primary = itemView.findViewById(R.id.Primary);
             booster_one = itemView.findViewById(R.id.booster_one);
             booster_two = itemView.findViewById(R.id.booster_two);
+            down_IV = itemView.findViewById(R.id.down_IV);
+            up_IV = itemView.findViewById(R.id.up_IV);
+            vaccine_type_expand_LL = itemView.findViewById(R.id.vaccine_type_expand_LL);
 
             Primary.setOnClickListener(new View.OnClickListener() {
                 @Override
