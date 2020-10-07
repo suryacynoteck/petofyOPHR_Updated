@@ -1,6 +1,7 @@
 package com.cynoteck.petofyvet.activities;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -102,6 +103,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import okhttp3.MediaType;
@@ -155,6 +157,13 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
     int backPressVal=0;
     private ArrayList<GetVaccineResponseModel> getVaccineResponseModels;
     private ArrayList<ImmunizationHistorymodel> getImmunizationHistory;
+
+    //Immunization History Array
+    private ArrayList<String> nextVisitDateList;
+    private ArrayList<String> vaccineClassList;
+    private ArrayList<String> vaccineList;
+    private ArrayList<String> immunizationDateList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -696,16 +705,23 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
 
     private void vaccineDetailsDialog()
     {
-        vaccineDetailsDialog = new Dialog(this);
-        vaccineDetailsDialog.setContentView(R.layout.test_layout);
+       /* vaccineDetailsDialog = new Dialog(this);
+        vaccineDetailsDialog.setContentView(R.layout.vaccine_deatils_dilog);
+        CardView age_group_CV = vaccineDetailsDialog.findViewById(R.id.age_group_CV);
+        CardView periodic_vaccine_CV = vaccineDetailsDialog.findViewById(R.id.periodic_vaccine_CV);
+        CardView history_CV = vaccineDetailsDialog.findViewById(R.id.history_CV);
+        final TextView age_group_TV = vaccineDetailsDialog.findViewById(R.id.age_group_TV);
+        final TextView periodic_vaccine_TV = vaccineDetailsDialog.findViewById(R.id.periodic_vaccine_TV);
+        final TextView history_TV = vaccineDetailsDialog.findViewById(R.id.history_TV);
 
-        TextView pet_details=vaccineDetailsDialog.findViewById(R.id.pet_details);
+//        TextView pet_details=vaccineDetailsDialog.findViewById(R.id.pet_details);
         ImageView clinic_back_arrow_IV=vaccineDetailsDialog.findViewById(R.id.clinic_back_arrow_IV);
-        RecyclerView vaccine_type_name_list=vaccineDetailsDialog.findViewById(R.id.vaccine_type_name_list);
-        RecyclerView pereodic_list=vaccineDetailsDialog.findViewById(R.id.pereodic_list);
-        RecyclerView immunization_history_list=vaccineDetailsDialog.findViewById(R.id.immunization_history_list);
+        final RecyclerView vaccine_type_name_list=vaccineDetailsDialog.findViewById(R.id.vaccine_type_name_list);
+        final RecyclerView pereodic_list=vaccineDetailsDialog.findViewById(R.id.pereodic_list);
+        final RecyclerView immunization_history_list=vaccineDetailsDialog.findViewById(R.id.immunization_history_list);
+
         pereodic_list.setVisibility(View.GONE);
-        pet_details.setText("Pet Name : "+pet_name+"( "+pet_unique_id+") Age :"+ strPetAge+" Days");
+        //pet_details.setText("Pet Name : "+pet_name+"( "+pet_unique_id+") Age :"+ strPetAge+" Days");
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(AddClinicActivity.this);
         vaccine_type_name_list.setLayoutManager(linearLayoutManager);
@@ -752,7 +768,109 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         window.setAttributes(lp);
         vaccineDetailsDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         vaccineDetailsDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        vaccineDetailsDialog.show();*/
+        vaccineDetailsDialog = new Dialog(this);
+        vaccineDetailsDialog.setContentView(R.layout.vaccine_deatils_dilog);
+        CardView age_group_CV = vaccineDetailsDialog.findViewById(R.id.age_group_CV);
+        CardView periodic_vaccine_CV = vaccineDetailsDialog.findViewById(R.id.periodic_vaccine_CV);
+        CardView history_CV = vaccineDetailsDialog.findViewById(R.id.history_CV);
+        final LinearLayout immunization_history_layout=vaccineDetailsDialog.findViewById(R.id.immunization_history_layout);
+        final TextView age_group_TV = vaccineDetailsDialog.findViewById(R.id.age_group_TV);
+        final TextView periodic_vaccine_TV = vaccineDetailsDialog.findViewById(R.id.periodic_vaccine_TV);
+        final TextView history_TV = vaccineDetailsDialog.findViewById(R.id.history_TV);
+
+//        TextView pet_details=vaccineDetailsDialog.findViewById(R.id.pet_details);
+        ImageView clinic_back_arrow_IV=vaccineDetailsDialog.findViewById(R.id.clinic_back_arrow_IV);
+        final RecyclerView vaccine_type_name_list=vaccineDetailsDialog.findViewById(R.id.vaccine_type_name_list);
+        final RecyclerView pereodic_list=vaccineDetailsDialog.findViewById(R.id.pereodic_list);
+        final RecyclerView immunization_history_list=vaccineDetailsDialog.findViewById(R.id.immunization_history_list);
+
+        pereodic_list.setVisibility(View.GONE);
+//        pet_details.setText("Pet Name : "+pet_name+"( "+pet_unique_id+") Age :"+ strPetAge+" Days");
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(AddClinicActivity.this);
+        vaccine_type_name_list.setLayoutManager(linearLayoutManager);
+        vaccine_type_name_list.setNestedScrollingEnabled(false);
+        if((getVaccineResponseModels!=null)){
+            if(getVaccineResponseModels.size()>0)
+            {
+                vaccineTypeAdapter = new VaccineTypeAdapter(AddClinicActivity.this, getVaccineResponseModels,AddClinicActivity.this);
+                vaccine_type_name_list.setAdapter(vaccineTypeAdapter);
+                vaccineTypeAdapter.notifyDataSetChanged();
+            }
+        }
+
+//////Set Immunization History List
+        LinearLayoutManager linearLayoutManagerone = new LinearLayoutManager(AddClinicActivity.this);
+        immunization_history_list.setLayoutManager(linearLayoutManagerone);
+        immunization_history_list.setNestedScrollingEnabled(false);
+
+        if (nextVisitDateList!=null){
+            if((nextVisitDateList.size()>0))
+            {
+                immunizationHistoryAdopter = new ImmunizationHistoryAdopter(AddClinicActivity.this, nextVisitDateList,vaccineClassList,vaccineList,immunizationDateList);
+                immunization_history_list.setAdapter(immunizationHistoryAdopter);
+                immunizationHistoryAdopter.notifyDataSetChanged();
+            }
+        }
+
+        clinic_back_arrow_IV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                vaccineDetailsDialog.dismiss();
+            }
+        });
+
+        age_group_CV.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("ResourceAsColor")
+            @Override
+            public void onClick(View v) {
+                age_group_TV.setTextColor(R.color.black_color);
+                periodic_vaccine_TV.setTextColor(R.color.grayColorCode);
+                history_TV.setTextColor(R.color.grayColorCode);
+                vaccine_type_name_list.setVisibility(View.VISIBLE);
+                pereodic_list.setVisibility(View.GONE);
+                immunization_history_list.setVisibility(View.GONE);
+                immunization_history_layout.setVisibility(View.GONE);
+            }
+        });
+
+        periodic_vaccine_CV.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("ResourceAsColor")
+            @Override
+            public void onClick(View v) {
+                age_group_TV.setTextColor(R.color.grayColorCode);
+                periodic_vaccine_TV.setTextColor(R.color.black_color);
+                history_TV.setTextColor(R.color.grayColorCode);
+                vaccine_type_name_list.setVisibility(View.GONE);
+                pereodic_list.setVisibility(View.VISIBLE);
+                immunization_history_list.setVisibility(View.GONE);
+                immunization_history_layout.setVisibility(View.GONE);
+            }
+        });
+
+        history_CV.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("ResourceAsColor")
+            @Override
+            public void onClick(View v) {
+                age_group_TV.setTextColor(R.color.grayColorCode);
+                periodic_vaccine_TV.setTextColor(R.color.grayColorCode);
+                history_TV.setTextColor(R.color.black_color);
+                vaccine_type_name_list.setVisibility(View.GONE);
+                pereodic_list.setVisibility(View.GONE);
+                immunization_history_list.setVisibility(View.VISIBLE);
+                immunization_history_layout.setVisibility(View.VISIBLE);
+            }
+        });
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = vaccineDetailsDialog.getWindow();
+        lp.copyFrom(window.getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+        window.setAttributes(lp);
+        vaccineDetailsDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        vaccineDetailsDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         vaccineDetailsDialog.show();
+
     }
 
     private void setVaccineTypeSpinner() {
@@ -1348,6 +1466,25 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     int responseCode = Integer.parseInt(immunizationHistoryResponse.getResponse().getResponseCode());
                     if (responseCode == 109) {
                         getImmunizationHistory = immunizationHistoryResponse.getData();
+
+                        nextVisitDateList=new ArrayList<>();
+                        vaccineClassList=new ArrayList<>();
+                        vaccineList=new ArrayList<>();
+                        immunizationDateList=new ArrayList<>();
+
+                        for(int outer=0;outer<immunizationHistoryResponse.getData().size();outer++)
+                        {
+                            if(immunizationHistoryResponse.getData().get(outer).getPetVaccinationDetail().size()>0)
+                            {
+                                for(int inner=0;inner<immunizationHistoryResponse.getData().get(outer).getPetVaccinationDetail().size();inner++)
+                                {
+                                    nextVisitDateList.add(immunizationHistoryResponse.getData().get(outer).getFollowUpDate());
+                                    vaccineClassList.add(immunizationHistoryResponse.getData().get(outer).getPetVaccinationDetail().get(inner).getVaccineType());
+                                    vaccineList.add(immunizationHistoryResponse.getData().get(outer).getPetVaccinationDetail().get(inner).getVaccine());
+                                    immunizationDateList.add(immunizationHistoryResponse.getData().get(outer).getPetVaccinationDetail().get(inner).getImmunizationDate());
+                                }
+                            }
+                        }
                     }
                     else
                     {

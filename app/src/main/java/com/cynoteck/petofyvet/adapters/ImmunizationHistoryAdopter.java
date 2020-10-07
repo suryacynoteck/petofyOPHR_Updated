@@ -19,11 +19,17 @@ import java.util.ArrayList;
 
 public class ImmunizationHistoryAdopter extends RecyclerView.Adapter<ImmunizationHistoryAdopter.MyViewHolder> {
     Context context;
-    ArrayList<ImmunizationHistorymodel> getImmunizationHistory;
+    ArrayList<String> nextVisitDateList;
+    ArrayList<String> vaccineClassList;
+    ArrayList<String> vaccineList;
+    ArrayList<String> immunizationDateList;
 
-    public ImmunizationHistoryAdopter(Context context, ArrayList<ImmunizationHistorymodel> getImmunizationHistory) {
+    public ImmunizationHistoryAdopter(Context context,ArrayList<String> nextVisitDateList,ArrayList<String> vaccineClassList,ArrayList<String> vaccineList,ArrayList<String> immunizationDateList ) {
         this.context = context;
-        this.getImmunizationHistory = getImmunizationHistory;
+        this.nextVisitDateList = nextVisitDateList;
+        this.vaccineClassList = vaccineClassList;
+        this.vaccineList = vaccineList;
+        this.immunizationDateList = immunizationDateList;
     }
 
     @NonNull
@@ -37,52 +43,25 @@ public class ImmunizationHistoryAdopter extends RecyclerView.Adapter<Immunizatio
     @Override
     public void onBindViewHolder(@NonNull final ImmunizationHistoryAdopter.MyViewHolder holder, int position) {
 
-       Log.d("aanannanan",""+getImmunizationHistory.get(position).getPetVaccinationDetail().size());
-        for(int i=0;i<getImmunizationHistory.get(position).getPetVaccinationDetail().size();i++)
-        {
-            holder.immunization_dt.setText(getImmunizationHistory.get(position).getPetVaccinationDetail().get(i).getImmunizationDate().substring(0,getImmunizationHistory.get(position).getPetVaccinationDetail().get(i).getImmunizationDate().length()-8));
-            holder.vaccine_cls.setText(getImmunizationHistory.get(position).getPetVaccinationDetail().get(i).getVaccineType());
-            holder.vaccine.setText(getImmunizationHistory.get(position).getPetVaccinationDetail().get(i).getVaccine());
-        }
-        holder.nxt_due_dt.setText(getImmunizationHistory.get(position).getFollowUpDate());
-        holder.down_IV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                holder.up_IV.setVisibility(View.VISIBLE);
-                holder.down_IV.setVisibility(View.GONE);
-                holder.vaccine_type_expand_LL.setVisibility(View.VISIBLE);
-
-            }
-        });
-
-        holder.up_IV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                holder.up_IV.setVisibility(View.GONE);
-                holder.down_IV.setVisibility(View.VISIBLE);
-                holder.vaccine_type_expand_LL.setVisibility(View.GONE);
-            }
-        });
+      holder.immunization_dt.setText(immunizationDateList.get(position).substring(0,immunizationDateList.get(position).length()-9));
+      holder.vaccine_cls.setText(vaccineClassList.get(position));
+      holder.vaccine.setText(vaccineList.get(position));
+      holder.nxt_due_dt.setText(nextVisitDateList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return getImmunizationHistory.size();
+        return nextVisitDateList.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView immunization_dt,vaccine_cls,vaccine,nxt_due_dt;
-        LinearLayout vaccine_type_expand_LL;
-        ImageView up_IV, down_IV;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             immunization_dt =itemView.findViewById(R.id.immunization_dt);
             vaccine_cls = itemView.findViewById(R.id.vaccine_cls);
             vaccine = itemView.findViewById(R.id.vaccine);
             nxt_due_dt = itemView.findViewById(R.id.nxt_due_dt);
-            down_IV = itemView.findViewById(R.id.down_IV);
-            up_IV = itemView.findViewById(R.id.up_IV);
-            vaccine_type_expand_LL = itemView.findViewById(R.id.vaccine_type_expand_LL);
         }
     }
 }
