@@ -27,7 +27,7 @@ import java.util.ArrayList;
 
 import retrofit2.Response;
 public class SelectPetReportsActivity extends AppCompatActivity implements ApiResponse, View.OnClickListener, RegisterRecyclerViewClickListener {
-    String pet_unique_id, pet_name,pet_sex, pet_owner_name,pet_owner_contact,pet_id;
+    String pet_unique_id, pet_name,pet_sex, pet_owner_name,pet_owner_contact,pet_id,pet_DOB,pet_encrypted_id;
     ImageView back_arrow_IV;
     TextView pet_name_TV,pet_sex_TV,pet_id_TV,pet_owner_name_TV,pet_owner_phone_no_TV;
     VisitTypesAdapter visitTypesAdapter;
@@ -66,6 +66,9 @@ public class SelectPetReportsActivity extends AppCompatActivity implements ApiRe
         pet_name =extras.getString("pet_name");
         pet_sex =extras.getString("pet_sex");
         pet_owner_name =extras.getString("pet_owner_name");
+        pet_DOB =extras.getString("pet_DOB");
+        pet_encrypted_id =extras.getString("pet_encrypted_id");
+
         reports_types_RV=findViewById(R.id.reports_types_RV);
         back_arrow_IV = findViewById(R.id.back_arrow_IV);
         pet_name_TV = findViewById(R.id.pet_name_TV);
@@ -127,6 +130,8 @@ public class SelectPetReportsActivity extends AppCompatActivity implements ApiRe
         staticReportsData.putString("pet_owner_name",pet_owner_name);
         staticReportsData.putString("pet_owner_contact",pet_owner_contact);
         staticReportsData.putString("reports_id",report_id);
+        staticReportsData.putString("pet_DOB",pet_DOB);
+        staticReportsData.putString("pet_encrypted_id",pet_encrypted_id);
         staticReportsData.putString("button_type","view");
 
         staticReportsIntent.putExtras(staticReportsData);
@@ -179,6 +184,8 @@ public class SelectPetReportsActivity extends AppCompatActivity implements ApiRe
         data.putString("pet_owner_contact",pet_owner_contact);
         data.putString("reports_id",getReportsTypeData.get(position).getId());
         data.putString("button_type","view");
+        data.putString("pet_DOB",pet_DOB);
+        data.putString("pet_encrypted_id",pet_encrypted_id);
         selectReportsIntent.putExtras(data);
         startActivity(selectReportsIntent);
         overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);

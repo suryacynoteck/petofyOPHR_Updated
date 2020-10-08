@@ -100,7 +100,8 @@ public class NewEntrysListFragment extends Fragment implements ApiResponse, Regi
 
     String getStrSpnerItemPetNmId="",strSpnrBreedId="",strSpnrAgeId="",strSpnrColorId="",
             strSpneSizeId="",strSpnrSexId="",strSpnerItemPetType="",strSpnrBreed="",strSpnrAge="",strSpnrSex="",
-            currentDateandTime="",petIdGetForUpdate="",strResponseOtp="",petId="",petParentContactNumber="";
+            currentDateandTime="",petIdGetForUpdate="",strResponseOtp="",petId="",petParentContactNumber="",
+            pet_DOB="",pet_encrypted_id="";
 
     AppCompatSpinner add_pet_type_edit_dialog,
             add_pet_age_edit_dialog,add_pet_sex_edit_dialog,add_pet_breed_edit_dialog,add_pet_color_edit_dialog,add_pet_size_edit_dialog;
@@ -150,6 +151,8 @@ public class NewEntrysListFragment extends Fragment implements ApiResponse, Regi
         pet_name = extras.getString("pet_name");
         pet_unique_id = extras.getString("pet_unique_id");
         type=extras.getString("type");
+        pet_DOB=extras.getString("pet_DOB");
+        pet_encrypted_id=extras.getString("pet_encrypted_id");
 
 
 
@@ -633,6 +636,8 @@ public class NewEntrysListFragment extends Fragment implements ApiResponse, Regi
         data.putString("pet_owner_name",pet_owner_name);
         data.putString("pet_owner_contact",pet_owner_contact);
         data.putString("reports_id",getReportsTypeData.get(position).getId());
+        data.putString("pet_DOB",pet_DOB);
+        data.putString("pet_encrypted_id",pet_encrypted_id);
         data.putString("button_type","update");
         selectReportsIntent.putExtras(data);
         Log.e("valueeeee",data.toString());

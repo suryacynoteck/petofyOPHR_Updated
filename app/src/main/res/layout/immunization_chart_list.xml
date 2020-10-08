@@ -6,47 +6,54 @@
     android:layout_marginBottom="2dp"
     android:layout_height="50dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <LinearLayout
-        android:weightSum="4"
+        android:weightSum="3"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        
+
         <TextView
-            android:id="@+id/immunization_dt"
+            android:id="@+id/age_group_TV"
             android:layout_weight="1"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text=""/>
+            android:text="30-35 Days"/>
 
         <TextView
-            android:id="@+id/vaccine_cls"
+            android:id="@+id/vaccine_name_TV"
             android:layout_weight="1"
-            android:gravity="center"
+            android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text=""/>
+            android:text="PUPPY DP"/>
 
-        <TextView
-            android:id="@+id/vaccine"
+        <LinearLayout
             android:layout_weight="1"
-            android:gravity="center"
+            android:weightSum="2"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text=""/>
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/nxt_due_dt"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text=""/>
+            <ImageView
+                android:id="@+id/delete_vaccine_IV"
+                android:padding="15dp"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/delete_icon"/>
+
+            <ImageView
+                android:id="@+id/edit_vaccine_IV"
+                android:padding="15dp"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/edit_icon_immu"/>
+
+        </LinearLayout>
 
 
-        
 
     </LinearLayout>
 

@@ -278,7 +278,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
             flowUpDt= extras.getString("next_dt");
             pet_DOB= extras.getString("pet_DOB");
             pet_encrypted_id= extras.getString("pet_encrypted_id");
-            Log.d("akammamam"," "+pet_DOB+" "+pet_encrypted_id);
+            Log.d("akammamam"," "+pet_DOB+" "+pet_encrypted_id+" "+descrisption);
             strToolbarName= extras.getString("toolbar_name");
 
             if(strToolbarName.equals("Update Clinic"))
@@ -290,38 +290,60 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
             clinic_peto_edit_reg_number_dialog.setText(pet_unique_id);
             clinicVeterian_name_ET.setText(Config.user_Veterian_name);
 
-            if(visitDate.equals("Update Clinic"))
-                clinicCalenderTextViewVisitDt.setText(visitDate);
-            else
-                clinicCalenderTextViewVisitDt.setText(Config.currentDate());
+            if(visitDate!=null)
+            {
+                if(visitDate.equals("Update Clinic"))
+                    clinicCalenderTextViewVisitDt.setText(visitDate);
+                else
+                    clinicCalenderTextViewVisitDt.setText(Config.currentDate());
+            }
 
-            if(!descrisption.equals(""))
-                clinicCescription_ET.setText(descrisption);
+            if(descrisption!=null)
+            {
+                if(!descrisption.equals(""))
+                    clinicCescription_ET.setText(descrisption);
+             }
 
-            if(!weight.equals(""))
-                weight_ET.setText(weight);
+             if(weight!=null)
+             {
+                 if(!weight.equals(""))
+                     weight_ET.setText(weight);
+             }
 
-            if(!temparature.equals(""))
-                clinicTemparature_ET.setText(temparature);
+            if(temparature!=null)
+            {
+                if(!temparature.equals(""))
+                    clinicTemparature_ET.setText(temparature);
+             }
 
-            if(!dtOfOnset.equals(""))
-                clinicIlness_onset.setText(dtOfOnset);
+            if(dtOfOnset!=null)
+            {
+                if(!dtOfOnset.equals(""))
+                    clinicIlness_onset.setText(dtOfOnset);
+            }
 
-            if(!diagnosis.equals(""))
-                clinicDiagnosis_ET.setText(diagnosis);
+           if(diagnosis!=null)
+           {
+               if(!diagnosis.equals(""))
+                   clinicDiagnosis_ET.setText(diagnosis);
+           }
 
-            if(!flowUpDt.equals(""))
-                clinicFolow_up_dt_view.setText(flowUpDt);
+           if(flowUpDt!=null)
+           {
+               if(!flowUpDt.equals(""))
+                   clinicFolow_up_dt_view.setText(flowUpDt);
+           }
+
+
         }
 
 
         if (methods.isInternetOn()){
             getClientVisit();
-            getVisitTypes();
+            getImmunizationHistory();
             getImmunizationData();
             getVaccinationDetails();
-            getImmunizationHistory();
-
+            getVisitTypes();
         }else {
 
             methods.DialogInternet();
@@ -778,15 +800,13 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         final TextView age_group_TV = vaccineDetailsDialog.findViewById(R.id.age_group_TV);
         final TextView periodic_vaccine_TV = vaccineDetailsDialog.findViewById(R.id.periodic_vaccine_TV);
         final TextView history_TV = vaccineDetailsDialog.findViewById(R.id.history_TV);
-
-//        TextView pet_details=vaccineDetailsDialog.findViewById(R.id.pet_details);
+        
         ImageView clinic_back_arrow_IV=vaccineDetailsDialog.findViewById(R.id.clinic_back_arrow_IV);
         final RecyclerView vaccine_type_name_list=vaccineDetailsDialog.findViewById(R.id.vaccine_type_name_list);
         final RecyclerView pereodic_list=vaccineDetailsDialog.findViewById(R.id.pereodic_list);
         final RecyclerView immunization_history_list=vaccineDetailsDialog.findViewById(R.id.immunization_history_list);
 
         pereodic_list.setVisibility(View.GONE);
-//        pet_details.setText("Pet Name : "+pet_name+"( "+pet_unique_id+") Age :"+ strPetAge+" Days");
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(AddClinicActivity.this);
         vaccine_type_name_list.setLayoutManager(linearLayoutManager);
         vaccine_type_name_list.setNestedScrollingEnabled(false);
@@ -1573,7 +1593,23 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     pet_age_TV.setText(strPetAge+" Days");
                     folow_up_dt_view.setText(strNextVisitDate);
                     vaccine_layout.setVisibility(View.VISIBLE);
-                    vaccineDetailsDialog();
+                    if(strToolbarName.equals("Update Clinic"))
+                    {
+                        methods.showCustomProgressBarDialog(AddClinicActivity.this);
+                        new Handler().postDelayed(new Runnable(){
+                            @Override
+                            public void run() {
+                                methods.customProgressDismiss();
+                                vaccineDetailsDialog();
+                            }
+                        }, 3000);
+                    }
+                    else
+                    {
+                        vaccineDetailsDialog();
+                    }
+
+
                 }
                 else if(natureOfVisit.equals("Deworming"))
                 {

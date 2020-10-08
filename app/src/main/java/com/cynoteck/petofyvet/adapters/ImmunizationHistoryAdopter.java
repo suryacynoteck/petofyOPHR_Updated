@@ -35,7 +35,7 @@ public class ImmunizationHistoryAdopter extends RecyclerView.Adapter<Immunizatio
     @NonNull
     @Override
     public ImmunizationHistoryAdopter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.immunization_chart_list, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.immunization_history_adopter, parent, false);
         ImmunizationHistoryAdopter.MyViewHolder vh = new ImmunizationHistoryAdopter.MyViewHolder(v);
         return vh;
     }

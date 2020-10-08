@@ -159,6 +159,8 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
         data.putString("pet_sex",categoryRecordArrayList.get(position).getPetSex());
         data.putString("pet_owner_name",categoryRecordArrayList.get(position).getPetParentName());
         data.putString("pet_owner_contact",categoryRecordArrayList.get(position).getContactNumber());
+        data.putString("pet_DOB",categoryRecordArrayList.get(position).getDateOfBirth());
+        data.putString("pet_encrypted_id",categoryRecordArrayList.get(position).getEncryptedId());
 
         selectReportsIntent.putExtras(data);
         startActivity(selectReportsIntent);

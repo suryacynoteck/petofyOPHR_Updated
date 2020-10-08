@@ -57,7 +57,8 @@ import retrofit2.Response;
  */
 
 public class ReportListFragment extends Fragment implements ApiResponse, ViewAndUpdateClickListener {
-    String pet_unique_id, pet_name,pet_sex, pet_owner_name,pet_owner_contact,pet_id ,report_type_id,type,button_type;
+    String pet_unique_id, pet_name,pet_sex, pet_owner_name,pet_owner_contact,pet_id ,report_type_id,
+            type,button_type,pet_DOB,pet_encrypted_id;
 
     RecyclerView routine_report_RV;
     View view;
@@ -97,6 +98,9 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
         pet_unique_id = extras.getString("pet_unique_id");
         type=extras.getString("type");
         button_type=extras.getString("button_type");
+        pet_DOB=extras.getString("pet_DOB");
+        pet_encrypted_id=extras.getString("pet_encrypted_id");
+
         routine_report_RV = view.findViewById(R.id.routine_report_RV);
         empty_IV=view.findViewById(R.id.empty_IV);
 
@@ -538,8 +542,8 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
         viewReportsDeatilsActivityIntent.putExtra("pet_diognosis",petClinicVisitListArrayList.get(position).getDescription());
         viewReportsDeatilsActivityIntent.putExtra("next_dt",petClinicVisitListArrayList.get(position).getFollowUpDate());
         viewReportsDeatilsActivityIntent.putExtra("report_id",petClinicVisitListArrayList.get(position).getId());
-        viewReportsDeatilsActivityIntent.putExtra("pet_DOB","");
-        viewReportsDeatilsActivityIntent.putExtra("pet_encrypted_id","");
+        viewReportsDeatilsActivityIntent.putExtra("pet_DOB",pet_DOB);
+        viewReportsDeatilsActivityIntent.putExtra("pet_encrypted_id",pet_encrypted_id);
         viewReportsDeatilsActivityIntent.putExtra("appointment","");
         viewReportsDeatilsActivityIntent.putExtra("appoint_link", "");
         viewReportsDeatilsActivityIntent.putExtra("toolbar_name","Update Clinic");
