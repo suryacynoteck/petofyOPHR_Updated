@@ -53,6 +53,7 @@ public class VaccineTypeAdapter extends RecyclerView.Adapter<VaccineTypeAdapter.
          holder.booster_two.setVisibility(View.VISIBLE);
      }
 
+
      holder.age_group.setText(min_age+" - "+max_age+" Days");
      holder.vaccine_name.setText(getVaccineResponseModels.get(position).getVaccinationSchedule().getPrimaryVaccine());
      holder.down_IV.setOnClickListener(new View.OnClickListener() {

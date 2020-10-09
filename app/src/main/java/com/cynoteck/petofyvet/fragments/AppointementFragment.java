@@ -147,6 +147,7 @@ public class AppointementFragment extends Fragment implements ApiResponse ,View.
                                 data.putString("nature_of_visit","");
                                 data.putString("visit_dt","");
                                 data.putString("visit_description","");
+                                data.putString("remarks","");
                                 data.putString("visit_weight","");
                                 data.putString("visit_temparature","");
                                 data.putString("dt_of_illness","");

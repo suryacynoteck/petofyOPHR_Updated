@@ -271,6 +271,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
             strNatureOfVist = extras.getString("nature_of_visit");
             visitDate= extras.getString("visit_dt");
             descrisption = extras.getString("visit_description");
+            Remarks = extras.getString("remarks");
             weight = extras.getString("visit_weight");
             temparature = extras.getString("visit_temparature");
             dtOfOnset = extras.getString("dt_of_illness");
@@ -278,7 +279,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
             flowUpDt= extras.getString("next_dt");
             pet_DOB= extras.getString("pet_DOB");
             pet_encrypted_id= extras.getString("pet_encrypted_id");
-            Log.d("akammamam"," "+pet_DOB+" "+pet_encrypted_id+" "+descrisption);
+            Log.d("akammamam"," "+pet_DOB+" "+pet_encrypted_id+" "+descrisption+""+Remarks);
             strToolbarName= extras.getString("toolbar_name");
 
             if(strToolbarName.equals("Update Clinic"))
@@ -332,6 +333,14 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
            {
                if(!flowUpDt.equals(""))
                    clinicFolow_up_dt_view.setText(flowUpDt);
+           }
+
+           if(Remarks!=null)
+           {
+               if(!Remarks.equals(""))
+               {
+                   remaks_ET.setText(Remarks);
+               }
            }
 
 
@@ -727,70 +736,6 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
 
     private void vaccineDetailsDialog()
     {
-       /* vaccineDetailsDialog = new Dialog(this);
-        vaccineDetailsDialog.setContentView(R.layout.vaccine_deatils_dilog);
-        CardView age_group_CV = vaccineDetailsDialog.findViewById(R.id.age_group_CV);
-        CardView periodic_vaccine_CV = vaccineDetailsDialog.findViewById(R.id.periodic_vaccine_CV);
-        CardView history_CV = vaccineDetailsDialog.findViewById(R.id.history_CV);
-        final TextView age_group_TV = vaccineDetailsDialog.findViewById(R.id.age_group_TV);
-        final TextView periodic_vaccine_TV = vaccineDetailsDialog.findViewById(R.id.periodic_vaccine_TV);
-        final TextView history_TV = vaccineDetailsDialog.findViewById(R.id.history_TV);
-
-//        TextView pet_details=vaccineDetailsDialog.findViewById(R.id.pet_details);
-        ImageView clinic_back_arrow_IV=vaccineDetailsDialog.findViewById(R.id.clinic_back_arrow_IV);
-        final RecyclerView vaccine_type_name_list=vaccineDetailsDialog.findViewById(R.id.vaccine_type_name_list);
-        final RecyclerView pereodic_list=vaccineDetailsDialog.findViewById(R.id.pereodic_list);
-        final RecyclerView immunization_history_list=vaccineDetailsDialog.findViewById(R.id.immunization_history_list);
-
-        pereodic_list.setVisibility(View.GONE);
-        //pet_details.setText("Pet Name : "+pet_name+"( "+pet_unique_id+") Age :"+ strPetAge+" Days");
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(AddClinicActivity.this);
-        vaccine_type_name_list.setLayoutManager(linearLayoutManager);
-        vaccine_type_name_list.setNestedScrollingEnabled(false);
-
-        if((getVaccineResponseModels!=null)){
-            if(getVaccineResponseModels.size()>0)
-            {
-                vaccineTypeAdapter = new VaccineTypeAdapter(AddClinicActivity.this, getVaccineResponseModels,AddClinicActivity.this);
-                vaccine_type_name_list.setAdapter(vaccineTypeAdapter);
-                vaccineTypeAdapter.notifyDataSetChanged();
-            }
-        }
-
-
-        //////Set Immunization History List
-        LinearLayoutManager linearLayoutManagerone = new LinearLayoutManager(AddClinicActivity.this);
-        immunization_history_list.setLayoutManager(linearLayoutManagerone);
-        immunization_history_list.setNestedScrollingEnabled(false);
-
-        if (getImmunizationHistory!=null){
-            if((getImmunizationHistory.size()>0))
-            {
-                immunizationHistoryAdopter = new ImmunizationHistoryAdopter(AddClinicActivity.this, getImmunizationHistory);
-                immunization_history_list.setAdapter(immunizationHistoryAdopter);
-                immunizationHistoryAdopter.notifyDataSetChanged();
-            }
-          }
-
-
-
-        clinic_back_arrow_IV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                vaccineDetailsDialog.dismiss();
-            }
-        });
-
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        Window window = vaccineDetailsDialog.getWindow();
-        lp.copyFrom(window.getAttributes());
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
-        window.setAttributes(lp);
-        vaccineDetailsDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        vaccineDetailsDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-        vaccineDetailsDialog.show();*/
         vaccineDetailsDialog = new Dialog(this);
         vaccineDetailsDialog.setContentView(R.layout.vaccine_deatils_dilog);
         CardView age_group_CV = vaccineDetailsDialog.findViewById(R.id.age_group_CV);
