@@ -85,7 +85,7 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
 
             case "1.0":
 
-                reports_headline_TV.setText("Routine Report");
+                reports_headline_TV.setText("ROUTINE REPORT");
                 data.putString("reports_id","1");
                 data.putString("type","list");
 
@@ -99,7 +99,7 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
 
             case "2.0":
 
-                reports_headline_TV.setText("Health problem");
+                reports_headline_TV.setText("HEALTH PROBLEM");
                 data.putString("reports_id","2");
                 data.putString("type","list");
 
@@ -114,7 +114,7 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
 
             case "4.0":
 
-                reports_headline_TV.setText("Immunization Report");
+                reports_headline_TV.setText("IMMUNIZATION");
                 data.putString("reports_id","4");
                 data.putString("type","list");
 
@@ -145,7 +145,7 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
 
             case "6.0":
 
-                reports_headline_TV.setText("Other Report");
+                reports_headline_TV.setText("OTHER REPORT");
                 data.putString("reports_id","6");
                 data.putString("type","list");
 
@@ -313,7 +313,7 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
         data.putString("next_dt","");
         data.putString("appointment","");
         data.putString("appoint_link", "");
-        data.putString("toolbar_name","Add Clinic");
+        data.putString("toolbar_name","ADD CLINIC");
         petDetailsIntent.putExtras(data);
         startActivity(petDetailsIntent);
 

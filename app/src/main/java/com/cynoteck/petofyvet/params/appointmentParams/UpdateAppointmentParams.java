@@ -15,6 +15,8 @@ public class UpdateAppointmentParams {
 
     private String eventStartDate;
 
+    private String petId;
+
     public String getDuration ()
     {
         return duration;
@@ -85,10 +87,18 @@ public class UpdateAppointmentParams {
         this.eventStartDate = eventStartDate;
     }
 
+    public String getPetId() {
+        return petId;
+    }
+
+    public void setPetId(String petId) {
+        this.petId = petId;
+    }
+
     @Override
     public String toString()
     {
-        return "ClassPojo [duration = "+duration+", description = "+description+", eventStartTime = "+eventStartTime+", id = "+id+", title = "+title+", userId = "+userId+", eventStartDate = "+eventStartDate+"]";
+        return "ClassPojo [duration = "+duration+", description = "+description+", eventStartTime = "+eventStartTime+", id = "+id+", title = "+title+", userId = "+userId+", eventStartDate = "+eventStartDate+", petId = "+petId+"]";
     }
 }
 

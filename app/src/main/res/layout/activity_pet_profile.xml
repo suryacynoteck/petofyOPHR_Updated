@@ -292,6 +292,7 @@
 
 
                     <LinearLayout
+                        android:visibility="gone"
                         android:id="@+id/image_section"
                         android:weightSum="5"
                         android:layout_marginTop="5dp"

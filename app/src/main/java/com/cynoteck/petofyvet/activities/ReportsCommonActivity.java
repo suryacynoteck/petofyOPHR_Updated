@@ -63,7 +63,7 @@ public class ReportsCommonActivity extends AppCompatActivity {
                 }else if (button_type.equals("view")){
                     data.putString("button_type","view");
                 }
-                reports_headline_TV.setText("Routine Report");
+                reports_headline_TV.setText("ROUTINE REPORT");
                 data.putString("reports_id","1");
                 data.putString("type","list");
                 data.putString("pet_DOB",pet_DOB);
@@ -83,7 +83,7 @@ public class ReportsCommonActivity extends AppCompatActivity {
                 }else if (button_type.equals("view")){
                     data.putString("button_type","view");
                 }
-                reports_headline_TV.setText("Health problem");
+                reports_headline_TV.setText("HEALTH PROBLEM");
                 data.putString("reports_id","2");
                 data.putString("type","list");
                 data.putString("pet_DOB",pet_DOB);
@@ -104,7 +104,7 @@ public class ReportsCommonActivity extends AppCompatActivity {
                 }else if (button_type.equals("view")){
                     data.putString("button_type","view");
                 }
-                reports_headline_TV.setText("Immunization Report");
+                reports_headline_TV.setText("IMMUNIZATION");
                 data.putString("reports_id","4");
                 data.putString("type","list");
                 data.putString("pet_DOB",pet_DOB);
@@ -125,7 +125,7 @@ public class ReportsCommonActivity extends AppCompatActivity {
                 }else if (button_type.equals("view")){
                     data.putString("button_type","view");
                 }
-                reports_headline_TV.setText("Deworming");
+                reports_headline_TV.setText("DEWORMING");
                 data.putString("reports_id","5");
                 data.putString("type","list");
                 data.putString("pet_DOB",pet_DOB);
@@ -147,7 +147,7 @@ public class ReportsCommonActivity extends AppCompatActivity {
                 }else if (button_type.equals("view")){
                     data.putString("button_type","view");
                 }
-                reports_headline_TV.setText("Other Report");
+                reports_headline_TV.setText("OTHER REPORT");
                 data.putString("reports_id","6");
                 data.putString("type","list");
                 data.putString("pet_DOB",pet_DOB);

@@ -124,61 +124,22 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight=".8"
-        android:weightSum="3"
         android:orientation="horizontal"
-        android:background="#67C162">
+        android:gravity="end"
+        >
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight=".1"/>
-
-
-        <TextView
-            android:id="@+id/precription"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight=".9"
-            android:drawableLeft="@drawable/prescription_icon"
-            android:text="Prescription"
-            android:textColor="#fff"
-            android:textSize="12sp"
-            android:gravity="center"/>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight=".1"/>
-
-
-
-        <TextView
-            android:id="@+id/download"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight=".9"
-            android:drawableLeft="@drawable/prescription_icon"
-            android:text="Immunization"
-            android:textColor="#fff"
-            android:textSize="12sp"
-            android:gravity="center"/>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight=".1"/>
-
-
-        <TextView
-            android:id="@+id/edit"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight=".9"
-            android:drawableLeft="@drawable/edit_icon"
-            android:text="Edit"
-            android:textSize="12sp"
-            android:textColor="#fff"
-            android:gravity="center"/>
+        <Button
+            android:id="@+id/prescription"
+            android:layout_width="150dp"
+            android:layout_height="30dp"
+            android:layout_marginBottom="10dp"
+            android:textAllCaps="false"
+            android:layout_marginRight="28dp"
+            android:layout_marginTop="8dp"
+            android:padding="4dp"
+            android:drawableLeft="@drawable/download_icon"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/whiteColor" />
 
 
 

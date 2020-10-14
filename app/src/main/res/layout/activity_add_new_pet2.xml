@@ -81,7 +81,8 @@
                 android:gravity="center_vertical"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="20dp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:visibility="gone"/>
 
             <View
                 android:id="@+id/top_view_line"
@@ -178,21 +179,79 @@
                 android:layout_height="50dp" />
 
 
-            <TextView
+            <LinearLayout
+                android:id="@+id/date_of_birth_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/add_pet_sex_dialog"
-                android:id="@+id/pet_dob_TV"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:text="@string/dateofbirth"
-                android:gravity="center_vertical"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="20dp"
-                android:textColor="@color/grey_add_pet"/>
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/add_pet_sex_dialog"
+                    android:id="@+id/pet_dob_TV"
+                    android:text="@string/dateofbirth"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/grey_add_pet"/>
+
+                <CheckBox
+                    android:id="@+id/convert_yr_to_age"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="days/month/year"/>
+
+
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/day_and_age_layout"
+                app:layout_constraintTop_toBottomOf="@id/date_of_birth_layout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/age_wise"
+                    android:background="@drawable/spinner_background"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent" />
+
+                <EditText
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:id="@+id/age_neumeric"
+                    android:hint="Age"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="8dp"
+                    android:paddingLeft="25dp"
+                    android:background="@drawable/edit_text_background"
+                    android:textColor="@color/grey_add_pet"/>
+
+
+
+            </LinearLayout>
+
 
             <TextView
-                app:layout_constraintTop_toBottomOf="@id/pet_dob_TV"
+                app:layout_constraintTop_toBottomOf="@id/day_and_age_layout"
                 android:id="@+id/calenderTextView_dialog"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -207,6 +266,7 @@
                 android:background="@drawable/cal_background"/>
 
             <TextView
+                android:visibility="gone"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/calenderTextView_dialog"
@@ -220,6 +280,7 @@
                 android:textColor="@color/grey_add_pet"/>
 
             <androidx.appcompat.widget.AppCompatSpinner
+                android:visibility="gone"
                 android:layout_marginTop="10dp"
                 app:layout_constraintTop_toBottomOf="@id/add_pet_size_TV"
                 app:layout_constraintStart_toStartOf="parent"
@@ -233,6 +294,7 @@
 
 
             <TextView
+                android:visibility="gone"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/add_pet_size_dialog"
@@ -246,6 +308,7 @@
                 android:textColor="@color/grey_add_pet"/>
 
             <androidx.appcompat.widget.AppCompatSpinner
+                android:visibility="gone"
                 android:layout_marginTop="10dp"
                 app:layout_constraintTop_toBottomOf="@id/pet_age_TV"
                 app:layout_constraintStart_toStartOf="parent"
@@ -320,32 +383,51 @@
                 android:text="@string/petParent"
                 android:gravity="center_vertical"
                 android:layout_marginTop="10dp"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="25dp"
                 android:textColor="@color/grey_add_pet"/>
 
-
-            <EditText
-                android:inputType="text"
-                android:maxLines="1"
-                android:paddingLeft="25dp"
+            <LinearLayout
+                android:id="@+id/pet_parent_name_layout"
+                android:paddingLeft="5dp"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 app:layout_constraintTop_toBottomOf="@id/pet_patent_TV"
-                android:id="@+id/pet_parent_name_ET"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/pet_name_TV"
-                android:hint="@string/ParentName"
-                android:gravity="center_vertical"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="20dp"
-                android:background="@drawable/edit_text_background"
-                android:textColor="@color/grey_add_pet"/>
+                android:weightSum="2"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/parent_address"
+                    android:background="@drawable/spinner_background"
+                    android:layout_width="0dp"
+                    android:layout_weight=".8"
+                    android:layout_height="match_parent" />
+
+                <EditText
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:paddingLeft="25dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1.2"
+                    android:layout_marginLeft="8dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/pet_parent_name_ET"
+                    android:hint="@string/ParentName"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/edit_text_background"
+                    android:textColor="@color/grey_add_pet"/>
+
+            </LinearLayout>
+
 
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/pet_parent_name_ET"
+                app:layout_constraintTop_toBottomOf="@id/pet_parent_name_layout"
                 android:id="@+id/pet_contact_TV"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/add_pet_type"

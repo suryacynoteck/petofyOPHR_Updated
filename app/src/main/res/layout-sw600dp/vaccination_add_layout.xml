@@ -21,7 +21,8 @@
             android:gravity="center"
             android:textSize="16sp"
             android:textColor="@color/colorPrimary"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"/>
 
         <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/vaccine_type"
@@ -34,6 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="10dp"/>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,7 +57,6 @@
                 android:layout_marginTop="10dp"/>
 
 
-
             <Button
                 android:id="@+id/add_vaccine_cancel"
                 android:layout_width="0dp"
@@ -71,7 +72,12 @@
 
         </LinearLayout>
 
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/list_background"
+            tools:ignore="MissingConstraints"
+            android:layout_marginTop="10dp"/>
 
     </LinearLayout>
 

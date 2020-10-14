@@ -63,243 +63,264 @@
 
 
 
-    <com.google.android.material.card.MaterialCardView
-        android:layout_marginTop="20dp"
-        android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
-        android:id="@+id/create_CV"
-        android:layout_width="0dp"
-        android:elevation="30dp"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/whiteColor"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintStart_toStartOf="parent">
-
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        app:layout_constraintStart_toStartOf="parent"
+        >
+        <com.google.android.material.card.MaterialCardView
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+            android:id="@+id/create_CV"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:id="@+id/title_TV"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
-                android:gravity="center_vertical"
-                android:text="@string/title"
-                android:textColor="@color/grey_add_pet"/>
-
-            <EditText
-                android:id="@+id/title_ET"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/edit_text_background"
-                android:gravity="center_vertical"
-                android:hint="@string/title"
-                android:inputType="text"
-                android:maxLines="1"
-                android:paddingLeft="25dp"
-                android:textColor="@color/grey_add_pet"
-                app:layout_constraintEnd_toEndOf="@id/title_TV"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/title_TV" />
+            android:elevation="30dp"
+            android:layout_height="wrap_content"
+            android:background="@color/whiteColor"
+            >
 
 
-
-            <TextView
-                app:layout_constraintEnd_toEndOf="@id/title_ET"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/title_ET"
-                android:id="@+id/pet_parent_TV"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:gravity="center_vertical"
-                android:text="Pet Details"
-                android:textColor="@color/grey_add_pet"/>
-
-            <AutoCompleteTextView
-                android:gravity="center_vertical"
-                app:layout_constraintEnd_toEndOf="@id/pet_parent_TV"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/pet_parent_TV"
-                android:imeOptions="actionSearch"
-                android:singleLine="true"
-                android:id="@+id/pet_parent_ACTV"
-                android:paddingLeft="25dp"
-                android:hint=""
-                android:layout_height="50dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_width="0dp"
-                android:background="@drawable/edit_text_background"/>
-
-            <ImageView
-                app:layout_constraintEnd_toEndOf="@id/pet_parent_ACTV"
-                app:layout_constraintTop_toTopOf="@id/pet_parent_ACTV"
-                app:layout_constraintBottom_toBottomOf="@id/pet_parent_ACTV"
-                android:visibility="visible"
-                android:id="@+id/new_pet_search"
-                android:layout_margin="5dp"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginRight="10dp"
-                android:padding="10dp"
-                android:src="@drawable/searchicon" />
-            <TextView
-                android:visibility="gone"
-                android:gravity="center_vertical"
-                app:layout_constraintEnd_toEndOf="@id/pet_parent_TV"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/pet_parent_TV"
-                android:imeOptions="actionSearch"
-                android:singleLine="true"
-                android:id="@+id/parent_TV"
-                android:paddingLeft="25dp"
-                android:hint=""
-                android:layout_height="50dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_width="0dp"
-                android:background="@drawable/edit_text_background"/>
-
-            <TextView
-                android:id="@+id/appoint_dt_TV"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
-                android:gravity="center_vertical"
-                android:text="@string/appointmentDate"
-                android:textColor="@color/grey_add_pet"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/pet_parent_ACTV" />
-
-            <TextView
-                android:id="@+id/calenderTextViewAppointDt"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@drawable/cal_background"
-                android:gravity="center_vertical"
-                android:hint="dd/mm/yyyy"
-                android:layout_marginTop="10dp"
-                android:paddingLeft="25dp"
-                android:textSize="18dp"
-                android:textStyle="bold"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/appoint_dt_TV"/>
-
-            <TextView
-                android:id="@+id/appoint_time_TV"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
-                android:gravity="center_vertical"
-                android:text="@string/appointmentTime"
-                android:textColor="@color/grey_add_pet"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/calenderTextViewAppointDt" />
-
-
-            <LinearLayout
-                android:id="@+id/time_LL"
-                android:orientation="horizontal"
-                android:weightSum="2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/appoint_time_TV"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp">
+                android:layout_height="wrap_content">
 
                 <TextView
-                    android:padding="10dp"
-                    android:layout_weight="1"
-                    android:id="@+id/time_TV"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="@drawable/time_bg"
-                    android:gravity="center_vertical"
-                    android:hint="10:10 AM"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:id="@+id/title_TV"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
                     android:layout_marginTop="10dp"
-                    android:paddingLeft="25dp"
-                    android:textSize="18dp"
-                    android:layout_marginRight="10dp"
-                    android:textStyle="bold"/>
-
+                    android:layout_marginRight="20dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/title"
+                    android:textColor="@color/grey_add_pet"/>
 
                 <EditText
-                    android:inputType="number"
-                    android:layout_weight="1"
-                    android:id="@+id/duration_TV"
-                    android:layout_width="match_parent"
-                    android:background="@drawable/edit_text_background"
+                    android:id="@+id/title_ET"
+                    android:layout_width="0dp"
                     android:layout_height="50dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/edit_text_background"
                     android:gravity="center_vertical"
-                    android:hint="Duration"
-                    android:layout_marginLeft="10dp"
+                    android:hint="@string/title"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:paddingLeft="25dp"
+                    android:textColor="@color/grey_add_pet"
+                    app:layout_constraintEnd_toEndOf="@id/title_TV"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/title_TV" />
+
+
+
+                <TextView
+                    app:layout_constraintEnd_toEndOf="@id/title_ET"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/title_ET"
+                    android:id="@+id/pet_parent_TV"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical"
+                    android:text="Pet Details"
+                    android:textColor="@color/grey_add_pet"/>
+
+                <LinearLayout
+                    android:id="@+id/pet_search_layout"
+                    android:layout_width="match_parent"
+                    android:weightSum="2"
+                    android:layout_height="50dp"
+                    app:layout_constraintEnd_toEndOf="@id/pet_parent_TV"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/pet_parent_TV"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edit_text_background">
+
+                    <AutoCompleteTextView
+                        android:gravity="center_vertical"
+                        android:imeOptions="actionSearch"
+                        android:singleLine="true"
+                        android:id="@+id/pet_parent_ACTV"
+                        android:hint=""
+                        android:background="@null"
+                        android:layout_height="match_parent"
+                        android:layout_width="0dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1.7" />
+
+                    <ImageView
+                        android:gravity="center_vertical"
+                        android:visibility="visible"
+                        android:id="@+id/new_pet_search"
+                        android:layout_width="0dp"
+                        android:layout_weight=".3"
+                        android:layout_height="match_parent"
+                        android:padding="10dp"
+                        android:src="@drawable/searchicon" />
+
+                </LinearLayout>
+
+
+                <TextView
+                    android:visibility="gone"
+                    android:gravity="center_vertical"
+                    app:layout_constraintEnd_toEndOf="@id/pet_parent_TV"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/pet_parent_TV"
+                    android:imeOptions="actionSearch"
+                    android:singleLine="true"
+                    android:id="@+id/parent_TV"
+                    android:paddingLeft="25dp"
+                    android:hint=""
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="0dp"
+                    android:background="@drawable/edit_text_background"/>
+
+                <TextView
+                    android:id="@+id/appoint_dt_TV"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/appointmentDate"
+                    android:textColor="@color/grey_add_pet"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/pet_search_layout" />
+
+                <TextView
+                    android:id="@+id/calenderTextViewAppointDt"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/cal_background"
+                    android:gravity="center_vertical"
+                    android:hint="dd/mm/yyyy"
                     android:layout_marginTop="10dp"
                     android:paddingLeft="25dp"
                     android:textSize="18dp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/appoint_dt_TV"/>
+
+                <TextView
+                    android:id="@+id/appoint_time_TV"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/appointmentTime"
+                    android:textColor="@color/grey_add_pet"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/calenderTextViewAppointDt" />
+
+
+                <LinearLayout
+                    android:id="@+id/time_LL"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/appoint_time_TV"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp">
+
+                    <TextView
+                        android:padding="10dp"
+                        android:layout_weight="1"
+                        android:id="@+id/time_TV"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@drawable/time_bg"
+                        android:gravity="center_vertical"
+                        android:hint="10:10 AM"
+                        android:layout_marginTop="10dp"
+                        android:paddingLeft="25dp"
+                        android:textSize="18dp"
+                        android:layout_marginRight="10dp"
+                        android:textStyle="bold"/>
+
+
+                    <EditText
+                        android:inputType="number"
+                        android:layout_weight="1"
+                        android:id="@+id/duration_TV"
+                        android:layout_width="match_parent"
+                        android:background="@drawable/edit_text_background"
+                        android:layout_height="50dp"
+                        android:gravity="center_vertical"
+                        android:hint="Duration"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:paddingLeft="25dp"
+                        android:textSize="18dp"
+                        android:textStyle="bold"/>
 
 
 
-            </LinearLayout>
+                </LinearLayout>
 
 
 
-            <TextView
-                android:id="@+id/description_TV"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:gravity="center_vertical"
-                android:text="@string/description1"
-                android:textColor="@color/grey_add_pet"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/time_LL" />
+                <TextView
+                    android:id="@+id/description_TV"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/description1"
+                    android:textColor="@color/grey_add_pet"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/time_LL" />
 
-            <EditText
-                android:layout_marginBottom="20dp"
-                android:id="@+id/description_ET"
-                android:hint="Description"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:layout_marginTop="10dp"
-                android:gravity="center_vertical"
-                android:inputType="text"
-                android:maxLines="1"
-                android:paddingLeft="25dp"
-                android:background="@drawable/edit_text_background"
-                app:layout_constraintEnd_toEndOf="@id/title_TV"
-                app:layout_constraintStart_toStartOf="@id/description_TV"
-                app:layout_constraintTop_toBottomOf="@id/description_TV"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                <EditText
+                    android:layout_marginBottom="20dp"
+                    android:id="@+id/description_ET"
+                    android:hint="Description"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:paddingLeft="25dp"
+                    android:background="@drawable/edit_text_background"
+                    app:layout_constraintEnd_toEndOf="@id/title_TV"
+                    app:layout_constraintStart_toStartOf="@id/description_TV"
+                    app:layout_constraintTop_toBottomOf="@id/description_TV"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </com.google.android.material.card.MaterialCardView>
+        </com.google.android.material.card.MaterialCardView>
+
+
+    </ScrollView>
+
+
 
 
 

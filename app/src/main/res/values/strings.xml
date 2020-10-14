@@ -45,22 +45,25 @@
     <string name="viewDetails">View Details</string>
     <string name="reports">REPORTS</string>
     <string name="register_pets">Pet Register</string>
+    <string name="register_pets_home">PET REGISTER</string>
     <string name="add_pet">ADD PET</string>
-    <string name="pet_details">Pet Details</string>
+    <string name="pet_details">PET DETAILS</string>
     <string name="selectReports">Select Reports</string>
     <string name="petownwer">Pet Parent</string>
     <string name="double_Dot">:</string>
     <string name="xrayReport">Test/X-Ray Report</string>
+    <string name="xrayReport_toolbr">X-RAY REPORT</string>
     <string name="labTestReport">Lab Test Report</string>
     <string name="Hospitalization"><![CDATA[Hospitalization]]></string>
     <string name="clinicVisits">Clinic Visit Report</string>
     <string name="emailtext">Email</string>
     <string name="appointments">Appointments</string>
+    <string name="appointments_home">APPOINTMENTS</string>
     <string name="staff">STAFF</string>
     <string name="allpets">ALL PETS</string>
     <string name="allStaff">ALL STAFF</string>
     <string name="permission">PERMISSION</string>
-    <string name="add_new_pet">Add New Pet</string>
+    <string name="add_new_pet">ADD NEW PET</string>
     <string name="add_clinic_data">Clinic Visit</string>
     <string name="name">Name</string>
     <string name="acitivated">Activated</string>
@@ -72,7 +75,8 @@
     <string name="recentVisits">Recent Visits</string>
     <string name="printIdCard">Print Id Card</string>
     <string name="view_history">View History</string>
-    <string name="addNewVisits">ADD NEW VISIT</string>
+    <string name="addNewVisits">Add New Visit</string>
+    <string name="addNewVisits_toolbar">ADD NEW VISIT</string>
     <string name="pet_category">Pet Category</string>
     <string name="pet_name">Pet Name</string>
     <string name="veterinarian">Veterinarian*</string>
@@ -132,6 +136,7 @@
     <string name="hidden_text">Hidden Text</string>
     <string name="custom_page_screenshot">Custom Page Screenshot</string>
     <string name="profile">Profile</string>
+    <string name="profile_home">PROFILE</string>
     <string name="operating_hrs">OPERATING HOURS</string>
     <string name="OnlineAppointment">Online Appointment</string>
     <string name="fullProfile">Veterinarian Full Profile</string>
@@ -178,6 +183,8 @@
     <string name="nextVisitDate">Next Visit Date</string>
     <string name="typeOfvisit">Type Of Visit</string>
     <string name="upcominVists">Upcoming Visits</string>
-    <string name="allvisits">All Visits (Date Wise)</string>
+    <string name="upcominVists_toolbar">UPCOMING VISITS</string>
+    <string name="allvisits">All Visits\n(Day Wise)</string>
+    <string name="allvisits_toolbar">ALL VISITS</string>
 
 </resources>

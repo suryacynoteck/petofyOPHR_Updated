@@ -124,6 +124,7 @@ public class AppointementFragment extends Fragment implements ApiResponse ,View.
                                 Intent intent = new Intent(getContext(),AddUpdateAppointmentActivity.class);
                                 intent.putExtra("type","update");
                                 intent.putExtra("id",appointmentLists.get(position).getId());
+                                intent.putExtra("pet_id",appointmentLists.get(position).getPetId());
                                 intent.putExtra("petParent",appointmentLists.get(position).getPetUniqueId());
 
                                 startActivity(intent);
@@ -155,7 +156,7 @@ public class AppointementFragment extends Fragment implements ApiResponse ,View.
                                 data.putString("next_dt","");
                                 data.putString("appointment","join");
                                 data.putString("appoint_link", String.valueOf((Uri.parse(appointmentLists.get(position).getMeetingUrl()))));
-                                data.putString("toolbar_name","Add Clinic");
+                                data.putString("toolbar_name","ADD CLINIC");
                                 petDetailsIntent.putExtras(data);
                                 startActivity(petDetailsIntent);
                             }
@@ -259,7 +260,7 @@ public class AppointementFragment extends Fragment implements ApiResponse ,View.
                 Intent intent = new Intent(getContext(), AddUpdateAppointmentActivity.class);
                 intent.putExtra("type","add");
                 intent.putExtra("id","");
-
+                intent.putExtra("pet_id","");
                 startActivity(intent);
 
                 break;

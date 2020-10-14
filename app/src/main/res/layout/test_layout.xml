@@ -1,263 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/main"
+    android:layout_height="200dp"
+    android:weightSum="4"
+    android:layout_marginTop="5dp"
+    android:orientation="vertical"
     android:background="@color/whiteColor">
 
-    <com.google.android.material.card.MaterialCardView
-        android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
-        android:id="@+id/toolbar"
-        android:layout_width="0dp"
-        android:elevation="30dp"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/whiteColor"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-
-            <TextView
-                app:layout_constraintStart_toEndOf="@+id/clinic_back_arrow_IV"
-                app:layout_constraintEnd_toStartOf="@+id/join_BT"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:gravity="center_vertical"
-                android:id="@+id/clinic_head_line"
-                android:layout_width="0dp"
-                android:layout_marginLeft="10dp"
-                android:padding="10dp"
-                android:layout_height="0dp"
-                android:textColor="@color/black_color"
-                android:textSize="20dp"
-                android:textStyle="bold"/>
-
-
-
-            <ImageView
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:id="@+id/clinic_back_arrow_IV"
-                android:padding="8dp"
-                android:visibility="visible"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/back_arrow" />
-            <Button
-                android:visibility="gone"
-                style="?android:attr/borderlessButtonStyle"
-                android:background="@drawable/join_bt_bg"
-                android:layout_marginTop="8dp"
-                android:layout_marginRight="10dp"
-                android:text="Join"
-                android:textColor="@color/colorPrimary"
-                android:id="@+id/join_BT"
-                android:layout_width="0dp"
-                android:layout_height="35dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </com.google.android.material.card.MaterialCardView>
-
-
-    <ScrollView
-        android:layout_width="0dp"
+    <LinearLayout
+        android:id="@+id/petDeatils_LL"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/save_clinic_data"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintVertical_bias="1.0">
+        android:layout_weight="3"
+        android:weightSum="2"
+        android:orientation="horizontal"
+        android:padding="5dp">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight=".9"
+            android:weightSum="4"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Vaccination Chart - (Previous Vaccination Details)"
-                android:textSize="16sp"
-                android:textColor="@color/grayColor"
-                android:gravity="center"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:id="@+id/pet_details"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Pet Name : fido (PETO-1824), Age : 28 Days"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Pet Name"
+                android:textStyle="bold"
                 android:textSize="14sp"
                 android:textColor="@color/black_color"
-                android:gravity="center"
-                android:textStyle="bold"/>
+                android:gravity="center|left"/>
 
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/pet_nm_prnt_nm"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:weightSum="6"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.5"
-                    android:text="Age group"
-                    android:textSize="12sp"
-                    android:gravity="center"/>
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.5"
-                    android:text="Vaccine Name"
-                    android:textSize="12sp"
-                    android:gravity="center"/>
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="Primary"
-                    android:textSize="12sp"
-                    android:gravity="center"/>
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="Booster One"
-                    android:textSize="12sp"
-                    android:gravity="center"/>
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="Booster Two"
-                    android:textSize="12sp"
-                    android:gravity="center"/>
-            </LinearLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/vaccine_type_name_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:weightSum="2"
-                android:orientation="horizontal"
-                android:layout_marginTop="8dp">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="Periodic Vaccine"
-                    android:textSize="12sp"
-                    android:gravity="center"/>
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="Vaccination Period"
-                    android:textSize="12sp"
-                    android:gravity="center"/>
-            </LinearLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/pereodic_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"/>
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:textSize="10sp"
+                android:text="MINU (Peto-1080)\n Pradeep Rawat(999-7777-2541)"/>
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Immunization History"
-                android:layout_marginTop="5dp"
-                android:textSize="20sp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginTop="10dp"
+                android:text="Visit Date"
                 android:textStyle="bold"
-                android:layout_marginLeft="8dp"/>
+                android:textSize="14sp"
+                android:textColor="@color/black_color"
+                android:gravity="center|left"/>
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/visit_dt"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:weightSum="3.5"
-                android:orientation="horizontal"
-                android:layout_marginTop="8dp">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="Immunization Date"
-                    android:textSize="12sp"
-                    android:gravity="center"/>
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:textSize="10sp"
+                android:text="10/08/2020"/>
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="Vaccine Class"
-                    android:textSize="12sp"
-                    android:gravity="center"/>
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight=".5"
-                    android:text="Vaccine"
-                    android:textSize="12sp"
-                    android:gravity="center"/>
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="Next Due Date"
-                    android:textSize="12sp"
-                    android:gravity="center"/>
-
-            </LinearLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/immunization_history_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"/>
 
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".2"/>
 
-    </ScrollView>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".9"
+            android:weightSum="4"
+            android:orientation="vertical">
 
-    <Button
-        android:visibility="gone"
-        android:id="@+id/save_clinic_data"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:text=""
-        android:textAllCaps="false"
-        android:textSize="25sp"
-        android:textColor="@color/whiteColor"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Nature of Visit"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:textColor="@color/black_color"
+                android:gravity="center|left"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/nature_of_visit"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Health Problem\n(Treatment)"
+                android:textSize="10sp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginTop="10dp"
+                android:text="Follow-up Date"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:textColor="@color/black_color"
+                android:gravity="center|left"/>
+
+            <TextView
+                android:id="@+id/follow_up_dt"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="10/08/2020"
+                android:textSize="10sp"/>
+
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".8"
+        android:weightSum="2"
+        android:orientation="horizontal"
+       >
+
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/precription"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/prescription_icon"
+            android:text="Prescription"
+            android:textColor="#fff"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:background="#67C162"/>
+
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/download"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/prescription_icon"
+            android:text="Immunization"
+            android:textColor="#fff"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:background="#67C162"/>
+
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

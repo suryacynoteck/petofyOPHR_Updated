@@ -82,6 +82,7 @@ import com.cynoteck.petofyvet.response.searchRemaks.SearchRemaksResponse;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.ImmunizationOnclickListener;
 import com.cynoteck.petofyvet.utils.Methods;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -456,7 +457,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                             vaccinationationModelHash.put("brandName",vaccine_name);
                             vaccinationationModelHash.put("vaccine",null);
                             vaccinationationModelHash.put("vaccineDose",null);
-                            vaccinationationModelHash.put("immunizationDate",null);
+                            vaccinationationModelHash.put("immunizationDate",clinicCalenderTextViewVisitDt.getText().toString());
                             vaccinationModels.add(vaccinationationModelHash);
                         }
                         Gson gson = new GsonBuilder().create();
@@ -694,7 +695,8 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     Toast.makeText(AddClinicActivity.this, "Add Vaccine Data", Toast.LENGTH_SHORT).show();
                 }
                 else
-                { VaccineList.add(strVaccineType+", "+strVaccineName);
+                {
+                    VaccineList.add(strVaccineType+", "+strVaccineName);
                     Log.e("vaccinlist_after",""+VaccineList.size());
                     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(AddClinicActivity.this);
                     immunization_data.setLayoutManager(linearLayoutManager);
@@ -764,7 +766,8 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
             }
         }
 
-//////Set Immunization History List
+        //////Set Immunization History List
+
         LinearLayoutManager linearLayoutManagerone = new LinearLayoutManager(AddClinicActivity.this);
         immunization_history_list.setLayoutManager(linearLayoutManagerone);
         immunization_history_list.setNestedScrollingEnabled(false);
@@ -1535,7 +1538,6 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     treatment_remaks_TV.setVisibility(View.GONE);
                     treatment_remarks_LL.setVisibility(View.GONE);
                     pet_age_TV.setVisibility(View.VISIBLE);
-                    pet_age_TV.setText(strPetAge+" Days");
                     folow_up_dt_view.setText(strNextVisitDate);
                     vaccine_layout.setVisibility(View.VISIBLE);
                     if(strToolbarName.equals("Update Clinic"))
@@ -1545,12 +1547,14 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                             @Override
                             public void run() {
                                 methods.customProgressDismiss();
+                                pet_age_TV.setText("AGE:- "+strPetAge+" DAYS");
                                 vaccineDetailsDialog();
                             }
                         }, 3000);
                     }
                     else
                     {
+                        pet_age_TV.setText("AGE:- "+strPetAge+" DAYS");
                         vaccineDetailsDialog();
                     }
 

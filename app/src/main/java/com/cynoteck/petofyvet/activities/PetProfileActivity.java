@@ -114,6 +114,7 @@ public class PetProfileActivity extends AppCompatActivity implements ApiResponse
         switch (key) {
             case "GetPetDetail":
                 try {
+                    methods.customProgressDismiss();
                     Log.d("GetPetDetail", arg0.body().toString());
                     getPetResponse = (GetPetResponse) arg0.body();
                     int responseCode = Integer.parseInt(getPetResponse.getResponse().getResponseCode());

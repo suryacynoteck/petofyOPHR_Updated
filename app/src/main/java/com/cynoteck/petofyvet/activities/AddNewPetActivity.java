@@ -8,9 +8,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,10 +49,12 @@ import retrofit2.Response;
 
 public class AddNewPetActivity extends AppCompatActivity implements ApiResponse, View.OnClickListener {
 
-    AppCompatSpinner add_pet_type, add_pet_age_dialog ,add_pet_sex_dialog,add_pet_breed_dialog, add_pet_color_dialog,add_pet_size_dialog;
-    EditText pet_name_ET,pet_parent_name_ET, pet_contact_number_ET;
+    AppCompatSpinner age_wise,parent_address,  add_pet_type, add_pet_age_dialog ,add_pet_sex_dialog,add_pet_breed_dialog, add_pet_color_dialog,add_pet_size_dialog;
+    EditText pet_name_ET,pet_parent_name_ET, pet_contact_number_ET,age_neumeric;
     Button save_BT;
     TextView peto_reg_number_dialog,calenderTextView_dialog;
+    CheckBox convert_yr_to_age;
+    LinearLayout day_and_age_layout;
     String petUniqueId="",getStrSpnerItemPetNmId="",strSpnrBreedId="",strSpnrAgeId="",strSpnrColorId="",
             strSpneSizeId="",strSpnrSexId="",strSpnerItemPetType="",strSpnrBreed="",strSpnrAge="",strSpnrSex="",
             currentDateandTime="",strSexType="",strResponseOtp="",petId="",petParentContactNumber="",type="";
@@ -61,6 +66,8 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
     ArrayList<String> petColor;
     ArrayList<String> petSize;
     ArrayList<String> petSex;
+    ArrayList<String> petAgeType;
+    ArrayList<String> parentAdress;
 
     HashMap<String,String> petTypeHashMap=new HashMap<>();
     HashMap<String,String> petBreedHashMap=new HashMap<>();
@@ -86,6 +93,17 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
         petSexHashMap.put("Male","1");
         petSexHashMap.put("Female","2");
 
+        petAgeType=new ArrayList<>();
+        petAgeType.add("Day");
+        petAgeType.add("Week");
+        petAgeType.add("Month");
+        petAgeType.add("Year");
+
+        parentAdress=new ArrayList<>();
+        parentAdress.add("Mr.");
+        parentAdress.add("Mrs.");
+        parentAdress.add("Miss.");
+
         currentDateAndTime();
         if (methods.isInternetOn()){
             petType();
@@ -95,7 +113,11 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
             methods.DialogInternet();
         }
         setSpinnerPetSex();
+        setPetAgeType();
+        setPetParentAdress();
     }
+
+
 
     private void intlization() {
         peto_reg_number_dialog=findViewById(R.id.peto_reg_number_dialog);
@@ -111,11 +133,17 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
         pet_contact_number_ET=findViewById(R.id.pet_contact_number);
         save_BT=findViewById(R.id.save_changes_BT);
         back_arrow_IV=findViewById(R.id.back_arrow_IV);
+        convert_yr_to_age=findViewById(R.id.convert_yr_to_age);
+        age_wise=findViewById(R.id.age_wise);
+        age_neumeric=findViewById(R.id.age_neumeric);
+        parent_address=findViewById(R.id.parent_address);
+        day_and_age_layout=findViewById(R.id.day_and_age_layout);
 
 
         save_BT.setOnClickListener(this);
         back_arrow_IV.setOnClickListener(this);
         calenderTextView_dialog.setOnClickListener(this);
+        convert_yr_to_age.setOnClickListener(this);
     }
 
     @Override
@@ -140,6 +168,17 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
                             }
                         }, year, month, day);
                 picker.show();
+                break;
+            case R.id.convert_yr_to_age:
+                if(((CompoundButton) v).isChecked()){
+                    day_and_age_layout.setVisibility(View.VISIBLE);
+                    calenderTextView_dialog.setVisibility(View.GONE);
+                }
+                else
+                {
+                    day_and_age_layout.setVisibility(View.GONE);
+                    calenderTextView_dialog.setVisibility(View.VISIBLE);
+                }
                 break;
             case R.id.save_changes_BT:
                 String strPetName= pet_name_ET.getText().toString().trim();
@@ -184,10 +223,6 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
                 {
                     Toast.makeText(this, "Select Breed!!", Toast.LENGTH_SHORT).show();
                 }
-                else if(strSpnrAge.isEmpty()||(strSpnrAge.equals("Select Pet Age")))
-                {
-                    Toast.makeText(this, "Select Pet Age!!", Toast.LENGTH_SHORT).show();
-                }
                 else if(strSpnrSex.isEmpty()||(strSpnrSex.equals("Pet Sex")))
                 {
                     Toast.makeText(this, "Select Pet Sex!!", Toast.LENGTH_SHORT).show();
@@ -204,8 +239,8 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
                     data.setPetUniqueId(petUniqueId);
                     data.setPetCategoryId(getStrSpnerItemPetNmId);
                     data.setPetSexId(strSpnrSexId);
-                    data.setPetAgeId(strSpnrAgeId);
-                    data.setPetSizeId(strSpneSizeId);
+                    data.setPetAgeId("0.0");
+                    data.setPetSizeId("0.0");
                     data.setPetColorId(strSpnrColorId);
                     data.setPetBreedId(strSpnrBreedId);
                     data.setPetName(strPetName);
@@ -575,6 +610,39 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
             }
         });
     }
+
+    private void setPetAgeType() {
+        ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,petAgeType);
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Setting the ArrayAdapter data on the Spinner
+        age_wise.setAdapter(aa);
+        age_wise.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+                // Showing selected spinner item
+                Log.d("spnerType","PetAge"+item);
+            }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
+    private void setPetParentAdress() {
+        ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,parentAdress);
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Setting the ArrayAdapter data on the Spinner
+        parent_address.setAdapter(aa);
+        parent_address.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+                // Showing selected spinner item
+                Log.d("spnerType","ParentAddress"+item);
+            }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
     private void petType() {
         ApiService<PetTypeResponse> service = new ApiService<>();
         service.get(this, ApiClient.getApiInterface().petTypeApi(Config.token), "GetPetTypes");

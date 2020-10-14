@@ -72,7 +72,7 @@
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                android:text="@string/appointments"
+                android:text="@string/appointments_home"
                 android:textColor="#000"
                 android:textSize="25sp"
                 android:textStyle="bold" />
