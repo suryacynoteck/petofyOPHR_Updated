@@ -80,7 +80,7 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
 
     AppCompatSpinner age_wise,parent_address, add_pet_age,add_pet_type,add_pet_sex,add_pet_breed,add_pet_color,add_pet_size;
     EditText pet_name,pet_parent_name,pet_contact_number,pet_description,pet_address,age_neumeric;
-    TextView peto_reg_number,calenderView;
+    TextView peto_reg_number,calenderView,ageViewTv;
     ImageView back_arrow_IV, service_cat_img_one,service_cat_img_two,service_cat_img_three,service_cat_img_four,
             service_cat_img_five;
     Button pet_submit;
@@ -283,6 +283,7 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
         age_neumeric=findViewById(R.id.age_neumeric);
         parent_address=findViewById(R.id.parent_address);
         day_and_age_layout=findViewById(R.id.day_and_age_layout);
+        ageViewTv=findViewById(R.id.ageViewTv);
 
 
         pet_profile_image.setOnClickListener(this);
@@ -454,8 +455,15 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                                 calenderView.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                                String DoB=dayOfMonth + " " + (monthOfYear + 1) + " " + year;
+                                Log.d("jajajaajja",""+methods.getDays(DoB,methods.getDate()));
+                                String age= String.valueOf(methods.getDays(DoB,methods.getDate()));
+                                age=age.substring(0,age.length()-2);
+                                ageViewTv.setText(age+" Day(s)");
+                                age_neumeric.setText(age);
                             }
                         }, year, month, day);
+                picker.getDatePicker().setMaxDate(System.currentTimeMillis());
                 picker.show();
             break;
             case R.id.pet_profile_image:

@@ -39,11 +39,15 @@ import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
+
+import javax.xml.datatype.Duration;
 
 import retrofit2.Response;
 
@@ -52,7 +56,7 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
     AppCompatSpinner age_wise,parent_address,  add_pet_type, add_pet_age_dialog ,add_pet_sex_dialog,add_pet_breed_dialog, add_pet_color_dialog,add_pet_size_dialog;
     EditText pet_name_ET,pet_parent_name_ET, pet_contact_number_ET,age_neumeric;
     Button save_BT;
-    TextView peto_reg_number_dialog,calenderTextView_dialog;
+    TextView peto_reg_number_dialog,calenderTextView_dialog,ageViewTv;
     CheckBox convert_yr_to_age;
     LinearLayout day_and_age_layout;
     String petUniqueId="",getStrSpnerItemPetNmId="",strSpnrBreedId="",strSpnrAgeId="",strSpnrColorId="",
@@ -138,6 +142,7 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
         age_neumeric=findViewById(R.id.age_neumeric);
         parent_address=findViewById(R.id.parent_address);
         day_and_age_layout=findViewById(R.id.day_and_age_layout);
+        ageViewTv=findViewById(R.id.ageViewTv);
 
 
         save_BT.setOnClickListener(this);
@@ -165,8 +170,15 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                                 calenderTextView_dialog.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                                String DoB=dayOfMonth + " " + (monthOfYear + 1) + " " + year;
+                                Log.d("jajajaajja",""+methods.getDays(DoB,methods.getDate()));
+                                String age= String.valueOf(methods.getDays(DoB,methods.getDate()));
+                                age=age.substring(0,age.length()-2);
+                                ageViewTv.setText(age+" Day(s)");
+                                age_neumeric.setText(age);
                             }
                         }, year, month, day);
+                picker.getDatePicker().setMaxDate(System.currentTimeMillis());
                 picker.show();
                 break;
             case R.id.convert_yr_to_age:

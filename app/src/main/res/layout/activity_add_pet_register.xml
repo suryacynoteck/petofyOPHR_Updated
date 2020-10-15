@@ -259,8 +259,22 @@
                 android:background="@drawable/cal_background"/>
 
             <TextView
-                android:visibility="gone"
                 android:layout_below="@id/calenderTextView_dialog"
+                android:id="@+id/ageViewTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="18dp"
+                android:paddingLeft="25dp"
+                android:gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:textColor="@color/deactivate_red"/>
+
+            <TextView
+                android:visibility="gone"
+                android:layout_below="@id/ageViewTv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/add_pet_size_TV"
