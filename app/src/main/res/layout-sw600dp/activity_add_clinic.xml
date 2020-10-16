@@ -107,8 +107,8 @@
                     android:layout_width="0dp"
                     android:layout_weight="2"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:gravity="center"
                     android:text=""
                     android:textColor="@color/colorPrimary"
@@ -570,24 +570,47 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/Dewormer_name_ET" />
 
-
-            <EditText
-                android:id="@+id/diagnosis_ET"
+            <LinearLayout
+                android:id="@+id/diagnosis_Layout"
                 android:layout_width="0dp"
-                android:layout_height="120dp"
+                android:layout_height="150dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edit_text_background"
-                android:gravity="center_vertical"
-                android:hint="Diagnosis*"
-                android:inputType="text"
-                android:maxLines="1"
-                android:paddingLeft="25dp"
-                android:layout_marginRight="20dp"
-                android:textColor="@color/grey_add_pet"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/diagnosis_TV" />
+                app:layout_constraintTop_toBottomOf="@id/diagnosis_TV"
+                android:orientation="vertical">
+
+                <AutoCompleteTextView
+                    android:id="@+id/diagnosis_ET"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/remarks_texview_shape"
+                    android:gravity="center_vertical"
+                    android:hint="Diagnosis*"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:paddingLeft="25dp"
+                    android:layout_marginRight="20dp"
+                    android:textColor="@color/grey_add_pet"
+                    />
+
+                <EditText
+                    android:id="@+id/diagnosis_result"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"/>
+
+
+
+            </LinearLayout>
+
+
 
 
             <TextView
@@ -601,7 +624,7 @@
                 android:textColor="@color/grey_add_pet"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/diagnosis_ET" />
+                app:layout_constraintTop_toBottomOf="@id/diagnosis_Layout" />
 
 
             <LinearLayout

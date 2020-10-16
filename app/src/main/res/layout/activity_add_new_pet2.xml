@@ -420,7 +420,8 @@
                     android:layout_weight=".8"
                     android:layout_height="match_parent" />
 
-                <EditText
+                <AutoCompleteTextView
+                    android:id="@+id/pet_parent_name_ET"
                     android:inputType="text"
                     android:maxLines="1"
                     android:paddingLeft="25dp"
@@ -428,7 +429,6 @@
                     android:layout_weight="1.2"
                     android:layout_marginLeft="8dp"
                     android:layout_height="match_parent"
-                    android:id="@+id/pet_parent_name_ET"
                     android:hint="@string/ParentName"
                     android:gravity="center_vertical"
                     android:background="@drawable/edit_text_background"
@@ -452,7 +452,7 @@
                 android:textColor="@color/grey_add_pet"/>
 
 
-            <EditText
+            <AutoCompleteTextView
                 android:inputType="text"
                 android:maxLines="1"
                 android:paddingLeft="25dp"

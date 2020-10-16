@@ -394,7 +394,7 @@
                     android:layout_weight=".8"
                     android:layout_height="match_parent" />
 
-                <EditText
+                <AutoCompleteTextView
                     android:inputType="text"
                     android:maxLines="1"
                     android:paddingLeft="25dp"
@@ -423,7 +423,7 @@
                 android:textColor="@color/grey_add_pet"/>
 
 
-            <EditText
+            <AutoCompleteTextView
                 android:layout_below="@id/pet_contact_TV"
                 android:inputType="phone"
                 android:maxLines="1"
