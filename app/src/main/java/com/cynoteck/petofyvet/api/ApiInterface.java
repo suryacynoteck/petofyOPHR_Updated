@@ -592,6 +592,18 @@ public interface ApiInterface {
     @POST("pethealthrecord/SearchDiagnosis")
     Call<SearchDiagnosisResponseData> searchDiagnosis(@Header("Authorization") String auth, @Body SearchDiagnosisRequestData searchDiagnosisRequestData);
 
+    //Search Dewormer Name....................................
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("pethealthrecord/SearchDewormerName")
+    Call<SearchDiagnosisResponseData> searchDewormerName(@Header("Authorization") String auth, @Body SearchDiagnosisRequestData searchDiagnosisRequestData);
+
+    //Search Dewormer Dose....................................
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("pethealthrecord/SearchDewormerDose")
+    Call<SearchDiagnosisResponseData> searchDewormerDose(@Header("Authorization") String auth, @Body SearchDiagnosisRequestData searchDiagnosisRequestData);
+
 
 }
 

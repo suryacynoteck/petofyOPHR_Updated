@@ -488,11 +488,6 @@
 
             </LinearLayout>
 
-
-
-
-
-
             <TextView
                 android:visibility="gone"
                 android:id="@+id/Dewormer_TV"
@@ -507,22 +502,43 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/vaccine_layout" />
 
-            <EditText
-                android:visibility="gone"
-                android:id="@+id/Dewormer_ET"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
+            <LinearLayout
+                android:id="@+id/deworming_name_Layout"
+                android:layout_width="0dp"
+                android:layout_height="150dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
-                android:gravity="center_vertical"
-                android:inputType="text"
                 android:background="@drawable/edit_text_background"
-                android:hint="Dewormer Name"
-                android:paddingLeft="25dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/Dewormer_TV" />
+                app:layout_constraintTop_toBottomOf="@id/Dewormer_TV"
+                android:orientation="vertical">
+
+                <AutoCompleteTextView
+                    android:id="@+id/deworming_AC"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/remarks_texview_shape"
+                    android:gravity="center_vertical"
+                    android:hint="Dewormer name*"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:paddingLeft="25dp"
+                    android:textColor="@color/grey_add_pet"
+                    android:layout_marginLeft="20dp"  />
+
+                <EditText
+                    android:id="@+id/Dewormer_ET"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="2dp"
+                    android:paddingLeft="25dp"
+                    android:layout_marginLeft="20dp"/>
+
+            </LinearLayout>
+
 
             <TextView
                 android:visibility="gone"
@@ -536,25 +552,44 @@
                 android:textColor="@color/grey_add_pet"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/Dewormer_ET" />
+                app:layout_constraintTop_toBottomOf="@id/deworming_name_Layout" />
 
-            <EditText
-                android:visibility="gone"
-                android:id="@+id/Dewormer_name_ET"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
+            <LinearLayout
+                android:id="@+id/deworming_dose_Layout"
+                android:layout_width="0dp"
+                android:layout_height="150dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
-                android:gravity="center_vertical"
-                android:inputType="text"
                 android:background="@drawable/edit_text_background"
-                android:hint="Name of Vaccine"
-                android:paddingLeft="25dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/Dewormer_name_TV" />
+                app:layout_constraintTop_toBottomOf="@id/Dewormer_name_TV"
+                android:orientation="vertical">
 
+                <AutoCompleteTextView
+                    android:id="@+id/deworming_dose_AC"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/remarks_texview_shape"
+                    android:gravity="center_vertical"
+                    android:hint="Dewormer Dose*"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:paddingLeft="25dp"
+                    android:textColor="@color/grey_add_pet"
+                    android:layout_marginLeft="20dp"/>
+
+                <EditText
+                    android:id="@+id/Dewormer_name_ET"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="2dp"
+                    android:paddingLeft="25dp"
+                    android:layout_marginLeft="20dp"/>
+
+            </LinearLayout>
 
 
             <TextView
@@ -568,13 +603,14 @@
                 android:textColor="@color/grey_add_pet"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/Dewormer_name_ET" />
+                app:layout_constraintTop_toBottomOf="@id/deworming_dose_Layout" />
 
             <LinearLayout
                 android:id="@+id/diagnosis_Layout"
                 android:layout_width="0dp"
                 android:layout_height="150dp"
                 android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edit_text_background"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -594,7 +630,6 @@
                     android:inputType="text"
                     android:maxLines="1"
                     android:paddingLeft="25dp"
-                    android:layout_marginRight="20dp"
                     android:textColor="@color/grey_add_pet"
                     />
 
@@ -603,8 +638,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="2dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"/>
+                    android:layout_marginLeft="20dp"/>
 
 
 
@@ -632,6 +666,7 @@
                 android:layout_width="0dp"
                 android:layout_height="150dp"
                 android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edit_text_background"
                 android:gravity="center_vertical"

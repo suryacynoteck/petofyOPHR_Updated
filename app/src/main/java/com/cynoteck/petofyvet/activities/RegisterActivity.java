@@ -3,11 +3,14 @@ package com.cynoteck.petofyvet.activities;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.fragment.app.FragmentActivity;
 
 import com.cynoteck.petofyvet.R;
@@ -21,6 +24,8 @@ import com.cynoteck.petofyvet.utils.Methods;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.ArrayList;
+
 import retrofit2.Response;
 
 
@@ -30,9 +35,11 @@ public class RegisterActivity extends FragmentActivity implements ApiResponse, V
     private TextInputLayout firstname_TIL, lastName_TIL, email_TIL, phoneNumber_TIL, password_TIL, confirmPassword_TIL;
     private TextInputEditText firstname_TIET, lastName_TIET, email_TIET, phoneNumber_TIET, password_TIET, confirmPassword_TIET;
     private Button signUp_BT;
-    private String firstName="", lastName="", email="", phoneNumber="",password="",confirmPassword="";
+    private String firstName="", lastName="", email="", phoneNumber="",password="",confirmPassword="", dctrAddresingStr="";
     private TextView signIN_TV;
+    AppCompatSpinner parent_address;
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+    ArrayList<String> parentAddresingList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,6 +58,7 @@ public class RegisterActivity extends FragmentActivity implements ApiResponse, V
         phoneNumber_TIL = findViewById(R.id.number_TIL);
         password_TIL = findViewById(R.id.password_TIL);
         confirmPassword_TIL = findViewById(R.id.cPassword_TIL);
+        parent_address = findViewById(R.id.parent_address);
 
 
         firstname_TIET = findViewById(R.id.firstName_TIET);
@@ -67,10 +75,30 @@ public class RegisterActivity extends FragmentActivity implements ApiResponse, V
         signUp_BT.setOnClickListener(this);
         signIN_TV.setOnClickListener(this);
 
+        parentAddresingList=new ArrayList<>();
+        parentAddresingList.add("Dr.");
+        parentAddresingList.add("Mrs.");
+        parentAddresingList.add("Mr.");
 
+        setSpinnerDrNameAdrressing();
 
+    }
 
-
+    private void setSpinnerDrNameAdrressing() {
+        ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,parentAddresingList);
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Setting the ArrayAdapter data on the Spinner
+        parent_address.setAdapter(aa);
+        parent_address.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+                // Showing selected spinner item
+                Log.d("spnerType","doctorAddress"+item);
+                dctrAddresingStr=item;
+            }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
     }
 
     private void registerUser(Registerparams registerparams) {
@@ -194,7 +222,7 @@ public class RegisterActivity extends FragmentActivity implements ApiResponse, V
                     data.setEmail(email);
                     data.setPassword(password);
                     data.setConfirmPassword(confirmPassword);
-                    data.setFirstName(firstName);
+                    data.setFirstName(dctrAddresingStr+" "+firstName);
                     data.setLastName(lastName);
                     data.setPhoneNumber(phoneNumber);
                     registerparams.setData(data);
