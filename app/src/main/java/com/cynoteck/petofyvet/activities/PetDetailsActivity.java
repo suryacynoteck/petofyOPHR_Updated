@@ -60,8 +60,8 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
         pet_age=extras.getString("pet_age");
         pet_DOB=extras.getString("pet_DOB");
         pet_encrypted_id=extras.getString("pet_encrypted_id");
-        Log.d("nannan",""+pet_DOB);
-        Log.d("nannan",""+pet_encrypted_id);
+        Log.d("nannan",""+pet_DOB+" "+pet_id);
+        Log.d("nannan",""+pet_encrypted_id);//
 
         pet_nameTV = findViewById(R.id.pet_name_TV);
         pet_parentNameTV = findViewById(R.id.pet_owner_name_TV);

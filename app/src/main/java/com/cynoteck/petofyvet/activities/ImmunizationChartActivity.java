@@ -98,10 +98,11 @@ public class ImmunizationChartActivity extends AppCompatActivity implements View
         if (requestCode == 1) {
             if(resultCode == RESULT_OK) {
                 strSpnerItemPetNm =data.getStringExtra("petCat");
-               getImmunizationList(data.getStringExtra("petCatId"));
+                getImmunizationList(data.getStringExtra("petCatId"));
             }
         }
     }
+
 
     @Override
     public void onClick(View v) {

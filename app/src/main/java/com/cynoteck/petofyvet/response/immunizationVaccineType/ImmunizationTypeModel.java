@@ -7,6 +7,7 @@ public class ImmunizationTypeModel {
     private List<String> primaryVaccine = null;
     private String nextVisitDate;
     private List<VaccineTypeList> vaccineTypeList = null;
+    private NextVaccination nextVaccination;
     private String age;
 
     public List<String> getPrimaryVaccine() {
@@ -33,6 +34,14 @@ public class ImmunizationTypeModel {
         this.vaccineTypeList = vaccineTypeList;
     }
 
+    public NextVaccination getNextVaccination() {
+        return nextVaccination;
+    }
+
+    public void setNextVaccination(NextVaccination nextVaccination) {
+        this.nextVaccination = nextVaccination;
+    }
+
     public String getAge() {
         return age;
     }
@@ -43,7 +52,7 @@ public class ImmunizationTypeModel {
 
     @Override
     public String toString() {
-        return "ClassPojo [primaryVaccine = "+primaryVaccine+", nextVisitDate= "+nextVisitDate+", vaccineTypeList= "+vaccineTypeList+", age= "+age+"]";
+        return "ClassPojo [primaryVaccine = "+primaryVaccine+", nextVisitDate= "+nextVisitDate+", vaccineTypeList= "+vaccineTypeList+", nextVaccination = "+", age= "+age+"]";
 
     }
 

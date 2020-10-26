@@ -12,10 +12,14 @@ public class AddPetClinicParam {
     private String temperature;
     private String dateOfOnset;
     private String dewormerName;
+    private String remarks;
+    private String history;
     private String treatmentRemarks;
     private String diagnosisProcedure;
     private String followUpId;
     private String followUpDate;
+    private String nextVaccineName;
+    private String nextVaccinetype;
     private String documents;
 
     public String getPetId() {
@@ -106,6 +110,38 @@ public class AddPetClinicParam {
         this.dewormerName = dewormerName;
     }
 
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
+
+    public String getHistory() {
+        return history;
+    }
+
+    public void setHistory(String history) {
+        this.history = history;
+    }
+
+    public String getNextVaccineName() {
+        return nextVaccineName;
+    }
+
+    public void setNextVaccineName(String nextVaccineName) {
+        this.nextVaccineName = nextVaccineName;
+    }
+
+    public String getNextVaccinetype() {
+        return nextVaccinetype;
+    }
+
+    public void setNextVaccinetype(String nextVaccinetype) {
+        this.nextVaccinetype = nextVaccinetype;
+    }
+
     public String getTreatmentRemarks() {
         return treatmentRemarks;
     }
@@ -149,7 +185,7 @@ public class AddPetClinicParam {
     @Override
     public String toString()
     {
-        return "ClassPojo [petId= "+petId+", veterinarian = "+veterinarian+", visitDate = "+visitDate+", natureOfVisitId = "+natureOfVisitId+", vaccine = "+vaccine+", description= "+description+", weightLbs = "+weightLbs+", weightOz = "+weightOz+", temperature = "+temperature+", dateOfOnset = "+dateOfOnset+", description = "+description+", dewormerName = "+dewormerName+", treatmentRemarks = "+treatmentRemarks+", diagnosisProcedure = "+diagnosisProcedure+", followUpId = "+followUpId+", followUpDate = "+followUpDate+", documents = "+documents+"]";
+        return "ClassPojo [petId= "+petId+", veterinarian = "+veterinarian+", visitDate = "+visitDate+", natureOfVisitId = "+natureOfVisitId+", vaccine = "+vaccine+", description= "+description+", weightLbs = "+weightLbs+", weightOz = "+weightOz+", temperature = "+temperature+", dateOfOnset = "+dateOfOnset+", description = "+description+", dewormerName = "+dewormerName+", remarks= "+remarks+", nextVaccineName ="+nextVaccineName+", history = "+history+", nextVaccinetype = "+nextVaccinetype+", treatmentRemarks = "+treatmentRemarks+", diagnosisProcedure = "+diagnosisProcedure+", followUpId = "+followUpId+", followUpDate = "+followUpDate+", documents = "+documents+"]";
     }
 
 }

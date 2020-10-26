@@ -38,7 +38,7 @@ public class AddClinicImmunizationModel {
     private List<String> petClinicVisitCreatedByNavigation = null;
     private List<String> petClinicVisitUpdatedByNavigation = null;
     private List<String> petClinicVisitVeterinarianUser = null;
-    private List<String> petDetail = null;
+    private List<PetDetail> petDetail = null;
     private List<String> petDonation = null;
     private List<String> petHospitalizationsSurgeriesCreatedByNavigation = null;
     private List<String> petHospitalizationsSurgeriesUpdatedByNavigation = null;
@@ -344,11 +344,11 @@ public class AddClinicImmunizationModel {
         this.petClinicVisitVeterinarianUser = petClinicVisitVeterinarianUser;
     }
 
-    public List<String> getPetDetail() {
+    public List<PetDetail> getPetDetail() {
         return petDetail;
     }
 
-    public void setPetDetail(List<String> petDetail) {
+    public void setPetDetail(List<PetDetail> petDetail) {
         this.petDetail = petDetail;
     }
 

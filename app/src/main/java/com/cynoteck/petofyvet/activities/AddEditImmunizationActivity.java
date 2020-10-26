@@ -219,7 +219,6 @@ public class AddEditImmunizationActivity extends AppCompatActivity implements Ap
                 break;
 
             case R.id.create_Edit_immui_BT:
-                Toast.makeText(this, "Click", Toast.LENGTH_SHORT).show();
                 serial_number_string=serial_number_ET.getText().toString().trim();
                 minimum_age_string=minimum_age_ET.getText().toString().trim();
                 maxmimum_age_string=maxmum_age_ET.getText().toString().trim();
@@ -306,9 +305,6 @@ public class AddEditImmunizationActivity extends AppCompatActivity implements Ap
 
 
                     }
-
-
-
 
                 break;
         }
@@ -408,6 +404,8 @@ public class AddEditImmunizationActivity extends AppCompatActivity implements Ap
                     int responseCode = Integer.parseInt(addEditImmunizationResponse.getResponse().getResponseCode());
                     if (responseCode == 109) {
                         Intent intent = new Intent();
+                        intent.putExtra("petCat",strSpnerItemPetNm);
+                        intent.putExtra("petCatId",getStrSpnerItemPetNmId);
                         setResult(RESULT_OK, intent);
                         finish();
                     } else if (responseCode == 614) {
@@ -438,10 +436,15 @@ public class AddEditImmunizationActivity extends AppCompatActivity implements Ap
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
         is_periodic_ACS.setAdapter(aa);
-        if (!strSpnerItemIsPeriodicVaccineNm.equals("")) {
-            int spinnerPosition = aa.getPosition(strSpnerItemIsPeriodicVaccineNm);
-            is_periodic_ACS.setSelection(spinnerPosition);
+        Log.d("nanannana",""+strSpnerItemIsPeriodicVaccineNm);
+        if(strSpnerItemIsPeriodicVaccineNm!=null)
+        {
+            if (!strSpnerItemIsPeriodicVaccineNm.equals("")) {
+                int spinnerPosition = aa.getPosition(strSpnerItemIsPeriodicVaccineNm);
+                is_periodic_ACS.setSelection(spinnerPosition);
+            }
         }
+
         is_periodic_ACS.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();

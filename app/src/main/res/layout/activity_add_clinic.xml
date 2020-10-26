@@ -814,7 +814,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
                 android:gravity="center_vertical"
-                android:inputType="numberDecimal"
+                android:inputType="text"
                 android:maxLines="1"
                 android:paddingLeft="25dp"
                 android:background="@drawable/edit_text_background"
