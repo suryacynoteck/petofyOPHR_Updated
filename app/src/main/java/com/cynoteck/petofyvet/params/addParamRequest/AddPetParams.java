@@ -189,6 +189,6 @@ public class AddPetParams {
     @Override
     public String toString()
     {
-        return "ClassPojo [petUniqueId= "+petUniqueId+", petCategoryId = "+petCategoryId+", petSexId = "+petSexId+", petAgeId = "+petAgeId+", petSizeId = "+petSizeId+", petColorId= "+petColorId+", petName = "+petName+", petParentName = "+petParentName+", contactNumber = "+contactNumber+", dateOfBirth = "+dateOfBirth+", description = "+description+", createDate = "+createDate+", petProfileImageUrl = "+petProfileImageUrl+", firstServiceImageUrl = "+firstServiceImageUrl+", secondServiceImageUrl = "+secondServiceImageUrl+", thirdServiceImageUrl = "+thirdServiceImageUrl+", fourthServiceImageUrl = "+fourthServiceImageUrl+", fifthServiceImageUrl = "+fifthServiceImageUrl+"]";
+        return "ClassPojo [petUniqueId= "+petUniqueId+", petCategoryId = "+petCategoryId+", petSexId = "+petSexId+", petAgeId = "+petAgeId+", petSizeId = "+petSizeId+", petColorId= "+petColorId+", petBreedId = "+petBreedId+", petName = "+petName+", petParentName = "+petParentName+", contactNumber = "+contactNumber+", dateOfBirth = "+dateOfBirth+", description = "+description+", createDate = "+createDate+", petProfileImageUrl = "+petProfileImageUrl+", firstServiceImageUrl = "+firstServiceImageUrl+", secondServiceImageUrl = "+secondServiceImageUrl+", thirdServiceImageUrl = "+thirdServiceImageUrl+", fourthServiceImageUrl = "+fourthServiceImageUrl+", fifthServiceImageUrl = "+fifthServiceImageUrl+"]";
     }
 }

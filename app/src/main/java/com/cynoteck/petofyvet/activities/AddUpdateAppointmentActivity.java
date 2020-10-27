@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -65,10 +66,14 @@ import com.cynoteck.petofyvet.utils.RegisterRecyclerViewClickListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.StringTokenizer;
+import java.util.TimeZone;
 
 import retrofit2.Response;
 
@@ -78,6 +83,7 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
     TextView appointment_headline ,calenderTextViewAppointDt ,time_TV,parent_TV,cancelOtpDialog;
     EditText title_ET, duration_TV, description_ET;
     AutoCompleteTextView pet_parent_TV;
+    LinearLayout pet_search_layout;
     Methods methods;
     ArrayList<GetPetParentListData> petParent = new ArrayList<>();
     PetParentAdapter petParentAdapter;
@@ -99,13 +105,17 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
         Intent intent = getIntent();
         type = intent.getStringExtra("type");
         id = intent.getStringExtra("id");
+        petId = intent.getStringExtra("pet_id");
         petParentString = intent.getStringExtra("petParent");
         init();
         if (type.equals("add")){
             appointment_headline.setText("Add Appointment");
             create_appointment_BT.setText("Create Appointment");
+            String currentTime = new SimpleDateFormat("hh:mm a").format(new Date());
+            time_TV.setText(currentTime);
         }else if (type.equals("update")){
-            pet_parent_TV.setVisibility(View.INVISIBLE);
+            pet_search_layout.setVisibility(View.INVISIBLE);
+            add_new_pet.setVisibility(View.INVISIBLE);
             parent_TV.setVisibility(View.VISIBLE);
             parent_TV.setText(petParentString);
             appointment_headline.setText("Edit Appointment");
@@ -197,6 +207,7 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
         parent_TV = findViewById(R.id.parent_TV);
         add_new_pet=findViewById(R.id.add_new_pet);
         new_pet_search= findViewById(R.id.new_pet_search);
+        pet_search_layout= findViewById(R.id.pet_search_layout);
 
         add_new_pet.setOnClickListener(this);
         new_pet_search.setOnClickListener(this);
@@ -242,78 +253,79 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
                 break;
             case R.id.new_pet_search:
                 Log.d("hahahhahah",""+petUniueId.contains(pet_parent_TV.getText().toString()));
-                String petoUniqueIdSplit = pet_parent_TV.getText().toString().substring(0,4);
-                Log.d("petoUniqueIdSplit",""+petoUniqueIdSplit);
-                if(petoUniqueIdSplit.equals("PETO"))
+                if((pet_parent_TV.getText().toString().isEmpty())||(petUniueId.contains(pet_parent_TV.getText().toString())==false))
                 {
-                    if(petUniueId.contains(pet_parent_TV.getText().toString())==true)
-                    {
-//                        search_boxRL.setVisibility(View.VISIBLE);
-//                        staff_headline_TV.setVisibility(View.GONE);
-                        InputMethodManager imm1 = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
-                        imm1.hideSoftInputFromWindow(pet_parent_TV.getWindowToken(), 0);
-//                        back_arrow_IV_new_entry.setVisibility(View.VISIBLE);
-                        String value=petExistingSearch.get(pet_parent_TV.getText().toString());
-                        Log.d("kakakka",""+value);
-                        StringTokenizer st = new StringTokenizer(value, ",");
-                        String PetUniqueId = st.nextToken();
-                        String PetName = st.nextToken();
-                        String PetParentName = st.nextToken();
-                        String PetSex = st.nextToken();
-                        String petAge = st.nextToken();
-                        String Id = st.nextToken();
-                        Log.d("ppppp",""+PetUniqueId+" "+PetName+" "+PetParentName+" "+PetSex+" "+petAge+" "+Id);
-                        Intent petDetailsIntent = new Intent(this.getApplication(), PetDetailsActivity.class);
-                        Bundle data = new Bundle();
-                        data.putString("pet_id",Id);
-                        data.putString("pet_name",PetName);
-                        data.putString("pet_parent",PetParentName);
-                        data.putString("pet_sex",PetSex);
-                        data.putString("pet_age",petAge);
-                        data.putString("pet_unique_id",PetUniqueId);
-                        petDetailsIntent.putExtras(data);
-                        startActivity(petDetailsIntent);
-                    }
-                    else
-                    {
-                        Log.d("Add Anotheer Veterian","vet");
-                        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-                        alertDialog.setTitle("Are you sure?");
-                        alertDialog.setMessage("This pet is not registered with you. Do you want to add ?");
-                        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        InPetRegisterRequest inPetRegisterRequest = new InPetRegisterRequest();
-                                        InPetregisterParams inPetregisterParams = new InPetregisterParams();
-                                        Log.d("kkakakka",""+pet_parent_TV.getText().toString());
-                                        inPetregisterParams.setUniqueId(pet_parent_TV.getText().toString());
-                                        inPetRegisterRequest.setData(inPetregisterParams);
-                                        if (methods.isInternetOn()) {
-                                            chkVetInregister(inPetRegisterRequest);
-                                            clearSearch();
-                                        } else {
-                                            methods.DialogInternet();
-                                        }
-                                        dialog.dismiss();
-                                    }
-                                });
-                        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL",
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        dialogInterface.dismiss();
-                                    }
-                                });
-                        alertDialog.show();
-                    }
+                    Toast.makeText(this, "Data Not Found", Toast.LENGTH_SHORT).show();
                 }
-                else{
-                    pet_parent_TV.requestFocus();
-//                    search_boxRL.setVisibility(View.VISIBLE);
-//                    staff_headline_TV.setVisibility(View.GONE);
-                    InputMethodManager imm1 = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm1.showSoftInput(pet_parent_TV, InputMethodManager.SHOW_IMPLICIT);
-//                    back_arrow_IV_new_entry.setVisibility(View.VISIBLE);
+                else
+                {
+                    String petoUniqueIdSplit = pet_parent_TV.getText().toString().substring(0,4);
+                    Log.d("petoUniqueIdSplit",""+petoUniqueIdSplit);
+                    if(petoUniqueIdSplit.equals("PETO"))
+                    {
+                        if(petUniueId.contains(pet_parent_TV.getText().toString())==true)
+                        {
+                            InputMethodManager imm1 = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm1.hideSoftInputFromWindow(pet_parent_TV.getWindowToken(), 0);
+                            String value=petExistingSearch.get(pet_parent_TV.getText().toString());
+                            Log.d("kakakka",""+value);
+                            StringTokenizer st = new StringTokenizer(value, ",");
+                            String PetUniqueId = st.nextToken();
+                            String PetName = st.nextToken();
+                            String PetParentName = st.nextToken();
+                            String PetSex = st.nextToken();
+                            String petAge = st.nextToken();
+                            String Id = st.nextToken();
+                            Log.d("ppppp",""+PetUniqueId+" "+PetName+" "+PetParentName+" "+PetSex+" "+petAge+" "+Id);
+                            Intent petDetailsIntent = new Intent(this.getApplication(), PetDetailsActivity.class);
+                            Bundle data = new Bundle();
+                            data.putString("pet_id",Id);
+                            data.putString("pet_name",PetName);
+                            data.putString("pet_parent",PetParentName);
+                            data.putString("pet_sex",PetSex);
+                            data.putString("pet_age",petAge);
+                            data.putString("pet_unique_id",PetUniqueId);
+                            petDetailsIntent.putExtras(data);
+                            startActivity(petDetailsIntent);
+                        }
+                        else
+                        {
+                            Log.d("Add Anotheer Veterian","vet");
+                            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+                            alertDialog.setTitle("Are you sure?");
+                            alertDialog.setMessage("This pet is not registered with you. Do you want to add ?");
+                            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            InPetRegisterRequest inPetRegisterRequest = new InPetRegisterRequest();
+                                            InPetregisterParams inPetregisterParams = new InPetregisterParams();
+                                            Log.d("kkakakka",""+pet_parent_TV.getText().toString());
+                                            inPetregisterParams.setUniqueId(pet_parent_TV.getText().toString());
+                                            inPetRegisterRequest.setData(inPetregisterParams);
+                                            if (methods.isInternetOn()) {
+                                                chkVetInregister(inPetRegisterRequest);
+                                                clearSearch();
+                                            } else {
+                                                methods.DialogInternet();
+                                            }
+                                            dialog.dismiss();
+                                        }
+                                    });
+                            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            dialogInterface.dismiss();
+                                        }
+                                    });
+                            alertDialog.show();
+                        }
+                    }
+                    else{
+                        pet_parent_TV.requestFocus();
+                        InputMethodManager imm1 = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm1.showSoftInput(pet_parent_TV, InputMethodManager.SHOW_IMPLICIT);
+                    }
                 }
                 
                 break;
@@ -388,6 +400,7 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
                         updateAppointmentParams.setEventStartTime(timeString);
                         updateAppointmentParams.setTitle(titleString);
                         updateAppointmentParams.setId(id);
+                        updateAppointmentParams.setPetId(petId);
                         UpdateAppointmentRequest  updateAppointmentRequest = new UpdateAppointmentRequest();
                         updateAppointmentRequest.setData(updateAppointmentParams);
                         if (methods.isInternetOn()){
@@ -421,6 +434,7 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
                                 calenderTextViewAppointDt.setText(Config.changeDateFormat(displayValue));
                             }
                         }, year, month, day);
+                picker.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
                 picker.show();
                 break;
 
@@ -473,12 +487,14 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
     }
 
     private void updateAppointment(UpdateAppointmentRequest updateAppointmentRequest) {
+        methods.showCustomProgressBarDialog(this);
         ApiService<CreateAppointmentResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().updateAppointment(Config.token,updateAppointmentRequest), "UpdateAppointment");
 
     }
 
     private void createUpdateAppointment(CreateAppointRequest createAppointRequest) {
+        methods.showCustomProgressBarDialog(this);
         Log.d("create",createAppointRequest.toString());
         ApiService<CreateAppointmentResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().createAppointment(Config.token,createAppointRequest), "CreateAppointment");
@@ -578,10 +594,15 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
                     Log.d("updateAppoint",createAppointmentResponse.toString());
                     int responseCode = Integer.parseInt(createAppointmentResponse.getResponse().getResponseCode());
                     if (responseCode==109) {
-
+                        methods.customProgressDismiss();
                         Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show();
                         Config.backCall="hit";
                         onBackPressed();
+                    }
+                    else
+                    {
+                        methods.customProgressDismiss();
+                        Toast.makeText(this, "Appointment not update", Toast.LENGTH_SHORT).show();
                     }
 
                 }catch (Exception e){
@@ -597,9 +618,15 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
                     Log.d("createAppoint",createAppointmentResponse.toString());
                     int responseCode = Integer.parseInt(createAppointmentResponse.getResponse().getResponseCode());
                     if (responseCode==109) {
+                        methods.customProgressDismiss();
                         Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show();
                         Config.backCall="hit";
                         onBackPressed();
+                    }
+                    else
+                    {
+                        methods.customProgressDismiss();
+                        Toast.makeText(this, "Appointment not created", Toast.LENGTH_SHORT).show();
                     }
 
                 }catch (Exception e){

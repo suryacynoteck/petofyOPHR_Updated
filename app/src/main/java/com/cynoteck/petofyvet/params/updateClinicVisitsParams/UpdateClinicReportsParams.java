@@ -14,6 +14,8 @@ public class UpdateClinicReportsParams {
     private String temperature;
     private String dateOfOnset;
     private String dewormerName;
+    private String remarks;
+    private String history;
     private String treatmentRemarks;
     private String diagnosisProcedure;
     private String followUpId;
@@ -132,6 +134,22 @@ public class UpdateClinicReportsParams {
         this.diagnosisProcedure = diagnosisProcedure;
     }
 
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
+
+    public String getHistory() {
+        return history;
+    }
+
+    public void setHistory(String history) {
+        this.history = history;
+    }
+
     public String getFollowUpId() {
         return followUpId;
     }
@@ -159,7 +177,7 @@ public class UpdateClinicReportsParams {
     @Override
     public String toString()
     {
-        return "ClassPojo [petId= "+petId+", veterinarian = "+veterinarian+", visitDate = "+visitDate+", natureOfVisitId = "+natureOfVisitId+", vaccine = "+vaccine+", description= "+description+", weightLbs = "+weightLbs+", weightOz = "+weightOz+", temperature = "+temperature+", dateOfOnset = "+dateOfOnset+", description = "+description+", dewormerName = "+dewormerName+", treatmentRemarks = "+treatmentRemarks+", diagnosisProcedure = "+diagnosisProcedure+", followUpId = "+followUpId+", followUpDate = "+followUpDate+", documents = "+documents+"]";
+        return "ClassPojo [petId= "+petId+", veterinarian = "+veterinarian+", visitDate = "+visitDate+", natureOfVisitId = "+natureOfVisitId+", vaccine = "+vaccine+", description= "+description+", weightLbs = "+weightLbs+", weightOz = "+weightOz+", temperature = "+temperature+", dateOfOnset = "+dateOfOnset+", remarks = "+remarks+", history= "+history+", description = "+description+", dewormerName = "+dewormerName+", treatmentRemarks = "+treatmentRemarks+", diagnosisProcedure = "+diagnosisProcedure+", followUpId = "+followUpId+", followUpDate = "+followUpDate+", documents = "+documents+"]";
     }
 
 }

@@ -24,6 +24,7 @@ import com.cynoteck.petofyvet.params.forgetPassRequest.ForgetPassRequest;
 import com.cynoteck.petofyvet.params.getMyVisitPetRecordRequest.GetMyVisistPetRecordRequest;
 import com.cynoteck.petofyvet.params.getPetListRequest.GetPetListRequest;
 import com.cynoteck.petofyvet.params.getVaccinationDetails.GetVaccinationRequest;
+import com.cynoteck.petofyvet.params.getpetAgeRequest.GetPetAgeRequestData;
 import com.cynoteck.petofyvet.params.immunizationRequest.ImmunizationRequest;
 import com.cynoteck.petofyvet.params.immunizationRequest.ImmunizationRequestt;
 import com.cynoteck.petofyvet.params.loginRequest.Loginparams;
@@ -34,6 +35,9 @@ import com.cynoteck.petofyvet.params.petReportsRequest.PetClinicVisitDetailsRequ
 import com.cynoteck.petofyvet.params.petReportsRequest.PetDataRequest;
 import com.cynoteck.petofyvet.params.petReportsRequest.VisitTypeRequest;
 import com.cynoteck.petofyvet.params.registerRequest.Registerparams;
+import com.cynoteck.petofyvet.params.searcgDiagnosisRequest.SearchDiagnosisRequestData;
+import com.cynoteck.petofyvet.params.searchPetParentRequest.SearchPetParentParameter;
+import com.cynoteck.petofyvet.params.searchPetParentRequest.SearchPetParentRequestData;
 import com.cynoteck.petofyvet.params.searchRemarksParameter.SearchRemaksRequest;
 import com.cynoteck.petofyvet.params.staffPermission.StaffPermissionRequest;
 import com.cynoteck.petofyvet.params.upcommingVisitsRequest.UpcommingVisitsRequest;
@@ -73,11 +77,13 @@ import com.cynoteck.petofyvet.response.getImmunizationReport.PetImmunizationReco
 import com.cynoteck.petofyvet.response.getLabTestReportResponse.getLabTestReportDetailsResponse.GetLabTestReportDeatilsResponse;
 import com.cynoteck.petofyvet.response.getLabTestReportResponse.getPetLabWorkListResponse.PetLabWorkResponse;
 import com.cynoteck.petofyvet.response.getMyVisitedPetRecordResponse.GetMyVisitPetRecordResponse;
+import com.cynoteck.petofyvet.response.getPetAgeResponse.GetPetAgeresponseData;
 import com.cynoteck.petofyvet.response.getPetDetailsResponse.GetPetResponse;
 import com.cynoteck.petofyvet.response.getPetHospitalizationResponse.getHospitalizationDeatilsResponse.GetHospitalizationDeatilsResponse;
 import com.cynoteck.petofyvet.response.getPetHospitalizationResponse.getHospitalizationListResponse.GetPetHospitalizationResponse;
 import com.cynoteck.petofyvet.response.getPetIdCardResponse.PetIdCardResponse;
 import com.cynoteck.petofyvet.response.getPetParentResponse.GetPetParentResponse;
+import com.cynoteck.petofyvet.response.getPetParrentnameReponse.GetPetParentResponseData;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.AddUpdateDeleteClinicVisitResponse;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.GetReportsTypeResponse;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.getClinicVisitDetails.GetClinicVisitsDetailsResponse;
@@ -101,10 +107,12 @@ import com.cynoteck.petofyvet.response.loginRegisterResponse.LoginRegisterRespon
 import com.cynoteck.petofyvet.response.newPetResponse.NewPetRegisterResponse;
 import com.cynoteck.petofyvet.response.onlineAppointmentOnOff.OnlineAppointmentResponse;
 import com.cynoteck.petofyvet.response.otpResponse.OtpResponse;
+import com.cynoteck.petofyvet.response.petAgeUnitResponse.PetAgeUnitResponseData;
 import com.cynoteck.petofyvet.response.profileImageresponse.ProfileImageResponse;
 import com.cynoteck.petofyvet.response.recentEntrys.RecentEntrysResponse;
 import com.cynoteck.petofyvet.response.saveImmunizationData.SaveImmunizationResponse;
 import com.cynoteck.petofyvet.response.saveWorkingReponse.SaveWorkingHoursResponse;
+import com.cynoteck.petofyvet.response.searchDiagnosisResponse.SearchDiagnosisResponseData;
 import com.cynoteck.petofyvet.response.searchRemaks.SearchRemaksResponse;
 import com.cynoteck.petofyvet.response.staffPermissionListResponse.StaffPermissionResponse;
 import com.cynoteck.petofyvet.response.testResponse.XrayTestResponse;
@@ -557,9 +565,45 @@ public interface ApiInterface {
     Call<SaveImmunizationResponse> saveImmunizationDetails(@Header("Authorization") String auth, @Body VaccinationRequest vaccinationRequest);
 
 
-    @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("pethealthrecord/GetPetImmunizationHistory")
     Call<ImmunizationHistoryResponse> getPetImmunizationHistory(@Body GetVaccinationRequest immunizationHistoryRequest);
+
+    //GET PET AGE UNIT LIST..................................
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("pet/GetPetAgeUnit")
+    Call<PetAgeUnitResponseData> getPetAgeUnit(@Header("Authorization") String auth);
+
+    //GET PET AGE STRING......................................
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("pet/GetPetAgeString")
+    Call<GetPetAgeresponseData> getPetAgeString(@Header("Authorization") String auth, @Body GetPetAgeRequestData getPetAgeRequestData);
+
+    //SEARCH PET PARENT.......................................
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("pet/SearchPetParent")
+    Call<GetPetParentResponseData> searchPetParent(@Header("Authorization") String auth, @Body SearchPetParentRequestData getPetAgeRequestData);
+
+   //Search Dignisis..........................................
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("pethealthrecord/SearchDiagnosis")
+    Call<SearchDiagnosisResponseData> searchDiagnosis(@Header("Authorization") String auth, @Body SearchDiagnosisRequestData searchDiagnosisRequestData);
+
+    //Search Dewormer Name....................................
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("pethealthrecord/SearchDewormerName")
+    Call<SearchDiagnosisResponseData> searchDewormerName(@Header("Authorization") String auth, @Body SearchDiagnosisRequestData searchDiagnosisRequestData);
+
+    //Search Dewormer Dose....................................
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("pethealthrecord/SearchDewormerDose")
+    Call<SearchDiagnosisResponseData> searchDewormerDose(@Header("Authorization") String auth, @Body SearchDiagnosisRequestData searchDiagnosisRequestData);
+
 
 }
 

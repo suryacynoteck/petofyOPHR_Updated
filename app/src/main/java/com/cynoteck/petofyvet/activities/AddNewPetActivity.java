@@ -3,14 +3,21 @@ package com.cynoteck.petofyvet.activities;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,33 +30,47 @@ import com.cynoteck.petofyvet.api.ApiResponse;
 import com.cynoteck.petofyvet.api.ApiService;
 import com.cynoteck.petofyvet.params.addParamRequest.AddPetParams;
 import com.cynoteck.petofyvet.params.addParamRequest.AddPetRequset;
+import com.cynoteck.petofyvet.params.getpetAgeRequest.GetPetAgeParameter;
+import com.cynoteck.petofyvet.params.getpetAgeRequest.GetPetAgeRequestData;
 import com.cynoteck.petofyvet.params.petBreedRequest.BreedParams;
 import com.cynoteck.petofyvet.params.petBreedRequest.BreedRequest;
+import com.cynoteck.petofyvet.params.searchPetParentRequest.SearchPetParentParameter;
+import com.cynoteck.petofyvet.params.searchPetParentRequest.SearchPetParentRequestData;
 import com.cynoteck.petofyvet.response.addPet.addPetResponse.AddPetValueResponse;
 import com.cynoteck.petofyvet.response.addPet.breedResponse.BreedCatRespose;
 import com.cynoteck.petofyvet.response.addPet.petAgeResponse.PetAgeValueResponse;
 import com.cynoteck.petofyvet.response.addPet.petColorResponse.PetColorValueResponse;
 import com.cynoteck.petofyvet.response.addPet.petSizeResponse.PetSizeValueResponse;
 import com.cynoteck.petofyvet.response.addPet.uniqueIdResponse.UniqueResponse;
+import com.cynoteck.petofyvet.response.getPetAgeResponse.GetPetAgeresponseData;
+import com.cynoteck.petofyvet.response.getPetParrentnameReponse.GetPetParentResponseData;
+import com.cynoteck.petofyvet.response.petAgeUnitResponse.PetAgeUnitResponseData;
 import com.cynoteck.petofyvet.response.updateProfileResponse.PetTypeResponse;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
+import javax.xml.datatype.Duration;
+
 import retrofit2.Response;
 
 public class AddNewPetActivity extends AppCompatActivity implements ApiResponse, View.OnClickListener {
 
-    AppCompatSpinner add_pet_type, add_pet_age_dialog ,add_pet_sex_dialog,add_pet_breed_dialog, add_pet_color_dialog,add_pet_size_dialog;
-    EditText pet_name_ET,pet_parent_name_ET, pet_contact_number_ET;
+    AppCompatSpinner age_wise,parent_address,  add_pet_type, add_pet_age_dialog ,add_pet_sex_dialog,add_pet_breed_dialog, add_pet_color_dialog,add_pet_size_dialog;
+    EditText pet_name_ET,age_neumeric;
     Button save_BT;
-    TextView peto_reg_number_dialog,calenderTextView_dialog;
+    TextView peto_reg_number_dialog,calenderTextView_dialog,ageViewTv;
+    CheckBox convert_yr_to_age;
+    AutoCompleteTextView pet_parent_name_ET,pet_contact_number_ET;
+    LinearLayout day_and_age_layout;
     String petUniqueId="",getStrSpnerItemPetNmId="",strSpnrBreedId="",strSpnrAgeId="",strSpnrColorId="",
             strSpneSizeId="",strSpnrSexId="",strSpnerItemPetType="",strSpnrBreed="",strSpnrAge="",strSpnrSex="",
             currentDateandTime="",strSexType="",strResponseOtp="",petId="",petParentContactNumber="",type="";
@@ -61,6 +82,8 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
     ArrayList<String> petColor;
     ArrayList<String> petSize;
     ArrayList<String> petSex;
+    ArrayList<String> petAgeType;
+    ArrayList<String> parentAdress;
 
     HashMap<String,String> petTypeHashMap=new HashMap<>();
     HashMap<String,String> petBreedHashMap=new HashMap<>();
@@ -69,6 +92,7 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
     HashMap<String,String> petSizeHashMap=new HashMap<>();
     HashMap<String,String> petSexHashMap=new HashMap<>();
     HashMap<String,String> petExistingSearch=new HashMap<>();
+    HashMap<String,String> petAgeUnitHash=new HashMap<>();
     Methods methods;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,16 +110,28 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
         petSexHashMap.put("Male","1");
         petSexHashMap.put("Female","2");
 
+        parentAdress=new ArrayList<>();
+        parentAdress.add("Mr.");
+        parentAdress.add("Mrs.");
+        parentAdress.add("Miss.");
+
         currentDateAndTime();
         if (methods.isInternetOn()){
             petType();
             genaretePetUniqueKey();
+            getPetAgeUnit();
+            getPetParentname();
         }else {
 
             methods.DialogInternet();
         }
         setSpinnerPetSex();
+        setPetParentAdress();
+
     }
+
+
+
 
     private void intlization() {
         peto_reg_number_dialog=findViewById(R.id.peto_reg_number_dialog);
@@ -111,11 +147,18 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
         pet_contact_number_ET=findViewById(R.id.pet_contact_number);
         save_BT=findViewById(R.id.save_changes_BT);
         back_arrow_IV=findViewById(R.id.back_arrow_IV);
+        convert_yr_to_age=findViewById(R.id.convert_yr_to_age);
+        age_wise=findViewById(R.id.age_wise);
+        age_neumeric=findViewById(R.id.age_neumeric);
+        parent_address=findViewById(R.id.parent_address);
+        day_and_age_layout=findViewById(R.id.day_and_age_layout);
+        ageViewTv=findViewById(R.id.ageViewTv);
 
 
         save_BT.setOnClickListener(this);
         back_arrow_IV.setOnClickListener(this);
         calenderTextView_dialog.setOnClickListener(this);
+        convert_yr_to_age.setOnClickListener(this);
     }
 
     @Override
@@ -137,9 +180,28 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                                 calenderTextView_dialog.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                                String DoB=dayOfMonth + " " + (monthOfYear + 1) + " " + year;
+                                String DoBforage=dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
+                                Log.d("jajajaajja",""+methods.getDays(DoB,methods.getDate()));
+                                String age= String.valueOf(methods.getDays(DoB,methods.getDate()));
+                                age=age.substring(0,age.length()-2);
+                                getPetAgeString(DoBforage);
+                                age_neumeric.setText(age);
                             }
                         }, year, month, day);
+                picker.getDatePicker().setMaxDate(System.currentTimeMillis());
                 picker.show();
+                break;
+            case R.id.convert_yr_to_age:
+                if(((CompoundButton) v).isChecked()){
+                    day_and_age_layout.setVisibility(View.VISIBLE);
+                    calenderTextView_dialog.setVisibility(View.GONE);
+                }
+                else
+                {
+                    day_and_age_layout.setVisibility(View.GONE);
+                    calenderTextView_dialog.setVisibility(View.VISIBLE);
+                }
                 break;
             case R.id.save_changes_BT:
                 String strPetName= pet_name_ET.getText().toString().trim();
@@ -184,10 +246,6 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
                 {
                     Toast.makeText(this, "Select Breed!!", Toast.LENGTH_SHORT).show();
                 }
-                else if(strSpnrAge.isEmpty()||(strSpnrAge.equals("Select Pet Age")))
-                {
-                    Toast.makeText(this, "Select Pet Age!!", Toast.LENGTH_SHORT).show();
-                }
                 else if(strSpnrSex.isEmpty()||(strSpnrSex.equals("Pet Sex")))
                 {
                     Toast.makeText(this, "Select Pet Sex!!", Toast.LENGTH_SHORT).show();
@@ -204,8 +262,8 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
                     data.setPetUniqueId(petUniqueId);
                     data.setPetCategoryId(getStrSpnerItemPetNmId);
                     data.setPetSexId(strSpnrSexId);
-                    data.setPetAgeId(strSpnrAgeId);
-                    data.setPetSizeId(strSpneSizeId);
+                    data.setPetAgeId("0.0");
+                    data.setPetSizeId("0.0");
                     data.setPetColorId(strSpnrColorId);
                     data.setPetBreedId(strSpnrBreedId);
                     data.setPetName(strPetName);
@@ -234,9 +292,138 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
         }
     }
 
+    private void getPetAgeUnit() {
+        ApiService<PetAgeUnitResponseData> service = new ApiService<>();
+        service.get( this, ApiClient.getApiInterface().getPetAgeUnit(Config.token), "GetPetAgeUnit");
+    }
+
+    private void getPetAgeString(String DOB)
+    {
+        GetPetAgeParameter getPetAgeParameter=new GetPetAgeParameter();
+        getPetAgeParameter.setDateOfBirth(DOB);
+        GetPetAgeRequestData getPetAgeRequestData=new GetPetAgeRequestData();
+        getPetAgeRequestData.setData(getPetAgeParameter);
+        ApiService<GetPetAgeresponseData> service = new ApiService<>();
+        service.get( this, ApiClient.getApiInterface().getPetAgeString(Config.token,getPetAgeRequestData), "GetPetAgeString");
+        Log.e("DAILOG","getPetAgeString==>"+getPetAgeRequestData);
+    }
+
+    private void getPetParentname()
+    {
+        pet_parent_name_ET.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                Log.d("dataChange","afterTextChanged"+new String(editable.toString()));
+                String value=editable.toString();
+                SearchPetParentParameter searchPetParentParameter=new SearchPetParentParameter();
+                searchPetParentParameter.setPrefix(value);
+                SearchPetParentRequestData searchPetParentRequestData=new SearchPetParentRequestData();
+                searchPetParentRequestData.setData(searchPetParentParameter);
+                ApiService<GetPetParentResponseData> service = new ApiService<>();
+                service.get( AddNewPetActivity.this, ApiClient.getApiInterface().searchPetParent(Config.token,searchPetParentRequestData), "SearchPetParent");
+                Log.e("DAILOG","getPetaParentName==>"+searchPetParentRequestData);
+            }
+        });
+
+
+        pet_parent_name_ET.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            String value=pet_parent_name_ET.getText().toString();
+            String[] city_array = value.split("\\(");
+
+                pet_parent_name_ET.setText(city_array[0]);
+                pet_contact_number_ET.setText(city_array[1].substring(0,city_array[1].length()-1).trim());
+          }
+         });
+
+        pet_contact_number_ET.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String value=editable.toString();
+                SearchPetParentParameter searchPetParentParameter=new SearchPetParentParameter();
+                searchPetParentParameter.setPrefix(value);
+                SearchPetParentRequestData searchPetParentRequestData=new SearchPetParentRequestData();
+                searchPetParentRequestData.setData(searchPetParentParameter);
+                ApiService<GetPetParentResponseData> service = new ApiService<>();
+                service.get( AddNewPetActivity.this, ApiClient.getApiInterface().searchPetParent(Config.token,searchPetParentRequestData), "SearchPetParent");
+                Log.e("DAILOG","getPetaParentName==>"+searchPetParentRequestData);
+
+            }
+        });
+
+        pet_contact_number_ET.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String value=pet_contact_number_ET.getText().toString();
+                String[] city_array = value.split("\\(");
+                pet_parent_name_ET.setText(city_array[0]);
+                pet_contact_number_ET.setText(city_array[1].substring(0,city_array[1].length()-1).trim());
+            }
+        });
+
+    }
+
     @Override
     public void onResponse(Response arg0, String key) {
         switch (key){
+            case "SearchPetParent":
+                try {
+                    Log.d("SearchPetParent",arg0.body().toString());
+                    GetPetParentResponseData getPetParentResponseData = (GetPetParentResponseData) arg0.body();
+                    int responseCode = Integer.parseInt(getPetParentResponseData.getResponse().getResponseCode());
+                    if (responseCode== 109){
+                        Log.d("SearchPetParent",""+getPetParentResponseData.getData().size());
+                        ArrayList remarksSearchList=new ArrayList<>();
+                        for(int i=0;i<getPetParentResponseData.getData().size();i++)
+                        {
+                            remarksSearchList.add(getPetParentResponseData.getData().get(i).getPetParentName()
+                                                   +"\n( "+getPetParentResponseData.getData().get(i).getContactNumber()+" )");
+                        }
+
+                        //for parent name
+                        ArrayAdapter<String> randomArray = new ArrayAdapter<String>(this,
+                                android.R.layout.simple_list_item_1, remarksSearchList);
+                        pet_parent_name_ET.setAdapter(randomArray);
+                        randomArray.notifyDataSetChanged();
+
+                        //for contact number
+                        ArrayAdapter<String> randomArrayContactNumber = new ArrayAdapter<String>(this,
+                                android.R.layout.simple_list_item_1, remarksSearchList);
+                        pet_contact_number_ET.setAdapter(randomArrayContactNumber);
+                        randomArrayContactNumber.notifyDataSetChanged();
+
+
+                    }else if (responseCode==614){
+                        Toast.makeText(this, getPetParentResponseData.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+                break;
             case "GetPetTypes":
                 try {
                     Log.d("GetPetTypes",arg0.body().toString());
@@ -264,6 +451,49 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
                 catch(Exception e) {
                     e.printStackTrace();
                 }
+                break;
+            case "GetPetAgeString":
+                try {
+                    Log.d("GetPetAgeString",arg0.body().toString());
+                    GetPetAgeresponseData getPetAgeresponseData = (GetPetAgeresponseData) arg0.body();
+                    int responseCode = Integer.parseInt(getPetAgeresponseData.getResponse().getResponseCode());
+                    if (responseCode== 109){
+                        ageViewTv.setText(getPetAgeresponseData.getData().getPetAge());
+                    }else if (responseCode==614){
+                        Toast.makeText(this, getPetAgeresponseData.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "GetPetAgeUnit":
+                try {
+                    Log.d("GetPetTypes",arg0.body().toString());
+                    PetAgeUnitResponseData petAgeUnitResponseData = (PetAgeUnitResponseData) arg0.body();
+                    int responseCode = Integer.parseInt(petAgeUnitResponseData.getResponse().getResponseCode());
+                    if (responseCode== 109){
+                        petAgeType=new ArrayList<>();
+                        Log.d("lalal",""+petAgeUnitResponseData.getData().size());
+                        for(int i=0; i<petAgeUnitResponseData.getData().size(); i++){
+                            Log.d("petttt",""+petAgeUnitResponseData.getData().get(i).getAge());
+                            petAgeType.add(petAgeUnitResponseData.getData().get(i).getAgeUnit());
+                            petAgeUnitHash.put(petAgeUnitResponseData.getData().get(i).getAgeUnit(),petAgeUnitResponseData.getData().get(i).getAge());
+                        }
+                        setPetAgeType();
+
+                    }else if (responseCode==614){
+                        Toast.makeText(this, petAgeUnitResponseData.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+                break;
 
             case "GeneratePetUniqueId":
                 try {
@@ -575,6 +805,39 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
             }
         });
     }
+
+    private void setPetAgeType() {
+        ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,petAgeType);
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Setting the ArrayAdapter data on the Spinner
+        age_wise.setAdapter(aa);
+        age_wise.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+                // Showing selected spinner item
+                Log.d("spnerType","PetAge"+item);
+            }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
+    private void setPetParentAdress() {
+        ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,parentAdress);
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Setting the ArrayAdapter data on the Spinner
+        parent_address.setAdapter(aa);
+        parent_address.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+                // Showing selected spinner item
+                Log.d("spnerType","ParentAddress"+item);
+            }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
     private void petType() {
         ApiService<PetTypeResponse> service = new ApiService<>();
         service.get(this, ApiClient.getApiInterface().petTypeApi(Config.token), "GetPetTypes");

@@ -11,15 +11,21 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,8 +39,12 @@ import com.cynoteck.petofyvet.api.ApiResponse;
 import com.cynoteck.petofyvet.api.ApiService;
 import com.cynoteck.petofyvet.params.addParamRequest.AddPetParams;
 import com.cynoteck.petofyvet.params.addParamRequest.AddPetRequset;
+import com.cynoteck.petofyvet.params.getpetAgeRequest.GetPetAgeParameter;
+import com.cynoteck.petofyvet.params.getpetAgeRequest.GetPetAgeRequestData;
 import com.cynoteck.petofyvet.params.petBreedRequest.BreedParams;
 import com.cynoteck.petofyvet.params.petBreedRequest.BreedRequest;
+import com.cynoteck.petofyvet.params.searchPetParentRequest.SearchPetParentParameter;
+import com.cynoteck.petofyvet.params.searchPetParentRequest.SearchPetParentRequestData;
 import com.cynoteck.petofyvet.response.addPet.addPetResponse.AddPetValueResponse;
 import com.cynoteck.petofyvet.response.addPet.breedResponse.BreedCatRespose;
 import com.cynoteck.petofyvet.response.addPet.imageUpload.ImageResponse;
@@ -42,6 +52,9 @@ import com.cynoteck.petofyvet.response.addPet.petAgeResponse.PetAgeValueResponse
 import com.cynoteck.petofyvet.response.addPet.petColorResponse.PetColorValueResponse;
 import com.cynoteck.petofyvet.response.addPet.petSizeResponse.PetSizeValueResponse;
 import com.cynoteck.petofyvet.response.addPet.uniqueIdResponse.UniqueResponse;
+import com.cynoteck.petofyvet.response.getPetAgeResponse.GetPetAgeresponseData;
+import com.cynoteck.petofyvet.response.getPetParrentnameReponse.GetPetParentResponseData;
+import com.cynoteck.petofyvet.response.petAgeUnitResponse.PetAgeUnitResponseData;
 import com.cynoteck.petofyvet.response.updateProfileResponse.PetTypeResponse;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
@@ -75,12 +88,15 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
 
     CircleImageView pet_profile_image;
 
-    AppCompatSpinner add_pet_age,add_pet_type,add_pet_sex,add_pet_breed,add_pet_color,add_pet_size;
-    EditText pet_name,pet_parent_name,pet_contact_number,pet_description,pet_address;
-    TextView peto_reg_number,calenderView;
+    AppCompatSpinner age_wise,parent_address, add_pet_age,add_pet_type,add_pet_sex,add_pet_breed,add_pet_color,add_pet_size;
+    EditText pet_name,pet_description,pet_address,age_neumeric;
+    TextView peto_reg_number,calenderView,ageViewTv;
     ImageView back_arrow_IV, service_cat_img_one,service_cat_img_two,service_cat_img_three,service_cat_img_four,
             service_cat_img_five;
     Button pet_submit;
+    CheckBox convert_yr_to_age;
+    AutoCompleteTextView pet_parent_name,pet_contact_number;
+    LinearLayout day_and_age_layout;
     String strPetName="",strPetParentName="",strPetContactNumber="",strPetDescription="",strPetAdress="",strPetBirthDay="",
             strSpnerItemPetNm="",getStrSpnerItemPetNmId="",strSpnrBreed="",strSpnrBreedId="",petUniqueId="",
             strSpnrAge="",strSpnrAgeId="",strSpnrColor="",strSpnrColorId="",strSpnrSize="",strSpneSizeId="",
@@ -97,6 +113,8 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
     ArrayList<String> petColor;
     ArrayList<String> petSize;
     ArrayList<String> petSex;
+    ArrayList<String> petAgeType;
+    ArrayList<String> parentAdress;
 
     HashMap<String,String> petTypeHashMap=new HashMap<>();
     HashMap<String,String> petBreedHashMap=new HashMap<>();
@@ -104,6 +122,7 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
     HashMap<String,String> petColorHashMap=new HashMap<>();
     HashMap<String,String> petSizeHashMap=new HashMap<>();
     HashMap<String,String> petSexHashMap=new HashMap<>();
+    HashMap<String,String> petAgeUnitHash=new HashMap<>();
 
     private static final String IMAGE_DIRECTORY = "/Picture";
     private int GALLERY = 1, CAMERA = 2;
@@ -133,6 +152,12 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
         petSex.add("Male");
         petSex.add("Female");
 
+
+        parentAdress=new ArrayList<>();
+        parentAdress.add("Mr.");
+        parentAdress.add("Mrs.");
+        parentAdress.add("Miss.");
+
         petSexHashMap.put("Pet Sex","0");
         petSexHashMap.put("Male","1");
         petSexHashMap.put("Female","2");
@@ -142,11 +167,107 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
             petType();
             genaretePetUniqueKey();
             setSpinnerPetSex();
+            getPetAgeUnit();
+            getPetParentname();
         }
         else
         {
             methods.DialogInternet();
         }
+
+        setPetParentAdress();
+
+    }
+
+    private void getPetAgeUnit() {
+        ApiService<PetAgeUnitResponseData> service = new ApiService<>();
+        service.get( this, ApiClient.getApiInterface().getPetAgeUnit(Config.token), "GetPetAgeUnit");
+    }
+
+    private void getPetAgeString(String DOB)
+    {
+        GetPetAgeParameter getPetAgeParameter=new GetPetAgeParameter();
+        getPetAgeParameter.setDateOfBirth(DOB);
+        GetPetAgeRequestData getPetAgeRequestData=new GetPetAgeRequestData();
+        getPetAgeRequestData.setData(getPetAgeParameter);
+        ApiService<GetPetAgeresponseData> service = new ApiService<>();
+        service.get( this, ApiClient.getApiInterface().getPetAgeString(Config.token,getPetAgeRequestData), "GetPetAgeString");
+        Log.e("DAILOG","getPetAgeString==>"+getPetAgeRequestData);
+    }
+
+    private void getPetParentname()
+    {
+        pet_parent_name.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                Log.d("dataChange","afterTextChanged"+new String(editable.toString()));
+                String value=editable.toString();
+                SearchPetParentParameter searchPetParentParameter=new SearchPetParentParameter();
+                searchPetParentParameter.setPrefix(value);
+                SearchPetParentRequestData searchPetParentRequestData=new SearchPetParentRequestData();
+                searchPetParentRequestData.setData(searchPetParentParameter);
+                ApiService<GetPetParentResponseData> service = new ApiService<>();
+                service.get( AddPetRegister.this, ApiClient.getApiInterface().searchPetParent(Config.token,searchPetParentRequestData), "SearchPetParent");
+                Log.e("DAILOG","getPetaParentName==>"+searchPetParentRequestData);
+            }
+        });
+
+
+        pet_parent_name.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String value=pet_parent_name.getText().toString();
+                String[] city_array = value.split("\\(");
+
+                pet_parent_name.setText(city_array[0]);
+                pet_contact_number.setText(city_array[1].substring(0,city_array[1].length()-1).trim());
+            }
+        });
+
+        pet_contact_number.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String value=editable.toString();
+                SearchPetParentParameter searchPetParentParameter=new SearchPetParentParameter();
+                searchPetParentParameter.setPrefix(value);
+                SearchPetParentRequestData searchPetParentRequestData=new SearchPetParentRequestData();
+                searchPetParentRequestData.setData(searchPetParentParameter);
+                ApiService<GetPetParentResponseData> service = new ApiService<>();
+                service.get( AddPetRegister.this, ApiClient.getApiInterface().searchPetParent(Config.token,searchPetParentRequestData), "SearchPetParent");
+                Log.e("DAILOG","getPetaParentName==>"+searchPetParentRequestData);
+
+            }
+        });
+
+        pet_contact_number.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String value=pet_contact_number.getText().toString();
+                String[] city_array = value.split("\\(");
+                pet_parent_name.setText(city_array[0]);
+                pet_contact_number.setText(city_array[1].substring(0,city_array[1].length()-1).trim());
+            }
+        });
 
     }
 
@@ -256,6 +377,15 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
         service_cat_img_three=findViewById(R.id.service_cat_img_three);
         service_cat_img_four=findViewById(R.id.service_cat_img_four);
         service_cat_img_five=findViewById(R.id.service_cat_img_five);
+
+        convert_yr_to_age=findViewById(R.id.convert_yr_to_age);
+        age_wise=findViewById(R.id.age_wise);
+        age_neumeric=findViewById(R.id.age_neumeric);
+        parent_address=findViewById(R.id.parent_address);
+        day_and_age_layout=findViewById(R.id.day_and_age_layout);
+        ageViewTv=findViewById(R.id.ageViewTv);
+
+
         pet_profile_image.setOnClickListener(this);
         service_cat_img_one.setOnClickListener(this);
         service_cat_img_two.setOnClickListener(this);
@@ -263,6 +393,7 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
         service_cat_img_four.setOnClickListener(this);
         service_cat_img_five.setOnClickListener(this);
         back_arrow_IV.setOnClickListener(this);
+        convert_yr_to_age.setOnClickListener(this);
 
         //Button
         pet_submit=findViewById(R.id.pet_submit);
@@ -277,6 +408,17 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
 
             case R.id.back_arrow_IV:
                 onBackPressed();
+                break;
+            case R.id.convert_yr_to_age:
+                if(((CompoundButton) view).isChecked()){
+                    day_and_age_layout.setVisibility(View.VISIBLE);
+                    calenderView.setVisibility(View.GONE);
+                }
+                else
+                {
+                    day_and_age_layout.setVisibility(View.GONE);
+                    calenderView.setVisibility(View.VISIBLE);
+                }
                 break;
             case R.id.pet_submit:
                 strPetName= pet_name.getText().toString().trim();
@@ -372,8 +514,8 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
                     data.setPetUniqueId(petUniqueId);
                     data.setPetCategoryId(getStrSpnerItemPetNmId);
                     data.setPetSexId(strSpnrSexId);
-                    data.setPetAgeId(strSpnrAgeId);
-                    data.setPetSizeId(strSpneSizeId);
+                    data.setPetAgeId("0.0");
+                    data.setPetSizeId("0.0");
                     data.setPetColorId(strSpnrColorId);
                     data.setPetBreedId(strSpnrBreedId);
                     data.setPetName(strPetName);
@@ -413,8 +555,16 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                                 calenderView.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                                String DoB=dayOfMonth + " " + (monthOfYear + 1) + " " + year;
+                                Log.d("jajajaajja",""+methods.getDays(DoB,methods.getDate()));
+                                String age= String.valueOf(methods.getDays(DoB,methods.getDate()));
+                                String DoBforage=dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
+                                age=age.substring(0,age.length()-2);
+                                getPetAgeString(DoBforage);
+                                age_neumeric.setText(age);
                             }
                         }, year, month, day);
+                picker.getDatePicker().setMaxDate(System.currentTimeMillis());
                 picker.show();
             break;
             case R.id.pet_profile_image:
@@ -838,6 +988,85 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
         methods.customProgressDismiss();
         switch (key)
         {
+            case "SearchPetParent":
+                try {
+                    Log.d("SearchPetParent",arg0.body().toString());
+                    GetPetParentResponseData getPetParentResponseData = (GetPetParentResponseData) arg0.body();
+                    int responseCode = Integer.parseInt(getPetParentResponseData.getResponse().getResponseCode());
+                    if (responseCode== 109){
+                        Log.d("SearchPetParent",""+getPetParentResponseData.getData().size());
+                        ArrayList remarksSearchList=new ArrayList<>();
+                        for(int i=0;i<getPetParentResponseData.getData().size();i++)
+                        {
+                            remarksSearchList.add(getPetParentResponseData.getData().get(i).getPetParentName()
+                                    +"\n( "+getPetParentResponseData.getData().get(i).getContactNumber()+" )");
+                        }
+
+                        //for parent name
+                        ArrayAdapter<String> randomArray = new ArrayAdapter<String>(this,
+                                android.R.layout.simple_list_item_1, remarksSearchList);
+                        pet_parent_name.setAdapter(randomArray);
+                        randomArray.notifyDataSetChanged();
+
+                        //for contact number
+                        ArrayAdapter<String> randomArrayContactNumber = new ArrayAdapter<String>(this,
+                                android.R.layout.simple_list_item_1, remarksSearchList);
+                        pet_contact_number.setAdapter(randomArrayContactNumber);
+                        randomArrayContactNumber.notifyDataSetChanged();
+
+
+                    }else if (responseCode==614){
+                        Toast.makeText(this, getPetParentResponseData.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "GetPetAgeString":
+                try {
+                    Log.d("GetPetAgeString",arg0.body().toString());
+                    GetPetAgeresponseData getPetAgeresponseData = (GetPetAgeresponseData) arg0.body();
+                    int responseCode = Integer.parseInt(getPetAgeresponseData.getResponse().getResponseCode());
+                    if (responseCode== 109){
+                        ageViewTv.setText(getPetAgeresponseData.getData().getPetAge());
+                    }else if (responseCode==614){
+                        Toast.makeText(this, getPetAgeresponseData.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "GetPetAgeUnit":
+                try {
+                    Log.d("GetPetTypes",arg0.body().toString());
+                    PetAgeUnitResponseData petAgeUnitResponseData = (PetAgeUnitResponseData) arg0.body();
+                    int responseCode = Integer.parseInt(petAgeUnitResponseData.getResponse().getResponseCode());
+                    if (responseCode== 109){
+                        petAgeType=new ArrayList<>();
+                        Log.d("lalal",""+petAgeUnitResponseData.getData().size());
+                        for(int i=0; i<petAgeUnitResponseData.getData().size(); i++){
+                            Log.d("petttt",""+petAgeUnitResponseData.getData().get(i).getAge());
+                            petAgeType.add(petAgeUnitResponseData.getData().get(i).getAgeUnit());
+                            petAgeUnitHash.put(petAgeUnitResponseData.getData().get(i).getAgeUnit(),petAgeUnitResponseData.getData().get(i).getAge());
+                        }
+                        setPetAgeType();
+
+                    }else if (responseCode==614){
+                        Toast.makeText(this, petAgeUnitResponseData.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+                break;
             case "GetPetTypes":
                 try {
                     Log.d("GetPetTypes",arg0.body().toString());
@@ -1175,5 +1404,38 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
             }
         });
     }
+
+    private void setPetAgeType() {
+        ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,petAgeType);
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Setting the ArrayAdapter data on the Spinner
+        age_wise.setAdapter(aa);
+        age_wise.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+                // Showing selected spinner item
+                Log.d("spnerType","PetAge"+item);
+            }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
+    private void setPetParentAdress() {
+        ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,parentAdress);
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Setting the ArrayAdapter data on the Spinner
+        parent_address.setAdapter(aa);
+        parent_address.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+                // Showing selected spinner item
+                Log.d("spnerType","ParentAddress"+item);
+            }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
 
 }

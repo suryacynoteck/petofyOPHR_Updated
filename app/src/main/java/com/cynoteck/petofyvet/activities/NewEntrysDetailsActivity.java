@@ -42,7 +42,7 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
         pet_DOB=extras.getString("pet_DOB");
         pet_encrypted_id=extras.getString("pet_encrypted_id");
 
-        Log.e("jajajjaj",""+pet_DOB);
+        Log.e("jajajjaj",""+pet_DOB+" "+pet_encrypted_id);
         pet_unique_id = extras.getString("pet_unique_id");
         button_text = extras.getString("add_button_text");
 
@@ -77,11 +77,15 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
         data.putString("pet_age",pet_age);
         data.putString("pet_owner_name",pet_owner_name);
         data.putString("pet_owner_contact",pet_owner_contact);
+        data.putString("pet_encrypted_id",pet_encrypted_id);
+        data.putString("pet_DOB",pet_DOB);
+
+
         switch (report_type_id){
 
             case "1.0":
 
-                reports_headline_TV.setText("Routine Report");
+                reports_headline_TV.setText("ROUTINE REPORT");
                 data.putString("reports_id","1");
                 data.putString("type","list");
 
@@ -95,7 +99,7 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
 
             case "2.0":
 
-                reports_headline_TV.setText("Health problem");
+                reports_headline_TV.setText("HEALTH PROBLEM");
                 data.putString("reports_id","2");
                 data.putString("type","list");
 
@@ -110,7 +114,7 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
 
             case "4.0":
 
-                reports_headline_TV.setText("Immunization Report");
+                reports_headline_TV.setText("IMMUNIZATION");
                 data.putString("reports_id","4");
                 data.putString("type","list");
 
@@ -141,7 +145,7 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
 
             case "6.0":
 
-                reports_headline_TV.setText("Other Report");
+                reports_headline_TV.setText("OTHER REPORT");
                 data.putString("reports_id","6");
                 data.putString("type","list");
 
@@ -181,6 +185,7 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
                 reports_headline_TV.setText("Lab Tests");
                 data.putString("reports_id","8");
                 data.putString("type","LabTest");
+
                 ReportListFragment fragment7 = new ReportListFragment();
                 fragment7.setArguments(data);
                 FragmentTransaction fragment7FT = getSupportFragmentManager().beginTransaction();
@@ -198,6 +203,7 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
                 reports_headline_TV.setText("Hospitalization & Surgeries");
                 data.putString("reports_id","9");
                 data.putString("type","Hospitalization");
+
                 ReportListFragment fragment8 = new ReportListFragment();
                 fragment8.setArguments(data);
                 FragmentTransaction fragment8FT = getSupportFragmentManager().beginTransaction();
@@ -215,6 +221,7 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
                 reports_headline_TV.setText("Clinic Visit Report");
                 data.putString("reports_id","10");
                 data.putString("type","ClinicVisitReport");
+
                 ReportListFragment fragment9 = new ReportListFragment();
                 fragment9.setArguments(data);
                 FragmentTransaction fragment9FT = getSupportFragmentManager().beginTransaction();
@@ -298,6 +305,7 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
         data.putString("nature_of_visit","");
         data.putString("visit_dt","");
         data.putString("visit_description","");
+        data.putString("remarks","");
         data.putString("visit_weight","");
         data.putString("visit_temparature","");
         data.putString("dt_of_illness","");
@@ -305,7 +313,7 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
         data.putString("next_dt","");
         data.putString("appointment","");
         data.putString("appoint_link", "");
-        data.putString("toolbar_name","Add Clinic");
+        data.putString("toolbar_name","ADD CLINIC");
         petDetailsIntent.putExtras(data);
         startActivity(petDetailsIntent);
 

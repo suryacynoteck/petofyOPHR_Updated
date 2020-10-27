@@ -95,7 +95,7 @@
             <LinearLayout
                 android:id="@+id/unique_id_layout"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="80dp"
                 android:weightSum="2"
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -105,14 +105,14 @@
                 <TextView
                     android:id="@+id/clinic_peto_edit_reg_number_dialog"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center_vertical"
-                    android:text="PETO-1138"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:gravity="center"
+                    android:text=""
                     android:textColor="@color/colorPrimary"
-                    android:textSize="20sp"
+                    android:textSize="12sp"
                     android:textStyle="bold"
                     />
 
@@ -122,7 +122,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="140 Days"
+                    android:text=""
                     android:textColor="@color/colorPrimary"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -143,6 +143,7 @@
                 app:layout_constraintTop_toBottomOf="@id/unique_id_layout" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/veterian_name_TV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -158,6 +159,7 @@
 
 
             <EditText
+                android:visibility="gone"
                 android:id="@+id/veterian_name_ET"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
@@ -239,7 +241,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
-                android:text="@string/description1"
+                android:text="@string/description"
                 android:textColor="@color/grey_add_pet"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -264,6 +266,38 @@
                 app:layout_constraintTop_toBottomOf="@id/description_TV" />
 
             <TextView
+                android:id="@+id/history_TV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:text="History*"
+                android:textColor="@color/grey_add_pet"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/description_ET" />
+
+
+            <EditText
+                android:id="@+id/history_ET"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/edit_text_background"
+                android:gravity="center_vertical"
+                android:hint="History"
+                android:inputType="text"
+                android:maxLines="1"
+                android:paddingLeft="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/history_TV" />
+
+
+            <TextView
                 android:id="@+id/weight_TV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -274,7 +308,7 @@
                 android:textColor="@color/grey_add_pet"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/description_ET" />
+                app:layout_constraintTop_toBottomOf="@id/history_ET" />
 
             <EditText
                 android:id="@+id/weight_ET"
@@ -426,6 +460,7 @@
                         android:gravity="center"/>
 
 
+
                     <TextView
                         android:layout_width="0dp"
                         android:layout_weight="1"
@@ -453,11 +488,6 @@
 
             </LinearLayout>
 
-
-
-
-
-
             <TextView
                 android:visibility="gone"
                 android:id="@+id/Dewormer_TV"
@@ -472,22 +502,43 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/vaccine_layout" />
 
-            <EditText
-                android:visibility="gone"
-                android:id="@+id/Dewormer_ET"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
+            <LinearLayout
+                android:id="@+id/deworming_name_Layout"
+                android:layout_width="0dp"
+                android:layout_height="150dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
-                android:gravity="center_vertical"
-                android:inputType="text"
                 android:background="@drawable/edit_text_background"
-                android:hint="Dewormer Name"
-                android:paddingLeft="25dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/Dewormer_TV" />
+                app:layout_constraintTop_toBottomOf="@id/Dewormer_TV"
+                android:orientation="vertical">
+
+                <AutoCompleteTextView
+                    android:id="@+id/deworming_AC"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/remarks_texview_shape"
+                    android:gravity="center_vertical"
+                    android:hint="Dewormer name*"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:paddingLeft="25dp"
+                    android:textColor="@color/grey_add_pet"
+                    android:layout_marginLeft="20dp"  />
+
+                <EditText
+                    android:id="@+id/Dewormer_ET"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="2dp"
+                    android:paddingLeft="25dp"
+                    android:layout_marginLeft="20dp"/>
+
+            </LinearLayout>
+
 
             <TextView
                 android:visibility="gone"
@@ -497,29 +548,48 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
-                android:text="Dose*"
+                android:text="Vaccine*"
                 android:textColor="@color/grey_add_pet"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/Dewormer_ET" />
+                app:layout_constraintTop_toBottomOf="@id/deworming_name_Layout" />
 
-            <EditText
-                android:visibility="gone"
-                android:id="@+id/Dewormer_name_ET"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
+            <LinearLayout
+                android:id="@+id/deworming_dose_Layout"
+                android:layout_width="0dp"
+                android:layout_height="150dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
-                android:gravity="center_vertical"
-                android:inputType="text"
                 android:background="@drawable/edit_text_background"
-                android:hint="Name of Vaccine"
-                android:paddingLeft="25dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/Dewormer_name_TV" />
+                app:layout_constraintTop_toBottomOf="@id/Dewormer_name_TV"
+                android:orientation="vertical">
 
+                <AutoCompleteTextView
+                    android:id="@+id/deworming_dose_AC"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/remarks_texview_shape"
+                    android:gravity="center_vertical"
+                    android:hint="Dewormer Dose*"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:paddingLeft="25dp"
+                    android:textColor="@color/grey_add_pet"
+                    android:layout_marginLeft="20dp"/>
+
+                <EditText
+                    android:id="@+id/Dewormer_name_ET"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="2dp"
+                    android:paddingLeft="25dp"
+                    android:layout_marginLeft="20dp"/>
+
+            </LinearLayout>
 
 
             <TextView
@@ -531,27 +601,50 @@
                 android:gravity="center_vertical"
                 android:text="Diagnosis*"
                 android:textColor="@color/grey_add_pet"
-                app:layout_constraintEnd_toEndOf="@id/veterian_name_ET"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/Dewormer_name_ET" />
+                app:layout_constraintTop_toBottomOf="@id/deworming_dose_Layout" />
 
-
-            <EditText
-                android:id="@+id/diagnosis_ET"
+            <LinearLayout
+                android:id="@+id/diagnosis_Layout"
                 android:layout_width="0dp"
-                android:layout_height="120dp"
+                android:layout_height="150dp"
                 android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edit_text_background"
-                android:gravity="center_vertical"
-                android:hint="Diagnosis*"
-                android:inputType="text"
-                android:maxLines="1"
-                android:paddingLeft="25dp"
-                android:textColor="@color/grey_add_pet"
-                app:layout_constraintEnd_toEndOf="@id/veterian_name_TV"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/diagnosis_TV" />
+                app:layout_constraintTop_toBottomOf="@id/diagnosis_TV"
+                android:orientation="vertical">
+
+                <AutoCompleteTextView
+                    android:id="@+id/diagnosis_ET"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/remarks_texview_shape"
+                    android:gravity="center_vertical"
+                    android:hint="Diagnosis*"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:paddingLeft="25dp"
+                    android:textColor="@color/grey_add_pet"
+                    />
+
+                <EditText
+                    android:id="@+id/diagnosis_result"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginLeft="20dp"/>
+
+
+
+            </LinearLayout>
+
+
 
 
             <TextView
@@ -561,11 +654,11 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
-                android:text="Treatment Remarks*"
+                android:text="Treatment*"
                 android:textColor="@color/grey_add_pet"
-                app:layout_constraintEnd_toEndOf="@id/veterian_name_ET"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/diagnosis_ET" />
+                app:layout_constraintTop_toBottomOf="@id/diagnosis_Layout" />
 
 
             <LinearLayout
@@ -573,13 +666,14 @@
                 android:layout_width="0dp"
                 android:layout_height="150dp"
                 android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edit_text_background"
                 android:gravity="center_vertical"
                 android:inputType="text"
                 android:maxLines="1"
                 android:paddingLeft="25dp"
-                app:layout_constraintEnd_toEndOf="@id/veterian_name_TV"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/treatment_remaks_TV"
                 android:orientation="vertical">
@@ -603,6 +697,42 @@
 
 
             <TextView
+                android:id="@+id/_remaks_TV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:text="Remarks*"
+                android:textColor="@color/grey_add_pet"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/treatment_remarks_LL" />
+
+            <EditText
+                android:id="@+id/remarks_ET"
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edit_text_background"
+                android:gravity="center_vertical"
+                android:hint="Remarks*"
+                android:inputType="text"
+                android:maxLines="1"
+                android:paddingLeft="25dp"
+                android:layout_marginRight="20dp"
+                android:textColor="@color/grey_add_pet"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/_remaks_TV" />
+
+
+
+
+
+            <TextView
+                android:visibility="gone"
                 android:id="@+id/next_visit"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -611,21 +741,25 @@
                 android:gravity="center_vertical"
                 android:text="Next Visit"
                 android:textColor="@color/grey_add_pet"
-                app:layout_constraintEnd_toEndOf="@id/veterian_name_TV"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/treatment_remarks_LL" />
+                app:layout_constraintTop_toBottomOf="@id/remarks_ET" />
+
+
 
 
             <androidx.appcompat.widget.AppCompatSpinner
+                android:visibility="gone"
                 android:id="@+id/next_visit_spinner"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/spinner_background"
                 android:gravity="center_vertical"
                 android:textColor="@color/grey_add_pet"
-                app:layout_constraintEnd_toEndOf="@id/veterian_name_ET"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/next_visit" />
 
@@ -639,8 +773,8 @@
                 android:gravity="center_vertical"
                 android:text="Next Visit Date"
                 android:textColor="@color/grey_add_pet"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/veterian_name_TV"
                 app:layout_constraintTop_toBottomOf="@id/next_visit_spinner" />
 
             <TextView
@@ -655,11 +789,68 @@
                 android:background="@drawable/cal_background"
                 android:hint="Next Visit Date"
                 android:paddingLeft="25dp"
-                app:layout_constraintEnd_toEndOf="@id/veterian_name_ET"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/follow_up_dt"/>
 
             <TextView
+                android:id="@+id/next_vaccine_TV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:text="Next Vaccine"
+                android:textColor="@color/grey_add_pet"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/folow_up_dt_view" />
+
+            <EditText
+                android:id="@+id/next_vaccine_ET"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:gravity="center_vertical"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:paddingLeft="25dp"
+                android:background="@drawable/edit_text_background"
+                android:hint="Next Vaccine"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/next_vaccine_TV" />
+
+            <TextView
+                android:id="@+id/next_vaccine_type_TV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:text="Next Vaccine Type"
+                android:textColor="@color/grey_add_pet"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/next_vaccine_ET" />
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/next_vaccine_type_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/spinner_background"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/next_vaccine_type_TV" />
+
+
+            <TextView
+                android:visibility="gone"
                 android:id="@+id/document_tv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -668,13 +859,14 @@
                 android:gravity="center_vertical"
                 android:text="Document"
                 android:textColor="@color/grey_add_pet"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/veterian_name_TV"
-                app:layout_constraintTop_toBottomOf="@id/folow_up_dt_view" />
+                app:layout_constraintTop_toBottomOf="@id/next_vaccine_type_spinner" />
 
 
 
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/document_layout"
                 android:layout_width="0dp"
                 android:layout_height="100dp"

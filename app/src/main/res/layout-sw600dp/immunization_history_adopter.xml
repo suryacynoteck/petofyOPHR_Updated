@@ -1,53 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    app:cardElevation="5dp"
+    android:layout_marginTop="2dp"
+    android:layout_marginBottom="2dp"
+    android:layout_height="50dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:weightSum="3.5"
+        android:weightSum="4"
         android:orientation="horizontal"
-        android:layout_marginTop="8dp"
-        tools:ignore="MissingConstraints">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
         <TextView
             android:id="@+id/immunization_dt"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Immunization Date"
-            android:textSize="12sp"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text=""/>
 
         <TextView
             android:id="@+id/vaccine_cls"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Vaccine Class"
-            android:textSize="12sp"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text=""/>
 
         <TextView
             android:id="@+id/vaccine"
-            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight=".5"
-            android:text="Vaccine"
-            android:textSize="12sp"
-            android:gravity="center"/>
+            android:text=""/>
 
         <TextView
             android:id="@+id/nxt_due_dt"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Next Due Date"
-            android:textSize="12sp"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text=""/>
+
+
+
 
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

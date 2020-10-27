@@ -29,6 +29,7 @@ public class PetProfileActivity extends AppCompatActivity implements ApiResponse
     ImageView pet_profile_image_IV, image_one,image_two,image_three,image_four,image_five,edit_image;
     TextView pet_name_TV, pet_sex_TV,pet_parent_TV,pet_id_TV,pet_deatils_TV,phone_one,pet_email_id_TV,phone_two,address_line_one_TV,address_line_two_TV;
     GetPetResponse getPetResponse;
+    boolean reloadData=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,12 +74,15 @@ public class PetProfileActivity extends AppCompatActivity implements ApiResponse
     }
 
     private void getPetlistData(GetPetListRequest getPetListRequest) {
+        reloadData=true;
         methods.showCustomProgressBarDialog(this);
         ApiService<GetPetResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().getPetDetails(Config.token,getPetListRequest), "GetPetDetail");
         Log.e("DATALOG","check1=> "+getPetListRequest);
 
     }
+
+
 
     @Override
     public void onClick(View v) {
@@ -106,9 +110,11 @@ public class PetProfileActivity extends AppCompatActivity implements ApiResponse
     @Override
     public void onResponse(Response arg0, String key) {
         methods.customProgressDismiss();
+        reloadData=false;
         switch (key) {
             case "GetPetDetail":
                 try {
+                    methods.customProgressDismiss();
                     Log.d("GetPetDetail", arg0.body().toString());
                     getPetResponse = (GetPetResponse) arg0.body();
                     int responseCode = Integer.parseInt(getPetResponse.getResponse().getResponseCode());
@@ -122,8 +128,6 @@ public class PetProfileActivity extends AppCompatActivity implements ApiResponse
                         pet_deatils_TV.setText(getPetResponse.getData().getDescription());
                         address_line_one_TV.setText(getPetResponse.getData().getAddress());
                         setImages();
-
-
 
                     } else if (responseCode == 614) {
                         Toast.makeText(this, getPetResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
@@ -180,6 +184,27 @@ public class PetProfileActivity extends AppCompatActivity implements ApiResponse
 
     @Override
     public void onError(Throwable t, String key) {
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(reloadData==false)
+        {
+            GetPetListParams getPetListParams = new GetPetListParams();
+            getPetListParams.setId(petId);
+            GetPetListRequest getPetListRequest = new GetPetListRequest();
+            getPetListRequest.setData(getPetListParams);
+            if(methods.isInternetOn())
+            {
+                getPetlistData(getPetListRequest);
+            }
+            else
+            {
+                methods.DialogInternet();
+            }
+        }
 
     }
 }

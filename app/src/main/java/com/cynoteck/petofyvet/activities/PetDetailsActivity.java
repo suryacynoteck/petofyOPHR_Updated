@@ -60,8 +60,8 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
         pet_age=extras.getString("pet_age");
         pet_DOB=extras.getString("pet_DOB");
         pet_encrypted_id=extras.getString("pet_encrypted_id");
-        Log.d("nannan",""+pet_DOB);
-        Log.d("nannan",""+pet_encrypted_id);
+        Log.d("nannan",""+pet_DOB+" "+pet_id);
+        Log.d("nannan",""+pet_encrypted_id);//
 
         pet_nameTV = findViewById(R.id.pet_name_TV);
         pet_parentNameTV = findViewById(R.id.pet_owner_name_TV);
@@ -132,6 +132,8 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 dataXray.putString("reports_id","7.0");
                 dataXray.putString("pet_sex",pet_sex);
                 dataXray.putString("pet_age",pet_age);
+                dataXray.putString("pet_DOB",pet_DOB);
+                dataXray.putString("pet_encrypted_id",pet_encrypted_id);
                 dataXray.putString("add_button_text","Test/X-rays");
                 dataXray.putString("button_type","update");
                 petDetailsXray.putExtras(dataXray);
@@ -147,6 +149,8 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 dataLabwork.putString("reports_id","8.0");
                 dataLabwork.putString("pet_sex",pet_sex);
                 dataLabwork.putString("pet_age",pet_age);
+                dataLabwork.putString("pet_DOB",pet_DOB);
+                dataLabwork.putString("pet_encrypted_id",pet_encrypted_id);
                 dataLabwork.putString("button_type","update");
                 dataLabwork.putString("add_button_text","Lab Work");
                 petDetailsLabWork.putExtras(dataLabwork);
@@ -162,6 +166,8 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 dataLabworkHospitalization.putString("reports_id","9.0");
                 dataLabworkHospitalization.putString("pet_sex",pet_sex);
                 dataLabworkHospitalization.putString("pet_age",pet_age);
+                dataLabworkHospitalization.putString("pet_DOB",pet_DOB);
+                dataLabworkHospitalization.putString("pet_encrypted_id",pet_encrypted_id);
                 dataLabworkHospitalization.putString("button_type","update");
                 dataLabworkHospitalization.putString("add_button_text","Hospitalization");
                 petDetailsHospitalization.putExtras(dataLabworkHospitalization);
@@ -177,6 +183,8 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 dataHistry.putString("reports_id","12.0");
                 dataHistry.putString("pet_sex",pet_sex);
                 dataHistry.putString("pet_age",pet_age);
+                dataHistry.putString("pet_DOB",pet_DOB);
+                dataHistry.putString("pet_encrypted_id",pet_encrypted_id);
                 dataHistry.putString("add_button_text","petHistory");
                 petHistory.putExtras(dataHistry);
                 startActivity(petHistory);
@@ -191,6 +199,8 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 dataLabworkVisits.putString("reports_id","11.0");
                 dataLabworkVisits.putString("pet_sex",pet_sex);
                 dataLabworkVisits.putString("pet_age",pet_age);
+                dataLabworkVisits.putString("pet_DOB",pet_DOB);
+                dataLabworkVisits.putString("pet_encrypted_id",pet_encrypted_id);
                 dataLabworkVisits.putString("add_button_text","RecentVisit");
                 petDetailsLabVisits.putExtras(dataLabworkVisits);
                 startActivity(petDetailsLabVisits);

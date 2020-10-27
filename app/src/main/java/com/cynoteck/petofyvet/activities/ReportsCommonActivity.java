@@ -14,7 +14,7 @@ import com.cynoteck.petofyvet.fragments.ReportListFragment;
 
 public class ReportsCommonActivity extends AppCompatActivity {
     ImageView back_arrow_IV;
-    String pet_unique_id, pet_name,pet_sex, pet_owner_name,pet_owner_contact,pet_id ,report_type_id,button_type;
+    String pet_unique_id, pet_name,pet_sex, pet_owner_name,pet_owner_contact,pet_id ,report_type_id,button_type,pet_DOB,pet_encrypted_id;
     Bundle data = new Bundle();
     TextView pet_name_TV,pet_sex_TV,pet_id_TV,pet_owner_name_TV,pet_owner_phone_no_TV, reports_headline_TV;
 
@@ -32,6 +32,8 @@ public class ReportsCommonActivity extends AppCompatActivity {
         pet_name = extras.getString("pet_name");
         pet_unique_id = extras.getString("pet_unique_id");
         button_type = extras.getString("button_type");
+        pet_DOB = extras.getString("pet_DOB");
+        pet_encrypted_id = extras.getString("pet_encrypted_id");
 
 
         reports_headline_TV = findViewById(R.id.reports_headline_TV);
@@ -61,9 +63,11 @@ public class ReportsCommonActivity extends AppCompatActivity {
                 }else if (button_type.equals("view")){
                     data.putString("button_type","view");
                 }
-                reports_headline_TV.setText("Routine Report");
+                reports_headline_TV.setText("ROUTINE REPORT");
                 data.putString("reports_id","1");
                 data.putString("type","list");
+                data.putString("pet_DOB",pet_DOB);
+                data.putString("pet_encrypted_id",pet_encrypted_id);
 
                 ReportListFragment fragment1 = new ReportListFragment();
                 fragment1.setArguments(data);
@@ -79,9 +83,11 @@ public class ReportsCommonActivity extends AppCompatActivity {
                 }else if (button_type.equals("view")){
                     data.putString("button_type","view");
                 }
-                reports_headline_TV.setText("Health problem");
+                reports_headline_TV.setText("HEALTH PROBLEM");
                 data.putString("reports_id","2");
                 data.putString("type","list");
+                data.putString("pet_DOB",pet_DOB);
+                data.putString("pet_encrypted_id",pet_encrypted_id);
 
                 ReportListFragment fragment2 = new ReportListFragment();
                 fragment2.setArguments(data);
@@ -98,9 +104,11 @@ public class ReportsCommonActivity extends AppCompatActivity {
                 }else if (button_type.equals("view")){
                     data.putString("button_type","view");
                 }
-                reports_headline_TV.setText("Immunization Report");
+                reports_headline_TV.setText("IMMUNIZATION");
                 data.putString("reports_id","4");
                 data.putString("type","list");
+                data.putString("pet_DOB",pet_DOB);
+                data.putString("pet_encrypted_id",pet_encrypted_id);
 
                 ReportListFragment fragment3 = new ReportListFragment();
                 fragment3.setArguments(data);
@@ -117,9 +125,11 @@ public class ReportsCommonActivity extends AppCompatActivity {
                 }else if (button_type.equals("view")){
                     data.putString("button_type","view");
                 }
-                reports_headline_TV.setText("Deworming");
+                reports_headline_TV.setText("DEWORMING");
                 data.putString("reports_id","5");
                 data.putString("type","list");
+                data.putString("pet_DOB",pet_DOB);
+                data.putString("pet_encrypted_id",pet_encrypted_id);
 
                 ReportListFragment fragment4 = new ReportListFragment();
                 fragment4.setArguments(data);
@@ -137,9 +147,11 @@ public class ReportsCommonActivity extends AppCompatActivity {
                 }else if (button_type.equals("view")){
                     data.putString("button_type","view");
                 }
-                reports_headline_TV.setText("Other Report");
+                reports_headline_TV.setText("OTHER REPORT");
                 data.putString("reports_id","6");
                 data.putString("type","list");
+                data.putString("pet_DOB",pet_DOB);
+                data.putString("pet_encrypted_id",pet_encrypted_id);
 
                 ReportListFragment fragment5 = new ReportListFragment();
                 fragment5.setArguments(data);
@@ -159,6 +171,8 @@ public class ReportsCommonActivity extends AppCompatActivity {
                 reports_headline_TV.setText("Test/X-Ray Report");
                 data.putString("reports_id","7");
                 data.putString("type","XRay");
+                data.putString("pet_DOB",pet_DOB);
+                data.putString("pet_encrypted_id",pet_encrypted_id);
 
                 ReportListFragment fragment6 = new ReportListFragment();
                 fragment6.setArguments(data);
@@ -177,6 +191,9 @@ public class ReportsCommonActivity extends AppCompatActivity {
                 reports_headline_TV.setText("Lab Tests");
                 data.putString("reports_id","8");
                 data.putString("type","LabTest");
+                data.putString("pet_DOB",pet_DOB);
+                data.putString("pet_encrypted_id",pet_encrypted_id);
+
                 ReportListFragment fragment7 = new ReportListFragment();
                 fragment7.setArguments(data);
                 FragmentTransaction fragment7FT = getSupportFragmentManager().beginTransaction();
@@ -194,6 +211,9 @@ public class ReportsCommonActivity extends AppCompatActivity {
                 reports_headline_TV.setText("Hospitalization & Surgeries");
                 data.putString("reports_id","9");
                 data.putString("type","Hospitalization");
+                data.putString("pet_DOB",pet_DOB);
+                data.putString("pet_encrypted_id",pet_encrypted_id);
+
                 ReportListFragment fragment8 = new ReportListFragment();
                 fragment8.setArguments(data);
                 FragmentTransaction fragment8FT = getSupportFragmentManager().beginTransaction();
@@ -206,6 +226,9 @@ public class ReportsCommonActivity extends AppCompatActivity {
                 reports_headline_TV.setText("Clinic Visit Report");
                 data.putString("reports_id","10");
                 data.putString("type","ClinicVisitReport");
+                data.putString("pet_DOB",pet_DOB);
+                data.putString("pet_encrypted_id",pet_encrypted_id);
+
                 ReportListFragment fragment9 = new ReportListFragment();
                 fragment9.setArguments(data);
                 FragmentTransaction fragment9FT = getSupportFragmentManager().beginTransaction();
