@@ -27,6 +27,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSpinner;
 
+import com.bumptech.glide.Glide;
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.api.ApiClient;
 import com.cynoteck.petofyvet.api.ApiResponse;
@@ -113,7 +114,7 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
     Bitmap bitmap, thumbnail;
     String capImage;
 
-    String pet_id = "",currentDateandTime="",strPetCategory="",strPetName="",strPetParentName="",
+    String pet_id = "",currentDateandTime="",strPetCategory="",strPetName="",strPetParentName="",image_url="",
             strPetContactNumber="",strPetDescription="",strPetAdress="",strPetBirthDay="",
             strSpnerItemPetNm="",getStrSpnerItemPetNmId="",strSpnrBreed="",strSpnrBreedId="",petUniqueId="",
             strSpnrAge="",strSpnrAgeId="",strSpnrColor="",strSpnrColorId="",strSpnrSize="",strSpneSizeId="",
@@ -156,6 +157,16 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
             strSpnrColor = extras.getString("pet_color");
             strPetParentName = extras.getString("pet_parent");
             strPetContactNumber = extras.getString("pet_parent_contact");
+            image_url = extras.getString("image_url");
+            Log.d("jjsjsjjs",""+image_url);
+
+            if(!image_url.equals(""))
+           {
+               Glide.with(this)
+                       .load(image_url)
+                       .into(pet_Details_profile_image);
+           }
+
 
             pet_details_name.setText(strPetName);
             pet_details_parent_name.setText(strPetParentName);

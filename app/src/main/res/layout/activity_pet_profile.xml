@@ -278,6 +278,7 @@
                     
 
                     <TextView
+                        android:visibility="gone"
                         android:id="@+id/pet_images_head"
                         android:layout_marginTop="10dp"
                         android:layout_width="0dp"

@@ -96,6 +96,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -1463,7 +1464,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void addImmuzationData(ImmunizationClinicData immunizationClinicData){
-        ApiService<ImmunizationAddResponse> service = new ApiService<>();
+        ApiService<JsonObject> service = new ApiService<>();
         service.get(this, ApiClient.getApiInterface().addPetVaccination(Config.token,immunizationClinicData), "AddPetVaccination");
         Log.e("DATALOG_AddPetVaccin",""+immunizationClinicData);
         methods.showCustomProgressBarDialog(this);
@@ -1711,9 +1712,13 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
             case "AddPetVaccination":
                 try {
                     methods.customProgressDismiss();
-                    ImmunizationAddResponse immunizationAddResponse = (ImmunizationAddResponse) arg0.body();
+                    JsonObject immunizationAddResponse = (JsonObject) arg0.body();
                     Log.d("AddPetVaccination", immunizationAddResponse.toString());
-                    int responseCode = Integer.parseInt(immunizationAddResponse.getResponse().getResponseCode());
+
+                    JsonObject response = immunizationAddResponse.getAsJsonObject("response");
+                    Log.d("hhshshhs",""+response);
+
+                    int responseCode = Integer.parseInt(String.valueOf(response.get("responseCode")));
 
                     if (responseCode== 109){
                         Toast.makeText(this, "Add Data Successfully", Toast.LENGTH_SHORT).show();
@@ -1721,7 +1726,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                         onBackPressed();
                     }
                     else if (responseCode==614){
-                        Toast.makeText(this, immunizationAddResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, String.valueOf(response.getAsJsonObject("responseMessage")), Toast.LENGTH_SHORT).show();
                     }
                     else
                     {
