@@ -621,10 +621,10 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                             String vaccine_name = st.nextToken();
                             vaccinationationModelHash.put("id",String.valueOf(i));
                             vaccinationationModelHash.put("vaccineType",brandType);
-                            vaccinationationModelHash.put("brandName",vaccine_name);
-                            vaccinationationModelHash.put("vaccine","null");
+                            vaccinationationModelHash.put("vaccine",vaccine_name);
+                            vaccinationationModelHash.put("brandName","null");
                             vaccinationationModelHash.put("vaccineDose","null");
-                            vaccinationationModelHash.put("immunizationDate",clinicCalenderTextViewVisitDt.getText().toString());
+                            vaccinationationModelHash.put("immunizationDate",folow_up_dt_view.getText().toString());
                             vaccinationModels.add(vaccinationationModelHash);
                         }
                         Gson gson = new GsonBuilder().create();
@@ -1879,6 +1879,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     vaccineNameList.add("CKC");*/
                     if (responseCode == 109) {
                         strNextVisitDate=immunizationVaccineResponse.getData().getNextVisitDate();
+                        folow_up_dt_view.setText(strNextVisitDate);
                         strPetAge=immunizationVaccineResponse.getData().getAge();
                        if(immunizationVaccineResponse.getData().getVaccineTypeList().size()>0){
                            for(int i=0;i<immunizationVaccineResponse.getData().getVaccineTypeList().size();i++)
@@ -2049,7 +2050,6 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     temparature_TV.setVisibility(View.VISIBLE);
                     clinicTemparature_ET.setVisibility(View.VISIBLE);
                     pet_age_TV.setVisibility(View.VISIBLE);
-                    folow_up_dt_view.setText(strNextVisitDate);
                     vaccine_layout.setVisibility(View.VISIBLE);
                     next_vaccine_TV.setVisibility(View.VISIBLE);
                     next_vaccine_type_TV.setVisibility(View.VISIBLE);
