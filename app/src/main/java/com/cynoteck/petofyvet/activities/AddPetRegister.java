@@ -1241,7 +1241,7 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
                     ImageResponse imageResponse = (ImageResponse) arg0.body();
                     int responseCode = Integer.parseInt(imageResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
-                        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
                         if(selctProflImage.equals("1")){
                             strProfileImgUrl=imageResponse.getData().getDocumentUrl();
                             selctProflImage="0";

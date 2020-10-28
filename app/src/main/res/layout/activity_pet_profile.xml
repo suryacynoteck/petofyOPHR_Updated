@@ -22,7 +22,7 @@
             android:textColor="#000"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Pet Profile"
+            android:text="PET PROFILE"
             android:gravity="center"
             android:textSize="25sp"
             android:textStyle="bold"/>

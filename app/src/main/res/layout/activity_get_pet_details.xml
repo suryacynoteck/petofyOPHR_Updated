@@ -512,7 +512,7 @@
         android:layout_alignParentBottom="true"
         android:theme="@style/MatButton"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:text="Update"
+        android:text="UPDATE"
         android:layout_centerInParent="true"
         android:layout_width="0dp"
         android:layout_marginTop="10dp"

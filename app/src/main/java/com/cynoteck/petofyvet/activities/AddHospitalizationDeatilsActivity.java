@@ -535,7 +535,7 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
                     int responseCode = Integer.parseInt(hospitalAddmissionTypeResponse.getResponse().getResponseCode());
 
                     if (responseCode == 109) {
-                        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
                         hospitalTypeArrayList = new ArrayList<>();
                         hospitalTypeArrayList.add("Select Hospital Type");
                         for (int i = 0; i < hospitalAddmissionTypeResponse.getData().size(); i++) {
@@ -559,7 +559,7 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
                     ImageResponse imageResponse = (ImageResponse) arg0.body();
                     int responseCode = Integer.parseInt(imageResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
-                        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
                         strDocumentUrl=imageResponse.getData().getDocumentUrl();
                     }else if (responseCode==614){
                         Toast.makeText(this, imageResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();

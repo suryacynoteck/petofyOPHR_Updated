@@ -827,6 +827,7 @@
                     android:layout_height="50dp"
                     android:background="@color/colorPrimary"
                     android:text="SAVE WORKING"
+                    android:textSize="25sp"
                     android:textColor="@color/whiteColor"/>
 
 

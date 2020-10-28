@@ -80,17 +80,17 @@
                 android:textSize="25sp"
                 android:textStyle="bold" />
 
-            <ImageView
+            <TextView
                 android:visibility="visible"
                 android:id="@+id/register_add_TV"
-                android:layout_margin="5dp"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="10dp"
                 android:padding="5dp"
-                android:src="@drawable/ic_baseline_add" />
+                android:drawableTop="@drawable/ic_baseline_add"
+                android:text="Add Pet"/>
 
         </RelativeLayout>
 

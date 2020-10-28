@@ -120,7 +120,7 @@ public class PetProfileActivity extends AppCompatActivity implements ApiResponse
                     getPetResponse = (GetPetResponse) arg0.body();
                     int responseCode = Integer.parseInt(getPetResponse.getResponse().getResponseCode());
                     if (responseCode == 109) {
-                        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
                         pet_name_TV.setText(getPetResponse.getData().getPetName());
                         pet_parent_TV.setText(getPetResponse.getData().getPetParentName());
                         phone_one.setText(getPetResponse.getData().getContactNumber());

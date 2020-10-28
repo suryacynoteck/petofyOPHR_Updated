@@ -478,7 +478,7 @@
 
     <Button
         android:background="@color/colorPrimary"
-        android:text="@string/save"
+        android:text="@string/saveButton"
         android:textAllCaps="false"
         android:textSize="25sp"
         android:textColor="@color/whiteColor"

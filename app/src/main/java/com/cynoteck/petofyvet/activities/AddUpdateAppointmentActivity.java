@@ -67,6 +67,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -79,8 +80,8 @@ import retrofit2.Response;
 
 public class AddUpdateAppointmentActivity extends AppCompatActivity implements ApiResponse, View.OnClickListener, RegisterRecyclerViewClickListener, TextWatcher {
     Button create_appointment_BT;
-    ImageView appointment_headline_back,add_new_pet,new_pet_search;
-    TextView appointment_headline ,calenderTextViewAppointDt ,time_TV,parent_TV,cancelOtpDialog;
+    ImageView appointment_headline_back,new_pet_search;
+    TextView appointment_headline ,calenderTextViewAppointDt ,time_TV,parent_TV,cancelOtpDialog,add_new_pet;
     EditText title_ET, duration_TV, description_ET;
     AutoCompleteTextView pet_parent_TV;
     LinearLayout pet_search_layout;
@@ -88,7 +89,7 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
     ArrayList<GetPetParentListData> petParent = new ArrayList<>();
     PetParentAdapter petParentAdapter;
     Dialog petParentDilog;
-    String strResponseOtp="",petParentContactNumber="",petName="",petSex="",petAge="",petId="",id="",appointmentID="",userID="", type="", titleString="",descriptionString="",dateString="",timeString ="",durationString="",petParentString="", petUniqueID="";
+    String  currentTime="", strResponseOtp="",petParentContactNumber="",petName="",petSex="",petAge="",petId="",id="",appointmentID="",userID="", type="", titleString="",descriptionString="",dateString="",timeString ="",durationString="",petParentString="", petUniqueID="";
     DatePickerDialog picker;
     TimePicker timePicker;
     ArrayList<String> petUniueId=null;
@@ -109,17 +110,18 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
         petParentString = intent.getStringExtra("petParent");
         init();
         if (type.equals("add")){
-            appointment_headline.setText("Add Appointment");
-            create_appointment_BT.setText("Create Appointment");
-            String currentTime = new SimpleDateFormat("hh:mm a").format(new Date());
+            appointment_headline.setText("ADD APPOINTMENT");
+            create_appointment_BT.setText("CREATE APPOINTMENT");
+            currentTime = new SimpleDateFormat("hh:mm a").format(new Date());
             time_TV.setText(currentTime);
         }else if (type.equals("update")){
             pet_search_layout.setVisibility(View.INVISIBLE);
             add_new_pet.setVisibility(View.INVISIBLE);
             parent_TV.setVisibility(View.VISIBLE);
             parent_TV.setText(petParentString);
-            appointment_headline.setText("Edit Appointment");
-            create_appointment_BT.setText("Update Appointment");
+            duration_TV.setFocusable(false);
+            appointment_headline.setText("EDIT APPOINTMENT");
+            create_appointment_BT.setText("UPDATE APPOINTMENT");
             GetPetListParams  getPetListParams = new GetPetListParams();
             getPetListParams.setId(id);
             GetPetListRequest getPetListRequest = new GetPetListRequest();
@@ -139,9 +141,7 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
             @Override
             public void onItemClick (AdapterView<?> parent, View view, int position, long id) {
                 //... your stuff
-                Log.d("akkakaka",""+petUniueId.get(position));
                 String value=petExistingSearch.get(pet_parent_TV.getText().toString());
-                Log.d("kakakka",""+value);
                 StringTokenizer st = new StringTokenizer(value, ",");
                 String PetUniqueId = st.nextToken();
                 String PetName = st.nextToken();
@@ -150,7 +150,6 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
                 String PetSex = st.nextToken();
                 userID = st.nextToken();
 
-                Log.d("ppppp",""+PetUniqueId+" "+PetName+" "+PetParentName+" "+PetSex+" "+petId+" "+userID);
 //                Bundle data = new Bundle();
 //                data.putString("pet_id",Id);
 //                data.putString("pet_name",PetName);
@@ -352,6 +351,9 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
                 durationString=duration_TV.getText().toString();
                 descriptionString=description_ET.getText().toString();
 
+                String currentTimeDate = new SimpleDateFormat("dd/MM/yyyy hh:mm a").format(new Date());
+                String userGiveTimeDate=dateString+" "+timeString;
+
                 if (titleString.isEmpty()){
                     title_ET.setError("Enter Title !");
                     description_ET.setError(null);
@@ -372,7 +374,12 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
                 }else if (durationString.isEmpty()){
                     Toast.makeText(this, "Please Select Duration", Toast.LENGTH_SHORT).show();
 
-                }else {
+                }
+               else if(methods.checktimings(currentTimeDate,userGiveTimeDate)==false)
+               {
+               Toast.makeText(this, "select Correct Time", Toast.LENGTH_SHORT).show();
+               }
+                else {
 
                     if (type.equals("add")){
                         CreateAppointParams createAppointParams = new CreateAppointParams();
@@ -440,9 +447,24 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
 
 
             case R.id.time_TV:
-                final Calendar c = Calendar.getInstance();
+                Calendar c = Calendar.getInstance();
+
+                if(type.equals("update"))
+                {
+                    SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
+                    Date date = null;
+                    try {
+                        date = sdf.parse(time_TV.getText().toString());
+                    } catch (ParseException e) {
+                    }
+                    c = Calendar.getInstance();
+                    c.setTime(date);
+
+                }
+
                 int mHour = c.get(Calendar.HOUR_OF_DAY);
                 int mMinute = c.get(Calendar.MINUTE);
+
 
                 // Launch Time Picker Dialog
                 TimePickerDialog timePickerDialog = new TimePickerDialog(this,
@@ -774,7 +796,7 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
                     int responseCode = Integer.parseInt(newPetRegisterResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
                         otpDialog.dismiss();
-                        Toast.makeText(this, "success", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(this, "success", Toast.LENGTH_SHORT).show();
                         String sexName="";
                         if(newPetRegisterResponse.getData().getSexId().equals("2.0"))
                             sexName="Female";

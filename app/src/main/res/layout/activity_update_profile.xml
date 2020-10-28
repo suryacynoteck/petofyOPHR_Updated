@@ -32,7 +32,7 @@
                 android:textColor="#000"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/Editprofile"
+                android:text="@string/EditprofileToolbar"
                 android:gravity="center"
                 android:textSize="25sp"
                 android:textStyle="bold"/>
@@ -594,7 +594,7 @@
         android:theme="@style/MatButton"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:id="@+id/update_profile"
-        android:text="@string/updateProfile"
+        android:text="@string/updateProfileButton"
         android:layout_centerInParent="true"
         android:layout_width="0dp"
         android:layout_height="wrap_content"/>

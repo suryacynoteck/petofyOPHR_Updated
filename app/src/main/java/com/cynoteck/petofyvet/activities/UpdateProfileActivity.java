@@ -1205,7 +1205,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     UserResponse userResponse = (UserResponse) response.body();
                     int responseCode = Integer.parseInt(userResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
-                        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
 
                         last_name_updt.setText(userResponse.getData().getLastName());
                         email_updt.setText(userResponse.getData().getEmail());
@@ -1387,7 +1387,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     ImageResponse imageResponse = (ImageResponse) response.body();
                     int responseCode = Integer.parseInt(imageResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
-                        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
                         if(slctCatOneImage.equals("1")){
                             strCatUrl1=imageResponse.getData().getDocumentUrl();
                             slctCatOneImage="0";

@@ -31,8 +31,9 @@
     <string name="vet_registration_number">Vet Registration Number</string>
     <string name="vet_qualification">Vet Qualification</string>
     <string name="updateProfile">Update Profile</string>
+    <string name="updateProfileButton">UPDATE PROFILE</string>
     <string name="submit">Submit</string>
-    <string name="changePass">Change Password</string>
+    <string name="changePass">CHANGE PASSWORD</string>
     <string name="petId">Pet Id</string>
     <string name="dateofbirth">Date Of Birth</string>
     <string name="petGender">Pet Gender</string>
@@ -42,7 +43,7 @@
     <string name="color">Color</string>
     <string name="petcolor"><![CDATA[Brown & White]]></string>
     <string name="viewReports">View Reports</string>
-    <string name="viewDetails">View Details</string>
+    <string name="viewDetails">VIEW DETAILS</string>
     <string name="reports">REPORTS</string>
     <string name="register_pets">Pet Register</string>
     <string name="register_pets_home">PET REGISTER</string>
@@ -58,7 +59,7 @@
     <string name="clinicVisits">Clinic Visit Report</string>
     <string name="emailtext">Email</string>
     <string name="appointments">Appointments</string>
-    <string name="appointments_home">APPOINTMENTS</string>
+    <string name="appointments_home">ONLINE APPOINTMENTS</string>
     <string name="staff">STAFF</string>
     <string name="allpets">ALL PETS</string>
     <string name="allStaff">ALL STAFF</string>
@@ -85,6 +86,7 @@
     <string name="breed">Breed</string>
     <string name="ParentName">Parent Name</string>
     <string name="save">Save</string>
+    <string name="saveButton">SAVE</string>
     <string name="editpet">Edit Pet</string>
     <string name="desc">Description</string>
     <string name="petimages">Pet Images</string>
@@ -141,10 +143,11 @@
     <string name="OnlineAppointment">Online Appointment</string>
     <string name="fullProfile">Veterinarian Full Profile</string>
     <string name="Settings">Settings</string>
+    <string name="SettingsToolbar">SETTINGS</string>
     <string name="hours">Operating Hours</string>
     <string name="title">Title</string>
     <string name="appointmentDate">Appointment Date</string>
-    <string name="appointmentTime">Appointment Time</string>
+    <string name="appointmentTime">Appointment Time, Duration (In minutes)</string>
     <string name="monday">Monday</string>
     <string name="tuesday">Tuesday</string>
     <string name="wednesday">Wednesday</string>
@@ -154,8 +157,10 @@
     <string name="sunday">Sunday</string>
     <string name="fcm_token">FCM Token: %s</string>
     <string name="Editprofile">Edit Profile</string>
+    <string name="EditprofileToolbar">EDIT PROFILE</string>
     <string name="LastPrescription">Last Prescription</string>
     <string name="immunization">Immunization Schedule</string>
+    <string name="immunizationtToolbar">IMMUNIZATION SCHEDULE</string>
     <string name="createNew">CREATE NEW</string>
     <string name="primaryVaccineName">Primary Vaccine Name</string>
     <string name="ageGroup">Age Group</string>
@@ -172,6 +177,7 @@
     <string name="boosterOneGap">Days gap between Primary and First Booster</string>
     <string name="boosterTwoGap">Days gap between Primary and IInd Booster</string>
     <string name="BankAccount">Bank Accounts</string>
+    <string name="BankAccountToolbar">BANK ACCOUNTS</string>
     <string name="addAccount">Add Bank Account</string>
 
     <string name="ifsc">IFSC</string>

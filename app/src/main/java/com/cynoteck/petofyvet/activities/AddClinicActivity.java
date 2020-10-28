@@ -489,7 +489,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                 else
                     dewormerName=dewormerName+","+value;
                 Dewormer_ET.setText(dewormerName);
-                clearSearchDiognosis();
+                clearDewormerName();
             }
         });
 
@@ -531,7 +531,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                 else
                     dewormerDose=dewormerDose+","+value;
                 Dewormer_name_ET.setText(dewormerDose);
-                clearSearchDiognosis();
+                clearDewormerDose();
             }
         });
 
@@ -1615,7 +1615,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     GetPetResponse getPetResponse = (GetPetResponse) arg0.body();
                     int responseCode = Integer.parseInt(getPetResponse.getResponse().getResponseCode());
                     if (responseCode == 109) {
-                        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
                         String petDetails=getPetResponse.getData().getPetName()+" ( "+getPetResponse.getData().getPetUniqueId()
                                           +" , "+getPetResponse.getData().getPetSex()
                                           +" , "+getPetResponse.getData().getPetBreed()+" , "+getPetResponse.getData().getPetAge()+" Old)\n"
@@ -1639,7 +1639,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     int responseCode = Integer.parseInt(clinicVisitResponse.getResponse().getResponseCode());
 
                     if (responseCode== 109){
-                        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
                         nextVisitList=new ArrayList<>();
                         nextVisitList.add("Select Visit");
                         for(int i=0;i<clinicVisitResponse.getData().size();i++)
@@ -1668,7 +1668,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     ImageResponse imageResponse = (ImageResponse) arg0.body();
                     int responseCode = Integer.parseInt(imageResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
-                        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
                         strDocumentUrl=imageResponse.getData().getDocumentUrl();
                         Toast.makeText(this, "Upload Successfully", Toast.LENGTH_SHORT).show();
                         methods.customProgressDismiss();
@@ -2182,6 +2182,18 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         clinicDiagnosis_ET.getText().clear();
         InputMethodManager imm1 = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         imm1.hideSoftInputFromWindow(clinicDiagnosis_ET.getWindowToken(), 0);
+    }
+
+    private void clearDewormerName() {
+        deworming_AC.getText().clear();
+        InputMethodManager imm1 = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm1.hideSoftInputFromWindow(deworming_AC.getWindowToken(), 0);
+    }
+
+    private void clearDewormerDose() {
+        deworming_dose_AC.getText().clear();
+        InputMethodManager imm1 = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm1.hideSoftInputFromWindow(deworming_dose_AC.getWindowToken(), 0);
     }
 
 

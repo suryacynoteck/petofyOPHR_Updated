@@ -499,7 +499,7 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
                     GetPetResponse getPetResponse = (GetPetResponse) arg0.body();
                     int responseCode = Integer.parseInt(getPetResponse.getResponse().getResponseCode());
                     if (responseCode == 109) {
-                        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
 
                         pet_details_name.setText(getPetResponse.getData().getPetName());
                         pet_details_parent_name.setText(getPetResponse.getData().getPetParentName());
@@ -673,7 +673,7 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
                     ImageResponse imageResponse = (ImageResponse) arg0.body();
                     int responseCode = Integer.parseInt(imageResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
-                        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
                         if(selctProflImage.equals("1")){
                             strProfileImgUrl=imageResponse.getData().getDocumentUrl();
                             selctProflImage="0";

@@ -123,7 +123,7 @@ public class StaffPermissionActivity extends AppCompatActivity implements View.O
                     int responseCode = Integer.parseInt(staffPermissionResponse.getResponse().getResponseCode());
 
                     if (responseCode== 109){
-                        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
                         staff_permissionList.setLayoutManager(linearLayoutManager);
                         staffPermissionListAdapter  = new StaffPermissionListAdapter(this,staffPermissionResponse.getData(),this);
