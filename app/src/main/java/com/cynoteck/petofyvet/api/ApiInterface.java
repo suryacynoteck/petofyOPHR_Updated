@@ -124,6 +124,7 @@ import com.cynoteck.petofyvet.response.updateProfileResponse.PetTypeResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.StateResponse;
 import com.cynoteck.petofyvet.response.updateProfileResponse.UserResponse;
 import com.cynoteck.petofyvet.response.updateVetDetailsresponse.UpdateVetResponse;
+import com.google.gson.JsonObject;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;
@@ -364,7 +365,7 @@ public interface ApiInterface {
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("pethealthrecord/AddPetVaccination")
-    Call<ImmunizationAddResponse> addPetVaccination(@Header("Authorization") String auth, @Body ImmunizationClinicData immunizationClinicData);
+    Call<JsonObject> addPetVaccination(@Header("Authorization") String auth, @Body ImmunizationClinicData immunizationClinicData);
 
     //Update CLINIC VISIT...................................................................
 

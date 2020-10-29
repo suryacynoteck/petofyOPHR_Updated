@@ -522,7 +522,7 @@
                     android:layout_marginTop="10dp"
                     android:background="@drawable/remarks_texview_shape"
                     android:gravity="center_vertical"
-                    android:hint="Dewormer name*"
+                    android:hint="Find Dewormer name*"
                     android:inputType="text"
                     android:maxLines="1"
                     android:paddingLeft="25dp"
@@ -535,6 +535,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginTop="2dp"
                     android:paddingLeft="25dp"
+                    android:hint="Dewormer name"
                     android:layout_marginLeft="20dp"/>
 
             </LinearLayout>
@@ -574,7 +575,7 @@
                     android:layout_marginTop="10dp"
                     android:background="@drawable/remarks_texview_shape"
                     android:gravity="center_vertical"
-                    android:hint="Dewormer Dose*"
+                    android:hint="Find Dewormer Dose*"
                     android:inputType="text"
                     android:maxLines="1"
                     android:paddingLeft="25dp"
@@ -587,6 +588,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginTop="2dp"
                     android:paddingLeft="25dp"
+                    android:hint="Dewormer Dose"
                     android:layout_marginLeft="20dp"/>
 
             </LinearLayout>
@@ -626,7 +628,7 @@
                     android:layout_marginTop="10dp"
                     android:background="@drawable/remarks_texview_shape"
                     android:gravity="center_vertical"
-                    android:hint="Diagnosis*"
+                    android:hint="Find Diagnosis*"
                     android:inputType="text"
                     android:maxLines="1"
                     android:paddingLeft="25dp"
@@ -638,6 +640,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="2dp"
+                    android:paddingLeft="25dp"
+                    android:hint="Diagnosis"
                     android:layout_marginLeft="20dp"/>
 
 
@@ -682,8 +686,10 @@
                     android:id="@+id/clinicTreatment_remarks_MT"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
                     android:hint="Find Treatment Remarks"
                     android:gravity="center_vertical"
+                    android:paddingLeft="25dp"
                     android:background="@drawable/remarks_texview_shape"/>
 
                 <EditText
@@ -691,6 +697,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textColor="@color/grey_add_pet"
+                    android:hint="Treatment Remarks"
+                    android:paddingLeft="25dp"
                     android:maxLines="2"
                     />
             </LinearLayout>

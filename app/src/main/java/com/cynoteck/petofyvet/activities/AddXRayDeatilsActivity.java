@@ -486,7 +486,7 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
                     int responseCode = Integer.parseInt(clinicVisitResponse.getResponse().getResponseCode());
 
                     if (responseCode== 109){
-                        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
                         nextVisitList=new ArrayList<>();
                         nextVisitList.add("Select Visit");
                         for(int i=0;i<clinicVisitResponse.getData().size();i++)
@@ -517,7 +517,7 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
                     int responseCode = Integer.parseInt(xrayTestResponse.getResponse().getResponseCode());
 
                     if (responseCode == 109) {
-                        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
                         testTypeList = new ArrayList<>();
                         testTypeList.add("Select Test Type");
                         for (int i = 0; i < xrayTestResponse.getData().size(); i++) {
@@ -541,7 +541,7 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
                     ImageResponse imageResponse = (ImageResponse) arg0.body();
                     int responseCode = Integer.parseInt(imageResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
-                        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
                         strDocumentUrl=imageResponse.getData().getDocumentUrl();
                     }else if (responseCode==614){
                         Toast.makeText(this, imageResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();

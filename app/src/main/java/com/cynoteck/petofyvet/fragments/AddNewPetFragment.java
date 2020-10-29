@@ -136,7 +136,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
 
 
     DatePickerDialog picker;
-
+    boolean getRecententrys=false;
     ArrayList<String> petAge;
     ArrayList<String> petSex;
     /*  ArrayList<String> petType;
@@ -244,6 +244,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
     }
 
     private void getPetNewList() {
+        getRecententrys=true;
         shimmer_view_new_entry.startShimmerAnimation();
         String input= Config.token.trim();
         Log.d("lalalall",""+input);
@@ -357,6 +358,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
 
                     if (responseCode== 109){
                         new_pet_search.setVisibility(View.VISIBLE);
+                        all_new_entry_list.setVisibility(View.VISIBLE);
                         Log.e("lallalal",""+getPetListResponse.getData().getPetClinicVisitList().size());
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
                         all_new_entry_list.setLayoutManager(linearLayoutManager);
@@ -367,7 +369,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                         shimmer_view_new_entry.setVisibility(View.GONE);
                         shimmer_view_new_entry.stopShimmerAnimation();
                         Toast.makeText(getActivity(), "Success", Toast.LENGTH_SHORT).show();
-
+                        getRecententrys=false;
                     }
 
                 }
@@ -1133,5 +1135,14 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
     public void onResume() {
         super.onResume();
         getPetList();
+        if(getRecententrys==false)
+        {
+            new_pet_search.setVisibility(View.GONE);
+            all_new_entry_list.setVisibility(View.GONE);
+            shimmer_view_new_entry.setVisibility(View.VISIBLE);
+            shimmer_view_new_entry.startShimmerAnimation();
+            getPetNewList();
+        }
+
     }
 }

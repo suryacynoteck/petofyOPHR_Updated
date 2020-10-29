@@ -39,7 +39,7 @@
                 android:paddingRight="25dp"
                 android:id="@+id/create_headline_TV"
                 android:layout_width="0dp"
-                android:text="@string/BankAccount"
+                android:text="@string/BankAccountToolbar"
                 android:layout_height="0dp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@id/back_arrow_IV"

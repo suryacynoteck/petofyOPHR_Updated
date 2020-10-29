@@ -51,13 +51,13 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, ViewD
     Methods methods;
     CardView materialCardView;
     RecyclerView register_pet_RV;
-    ImageView register_add_TV,search_register_pet,back_arrow_IV;
+    ImageView search_register_pet,back_arrow_IV;
     private ArrayList<PetList> categoryRecordArrayList;
     RegisterPetAdapter registerPetAdapter;
     private ShimmerFrameLayout mShimmerViewContainer;
     RelativeLayout search_boxRL;
     EditText search_box;
-    TextView regiter_pet_headline_TV;
+    TextView regiter_pet_headline_TV,register_add_TV;
 
     @Override
     public void onAttach(Context context) {
@@ -168,10 +168,6 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, ViewD
                         mShimmerViewContainer.setVisibility(View.GONE);
 
                     }
-
-
-
-
 
                 }
                 catch(Exception e) {

@@ -23,7 +23,7 @@ public class ApiClient {
 
     private static ApiInterface setApiInterface() {
         OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
-                .connectTimeout(60, TimeUnit.SECONDS)
+                .connectTimeout(1, TimeUnit.MINUTES)
                 .readTimeout(60, TimeUnit.SECONDS)
                 .writeTimeout(60, TimeUnit.SECONDS)
                 .build();

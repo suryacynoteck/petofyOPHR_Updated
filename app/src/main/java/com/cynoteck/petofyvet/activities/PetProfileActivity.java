@@ -25,7 +25,7 @@ import retrofit2.Response;
 
 public class PetProfileActivity extends AppCompatActivity implements ApiResponse, View.OnClickListener {
     Methods methods;
-    String petId="";
+    String petId="",imagerl="";
     ImageView pet_profile_image_IV, image_one,image_two,image_three,image_four,image_five,edit_image;
     TextView pet_name_TV, pet_sex_TV,pet_parent_TV,pet_id_TV,pet_deatils_TV,phone_one,pet_email_id_TV,phone_two,address_line_one_TV,address_line_two_TV;
     GetPetResponse getPetResponse;
@@ -100,6 +100,7 @@ public class PetProfileActivity extends AppCompatActivity implements ApiResponse
                 intent.putExtra("pet_color",getPetResponse.getData().getPetColor());
                 intent.putExtra("pet_parent",getPetResponse.getData().getPetParentName());
                 intent.putExtra("pet_parent_contact",getPetResponse.getData().getContactNumber());
+                intent.putExtra("image_url",getPetResponse.getData().getPetProfileImageUrl());
                 startActivity(intent);
                 break;
 
@@ -119,7 +120,7 @@ public class PetProfileActivity extends AppCompatActivity implements ApiResponse
                     getPetResponse = (GetPetResponse) arg0.body();
                     int responseCode = Integer.parseInt(getPetResponse.getResponse().getResponseCode());
                     if (responseCode == 109) {
-                        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
                         pet_name_TV.setText(getPetResponse.getData().getPetName());
                         pet_parent_TV.setText(getPetResponse.getData().getPetParentName());
                         phone_one.setText(getPetResponse.getData().getContactNumber());
@@ -142,9 +143,12 @@ public class PetProfileActivity extends AppCompatActivity implements ApiResponse
     }
 
     private void setImages() {
-        Glide.with(this)
-                .load(getPetResponse.getData().getPetProfileImageUrl())
-                .into(pet_profile_image_IV);
+        if(!getPetResponse.getData().getPetProfileImageUrl().equals(""))
+        {
+            Glide.with(this)
+                    .load(getPetResponse.getData().getPetProfileImageUrl())
+                    .into(pet_profile_image_IV);
+        }
         if (getPetResponse.getData().getFirstServiceImageUrl().isEmpty()){
             image_one.setVisibility(View.INVISIBLE);
         }else {

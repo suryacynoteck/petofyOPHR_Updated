@@ -16,6 +16,7 @@ import com.cynoteck.petofyvet.R;
 import org.json.JSONArray;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -408,5 +409,25 @@ public class Methods {
         return daysBetween;
     }
 
+    public boolean checktimings(String time, String endtime) {
+
+        String pattern = "dd/MM/yyyy hh:mm a";
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+
+        try {
+            Date date1 = sdf.parse(time);
+            Date date2 = sdf.parse(endtime);
+
+            if(date1.before(date2)) {
+                return true;
+            } else {
+
+                return false;
+            }
+        } catch (ParseException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
 
 }

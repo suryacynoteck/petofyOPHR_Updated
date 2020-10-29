@@ -562,7 +562,7 @@ public class AddLabWorkDeatilsActivity extends AppCompatActivity implements View
                         int responseCode = Integer.parseInt(labTypeResponse.getResponse().getResponseCode());
 
                         if (responseCode == 109) {
-                            Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
                             labTypeArrayList = new ArrayList<>();
                             labTypeArrayList.add("Select Lab Type");
                             for (int i = 0; i < labTypeResponse.getData().size(); i++) {
@@ -586,7 +586,7 @@ public class AddLabWorkDeatilsActivity extends AppCompatActivity implements View
                     ImageResponse imageResponse = (ImageResponse) arg0.body();
                     int responseCode = Integer.parseInt(imageResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
-                        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
                         strDocumentUrl=imageResponse.getData().getDocumentUrl();
                     }else if (responseCode==614){
                         Toast.makeText(this, imageResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();

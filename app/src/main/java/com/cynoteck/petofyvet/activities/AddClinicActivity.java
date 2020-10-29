@@ -96,6 +96,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -488,7 +489,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                 else
                     dewormerName=dewormerName+","+value;
                 Dewormer_ET.setText(dewormerName);
-                clearSearchDiognosis();
+                clearDewormerName();
             }
         });
 
@@ -530,7 +531,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                 else
                     dewormerDose=dewormerDose+","+value;
                 Dewormer_name_ET.setText(dewormerDose);
-                clearSearchDiognosis();
+                clearDewormerDose();
             }
         });
 
@@ -621,10 +622,10 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                             String vaccine_name = st.nextToken();
                             vaccinationationModelHash.put("id",String.valueOf(i));
                             vaccinationationModelHash.put("vaccineType",brandType);
-                            vaccinationationModelHash.put("brandName",vaccine_name);
-                            vaccinationationModelHash.put("vaccine","null");
+                            vaccinationationModelHash.put("vaccine",vaccine_name);
+                            vaccinationationModelHash.put("brandName","null");
                             vaccinationationModelHash.put("vaccineDose","null");
-                            vaccinationationModelHash.put("immunizationDate",clinicCalenderTextViewVisitDt.getText().toString());
+                            vaccinationationModelHash.put("immunizationDate",folow_up_dt_view.getText().toString());
                             vaccinationModels.add(vaccinationationModelHash);
                         }
                         Gson gson = new GsonBuilder().create();
@@ -1463,7 +1464,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void addImmuzationData(ImmunizationClinicData immunizationClinicData){
-        ApiService<ImmunizationAddResponse> service = new ApiService<>();
+        ApiService<JsonObject> service = new ApiService<>();
         service.get(this, ApiClient.getApiInterface().addPetVaccination(Config.token,immunizationClinicData), "AddPetVaccination");
         Log.e("DATALOG_AddPetVaccin",""+immunizationClinicData);
         methods.showCustomProgressBarDialog(this);
@@ -1614,7 +1615,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     GetPetResponse getPetResponse = (GetPetResponse) arg0.body();
                     int responseCode = Integer.parseInt(getPetResponse.getResponse().getResponseCode());
                     if (responseCode == 109) {
-                        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
                         String petDetails=getPetResponse.getData().getPetName()+" ( "+getPetResponse.getData().getPetUniqueId()
                                           +" , "+getPetResponse.getData().getPetSex()
                                           +" , "+getPetResponse.getData().getPetBreed()+" , "+getPetResponse.getData().getPetAge()+" Old)\n"
@@ -1638,7 +1639,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     int responseCode = Integer.parseInt(clinicVisitResponse.getResponse().getResponseCode());
 
                     if (responseCode== 109){
-                        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
                         nextVisitList=new ArrayList<>();
                         nextVisitList.add("Select Visit");
                         for(int i=0;i<clinicVisitResponse.getData().size();i++)
@@ -1667,7 +1668,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     ImageResponse imageResponse = (ImageResponse) arg0.body();
                     int responseCode = Integer.parseInt(imageResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
-                        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
                         strDocumentUrl=imageResponse.getData().getDocumentUrl();
                         Toast.makeText(this, "Upload Successfully", Toast.LENGTH_SHORT).show();
                         methods.customProgressDismiss();
@@ -1711,9 +1712,13 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
             case "AddPetVaccination":
                 try {
                     methods.customProgressDismiss();
-                    ImmunizationAddResponse immunizationAddResponse = (ImmunizationAddResponse) arg0.body();
+                    JsonObject immunizationAddResponse = (JsonObject) arg0.body();
                     Log.d("AddPetVaccination", immunizationAddResponse.toString());
-                    int responseCode = Integer.parseInt(immunizationAddResponse.getResponse().getResponseCode());
+
+                    JsonObject response = immunizationAddResponse.getAsJsonObject("response");
+                    Log.d("hhshshhs",""+response);
+
+                    int responseCode = Integer.parseInt(String.valueOf(response.get("responseCode")));
 
                     if (responseCode== 109){
                         Toast.makeText(this, "Add Data Successfully", Toast.LENGTH_SHORT).show();
@@ -1721,7 +1726,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                         onBackPressed();
                     }
                     else if (responseCode==614){
-                        Toast.makeText(this, immunizationAddResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, String.valueOf(response.getAsJsonObject("responseMessage")), Toast.LENGTH_SHORT).show();
                     }
                     else
                     {
@@ -1879,6 +1884,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     vaccineNameList.add("CKC");*/
                     if (responseCode == 109) {
                         strNextVisitDate=immunizationVaccineResponse.getData().getNextVisitDate();
+                        folow_up_dt_view.setText(strNextVisitDate);
                         strPetAge=immunizationVaccineResponse.getData().getAge();
                        if(immunizationVaccineResponse.getData().getVaccineTypeList().size()>0){
                            for(int i=0;i<immunizationVaccineResponse.getData().getVaccineTypeList().size();i++)
@@ -2049,7 +2055,6 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     temparature_TV.setVisibility(View.VISIBLE);
                     clinicTemparature_ET.setVisibility(View.VISIBLE);
                     pet_age_TV.setVisibility(View.VISIBLE);
-                    folow_up_dt_view.setText(strNextVisitDate);
                     vaccine_layout.setVisibility(View.VISIBLE);
                     next_vaccine_TV.setVisibility(View.VISIBLE);
                     next_vaccine_type_TV.setVisibility(View.VISIBLE);
@@ -2177,6 +2182,18 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         clinicDiagnosis_ET.getText().clear();
         InputMethodManager imm1 = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         imm1.hideSoftInputFromWindow(clinicDiagnosis_ET.getWindowToken(), 0);
+    }
+
+    private void clearDewormerName() {
+        deworming_AC.getText().clear();
+        InputMethodManager imm1 = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm1.hideSoftInputFromWindow(deworming_AC.getWindowToken(), 0);
+    }
+
+    private void clearDewormerDose() {
+        deworming_dose_AC.getText().clear();
+        InputMethodManager imm1 = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm1.hideSoftInputFromWindow(deworming_dose_AC.getWindowToken(), 0);
     }
 
 

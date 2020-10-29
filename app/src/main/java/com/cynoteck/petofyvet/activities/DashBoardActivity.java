@@ -119,7 +119,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                     int responseCode = Integer.parseInt(userResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
                         methods.customProgressDismiss();
-                        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
                         IsVeterinarian=userResponse.getData().getIsVeterinarian();
                         Log.d("IsVeterinarian",""+userResponse.getData().getIsVeterinarian());
                         if(IsVeterinarian.equals("false")){
