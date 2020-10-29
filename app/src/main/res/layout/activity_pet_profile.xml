@@ -24,7 +24,7 @@
             android:layout_height="match_parent"
             android:text="PET PROFILE"
             android:gravity="center"
-            android:textSize="25sp"
+            android:textSize="20sp"
             android:textStyle="bold"/>
 
     </com.google.android.material.card.MaterialCardView>

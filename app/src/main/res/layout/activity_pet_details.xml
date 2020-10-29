@@ -29,7 +29,7 @@
                 android:gravity="center"
                 android:text="@string/pet_details"
                 android:textColor="#000"
-                android:textSize="25sp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <ImageView

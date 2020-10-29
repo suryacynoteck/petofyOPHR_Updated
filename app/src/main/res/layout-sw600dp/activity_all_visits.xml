@@ -139,7 +139,6 @@
 
                 <LinearLayout
                     android:layout_weight="1"
-                    android:layout_toRightOf="@id/add_new_visit"
                     android:layout_below="@+id/toolbar"
                     android:id="@+id/search_visits"
                     android:layout_width="match_parent"

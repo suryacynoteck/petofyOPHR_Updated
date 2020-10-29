@@ -501,7 +501,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                 break;
             case "AddPetToRegister":
                 try {
-                    Log.d("SendOtp",arg0.body().toString());
+                    Log.d("AddPetToRegister",arg0.body().toString());
                     NewPetRegisterResponse newPetRegisterResponse = (NewPetRegisterResponse) arg0.body();
                     int responseCode = Integer.parseInt(newPetRegisterResponse.getResponse().getResponseCode());
                     if (responseCode== 109){

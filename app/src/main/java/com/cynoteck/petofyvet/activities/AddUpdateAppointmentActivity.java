@@ -75,7 +75,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 import java.util.TimeZone;
-
 import retrofit2.Response;
 
 public class AddUpdateAppointmentActivity extends AppCompatActivity implements ApiResponse, View.OnClickListener, RegisterRecyclerViewClickListener, TextWatcher {
@@ -377,7 +376,17 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
                 }
                else if(methods.checktimings(currentTimeDate,userGiveTimeDate)==false)
                {
-               Toast.makeText(this, "select Correct Time", Toast.LENGTH_SHORT).show();
+                   AlertDialog alertDialog = new AlertDialog.Builder(AddUpdateAppointmentActivity.this).create();
+                   alertDialog.setTitle("warning");
+                   alertDialog.setMessage("Appointment can not be created in a back date and time !");
+                   alertDialog.setIcon(getDrawable(R.drawable.ic_baseline_warning));
+                   alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                           new DialogInterface.OnClickListener() {
+                               public void onClick(DialogInterface dialog, int which) {
+                                   dialog.dismiss();
+                               }
+                           });
+                   alertDialog.show();
                }
                 else {
 
@@ -512,7 +521,6 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
         methods.showCustomProgressBarDialog(this);
         ApiService<CreateAppointmentResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().updateAppointment(Config.token,updateAppointmentRequest), "UpdateAppointment");
-
     }
 
     private void createUpdateAppointment(CreateAppointRequest createAppointRequest) {
