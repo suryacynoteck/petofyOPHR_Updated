@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -33,7 +34,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.activities.AddNewPetActivity;
+import com.cynoteck.petofyvet.activities.AddUpdateAppointmentActivity;
 import com.cynoteck.petofyvet.activities.AllVisitsActivity;
+import com.cynoteck.petofyvet.activities.LoginActivity;
 import com.cynoteck.petofyvet.activities.PetDetailsActivity;
 import com.cynoteck.petofyvet.activities.UpcomingVisitsActivity;
 import com.cynoteck.petofyvet.api.ApiClient;
@@ -130,7 +133,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
         if (methods.isInternetOn()){
             getPetList();
         }else {
-
             methods.DialogInternet();
         }
 
@@ -410,6 +412,33 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
                         search_box_add_new.setAdapter(adapter);//setting the adapter data into the AutoCompleteTextView
                         search_box_add_new.setTextColor(Color.BLACK);
                     }
+                    else
+                    {
+                        methods.customProgressDismiss();
+                        if(getPetListResponse.getResponse().getResponseMessage().equals("Invalid token."))
+                        {
+                            AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                            alertDialog.setTitle("Error");
+                            alertDialog.setMessage("Your Session Expire\nPlease Logout and\nLogin Again ");
+                            alertDialog.setIcon(getActivity().getDrawable(R.drawable.ic_baseline_warning));
+                            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "LOGOUT",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                            SharedPreferences preferences =getActivity().getSharedPreferences("userdetails",0);
+                                            SharedPreferences.Editor editor = preferences.edit();
+                                            editor.clear();
+                                            editor.apply();
+                                            startActivity(new Intent(getActivity(), LoginActivity.class));
+                                            getActivity().finish();
+                                        }
+                                    });
+                            alertDialog.setCancelable(false);
+                            alertDialog.setCanceledOnTouchOutside(false);
+                            alertDialog.show();
+                        }
+                    }
+
 
                 } catch (Exception e) {
                     e.printStackTrace();

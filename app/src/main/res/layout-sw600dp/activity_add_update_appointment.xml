@@ -56,7 +56,8 @@
                 android:layout_width="70dp"
                 android:layout_height="match_parent"
                 android:drawableTop="@drawable/ic_baseline_add"
-                android:text="Add Pet"/>
+                android:text="Add Pet"
+                android:textColor="@color/black_color"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,7 @@
 package com.cynoteck.petofyvet.activities;
 
 import android.app.DatePickerDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,8 +14,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.cynoteck.petofyvet.R;
+import com.cynoteck.petofyvet.adapters.MyAdapter;
 import com.cynoteck.petofyvet.adapters.UpcomingVisitsAdapter;
 import com.cynoteck.petofyvet.api.ApiClient;
 import com.cynoteck.petofyvet.api.ApiResponse;
@@ -24,6 +27,7 @@ import com.cynoteck.petofyvet.params.upcommingVisitsRequest.UpcommingVisitsReque
 import com.cynoteck.petofyvet.response.upcommingVisitsResponse.UpcommingVisitsResponse;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.Calendar;
 
@@ -31,7 +35,7 @@ import retrofit2.Response;
 
 public class UpcomingVisitsActivity extends AppCompatActivity implements ApiResponse, View.OnClickListener {
 
-    RecyclerView upcomingVisits_RV;
+    /*RecyclerView upcomingVisits_RV;
     UpcomingVisitsAdapter upcomingVisitsAdapter;
     TextView lastVisitDt, nextVisitDt;
     ImageView back_arrow_IV, search_upcoming_IV;
@@ -39,20 +43,24 @@ public class UpcomingVisitsActivity extends AppCompatActivity implements ApiResp
     String lastDate, nextDate;
     UpcommingVisitsResponse upcommingVisitsResponse;
     ProgressBar progressBar;
-    Methods methods;
+    Methods methods;*/
+
+    TabLayout tabLayout;
+    ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_upcoming_visits);
-        methods = new Methods(this);
+        //setContentView(R.layout.activity_upcoming_visits);
+        setContentView(R.layout.test_layout);
+        //methods = new Methods(this);
         
         initization();
 
     }
 
     private void initization() {
-        progressBar = findViewById(R.id.progressBar);
+       /* progressBar = findViewById(R.id.progressBar);
         upcomingVisits_RV = findViewById(R.id.upcomingVisits_RV);
         lastVisitDt = findViewById(R.id.lastVisitDt);
         nextVisitDt = findViewById(R.id.nextVisitDt);
@@ -62,13 +70,45 @@ public class UpcomingVisitsActivity extends AppCompatActivity implements ApiResp
         back_arrow_IV.setOnClickListener(this);
         lastVisitDt.setOnClickListener(this);
         nextVisitDt.setOnClickListener(this);
-        search_upcoming_IV.setOnClickListener(this);
+        search_upcoming_IV.setOnClickListener(this);*/
 
-    }
+        tabLayout=(TabLayout)findViewById(R.id.tabLayout);
+        viewPager=(ViewPager)findViewById(R.id.viewPager);
+
+        tabLayout.addTab(tabLayout.newTab().setText("Clinic Visit"));
+        tabLayout.addTab(tabLayout.newTab().setText("Online Appointment"));
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+        tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#FA43B3F4"));
+        tabLayout.setSelectedTabIndicatorHeight((int) (5 * getResources().getDisplayMetrics().density));
+        tabLayout.setTabTextColors(Color.parseColor("#727272"), Color.parseColor("#FA43B3F4"));
+
+        final MyAdapter adapter = new MyAdapter(this,getSupportFragmentManager(), tabLayout.getTabCount());
+        viewPager.setAdapter(adapter);
+
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+}
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        /*switch (v.getId()){
             case R.id.back_arrow_IV:
                 onBackPressed();
                 break;
@@ -131,12 +171,12 @@ public class UpcomingVisitsActivity extends AppCompatActivity implements ApiResp
                 }
                 break;
 
-        }
+        }*/
     }
 
     @Override
     public void onResponse(Response arg0, String key) {
-        switch (key){
+       /* switch (key){
             case "UpcomingVisits":
                 try {
                     upcommingVisitsResponse = (UpcommingVisitsResponse) arg0.body();
@@ -162,7 +202,7 @@ public class UpcomingVisitsActivity extends AppCompatActivity implements ApiResp
                 break;
 
 
-        }
+        }*/
 
     }
 

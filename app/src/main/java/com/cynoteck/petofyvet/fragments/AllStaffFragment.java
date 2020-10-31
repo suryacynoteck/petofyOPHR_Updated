@@ -52,11 +52,10 @@ public class AllStaffFragment extends Fragment implements ApiResponse, StaffList
     AllStaffAdapter allStaffAdapter;
     private ShimmerFrameLayout mShimmerViewContainer;
     ArrayList<GetAllStaffData> getAllStaffData;
-    ImageView add_staff_IV;
     Dialog add_staff_dialog, edit_staff_dialog;
     String email_id, first_name, last_name, password, confirm_password, phone_number,encrypt_id;
     EditText nameET,lastET,emailET,mobileET,passwordET,confirmPassET;
-    TextView staff_permission;
+    TextView staff_permission,add_staff_IV;
     Button cancel_button, submit_button, update_button,update_cancel_button;
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     String staffUserId="";

@@ -1,5 +1,6 @@
 package com.cynoteck.petofyvet.api;
 
+import com.cynoteck.petofyvet.params.ClinicVisitsParameter.ClinicVisitRequest;
 import com.cynoteck.petofyvet.params.addBankAccountParams.AddBankAccountRequest;
 import com.cynoteck.petofyvet.params.addBankAccountParams.CheckAccountRequest;
 import com.cynoteck.petofyvet.params.addBankAccountParams.ValidateIfscRequest;
@@ -29,6 +30,7 @@ import com.cynoteck.petofyvet.params.immunizationRequest.ImmunizationRequest;
 import com.cynoteck.petofyvet.params.immunizationRequest.ImmunizationRequestt;
 import com.cynoteck.petofyvet.params.loginRequest.Loginparams;
 import com.cynoteck.petofyvet.params.newPetEntryParams.NewPetRequest;
+import com.cynoteck.petofyvet.params.onlineClinicVisitsParams.OnlineClinicVisitsRequest;
 import com.cynoteck.petofyvet.params.otpRequest.SendOtpRequest;
 import com.cynoteck.petofyvet.params.petBreedRequest.BreedParams;
 import com.cynoteck.petofyvet.params.petReportsRequest.PetClinicVisitDetailsRequest;
@@ -39,6 +41,7 @@ import com.cynoteck.petofyvet.params.searcgDiagnosisRequest.SearchDiagnosisReque
 import com.cynoteck.petofyvet.params.searchPetParentRequest.SearchPetParentParameter;
 import com.cynoteck.petofyvet.params.searchPetParentRequest.SearchPetParentRequestData;
 import com.cynoteck.petofyvet.params.searchRemarksParameter.SearchRemaksRequest;
+import com.cynoteck.petofyvet.params.sendNotificationParams.SendNotificationRequest;
 import com.cynoteck.petofyvet.params.staffPermission.StaffPermissionRequest;
 import com.cynoteck.petofyvet.params.upcommingVisitsRequest.UpcommingVisitsRequest;
 import com.cynoteck.petofyvet.params.updateClinicVisitsParams.UpdateClinicReportsRequest;
@@ -50,6 +53,7 @@ import com.cynoteck.petofyvet.params.updateXRayParams.UpdateXrayRequest;
 import com.cynoteck.petofyvet.params.vaccinationSaveParams.VaccinationRequest;
 import com.cynoteck.petofyvet.params.workingHoursParameter.WorkingHoursParameter;
 import com.cynoteck.petofyvet.response.CheckTrueFalseStatus;
+import com.cynoteck.petofyvet.response.ClinicVistResponse.ClinicVisitResponseData;
 import com.cynoteck.petofyvet.response.InPetVeterian.InPetVeterianResponse;
 import com.cynoteck.petofyvet.response.addEditImmunizationResponse.AddEditImmunizationResponse;
 import com.cynoteck.petofyvet.response.addHospitalizationResponse.AddhospitalizationResposee;
@@ -106,6 +110,7 @@ import com.cynoteck.petofyvet.response.labTyperesponse.LabTypeResponse;
 import com.cynoteck.petofyvet.response.loginRegisterResponse.LoginRegisterResponse;
 import com.cynoteck.petofyvet.response.newPetResponse.NewPetRegisterResponse;
 import com.cynoteck.petofyvet.response.onlineAppointmentOnOff.OnlineAppointmentResponse;
+import com.cynoteck.petofyvet.response.onlineClinicVisitResponse.OnlineClinicResponse;
 import com.cynoteck.petofyvet.response.otpResponse.OtpResponse;
 import com.cynoteck.petofyvet.response.petAgeUnitResponse.PetAgeUnitResponseData;
 import com.cynoteck.petofyvet.response.profileImageresponse.ProfileImageResponse;
@@ -605,6 +610,24 @@ public interface ApiInterface {
     @POST("pethealthrecord/SearchDewormerDose")
     Call<SearchDiagnosisResponseData> searchDewormerDose(@Header("Authorization") String auth, @Body SearchDiagnosisRequestData searchDiagnosisRequestData);
 
+    //GET UPCOMMING CLINIC VISITS.............................
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("report/GetUpCommingClinicVisits")
+    Call<ClinicVisitResponseData> getUpCommingClinicVisits(@Header("Authorization") String auth, @Body ClinicVisitRequest clinicVisitRequest);
+
+    //GET UPCOMMING ONLINE APPOINTMENTS.......................
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("report/GetUpCommingOnlineAppointments")
+    Call<OnlineClinicResponse> getUpCommingClinicVisits(@Header("Authorization") String auth, @Body OnlineClinicVisitsRequest onlineClinicVisitsRequest);
+
+
+    //NOTIFY PET PARENT.......................................
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("report/SendNotification")
+    Call<JsonObject> sendNotification(@Header("Authorization") String auth, @Body SendNotificationRequest sendNotificationRequest);
 
 }
 
