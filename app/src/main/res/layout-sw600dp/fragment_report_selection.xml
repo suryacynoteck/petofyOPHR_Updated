@@ -103,7 +103,7 @@
             android:layout_marginRight="20dp"
             android:layout_marginLeft="20dp"
             android:background="#FA43B3F4"
-            android:text="Visist Register"
+            android:text="Visits Register"
             android:textAllCaps="false"
             android:textSize="20sp"
             android:textColor="@color/whiteColor"

@@ -113,6 +113,7 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
             create_appointment_BT.setText("CREATE APPOINTMENT");
             currentTime = new SimpleDateFormat("hh:mm a").format(new Date());
             time_TV.setText(currentTime);
+            duration_TV.setText("15");
         }else if (type.equals("update")){
             pet_search_layout.setVisibility(View.INVISIBLE);
             add_new_pet.setVisibility(View.INVISIBLE);
@@ -250,7 +251,6 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
                 otpDialog.dismiss();
                 break;
             case R.id.new_pet_search:
-                Log.d("hahahhahah",""+petUniueId.contains(pet_parent_TV.getText().toString()));
                 if((pet_parent_TV.getText().toString().isEmpty())||(petUniueId.contains(pet_parent_TV.getText().toString())==false))
                 {
                     Toast.makeText(this, "Data Not Found", Toast.LENGTH_SHORT).show();
@@ -359,10 +359,6 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
 
                 }else if (userID.isEmpty()){
                     Toast.makeText(this, "Please Select Pet ", Toast.LENGTH_SHORT).show();
-
-                }else if (descriptionString.isEmpty()){
-                    title_ET.setError(null);
-                    description_ET.setError("Write Description");
 
                 }else if (dateString.isEmpty()){
                     Toast.makeText(this, "Please Select Date", Toast.LENGTH_SHORT).show();
@@ -580,7 +576,7 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             if(resultCode == RESULT_OK) {
-                pet_parent_TV.setVisibility(View.INVISIBLE);
+                pet_search_layout.setVisibility(View.INVISIBLE);
                 parent_TV.setVisibility(View.VISIBLE);
                 petId = data.getStringExtra("petId");
                 userID = data.getStringExtra("userId");

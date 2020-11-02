@@ -184,11 +184,9 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_clinic);
-        //setContentView(R.layout.test_layout);
 
         init();
         requestMultiplePermissions();
-        //vaccineDetailsDialog();
     }
 
     private void init() {
@@ -2050,6 +2048,8 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     deworming_name_Layout.setVisibility(View.GONE);
                     deworming_dose_Layout.setVisibility(View.GONE);
                     next_visit.setVisibility(View.GONE);
+                    Dewormer_TV.setVisibility(View.GONE);
+                    Dewormer_name_TV.setVisibility(View.GONE);
                     weight_TV.setVisibility(View.VISIBLE);
                     weight_ET.setVisibility(View.VISIBLE);
                     temparature_TV.setVisibility(View.VISIBLE);
@@ -2091,11 +2091,9 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     next_vaccine_type_TV.setVisibility(View.GONE);
                     next_vaccine_ET.setVisibility(View.GONE);
                     next_vaccine_type_spinner.setVisibility(View.GONE);
-                    //vaccine_TV.setVisibility(View.GONE);
                     vaccine_layout.setVisibility(View.GONE);
                     treatment_remaks_TV.setVisibility(View.GONE);
                     treatment_remarks_LL.setVisibility(View.GONE);
-              //      vacine_ET.setVisibility(View.GONE);
                     diagnosis_TV.setVisibility(View.VISIBLE);
                     diagnosis_Layout.setVisibility(View.VISIBLE);
                     history_TV.setVisibility(View.VISIBLE);
@@ -2127,10 +2125,8 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     history_TV.setVisibility(View.VISIBLE);
                     history_ET.setVisibility(View.VISIBLE);
                     folow_up_dt_view.setText("");
-                   // vaccine_TV.setVisibility(View.GONE);
                     vaccine_layout.setVisibility(View.GONE);
                     pet_age_TV.setVisibility(View.GONE);
-//                    vacine_ET.setVisibility(View.GONE);
                     Dewormer_TV.setVisibility(View.GONE);
                     deworming_name_Layout.setVisibility(View.GONE);
                     Dewormer_name_TV.setVisibility(View.GONE);

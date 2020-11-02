@@ -43,17 +43,22 @@ public class UpcomingVisitsActivity extends AppCompatActivity implements ApiResp
     String lastDate, nextDate;
     UpcommingVisitsResponse upcommingVisitsResponse;
     ProgressBar progressBar;
-    Methods methods;*/
+    */
 
+    Methods methods;
     TabLayout tabLayout;
     ViewPager viewPager;
+    ImageView back_arrow_IV;
+    private int[] tabIcons = {
+            R.drawable.update_prof_logo,
+            R.drawable.calendar,
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_upcoming_visits);
-        setContentView(R.layout.test_layout);
-        //methods = new Methods(this);
+        setContentView(R.layout.activity_upcoming_visits);
+        methods = new Methods(this);
         
         initization();
 
@@ -74,6 +79,9 @@ public class UpcomingVisitsActivity extends AppCompatActivity implements ApiResp
 
         tabLayout=(TabLayout)findViewById(R.id.tabLayout);
         viewPager=(ViewPager)findViewById(R.id.viewPager);
+        back_arrow_IV = findViewById(R.id.back_arrow_IV);
+
+        back_arrow_IV.setOnClickListener(this);
 
         tabLayout.addTab(tabLayout.newTab().setText("Clinic Visit"));
         tabLayout.addTab(tabLayout.newTab().setText("Online Appointment"));
@@ -83,6 +91,8 @@ public class UpcomingVisitsActivity extends AppCompatActivity implements ApiResp
         tabLayout.setSelectedTabIndicatorHeight((int) (5 * getResources().getDisplayMetrics().density));
         tabLayout.setTabTextColors(Color.parseColor("#727272"), Color.parseColor("#FA43B3F4"));
 
+        setupTabIcons();
+        
         final MyAdapter adapter = new MyAdapter(this,getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
 
@@ -106,13 +116,18 @@ public class UpcomingVisitsActivity extends AppCompatActivity implements ApiResp
         });
 }
 
+    private void setupTabIcons() {
+        tabLayout.getTabAt(0).setIcon(tabIcons[0]);
+        tabLayout.getTabAt(1).setIcon(tabIcons[1]);
+    }
+
     @Override
     public void onClick(View v) {
-        /*switch (v.getId()){
+        switch (v.getId()){
             case R.id.back_arrow_IV:
                 onBackPressed();
                 break;
-            case R.id.lastVisitDt:
+            /*case R.id.lastVisitDt:
                 final Calendar cldr = Calendar.getInstance();
                 int day = cldr.get(Calendar.DAY_OF_MONTH);
                 int month = cldr.get(Calendar.MONTH);
@@ -169,9 +184,9 @@ public class UpcomingVisitsActivity extends AppCompatActivity implements ApiResp
                     Log.d("UpcomingVisits==>", "" + upcommingVisitsRequest);
                     
                 }
-                break;
+                break;*/
 
-        }*/
+        }
     }
 
     @Override

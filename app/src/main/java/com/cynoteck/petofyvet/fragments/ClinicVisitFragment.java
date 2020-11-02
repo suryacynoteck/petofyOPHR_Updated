@@ -164,6 +164,7 @@ public class ClinicVisitFragment extends Fragment implements ApiResponse,View.On
 
     public void clinicVisitdata()
     {
+        methods.showCustomProgressBarDialog(getActivity());
         ClinicVisitParameterModel clinicVisitParameterModel = new ClinicVisitParameterModel();
         clinicVisitParameterModel.setFromDate(lastDate);
         clinicVisitParameterModel.setToDate(nextDate);
@@ -187,6 +188,7 @@ public class ClinicVisitFragment extends Fragment implements ApiResponse,View.On
                     int responseCode = Integer.parseInt(clinicVisitResponseData.getResponse().getResponseCode());
                     clinicVisitResponseDataList=new ArrayList<>();
                     if (responseCode == 109) {
+                        methods.customProgressDismiss();
                        Log.d("aaanana",""+clinicVisitResponseData.getData().getPetClinicVisitList().get(0).getVisitDate());
                         all_clinic_visits_RV.setVisibility(View.VISIBLE);
                         clinicVisitResponseDataList=clinicVisitResponseData.getData().getPetClinicVisitList();
@@ -195,8 +197,10 @@ public class ClinicVisitFragment extends Fragment implements ApiResponse,View.On
                         allClinicVisitAdopter = new AllClinicVisitAdopter(getActivity(), clinicVisitResponseData.getData().getPetClinicVisitList(),this);
                         all_clinic_visits_RV.setAdapter(allClinicVisitAdopter);
                     } else if (responseCode == 614) {
+                        methods.customProgressDismiss();
                         Toast.makeText(getActivity(), clinicVisitResponseData.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
                     } else {
+                        methods.customProgressDismiss();
                         Toast.makeText(getActivity(), "Please Try Again !", Toast.LENGTH_SHORT).show();
                     }
 

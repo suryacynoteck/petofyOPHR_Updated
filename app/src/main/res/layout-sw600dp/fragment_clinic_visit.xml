@@ -38,38 +38,66 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <TextView
+                <LinearLayout
                     android:layout_marginLeft="5dp"
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:id="@+id/lastVisitDt"
+                    android:layout_height="wrap_content"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:background="@drawable/edit_text_background"
-                    android:gravity="center_vertical"
-                    android:hint="From Date"
-                    android:paddingLeft="20dp"
-                    android:textSize="15dp"
-                    android:textStyle="bold"/>
+                    android:orientation="vertical">
 
-                <TextView
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Start Date:-"
+                        android:textColor="@color/colorPrimary"/>
+
+
+                    <TextView
+                        android:id="@+id/lastVisitDt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edit_text_background"
+                        android:gravity="center_vertical"
+                        android:hint="From Date"
+                        android:paddingLeft="20dp"
+                        android:textSize="15dp"
+                        android:textStyle="bold"/>
+
+                </LinearLayout>
+
+
+                <LinearLayout
                     android:layout_marginRight="5dp"
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
-                    android:id="@+id/nextVisitDt"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:background="@drawable/edit_text_background"
-                    android:gravity="center_vertical"
-                    android:hint="To Date"
-                    android:paddingLeft="20dp"
-                    android:textSize="15dp"
-                    android:textStyle="bold"/>
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="End Date:-"
+                        android:textColor="@color/colorPrimary"/>
+
+                    <TextView
+                        android:id="@+id/nextVisitDt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edit_text_background"
+                        android:gravity="center_vertical"
+                        android:hint="To Date"
+                        android:paddingLeft="20dp"
+                        android:textSize="15dp"
+                        android:textStyle="bold"/>
+
+
+                </LinearLayout>
 
 
             </LinearLayout>
@@ -85,7 +113,7 @@
                 android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatSpinner
-                    android:layout_weight="1"
+                    android:layout_weight=".5"
                     android:id="@+id/nature_of_visit_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
@@ -93,20 +121,19 @@
                     android:background="@drawable/spinner_background"/>
 
                 <LinearLayout
-                    android:layout_weight="1"
+                    android:layout_weight="1.5"
                     android:layout_below="@+id/toolbar"
                     android:id="@+id/search_visits"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:background="@drawable/oval"
                     android:orientation="horizontal"
                     android:padding="8dp"
                     android:layout_marginLeft="10dp">
 
-                    <TextView
+                    <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="Search"
+                        android:src="@drawable/searchicon"
                         android:textColor="#fff"
                         android:textSize="14sp"
                         android:gravity="center"/>
