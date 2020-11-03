@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cynoteck.petofyvet.R;
+import com.cynoteck.petofyvet.response.appointmentResponse.PetParent;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.getPetClinicVisitsListsResponse.PetClinicVisitList;
 import com.cynoteck.petofyvet.response.onlineClinicVisitResponse.VetAppointmentList;
 import com.cynoteck.petofyvet.utils.ClinicOnlineVisitNotification;
@@ -21,12 +22,14 @@ public class ClinicVisitOnlineAdapter extends RecyclerView.Adapter<ClinicVisitOn
 
     Context context;
     List<VetAppointmentList> clinicVisitResponseData;
+    List<VetAppointmentList> vetAppointmentLists;
     ClinicOnlineVisitNotification clinicOnlineVisitNotification;
 
-    public ClinicVisitOnlineAdapter(Context context, List<VetAppointmentList> clinicVisitResponseData,ClinicOnlineVisitNotification clinicOnlineVisitNotification) {
+    public ClinicVisitOnlineAdapter(Context context, List<VetAppointmentList> clinicVisitResponseData,List<VetAppointmentList> vetAppointmentLists,ClinicOnlineVisitNotification clinicOnlineVisitNotification) {
         this.context = context;
         this.clinicVisitResponseData = clinicVisitResponseData;
         this.clinicOnlineVisitNotification = clinicOnlineVisitNotification;
+        this.vetAppointmentLists = vetAppointmentLists;
 
     }
 
@@ -42,11 +45,10 @@ public class ClinicVisitOnlineAdapter extends RecyclerView.Adapter<ClinicVisitOn
     @Override
     public void onBindViewHolder(@NonNull ClinicVisitOnlineAdapter.MyViewHolder holder, int position) {
 
-        holder.pet_id_TV.setText(clinicVisitResponseData.get(position).getPetId());
-        holder.pet_name_TV.setText(clinicVisitResponseData.get(position).getPetName());
-        holder.petParent_TV.setText(clinicVisitResponseData.get(position).getPetParent().getFirstName());
-        holder.typeOfVisit_TV.setText(clinicVisitResponseData.get(position).getPetParent().getEmail());
-        holder.nextVisit_TV.setText(clinicVisitResponseData.get(position).getEventEndDate());
+        holder.pet_name_TV.setText(clinicVisitResponseData.get(position).getPetName()+","+clinicVisitResponseData.get(position).getPetAge()+",\n"+clinicVisitResponseData.get(position).getPetUniqueId());
+        holder.petParent_TV.setText(clinicVisitResponseData.get(position).getPetParent().getFullName()+"\n"+vetAppointmentLists.get(position).getPetParent().getPhoneNumber());
+        holder.nextVisit_TV.setText(clinicVisitResponseData.get(position).getLastAppointmentdate());
+        holder.typeOfVisit_TV.setText(vetAppointmentLists.get(position).getEventStartDate());
 
     }
 

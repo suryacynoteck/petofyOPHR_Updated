@@ -55,6 +55,7 @@ import com.cynoteck.petofyvet.params.petReportsRequest.PetDataRequest;
 import com.cynoteck.petofyvet.response.InPetVeterian.InPetVeterianResponse;
 import com.cynoteck.petofyvet.response.appointmentResponse.AppointmentDetailsResponse;
 import com.cynoteck.petofyvet.response.appointmentResponse.CreateAppointmentResponse;
+import com.cynoteck.petofyvet.response.getPetDetailsResponse.GetPetResponse;
 import com.cynoteck.petofyvet.response.getPetParentResponse.GetPetParentListData;
 import com.cynoteck.petofyvet.response.getPetParentResponse.GetPetParentResponse;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.getPetListResponse.GetPetListResponse;
@@ -80,7 +81,7 @@ import retrofit2.Response;
 public class AddUpdateAppointmentActivity extends AppCompatActivity implements ApiResponse, View.OnClickListener, RegisterRecyclerViewClickListener, TextWatcher {
     Button create_appointment_BT;
     ImageView appointment_headline_back,new_pet_search;
-    TextView appointment_headline ,calenderTextViewAppointDt ,time_TV,parent_TV,cancelOtpDialog,add_new_pet;
+    TextView appointment_headline ,calenderTextViewAppointDt ,pet_parent_Details,time_TV,parent_TV,cancelOtpDialog,add_new_pet,pet_details_TV;
     EditText title_ET, duration_TV, description_ET;
     AutoCompleteTextView pet_parent_TV;
     LinearLayout pet_search_layout;
@@ -117,6 +118,8 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
         }else if (type.equals("update")){
             pet_search_layout.setVisibility(View.INVISIBLE);
             add_new_pet.setVisibility(View.INVISIBLE);
+            pet_parent_Details.setVisibility(View.VISIBLE);
+            pet_details_TV.setVisibility(View.INVISIBLE);
             parent_TV.setVisibility(View.VISIBLE);
             parent_TV.setText(petParentString);
             duration_TV.setFocusable(false);
@@ -149,7 +152,9 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
                 petId = st.nextToken();
                 String PetSex = st.nextToken();
                 userID = st.nextToken();
-
+                pet_parent_Details.setVisibility(View.VISIBLE);
+                pet_details_TV.setVisibility(View.VISIBLE);
+                petDetails(petId);
 //                Bundle data = new Bundle();
 //                data.putString("pet_id",Id);
 //                data.putString("pet_name",PetName);
@@ -175,6 +180,17 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
 //        imm1.hideSoftInputFromWindow(pet_parent_TV.getWindowToken(), 0);
 //
 //    }
+
+    private void petDetails(String pet_id)
+    {
+        GetPetListParams getPetListParams = new GetPetListParams();
+        getPetListParams.setId(pet_id.substring(0,pet_id.length()-2));
+        GetPetListRequest getPetListRequest = new GetPetListRequest();
+        getPetListRequest.setData(getPetListParams);
+        ApiService<GetPetResponse> service = new ApiService<>();
+        service.get( this, ApiClient.getApiInterface().getPetDetails(Config.token,getPetListRequest), "GetPetDetail");
+        Log.e("DATALOG","GetPetDetailParam=> "+getPetListRequest);
+    }
 
     private void getPetList() {
             PetDataParams getPetDataParams = new PetDataParams();
@@ -202,11 +218,13 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
         duration_TV = findViewById(R.id.duration_TV);
         description_ET = findViewById(R.id.description_ET);
         pet_parent_TV = findViewById(R.id.pet_parent_ACTV);
+        pet_parent_Details = findViewById(R.id.pet_parent_TV);
         create_appointment_BT=findViewById(R.id.create_appointment_BT);
         parent_TV = findViewById(R.id.parent_TV);
         add_new_pet=findViewById(R.id.add_new_pet);
         new_pet_search= findViewById(R.id.new_pet_search);
         pet_search_layout= findViewById(R.id.pet_search_layout);
+        pet_details_TV= findViewById(R.id.pet_details_TV);
 
         add_new_pet.setOnClickListener(this);
         new_pet_search.setOnClickListener(this);
@@ -578,6 +596,8 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
             if(resultCode == RESULT_OK) {
                 pet_search_layout.setVisibility(View.INVISIBLE);
                 parent_TV.setVisibility(View.VISIBLE);
+                pet_parent_Details.setVisibility(View.VISIBLE);
+                pet_details_TV.setVisibility(View.INVISIBLE);
                 petId = data.getStringExtra("petId");
                 userID = data.getStringExtra("userId");
                 Log.d("userId",userID.toString());
@@ -609,6 +629,29 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
                     }
 
                 }catch (Exception e){
+                    e.printStackTrace();
+                }
+                break;
+            case "GetPetDetail":
+                try {
+                    Log.d("GetPetDetail", arg0.body().toString());
+                    GetPetResponse getPetResponse = (GetPetResponse) arg0.body();
+                    int responseCode = Integer.parseInt(getPetResponse.getResponse().getResponseCode());
+                    if (responseCode == 109) {
+                        //Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                        String petDetails=getPetResponse.getData().getPetName()+" ( "+getPetResponse.getData().getPetCategory()
+                                +" , "+getPetResponse.getData().getPetSex()
+                                +" , "+getPetResponse.getData().getPetBreed()+"),"
+                                +" "+getPetResponse.getData().getPetParentName()+" ,("+getPetResponse.getData().getContactNumber()+" )";
+                        pet_details_TV.setText(petDetails);
+
+                    } else if (responseCode == 614) {
+                        Toast.makeText(this, getPetResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch(Exception e) {
                     e.printStackTrace();
                 }
                 break;

@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.activities.AddPetRegister;
+import com.cynoteck.petofyvet.activities.PetDetailsActivity;
 import com.cynoteck.petofyvet.activities.PetIdCardActivity;
 import com.cynoteck.petofyvet.activities.PetProfileActivity;
 import com.cynoteck.petofyvet.adapters.RegisterPetAdapter;
@@ -214,7 +215,7 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, ViewD
         Log.d("pet_id",""+categoryRecordArrayList.get(position).getId());
 
         StringTokenizer tokens = new StringTokenizer(categoryRecordArrayList.get(position).getId(), ".");
-        String first = tokens.nextToken();// this will contain "Fruit"
+        String first = tokens.nextToken();
 
         Intent intent=new Intent(getActivity(), PetProfileActivity.class);
         intent.putExtra("pet_id",first);
@@ -240,6 +241,23 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, ViewD
         idBundle.putString("id",categoryRecordArrayList.get(position).getId());
         intent.putExtras(idBundle);
         startActivity(intent);
+    }
+
+    @Override
+    public void onIdAddClinicClick(int position)
+    {
+        Intent petDetailsIntent = new Intent(getActivity().getApplication(), PetDetailsActivity.class);
+        Bundle data = new Bundle();
+        data.putString("pet_id",categoryRecordArrayList.get(position).getId());
+        data.putString("pet_name",categoryRecordArrayList.get(position).getPetName());
+        data.putString("pet_parent",categoryRecordArrayList.get(position).getPetParentName());
+        data.putString("pet_sex",categoryRecordArrayList.get(position).getPetSex());
+        data.putString("pet_age",categoryRecordArrayList.get(position).getPetAge());
+        data.putString("pet_unique_id",categoryRecordArrayList.get(position).getPetUniqueId());
+        data.putString("pet_DOB",categoryRecordArrayList.get(position).getDateOfBirth());
+        data.putString("pet_encrypted_id",categoryRecordArrayList.get(position).getEncryptedId());
+        petDetailsIntent.putExtras(data);
+        startActivity(petDetailsIntent);
     }
 
     private void clearSearch() {

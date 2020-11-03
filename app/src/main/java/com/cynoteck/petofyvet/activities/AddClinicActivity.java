@@ -1615,6 +1615,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     if (responseCode == 109) {
                         //Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
                         String petDetails=getPetResponse.getData().getPetName()+" ( "+getPetResponse.getData().getPetUniqueId()
+                                          +" , "+getPetResponse.getData().getPetCategory()
                                           +" , "+getPetResponse.getData().getPetSex()
                                           +" , "+getPetResponse.getData().getPetBreed()+" , "+getPetResponse.getData().getPetAge()+" Old)\n"
                                           +"( "+getPetResponse.getData().getPetParentName()+" , "+getPetResponse.getData().getContactNumber()+" )";
