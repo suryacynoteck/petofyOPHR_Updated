@@ -70,20 +70,22 @@
                 android:gravity="center"
                 android:text="@string/allStaff"
                 android:textColor="#000"
-                android:textSize="25sp"
-                android:textStyle="bold" />
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginRight="10dp"/>
 
-            <ImageView
+            <TextView
                 android:visibility="visible"
                 android:id="@+id/add_staff_IV"
-                android:layout_margin="5dp"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="10dp"
                 android:padding="5dp"
-                android:src="@drawable/ic_baseline_add" />
+                android:drawableTop="@drawable/ic_baseline_add"
+                android:text="Add Staff"
+                android:textColor="@color/black_color"/>
 
         </RelativeLayout>
 

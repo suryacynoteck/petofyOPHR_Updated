@@ -126,7 +126,7 @@ public class AppointementFragment extends Fragment implements ApiResponse ,View.
                                 intent.putExtra("id",appointmentLists.get(position).getId());
                                 intent.putExtra("pet_id",appointmentLists.get(position).getPetId());
                                 intent.putExtra("petParent",appointmentLists.get(position).getPetUniqueId());
-
+                                if(appointmentLists.get(position).getPaymentStatus().equals("true"))
                                 startActivity(intent);
 
                             }

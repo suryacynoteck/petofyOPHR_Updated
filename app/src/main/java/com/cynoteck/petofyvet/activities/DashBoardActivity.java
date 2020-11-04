@@ -23,6 +23,7 @@ import com.cynoteck.petofyvet.fragments.AppointementFragment;
 import com.cynoteck.petofyvet.fragments.HomeFragment;
 import com.cynoteck.petofyvet.fragments.PetRegisterFragment;
 import com.cynoteck.petofyvet.fragments.ProfileFragment;
+import com.cynoteck.petofyvet.fragments.ReportSelectionFragment;
 import com.cynoteck.petofyvet.response.updateProfileResponse.UserResponse;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
@@ -225,7 +226,16 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                     }
                 }, 2000);
             }
-        }else {
+        }else if(Config.count == 3)
+        {
+            Config.count=0;
+            ReportSelectionFragment reportSelectionFragment = new ReportSelectionFragment();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.content_frame, reportSelectionFragment);
+            ft.commit();
+            getSupportFragmentManager().popBackStack();
+        }
+        else {
             Config.count=1;
             HomeFragment homeFragment = new HomeFragment();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

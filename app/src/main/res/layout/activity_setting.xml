@@ -40,7 +40,7 @@
         app:layout_constraintEnd_toEndOf="@id/toolbar"
         app:layout_constraintBottom_toBottomOf="@id/toolbar"
         android:textColor="@color/black_color"
-        android:textSize="25sp"
+        android:textSize="20sp"
         android:textStyle="bold"/>
 
     <TextView

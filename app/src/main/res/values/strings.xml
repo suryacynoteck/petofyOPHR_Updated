@@ -145,7 +145,7 @@
     <string name="Settings">Settings</string>
     <string name="SettingsToolbar">SETTINGS</string>
     <string name="hours">Operating Hours</string>
-    <string name="title">Title</string>
+    <string name="title">Purpose</string>
     <string name="appointmentDate">Appointment Date</string>
     <string name="appointmentTime">Appointment Time, Duration (In minutes)</string>
     <string name="monday">Monday</string>
