@@ -442,7 +442,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:weightSum="4"
+                    android:weightSum="5"
                     android:layout_marginTop="8dp"
                     android:orientation="horizontal">
                     <TextView
@@ -454,11 +454,17 @@
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_weight="1.5"
+                        android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:text="Name of Vaccine"
                         android:gravity="center"/>
 
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1.5"
+                        android:layout_height="wrap_content"
+                        android:text="Immunization Date"
+                        android:gravity="center"/>
 
 
                     <TextView
@@ -549,7 +555,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
-                android:text="Vaccine*"
+                android:text="Dose"
                 android:textColor="@color/grey_add_pet"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -855,6 +861,32 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/next_vaccine_type_TV" />
+
+            <TextView
+                android:id="@+id/next_dewormer_TV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:text="Next Deworming*"
+                android:textColor="@color/grey_add_pet"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/next_vaccine_ET" />
+
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/next_dewormer_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/spinner_background"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/next_dewormer_TV" />
 
 
             <TextView

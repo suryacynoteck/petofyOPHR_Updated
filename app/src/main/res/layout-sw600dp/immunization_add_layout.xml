@@ -9,7 +9,7 @@
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="4"
+        android:weightSum="5"
         android:orientation="horizontal">
 
         <TextView
@@ -23,9 +23,17 @@
         <TextView
             android:id="@+id/vaccine_name"
             android:layout_width="0dp"
-            android:layout_weight="1.5"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="Name of Vaccine"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/vaccine_date"
+            android:layout_width="0dp"
+            android:layout_weight="1.5"
+            android:layout_height="wrap_content"
+            android:text="Immunization Date"
             android:gravity="center"/>
 
         <ImageView
@@ -39,6 +47,11 @@
 
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimary"
+        android:layout_marginTop="2dp"/>
 
 
 
