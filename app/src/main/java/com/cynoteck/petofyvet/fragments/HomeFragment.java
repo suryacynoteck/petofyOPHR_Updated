@@ -418,8 +418,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
                         if(getPetListResponse.getResponse().getResponseMessage().equals("Invalid token."))
                         {
                             AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-                            alertDialog.setTitle("Error");
-                            alertDialog.setMessage("Your Session Expire\nPlease Logout and\nLogin Again ");
+                            alertDialog.setTitle("Warning!!");
+                            alertDialog.setMessage("Your Session Expired. Please, Logout and Login Again.");
                             alertDialog.setIcon(getActivity().getDrawable(R.drawable.ic_baseline_warning));
                             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "LOGOUT",
                                     new DialogInterface.OnClickListener() {

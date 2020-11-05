@@ -613,7 +613,9 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
                 intent.putExtra("state",userResponse.getData().getStateName());
                 intent.putExtra("city",userResponse.getData().getCityName());
                 intent.putExtra("pincode",userResponse.getData().getPostalCode());
+                intent.putExtra("onlineConsultationCharges",userResponse.getData().getOnlineConsultationCharges());
                 intent.putExtra("website",userResponse.getData().getWebsite());
+                intent.putExtra("clinicCode",userResponse.getData().getClinicCode());
                 intent.putExtra("socialMedia",userResponse.getData().getSocialMediaUrl());
                 intent.putExtra("vetRegNo",userResponse.getData().getVetRegistrationNumber());
                 intent.putExtra("vetStudy",userResponse.getData().getVetQualifications());

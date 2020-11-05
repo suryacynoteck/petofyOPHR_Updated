@@ -16,6 +16,8 @@ public class UserModel {
 
     private String postalCode;
 
+    private String clinicCode;
+
     private String phone2;
 
     private String secondServiceImageUrl;
@@ -206,6 +208,14 @@ public class UserModel {
     public void setPostalCode (String postalCode)
     {
         this.postalCode = postalCode;
+    }
+
+    public String getClinicCode() {
+        return clinicCode;
+    }
+
+    public void setClinicCode(String clinicCode) {
+        this.clinicCode = clinicCode;
     }
 
     public String getPhone2 ()
@@ -921,7 +931,7 @@ public class UserModel {
     @Override
     public String toString()
     {
-        return "ClassPojo [isVeterinarian = "+isVeterinarian+", vetRegistrationNumber = "+vetRegistrationNumber+", providerServiceTypeList = "+providerServiceTypeList+", enableOnlineAppointments = "+enableOnlineAppointments+", postalCode = "+postalCode+", phone2 = "+phone2+", secondServiceImageUrl = "+secondServiceImageUrl+", rating = "+rating+", cityId = "+cityId+", isActive = "+isActive+", operatingHourList = "+operatingHourList+", providerUserId = "+providerUserId+", password = "+password+", stateName = "+stateName+", id = "+id+", profileImageUrl = "+profileImageUrl+", longitude = "+longitude+", enableTwoStepVerification = "+enableTwoStepVerification+", petTypeList = "+petTypeList+", countryList = "+countryList+", thirdServiceImageUrl = "+thirdServiceImageUrl+", firstName = "+firstName+", fourthServiceImageUrl = "+fourthServiceImageUrl+", isNGO = "+isNGO+", route = "+route+", phone = "+phone+", socialMediaUrl = "+socialMediaUrl+", name = "+name+", countryName = "+countryName+", lastName = "+lastName+", distance = "+distance+", city = "+city+", coverImageUrl = "+coverImageUrl+", latitude = "+latitude+", origin = "+origin+", destination = "+destination+", providerPetTypeList = "+providerPetTypeList+", description = "+description+", serviceTypeList = "+serviceTypeList+", countryId = "+countryId+", isEmailVerified = "+isEmailVerified+", hasLogInAccount = "+hasLogInAccount+", serviceImages = "+serviceImages+", cityName = "+cityName+", imageUrl = "+imageUrl+", hasLogIn = "+hasLogIn+", confirmPassword = "+confirmPassword+", company = "+company+", userEmail = "+userEmail+", fifthServiceImageUrl = "+fifthServiceImageUrl+", categories = "+categories+", referredById = "+referredById+", email = "+email+", selectedServiceTypeIds = "+selectedServiceTypeIds+", website = "+website+", isExistingProvider = "+isExistingProvider+", address = "+address+", isVetRegistration = "+isVetRegistration+", providerImageList = "+providerImageList+", address2 = "+address2+", selectedCountryId = "+selectedCountryId+", stateId = "+stateId+", stateList = "+stateList+", selectedPetTypeIds = "+selectedPetTypeIds+", vetQualifications = "+vetQualifications+", services = "+services+", cityList = "+cityList+", userRating = "+userRating+", onlineConsultationCharges = "+onlineConsultationCharges+", providerLocationList = "+providerLocationList+", providerRatingList = "+providerRatingList+", isMobileNumberVerified = "+isMobileNumberVerified+", firstServiceImageUrl = "+firstServiceImageUrl+", encryptedId = "+encryptedId+", serviceImageUrl = "+serviceImageUrl+", referredBy = "+referredBy+"]";
+        return "ClassPojo [isVeterinarian = "+isVeterinarian+", vetRegistrationNumber = "+vetRegistrationNumber+", providerServiceTypeList = "+providerServiceTypeList+", enableOnlineAppointments = "+enableOnlineAppointments+", postalCode = "+postalCode+", clinicCode = "+clinicCode+", phone2 = "+phone2+", secondServiceImageUrl = "+secondServiceImageUrl+", rating = "+rating+", cityId = "+cityId+", isActive = "+isActive+", operatingHourList = "+operatingHourList+", providerUserId = "+providerUserId+", password = "+password+", stateName = "+stateName+", id = "+id+", profileImageUrl = "+profileImageUrl+", longitude = "+longitude+", enableTwoStepVerification = "+enableTwoStepVerification+", petTypeList = "+petTypeList+", countryList = "+countryList+", thirdServiceImageUrl = "+thirdServiceImageUrl+", firstName = "+firstName+", fourthServiceImageUrl = "+fourthServiceImageUrl+", isNGO = "+isNGO+", route = "+route+", phone = "+phone+", socialMediaUrl = "+socialMediaUrl+", name = "+name+", countryName = "+countryName+", lastName = "+lastName+", distance = "+distance+", city = "+city+", coverImageUrl = "+coverImageUrl+", latitude = "+latitude+", origin = "+origin+", destination = "+destination+", providerPetTypeList = "+providerPetTypeList+", description = "+description+", serviceTypeList = "+serviceTypeList+", countryId = "+countryId+", isEmailVerified = "+isEmailVerified+", hasLogInAccount = "+hasLogInAccount+", serviceImages = "+serviceImages+", cityName = "+cityName+", imageUrl = "+imageUrl+", hasLogIn = "+hasLogIn+", confirmPassword = "+confirmPassword+", company = "+company+", userEmail = "+userEmail+", fifthServiceImageUrl = "+fifthServiceImageUrl+", categories = "+categories+", referredById = "+referredById+", email = "+email+", selectedServiceTypeIds = "+selectedServiceTypeIds+", website = "+website+", isExistingProvider = "+isExistingProvider+", address = "+address+", isVetRegistration = "+isVetRegistration+", providerImageList = "+providerImageList+", address2 = "+address2+", selectedCountryId = "+selectedCountryId+", stateId = "+stateId+", stateList = "+stateList+", selectedPetTypeIds = "+selectedPetTypeIds+", vetQualifications = "+vetQualifications+", services = "+services+", cityList = "+cityList+", userRating = "+userRating+", onlineConsultationCharges = "+onlineConsultationCharges+", providerLocationList = "+providerLocationList+", providerRatingList = "+providerRatingList+", isMobileNumberVerified = "+isMobileNumberVerified+", firstServiceImageUrl = "+firstServiceImageUrl+", encryptedId = "+encryptedId+", serviceImageUrl = "+serviceImageUrl+", referredBy = "+referredBy+"]";
     }
 }
 	

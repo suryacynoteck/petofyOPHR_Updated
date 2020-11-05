@@ -129,7 +129,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
     String report_id="",visitIdString="",pet_age="",strNatureOfVist="",pet_DOB="",pet_encrypted_id="",strDocumentUrl="",visitId="",natureOfVisit="",pet_id="",
             pet_name="",pet_owner_name="",pet_sex="",pet_unique_id="",veterian_name="",descrisption="",strPetAge="",
             Remarks="",visitDate="",history="",remarks="",dtOfOnset="",flowUpDt="",weight="",temparature="",diagnosis="",strNextVisitDate="",
-            strVacine="",strDewormerName="",strDewormerDose="",strToolbarName="",PetCategoryId="1",cocatVal=null,
+            strVacine="",strDewormerName="",strDewormerDose="",strToolbarName="",PetCategoryId="1",cocatVal=null,nextVaccineName=null,nextVaccineType=null,
             valueConcat=null,dewormerName=null,dewormerDose=null,strVaccineType="",strVaccineName="",strNextDewormer="";
     Bundle data = new Bundle();
     TextView folow_up_dt_view,ilness_onset,next_visit, Dewormer_name_ET,Dewormer_name_TV,Dewormer_ET,Dewormer_TV,clinic_head_line,
@@ -614,6 +614,8 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                 strDewormerName=Dewormer_ET.getText().toString();
                 strDewormerDose=Dewormer_name_ET.getText().toString();
                 history=history_ET.getText().toString();
+                history=history_ET.getText().toString();
+                nextVaccineName=next_vaccine_ET.getText().toString();
                  if(natureOfVisit.equals("Immunization"))
                     {
                         if((natureOfVisit.equals("Immunization"))&&(VaccineList.size()<1)){
@@ -692,6 +694,8 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                         immunizationAddClinicModel.setCreatedByUser(null);
                         immunizationAddClinicModel.setFollowUp(null);
                         immunizationAddClinicModel.setPetAgeList(null);
+                        immunizationAddClinicModel.setNextVaccineName(nextVaccineName);
+                        immunizationAddClinicModel.setNextVaccineType(nextVaccineType);
                         immunizationAddClinicModel.setVaccinationModels(myCustomArray);
 
                         ImmunizationClinicData immunizationClinicData=new ImmunizationClinicData();
@@ -1277,7 +1281,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                 String item = parent.getItemAtPosition(position).toString();
                 // Showing selected spinner item
                 Log.d("vaccineType",""+item);
-                strVaccineType=item;
+                nextVaccineType=item;
             }
             public void onNothingSelected(AdapterView<?> parent) {
             }
