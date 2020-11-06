@@ -12,10 +12,12 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -59,6 +61,9 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, ViewD
     RelativeLayout search_boxRL;
     EditText search_box;
     TextView regiter_pet_headline_TV,register_add_TV;
+    NestedScrollView nestedScrollView;
+    ProgressBar progressBar;
+   int page=1, pagelimit=10;
 
     @Override
     public void onAttach(Context context) {
@@ -76,9 +81,23 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, ViewD
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        view = inflater.inflate(R.layout.fragment_pet_register, container, false);
+        //view = inflater.inflate(R.layout.fragment_pet_register, container, false);
+        view = inflater.inflate(R.layout.test_layout, container, false);
         init();
-        getPetList();
+
+        getPetList(page,pagelimit);
+
+        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if(scrollY==v.getChildAt(0).getMeasuredHeight()-v.getMeasuredHeight())
+                {
+                    page++;
+                    progressBar.setVisibility(View.VISIBLE);
+                    getPetList(page,pagelimit);
+                }
+            }
+        });
 
         return view;
     }
@@ -95,6 +114,10 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, ViewD
         search_boxRL=view.findViewById(R.id.search_boxRL);
         search_box=view.findViewById(R.id.search_box);
         regiter_pet_headline_TV=view.findViewById(R.id.regiter_pet_headline_TV);
+
+        nestedScrollView=view.findViewById(R.id.nested_scroll_view);
+        progressBar=view.findViewById(R.id.progressBar);
+
         methods = new Methods(getContext());
         register_add_TV.setOnClickListener(this);
         search_register_pet.setOnClickListener(this);
@@ -118,6 +141,7 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, ViewD
                 regiter_pet_headline_TV.setVisibility(View.GONE);
                 register_add_TV.setVisibility(View.GONE);
                 break;
+
             case R.id.back_arrow_IV:
                 clearSearch();
                 break;
@@ -125,11 +149,11 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, ViewD
 
     }
 
-    private void getPetList() {
+    private void getPetList(int page,int pageLimit) {
         //       methods.showCustomProgressBarDialog(getContext());
         PetDataParams getPetDataParams = new PetDataParams();
-        getPetDataParams.setPageNumber("1");//0
-        getPetDataParams.setPageSize("2");//0
+        getPetDataParams.setPageNumber(page);//0
+        getPetDataParams.setPageSize(pageLimit);//0
         getPetDataParams.setSearch_Data("");
         PetDataRequest getPetDataRequest = new PetDataRequest();
         getPetDataRequest.setData(getPetDataParams);
@@ -158,6 +182,7 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, ViewD
 
 
                     if (responseCode== 109){
+                        progressBar.setVisibility(View.GONE);
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
                         register_pet_RV.setLayoutManager(linearLayoutManager);
                         registerPetAdapter  = new RegisterPetAdapter(getContext(),getPetListResponse.getData().getPetList(),this);
@@ -196,10 +221,10 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, ViewD
         mShimmerViewContainer.startShimmerAnimation();
         if (Config.backCall.equals("Added")) {
             Config.backCall ="";
-            getPetList();
+            getPetList(page,pagelimit);
         }if (Config.backCall.equals("hit")) {
             Config.backCall ="";
-            getPetList();
+            getPetList(page,pagelimit);
         }
     }
 

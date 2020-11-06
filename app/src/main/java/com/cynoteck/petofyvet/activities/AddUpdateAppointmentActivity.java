@@ -194,8 +194,8 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
 
     private void getPetList() {
             PetDataParams getPetDataParams = new PetDataParams();
-            getPetDataParams.setPageNumber("1");
-            getPetDataParams.setPageSize("5");
+            getPetDataParams.setPageNumber(1);
+            getPetDataParams.setPageSize(5);
             getPetDataParams.setSearch_Data("0");
             PetDataRequest getPetDataRequest = new PetDataRequest();
             getPetDataRequest.setData(getPetDataParams);

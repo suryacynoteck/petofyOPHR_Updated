@@ -84,6 +84,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
     TextInputLayout otp_TL;
     TextInputEditText pet_parent_otp;
     Button submit_parent_otp;
+    boolean getPetListRefresh=false;
 
     @Override
     public void onAttach(Context context) {
@@ -339,10 +340,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
     }
 
     private void getPetList() {
+        getPetListRefresh=true;
         methods.showCustomProgressBarDialog(getActivity());
         PetDataParams getPetDataParams = new PetDataParams();
-        getPetDataParams.setPageNumber("1");
-        getPetDataParams.setPageSize("5");
+        getPetDataParams.setPageNumber(1);
+        getPetDataParams.setPageSize(5);
         getPetDataParams.setSearch_Data("0");
         PetDataRequest getPetDataRequest = new PetDataRequest();
         getPetDataRequest.setData(getPetDataParams);
@@ -404,6 +406,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
 
                         Log.d("jajajajjaja", "" + petUniueId.size() + " \n" + petUniueId.toString());
                         Log.d("lllllllllll", "" + petExistingSearch.size() + " \n" + petExistingSearch);
+                        getPetListRefresh=false;
                         new_pet_search.setVisibility(View.VISIBLE);
                         addNewEntry.setEnabled(true);
                         ArrayAdapter<String> adapter = new ArrayAdapter<String>
@@ -600,5 +603,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
         staff_headline_TV.setVisibility(View.VISIBLE);
         InputMethodManager imm1 = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm1.hideSoftInputFromWindow(search_box_add_new.getWindowToken(), 0);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(getPetListRefresh==false)
+        getPetList();
     }
 }
