@@ -32,9 +32,9 @@
                 android:textColor="#000"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/Editprofile"
+                android:text="@string/EditprofileToolbar"
                 android:gravity="center"
-                android:textSize="25sp"
+                android:textSize="20sp"
                 android:textStyle="bold"/>
 
 
@@ -202,6 +202,44 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/clinicCode_TV" />
 
+            <LinearLayout
+                android:id="@+id/online_layout"
+                android:layout_width="0dp"
+                android:layout_height="90dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintStart_toStartOf="@id/first_name_TV"
+                app:layout_constraintEnd_toEndOf="@id/first_name_TV"
+                app:layout_constraintTop_toBottomOf="@id/clinicCode_updt"
+                android:weightSum="2.5"
+                android:orientation="vertical">
+
+                <CheckBox
+                    android:id="@+id/online_CB"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="Enable Online Appointment"
+                    android:gravity="center_vertical"/>
+
+                <EditText
+                    android:visibility="gone"
+                    android:id="@+id/online_charges_ET"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1.5"
+                    android:background="@drawable/edit_text_background"
+                    android:hint="Online Consultant Charges(INR)"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="25dp"
+                    android:inputType="number"
+                    android:textSize="14sp"
+                    android:layout_marginTop="10dp"/>
+
+
+            </LinearLayout>
+
+
 
             <TextView
                 android:id="@+id/address_TV"
@@ -209,7 +247,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="@id/first_name_TV"
                 app:layout_constraintEnd_toEndOf="@id/first_name_TV"
-                app:layout_constraintTop_toBottomOf="@id/clinicCode_updt"
+                app:layout_constraintTop_toBottomOf="@id/online_layout"
                 android:text="@string/address"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/grey_add_pet"/>
@@ -513,6 +551,7 @@
             </LinearLayout>
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/service_cat_img_TV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -524,6 +563,7 @@
                 android:textColor="@color/grey_add_pet"/>
 
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/image_section"
                 android:weightSum="5"
                 android:layout_marginTop="5dp"

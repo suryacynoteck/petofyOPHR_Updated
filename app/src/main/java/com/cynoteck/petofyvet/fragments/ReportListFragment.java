@@ -130,8 +130,8 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
     private void getHospitalizationReport() {
         VisitTypeRequest visitTypeRequest = new VisitTypeRequest();
         PetDataParams petDataParams = new PetDataParams();
-        petDataParams.setPageNumber("1");
-        petDataParams.setPageSize("10000");
+        petDataParams.setPageNumber(1);
+        petDataParams.setPageSize(10000);
         petDataParams.setSearch_Data("");
         VisitTypeData visitTypeData = new VisitTypeData();
         visitTypeData.setVisitType(report_type_id);
@@ -151,8 +151,8 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
 
         VisitTypeRequest visitTypeRequest = new VisitTypeRequest();
         PetDataParams petDataParams = new PetDataParams();
-        petDataParams.setPageNumber("1");
-        petDataParams.setPageSize("10000");
+        petDataParams.setPageNumber(1);
+        petDataParams.setPageSize(10000);
         petDataParams.setSearch_Data("");
         VisitTypeData visitTypeData = new VisitTypeData();
         visitTypeData.setVisitType(report_type_id);
@@ -172,8 +172,8 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
 
         VisitTypeRequest visitTypeRequest = new VisitTypeRequest();
         PetDataParams petDataParams = new PetDataParams();
-        petDataParams.setPageNumber("1");
-        petDataParams.setPageSize("10000");
+        petDataParams.setPageNumber(1);
+        petDataParams.setPageSize(10000);
         petDataParams.setSearch_Data("");
         VisitTypeData visitTypeData = new VisitTypeData();
         visitTypeData.setVisitType(report_type_id);
@@ -193,8 +193,8 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
     private void getXrayReport() {
 
         PetDataParams getPetDataParams = new PetDataParams();
-        getPetDataParams.setPageNumber("1");
-        getPetDataParams.setPageSize("10000");
+        getPetDataParams.setPageNumber(1);
+        getPetDataParams.setPageSize(10000);
         getPetDataParams.setSearch_Data("");
         VisitTypeData visitTypeData = new VisitTypeData();
         visitTypeData.setPetId(pet_id.substring(0,pet_id.length()-2));

@@ -88,27 +88,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:id="@+id/pet_parent_TV"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center_vertical"
-                    android:text="Pet Details"
-                    android:textColor="@color/grey_add_pet"/>
-
                 <LinearLayout
                     android:id="@+id/pet_search_layout"
                     android:layout_width="match_parent"
                     android:weightSum="2"
                     android:layout_height="50dp"
-                    app:layout_constraintEnd_toEndOf="@id/pet_parent_TV"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/pet_parent_TV"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     android:orientation="horizontal"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
@@ -120,11 +107,12 @@
                         android:imeOptions="actionSearch"
                         android:singleLine="true"
                         android:id="@+id/pet_parent_ACTV"
-                        android:hint=""
+                        android:hint="Search Pet by Pet ID,Name..(if already added)"
                         android:background="@null"
                         android:layout_height="match_parent"
                         android:layout_width="0dp"
                         android:layout_marginLeft="5dp"
+                        android:textSize="14sp"
                         android:layout_weight="1.7" />
 
                     <ImageView
@@ -141,10 +129,37 @@
 
                 <TextView
                     android:visibility="gone"
-                    android:gravity="center_vertical"
                     app:layout_constraintEnd_toEndOf="@id/pet_search_layout"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/pet_search_layout"
+                    android:id="@+id/pet_parent_TV"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical"
+                    android:text="Pet Details"
+                    android:textColor="@color/grey_add_pet"/>
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/pet_details_TV"
+                    app:layout_constraintEnd_toEndOf="@id/pet_parent_TV"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/pet_parent_TV"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="25dp"
+                    android:gravity="center_vertical"/>
+
+                <TextView
+                    android:visibility="gone"
+                    android:gravity="center_vertical"
+                    app:layout_constraintEnd_toEndOf="@id/pet_parent_TV"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/pet_details_TV"
                     android:imeOptions="actionSearch"
                     android:singleLine="true"
                     android:id="@+id/parent_TV"
@@ -327,14 +342,6 @@
 
 
     </ScrollView>
-
-
-
-
-
-
-
-
 
     <Button
         android:id="@+id/create_appointment_BT"

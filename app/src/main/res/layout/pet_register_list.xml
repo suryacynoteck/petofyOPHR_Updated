@@ -166,36 +166,44 @@
 
 
             <LinearLayout
-                android:weightSum="2"
+                android:weightSum="3"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_weight="0.5"
                 android:layout_height="wrap_content">
 
                 <Button
-                    android:textAllCaps="false"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="10dp"
                     android:id="@+id/view_reg_pet_details_BT"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_weight="1"
                     android:layout_marginBottom="10dp"
-                    android:background="@color/colorPrimary"
+                    android:background="@drawable/green_border_button"
                     android:text="@string/viewDetails"
-                    android:textColor="@color/whiteColor" />
+                    android:textColor="@color/colorPrimary" />
 
                 <Button
-                    android:textAllCaps="false"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="10dp"
                     android:id="@+id/view_ID_Card_BT"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_marginBottom="10dp"
-                    android:background="@drawable/green_border_button"
+                    android:background="@color/colorPrimary"
                     android:text="ID CARD"
+                    android:textColor="@color/whiteColor" />
+
+                <Button
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:id="@+id/Add_Clinic_BT"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/green_border_button"
+                    android:text="ADD CLINIC"
                     android:textColor="@color/colorPrimary" />
 
 

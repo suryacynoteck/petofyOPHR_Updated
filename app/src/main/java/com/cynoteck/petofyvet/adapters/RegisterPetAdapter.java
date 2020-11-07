@@ -104,7 +104,7 @@ public class RegisterPetAdapter extends RecyclerView.Adapter<RegisterPetAdapter.
     public class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView petRegImage_IV;
         TextView pet_reg__id_TV,pet_reg_date_of_birth_TV,pet_reg_name_TV,pet_reg_gender_TV;
-        Button view_reg_pet_details_BT,view_ID_Card_BT;
+        Button view_reg_pet_details_BT,view_ID_Card_BT,Add_Clinic_BT;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -115,6 +115,7 @@ public class RegisterPetAdapter extends RecyclerView.Adapter<RegisterPetAdapter.
             pet_reg_gender_TV = itemView.findViewById(R.id.pet_reg_gender_TV);
             view_reg_pet_details_BT = itemView.findViewById(R.id.view_reg_pet_details_BT);
             view_ID_Card_BT=itemView.findViewById(R.id.view_ID_Card_BT);
+            Add_Clinic_BT=itemView.findViewById(R.id.Add_Clinic_BT);
 
             view_reg_pet_details_BT.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -131,6 +132,13 @@ public class RegisterPetAdapter extends RecyclerView.Adapter<RegisterPetAdapter.
                     if(onProductItemClickListner!=null){
                         onProductItemClickListner.onIdCardClick(getAdapterPosition());
                     }
+                }
+            });
+
+            Add_Clinic_BT.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onProductItemClickListner.onIdAddClinicClick(getAdapterPosition());
                 }
             });
 

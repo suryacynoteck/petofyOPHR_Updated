@@ -52,6 +52,8 @@ public class ImmunizationAddClinicModel {
     private String updatedByUser;
     private String followUp;
     private String petAgeList;
+    private String NextVaccineName;
+    private String NextVaccineType;
     private JsonArray vaccinationModels = null;
 
     public String getId() {
@@ -422,6 +424,22 @@ public class ImmunizationAddClinicModel {
         this.vaccinationModels = vaccinationModels;
     }
 
+    public String getNextVaccineName() {
+        return NextVaccineName;
+    }
+
+    public void setNextVaccineName(String nextVaccineName) {
+        NextVaccineName = nextVaccineName;
+    }
+
+    public String getNextVaccineType() {
+        return NextVaccineType;
+    }
+
+    public void setNextVaccineType(String nextVaccineType) {
+        NextVaccineType = nextVaccineType;
+    }
+
     @Override
     public String toString() {
         return "ClassPojo [" +
@@ -471,6 +489,8 @@ public class ImmunizationAddClinicModel {
                 ", followUp= " + followUp +
                 ", petAgeList= " + petAgeList +
                 ", vaccinationModels= " + vaccinationModels +
+                ", NextVaccineName= " + NextVaccineName +
+                ", NextVaccineType= " + NextVaccineType +
                 "]";
     }
 }

@@ -75,6 +75,7 @@
     <string name="managePet">Manage Pet-labwork</string>
     <string name="recentVisits">Recent Visits</string>
     <string name="printIdCard">Print Id Card</string>
+    <string name="immunizationChartLabel">Immunization Chart</string>
     <string name="view_history">View History</string>
     <string name="addNewVisits">Add New Visit</string>
     <string name="addNewVisits_toolbar">ADD NEW VISIT</string>

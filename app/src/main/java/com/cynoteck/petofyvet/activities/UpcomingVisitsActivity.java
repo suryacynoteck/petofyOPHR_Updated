@@ -127,7 +127,8 @@ public class UpcomingVisitsActivity extends AppCompatActivity implements ApiResp
             case R.id.back_arrow_IV:
                 onBackPressed();
                 break;
-            /*case R.id.lastVisitDt:
+
+                /*case R.id.lastVisitDt:
                 final Calendar cldr = Calendar.getInstance();
                 int day = cldr.get(Calendar.DAY_OF_MONTH);
                 int month = cldr.get(Calendar.MONTH);

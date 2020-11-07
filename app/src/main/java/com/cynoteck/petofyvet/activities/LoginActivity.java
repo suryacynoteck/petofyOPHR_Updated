@@ -179,7 +179,8 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                 } else if (passwordString.isEmpty()) {
                     email_TIET.setError("Password is empty");
                     password_TIET.setError(null);
-                } /*else if (imeiNumber.isEmpty()) {
+                }
+                /*else if (imeiNumber.isEmpty()) {
                     if (checkPermission()) {
                         getDeviceId();
                     } else {
@@ -189,7 +190,8 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                             Toast.makeText(this, "Permission already granted.", Toast.LENGTH_SHORT).show();
                         }
                     }
-                }*/ else {
+                }*/
+                else {
                     email_TIET.setError(null);
                     password_TIET.setError(null);
                     Loginparams loginparams = new Loginparams();
@@ -228,7 +230,11 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                 } else if (!otp.equals(strResponseOtp)) {
                     pet_parent_otp.setError("Enter Wrong OTP");
                 } else {
+                    if(responseLogin.getData().getUserRole().equals("Veterinarian"))
                     loginSucess();
+                    else
+                    Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+
                 }
                 break;
 
@@ -275,7 +281,10 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
 
 
                         } else {
+                            if(responseLogin.getData().getUserRole().equals("Veterinarian"))
                             loginSucess();
+                            else
+                            Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
                         }
 
                     } else if (responseCode == 614) {

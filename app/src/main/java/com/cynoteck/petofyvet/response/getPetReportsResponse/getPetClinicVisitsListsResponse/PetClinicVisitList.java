@@ -43,6 +43,8 @@ public class PetClinicVisitList
 
     private String petUniqueId;
 
+    private String contactNumber;
+
     private String pet;
 
     private String updatedByUser;
@@ -74,6 +76,10 @@ public class PetClinicVisitList
     private String encryptedId;
 
     private String veterinarian;
+
+    private String nextVaccineName;
+
+    private String nextVaccineType;
 
     public String getNatureOfVisitList ()
 {
@@ -265,6 +271,14 @@ public class PetClinicVisitList
         this.petUniqueId = petUniqueId;
     }
 
+    public String getContactNumber() {
+        return contactNumber;
+    }
+
+    public void setContactNumber(String contactNumber) {
+        this.contactNumber = contactNumber;
+    }
+
     public String getPet ()
 {
     return pet;
@@ -425,9 +439,25 @@ public class PetClinicVisitList
         this.veterinarian = veterinarian;
     }
 
+    public String getNextVaccineName() {
+        return nextVaccineName;
+    }
+
+    public void setNextVaccineName(String nextVaccineName) {
+        this.nextVaccineName = nextVaccineName;
+    }
+
+    public String getNextVaccineType() {
+        return nextVaccineType;
+    }
+
+    public void setNextVaccineType(String nextVaccineType) {
+        this.nextVaccineType = nextVaccineType;
+    }
+
     @Override
     public String toString()
     {
-        return "ClassPojo [natureOfVisitList = "+natureOfVisitList+", petId = "+petId+", petAge = "+petAge+", documents = "+documents+", createdByUser = "+createdByUser+", description = "+description+", weightOz = "+weightOz+", followUpId = "+followUpId+", createdOn = "+createdOn+", petName = "+petName+", followUp = "+followUp+", dateOfOnset = "+dateOfOnset+", petParentName = "+petParentName+", temperature = "+temperature+", treatmentRemarks = "+treatmentRemarks+", visitDate = "+visitDate+", natureOfVisitId = "+natureOfVisitId+", id = "+id+", petUniqueId = "+petUniqueId+", pet = "+pet+", updatedByUser = "+updatedByUser+", weightLbs = "+weightLbs+", petSex = "+petSex+", updatedBy = "+updatedBy+", followUpList = "+followUpList+", updatedOn = "+updatedOn+", veterinarianUserId = "+veterinarianUserId+", natureOfVisit = "+natureOfVisit+", dewormerName = "+dewormerName+", followUpDate = "+followUpDate+", vaccine = "+vaccine+", createdBy = "+createdBy+", diagnosisProcedure = "+diagnosisProcedure+", encryptedId = "+encryptedId+", veterinarian = "+veterinarian+"]";
+        return "ClassPojo [natureOfVisitList = "+natureOfVisitList+", petId = "+petId+", petAge = "+petAge+", documents = "+documents+", createdByUser = "+createdByUser+", description = "+description+", weightOz = "+weightOz+", followUpId = "+followUpId+", createdOn = "+createdOn+", petName = "+petName+", followUp = "+followUp+", dateOfOnset = "+dateOfOnset+", petParentName = "+petParentName+", temperature = "+temperature+", treatmentRemarks = "+treatmentRemarks+", visitDate = "+visitDate+", natureOfVisitId = "+natureOfVisitId+", id = "+id+", petUniqueId = "+petUniqueId+", contactNumber = "+contactNumber+", pet = "+pet+", updatedByUser = "+updatedByUser+", weightLbs = "+weightLbs+", petSex = "+petSex+", updatedBy = "+updatedBy+", followUpList = "+followUpList+", updatedOn = "+updatedOn+", veterinarianUserId = "+veterinarianUserId+", natureOfVisit = "+natureOfVisit+", dewormerName = "+dewormerName+", followUpDate = "+followUpDate+", vaccine = "+vaccine+", createdBy = "+createdBy+", diagnosisProcedure = "+diagnosisProcedure+", encryptedId = "+encryptedId+", veterinarian = "+veterinarian+", nextVaccineName= "+nextVaccineName+", nextVaccineType= "+nextVaccineType+"]";
     }
 }

@@ -181,7 +181,7 @@ public class OnlineVisitFragment extends Fragment implements View.OnClickListene
                         clinicVisitResponseData=onlineClinicResponse.getData().getVetAppointmentList();
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
                         upcomingVisitsOnline_RV.setLayoutManager(linearLayoutManager);
-                        clinicVisitOnlineAdapter = new ClinicVisitOnlineAdapter(getActivity(), onlineClinicResponse.getData().getVetAppointmentList(),this);
+                        clinicVisitOnlineAdapter = new ClinicVisitOnlineAdapter(getActivity(), onlineClinicResponse.getData().getVetAppointmentList(),onlineClinicResponse.getData().getVetAppointmentList(),this);
                         upcomingVisitsOnline_RV.setAdapter(clinicVisitOnlineAdapter);
                     } else if (responseCode == 614) {
                         progressBar.setVisibility(View.GONE);

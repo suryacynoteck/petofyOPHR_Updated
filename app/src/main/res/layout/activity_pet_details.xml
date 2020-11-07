@@ -600,6 +600,60 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/immunization_CV"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="80dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                    <ImageView
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginLeft="20dp"
+                        android:id="@+id/imminization_IV"
+                        android:src="@drawable/last_prescription"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        app:layout_constraintStart_toEndOf="@id/imminization_IV"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/immunization_chart_arrow"
+                        android:gravity="start"
+                        android:paddingLeft="20dp"
+                        android:textSize="18dp"
+                        android:textColor="@color/black_color"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/immunization_TV"
+                        android:text="@string/immunizationChartLabel"/>
+
+
+                    <ImageView
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/immunization_TV"
+                        android:layout_marginLeft="20dp"
+                        android:id="@+id/immunization_chart_arrow"
+                        android:src="@drawable/forward_arrow"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"/>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
                 android:id="@+id/print_id_card"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"

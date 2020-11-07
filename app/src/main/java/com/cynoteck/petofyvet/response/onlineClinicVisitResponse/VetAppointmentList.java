@@ -34,9 +34,12 @@ public class VetAppointmentList {
     private String meetingId;
     private String role;
     private String paymentStatus;
+    private String lastAppointmentdate;
     private String paymentStatusMessage;
     private String petId;
     private String petName;
+    private String petUniqueId;
+    private String petAge;
     private String isRejected;
     private String reasonToReject;
     private String veterinarianProfileTitle;
@@ -278,6 +281,14 @@ public class VetAppointmentList {
         this.paymentStatus = paymentStatus;
     }
 
+    public String getLastAppointmentdate() {
+        return lastAppointmentdate;
+    }
+
+    public void setLastAppointmentdate(String lastAppointmentdate) {
+        this.lastAppointmentdate = lastAppointmentdate;
+    }
+
     public String getPaymentStatusMessage() {
         return paymentStatusMessage;
     }
@@ -300,6 +311,22 @@ public class VetAppointmentList {
 
     public void setPetName(String petName) {
         this.petName = petName;
+    }
+
+    public String getPetUniqueId() {
+        return petUniqueId;
+    }
+
+    public void setPetUniqueId(String petUniqueId) {
+        this.petUniqueId = petUniqueId;
+    }
+
+    public String getPetAge() {
+        return petAge;
+    }
+
+    public void setPetAge(String petAge) {
+        this.petAge = petAge;
     }
 
     public String getIsRejected() {
@@ -398,10 +425,13 @@ public class VetAppointmentList {
                 ", meetingId=" + meetingId + 
                 ", role=" + role + 
                 ", paymentStatus=" + paymentStatus + 
-                ", paymentStatusMessage=" + paymentStatusMessage + 
+                ", lastAppointmentdate=" + lastAppointmentdate +
+                ", paymentStatusMessage=" + paymentStatusMessage +
                 ", petId=" + petId + 
                 ", petName=" + petName + 
-                ", isRejected=" + isRejected + 
+                ", petUniqueId=" + petUniqueId +
+                ", petAge=" + petAge +
+                ", isRejected=" + isRejected +
                 ", reasonToReject=" + reasonToReject + 
                 ", veterinarianProfileTitle=" + veterinarianProfileTitle + 
                 ", veterinarianList=" + veterinarianList + 

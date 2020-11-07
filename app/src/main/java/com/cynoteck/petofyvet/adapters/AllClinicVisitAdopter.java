@@ -43,9 +43,9 @@ public class AllClinicVisitAdopter extends RecyclerView.Adapter<AllClinicVisitAd
     @Override
     public void onBindViewHolder(@NonNull AllClinicVisitAdopter.MyViewHolder holder, int position) {
 
-        holder.pet_id_TV.setText(clinicVisitResponseData.get(position).getPetId());
+        holder.pet_id_TV.setText(clinicVisitResponseData.get(position).getPetUniqueId());
         holder.pet_name_TV.setText(clinicVisitResponseData.get(position).getPetName());
-        holder.petParent_TV.setText(clinicVisitResponseData.get(position).getPetParentName());
+        holder.petParent_TV.setText(clinicVisitResponseData.get(position).getPetParentName()+"\n"+clinicVisitResponseData.get(position).getContactNumber());
         holder.typeOfVisit_TV.setText(clinicVisitResponseData.get(position).getNatureOfVisit().getNature());
         holder.lastVisit_TV.setText(clinicVisitResponseData.get(position).getVisitDate());
         holder.nextVisit_TV.setText(clinicVisitResponseData.get(position).getFollowUpDate());
