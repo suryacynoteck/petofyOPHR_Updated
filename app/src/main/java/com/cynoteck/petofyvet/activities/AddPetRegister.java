@@ -455,15 +455,6 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
                     pet_address.setError(null);
                     calenderView.setError(null);
                 }
-                else if(strPetDescription.isEmpty())
-                {
-                    pet_name.setError(null);
-                    pet_parent_name.setError(null);
-                    pet_contact_number.setError(null);
-                    pet_description.setError("Enter Description");
-                    pet_address.setError(null);
-                    calenderView.setError(null);
-                }
                 else if(strPetAdress.isEmpty())
                 {
                     pet_name.setError(null);
@@ -482,7 +473,6 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
                     pet_address.setError(null);
                     calenderView.setError("Pet YOB");
                 }
-                //pet size and color.
                 else if(strSpnerItemPetNm.isEmpty()||(strSpnerItemPetNm.equals("Select Pet Type")))
                 {
                     Toast.makeText(this, "Select Type!!", Toast.LENGTH_SHORT).show();
@@ -491,13 +481,9 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
                 {
                     Toast.makeText(this, "Select Breed!!", Toast.LENGTH_SHORT).show();
                 }
-                else if(strSpnrAge.isEmpty()||(strSpnrAge.equals("Select Pet Age")))
+                else if((strSpnrColor.isEmpty())||(strSpnrColor.equals("Pet Color")))
                 {
-                    Toast.makeText(this, "Select Pet Age!!", Toast.LENGTH_SHORT).show();
-                }
-                else if(strSpnrSex.isEmpty()||(strSpnrSex.equals("Pet Sex")))
-                {
-                    Toast.makeText(this, "Select Pet Sex!!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Select Pet Color!!", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {

@@ -166,6 +166,7 @@ public interface ApiInterface {
     @POST("report/GetPetList")
     Call<GetPetListResponse> getPetList(@Header("Authorization") String auth, @Body PetDataRequest getPetDataRequest);
 
+
     @POST("user/forgotpassword")
     Call<PasswordResponse> getPasswordResponse(@Body ForgetPassRequest forgetPassRequest);
 
