@@ -54,6 +54,7 @@ public class ImmunizationAddClinicModel {
     private String petAgeList;
     private String NextVaccineName;
     private String NextVaccineType;
+
     private JsonArray vaccinationModels = null;
 
     public String getId() {

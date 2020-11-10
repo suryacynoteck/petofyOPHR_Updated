@@ -21,6 +21,7 @@ public class AddPetClinicParam {
     private String nextVaccineName;
     private String nextVaccinetype;
     private String documents;
+    private String appointmentId;
 
     public String getPetId() {
         return petId;
@@ -182,10 +183,18 @@ public class AddPetClinicParam {
         this.documents = documents;
     }
 
+    public String getAppointmentId() {
+        return appointmentId;
+    }
+
+    public void setAppointmentId(String appointmentId) {
+        this.appointmentId = appointmentId;
+    }
+
     @Override
     public String toString()
     {
-        return "ClassPojo [petId= "+petId+", veterinarian = "+veterinarian+", visitDate = "+visitDate+", natureOfVisitId = "+natureOfVisitId+", vaccine = "+vaccine+", description= "+description+", weightLbs = "+weightLbs+", weightOz = "+weightOz+", temperature = "+temperature+", dateOfOnset = "+dateOfOnset+", description = "+description+", dewormerName = "+dewormerName+", remarks= "+remarks+", nextVaccineName ="+nextVaccineName+", history = "+history+", nextVaccinetype = "+nextVaccinetype+", treatmentRemarks = "+treatmentRemarks+", diagnosisProcedure = "+diagnosisProcedure+", followUpId = "+followUpId+", followUpDate = "+followUpDate+", documents = "+documents+"]";
+        return "ClassPojo [petId= "+petId+", veterinarian = "+veterinarian+", visitDate = "+visitDate+", natureOfVisitId = "+natureOfVisitId+", vaccine = "+vaccine+", description= "+description+", weightLbs = "+weightLbs+", weightOz = "+weightOz+", temperature = "+temperature+", dateOfOnset = "+dateOfOnset+", description = "+description+", dewormerName = "+dewormerName+", remarks= "+remarks+", nextVaccineName ="+nextVaccineName+", history = "+history+", nextVaccinetype = "+nextVaccinetype+", treatmentRemarks = "+treatmentRemarks+", diagnosisProcedure = "+diagnosisProcedure+", followUpId = "+followUpId+", followUpDate = "+followUpDate+", documents = "+documents+", appointmentId= "+appointmentId+"]";
     }
 
 }

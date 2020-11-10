@@ -143,8 +143,9 @@ public class AppointementFragment extends Fragment implements ApiResponse ,View.
                                 data.putString("pet_sex",appointmentLists.get(position).getPetSex());
                                 data.putString("pet_age",appointmentLists.get(position).getPetAge());
                                 data.putString("pet_unique_id",appointmentLists.get(position).getPetUniqueId());
+                                data.putString("appointment_ID",appointmentLists.get(position).getId());
                                 data.putString("pet_DOB","");
-                                data.putString("pet_encrypted_id","");
+                                data.putString("pet_encrypted_id",appointmentLists.get(position).getEncryptionId());
                                 data.putString("nature_of_visit","");
                                 data.putString("visit_dt","");
                                 data.putString("visit_description","");

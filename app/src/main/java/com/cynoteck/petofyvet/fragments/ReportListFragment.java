@@ -8,8 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,18 +39,23 @@ import com.cynoteck.petofyvet.api.ApiService;
 import com.cynoteck.petofyvet.params.petReportsRequest.PetDataParams;
 import com.cynoteck.petofyvet.params.petReportsRequest.VisitTypeData;
 import com.cynoteck.petofyvet.params.petReportsRequest.VisitTypeRequest;
+import com.cynoteck.petofyvet.response.getLabTestReportResponse.LabType;
 import com.cynoteck.petofyvet.response.getLabTestReportResponse.getPetLabWorkListResponse.PetLabWorkList;
 import com.cynoteck.petofyvet.response.getLabTestReportResponse.getPetLabWorkListResponse.PetLabWorkResponse;
+import com.cynoteck.petofyvet.response.getPetHospitalizationResponse.HospitalizationType;
 import com.cynoteck.petofyvet.response.getPetHospitalizationResponse.getHospitalizationListResponse.GetPetHospitalizationResponse;
 import com.cynoteck.petofyvet.response.getPetHospitalizationResponse.getHospitalizationListResponse.PetHospitalizationsList;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.getPetClinicVisitsListsResponse.GetPetClinicVisitListResponse;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.getPetClinicVisitsListsResponse.PetClinicVisitList;
+import com.cynoteck.petofyvet.response.getPetReportsResponse.getPetListResponse.PetList;
+import com.cynoteck.petofyvet.response.getXRayReports.TypeOfTest;
 import com.cynoteck.petofyvet.response.getXRayReports.getPetTestAndXRayResponse.GetPetTestAndXRayResponse;
 import com.cynoteck.petofyvet.response.getXRayReports.getPetTestAndXRayResponse.PetTestsAndXrayList;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.ViewAndUpdateClickListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Response;
 
@@ -67,6 +74,15 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
     private ArrayList<PetTestsAndXrayList> petTestsAndXrayLists;
     private ArrayList<PetLabWorkList> petLabWorkLists;
     private ArrayList<PetHospitalizationsList> petHospitalizationsLists;
+
+    List<PetClinicVisitList> petClinicVisitLists;
+    List<PetTestsAndXrayList> petTestsAndXrayListsData;
+    List<PetLabWorkList> petLabWorkListsData;
+    List<PetHospitalizationsList> petHospitalizationsListsData;
+
+    NestedScrollView nestedScrollView;
+    ProgressBar progressBar;
+    int page=1, pagelimit=10;
 
     ReportsTypeAdapter reportsTypeAdapter;
     TestAndXRayAdpater testAndXRayAdpater;
@@ -87,7 +103,8 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view= inflater.inflate(R.layout.fragment_report_list, container, false);
+        //view= inflater.inflate(R.layout.fragment_report_list, container, false);
+        view= inflater.inflate(R.layout.test_layout, container, false);
         Bundle extras = this.getArguments();
         report_type_id = extras.getString("reports_id");
         pet_id = extras.getString("pet_id");
@@ -102,36 +119,73 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
         pet_encrypted_id=extras.getString("pet_encrypted_id");
 
         routine_report_RV = view.findViewById(R.id.routine_report_RV);
+        nestedScrollView=view.findViewById(R.id.nested_scroll_view);
+        progressBar=view.findViewById(R.id.progressBar);
+
         empty_IV=view.findViewById(R.id.empty_IV);
+
+        petClinicVisitLists=new ArrayList<>();
+        petTestsAndXrayListsData=new ArrayList<>();
+        petLabWorkListsData=new ArrayList<>();
+        petHospitalizationsListsData=new ArrayList<>();
 
 
         switch (type){
 
             case "list":
-                getPetClinicVisit();
+                getPetClinicVisit(page,pagelimit);
                 break;
 
             case "XRay":
-                getXrayReport();
+                getXrayReport(page,pagelimit);
                 break;
 
             case "LabTest":
-                getLabTestReport();
+                getLabTestReport(page,pagelimit);
                 break;
 
             case "Hospitalization":
-                getHospitalizationReport();
+                getHospitalizationReport(page,pagelimit);
                 break;
         }
+
+        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if(scrollY==v.getChildAt(0).getMeasuredHeight()-v.getMeasuredHeight())
+                {
+                    page++;
+                    progressBar.setVisibility(View.VISIBLE);
+                    switch (type){
+
+                        case "list":
+                            getPetClinicVisit(page,pagelimit);
+                            break;
+
+                        case "XRay":
+                            getXrayReport(page,pagelimit);
+                            break;
+
+                        case "LabTest":
+                            getLabTestReport(page,pagelimit);
+                            break;
+
+                        case "Hospitalization":
+                            getHospitalizationReport(page,pagelimit);
+                            break;
+                    }
+                }
+            }
+        });
 
         return view;
     }
 
-    private void getHospitalizationReport() {
+    private void getHospitalizationReport(int page,int pagelimit) {
         VisitTypeRequest visitTypeRequest = new VisitTypeRequest();
         PetDataParams petDataParams = new PetDataParams();
-        petDataParams.setPageNumber(1);
-        petDataParams.setPageSize(10000);
+        petDataParams.setPageNumber(page);
+        petDataParams.setPageSize(pagelimit);
         petDataParams.setSearch_Data("");
         VisitTypeData visitTypeData = new VisitTypeData();
         visitTypeData.setVisitType(report_type_id);
@@ -147,12 +201,12 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
 
     }
 
-    private void getLabTestReport() {
+    private void getLabTestReport(int page,int pagelimit) {
 
         VisitTypeRequest visitTypeRequest = new VisitTypeRequest();
         PetDataParams petDataParams = new PetDataParams();
-        petDataParams.setPageNumber(1);
-        petDataParams.setPageSize(10000);
+        petDataParams.setPageNumber(page);
+        petDataParams.setPageSize(pagelimit);
         petDataParams.setSearch_Data("");
         VisitTypeData visitTypeData = new VisitTypeData();
         visitTypeData.setVisitType(report_type_id);
@@ -168,12 +222,12 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
 
     }
 
-    private void getPetClinicVisit() {
+    private void getPetClinicVisit(int page,int pagelimit) {
 
         VisitTypeRequest visitTypeRequest = new VisitTypeRequest();
         PetDataParams petDataParams = new PetDataParams();
-        petDataParams.setPageNumber(1);
-        petDataParams.setPageSize(10000);
+        petDataParams.setPageNumber(page);
+        petDataParams.setPageSize(pagelimit);
         petDataParams.setSearch_Data("");
         VisitTypeData visitTypeData = new VisitTypeData();
         visitTypeData.setVisitType(report_type_id);
@@ -186,15 +240,13 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
         ApiService<GetPetClinicVisitListResponse> service = new ApiService<>();
         service.get(this, ApiClient.getApiInterface().getPetClinicVisits(Config.token,visitTypeRequest), "GetPetClinicVisit");
 
-
-
     }
 
-    private void getXrayReport() {
+    private void getXrayReport(int page,int pagelimit) {
 
         PetDataParams getPetDataParams = new PetDataParams();
-        getPetDataParams.setPageNumber(1);
-        getPetDataParams.setPageSize(10000);
+        getPetDataParams.setPageNumber(page);
+        getPetDataParams.setPageSize(pagelimit);
         getPetDataParams.setSearch_Data("");
         VisitTypeData visitTypeData = new VisitTypeData();
         visitTypeData.setPetId(pet_id.substring(0,pet_id.length()-2));
@@ -218,13 +270,23 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
                     GetPetClinicVisitListResponse petServiceResponse = (GetPetClinicVisitListResponse) response.body();
                     int responseCode = Integer.parseInt(petServiceResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
-                        if (petServiceResponse.getData().getPetClinicVisitList().isEmpty()){
+                        if ((petServiceResponse.getData().getPetClinicVisitList().isEmpty()) && (petClinicVisitLists.size()<1)){
 //                            Toast.makeText(getContext(), "Empty", Toast.LENGTH_SHORT).show();
                             empty_IV.setVisibility(View.VISIBLE);
                             routine_report_RV.setVisibility(View.GONE);
+                            progressBar.setVisibility(View.GONE);
                         }
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
                         petClinicVisitListArrayList = petServiceResponse.getData().getPetClinicVisitList();
+                        for(int i=0;i<petServiceResponse.getData().getPetClinicVisitList().size();i++)
+                        {
+                            PetClinicVisitList petClinicVisitList=new PetClinicVisitList();
+                            petClinicVisitList.setVeterinarian(petServiceResponse.getData().getPetClinicVisitList().get(i).getVeterinarian());
+                            petClinicVisitList.setVisitDate(petServiceResponse.getData().getPetClinicVisitList().get(i).getVisitDate());
+                            petClinicVisitList.setDescription(petServiceResponse.getData().getPetClinicVisitList().get(i).getDescription());
+                            petClinicVisitList.setFollowUpDate(petServiceResponse.getData().getPetClinicVisitList().get(i).getFollowUpDate());
+                            petClinicVisitLists.add(petClinicVisitList);
+                        }
                         routine_report_RV.setLayoutManager(linearLayoutManager);
                         routine_report_RV.setNestedScrollingEnabled(false);
 
@@ -235,7 +297,7 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
                             reportsTypeAdapter.notifyDataSetChanged();
                         }else if (button_type.equals("update")){
                             routine_report_RV.setVisibility(View.VISIBLE);
-                            updateClinicVisitAdapter = new UpdateClinicVisitAdapter(getContext(), petServiceResponse.getData().getPetClinicVisitList(), this);
+                            updateClinicVisitAdapter = new UpdateClinicVisitAdapter(getContext(), petClinicVisitLists, this);
                             routine_report_RV.setAdapter(updateClinicVisitAdapter);
                             updateClinicVisitAdapter.notifyDataSetChanged();
                         }
@@ -258,9 +320,23 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
                         petTestsAndXrayLists = getPetTestAndXRayResponse.getData().getPetTestsAndXrayList();
                         routine_report_RV.setLayoutManager(linearLayoutManager);
                         routine_report_RV.setNestedScrollingEnabled(false);
-                        if (getPetTestAndXRayResponse.getData().getPetTestsAndXrayList().isEmpty()){
+
+                        for(int i=0;i<getPetTestAndXRayResponse.getData().getPetTestsAndXrayList().size();i++)
+                        {
+                            PetTestsAndXrayList petTestsAndXrayListt=new PetTestsAndXrayList();
+                            TypeOfTest typeOfTest=new TypeOfTest();
+                            String getTestType=getPetTestAndXRayResponse.getData().getPetTestsAndXrayList().get(i).getTypeOfTest().getTestType();
+                            typeOfTest.setTestType(getTestType);
+                            petTestsAndXrayListt.setTypeOfTest(typeOfTest);
+                            petTestsAndXrayListt.setResults(getPetTestAndXRayResponse.getData().getPetTestsAndXrayList().get(i).getResults());
+                            petTestsAndXrayListt.setDateTested(getPetTestAndXRayResponse.getData().getPetTestsAndXrayList().get(i).getDateTested());
+                            petTestsAndXrayListsData.add(petTestsAndXrayListt);
+                        }
+
+                        if ((getPetTestAndXRayResponse.getData().getPetTestsAndXrayList().isEmpty()) && (petTestsAndXrayListsData.size()<1)){
                             empty_IV.setVisibility(View.VISIBLE);
                             routine_report_RV.setVisibility(View.GONE);
+                            progressBar.setVisibility(View.GONE);
                         }else if (button_type.equals("view")){
                             routine_report_RV.setVisibility(View.VISIBLE);
                             testAndXRayAdpater = new TestAndXRayAdpater(getContext(), getPetTestAndXRayResponse.getData().getPetTestsAndXrayList(), this);
@@ -269,7 +345,7 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
                         }else if (button_type.equals("update")){
                             routine_report_RV.setVisibility(View.VISIBLE);
 //                            Toast.makeText(getContext(), "Update", Toast.LENGTH_SHORT).show();
-                            updateXRayAdpater = new UpdateXRayAdpater(getContext(), getPetTestAndXRayResponse.getData().getPetTestsAndXrayList(), this);
+                            updateXRayAdpater = new UpdateXRayAdpater(getContext(), petTestsAndXrayListsData, this);
                             routine_report_RV.setAdapter(updateXRayAdpater);
                             updateXRayAdpater.notifyDataSetChanged();
                         }
@@ -292,9 +368,25 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
                         petLabWorkLists = petLabWorkResponse.getData().getPetLabWorkList();
                         routine_report_RV.setLayoutManager(linearLayoutManager);
                         routine_report_RV.setNestedScrollingEnabled(false);
+
+                        for(int i=0;i<petLabWorkResponse.getData().getPetLabWorkList().size();i++)
+                        {
+                            PetLabWorkList petLabWorkListt=new PetLabWorkList();
+                            petLabWorkListt.setRequestingVeterinarian(petLabWorkResponse.getData().getPetLabWorkList().get(i).getRequestingVeterinarian());
+                            petLabWorkListt.setVeterinarianPhone(petLabWorkResponse.getData().getPetLabWorkList().get(i).getVeterinarianPhone());
+                            petLabWorkListt.setVisitDate(petLabWorkResponse.getData().getPetLabWorkList().get(i).getVisitDate());
+                            String labType=petLabWorkResponse.getData().getPetLabWorkList().get(i).getLabType().getLab();
+                            LabType labType1=new LabType();
+                            labType1.setLab(labType);
+                            petLabWorkListt.setLabType(labType1);
+                            petLabWorkListt.setNameOfLab(petLabWorkResponse.getData().getPetLabWorkList().get(i).getNameOfLab());
+                            petLabWorkListsData.add(petLabWorkListt);
+                        }
+
                         if (petLabWorkResponse.getData().getPetLabWorkList().isEmpty()){
                             empty_IV.setVisibility(View.VISIBLE);
                             routine_report_RV.setVisibility(View.GONE);
+                            progressBar.setVisibility(View.GONE);
                         }else if (button_type.equals("view")){
                             empty_IV.setVisibility(View.GONE);
                             routine_report_RV.setVisibility(View.VISIBLE);
@@ -305,7 +397,7 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
                             empty_IV.setVisibility(View.GONE);
                             routine_report_RV.setVisibility(View.VISIBLE);
 //                            Toast.makeText(getContext(), "Update", Toast.LENGTH_SHORT).show();
-                            updateLabTestAdpater = new UpdateLabTestAdpater(getContext(), petLabWorkResponse.getData().getPetLabWorkList(), this);
+                            updateLabTestAdpater = new UpdateLabTestAdpater(getContext(), petLabWorkListsData, this);
                             routine_report_RV.setAdapter(updateLabTestAdpater);
                             updateLabTestAdpater.notifyDataSetChanged();
                         }
@@ -329,9 +421,24 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
                         petHospitalizationsLists = getPetHospitalizationResponse.getData().getPetHospitalizationsList();
                         routine_report_RV.setLayoutManager(linearLayoutManager);
                         routine_report_RV.setNestedScrollingEnabled(false);
+
+                        for(int i=0;i<getPetHospitalizationResponse.getData().getPetHospitalizationsList().size();i++)
+                        {
+                            PetHospitalizationsList petHospitalizationsListt=new PetHospitalizationsList();
+                            petHospitalizationsListt.setRequestingVeterinarian(getPetHospitalizationResponse.getData().getPetHospitalizationsList().get(i).getRequestingVeterinarian());
+                            petHospitalizationsListt.setVeterinarianPhone(getPetHospitalizationResponse.getData().getPetHospitalizationsList().get(i).getVeterinarianPhone());
+                            HospitalizationType hospitalizationType=new HospitalizationType();
+                            hospitalizationType.setHospitalization(getPetHospitalizationResponse.getData().getPetHospitalizationsList().get(i).getHospitalizationType().getHospitalization());
+                            petHospitalizationsListt.setHospitalizationType(hospitalizationType);
+                            petHospitalizationsListt.setHospitalName(getPetHospitalizationResponse.getData().getPetHospitalizationsList().get(i).getHospitalName());
+                            petHospitalizationsListt.setAdmissionDate(getPetHospitalizationResponse.getData().getPetHospitalizationsList().get(i).getAdmissionDate());
+                            petHospitalizationsListsData.add(petHospitalizationsListt);
+                        }
+
                         if (getPetHospitalizationResponse.getData().getPetHospitalizationsList().isEmpty()) {
                             empty_IV.setVisibility(View.VISIBLE);
                             routine_report_RV.setVisibility(View.GONE);
+                            progressBar.setVisibility(View.GONE);
                         }else if (button_type.equals("view")){
                             empty_IV.setVisibility(View.GONE);
                             routine_report_RV.setVisibility(View.VISIBLE);
@@ -343,7 +450,7 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
                             empty_IV.setVisibility(View.GONE);
                             routine_report_RV.setVisibility(View.VISIBLE);
 //                            Toast.makeText(getContext(), "Update", Toast.LENGTH_SHORT).show();
-                            updateHospitalizationAdapter = new UpdateHospitalizationAdapter(getContext(), getPetHospitalizationResponse.getData().getPetHospitalizationsList(), this);
+                            updateHospitalizationAdapter = new UpdateHospitalizationAdapter(getContext(), petHospitalizationsListsData, this);
                             routine_report_RV.setAdapter(updateHospitalizationAdapter);
                             updateHospitalizationAdapter.notifyDataSetChanged();
 
@@ -495,16 +602,16 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
         super.onResume();
         if (Config.type.equals("list")){
             Config.type ="";
-            getPetClinicVisit();
+            getPetClinicVisit(page,pagelimit);
         }else if (Config.type.equals("XRay")){
             Config.type ="";
-            getXrayReport();
+            getXrayReport(page,pagelimit);
         }else if (Config.type.equals("Lab")){
             Config.type ="";
-            getLabTestReport();
+            getLabTestReport(page,pagelimit);
         }else if (Config.type.equals("Hospitalization")){
             Config.type ="";
-            getHospitalizationReport();
+            getHospitalizationReport(page,pagelimit);
         }
     }
 

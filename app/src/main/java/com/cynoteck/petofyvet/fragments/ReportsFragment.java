@@ -10,18 +10,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.activities.SelectPetReportsActivity;
+import com.cynoteck.petofyvet.adapters.RegisterPetAdapter;
 import com.cynoteck.petofyvet.adapters.ReportsAdapter;
 import com.cynoteck.petofyvet.api.ApiClient;
 import com.cynoteck.petofyvet.api.ApiResponse;
@@ -52,9 +58,13 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
     private ArrayList<PetList> categoryRecordArrayList;
     private ShimmerFrameLayout mShimmerViewContainer;
     TextView reports_headline_TV;
-    EditText search_box;
+    AutoCompleteTextView search_box;
     ImageView search_IV, back_arrow_IV;
     RelativeLayout search_boxRL;
+    NestedScrollView nestedScrollView;
+    ProgressBar progressBar;
+    int page=1, pagelimit=10;
+    ArrayList<PetList> profileList;
 
     public ReportsFragment() {
         // Required empty public constructor
@@ -65,6 +75,7 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_reports, container, false);
+
         mShimmerViewContainer = view.findViewById(R.id.shimmer_view_container);
 
         materialCardView = view.findViewById(R.id.toolbar);
@@ -74,26 +85,47 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
         search_IV = view.findViewById(R.id.search_IV);
         back_arrow_IV = view.findViewById(R.id.back_arrow_IV);
         search_boxRL = view.findViewById(R.id.search_boxRL);
+        nestedScrollView=view.findViewById(R.id.nested_scroll_view);
+        progressBar=view.findViewById(R.id.progressBar);
+
         search_IV.setOnClickListener(this);
         back_arrow_IV.setOnClickListener(this);
         search_box.addTextChangedListener(this);
         methods = new Methods(getContext());
+        profileList=new ArrayList<>();
 
         if (methods.isInternetOn()){
-            getPetList();
+            getPetList(page,pagelimit);
 
         }else {
 
             methods.DialogInternet();
         }
 
+
+
+        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if(scrollY==v.getChildAt(0).getMeasuredHeight()-v.getMeasuredHeight())
+                {
+                    page++;
+                    progressBar.setVisibility(View.VISIBLE);
+                    getPetList(page,pagelimit);
+                }
+            }
+        });
+
+        getPet();
+
+
         return view;
     }
 
-    private void getPetList() {
+    private void getPetList(int page,int pageLimit) {
         PetDataParams getPetDataParams = new PetDataParams();
-        getPetDataParams.setPageNumber(1);
-        getPetDataParams.setPageSize(5);
+        getPetDataParams.setPageNumber(page);
+        getPetDataParams.setPageSize(pageLimit);
         getPetDataParams.setSearch_Data("0");
         PetDataRequest getPetDataRequest = new PetDataRequest();
         getPetDataRequest.setData(getPetDataParams);
@@ -105,6 +137,53 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
 
     }
 
+    private void getPet()
+    {
+        search_box.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                Log.d("dataChange","afterTextChanged"+new String(editable.toString()));
+                String value=editable.toString();
+                petSearchDependsOnPrefix(value);
+            }
+        });
+
+
+        search_box.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String value=search_box.getText().toString();
+                String[] city_array = value.split("\\(");
+
+                search_box.setText(city_array[0]);
+            }
+        });
+
+    }
+
+    private void petSearchDependsOnPrefix(String prefix)
+    {
+        PetDataParams getPetDataParams = new PetDataParams();
+        getPetDataParams.setPageNumber(0);//0
+        getPetDataParams.setPageSize(10);//0
+        getPetDataParams.setSearch_Data(prefix);
+        PetDataRequest getPetDataRequest = new PetDataRequest();
+        getPetDataRequest.setData(getPetDataParams);
+
+        ApiService<GetPetListResponse> service = new ApiService<>();
+        service.get( this, ApiClient.getApiInterface().getPetList(Config.token,getPetDataRequest), "GetPetListBySearch");
+        Log.e("DATALOG","check1=> "+getPetDataRequest);
+    }
 
 
 
@@ -119,15 +198,41 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
                     Log.d("DATALOG", getPetListResponse.toString());
                     int responseCode = Integer.parseInt(getPetListResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
-                        search_IV.setVisibility(View.VISIBLE);
-                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-                        petList_RV.setLayoutManager(linearLayoutManager);
-                        reportsAdapter  = new ReportsAdapter(getContext(),getPetListResponse.getData().getPetList(),this);
-                        categoryRecordArrayList = getPetListResponse.getData().getPetList();
-                        petList_RV.setAdapter(reportsAdapter);
-                        reportsAdapter.notifyDataSetChanged();
-                        mShimmerViewContainer.setVisibility(View.GONE);
-                        mShimmerViewContainer.stopShimmerAnimation();
+                        if(getPetListResponse.getData().getPetList().size()>0)
+                         {
+                            Log.d("DATALOG", String.valueOf(getPetListResponse.getData().getPetList().get(0).getPetUniqueId()));
+                            Log.d("DATALOG", String.valueOf(getPetListResponse.getData().getPetList().get(1).getPetUniqueId()));
+                            Log.d("DATALOG", String.valueOf(getPetListResponse.getData().getPetList().get(2).getPetUniqueId()));
+                            Log.d("DATALOG", String.valueOf(getPetListResponse.getData().getPetList().get(3).getPetUniqueId()));
+
+                            for(int i=0; i<getPetListResponse.getData().getPetList().size();i++)
+                            {
+                                PetList petList=new PetList();
+                                petList.setPetUniqueId(getPetListResponse.getData().getPetList().get(i).getPetUniqueId());
+                                petList.setDateOfBirth(getPetListResponse.getData().getPetList().get(i).getDateOfBirth());
+                                petList.setPetName(getPetListResponse.getData().getPetList().get(i).getPetName());
+                                petList.setPetSex(getPetListResponse.getData().getPetList().get(i).getPetSex());
+                                petList.setPetProfileImageUrl(getPetListResponse.getData().getPetList().get(i).getPetProfileImageUrl());
+
+                                profileList.add(petList);
+                            }
+                             progressBar.setVisibility(View.GONE);
+                             search_IV.setVisibility(View.VISIBLE);
+                             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+                             petList_RV.setLayoutManager(linearLayoutManager);
+                             reportsAdapter  = new ReportsAdapter(getContext(),profileList,this);
+                             categoryRecordArrayList = getPetListResponse.getData().getPetList();
+                             petList_RV.setAdapter(reportsAdapter);
+                             reportsAdapter.notifyDataSetChanged();
+                             mShimmerViewContainer.setVisibility(View.GONE);
+                             mShimmerViewContainer.stopShimmerAnimation();
+                        }
+                        else
+                        {
+                            progressBar.setVisibility(View.GONE);
+                            Toast.makeText(getActivity(), "Data Not found", Toast.LENGTH_SHORT).show();
+                        }
+
                     }
                 }
 
@@ -135,6 +240,55 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
                     e.printStackTrace();
                 }
 
+                break;
+
+            case "GetPetListBySearch":
+                try {
+                    GetPetListResponse getPetListResponse = (GetPetListResponse) response.body();
+                    Log.d("GetPetListBySearch", getPetListResponse.toString());
+                    int responseCode = Integer.parseInt(getPetListResponse.getResponse().getResponseCode());
+
+                    if (responseCode== 109){
+                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+                        petList_RV.setLayoutManager(linearLayoutManager);
+                        if(getPetListResponse.getData().getPetList().size()>0)
+                        {
+                            profileList.clear();
+                            for(int i=0; i<getPetListResponse.getData().getPetList().size();i++)
+                            {
+                                PetList petList=new PetList();
+                                petList.setPetUniqueId(getPetListResponse.getData().getPetList().get(i).getPetUniqueId());
+                                petList.setDateOfBirth(getPetListResponse.getData().getPetList().get(i).getDateOfBirth());
+                                petList.setPetName(getPetListResponse.getData().getPetList().get(i).getPetName());
+                                petList.setPetSex(getPetListResponse.getData().getPetList().get(i).getPetSex());
+                                petList.setPetProfileImageUrl(getPetListResponse.getData().getPetList().get(i).getPetProfileImageUrl());
+
+                                profileList.add(petList);
+                            }
+                            progressBar.setVisibility(View.GONE);
+                            search_IV.setVisibility(View.VISIBLE);
+                            LinearLayoutManager linearLayoutManagerSecond = new LinearLayoutManager(getContext());
+                            petList_RV.setLayoutManager(linearLayoutManagerSecond);
+                            reportsAdapter  = new ReportsAdapter(getContext(),profileList,this);
+                            categoryRecordArrayList = getPetListResponse.getData().getPetList();
+                            petList_RV.setAdapter(reportsAdapter);
+                            reportsAdapter.notifyDataSetChanged();
+                            mShimmerViewContainer.setVisibility(View.GONE);
+                            mShimmerViewContainer.stopShimmerAnimation();
+                        }
+                        else
+                        {
+                            progressBar.setVisibility(View.GONE);
+                            Toast.makeText(getActivity(), "Data Not found", Toast.LENGTH_SHORT).show();
+                        }
+
+
+                    }
+
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
                 break;
         }
     }
@@ -221,7 +375,7 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-        reportsAdapter.getFilter().filter(s.toString());
+       // reportsAdapter.getFilter().filter(s.toString());
 
     }
 
