@@ -126,7 +126,7 @@ import retrofit2.Response;
 public class AddClinicActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse,ImmunizationOnclickListener {
 
     ImageView back_arrow_IV;
-    String report_id="",visitIdString="",pet_age="",strNatureOfVist="",pet_DOB="",pet_encrypted_id="",strDocumentUrl="",visitId="",natureOfVisit="",pet_id="",
+    String report_id="",visitIdString="",pet_age="",strNatureOfVist="",appointment_ID="0",pet_DOB="",pet_encrypted_id="",strDocumentUrl="",visitId="",natureOfVisit="",pet_id="",
             pet_name="",pet_owner_name="",pet_sex="",pet_unique_id="",veterian_name="",descrisption="",strPetAge="",
             Remarks="",visitDate="",history="",remarks="",dtOfOnset="",flowUpDt="",weight="",temparature="",diagnosis="",strNextVisitDate="",
             strVacine="",strDewormerName="",strDewormerDose="",strToolbarName="",PetCategoryId="1",cocatVal=null,nextVaccineName=null,nextVaccineType=null,
@@ -310,6 +310,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
             diagnosis = extras.getString("pet_diognosis");
             flowUpDt= extras.getString("next_dt");
             pet_DOB= extras.getString("pet_DOB");
+            appointment_ID= extras.getString("appointment_ID");
             pet_encrypted_id= extras.getString("pet_encrypted_id");
             Log.d("akammamam"," "+pet_DOB+" "+pet_encrypted_id+" "+descrisption+""+Remarks+" "+pet_id);
             strToolbarName= extras.getString("toolbar_name");
@@ -688,7 +689,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                         immunizationAddClinicModel.setCreatedBy(null);
                         immunizationAddClinicModel.setVeterinarianUserId(null);
                         immunizationAddClinicModel.setNavStatus("0");
-                        immunizationAddClinicModel.setAppointmentId("0");
+                        immunizationAddClinicModel.setAppointmentId(appointment_ID);
                         immunizationAddClinicModel.setNatureOfVisit(null);
                         immunizationAddClinicModel.setPet(null);
                         immunizationAddClinicModel.setCreatedByUser(null);
@@ -902,6 +903,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                              addPetClinicParam.setHistory(history);
                              addPetClinicParam.setFollowUpDate(flowUpDt);
                              addPetClinicParam.setDocuments(strDocumentUrl);
+                             addPetClinicParam.setAppointmentId(appointment_ID);
                              AddPetClinicRequest addPetClinicRequest=new AddPetClinicRequest();
                              addPetClinicRequest.setAddPetParams(addPetClinicParam);
                              addPetClinicData(addPetClinicRequest);

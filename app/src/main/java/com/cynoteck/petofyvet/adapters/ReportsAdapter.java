@@ -21,17 +21,17 @@ import com.cynoteck.petofyvet.utils.RegisterRecyclerViewClickListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.MyViewHolder> implements Filterable {
+public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.MyViewHolder> {
     Context context;
     List<PetList> profileList;
-    List<PetList> filterProfileList;
+   /* List<PetList> filterProfileList;*/
 
     RegisterRecyclerViewClickListener onProductItemClickListner;
     public ReportsAdapter(Context context, List<PetList> profileList,RegisterRecyclerViewClickListener onProductItemClickListner) {
         this.context = context;
         this.profileList = profileList;
         this.onProductItemClickListner=onProductItemClickListner;
-        filterProfileList = new ArrayList<>(profileList);
+       /* filterProfileList = new ArrayList<>(profileList);*/
 
     }
 
@@ -62,7 +62,7 @@ public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.MyViewHo
         return profileList.size();
     }
 
-    @Override
+    /*@Override
     public Filter getFilter() {
 
         return filterList;
@@ -102,7 +102,7 @@ public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.MyViewHo
             notifyDataSetChanged();
 
         }
-    };
+    };*/
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView pet_id_TV,date_of_birth_TV,pet_name_TV,pet_color_TV;

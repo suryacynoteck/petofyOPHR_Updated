@@ -76,7 +76,6 @@
                 android:textStyle="bold" />
 
             <ImageView
-                android:visibility="gone"
                 android:id="@+id/new_pet_search"
                 android:layout_margin="5dp"
                 android:layout_width="50dp"

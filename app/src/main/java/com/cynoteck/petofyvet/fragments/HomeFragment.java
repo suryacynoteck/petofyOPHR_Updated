@@ -84,7 +84,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
     TextInputLayout otp_TL;
     TextInputEditText pet_parent_otp;
     Button submit_parent_otp;
-    boolean getPetListRefresh=false;
+
 
     @Override
     public void onAttach(Context context) {
@@ -131,11 +131,28 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
         new_pet_search.setOnClickListener(this);
         back_arrow_IV_new_entry.setOnClickListener(this);
 
-        if (methods.isInternetOn()){
-            getPetList();
-        }else {
-            methods.DialogInternet();
-        }
+        search_box_add_new.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                Log.d("dataChange","afterTextChanged"+new String(editable.toString()));
+                String value=editable.toString();
+                if (methods.isInternetOn()){
+                    getPetList(value);
+                }else {
+                    methods.DialogInternet();
+                }
+            }
+        });
 
         search_box_add_new.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -176,7 +193,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.new_pet_search:
-                Log.d("hahahhahah",""+petUniueId.contains(search_box_add_new.getText().toString()));
                 if(search_box_add_new.getText().toString().isEmpty()){
                     search_boxRL.setVisibility(View.VISIBLE);
                     staff_headline_TV.setVisibility(View.GONE);
@@ -339,13 +355,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
         transaction.commit();
     }
 
-    private void getPetList() {
-        getPetListRefresh=true;
-        methods.showCustomProgressBarDialog(getActivity());
+    private void getPetList(String prefix) {
         PetDataParams getPetDataParams = new PetDataParams();
-        getPetDataParams.setPageNumber(1);
-        getPetDataParams.setPageSize(5);
-        getPetDataParams.setSearch_Data("0");
+        getPetDataParams.setPageNumber(0);
+        getPetDataParams.setPageSize(10);
+        getPetDataParams.setSearch_Data(prefix);
         PetDataRequest getPetDataRequest = new PetDataRequest();
         getPetDataRequest.setData(getPetDataParams);
 
@@ -385,7 +399,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
                     int responseCode = Integer.parseInt(getPetListResponse.getResponse().getResponseCode());
 
                     if (responseCode == 109) {
-                        methods.customProgressDismiss();
                         petUniueId = new ArrayList<>();
                         petExistingSearch = new HashMap<>();
                         for (int i = 0; i < getPetListResponse.getData().getPetList().size(); i++) {
@@ -406,8 +419,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
 
                         Log.d("jajajajjaja", "" + petUniueId.size() + " \n" + petUniueId.toString());
                         Log.d("lllllllllll", "" + petExistingSearch.size() + " \n" + petExistingSearch);
-                        getPetListRefresh=false;
-                        new_pet_search.setVisibility(View.VISIBLE);
                         addNewEntry.setEnabled(true);
                         ArrayAdapter<String> adapter = new ArrayAdapter<String>
                                 (getActivity(), android.R.layout.simple_list_item_1, petUniueId);
@@ -522,7 +533,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
                             sexName="Female";
                         else
                             sexName="Male";
-                        getPetList();
+                        //getPetList();
                         Intent petDetailsIntent = new Intent(getActivity().getApplication(), PetDetailsActivity.class);
                         Bundle data = new Bundle();
                         data.putString("pet_id",petId);
@@ -608,7 +619,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
     @Override
     public void onResume() {
         super.onResume();
-        if(getPetListRefresh==false)
-        getPetList();
+        /*if(getPetListRefresh==false)
+        getPetList();*/
     }
 }

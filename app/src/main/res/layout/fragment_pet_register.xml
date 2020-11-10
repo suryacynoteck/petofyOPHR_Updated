@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     xmlns:shimmer="http://schemas.android.com/apk/res-auto"
@@ -55,7 +56,7 @@
                 android:layout_centerInParent="true"
                 android:gravity="center">
 
-                <EditText
+                <AutoCompleteTextView
                     android:id="@+id/search_box"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -130,11 +131,37 @@
     </com.facebook.shimmer.ShimmerFrameLayout>
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:background="@color/list_background"
-        android:id="@+id/register_pet_RV"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar"/>
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="4dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:background="@color/list_background"
+                android:id="@+id/register_pet_RV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/pet_register_list"/>
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+        </LinearLayout>
+
+
+
+
+    </androidx.core.widget.NestedScrollView>
+
 
 </RelativeLayout>

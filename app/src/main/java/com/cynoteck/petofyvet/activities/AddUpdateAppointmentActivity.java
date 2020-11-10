@@ -132,13 +132,14 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
             getAppointmentDeatils(getPetListRequest);
         }
 
-        if (methods.isInternetOn()){
+       /* if (methods.isInternetOn()){
             getPetList();
             getPetParent();
         }else {
 
-        }
+        }*/
 
+        searchPet();
 
         pet_parent_TV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -192,11 +193,11 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
         Log.e("DATALOG","GetPetDetailParam=> "+getPetListRequest);
     }
 
-    private void getPetList() {
+    private void getPetList(String prefix) {
             PetDataParams getPetDataParams = new PetDataParams();
-            getPetDataParams.setPageNumber(1);
-            getPetDataParams.setPageSize(5);
-            getPetDataParams.setSearch_Data("0");
+            getPetDataParams.setPageNumber(0);
+            getPetDataParams.setPageSize(10);
+            getPetDataParams.setSearch_Data(prefix);
             PetDataRequest getPetDataRequest = new PetDataRequest();
             getPetDataRequest.setData(getPetDataParams);
 
@@ -232,8 +233,36 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
         create_appointment_BT.setOnClickListener(this);
         calenderTextViewAppointDt.setOnClickListener(this);
         time_TV.setOnClickListener(this);
+        pet_parent_TV.addTextChangedListener(this);
 
 
+
+    }
+
+    private void searchPet()
+    {
+        pet_parent_TV.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                Log.d("dataChange","afterTextChanged"+new String(editable.toString()));
+                String value=editable.toString();
+                if (methods.isInternetOn()){
+                    getPetList(value);
+                }else {
+                    methods.DialogInternet();
+                }
+            }
+        });
     }
 
     @Override
@@ -741,29 +770,34 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
                     int responseCode = Integer.parseInt(getPetListResponse.getResponse().getResponseCode());
 
                     if (responseCode== 109){
-                        petUniueId=new ArrayList<>();
-                        petExistingSearch=new HashMap<>();
-                        for(int i=0;i<getPetListResponse.getData().getPetList().size();i++){
-                            petUniueId.add(getPetListResponse.getData().getPetList().get(i).getPetUniqueId()+":- "
-                                    +getPetListResponse.getData().getPetList().get(i).getPetName()+"("+getPetListResponse.getData().getPetList().get(i).getPetSex()+","+getPetListResponse.getData().getPetList().get(i).getPetParentName()+")");
-                            petExistingSearch.put(getPetListResponse.getData().getPetList().get(i).getPetUniqueId()+":- "
-                                            +getPetListResponse.getData().getPetList().get(i).getPetName()+"("+getPetListResponse.getData().getPetList().get(i).getPetSex()+","+getPetListResponse.getData().getPetList().get(i).getPetParentName()+")",
-                                            getPetListResponse.getData().getPetList().get(i).getPetUniqueId()+","
-                                            +getPetListResponse.getData().getPetList().get(i).getPetName()+","
-                                            +getPetListResponse.getData().getPetList().get(i).getPetParentName()+","
-                                            +getPetListResponse.getData().getPetList().get(i).getId()+","
-                                            +getPetListResponse.getData().getPetList().get(i).getPetAge()+","
-                                            +getPetListResponse.getData().getPetList().get(i).getUserId());
+
+                        if(getPetListResponse.getData().getPetList().size()>0)
+                        {
+                            petUniueId=new ArrayList<>();
+                            petExistingSearch=new HashMap<>();
+                            for(int i=0;i<getPetListResponse.getData().getPetList().size();i++){
+                                petUniueId.add(getPetListResponse.getData().getPetList().get(i).getPetUniqueId()+":- "
+                                        +getPetListResponse.getData().getPetList().get(i).getPetName()+"("+getPetListResponse.getData().getPetList().get(i).getPetSex()+","+getPetListResponse.getData().getPetList().get(i).getPetParentName()+")");
+                                petExistingSearch.put(getPetListResponse.getData().getPetList().get(i).getPetUniqueId()+":- "
+                                                +getPetListResponse.getData().getPetList().get(i).getPetName()+"("+getPetListResponse.getData().getPetList().get(i).getPetSex()+","+getPetListResponse.getData().getPetList().get(i).getPetParentName()+")",
+                                        getPetListResponse.getData().getPetList().get(i).getPetUniqueId()+","
+                                                +getPetListResponse.getData().getPetList().get(i).getPetName()+","
+                                                +getPetListResponse.getData().getPetList().get(i).getPetParentName()+","
+                                                +getPetListResponse.getData().getPetList().get(i).getId()+","
+                                                +getPetListResponse.getData().getPetList().get(i).getPetAge()+","
+                                                +getPetListResponse.getData().getPetList().get(i).getUserId());
+                            }
+
+                            Log.d("jajajajjaja",""+petUniueId.size()+" \n"+ petUniueId.toString());
+                            Log.d("lllllllllll",""+petExistingSearch.size()+" \n"+ petExistingSearch);
+
+                            ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                                    (this,android.R.layout.simple_list_item_1,petUniueId);
+                            pet_parent_TV.setThreshold(1);//will start working from first character
+                            pet_parent_TV.setAdapter(adapter);//setting the adapter data into the AutoCompleteTextView
+                            pet_parent_TV.setTextColor(Color.BLACK);
                         }
 
-                        Log.d("jajajajjaja",""+petUniueId.size()+" \n"+ petUniueId.toString());
-                        Log.d("lllllllllll",""+petExistingSearch.size()+" \n"+ petExistingSearch);
-
-                        ArrayAdapter<String> adapter = new ArrayAdapter<String>
-                                (this,android.R.layout.simple_list_item_1,petUniueId);
-                        pet_parent_TV.setThreshold(1);//will start working from first character
-                        pet_parent_TV.setAdapter(adapter);//setting the adapter data into the AutoCompleteTextView
-                        pet_parent_TV.setTextColor(Color.BLACK);
                     }
 
                 }
@@ -849,7 +883,7 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
                             sexName="Female";
                         else
                             sexName="Male";
-                        getPetList();
+                        //getPetList();
                         pet_parent_TV.setText(newPetRegisterResponse.getData().getPetUniqueId()+":-"+newPetRegisterResponse.getData().getPetName()+"("+sexName+","+newPetRegisterResponse.getData().getPetParentName()+")");
                         userID = newPetRegisterResponse.getData().getUserId();
                         petId = newPetRegisterResponse.getData().getId();
@@ -879,7 +913,6 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        petParentAdapter.getFilter().filter(s.toString());
 
     }
 

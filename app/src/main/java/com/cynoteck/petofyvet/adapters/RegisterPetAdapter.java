@@ -21,17 +21,17 @@ import com.cynoteck.petofyvet.utils.ViewDeatilsAndIdCardClick;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RegisterPetAdapter extends RecyclerView.Adapter<RegisterPetAdapter.MyViewHolder> implements Filterable {
+public class RegisterPetAdapter extends RecyclerView.Adapter<RegisterPetAdapter.MyViewHolder> {
     Context context;
-    List<PetList> profileList;
-    List<PetList> filterProfileList;
+    ArrayList<PetList> profileList;
+    //ArrayList<PetList> filterProfileList;
     private ViewDeatilsAndIdCardClick onProductItemClickListner;
 
-    public RegisterPetAdapter(Context context, List<PetList> profileList, ViewDeatilsAndIdCardClick onProductItemClickListner) {
+    public RegisterPetAdapter(Context context, ArrayList<PetList> profileList, ViewDeatilsAndIdCardClick onProductItemClickListner) {
         this.context = context;
         this.profileList = profileList;
         this.onProductItemClickListner=onProductItemClickListner;
-        filterProfileList = new ArrayList<>(profileList);
+        //filterProfileList = new ArrayList<>(profileList);
     }
 
     @NonNull
@@ -60,7 +60,7 @@ public class RegisterPetAdapter extends RecyclerView.Adapter<RegisterPetAdapter.
         return profileList.size();
     }
 
-    @Override
+   /* @Override
     public Filter getFilter() {
         return filterList;
     }
@@ -94,12 +94,12 @@ public class RegisterPetAdapter extends RecyclerView.Adapter<RegisterPetAdapter.
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            profileList.clear();
-            profileList.addAll((List<PetList>)results.values);
-            notifyDataSetChanged();
+            //profileList.clear();
+            //profileList.addAll((ArrayList<PetList>)results.values);
+            //notifyDataSetChanged();
 
         }
-    };
+    };*/
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView petRegImage_IV;
