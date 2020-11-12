@@ -103,8 +103,7 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        //view= inflater.inflate(R.layout.fragment_report_list, container, false);
-        view= inflater.inflate(R.layout.test_layout, container, false);
+        view= inflater.inflate(R.layout.fragment_report_list, container, false);
         Bundle extras = this.getArguments();
         report_type_id = extras.getString("reports_id");
         pet_id = extras.getString("pet_id");
