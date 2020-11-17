@@ -613,7 +613,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
             case R.id.save_clinic_data:
                 veterian_name=clinicVeterian_name_ET.getText().toString();
                 descrisption=clinicCescription_ET.getText().toString();
-                Remarks=remarks_ET.getText().toString();
+                Remarks=remaks_ET.getText().toString();
                 visitDate=clinicCalenderTextViewVisitDt.getText().toString();
                 dtOfOnset=clinicIlness_onset.getText().toString();
                 flowUpDt=folow_up_dt_view.getText().toString();
@@ -736,7 +736,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                              clinicCescription_ET.setError("Enter Symptoms");
                              history_ET.setError(null);
                              diagnosis_result.setError(null);
-                             treatment_remaks_TV.setError(null);
+                             remaks_ET.setError(null);
                              return;
                            }
                          else if(history.isEmpty())
@@ -744,7 +744,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                              clinicCescription_ET.setError(null);
                              history_ET.setError("Enter History");
                              diagnosis_result.setError(null);
-                             treatment_remaks_TV.setError(null);
+                             remaks_ET.setError(null);
                              return;
                          }
                          else if(diagnosis.isEmpty())
@@ -752,15 +752,15 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                              clinicCescription_ET.setError(null);
                              history_ET.setError(null);
                              diagnosis_result.setError("Enter Diagnosis");
-                             treatment_remaks_TV.setError(null);
+                             remaks_ET.setError(null);
                              return;
                          }
-                         else if(remarks.isEmpty())
+                         else if(Remarks.isEmpty())
                          {
                              clinicCescription_ET.setError(null);
                              history_ET.setError(null);
                              diagnosis_result.setError(null);
-                             treatment_remaks_TV.setError("Enter treatment");
+                             remaks_ET.setError("Enter treatment");
                              return;
                          }
                          else
@@ -768,7 +768,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                              clinicCescription_ET.setError(null);
                              history_ET.setError(null);
                              diagnosis_result.setError(null);
-                             treatment_remaks_TV.setError(null);
+                             remaks_ET.setError(null);
                          }
 
                      }
@@ -778,7 +778,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                              clinicCescription_ET.setError("Enter Symptoms");
                              history_ET.setError(null);
                              diagnosis_result.setError(null);
-                             treatment_remaks_TV.setError(null);
+                             remaks_ET.setError(null);
                              return;
                          }
                          else if(history.isEmpty())
@@ -786,7 +786,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                              clinicCescription_ET.setError(null);
                              history_ET.setError("Enter History");
                              diagnosis_result.setError(null);
-                             treatment_remaks_TV.setError(null);
+                             remaks_ET.setError(null);
                              return;
                          }
                          else if(diagnosis.isEmpty())
@@ -794,7 +794,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                              clinicCescription_ET.setError(null);
                              history_ET.setError(null);
                              diagnosis_result.setError("Enter Diagnosis");
-                             treatment_remaks_TV.setError(null);
+                             remaks_ET.setError(null);
                              return;
                          }
                          else if(strDewormerName.isEmpty())
@@ -821,7 +821,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                              clinicCescription_ET.setError("Enter Symptoms");
                              history_ET.setError(null);
                              diagnosis_result.setError(null);
-                             treatment_remaks_TV.setError(null);
+                             remaks_ET.setError(null);
                              return;
                          }
                          else if(history.isEmpty())
@@ -829,7 +829,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                              clinicCescription_ET.setError(null);
                              history_ET.setError("Enter History");
                              diagnosis_result.setError(null);
-                             treatment_remaks_TV.setError(null);
+                             remaks_ET.setError(null);
                              return;
                          }
                          else if(diagnosis.isEmpty())
@@ -837,7 +837,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                              clinicCescription_ET.setError(null);
                              history_ET.setError(null);
                              diagnosis_result.setError("Enter Diagnosis");
-                             treatment_remaks_TV.setError(null);
+                             remaks_ET.setError(null);
                              return;
                          }
                          else if(remarks.isEmpty())
@@ -845,7 +845,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                              clinicCescription_ET.setError(null);
                              history_ET.setError(null);
                              diagnosis_result.setError(null);
-                             treatment_remaks_TV.setError("Enter treatment");
+                             remaks_ET.setError("Enter treatment");
                              return;
                          }
                          else
@@ -853,7 +853,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                              clinicCescription_ET.setError(null);
                              history_ET.setError(null);
                              diagnosis_result.setError(null);
-                             treatment_remaks_TV.setError(null);
+                             remaks_ET.setError(null);
                          }
 
                      }
@@ -1670,6 +1670,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     int responseCode = Integer.parseInt(getPetResponse.getResponse().getResponseCode());
                     if (responseCode == 109) {
                         //Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                        pet_name=getPetResponse.getData().getPetName();
                         String petDetails=getPetResponse.getData().getPetName()+" ( "+getPetResponse.getData().getPetUniqueId()
                                           +" , "+getPetResponse.getData().getPetCategory()
                                           +" , "+getPetResponse.getData().getPetSex()

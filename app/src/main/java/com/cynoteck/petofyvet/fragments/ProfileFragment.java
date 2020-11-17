@@ -97,6 +97,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, A
         getPetListRequest.setData(getPetListParams);
         ApiService<OnlineAppointmentResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().onlineAppointmentOnOff(Config.token,getPetListRequest), "OnlineAppoint");
+        Log.e("onlineAppointment==>",""+getPetListRequest);
 
     }
 

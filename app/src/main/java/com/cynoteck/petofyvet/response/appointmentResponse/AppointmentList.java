@@ -38,6 +38,10 @@ public class AppointmentList
 
     private String petUniqueId;
 
+    private String encrptedId;
+
+    private String petDOB;
+
     private String paymentStatus;
 
     private String petSex;
@@ -240,6 +244,22 @@ public class AppointmentList
         this.petUniqueId = petUniqueId;
     }
 
+    public String getEncrptedId() {
+        return encrptedId;
+    }
+
+    public void setEncrptedId(String encrptedId) {
+        this.encrptedId = encrptedId;
+    }
+
+    public String getPetDOB() {
+        return petDOB;
+    }
+
+    public void setPetDOB(String petDOB) {
+        this.petDOB = petDOB;
+    }
+
     public String getPaymentStatus ()
     {
         return paymentStatus;
@@ -353,7 +373,7 @@ public class AppointmentList
     @Override
     public String toString()
     {
-        return "ClassPojo [petId = "+petId+", petAge = "+petAge+", statusColor = "+statusColor+", subject = "+subject+", companyName = "+companyName+", isVideoCall = "+isVideoCall+", description = "+description+", className = "+className+", meetingId = "+meetingId+", title = "+title+", vetName = "+vetName+", petParentName = "+petParentName+", ngoUserId = "+ngoUserId+", id = "+id+", startDateString = "+startDateString+", isApproved = "+isApproved+", petParentMeetingUrl = "+petParentMeetingUrl+", petUniqueId = "+petUniqueId+", paymentStatus = "+paymentStatus+", petSex = "+petSex+", veterinarianUserId = "+veterinarianUserId+", userId = "+userId+", meetingUrl = "+meetingUrl+", encryptionId = "+encryptionId+", someImportantKeyID = "+someImportantKeyID+", eventFirstImage = "+eventFirstImage+", statusString = "+statusString+", location = "+location+", endDateString = "+endDateString+"]";
+        return "ClassPojo [petId = "+petId+", petAge = "+petAge+", statusColor = "+statusColor+", subject = "+subject+", companyName = "+companyName+", isVideoCall = "+isVideoCall+", description = "+description+", className = "+className+", meetingId = "+meetingId+", title = "+title+", vetName = "+vetName+", petParentName = "+petParentName+", ngoUserId = "+ngoUserId+", id = "+id+", startDateString = "+startDateString+", isApproved = "+isApproved+", petParentMeetingUrl = "+petParentMeetingUrl+", petUniqueId = "+petUniqueId+", encrptedId = "+encrptedId+", petDOB = "+petDOB+", paymentStatus = "+paymentStatus+", petSex = "+petSex+", veterinarianUserId = "+veterinarianUserId+", userId = "+userId+", meetingUrl = "+meetingUrl+", encryptionId = "+encryptionId+", someImportantKeyID = "+someImportantKeyID+", eventFirstImage = "+eventFirstImage+", statusString = "+statusString+", location = "+location+", endDateString = "+endDateString+"]";
     }
 }
 			
