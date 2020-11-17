@@ -134,7 +134,8 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
     Bundle data = new Bundle();
     TextView folow_up_dt_view,ilness_onset,next_visit, Dewormer_name_ET,Dewormer_name_TV,Dewormer_ET,Dewormer_TV,clinic_head_line,
             clinicCalenderTextViewVisitDt,clinicIlness_onset,date_of_illness_TV,upload_documents,follow_up_dt,nextImmunizationDate,
-            clinic_peto_edit_reg_number_dialog,next_vaccine_TV,next_vaccine_type_TV,history_TV,next_dewormer_TV,add_immunization_data;
+            clinic_peto_edit_reg_number_dialog,next_vaccine_TV,next_vaccine_type_TV,history_TV,
+            next_dewormer_TV,add_immunization_data,pet_nameTV,pet_idTV,pet_genderTV,pet_ageTV,pet_breadTV,pet_typeTV;
     ImageView document_name,clinic_back_arrow_IV;
     LinearLayout addPrescriptionButton,vaccine_layout,diagnosis_Layout,deworming_name_Layout,deworming_dose_Layout;
     EditText clinicVeterian_name_ET,clinicCescription_ET,remaks_ET,next_vaccine_ET,history_ET,diagnosis_result,remarks_ET,
@@ -186,17 +187,23 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_add_clinic);
-        setContentView(R.layout.test_layout);
+        setContentView(R.layout.activity_add_clinic);
 
         init();
         requestMultiplePermissions();
+
     }
 
     private void init() {
         methods = new Methods(this);
         Bundle extras = getIntent().getExtras();
         clinic_peto_edit_reg_number_dialog = findViewById(R.id.clinic_peto_edit_reg_number_dialog);
+        pet_nameTV = findViewById(R.id.pet_nameTV);
+        pet_idTV = findViewById(R.id.pet_idTV);
+        pet_genderTV = findViewById(R.id.pet_genderTV);
+        pet_ageTV = findViewById(R.id.pet_ageTV);
+        pet_breadTV = findViewById(R.id.pet_breadTV);
+        pet_typeTV = findViewById(R.id.pet_typeTV);
         clinic_head_line = findViewById(R.id.clinic_head_line);
         clinicVeterian_name_ET = findViewById(R.id.veterian_name_ET);
         clinicNature_of_visit_spinner = findViewById(R.id.nature_of_visit_spinner);
@@ -1668,7 +1675,13 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                                           +" , "+getPetResponse.getData().getPetSex()
                                           +" , "+getPetResponse.getData().getPetBreed()+" , "+getPetResponse.getData().getPetAge()+" Old)\n"
                                           +"( "+getPetResponse.getData().getPetParentName()+" , "+getPetResponse.getData().getContactNumber()+" )";
-                        clinic_peto_edit_reg_number_dialog.setText(petDetails);
+                        clinic_peto_edit_reg_number_dialog.setText(getPetResponse.getData().getPetParentName()+" ("+getPetResponse.getData().getContactNumber()+" ) ");
+                        pet_nameTV.setText(getPetResponse.getData().getPetName());
+                        pet_idTV.setText(getPetResponse.getData().getPetUniqueId());
+                        pet_genderTV.setText(getPetResponse.getData().getPetSex());
+                        pet_ageTV.setText(getPetResponse.getData().getPetAge()+" Old");
+                        pet_breadTV.setText(getPetResponse.getData().getPetBreed());
+                        pet_typeTV.setText(getPetResponse.getData().getPetCategory());
 
                     } else if (responseCode == 614) {
                         Toast.makeText(this, getPetResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
