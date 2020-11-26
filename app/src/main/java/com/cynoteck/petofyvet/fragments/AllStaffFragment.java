@@ -401,8 +401,7 @@ public class AllStaffFragment extends Fragment implements ApiResponse, StaffList
         emailET.setText(staff_email_id);
         mobileET.setText(staff_phone);
 
-//        passwordET=edit_staff_dialog.findViewById(R.id.passwordET);
-//        confirmPassET=edit_staff_dialog.findViewById(R.id.confirm_passET);
+
         update_cancel_button = edit_staff_dialog.findViewById(R.id.update_cancel_button);
         update_button=edit_staff_dialog.findViewById(R.id.update_button);
         update_cancel_button.setOnClickListener(this);

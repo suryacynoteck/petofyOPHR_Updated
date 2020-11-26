@@ -75,6 +75,7 @@ import com.cynoteck.petofyvet.response.bankAccountResponse.AddBankAccountRespons
 import com.cynoteck.petofyvet.response.bankAccountResponse.GetBankAccoutsResponse;
 import com.cynoteck.petofyvet.response.bankAccountResponse.ValidateIfscCodeResponse;
 import com.cynoteck.petofyvet.response.clinicVisist.ClinicVisitResponse;
+import com.cynoteck.petofyvet.response.dateOfBirthResponse.DateOfBirthResponse;
 import com.cynoteck.petofyvet.response.forgetAndChangePassResponse.PasswordResponse;
 import com.cynoteck.petofyvet.response.getAppointmentsStatusResponse.AppointmentStatusResponse;
 import com.cynoteck.petofyvet.response.getImmunizationReport.PetImmunizationRecordResponse;
@@ -140,6 +141,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
 
 public interface ApiInterface {
 
@@ -587,6 +589,12 @@ public interface ApiInterface {
     @POST("pet/GetPetAgeString")
     Call<GetPetAgeresponseData> getPetAgeString(@Header("Authorization") String auth, @Body GetPetAgeRequestData getPetAgeRequestData);
 
+    //GET DATE OF BIRTH........................................
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @GET("pet/GetPetDateOfBirth/{data}")
+    Call<DateOfBirthResponse> GetPetDateOfBirth(@Header("Authorization") String auth, @Path("data") String data);
+
     //SEARCH PET PARENT.......................................
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
@@ -629,6 +637,7 @@ public interface ApiInterface {
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("report/SendNotification")
     Call<JsonObject> sendNotification(@Header("Authorization") String auth, @Body SendNotificationRequest sendNotificationRequest);
+
 
 }
 

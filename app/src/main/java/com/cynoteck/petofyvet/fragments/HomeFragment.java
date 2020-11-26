@@ -122,7 +122,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
         appoint_CV=view.findViewById(R.id.appoint_CV);
 
         addNewEntry.setOnClickListener(this);
-        addNewEntry.setEnabled(false);
         search_box_add_new.addTextChangedListener(this);
         allPets_CV.setOnClickListener(this);
         reports_CV.setOnClickListener(this);
@@ -419,7 +418,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
 
                         Log.d("jajajajjaja", "" + petUniueId.size() + " \n" + petUniueId.toString());
                         Log.d("lllllllllll", "" + petExistingSearch.size() + " \n" + petExistingSearch);
-                        addNewEntry.setEnabled(true);
                         ArrayAdapter<String> adapter = new ArrayAdapter<String>
                                 (getActivity(), android.R.layout.simple_list_item_1, petUniueId);
                         search_box_add_new.setThreshold(1);//will start working from first character

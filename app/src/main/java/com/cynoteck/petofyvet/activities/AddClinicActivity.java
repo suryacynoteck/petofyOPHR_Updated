@@ -126,6 +126,7 @@ import retrofit2.Response;
 public class AddClinicActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse,ImmunizationOnclickListener {
 
     ImageView back_arrow_IV;
+
     String report_id="",visitIdString="",pet_age="",strNatureOfVist="",appointment_ID="0",pet_DOB="",pet_encrypted_id="",strDocumentUrl="",visitId="",natureOfVisit="",pet_id="",
             pet_name="",pet_owner_name="",pet_sex="",pet_unique_id="",veterian_name="",descrisption="",strPetAge="",
             Remarks="",visitDate="",history="",remarks="",dtOfOnset="",flowUpDt="",weight="",temparature="",diagnosis="",strNextVisitDate="",
@@ -296,8 +297,6 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
             }
         });
 
-
-
         //8583896504(Suresh Das).
 
         if (extras != null) {
@@ -436,6 +435,8 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         ApiService<ClinicVisitResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().getClinicVisit(Config.token), "GetClinicVisitRoutineFollowupTypes");
     }
+
+
 
     private void searchDiagnosisData()
     {
@@ -1055,6 +1056,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                          }
 
                      }*/
+
                  }
                 break;
             case R.id.upload_documents:

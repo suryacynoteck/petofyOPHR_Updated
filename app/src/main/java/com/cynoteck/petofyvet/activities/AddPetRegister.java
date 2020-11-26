@@ -52,12 +52,14 @@ import com.cynoteck.petofyvet.response.addPet.petAgeResponse.PetAgeValueResponse
 import com.cynoteck.petofyvet.response.addPet.petColorResponse.PetColorValueResponse;
 import com.cynoteck.petofyvet.response.addPet.petSizeResponse.PetSizeValueResponse;
 import com.cynoteck.petofyvet.response.addPet.uniqueIdResponse.UniqueResponse;
+import com.cynoteck.petofyvet.response.dateOfBirthResponse.DateOfBirthResponse;
 import com.cynoteck.petofyvet.response.getPetAgeResponse.GetPetAgeresponseData;
 import com.cynoteck.petofyvet.response.getPetParrentnameReponse.GetPetParentResponseData;
 import com.cynoteck.petofyvet.response.petAgeUnitResponse.PetAgeUnitResponseData;
 import com.cynoteck.petofyvet.response.updateProfileResponse.PetTypeResponse;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
+import com.google.gson.JsonObject;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -182,6 +184,12 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
     private void getPetAgeUnit() {
         ApiService<PetAgeUnitResponseData> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().getPetAgeUnit(Config.token), "GetPetAgeUnit");
+    }
+
+    private void getPetDateofBirthDependsOnDays(String day)
+    {
+        ApiService<DateOfBirthResponse> service = new ApiService<>();
+        service.get( this, ApiClient.getApiInterface().GetPetDateOfBirth(Config.token,day), "getDateOfYear");
     }
 
     private void getPetAgeString(String DOB)
@@ -416,6 +424,14 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
                 }
                 else
                 {
+                    if(age_neumeric.getText().toString().isEmpty())
+                    {
+
+                    }
+                    else
+                    {
+                        getPetDateofBirthDependsOnDays(age_neumeric.getText().toString());
+                    }
                     day_and_age_layout.setVisibility(View.GONE);
                     calenderView.setVisibility(View.VISIBLE);
                 }
@@ -430,6 +446,7 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
 
                 if(strPetName.isEmpty())
                 {
+                    Toast.makeText(this, "Enter Pet Name", Toast.LENGTH_SHORT).show();
                     pet_name.setError("Enter Pet Name");
                     pet_parent_name.setError(null);
                     pet_contact_number.setError(null);
@@ -439,6 +456,7 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
                 }
                 else if(strPetParentName.isEmpty())
                 {
+                    Toast.makeText(this, "Enter Parent Name", Toast.LENGTH_SHORT).show();
                     pet_name.setError(null);
                     pet_parent_name.setError("Enter Parent Name");
                     pet_contact_number.setError(null);
@@ -448,6 +466,7 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
                 }
                 else if(strPetContactNumber.isEmpty())
                 {
+                    Toast.makeText(this, "Enter Contact Number", Toast.LENGTH_SHORT).show();
                     pet_name.setError(null);
                     pet_parent_name.setError(null);
                     pet_contact_number.setError("Enter Contact Number");
@@ -457,6 +476,7 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
                 }
                 else if(strPetAdress.isEmpty())
                 {
+                    Toast.makeText(this, "Enter Pet Address", Toast.LENGTH_SHORT).show();
                     pet_name.setError(null);
                     pet_parent_name.setError(null);
                     pet_contact_number.setError(null);
@@ -466,6 +486,7 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
                 }
                 else if(strPetBirthDay.isEmpty())
                 {
+                    Toast.makeText(this, "Pet YOB", Toast.LENGTH_SHORT).show();
                     pet_name.setError(null);
                     pet_parent_name.setError(null);
                     pet_contact_number.setError(null);
@@ -1003,6 +1024,24 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
 
                     }else if (responseCode==614){
                         Toast.makeText(this, getPetParentResponseData.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "getDateOfYear":
+                try {
+                    DateOfBirthResponse dateOfBirthResponse = (DateOfBirthResponse) arg0.body();
+                    Log.d("getDateOfYear",dateOfBirthResponse.toString());
+                    int responseCode = Integer.parseInt(dateOfBirthResponse.getResponse().getResponseCode());
+                    if (responseCode== 109){
+                        calenderView.setText(dateOfBirthResponse.getData());
+                        getPetAgeString(dateOfBirthResponse.getData());
+                    }else if (responseCode==614){
+                        Toast.makeText(this, dateOfBirthResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
                     }else {
                         Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
                     }

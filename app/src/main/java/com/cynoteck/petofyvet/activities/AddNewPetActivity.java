@@ -42,12 +42,14 @@ import com.cynoteck.petofyvet.response.addPet.petAgeResponse.PetAgeValueResponse
 import com.cynoteck.petofyvet.response.addPet.petColorResponse.PetColorValueResponse;
 import com.cynoteck.petofyvet.response.addPet.petSizeResponse.PetSizeValueResponse;
 import com.cynoteck.petofyvet.response.addPet.uniqueIdResponse.UniqueResponse;
+import com.cynoteck.petofyvet.response.dateOfBirthResponse.DateOfBirthResponse;
 import com.cynoteck.petofyvet.response.getPetAgeResponse.GetPetAgeresponseData;
 import com.cynoteck.petofyvet.response.getPetParrentnameReponse.GetPetParentResponseData;
 import com.cynoteck.petofyvet.response.petAgeUnitResponse.PetAgeUnitResponseData;
 import com.cynoteck.petofyvet.response.updateProfileResponse.PetTypeResponse;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
+import com.google.gson.JsonObject;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -199,6 +201,14 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
                 }
                 else
                 {
+                    if(age_neumeric.getText().toString().isEmpty())
+                    {
+
+                    }
+                    else
+                    {
+                        getPetDateofBirthDependsOnDays(age_neumeric.getText().toString());
+                    }
                     day_and_age_layout.setVisibility(View.GONE);
                     calenderTextView_dialog.setVisibility(View.VISIBLE);
                 }
@@ -211,6 +221,7 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
 
                 if(strPetName.isEmpty())
                 {
+                    Toast.makeText(this, "Enter Pet Name", Toast.LENGTH_SHORT).show();
                     pet_name_ET.setError("Enter Pet Name");
                     pet_parent_name_ET.setError(null);
                     pet_contact_number_ET.setError(null);
@@ -218,6 +229,7 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
                 }
                 else if(strPetParentName.isEmpty())
                 {
+                    Toast.makeText(this, "Enter Parent Name", Toast.LENGTH_SHORT).show();
                     pet_name_ET.setError(null);
                     pet_parent_name_ET.setError("Enter Parent Name");
                     pet_contact_number_ET.setError(null);
@@ -225,6 +237,7 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
                 }
                 else if(strPetContactNumber.isEmpty())
                 {
+                    Toast.makeText(this, "Enter Contact Number", Toast.LENGTH_SHORT).show();
                     pet_name_ET.setError(null);
                     pet_parent_name_ET.setError(null);
                     pet_contact_number_ET.setError("Enter Contact Number");
@@ -232,6 +245,7 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
                 }
                 else if(strPetBirthDay.isEmpty())
                 {
+                    Toast.makeText(this, "Set Pet YOB", Toast.LENGTH_SHORT).show();
                     pet_name_ET.setError(null);
                     pet_parent_name_ET.setError(null);
                     pet_contact_number_ET.setError(null);
@@ -295,6 +309,12 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
     private void getPetAgeUnit() {
         ApiService<PetAgeUnitResponseData> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().getPetAgeUnit(Config.token), "GetPetAgeUnit");
+    }
+
+    private void getPetDateofBirthDependsOnDays(String days)
+    {
+        ApiService<DateOfBirthResponse> service = new ApiService<>();
+        service.get( this, ApiClient.getApiInterface().GetPetDateOfBirth(Config.token,days), "getDateOfYear");
     }
 
     private void getPetAgeString(String DOB)
@@ -387,6 +407,25 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
     @Override
     public void onResponse(Response arg0, String key) {
         switch (key){
+            case "getDateOfYear":
+                try {
+                    DateOfBirthResponse dateOfBirthResponse = (DateOfBirthResponse) arg0.body();
+                    Log.d("getDateOfYear",dateOfBirthResponse.toString());
+                    int responseCode = Integer.parseInt(dateOfBirthResponse.getResponse().getResponseCode());
+                    if (responseCode== 109){
+                        calenderTextView_dialog.setText(dateOfBirthResponse.getData());
+                        getPetAgeString(dateOfBirthResponse.getData());
+                        showDatePickerDialog(dateOfBirthResponse.getData());
+                    }else if (responseCode==614){
+                        Toast.makeText(this, dateOfBirthResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+                break;
             case "SearchPetParent":
                 try {
                     Log.d("SearchPetParent",arg0.body().toString());
@@ -679,6 +718,27 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
     @Override
     public void onError(Throwable t, String key) {
 
+    }
+
+    private void showDatePickerDialog(String date) {
+        // here date is 5-12-2013
+        String[] split = date.split("/");
+        int day = Integer.valueOf(split[0]);
+        int month = Integer.valueOf(split[1]);
+        int year = Integer.valueOf(split[2]);
+        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+
+            }
+        };
+
+        picker = new DatePickerDialog(this,
+                dateSetListener, year, month, day);
+        picker.show();
     }
 
     @Override
