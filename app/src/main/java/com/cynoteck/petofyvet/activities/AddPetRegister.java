@@ -100,7 +100,7 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
     AutoCompleteTextView pet_parent_name,pet_contact_number;
     LinearLayout day_and_age_layout;
     String strPetName="",strPetParentName="",strPetContactNumber="",strPetDescription="",strPetAdress="",strPetBirthDay="",
-            strSpnerItemPetNm="",getStrSpnerItemPetNmId="",strSpnrBreed="",strSpnrBreedId="",petUniqueId="",
+            strSpnerItemPetNm="",getStrSpnerItemPetNmId="",strSpnrBreed="",strSpnrBreedId="",petUniqueId="",strAgeCount="",
             strSpnrAge="",strSpnrAgeId="",strSpnrColor="",strSpnrColorId="",strSpnrSize="",strSpneSizeId="",
             strSpnrSex="",strSpnrSexId="",currentDateandTime="",selctProflImage="0",selctImgOne="0",selctImgtwo="0",
             slctImgThree="0",slctImgFour="0",slctImgFive="0",strProfileImgUrl="",strFirstImgUrl="",strSecondImgUrl="",
@@ -430,7 +430,29 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
                     }
                     else
                     {
-                        getPetDateofBirthDependsOnDays(age_neumeric.getText().toString());
+                        if(strAgeCount.equals("Day"))
+                        {
+                            getPetDateofBirthDependsOnDays(age_neumeric.getText().toString());
+                        }
+                        else if(strAgeCount.equals("Week"))
+                        {
+                            int weekToDays= Integer.parseInt(age_neumeric.getText().toString());
+                            int days=weekToDays*7;
+                            getPetDateofBirthDependsOnDays(String.valueOf(days));
+                        }
+                        else if(strAgeCount.equals("Month"))
+                        {
+                            int monthToDays= Integer.parseInt(age_neumeric.getText().toString());
+                            int days=monthToDays*30;
+                            getPetDateofBirthDependsOnDays(String.valueOf(days));
+                        }
+                        else
+                        {
+                            int yearsToDays= Integer.parseInt(age_neumeric.getText().toString());
+                            int days=yearsToDays*365;
+                            getPetDateofBirthDependsOnDays(String.valueOf(days));
+                        }
+
                     }
                     day_and_age_layout.setVisibility(View.GONE);
                     calenderView.setVisibility(View.VISIBLE);
@@ -1439,6 +1461,7 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
                 // Showing selected spinner item
+                strAgeCount=item;
                 Log.d("spnerType","PetAge"+item);
             }
             public void onNothingSelected(AdapterView<?> parent) {

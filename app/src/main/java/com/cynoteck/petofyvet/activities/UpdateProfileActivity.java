@@ -153,9 +153,14 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
         strVetQulafctnUpdt = intent.getStringExtra("vetStudy");
         strPetCatUpdt = intent.getStringExtra("category");
         strSrvcCatUpdt = intent.getStringExtra("service");
-        strContrySpnr = intent.getStringExtra("country");
-        strStateSpnr = intent.getStringExtra("state");
-        strCitySpnr = intent.getStringExtra("city");
+
+        if(intent.getStringExtra("country")!=null)
+            strContrySpnr = intent.getStringExtra("country");
+        if(intent.getStringExtra("state")!=null)
+            strStateSpnr = intent.getStringExtra("state");
+        if(intent.getStringExtra("city")!=null)
+            strCitySpnr = intent.getStringExtra("city");
+
         strSrvsUrl1 = intent.getStringExtra("serviceImage1");
         strSrvsUrl2 = intent.getStringExtra("serviceImage2");
         strSrvsUrl3 = intent.getStringExtra("serviceImage3");
@@ -171,17 +176,24 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
 
         init();
 
-        if((strOnlineCharges!=null)||(!strOnlineCharges.equals("null"))||(!strOnlineCharges.equals("")||(!strOnlineCharges.equals("0"))))
+        if((strOnlineCharges!=null))
         {
-            online_CB.setChecked(true);
-            online_charges_ET.setVisibility(View.VISIBLE);
-            online_charges_ET.setText(strOnlineCharges);
+            if((strOnlineCharges!=null)||(!strOnlineCharges.equals("")||(!strOnlineCharges.equals("0"))))
+            {
+                online_CB.setChecked(true);
+                online_charges_ET.setVisibility(View.VISIBLE);
+                online_charges_ET.setText(strOnlineCharges);
+            }
         }
 
-        if((!strClinicCode.equals("null"))||(strClinicCode!=null)||(!strClinicCode.equals("")))
-        clinicCode_updt.setText(strClinicCode);
+        if((strClinicCode!=null))
+        {
+            if((!strClinicCode.equals("")))
+                clinicCode_updt.setText(strClinicCode);
+        }
 
-        setImages();
+
+        //setImages();
         setValueFromSharePref();
         requestMultiplePermissions();
         if(methods.isInternetOn())
@@ -570,22 +582,23 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     online_charges_ET.setError(null);
                     clinicCode_updt.setError(null);
                 }
-                else if(strCitySpnr.isEmpty()||(strCitySpnr.equals("Select City")))
+                else if((strCitySpnr.equals("Select City")))
                 {
                     Toast.makeText(this, "Select City!!", Toast.LENGTH_SHORT).show();
                 }
-                else if(strStateSpnr.isEmpty()||(strStateSpnr.equals("Select State")))
+                else if((strStateSpnr.equals("Select State")))
                 {
                     Toast.makeText(this, "Select State!!", Toast.LENGTH_SHORT).show();
                 }
-                else if(strContrySpnr.isEmpty()||(strContrySpnr.equals("Select Country")))
+                else if((strContrySpnr.equals("Select Country")))
                 {
                     Toast.makeText(this, "Select Country!!", Toast.LENGTH_SHORT).show();
-                }else if (strCatId.isEmpty()){
+                }
+                else if (strCatId.isEmpty()){
                     Toast.makeText(this, "Select Pet Type !", Toast.LENGTH_SHORT).show();
-                }else if (strSrvsCatId.isEmpty()){
+                }
+                else if (strSrvsCatId.isEmpty()){
                     Toast.makeText(this, "Select Service Type !", Toast.LENGTH_SHORT).show();
-
                 }
                 else if((online_CB.isChecked()==true)&&(strOnlineCharges.isEmpty()))
                 {

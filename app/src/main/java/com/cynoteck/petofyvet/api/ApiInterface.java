@@ -22,6 +22,7 @@ import com.cynoteck.petofyvet.params.assignAndRemovePermission.AssignRemovePermi
 import com.cynoteck.petofyvet.params.changePassRequest.ChangePassRequest;
 import com.cynoteck.petofyvet.params.checkpetInVetRegister.InPetRegisterRequest;
 import com.cynoteck.petofyvet.params.forgetPassRequest.ForgetPassRequest;
+import com.cynoteck.petofyvet.params.getFirstVaccine.GetFirstVaccineRequest;
 import com.cynoteck.petofyvet.params.getMyVisitPetRecordRequest.GetMyVisistPetRecordRequest;
 import com.cynoteck.petofyvet.params.getPetListRequest.GetPetListRequest;
 import com.cynoteck.petofyvet.params.getVaccinationDetails.GetVaccinationRequest;
@@ -30,6 +31,7 @@ import com.cynoteck.petofyvet.params.immunizationRequest.ImmunizationRequest;
 import com.cynoteck.petofyvet.params.immunizationRequest.ImmunizationRequestt;
 import com.cynoteck.petofyvet.params.loginRequest.Loginparams;
 import com.cynoteck.petofyvet.params.newPetEntryParams.NewPetRequest;
+import com.cynoteck.petofyvet.params.nextVaccineParameter.NextVaccineRequest;
 import com.cynoteck.petofyvet.params.onlineClinicVisitsParams.OnlineClinicVisitsRequest;
 import com.cynoteck.petofyvet.params.otpRequest.SendOtpRequest;
 import com.cynoteck.petofyvet.params.petBreedRequest.BreedParams;
@@ -78,6 +80,7 @@ import com.cynoteck.petofyvet.response.clinicVisist.ClinicVisitResponse;
 import com.cynoteck.petofyvet.response.dateOfBirthResponse.DateOfBirthResponse;
 import com.cynoteck.petofyvet.response.forgetAndChangePassResponse.PasswordResponse;
 import com.cynoteck.petofyvet.response.getAppointmentsStatusResponse.AppointmentStatusResponse;
+import com.cynoteck.petofyvet.response.getFirstVaccineReponse.GetFirstVaccineResponseData;
 import com.cynoteck.petofyvet.response.getImmunizationReport.PetImmunizationRecordResponse;
 import com.cynoteck.petofyvet.response.getLabTestReportResponse.getLabTestReportDetailsResponse.GetLabTestReportDeatilsResponse;
 import com.cynoteck.petofyvet.response.getLabTestReportResponse.getPetLabWorkListResponse.PetLabWorkResponse;
@@ -110,6 +113,7 @@ import com.cynoteck.petofyvet.response.immuniztionHistory.ImmunizationHistoryRes
 import com.cynoteck.petofyvet.response.labTyperesponse.LabTypeResponse;
 import com.cynoteck.petofyvet.response.loginRegisterResponse.LoginRegisterResponse;
 import com.cynoteck.petofyvet.response.newPetResponse.NewPetRegisterResponse;
+import com.cynoteck.petofyvet.response.nextVaccineResponse.NextVaccineResponse;
 import com.cynoteck.petofyvet.response.onlineAppointmentOnOff.OnlineAppointmentResponse;
 import com.cynoteck.petofyvet.response.onlineClinicVisitResponse.OnlineClinicResponse;
 import com.cynoteck.petofyvet.response.otpResponse.OtpResponse;
@@ -173,7 +177,7 @@ public interface ApiInterface {
     Call<PasswordResponse> getPasswordResponse(@Body ForgetPassRequest forgetPassRequest);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
-    @POST("user/UpdateVeterinarian")
+    @POST("user/ChangePassword")
     Call<PasswordResponse> getPasswordResponse(@Header("Authorization") String auth, @Body ChangePassRequest changePassRequest);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
@@ -239,6 +243,20 @@ public interface ApiInterface {
     @POST("user/ChangeProfileImage")
     Call<ProfileImageResponse> uploadProfile(@Header("Authorization") String auth,
                                              @Part MultipartBody.Part file);
+
+    //GET FIRST RECOMMENDED VACCINE..........................
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("pethealthrecord/GetInitialVaccineDetails")
+    Call<GetFirstVaccineResponseData> getInitialVaccineDetails(@Header("Authorization") String auth, @Body GetFirstVaccineRequest getFirstVaccineRequest);
+
+    //GET FIRST NEXT VACCINE..................................
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("pethealthrecord/GetNextVaccinationDateAndName")
+    Call<NextVaccineResponse> getNextVaccinationDateAndName(@Header("Authorization") String auth, @Body NextVaccineRequest nextVaccineRequest);
+
+
     //reports section.........................................
 
 

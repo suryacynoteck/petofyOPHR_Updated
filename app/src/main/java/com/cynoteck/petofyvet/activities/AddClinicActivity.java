@@ -53,6 +53,8 @@ import com.cynoteck.petofyvet.params.addImmunizationClinic.ImmunizationAddClinic
 import com.cynoteck.petofyvet.params.addImmunizationClinic.ImmunizationClinicData;
 import com.cynoteck.petofyvet.params.addPetClinicParamRequest.AddPetClinicParam;
 import com.cynoteck.petofyvet.params.addPetClinicParamRequest.AddPetClinicRequest;
+import com.cynoteck.petofyvet.params.getFirstVaccine.GetFirstVaccineModel;
+import com.cynoteck.petofyvet.params.getFirstVaccine.GetFirstVaccineRequest;
 import com.cynoteck.petofyvet.params.getPetListRequest.GetPetListParams;
 import com.cynoteck.petofyvet.params.getPetListRequest.GetPetListRequest;
 import com.cynoteck.petofyvet.params.getVaccinationDetails.GetVaccinationModelParameter;
@@ -61,6 +63,8 @@ import com.cynoteck.petofyvet.params.immunizationHistory.ImmunizationHistoryPara
 import com.cynoteck.petofyvet.params.immunizationHistory.ImmunizationHistoryRequest;
 import com.cynoteck.petofyvet.params.immunizationRequest.ImmunizationParameter;
 import com.cynoteck.petofyvet.params.immunizationRequest.ImmunizationRequestt;
+import com.cynoteck.petofyvet.params.nextVaccineParameter.NextVaccineParam;
+import com.cynoteck.petofyvet.params.nextVaccineParameter.NextVaccineRequest;
 import com.cynoteck.petofyvet.params.petReportsRequest.PetClinicVisitDetailsRequest;
 import com.cynoteck.petofyvet.params.petReportsRequest.PetClinicVistsDetailsParams;
 import com.cynoteck.petofyvet.params.searcgDiagnosisRequest.SearchDiagnosisParameter;
@@ -77,6 +81,7 @@ import com.cynoteck.petofyvet.response.addImmunizationClinicResponse.Immunizatio
 import com.cynoteck.petofyvet.response.addPet.imageUpload.ImageResponse;
 import com.cynoteck.petofyvet.response.addPetClinicresponse.AddpetClinicResponse;
 import com.cynoteck.petofyvet.response.clinicVisist.ClinicVisitResponse;
+import com.cynoteck.petofyvet.response.getFirstVaccineReponse.GetFirstVaccineResponseData;
 import com.cynoteck.petofyvet.response.getPetDetailsResponse.GetPetResponse;
 import com.cynoteck.petofyvet.response.getPetParrentnameReponse.GetPetParentResponseData;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.GetReportsTypeResponse;
@@ -86,6 +91,7 @@ import com.cynoteck.petofyvet.response.getVaccinationResponse.GetVaccineResponse
 import com.cynoteck.petofyvet.response.immunizationVaccineType.ImmunizationVaccineResponse;
 import com.cynoteck.petofyvet.response.immuniztionHistory.ImmunizationHistoryResponse;
 import com.cynoteck.petofyvet.response.immuniztionHistory.ImmunizationHistorymodel;
+import com.cynoteck.petofyvet.response.nextVaccineResponse.NextVaccineResponse;
 import com.cynoteck.petofyvet.response.saveImmunizationData.SaveImmunizationResponse;
 import com.cynoteck.petofyvet.response.searchDiagnosisResponse.SearchDiagnosisResponseData;
 import com.cynoteck.petofyvet.response.searchRemaks.SearchRemaksResponse;
@@ -128,7 +134,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
     ImageView back_arrow_IV;
 
     String report_id="",visitIdString="",pet_age="",strNatureOfVist="",appointment_ID="0",pet_DOB="",pet_encrypted_id="",strDocumentUrl="",visitId="",natureOfVisit="",pet_id="",
-            pet_name="",pet_owner_name="",pet_sex="",pet_unique_id="",veterian_name="",descrisption="",strPetAge="",
+            pet_name="",pet_owner_name="",pet_sex="",pet_unique_id="",veterian_name="",descrisption="",strPetAge="",getStrVaccineType="",getStrVaccineName="",
             Remarks="",visitDate="",history="",remarks="",dtOfOnset="",flowUpDt="",weight="",temparature="",diagnosis="",strNextVisitDate="",
             strVacine="",strDewormerName="",strDewormerDose="",strToolbarName="",PetCategoryId="1",cocatVal=null,nextVaccineName=null,nextVaccineType=null,
             valueConcat=null,dewormerName=null,dewormerDose=null,strVaccineType="",strVaccineName="",strNextDewormer="";
@@ -407,6 +413,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
             searchDeormerName();
             searchDeormerDose();
             setNextDewormerDoseSpinner();
+            getFirstVaccine();
         }else {
 
             methods.DialogInternet();
@@ -435,6 +442,33 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         ApiService<ClinicVisitResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().getClinicVisit(Config.token), "GetClinicVisitRoutineFollowupTypes");
     }
+
+    private void getFirstVaccine() {
+        GetFirstVaccineModel getFirstVaccineModel=new GetFirstVaccineModel();
+        getFirstVaccineModel.setCategoryId("1");
+        getFirstVaccineModel.setPetId(pet_id.substring(0,pet_id.length()-2));
+        GetFirstVaccineRequest getFirstVaccineRequest=new GetFirstVaccineRequest();
+        getFirstVaccineRequest.setData(getFirstVaccineModel);
+        ApiService<GetFirstVaccineResponseData> service = new ApiService<>();
+        service.get( this, ApiClient.getApiInterface().getInitialVaccineDetails(Config.token,getFirstVaccineRequest), "GetInitialVaccineDetails");
+        Log.e("InitalParametr",""+getFirstVaccineRequest);
+    }
+
+    private void getNextFirstVaccine() {
+        NextVaccineParam nextVaccineParam=new NextVaccineParam();
+        nextVaccineParam.setNextVaccinationDate(strNextVisitDate);
+        nextVaccineParam.setVaccineName(getStrVaccineName);
+        nextVaccineParam.setVaccineType(getStrVaccineType);
+        nextVaccineParam.setCategoryId("1");
+        nextVaccineParam.setPetId(pet_id.substring(0,pet_id.length()-2));
+        NextVaccineRequest nextVaccineRequest=new NextVaccineRequest();
+        nextVaccineRequest.setData(nextVaccineParam);
+        ApiService<NextVaccineResponse> service = new ApiService<>();
+        service.get( this, ApiClient.getApiInterface().getNextVaccinationDateAndName(Config.token,nextVaccineRequest), "GetNextVaccinationDateAndName");
+        Log.e("NextFirstVaccine",""+nextVaccineRequest);
+    }
+
+
 
 
 
@@ -1083,8 +1117,8 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         Button add_vaccine_data = (Button) vaccineDialog.findViewById(R.id.add_vaccine_data);
         Button add_vaccine_cancel = (Button) vaccineDialog.findViewById(R.id.add_vaccine_cancel);
 
-        setVaccineTypeSpinner();
-        setVaccineNameSpinner();
+        setVaccineTypeSpinner(getStrVaccineType);
+        setVaccineNameSpinner(getStrVaccineName);
 
         nextImmunizationDate.setText(Config.currentDate());
         nextImmunizationDate.setOnClickListener(new View.OnClickListener() {
@@ -1126,6 +1160,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                         hospitalizationReportsAdapter = new ImmunazationVaccineAdopter(AddClinicActivity.this,AddClinicActivity.this, VaccineList);
                         immunization_data.setAdapter(hospitalizationReportsAdapter);
                         hospitalizationReportsAdapter.notifyDataSetChanged();
+                        getNextFirstVaccine();
                         vaccineDialog.dismiss();
                     }
                     else
@@ -1262,11 +1297,23 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
 
     }
 
-    private void setVaccineTypeSpinner() {
+    private void setVaccineTypeSpinner(String type) {
         ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,vaccineTypeList);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
         vaccine_type.setAdapter(aa);
+
+        if(type!=null)
+        {
+            if(!type.equals("null"))
+            {
+                if (type != null) {
+                    int spinnerPosition = aa.getPosition(type);
+                    vaccine_type.setSelection(spinnerPosition);
+                }
+            }
+        }
+
         vaccine_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
@@ -1300,11 +1347,23 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         });
     }
 
-    private void setVaccineNameSpinner(){
+    private void setVaccineNameSpinner(String name){
         ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,vaccineNameList);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
         vaccine_name.setAdapter(aa);
+
+        if(name!=null)
+        {
+            if(!name.equals("null"))
+            {
+                if (name != null) {
+                    int spinnerPosition = aa.getPosition(name);
+                    vaccine_name.setSelection(spinnerPosition);
+                }
+            }
+        }
+
         vaccine_name.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
@@ -2049,6 +2108,39 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     {
                         Toast.makeText(this, "Not Save", Toast.LENGTH_SHORT).show();
                         vaccineDetailsDialog.dismiss();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "GetInitialVaccineDetails":
+                try {
+                    Log.d("GetInitialVaccineD", arg0.body().toString());
+                    GetFirstVaccineResponseData getFirstVaccineResponseData = (GetFirstVaccineResponseData) arg0.body();
+                    int responseCode = Integer.parseInt(getFirstVaccineResponseData.getResponse().getResponseCode());
+                    if (responseCode == 109) {
+                        getStrVaccineType=getFirstVaccineResponseData.getData().getVaccineType();
+                        getStrVaccineName=getFirstVaccineResponseData.getData().getVaccineName();
+                    }
+                    else
+                    {
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "GetNextVaccinationDateAndName":
+                try {
+                    Log.d("GetNextVaccination", arg0.body().toString());
+                    NextVaccineResponse nextVaccineResponse = (NextVaccineResponse) arg0.body();
+                    int responseCode = Integer.parseInt(nextVaccineResponse.getResponse().getResponseCode());
+                    if (responseCode == 109) {
+
+                    }
+                    else
+                    {
+
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

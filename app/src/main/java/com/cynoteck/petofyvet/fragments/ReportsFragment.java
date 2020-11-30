@@ -201,9 +201,6 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
                         if(getPetListResponse.getData().getPetList().size()>0)
                          {
                             Log.d("DATALOG", String.valueOf(getPetListResponse.getData().getPetList().get(0).getPetUniqueId()));
-                            Log.d("DATALOG", String.valueOf(getPetListResponse.getData().getPetList().get(1).getPetUniqueId()));
-                            Log.d("DATALOG", String.valueOf(getPetListResponse.getData().getPetList().get(2).getPetUniqueId()));
-                            Log.d("DATALOG", String.valueOf(getPetListResponse.getData().getPetList().get(3).getPetUniqueId()));
 
                             for(int i=0; i<getPetListResponse.getData().getPetList().size();i++)
                             {
@@ -230,6 +227,7 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
                         else
                         {
                             progressBar.setVisibility(View.GONE);
+                            mShimmerViewContainer.setVisibility(View.GONE);
                             Toast.makeText(getActivity(), "Data Not found", Toast.LENGTH_SHORT).show();
                         }
 
