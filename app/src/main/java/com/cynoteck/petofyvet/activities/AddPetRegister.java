@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
@@ -14,6 +15,7 @@ import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -26,6 +28,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -89,7 +92,7 @@ import retrofit2.Response;
 public class AddPetRegister extends AppCompatActivity implements View.OnClickListener, ApiResponse {
 
     CircleImageView pet_profile_image;
-
+    ScrollView scrollView;
     AppCompatSpinner age_wise,parent_address, add_pet_age,add_pet_type,add_pet_sex,add_pet_breed,add_pet_color,add_pet_size;
     EditText pet_name,pet_description,pet_address,age_neumeric;
     TextView peto_reg_number,calenderView,ageViewTv;
@@ -357,6 +360,8 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
 
 
     private void init() {
+        scrollView=findViewById(R.id.scrollView);
+
         //Spinner
         add_pet_type=findViewById(R.id.add_pet_type);
         add_pet_sex=findViewById(R.id.add_pet_sex_dialog);
@@ -392,7 +397,7 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
         parent_address=findViewById(R.id.parent_address);
         day_and_age_layout=findViewById(R.id.day_and_age_layout);
         ageViewTv=findViewById(R.id.ageViewTv);
-
+        ageViewTv.setText("Age:- 0 Days");
 
         pet_profile_image.setOnClickListener(this);
         service_cat_img_one.setOnClickListener(this);
@@ -406,6 +411,51 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
         //Button
         pet_submit=findViewById(R.id.pet_submit);
         pet_submit.setOnClickListener(this);
+
+        scrollView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (age_neumeric.isFocused()) {
+                        Rect outRect = new Rect();
+                        age_neumeric.getGlobalVisibleRect(outRect);
+                        if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                            if(age_neumeric.getText().toString().isEmpty())
+                            {
+
+                            }
+                            else
+                            {
+                                if(strAgeCount.equals("Day"))
+                                {
+                                    getPetDateofBirthDependsOnDays(age_neumeric.getText().toString());
+                                }
+                                else if(strAgeCount.equals("Week"))
+                                {
+                                    int weekToDays= Integer.parseInt(age_neumeric.getText().toString());
+                                    int days=weekToDays*7;
+                                    getPetDateofBirthDependsOnDays(String.valueOf(days));
+                                }
+                                else if(strAgeCount.equals("Month"))
+                                {
+                                    int monthToDays= Integer.parseInt(age_neumeric.getText().toString());
+                                    int days=monthToDays*30;
+                                    getPetDateofBirthDependsOnDays(String.valueOf(days));
+                                }
+                                else
+                                {
+                                    int yearsToDays= Integer.parseInt(age_neumeric.getText().toString());
+                                    int days=yearsToDays*365;
+                                    getPetDateofBirthDependsOnDays(String.valueOf(days));
+                                }
+
+                            }
+                        }
+                    }
+                }
+                return false;
+            }
+        });
 
 
     }

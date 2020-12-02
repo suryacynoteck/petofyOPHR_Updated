@@ -29,6 +29,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     Animation animation;
     ImageView splash_logo;
     Methods methods;
+    int internetChkCode=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +48,11 @@ public class SplashScreenActivity extends AppCompatActivity {
         NetwordDetect();
         try {
             if (methods.isInternetOn()) {
-
+                internetChkCode=1;
                 updateMethod();
 
             } else {
+                internetChkCode=0;
                 methods.DialogInternet();
             }
         }catch(Exception e){
@@ -118,7 +120,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             @Override
             public void run() {
 
-
+                internetChkCode=0;
                 Intent intent;
                 SharedPreferences sharedPreferences = getSharedPreferences("userdetails", 0);
                 String loggedIn = sharedPreferences.getString("loggedIn", "");
@@ -131,5 +133,25 @@ public class SplashScreenActivity extends AppCompatActivity {
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
             }
         },2500);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(internetChkCode==0)
+        {
+            try {
+                if (methods.isInternetOn()) {
+
+                    updateMethod();
+
+                } else {
+                    methods.DialogInternet();
+                }
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+
     }
 }
