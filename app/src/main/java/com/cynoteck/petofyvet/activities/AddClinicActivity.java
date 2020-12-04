@@ -457,8 +457,8 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
     private void getNextFirstVaccine() {
         NextVaccineParam nextVaccineParam=new NextVaccineParam();
         nextVaccineParam.setNextVaccinationDate(strNextVisitDate);
-        nextVaccineParam.setVaccineName(getStrVaccineName);
-        nextVaccineParam.setVaccineType(getStrVaccineType);
+        nextVaccineParam.setVaccineName(strVaccineName);
+        nextVaccineParam.setVaccineType(strVaccineType);
         nextVaccineParam.setCategoryId("1");
         nextVaccineParam.setPetId(pet_id.substring(0,pet_id.length()-2));
         NextVaccineRequest nextVaccineRequest=new NextVaccineRequest();
@@ -1314,6 +1314,8 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
             }
         }
 
+
+
         vaccine_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
@@ -1579,6 +1581,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void addImmuzationData(ImmunizationClinicData immunizationClinicData){
+        methods.showCustomProgressBarDialog(this);
         ApiService<JsonObject> service = new ApiService<>();
         service.get(this, ApiClient.getApiInterface().addPetVaccination(Config.token,immunizationClinicData), "AddPetVaccination");
         Log.e("DATALOG_AddPetVaccin",""+immunizationClinicData);
@@ -1834,7 +1837,6 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
 
             case "AddPetVaccination":
                 try {
-                    methods.customProgressDismiss();
                     JsonObject immunizationAddResponse = (JsonObject) arg0.body();
                     Log.d("AddPetVaccination", immunizationAddResponse.toString());
 
@@ -1844,15 +1846,18 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     int responseCode = Integer.parseInt(String.valueOf(response.get("responseCode")));
 
                     if (responseCode== 109){
+                        methods.customProgressDismiss();
                         Toast.makeText(this, "Add Data Successfully", Toast.LENGTH_SHORT).show();
                         Config.type="list";
                         onBackPressed();
                     }
                     else if (responseCode==614){
+                        methods.customProgressDismiss();
                         Toast.makeText(this, String.valueOf(response.getAsJsonObject("responseMessage")), Toast.LENGTH_SHORT).show();
                     }
                     else
                     {
+                        methods.customProgressDismiss();
                         Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
                     }
 
@@ -2136,7 +2141,8 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     NextVaccineResponse nextVaccineResponse = (NextVaccineResponse) arg0.body();
                     int responseCode = Integer.parseInt(nextVaccineResponse.getResponse().getResponseCode());
                     if (responseCode == 109) {
-
+                        next_vaccine_ET.setText(nextVaccineResponse.getData().getVaccineName());
+                        setVaccineNextTypeSpinner(nextVaccineResponse.getData().getVaccineType());
                     }
                     else
                     {
