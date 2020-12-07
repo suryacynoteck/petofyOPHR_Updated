@@ -39,6 +39,7 @@ import com.cynoteck.petofyvet.params.petReportsRequest.PetClinicVisitDetailsRequ
 import com.cynoteck.petofyvet.params.petReportsRequest.PetDataRequest;
 import com.cynoteck.petofyvet.params.petReportsRequest.VisitTypeRequest;
 import com.cynoteck.petofyvet.params.registerRequest.Registerparams;
+import com.cynoteck.petofyvet.params.saveVaccinationParameter.SaveRequest;
 import com.cynoteck.petofyvet.params.searcgDiagnosisRequest.SearchDiagnosisRequestData;
 import com.cynoteck.petofyvet.params.searchPetParentRequest.SearchPetParentParameter;
 import com.cynoteck.petofyvet.params.searchPetParentRequest.SearchPetParentRequestData;
@@ -121,6 +122,7 @@ import com.cynoteck.petofyvet.response.petAgeUnitResponse.PetAgeUnitResponseData
 import com.cynoteck.petofyvet.response.profileImageresponse.ProfileImageResponse;
 import com.cynoteck.petofyvet.response.recentEntrys.RecentEntrysResponse;
 import com.cynoteck.petofyvet.response.saveImmunizationData.SaveImmunizationResponse;
+import com.cynoteck.petofyvet.response.saveResponse.SaveResponseData;
 import com.cynoteck.petofyvet.response.saveWorkingReponse.SaveWorkingHoursResponse;
 import com.cynoteck.petofyvet.response.searchDiagnosisResponse.SearchDiagnosisResponseData;
 import com.cynoteck.petofyvet.response.searchRemaks.SearchRemaksResponse;
@@ -613,11 +615,23 @@ public interface ApiInterface {
     @GET("pet/GetPetDateOfBirth/{data}")
     Call<DateOfBirthResponse> GetPetDateOfBirth(@Header("Authorization") String auth, @Path("data") String data);
 
+    //SAVE VACCINATION.........................................
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("pethealthrecord/SaveVaccination")
+    Call<SaveResponseData> SaveVaccination(@Header("Authorization") String auth, @Body SaveRequest saveRequest);
+
     //SEARCH PET PARENT.......................................
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("pet/SearchPetParent")
     Call<GetPetParentResponseData> searchPetParent(@Header("Authorization") String auth, @Body SearchPetParentRequestData getPetAgeRequestData);
+
+    //DELETE TEMPORARY VACCINATION............................
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @GET("pethealthrecord/DeleteTemporaryVaccination/{PETID}")
+    Call<JsonObject> DeleteTemporaryVaccination(@Header("Authorization") String auth, @Path("PETID") String data);
 
    //Search Dignisis..........................................
 

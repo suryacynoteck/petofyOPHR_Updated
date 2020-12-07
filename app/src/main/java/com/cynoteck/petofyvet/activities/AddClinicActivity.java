@@ -67,6 +67,8 @@ import com.cynoteck.petofyvet.params.nextVaccineParameter.NextVaccineParam;
 import com.cynoteck.petofyvet.params.nextVaccineParameter.NextVaccineRequest;
 import com.cynoteck.petofyvet.params.petReportsRequest.PetClinicVisitDetailsRequest;
 import com.cynoteck.petofyvet.params.petReportsRequest.PetClinicVistsDetailsParams;
+import com.cynoteck.petofyvet.params.saveVaccinationParameter.SaveRequest;
+import com.cynoteck.petofyvet.params.saveVaccinationParameter.SaveVaccineModel;
 import com.cynoteck.petofyvet.params.searcgDiagnosisRequest.SearchDiagnosisParameter;
 import com.cynoteck.petofyvet.params.searcgDiagnosisRequest.SearchDiagnosisRequestData;
 import com.cynoteck.petofyvet.params.searchPetParentRequest.SearchPetParentParameter;
@@ -81,6 +83,7 @@ import com.cynoteck.petofyvet.response.addImmunizationClinicResponse.Immunizatio
 import com.cynoteck.petofyvet.response.addPet.imageUpload.ImageResponse;
 import com.cynoteck.petofyvet.response.addPetClinicresponse.AddpetClinicResponse;
 import com.cynoteck.petofyvet.response.clinicVisist.ClinicVisitResponse;
+import com.cynoteck.petofyvet.response.dateOfBirthResponse.DateOfBirthResponse;
 import com.cynoteck.petofyvet.response.getFirstVaccineReponse.GetFirstVaccineResponseData;
 import com.cynoteck.petofyvet.response.getPetDetailsResponse.GetPetResponse;
 import com.cynoteck.petofyvet.response.getPetParrentnameReponse.GetPetParentResponseData;
@@ -93,6 +96,7 @@ import com.cynoteck.petofyvet.response.immuniztionHistory.ImmunizationHistoryRes
 import com.cynoteck.petofyvet.response.immuniztionHistory.ImmunizationHistorymodel;
 import com.cynoteck.petofyvet.response.nextVaccineResponse.NextVaccineResponse;
 import com.cynoteck.petofyvet.response.saveImmunizationData.SaveImmunizationResponse;
+import com.cynoteck.petofyvet.response.saveResponse.SaveResponseData;
 import com.cynoteck.petofyvet.response.searchDiagnosisResponse.SearchDiagnosisResponseData;
 import com.cynoteck.petofyvet.response.searchRemaks.SearchRemaksResponse;
 import com.cynoteck.petofyvet.utils.Config;
@@ -414,6 +418,9 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
             searchDeormerDose();
             setNextDewormerDoseSpinner();
             getFirstVaccine();
+
+            saveVaccineAfterAdd();
+            DeleteTemporaryVaccination();
         }else {
 
             methods.DialogInternet();
@@ -1638,6 +1645,27 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         Log.e("SaveVaccinSchedule==>",""+vaccinationRequest);
     }
 
+    private void saveVaccineAfterAdd()
+    {
+        SaveVaccineModel saveVaccineModel = new SaveVaccineModel();
+        saveVaccineModel.setVaccineName("PUPPY DP");
+        saveVaccineModel.setVaccineType("Primary");
+        saveVaccineModel.setVaccinationDate("07/12/2020");
+        saveVaccineModel.setPetId(pet_id.substring(0,pet_id.length()-2));
+        saveVaccineModel.setPetClinicVisitId("");
+        SaveRequest saveRequest = new SaveRequest();
+        saveRequest.setData(saveVaccineModel);
+        ApiService<SaveResponseData> service = new ApiService<>();
+        service.get(this, ApiClient.getApiInterface().SaveVaccination(Config.token,saveRequest), "SaveVaccination");
+        Log.e("SaveVaccination",""+saveRequest);
+    }
+
+   private void DeleteTemporaryVaccination()
+   {
+       ApiService<JsonObject> service = new ApiService<>();
+       service.get( this, ApiClient.getApiInterface().DeleteTemporaryVaccination(Config.token,pet_id.substring(0,pet_id.length()-2)), "DeleteTemporaryVaccination");
+   }
+
     @Override
     public void onResponse(Response arg0, String key) {
         Log.d("amammammama",""+key);
@@ -2147,6 +2175,50 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     else
                     {
 
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "SaveVaccination":
+                try {
+                    Log.d("SaveResponseData", arg0.body().toString());
+                    SaveResponseData saveResponseData = (SaveResponseData) arg0.body();
+                    int responseCode = Integer.parseInt(saveResponseData.getResponse().getResponseCode());
+                    if (responseCode == 109) {
+
+                    }
+                    else
+                    {
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "DeleteTemporaryVaccination":
+                try {
+                    Log.d("DeleteTemporary", arg0.body().toString());
+                    JsonObject deleteData = (JsonObject) arg0.body();
+                    JsonObject response = deleteData.getAsJsonObject("response");
+                    Log.d("hhshshhs",""+response);
+
+                    int responseCode = Integer.parseInt(String.valueOf(response.get("responseCode")));
+
+                    if (responseCode== 109){
+                        methods.customProgressDismiss();
+                        Toast.makeText(this, "Add Data Successfully", Toast.LENGTH_SHORT).show();
+                        Config.type="list";
+                        onBackPressed();
+                    }
+                    else if (responseCode==614){
+                        methods.customProgressDismiss();
+                        Toast.makeText(this, String.valueOf(response.getAsJsonObject("responseMessage")), Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        methods.customProgressDismiss();
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
