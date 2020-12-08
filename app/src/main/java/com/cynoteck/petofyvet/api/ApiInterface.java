@@ -22,6 +22,7 @@ import com.cynoteck.petofyvet.params.assignAndRemovePermission.AssignRemovePermi
 import com.cynoteck.petofyvet.params.changePassRequest.ChangePassRequest;
 import com.cynoteck.petofyvet.params.checkpetInVetRegister.InPetRegisterRequest;
 import com.cynoteck.petofyvet.params.forgetPassRequest.ForgetPassRequest;
+import com.cynoteck.petofyvet.params.getFirstVaccine.GetFirstVaccineRequest;
 import com.cynoteck.petofyvet.params.getMyVisitPetRecordRequest.GetMyVisistPetRecordRequest;
 import com.cynoteck.petofyvet.params.getPetListRequest.GetPetListRequest;
 import com.cynoteck.petofyvet.params.getVaccinationDetails.GetVaccinationRequest;
@@ -30,6 +31,7 @@ import com.cynoteck.petofyvet.params.immunizationRequest.ImmunizationRequest;
 import com.cynoteck.petofyvet.params.immunizationRequest.ImmunizationRequestt;
 import com.cynoteck.petofyvet.params.loginRequest.Loginparams;
 import com.cynoteck.petofyvet.params.newPetEntryParams.NewPetRequest;
+import com.cynoteck.petofyvet.params.nextVaccineParameter.NextVaccineRequest;
 import com.cynoteck.petofyvet.params.onlineClinicVisitsParams.OnlineClinicVisitsRequest;
 import com.cynoteck.petofyvet.params.otpRequest.SendOtpRequest;
 import com.cynoteck.petofyvet.params.petBreedRequest.BreedParams;
@@ -37,6 +39,7 @@ import com.cynoteck.petofyvet.params.petReportsRequest.PetClinicVisitDetailsRequ
 import com.cynoteck.petofyvet.params.petReportsRequest.PetDataRequest;
 import com.cynoteck.petofyvet.params.petReportsRequest.VisitTypeRequest;
 import com.cynoteck.petofyvet.params.registerRequest.Registerparams;
+import com.cynoteck.petofyvet.params.saveVaccinationParameter.SaveRequest;
 import com.cynoteck.petofyvet.params.searcgDiagnosisRequest.SearchDiagnosisRequestData;
 import com.cynoteck.petofyvet.params.searchPetParentRequest.SearchPetParentParameter;
 import com.cynoteck.petofyvet.params.searchPetParentRequest.SearchPetParentRequestData;
@@ -75,8 +78,10 @@ import com.cynoteck.petofyvet.response.bankAccountResponse.AddBankAccountRespons
 import com.cynoteck.petofyvet.response.bankAccountResponse.GetBankAccoutsResponse;
 import com.cynoteck.petofyvet.response.bankAccountResponse.ValidateIfscCodeResponse;
 import com.cynoteck.petofyvet.response.clinicVisist.ClinicVisitResponse;
+import com.cynoteck.petofyvet.response.dateOfBirthResponse.DateOfBirthResponse;
 import com.cynoteck.petofyvet.response.forgetAndChangePassResponse.PasswordResponse;
 import com.cynoteck.petofyvet.response.getAppointmentsStatusResponse.AppointmentStatusResponse;
+import com.cynoteck.petofyvet.response.getFirstVaccineReponse.GetFirstVaccineResponseData;
 import com.cynoteck.petofyvet.response.getImmunizationReport.PetImmunizationRecordResponse;
 import com.cynoteck.petofyvet.response.getLabTestReportResponse.getLabTestReportDetailsResponse.GetLabTestReportDeatilsResponse;
 import com.cynoteck.petofyvet.response.getLabTestReportResponse.getPetLabWorkListResponse.PetLabWorkResponse;
@@ -109,6 +114,7 @@ import com.cynoteck.petofyvet.response.immuniztionHistory.ImmunizationHistoryRes
 import com.cynoteck.petofyvet.response.labTyperesponse.LabTypeResponse;
 import com.cynoteck.petofyvet.response.loginRegisterResponse.LoginRegisterResponse;
 import com.cynoteck.petofyvet.response.newPetResponse.NewPetRegisterResponse;
+import com.cynoteck.petofyvet.response.nextVaccineResponse.NextVaccineResponse;
 import com.cynoteck.petofyvet.response.onlineAppointmentOnOff.OnlineAppointmentResponse;
 import com.cynoteck.petofyvet.response.onlineClinicVisitResponse.OnlineClinicResponse;
 import com.cynoteck.petofyvet.response.otpResponse.OtpResponse;
@@ -116,6 +122,7 @@ import com.cynoteck.petofyvet.response.petAgeUnitResponse.PetAgeUnitResponseData
 import com.cynoteck.petofyvet.response.profileImageresponse.ProfileImageResponse;
 import com.cynoteck.petofyvet.response.recentEntrys.RecentEntrysResponse;
 import com.cynoteck.petofyvet.response.saveImmunizationData.SaveImmunizationResponse;
+import com.cynoteck.petofyvet.response.saveResponse.SaveResponseData;
 import com.cynoteck.petofyvet.response.saveWorkingReponse.SaveWorkingHoursResponse;
 import com.cynoteck.petofyvet.response.searchDiagnosisResponse.SearchDiagnosisResponseData;
 import com.cynoteck.petofyvet.response.searchRemaks.SearchRemaksResponse;
@@ -140,6 +147,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
 
 public interface ApiInterface {
 
@@ -171,7 +179,7 @@ public interface ApiInterface {
     Call<PasswordResponse> getPasswordResponse(@Body ForgetPassRequest forgetPassRequest);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
-    @POST("user/UpdateVeterinarian")
+    @POST("user/ChangePassword")
     Call<PasswordResponse> getPasswordResponse(@Header("Authorization") String auth, @Body ChangePassRequest changePassRequest);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
@@ -237,6 +245,20 @@ public interface ApiInterface {
     @POST("user/ChangeProfileImage")
     Call<ProfileImageResponse> uploadProfile(@Header("Authorization") String auth,
                                              @Part MultipartBody.Part file);
+
+    //GET FIRST RECOMMENDED VACCINE..........................
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("pethealthrecord/GetInitialVaccineDetails")
+    Call<GetFirstVaccineResponseData> getInitialVaccineDetails(@Header("Authorization") String auth, @Body GetFirstVaccineRequest getFirstVaccineRequest);
+
+    //GET FIRST NEXT VACCINE..................................
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("pethealthrecord/GetNextVaccinationDateAndName")
+    Call<NextVaccineResponse> getNextVaccinationDateAndName(@Header("Authorization") String auth, @Body NextVaccineRequest nextVaccineRequest);
+
+
     //reports section.........................................
 
 
@@ -587,11 +609,29 @@ public interface ApiInterface {
     @POST("pet/GetPetAgeString")
     Call<GetPetAgeresponseData> getPetAgeString(@Header("Authorization") String auth, @Body GetPetAgeRequestData getPetAgeRequestData);
 
+    //GET DATE OF BIRTH........................................
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @GET("pet/GetPetDateOfBirth/{data}")
+    Call<DateOfBirthResponse> GetPetDateOfBirth(@Header("Authorization") String auth, @Path("data") String data);
+
+    //SAVE VACCINATION.........................................
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("pethealthrecord/SaveVaccination")
+    Call<SaveResponseData> SaveVaccination(@Header("Authorization") String auth, @Body SaveRequest saveRequest);
+
     //SEARCH PET PARENT.......................................
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("pet/SearchPetParent")
     Call<GetPetParentResponseData> searchPetParent(@Header("Authorization") String auth, @Body SearchPetParentRequestData getPetAgeRequestData);
+
+    //DELETE TEMPORARY VACCINATION............................
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @GET("pethealthrecord/DeleteTemporaryVaccination/{PETID}")
+    Call<JsonObject> DeleteTemporaryVaccination(@Header("Authorization") String auth, @Path("PETID") String data);
 
    //Search Dignisis..........................................
 
@@ -629,6 +669,7 @@ public interface ApiInterface {
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("report/SendNotification")
     Call<JsonObject> sendNotification(@Header("Authorization") String auth, @Body SendNotificationRequest sendNotificationRequest);
+
 
 }
 

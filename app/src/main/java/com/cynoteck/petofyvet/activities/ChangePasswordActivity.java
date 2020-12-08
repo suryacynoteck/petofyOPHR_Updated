@@ -123,7 +123,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements ApiResp
         methods.customProgressDismiss();
         switch (key)
         {
-            case "ForgetPassword":
+            case "ChangePassword":
 
                 try {
                     Log.d("DATALOG",response.body().toString());

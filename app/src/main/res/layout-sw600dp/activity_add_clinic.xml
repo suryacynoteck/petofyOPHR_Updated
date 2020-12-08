@@ -95,26 +95,282 @@
             <LinearLayout
                 android:id="@+id/unique_id_layout"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="150dp"
                 android:weightSum="2"
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
-                    android:id="@+id/clinic_peto_edit_reg_number_dialog"
-                    android:layout_width="0dp"
-                    android:layout_weight="2"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:gravity="center"
-                    android:text=""
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:weightSum="4"
+                        android:orientation="vertical"
+                        android:paddingLeft="5dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:weightSum="2"
+                            android:orientation="horizontal">
+
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight=".8"
+                                android:text="Parent Name: "
+                                android:textSize="12sp"
+                                android:gravity="center"
+                                android:textColor="@color/black_color"/>
+                            <TextView
+                                android:id="@+id/clinic_peto_edit_reg_number_dialog"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:gravity="center"
+                                android:text=""
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="3"
+                            android:weightSum="2"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:weightSum="3"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="1"
+                                    android:weightSum="2"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:text="Pet Name:"
+                                        android:textSize="12sp"
+                                        android:gravity="center|left"/>
+
+                                    <TextView
+                                        android:id="@+id/pet_nameTV"
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:text=""
+                                        android:textSize="12sp"
+                                        android:textColor="@color/colorPrimary"
+                                        android:gravity="center|left"/>
+
+
+
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="1"
+                                    android:weightSum="2"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:text="Pet Gender:"
+                                        android:textSize="12sp"
+                                        android:gravity="center|left"/>
+
+                                    <TextView
+                                        android:id="@+id/pet_genderTV"
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:text=""
+                                        android:textSize="12sp"
+                                        android:textColor="@color/colorPrimary"
+                                        android:gravity="center|left"/>
+
+
+
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="1"
+                                    android:weightSum="2"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:text="Pet Age:"
+                                        android:textSize="12sp"
+                                        android:gravity="center|left"/>
+
+                                    <TextView
+                                        android:id="@+id/pet_ageTV"
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:text=""
+                                        android:textSize="12sp"
+                                        android:textColor="@color/colorPrimary"
+                                        android:gravity="center|left"/>
+
+
+
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:weightSum="3"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="1"
+                                    android:weightSum="2"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:text="Pet Id:"
+                                        android:textSize="12sp"
+                                        android:gravity="center|left"/>
+
+                                    <TextView
+                                        android:id="@+id/pet_idTV"
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:text=""
+                                        android:textSize="12sp"
+                                        android:textColor="@color/colorPrimary"
+                                        android:gravity="center|left"/>
+
+
+
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="1"
+                                    android:weightSum="2"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:text="Pet Bread:"
+                                        android:textSize="12sp"
+                                        android:gravity="center|left"/>
+
+                                    <TextView
+                                        android:id="@+id/pet_breadTV"
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:text=""
+                                        android:textSize="12sp"
+                                        android:textColor="@color/colorPrimary"
+                                        android:gravity="center|left"/>
+
+
+
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="1"
+                                    android:weightSum="2"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:text="Pet Type:"
+                                        android:textSize="12sp"
+                                        android:gravity="center|left"/>
+
+                                    <TextView
+                                        android:id="@+id/pet_typeTV"
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:text=""
+                                        android:textSize="12sp"
+                                        android:textColor="@color/colorPrimary"
+                                        android:gravity="center|left"/>
+
+
+
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+
+
+                        </LinearLayout>
+
+
+
+                    </LinearLayout>
+
+
+
+
+
+
+                </androidx.cardview.widget.CardView>
 
                 <TextView
                     android:id="@+id/pet_age_TV"
@@ -395,7 +651,11 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ilness_onset"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:background="@drawable/add_vaccination"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp">
 
                 <!-- <TextView
                      android:visibility="gone"
@@ -427,17 +687,20 @@
 
  -->
 
-                <Button
+                <TextView
                     android:id="@+id/add_immunization_data"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:text="+ ADD MORE VACCINE"
-                    android:textColor="@color/whiteColor"
-                    android:layout_marginRight="10dp"
-                    android:background="@color/colorPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
                     android:layout_marginTop="10dp"
-                    android:padding="2dp"/>
+                    android:layout_marginRight="20dp"
+                    android:gravity="center_vertical"
+                    android:inputType="text"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:drawableRight="@drawable/ic_baseline_add"
+                    android:text="Add More Vaccine"
+                    android:textColor="@color/black_color"
+                    android:paddingLeft="10dp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -450,6 +713,7 @@
                         android:layout_weight="1.5"
                         android:layout_height="wrap_content"
                         android:text="Vaccine Type"
+                        android:textColor="@color/black_color"
                         android:gravity="center"/>
 
                     <TextView
@@ -457,6 +721,7 @@
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:text="Name of Vaccine"
+                        android:textColor="@color/black_color"
                         android:gravity="center"/>
 
                     <TextView
@@ -464,6 +729,7 @@
                         android:layout_weight="1.5"
                         android:layout_height="wrap_content"
                         android:text="Immunization Date"
+                        android:textColor="@color/black_color"
                         android:gravity="center"/>
 
 
@@ -472,25 +738,19 @@
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:text="delete"
+                        android:textColor="@color/black_color"
                         android:gravity="center"/>
-
-
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
-                    android:background="#cccc"/>
+                    android:background="#cccc" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/immunization_data"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="#cccc"/>
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 
@@ -526,7 +786,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/remarks_texview_shape"
                     android:gravity="center_vertical"
                     android:hint="Find Dewormer name*"
                     android:inputType="text"
@@ -579,7 +838,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/remarks_texview_shape"
                     android:gravity="center_vertical"
                     android:hint="Find Dewormer Dose*"
                     android:inputType="text"
@@ -632,7 +890,6 @@
                     android:layout_height="50dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/remarks_texview_shape"
                     android:gravity="center_vertical"
                     android:hint="Find Diagnosis*"
                     android:inputType="text"
@@ -695,8 +952,7 @@
                     android:layout_marginTop="10dp"
                     android:hint="Find Treatment Remarks"
                     android:gravity="center_vertical"
-                    android:paddingLeft="25dp"
-                    android:background="@drawable/remarks_texview_shape"/>
+                    android:paddingLeft="25dp"/>
 
                 <EditText
                     android:id="@+id/remaks_TV"

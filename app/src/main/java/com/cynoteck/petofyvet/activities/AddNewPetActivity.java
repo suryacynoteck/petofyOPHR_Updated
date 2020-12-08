@@ -2,10 +2,12 @@ package com.cynoteck.petofyvet.activities;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MultiAutoCompleteTextView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,12 +45,14 @@ import com.cynoteck.petofyvet.response.addPet.petAgeResponse.PetAgeValueResponse
 import com.cynoteck.petofyvet.response.addPet.petColorResponse.PetColorValueResponse;
 import com.cynoteck.petofyvet.response.addPet.petSizeResponse.PetSizeValueResponse;
 import com.cynoteck.petofyvet.response.addPet.uniqueIdResponse.UniqueResponse;
+import com.cynoteck.petofyvet.response.dateOfBirthResponse.DateOfBirthResponse;
 import com.cynoteck.petofyvet.response.getPetAgeResponse.GetPetAgeresponseData;
 import com.cynoteck.petofyvet.response.getPetParrentnameReponse.GetPetParentResponseData;
 import com.cynoteck.petofyvet.response.petAgeUnitResponse.PetAgeUnitResponseData;
 import com.cynoteck.petofyvet.response.updateProfileResponse.PetTypeResponse;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
+import com.google.gson.JsonObject;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -64,6 +69,7 @@ import retrofit2.Response;
 
 public class AddNewPetActivity extends AppCompatActivity implements ApiResponse, View.OnClickListener {
 
+    ScrollView scrollView;
     AppCompatSpinner age_wise,parent_address,  add_pet_type, add_pet_age_dialog ,add_pet_sex_dialog,add_pet_breed_dialog, add_pet_color_dialog,add_pet_size_dialog;
     EditText pet_name_ET,age_neumeric;
     Button save_BT;
@@ -71,7 +77,7 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
     CheckBox convert_yr_to_age;
     AutoCompleteTextView pet_parent_name_ET,pet_contact_number_ET;
     LinearLayout day_and_age_layout;
-    String petUniqueId="",getStrSpnerItemPetNmId="",strSpnrBreedId="",strSpnrAgeId="",strSpnrColorId="",
+    String petUniqueId="",getStrSpnerItemPetNmId="",strSpnrBreedId="",strSpnrAgeId="",strSpnrColorId="",strAgeCount="",
             strSpneSizeId="",strSpnrSexId="",strSpnerItemPetType="",strSpnrBreed="",strSpnrAge="",strSpnrSex="",
             currentDateandTime="",strSexType="",strResponseOtp="",petId="",petParentContactNumber="",type="";
     ImageView back_arrow_IV;
@@ -134,6 +140,7 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
 
 
     private void intlization() {
+        scrollView=findViewById(R.id.scrollView);
         peto_reg_number_dialog=findViewById(R.id.peto_reg_number_dialog);
         calenderTextView_dialog=findViewById(R.id.calenderTextView_dialog);
         add_pet_type=findViewById(R.id.add_pet_type);
@@ -153,12 +160,57 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
         parent_address=findViewById(R.id.parent_address);
         day_and_age_layout=findViewById(R.id.day_and_age_layout);
         ageViewTv=findViewById(R.id.ageViewTv);
-
+        ageViewTv.setText("Age:- 0 Days");
 
         save_BT.setOnClickListener(this);
         back_arrow_IV.setOnClickListener(this);
         calenderTextView_dialog.setOnClickListener(this);
         convert_yr_to_age.setOnClickListener(this);
+
+        scrollView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (age_neumeric.isFocused()) {
+                        Rect outRect = new Rect();
+                        age_neumeric.getGlobalVisibleRect(outRect);
+                        if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                            if(age_neumeric.getText().toString().isEmpty())
+                            {
+
+                            }
+                            else
+                            {
+                                if(strAgeCount.equals("Day"))
+                                {
+                                    getPetDateofBirthDependsOnDays(age_neumeric.getText().toString());
+                                }
+                                else if(strAgeCount.equals("Week"))
+                                {
+                                    int weekToDays= Integer.parseInt(age_neumeric.getText().toString());
+                                    int days=weekToDays*7;
+                                    getPetDateofBirthDependsOnDays(String.valueOf(days));
+                                }
+                                else if(strAgeCount.equals("Month"))
+                                {
+                                    int monthToDays= Integer.parseInt(age_neumeric.getText().toString());
+                                    int days=monthToDays*30;
+                                    getPetDateofBirthDependsOnDays(String.valueOf(days));
+                                }
+                                else
+                                {
+                                    int yearsToDays= Integer.parseInt(age_neumeric.getText().toString());
+                                    int days=yearsToDays*365;
+                                    getPetDateofBirthDependsOnDays(String.valueOf(days));
+                                }
+
+                            }
+                        }
+                    }
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -199,6 +251,36 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
                 }
                 else
                 {
+                    if(age_neumeric.getText().toString().isEmpty())
+                    {
+
+                    }
+                    else
+                    {
+                        if(strAgeCount.equals("Day"))
+                        {
+                            getPetDateofBirthDependsOnDays(age_neumeric.getText().toString());
+                        }
+                        else if(strAgeCount.equals("Week"))
+                        {
+                           int weekToDays= Integer.parseInt(age_neumeric.getText().toString());
+                           int days=weekToDays*7;
+                           getPetDateofBirthDependsOnDays(String.valueOf(days));
+                        }
+                        else if(strAgeCount.equals("Month"))
+                        {
+                            int monthToDays= Integer.parseInt(age_neumeric.getText().toString());
+                            int days=monthToDays*30;
+                            getPetDateofBirthDependsOnDays(String.valueOf(days));
+                        }
+                        else
+                        {
+                            int yearsToDays= Integer.parseInt(age_neumeric.getText().toString());
+                            int days=yearsToDays*365;
+                            getPetDateofBirthDependsOnDays(String.valueOf(days));
+                        }
+
+                    }
                     day_and_age_layout.setVisibility(View.GONE);
                     calenderTextView_dialog.setVisibility(View.VISIBLE);
                 }
@@ -211,6 +293,7 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
 
                 if(strPetName.isEmpty())
                 {
+                    Toast.makeText(this, "Enter Pet Name", Toast.LENGTH_SHORT).show();
                     pet_name_ET.setError("Enter Pet Name");
                     pet_parent_name_ET.setError(null);
                     pet_contact_number_ET.setError(null);
@@ -218,6 +301,7 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
                 }
                 else if(strPetParentName.isEmpty())
                 {
+                    Toast.makeText(this, "Enter Parent Name", Toast.LENGTH_SHORT).show();
                     pet_name_ET.setError(null);
                     pet_parent_name_ET.setError("Enter Parent Name");
                     pet_contact_number_ET.setError(null);
@@ -225,6 +309,7 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
                 }
                 else if(strPetContactNumber.isEmpty())
                 {
+                    Toast.makeText(this, "Enter Contact Number", Toast.LENGTH_SHORT).show();
                     pet_name_ET.setError(null);
                     pet_parent_name_ET.setError(null);
                     pet_contact_number_ET.setError("Enter Contact Number");
@@ -232,10 +317,11 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
                 }
                 else if(strPetBirthDay.isEmpty())
                 {
+                    Toast.makeText(this, "Set Pet DOB", Toast.LENGTH_SHORT).show();
                     pet_name_ET.setError(null);
                     pet_parent_name_ET.setError(null);
                     pet_contact_number_ET.setError(null);
-                    calenderTextView_dialog.setError("Pet YOB");
+                    calenderTextView_dialog.setError("Pet DOB");
                 }
                 //pet size and color.
                 else if(strSpnerItemPetType.isEmpty()||(strSpnerItemPetType.equals("Select Pet Type")))
@@ -295,6 +381,12 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
     private void getPetAgeUnit() {
         ApiService<PetAgeUnitResponseData> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().getPetAgeUnit(Config.token), "GetPetAgeUnit");
+    }
+
+    private void getPetDateofBirthDependsOnDays(String days)
+    {
+        ApiService<DateOfBirthResponse> service = new ApiService<>();
+        service.get( this, ApiClient.getApiInterface().GetPetDateOfBirth(Config.token,days), "getDateOfYear");
     }
 
     private void getPetAgeString(String DOB)
@@ -387,6 +479,25 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
     @Override
     public void onResponse(Response arg0, String key) {
         switch (key){
+            case "getDateOfYear":
+                try {
+                    DateOfBirthResponse dateOfBirthResponse = (DateOfBirthResponse) arg0.body();
+                    Log.d("getDateOfYear",dateOfBirthResponse.toString());
+                    int responseCode = Integer.parseInt(dateOfBirthResponse.getResponse().getResponseCode());
+                    if (responseCode== 109){
+                        calenderTextView_dialog.setText(dateOfBirthResponse.getData());
+                        getPetAgeString(dateOfBirthResponse.getData());
+                       // showDatePickerDialog(dateOfBirthResponse.getData());
+                    }else if (responseCode==614){
+                        Toast.makeText(this, dateOfBirthResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+                break;
             case "SearchPetParent":
                 try {
                     Log.d("SearchPetParent",arg0.body().toString());
@@ -402,6 +513,7 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
                         }
 
                         //for parent name
+
                         ArrayAdapter<String> randomArray = new ArrayAdapter<String>(this,
                                 android.R.layout.simple_list_item_1, remarksSearchList);
                         pet_parent_name_ET.setAdapter(randomArray);
@@ -681,6 +793,27 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
 
     }
 
+    /*private void showDatePickerDialog(String date) {
+        // here date is 5-12-2013
+        String[] split = date.split("/");
+        int day = Integer.valueOf(split[0]);
+        int month = Integer.valueOf(split[1]);
+        int year = Integer.valueOf(split[2]);
+        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+
+            }
+        };
+
+        picker = new DatePickerDialog(this,
+                dateSetListener, year, month, day);
+        picker.show();
+    }*/
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -815,6 +948,7 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
                 // Showing selected spinner item
+                strAgeCount=item;
                 Log.d("spnerType","PetAge"+item);
             }
             public void onNothingSelected(AdapterView<?> parent) {

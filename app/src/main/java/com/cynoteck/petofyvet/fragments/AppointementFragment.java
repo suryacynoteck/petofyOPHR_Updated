@@ -138,14 +138,14 @@ public class AppointementFragment extends Fragment implements ApiResponse ,View.
 //                                startActivity(intent);
                                 Intent petDetailsIntent = new Intent(getContext(), AddClinicActivity.class);
                                 Bundle data = new Bundle();
-                                data.putString("pet_id",appointmentLists.get(position).getPetId());
+                                data.putString("pet_id",appointmentLists.get(position).getPetId()+".0");
                                 data.putString("pet_parent",appointmentLists.get(position).getPetParentName());
                                 data.putString("pet_sex",appointmentLists.get(position).getPetSex());
                                 data.putString("pet_age",appointmentLists.get(position).getPetAge());
                                 data.putString("pet_unique_id",appointmentLists.get(position).getPetUniqueId());
                                 data.putString("appointment_ID",appointmentLists.get(position).getId());
-                                data.putString("pet_DOB","");
-                                data.putString("pet_encrypted_id",appointmentLists.get(position).getEncryptionId());
+                                data.putString("pet_DOB",appointmentLists.get(position).getPetDOB());
+                                data.putString("pet_encrypted_id",appointmentLists.get(position).getEncrptedId());
                                 data.putString("nature_of_visit","");
                                 data.putString("visit_dt","");
                                 data.putString("visit_description","");

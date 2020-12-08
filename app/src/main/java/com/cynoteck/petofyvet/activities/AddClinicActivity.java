@@ -53,6 +53,8 @@ import com.cynoteck.petofyvet.params.addImmunizationClinic.ImmunizationAddClinic
 import com.cynoteck.petofyvet.params.addImmunizationClinic.ImmunizationClinicData;
 import com.cynoteck.petofyvet.params.addPetClinicParamRequest.AddPetClinicParam;
 import com.cynoteck.petofyvet.params.addPetClinicParamRequest.AddPetClinicRequest;
+import com.cynoteck.petofyvet.params.getFirstVaccine.GetFirstVaccineModel;
+import com.cynoteck.petofyvet.params.getFirstVaccine.GetFirstVaccineRequest;
 import com.cynoteck.petofyvet.params.getPetListRequest.GetPetListParams;
 import com.cynoteck.petofyvet.params.getPetListRequest.GetPetListRequest;
 import com.cynoteck.petofyvet.params.getVaccinationDetails.GetVaccinationModelParameter;
@@ -61,8 +63,12 @@ import com.cynoteck.petofyvet.params.immunizationHistory.ImmunizationHistoryPara
 import com.cynoteck.petofyvet.params.immunizationHistory.ImmunizationHistoryRequest;
 import com.cynoteck.petofyvet.params.immunizationRequest.ImmunizationParameter;
 import com.cynoteck.petofyvet.params.immunizationRequest.ImmunizationRequestt;
+import com.cynoteck.petofyvet.params.nextVaccineParameter.NextVaccineParam;
+import com.cynoteck.petofyvet.params.nextVaccineParameter.NextVaccineRequest;
 import com.cynoteck.petofyvet.params.petReportsRequest.PetClinicVisitDetailsRequest;
 import com.cynoteck.petofyvet.params.petReportsRequest.PetClinicVistsDetailsParams;
+import com.cynoteck.petofyvet.params.saveVaccinationParameter.SaveRequest;
+import com.cynoteck.petofyvet.params.saveVaccinationParameter.SaveVaccineModel;
 import com.cynoteck.petofyvet.params.searcgDiagnosisRequest.SearchDiagnosisParameter;
 import com.cynoteck.petofyvet.params.searcgDiagnosisRequest.SearchDiagnosisRequestData;
 import com.cynoteck.petofyvet.params.searchPetParentRequest.SearchPetParentParameter;
@@ -77,6 +83,8 @@ import com.cynoteck.petofyvet.response.addImmunizationClinicResponse.Immunizatio
 import com.cynoteck.petofyvet.response.addPet.imageUpload.ImageResponse;
 import com.cynoteck.petofyvet.response.addPetClinicresponse.AddpetClinicResponse;
 import com.cynoteck.petofyvet.response.clinicVisist.ClinicVisitResponse;
+import com.cynoteck.petofyvet.response.dateOfBirthResponse.DateOfBirthResponse;
+import com.cynoteck.petofyvet.response.getFirstVaccineReponse.GetFirstVaccineResponseData;
 import com.cynoteck.petofyvet.response.getPetDetailsResponse.GetPetResponse;
 import com.cynoteck.petofyvet.response.getPetParrentnameReponse.GetPetParentResponseData;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.GetReportsTypeResponse;
@@ -86,7 +94,9 @@ import com.cynoteck.petofyvet.response.getVaccinationResponse.GetVaccineResponse
 import com.cynoteck.petofyvet.response.immunizationVaccineType.ImmunizationVaccineResponse;
 import com.cynoteck.petofyvet.response.immuniztionHistory.ImmunizationHistoryResponse;
 import com.cynoteck.petofyvet.response.immuniztionHistory.ImmunizationHistorymodel;
+import com.cynoteck.petofyvet.response.nextVaccineResponse.NextVaccineResponse;
 import com.cynoteck.petofyvet.response.saveImmunizationData.SaveImmunizationResponse;
+import com.cynoteck.petofyvet.response.saveResponse.SaveResponseData;
 import com.cynoteck.petofyvet.response.searchDiagnosisResponse.SearchDiagnosisResponseData;
 import com.cynoteck.petofyvet.response.searchRemaks.SearchRemaksResponse;
 import com.cynoteck.petofyvet.utils.Config;
@@ -126,15 +136,17 @@ import retrofit2.Response;
 public class AddClinicActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse,ImmunizationOnclickListener {
 
     ImageView back_arrow_IV;
+
     String report_id="",visitIdString="",pet_age="",strNatureOfVist="",appointment_ID="0",pet_DOB="",pet_encrypted_id="",strDocumentUrl="",visitId="",natureOfVisit="",pet_id="",
-            pet_name="",pet_owner_name="",pet_sex="",pet_unique_id="",veterian_name="",descrisption="",strPetAge="",
+            pet_name="",pet_owner_name="",pet_sex="",pet_unique_id="",veterian_name="",descrisption="",strPetAge="",getStrVaccineType="",getStrVaccineName="",
             Remarks="",visitDate="",history="",remarks="",dtOfOnset="",flowUpDt="",weight="",temparature="",diagnosis="",strNextVisitDate="",
             strVacine="",strDewormerName="",strDewormerDose="",strToolbarName="",PetCategoryId="1",cocatVal=null,nextVaccineName=null,nextVaccineType=null,
             valueConcat=null,dewormerName=null,dewormerDose=null,strVaccineType="",strVaccineName="",strNextDewormer="";
     Bundle data = new Bundle();
     TextView folow_up_dt_view,ilness_onset,next_visit, Dewormer_name_ET,Dewormer_name_TV,Dewormer_ET,Dewormer_TV,clinic_head_line,
             clinicCalenderTextViewVisitDt,clinicIlness_onset,date_of_illness_TV,upload_documents,follow_up_dt,nextImmunizationDate,
-            clinic_peto_edit_reg_number_dialog,next_vaccine_TV,next_vaccine_type_TV,history_TV,next_dewormer_TV,add_immunization_data;
+            clinic_peto_edit_reg_number_dialog,next_vaccine_TV,next_vaccine_type_TV,history_TV,
+            next_dewormer_TV,add_immunization_data,pet_nameTV,pet_idTV,pet_genderTV,pet_ageTV,pet_breadTV,pet_typeTV;
     ImageView document_name,clinic_back_arrow_IV;
     LinearLayout addPrescriptionButton,vaccine_layout,diagnosis_Layout,deworming_name_Layout,deworming_dose_Layout;
     EditText clinicVeterian_name_ET,clinicCescription_ET,remaks_ET,next_vaccine_ET,history_ET,diagnosis_result,remarks_ET,
@@ -186,17 +198,23 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_add_clinic);
-        setContentView(R.layout.test_layout);
+        setContentView(R.layout.activity_add_clinic);
 
         init();
         requestMultiplePermissions();
+
     }
 
     private void init() {
         methods = new Methods(this);
         Bundle extras = getIntent().getExtras();
         clinic_peto_edit_reg_number_dialog = findViewById(R.id.clinic_peto_edit_reg_number_dialog);
+        pet_nameTV = findViewById(R.id.pet_nameTV);
+        pet_idTV = findViewById(R.id.pet_idTV);
+        pet_genderTV = findViewById(R.id.pet_genderTV);
+        pet_ageTV = findViewById(R.id.pet_ageTV);
+        pet_breadTV = findViewById(R.id.pet_breadTV);
+        pet_typeTV = findViewById(R.id.pet_typeTV);
         clinic_head_line = findViewById(R.id.clinic_head_line);
         clinicVeterian_name_ET = findViewById(R.id.veterian_name_ET);
         clinicNature_of_visit_spinner = findViewById(R.id.nature_of_visit_spinner);
@@ -288,8 +306,6 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
 
             }
         });
-
-
 
         //8583896504(Suresh Das).
 
@@ -401,6 +417,10 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
             searchDeormerName();
             searchDeormerDose();
             setNextDewormerDoseSpinner();
+            getFirstVaccine();
+
+            saveVaccineAfterAdd();
+            DeleteTemporaryVaccination();
         }else {
 
             methods.DialogInternet();
@@ -429,6 +449,35 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         ApiService<ClinicVisitResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().getClinicVisit(Config.token), "GetClinicVisitRoutineFollowupTypes");
     }
+
+    private void getFirstVaccine() {
+        GetFirstVaccineModel getFirstVaccineModel=new GetFirstVaccineModel();
+        getFirstVaccineModel.setCategoryId("1");
+        getFirstVaccineModel.setPetId(pet_id.substring(0,pet_id.length()-2));
+        GetFirstVaccineRequest getFirstVaccineRequest=new GetFirstVaccineRequest();
+        getFirstVaccineRequest.setData(getFirstVaccineModel);
+        ApiService<GetFirstVaccineResponseData> service = new ApiService<>();
+        service.get( this, ApiClient.getApiInterface().getInitialVaccineDetails(Config.token,getFirstVaccineRequest), "GetInitialVaccineDetails");
+        Log.e("InitalParametr",""+getFirstVaccineRequest);
+    }
+
+    private void getNextFirstVaccine() {
+        NextVaccineParam nextVaccineParam=new NextVaccineParam();
+        nextVaccineParam.setNextVaccinationDate(strNextVisitDate);
+        nextVaccineParam.setVaccineName(strVaccineName);
+        nextVaccineParam.setVaccineType(strVaccineType);
+        nextVaccineParam.setCategoryId("1");
+        nextVaccineParam.setPetId(pet_id.substring(0,pet_id.length()-2));
+        NextVaccineRequest nextVaccineRequest=new NextVaccineRequest();
+        nextVaccineRequest.setData(nextVaccineParam);
+        ApiService<NextVaccineResponse> service = new ApiService<>();
+        service.get( this, ApiClient.getApiInterface().getNextVaccinationDateAndName(Config.token,nextVaccineRequest), "GetNextVaccinationDateAndName");
+        Log.e("NextFirstVaccine",""+nextVaccineRequest);
+    }
+
+
+
+
 
     private void searchDiagnosisData()
     {
@@ -606,7 +655,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
             case R.id.save_clinic_data:
                 veterian_name=clinicVeterian_name_ET.getText().toString();
                 descrisption=clinicCescription_ET.getText().toString();
-                Remarks=remarks_ET.getText().toString();
+                Remarks=remaks_ET.getText().toString();
                 visitDate=clinicCalenderTextViewVisitDt.getText().toString();
                 dtOfOnset=clinicIlness_onset.getText().toString();
                 flowUpDt=folow_up_dt_view.getText().toString();
@@ -729,7 +778,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                              clinicCescription_ET.setError("Enter Symptoms");
                              history_ET.setError(null);
                              diagnosis_result.setError(null);
-                             treatment_remaks_TV.setError(null);
+                             remaks_ET.setError(null);
                              return;
                            }
                          else if(history.isEmpty())
@@ -737,7 +786,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                              clinicCescription_ET.setError(null);
                              history_ET.setError("Enter History");
                              diagnosis_result.setError(null);
-                             treatment_remaks_TV.setError(null);
+                             remaks_ET.setError(null);
                              return;
                          }
                          else if(diagnosis.isEmpty())
@@ -745,15 +794,15 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                              clinicCescription_ET.setError(null);
                              history_ET.setError(null);
                              diagnosis_result.setError("Enter Diagnosis");
-                             treatment_remaks_TV.setError(null);
+                             remaks_ET.setError(null);
                              return;
                          }
-                         else if(remarks.isEmpty())
+                         else if(Remarks.isEmpty())
                          {
                              clinicCescription_ET.setError(null);
                              history_ET.setError(null);
                              diagnosis_result.setError(null);
-                             treatment_remaks_TV.setError("Enter treatment");
+                             remaks_ET.setError("Enter treatment");
                              return;
                          }
                          else
@@ -761,7 +810,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                              clinicCescription_ET.setError(null);
                              history_ET.setError(null);
                              diagnosis_result.setError(null);
-                             treatment_remaks_TV.setError(null);
+                             remaks_ET.setError(null);
                          }
 
                      }
@@ -771,7 +820,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                              clinicCescription_ET.setError("Enter Symptoms");
                              history_ET.setError(null);
                              diagnosis_result.setError(null);
-                             treatment_remaks_TV.setError(null);
+                             remaks_ET.setError(null);
                              return;
                          }
                          else if(history.isEmpty())
@@ -779,7 +828,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                              clinicCescription_ET.setError(null);
                              history_ET.setError("Enter History");
                              diagnosis_result.setError(null);
-                             treatment_remaks_TV.setError(null);
+                             remaks_ET.setError(null);
                              return;
                          }
                          else if(diagnosis.isEmpty())
@@ -787,7 +836,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                              clinicCescription_ET.setError(null);
                              history_ET.setError(null);
                              diagnosis_result.setError("Enter Diagnosis");
-                             treatment_remaks_TV.setError(null);
+                             remaks_ET.setError(null);
                              return;
                          }
                          else if(strDewormerName.isEmpty())
@@ -814,7 +863,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                              clinicCescription_ET.setError("Enter Symptoms");
                              history_ET.setError(null);
                              diagnosis_result.setError(null);
-                             treatment_remaks_TV.setError(null);
+                             remaks_ET.setError(null);
                              return;
                          }
                          else if(history.isEmpty())
@@ -822,7 +871,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                              clinicCescription_ET.setError(null);
                              history_ET.setError("Enter History");
                              diagnosis_result.setError(null);
-                             treatment_remaks_TV.setError(null);
+                             remaks_ET.setError(null);
                              return;
                          }
                          else if(diagnosis.isEmpty())
@@ -830,7 +879,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                              clinicCescription_ET.setError(null);
                              history_ET.setError(null);
                              diagnosis_result.setError("Enter Diagnosis");
-                             treatment_remaks_TV.setError(null);
+                             remaks_ET.setError(null);
                              return;
                          }
                          else if(remarks.isEmpty())
@@ -838,7 +887,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                              clinicCescription_ET.setError(null);
                              history_ET.setError(null);
                              diagnosis_result.setError(null);
-                             treatment_remaks_TV.setError("Enter treatment");
+                             remaks_ET.setError("Enter treatment");
                              return;
                          }
                          else
@@ -846,7 +895,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                              clinicCescription_ET.setError(null);
                              history_ET.setError(null);
                              diagnosis_result.setError(null);
-                             treatment_remaks_TV.setError(null);
+                             remaks_ET.setError(null);
                          }
 
                      }
@@ -1048,6 +1097,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                          }
 
                      }*/
+
                  }
                 break;
             case R.id.upload_documents:
@@ -1074,8 +1124,8 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         Button add_vaccine_data = (Button) vaccineDialog.findViewById(R.id.add_vaccine_data);
         Button add_vaccine_cancel = (Button) vaccineDialog.findViewById(R.id.add_vaccine_cancel);
 
-        setVaccineTypeSpinner();
-        setVaccineNameSpinner();
+        setVaccineTypeSpinner(getStrVaccineType);
+        setVaccineNameSpinner(getStrVaccineName);
 
         nextImmunizationDate.setText(Config.currentDate());
         nextImmunizationDate.setOnClickListener(new View.OnClickListener() {
@@ -1117,6 +1167,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                         hospitalizationReportsAdapter = new ImmunazationVaccineAdopter(AddClinicActivity.this,AddClinicActivity.this, VaccineList);
                         immunization_data.setAdapter(hospitalizationReportsAdapter);
                         hospitalizationReportsAdapter.notifyDataSetChanged();
+                        getNextFirstVaccine();
                         vaccineDialog.dismiss();
                     }
                     else
@@ -1253,11 +1304,25 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
 
     }
 
-    private void setVaccineTypeSpinner() {
+    private void setVaccineTypeSpinner(String type) {
         ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,vaccineTypeList);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
         vaccine_type.setAdapter(aa);
+
+        if(type!=null)
+        {
+            if(!type.equals("null"))
+            {
+                if (type != null) {
+                    int spinnerPosition = aa.getPosition(type);
+                    vaccine_type.setSelection(spinnerPosition);
+                }
+            }
+        }
+
+
+
         vaccine_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
@@ -1291,11 +1356,23 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         });
     }
 
-    private void setVaccineNameSpinner(){
+    private void setVaccineNameSpinner(String name){
         ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,vaccineNameList);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
         vaccine_name.setAdapter(aa);
+
+        if(name!=null)
+        {
+            if(!name.equals("null"))
+            {
+                if (name != null) {
+                    int spinnerPosition = aa.getPosition(name);
+                    vaccine_name.setSelection(spinnerPosition);
+                }
+            }
+        }
+
         vaccine_name.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
@@ -1511,6 +1588,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void addImmuzationData(ImmunizationClinicData immunizationClinicData){
+        methods.showCustomProgressBarDialog(this);
         ApiService<JsonObject> service = new ApiService<>();
         service.get(this, ApiClient.getApiInterface().addPetVaccination(Config.token,immunizationClinicData), "AddPetVaccination");
         Log.e("DATALOG_AddPetVaccin",""+immunizationClinicData);
@@ -1566,6 +1644,27 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         service.get( this, ApiClient.getApiInterface().saveImmunizationDetails(Config.token,vaccinationRequest), "SaveImmunizationDetails");
         Log.e("SaveVaccinSchedule==>",""+vaccinationRequest);
     }
+
+    private void saveVaccineAfterAdd()
+    {
+        SaveVaccineModel saveVaccineModel = new SaveVaccineModel();
+        saveVaccineModel.setVaccineName("PUPPY DP");
+        saveVaccineModel.setVaccineType("Primary");
+        saveVaccineModel.setVaccinationDate("07/12/2020");
+        saveVaccineModel.setPetId(pet_id.substring(0,pet_id.length()-2));
+        saveVaccineModel.setPetClinicVisitId("");
+        SaveRequest saveRequest = new SaveRequest();
+        saveRequest.setData(saveVaccineModel);
+        ApiService<SaveResponseData> service = new ApiService<>();
+        service.get(this, ApiClient.getApiInterface().SaveVaccination(Config.token,saveRequest), "SaveVaccination");
+        Log.e("SaveVaccination",""+saveRequest);
+    }
+
+   private void DeleteTemporaryVaccination()
+   {
+       ApiService<JsonObject> service = new ApiService<>();
+       service.get( this, ApiClient.getApiInterface().DeleteTemporaryVaccination(Config.token,pet_id.substring(0,pet_id.length()-2)), "DeleteTemporaryVaccination");
+   }
 
     @Override
     public void onResponse(Response arg0, String key) {
@@ -1663,12 +1762,19 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     int responseCode = Integer.parseInt(getPetResponse.getResponse().getResponseCode());
                     if (responseCode == 109) {
                         //Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                        pet_name=getPetResponse.getData().getPetName();
                         String petDetails=getPetResponse.getData().getPetName()+" ( "+getPetResponse.getData().getPetUniqueId()
                                           +" , "+getPetResponse.getData().getPetCategory()
                                           +" , "+getPetResponse.getData().getPetSex()
                                           +" , "+getPetResponse.getData().getPetBreed()+" , "+getPetResponse.getData().getPetAge()+" Old)\n"
                                           +"( "+getPetResponse.getData().getPetParentName()+" , "+getPetResponse.getData().getContactNumber()+" )";
-                        clinic_peto_edit_reg_number_dialog.setText(petDetails);
+                        clinic_peto_edit_reg_number_dialog.setText(getPetResponse.getData().getPetParentName()+" ("+getPetResponse.getData().getContactNumber()+" ) ");
+                        pet_nameTV.setText(getPetResponse.getData().getPetName());
+                        pet_idTV.setText(getPetResponse.getData().getPetUniqueId());
+                        pet_genderTV.setText(getPetResponse.getData().getPetSex());
+                        pet_ageTV.setText(getPetResponse.getData().getPetAge()+" Old");
+                        pet_breadTV.setText(getPetResponse.getData().getPetBreed());
+                        pet_typeTV.setText(getPetResponse.getData().getPetCategory());
 
                     } else if (responseCode == 614) {
                         Toast.makeText(this, getPetResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
@@ -1759,7 +1865,6 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
 
             case "AddPetVaccination":
                 try {
-                    methods.customProgressDismiss();
                     JsonObject immunizationAddResponse = (JsonObject) arg0.body();
                     Log.d("AddPetVaccination", immunizationAddResponse.toString());
 
@@ -1769,15 +1874,18 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     int responseCode = Integer.parseInt(String.valueOf(response.get("responseCode")));
 
                     if (responseCode== 109){
+                        methods.customProgressDismiss();
                         Toast.makeText(this, "Add Data Successfully", Toast.LENGTH_SHORT).show();
                         Config.type="list";
                         onBackPressed();
                     }
                     else if (responseCode==614){
+                        methods.customProgressDismiss();
                         Toast.makeText(this, String.valueOf(response.getAsJsonObject("responseMessage")), Toast.LENGTH_SHORT).show();
                     }
                     else
                     {
+                        methods.customProgressDismiss();
                         Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
                     }
 
@@ -2033,6 +2141,84 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     {
                         Toast.makeText(this, "Not Save", Toast.LENGTH_SHORT).show();
                         vaccineDetailsDialog.dismiss();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "GetInitialVaccineDetails":
+                try {
+                    Log.d("GetInitialVaccineD", arg0.body().toString());
+                    GetFirstVaccineResponseData getFirstVaccineResponseData = (GetFirstVaccineResponseData) arg0.body();
+                    int responseCode = Integer.parseInt(getFirstVaccineResponseData.getResponse().getResponseCode());
+                    if (responseCode == 109) {
+                        getStrVaccineType=getFirstVaccineResponseData.getData().getVaccineType();
+                        getStrVaccineName=getFirstVaccineResponseData.getData().getVaccineName();
+                    }
+                    else
+                    {
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "GetNextVaccinationDateAndName":
+                try {
+                    Log.d("GetNextVaccination", arg0.body().toString());
+                    NextVaccineResponse nextVaccineResponse = (NextVaccineResponse) arg0.body();
+                    int responseCode = Integer.parseInt(nextVaccineResponse.getResponse().getResponseCode());
+                    if (responseCode == 109) {
+                        next_vaccine_ET.setText(nextVaccineResponse.getData().getVaccineName());
+                        setVaccineNextTypeSpinner(nextVaccineResponse.getData().getVaccineType());
+                    }
+                    else
+                    {
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "SaveVaccination":
+                try {
+                    Log.d("SaveResponseData", arg0.body().toString());
+                    SaveResponseData saveResponseData = (SaveResponseData) arg0.body();
+                    int responseCode = Integer.parseInt(saveResponseData.getResponse().getResponseCode());
+                    if (responseCode == 109) {
+
+                    }
+                    else
+                    {
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "DeleteTemporaryVaccination":
+                try {
+                    Log.d("DeleteTemporary", arg0.body().toString());
+                    JsonObject deleteData = (JsonObject) arg0.body();
+                    JsonObject response = deleteData.getAsJsonObject("response");
+                    Log.d("hhshshhs",""+response);
+
+                    int responseCode = Integer.parseInt(String.valueOf(response.get("responseCode")));
+
+                    if (responseCode== 109){
+                        methods.customProgressDismiss();
+                        Toast.makeText(this, "Add Data Successfully", Toast.LENGTH_SHORT).show();
+                        Config.type="list";
+                        onBackPressed();
+                    }
+                    else if (responseCode==614){
+                        methods.customProgressDismiss();
+                        Toast.makeText(this, String.valueOf(response.getAsJsonObject("responseMessage")), Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        methods.customProgressDismiss();
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
