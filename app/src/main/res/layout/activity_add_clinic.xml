@@ -689,6 +689,20 @@
  -->
 
                 <TextView
+                    android:visibility="gone"
+                    android:id="@+id/add_immunization_data_added"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:gravity="center_vertical"
+                    android:inputType="text"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:text="Vaccination already Added"
+                    android:textColor="@color/black_color"
+                    android:paddingLeft="10dp"/>
+                <TextView
                     android:id="@+id/add_immunization_data"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -704,6 +718,7 @@
                     android:paddingLeft="10dp"/>
 
                 <LinearLayout
+                    android:id="@+id/imaunizatioHeader"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:weightSum="5"
@@ -744,6 +759,7 @@
                 </LinearLayout>
 
                 <View
+                    android:id="@+id/immunizationView"
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:background="#cccc" />

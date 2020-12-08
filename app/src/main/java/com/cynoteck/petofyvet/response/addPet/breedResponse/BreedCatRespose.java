@@ -10,7 +10,6 @@ import java.util.List;
 public class BreedCatRespose {
     private Header header;
 
-    @SerializedName("data")
     private List<BreedModel> data = null;
 
     private Response response;

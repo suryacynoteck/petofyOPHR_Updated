@@ -114,12 +114,10 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         {
             case "GetUserDetails":
                 try {
-                    methods.customProgressDismiss();
                     Log.d("GetUserDetails",response.body().toString());
                     UserResponse userResponse = (UserResponse) response.body();
                     int responseCode = Integer.parseInt(userResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
-                        methods.customProgressDismiss();
                         //Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
                         IsVeterinarian=userResponse.getData().getIsVeterinarian();
                         Log.d("IsVeterinarian",""+userResponse.getData().getIsVeterinarian());

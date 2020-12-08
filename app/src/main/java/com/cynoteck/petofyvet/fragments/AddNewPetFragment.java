@@ -88,6 +88,7 @@ import com.cynoteck.petofyvet.utils.StaffListClickListener;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 
@@ -813,7 +814,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
         ImmunizationRequest immunizationRequest = new ImmunizationRequest();
         immunizationRequest.setData(immunizationParams);
 
-        ApiService<PetImmunizationRecordResponse> service = new ApiService<>();
+        ApiService<JsonObject> service = new ApiService<>();
         service.get(this, ApiClient.getApiInterface().viewPetVaccination(Config.token,immunizationRequest), "GetImmunization");
         Log.d("GetImmunization",immunizationRequest.toString());
 

@@ -46,6 +46,7 @@ import com.cynoteck.petofyvet.response.getPetReportsResponse.getClinicVisitDetai
 import com.cynoteck.petofyvet.utils.AllVisitsDateWieseOnClick;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 
@@ -391,7 +392,7 @@ public class AllVisitsActivity extends AppCompatActivity implements ApiResponse,
         ImmunizationRequest immunizationRequest = new ImmunizationRequest();
         immunizationRequest.setData(immunizationParams);
 
-        ApiService<PetImmunizationRecordResponse> service = new ApiService<>();
+        ApiService<JsonObject> service = new ApiService<>();
         service.get(this, ApiClient.getApiInterface().viewPetVaccination(Config.token,immunizationRequest), "GetImmunization");
         Log.d("GetImmunization",immunizationRequest.toString());
 
