@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -24,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
@@ -233,7 +235,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                     if(responseLogin.getData().getUserRole().equals("Veterinarian"))
                     loginSucess();
                     else
-                    Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    ifParentIdDialog();
 
                 }
                 break;
@@ -243,6 +245,26 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                 break;
         }
 
+    }
+
+    private void ifParentIdDialog()
+    {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setTitle("ALERT!!");
+        builder1.setMessage("This is Vet Parent ID, Kindly use this ID Petofy Parent App\nThank You..");
+        builder1.setCancelable(true);
+
+        builder1.setPositiveButton(
+                "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
     }
 
     private void loginUser(Loginparams loginparams) {
@@ -284,7 +306,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                             if(responseLogin.getData().getUserRole().equals("Veterinarian"))
                             loginSucess();
                             else
-                            Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                            ifParentIdDialog();
                         }
 
                     } else if (responseCode == 614) {
@@ -418,11 +440,13 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
 
     private void getDeviceId() {
         TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             if (checkSelfPermission(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
                 if (telephonyManager != null) {
                     try {
-                        imeiNumber = telephonyManager.getImei();
+                        imeiNumber = Settings.Secure.getString(
+                                this.getContentResolver(),
+                                Settings.Secure.ANDROID_ID);
                     } catch (Exception e) {
                         e.printStackTrace();
                         imeiNumber = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
@@ -435,6 +459,11 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
                 if (telephonyManager != null) {
                     imeiNumber = telephonyManager.getDeviceId();
+                }
+                else {
+                    imeiNumber = Settings.Secure.getString(
+                            this.getContentResolver(),
+                            Settings.Secure.ANDROID_ID);
                 }
             } else {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, 1010);

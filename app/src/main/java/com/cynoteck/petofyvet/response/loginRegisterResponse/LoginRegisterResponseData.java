@@ -92,6 +92,8 @@ public class LoginRegisterResponseData
 
     private String status;
 
+    private String isProfileCreated;
+
     public String getVetRegistrationNumber ()
     {
         return vetRegistrationNumber;
@@ -542,10 +544,18 @@ public class LoginRegisterResponseData
         this.status = status;
     }
 
+    public String getIsProfileCreated() {
+        return isProfileCreated;
+    }
+
+    public void setIsProfileCreated(String isProfileCreated) {
+        this.isProfileCreated = isProfileCreated;
+    }
+
     @Override
     public String toString()
     {
-        return "ClassPojo [vetRegistrationNumber = "+vetRegistrationNumber+", lastName = "+lastName+", zipCode = "+zipCode+", notificationStatus = "+notificationStatus+", providerLastName = "+providerLastName+", providerPhoneNumber = "+providerPhoneNumber+", cityId = "+cityId+", isActive = "+isActive+", isEmailVerified = "+isEmailVerified+", isLogin = "+isLogin+", password = "+password+", locationId = "+locationId+", latLong = "+latLong+", customerEmail = "+customerEmail+", confirmPassword = "+confirmPassword+", userSalt = "+userSalt+", profileImageUrl = "+profileImageUrl+", email = "+email+", onlineAppointmentStatus = "+onlineAppointmentStatus+", petParentConfirmPassword = "+petParentConfirmPassword+", enableTwoStepVerification = "+enableTwoStepVerification+", address = "+address+", roleId = "+roleId+", fullName = "+fullName+", areYouProvider = "+areYouProvider+", guestEmail = "+guestEmail+", userId = "+userId+", petParentPassword = "+petParentPassword+", forgotPasswordEmail = "+forgotPasswordEmail+", isPrivacyPolicyCheck = "+isPrivacyPolicyCheck+", vetRQualification = "+vetRQualification+", firstName = "+firstName+", locationList = "+locationList+", providerConfirmPassword = "+providerConfirmPassword+", isMobileNumberVerified = "+isMobileNumberVerified+", phoneNumber = "+phoneNumber+", providerPassword = "+providerPassword+", encryptedId = "+encryptedId+", customerPassword = "+customerPassword+", providerFirstName = "+providerFirstName+", rememberMe = "+rememberMe+", userPermissionMasterList = "+userPermissionMasterList+", userRole = "+userRole+", providerEmail = "+providerEmail+", status = "+status+"]";
+        return "ClassPojo [vetRegistrationNumber = "+vetRegistrationNumber+", lastName = "+lastName+", zipCode = "+zipCode+", notificationStatus = "+notificationStatus+", providerLastName = "+providerLastName+", providerPhoneNumber = "+providerPhoneNumber+", cityId = "+cityId+", isActive = "+isActive+", isEmailVerified = "+isEmailVerified+", isLogin = "+isLogin+", password = "+password+", locationId = "+locationId+", latLong = "+latLong+", customerEmail = "+customerEmail+", confirmPassword = "+confirmPassword+", userSalt = "+userSalt+", profileImageUrl = "+profileImageUrl+", email = "+email+", onlineAppointmentStatus = "+onlineAppointmentStatus+", petParentConfirmPassword = "+petParentConfirmPassword+", enableTwoStepVerification = "+enableTwoStepVerification+", address = "+address+", roleId = "+roleId+", fullName = "+fullName+", areYouProvider = "+areYouProvider+", guestEmail = "+guestEmail+", userId = "+userId+", petParentPassword = "+petParentPassword+", forgotPasswordEmail = "+forgotPasswordEmail+", isPrivacyPolicyCheck = "+isPrivacyPolicyCheck+", vetRQualification = "+vetRQualification+", firstName = "+firstName+", locationList = "+locationList+", providerConfirmPassword = "+providerConfirmPassword+", isMobileNumberVerified = "+isMobileNumberVerified+", phoneNumber = "+phoneNumber+", providerPassword = "+providerPassword+", encryptedId = "+encryptedId+", customerPassword = "+customerPassword+", providerFirstName = "+providerFirstName+", rememberMe = "+rememberMe+", userPermissionMasterList = "+userPermissionMasterList+", userRole = "+userRole+", providerEmail = "+providerEmail+", status = "+status+", isProfileCreated = "+isProfileCreated+"]";
     }
 }
 

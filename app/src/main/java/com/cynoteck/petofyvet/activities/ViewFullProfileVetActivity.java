@@ -602,6 +602,7 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
             case R.id.edit_image:
 
                 Intent intent = new Intent(this,UpdateProfileActivity.class);
+                intent.putExtra("activityName","Edit");
                 intent.putExtra("id",userResponse.getData().getId());
                 intent.putExtra("password",userResponse.getData().getPassword());
                 intent.putExtra("firstName",userResponse.getData().getFirstName());
@@ -630,9 +631,6 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
                 intent.putExtra("petServiceValue",petServiceValue.stream().collect(Collectors.joining(",")));
                 intent.putExtra("petType",petTypeText.stream().collect(Collectors.joining(",")));
                 intent.putExtra("petTypeValue",petTypeValue.stream().collect(Collectors.joining(",")));
-
-
-
                 startActivity(intent);
                 break;
 
