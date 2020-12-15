@@ -392,7 +392,7 @@ public class AllVisitsActivity extends AppCompatActivity implements ApiResponse,
         ImmunizationRequest immunizationRequest = new ImmunizationRequest();
         immunizationRequest.setData(immunizationParams);
 
-        ApiService<JsonObject> service = new ApiService<>();
+        ApiService<PetImmunizationRecordResponse> service = new ApiService<>();
         service.get(this, ApiClient.getApiInterface().viewPetVaccination(Config.token,immunizationRequest), "GetImmunization");
         Log.d("GetImmunization",immunizationRequest.toString());
 

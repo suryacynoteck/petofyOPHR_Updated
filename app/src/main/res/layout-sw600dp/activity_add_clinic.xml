@@ -721,13 +721,6 @@
                     android:weightSum="5"
                     android:layout_marginTop="8dp"
                     android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="1.5"
-                        android:layout_height="wrap_content"
-                        android:text="Vaccine Type"
-                        android:textColor="@color/black_color"
-                        android:gravity="center"/>
 
                     <TextView
                         android:layout_width="0dp"
@@ -736,6 +729,15 @@
                         android:text="Name of Vaccine"
                         android:textColor="@color/black_color"
                         android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1.5"
+                        android:layout_height="wrap_content"
+                        android:text="Vaccine Type"
+                        android:textColor="@color/black_color"
+                        android:gravity="center"/>
+
 
                     <TextView
                         android:layout_width="0dp"
