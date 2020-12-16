@@ -1,6 +1,7 @@
 package com.cynoteck.petofyvet.activities;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -416,6 +417,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
         super.onResume();
     }
 
+    @SuppressLint("MissingPermission")
     private void getDeviceId() {
         TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

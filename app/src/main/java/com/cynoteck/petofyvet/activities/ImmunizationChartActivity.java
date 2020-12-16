@@ -186,6 +186,7 @@ public class ImmunizationChartActivity extends AppCompatActivity implements View
                             petType.add(petTypeResponse.getData().get(i).getPetType1());
                             petTypeHashMap.put(petTypeResponse.getData().get(i).getPetType1(),petTypeResponse.getData().get(i).getId());
                         }
+                        Log.e("aaa",petTypeHashMap.toString());
                         setPetTypeSpinner();
 
                     }else if (responseCode==614){
