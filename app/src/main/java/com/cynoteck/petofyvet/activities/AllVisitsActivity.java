@@ -260,17 +260,38 @@ public class AllVisitsActivity extends AppCompatActivity implements ApiResponse,
                             ArrayList<String> vaccineClass = new ArrayList<>();
                             ArrayList<String> nextDueDate = new ArrayList<>();
 
-                            for (int i = 0; i < immunizationRecordResponse.getData().getPetImmunizationDetailModels().size(); i++) {
-                                immunizationDate.add(immunizationRecordResponse.getData().getPetImmunizationDetailModels().get(i).getImmunizationDate().substring(0, immunizationRecordResponse.getData().getPetImmunizationDetailModels().get(i).getImmunizationDate().length() - 11));
-                                vaccineClass.add(immunizationRecordResponse.getData().getPetImmunizationDetailModels().get(i).getVaccine());
-                                nextDueDate.add(immunizationRecordResponse.getData().getPetImmunizationDetailModels().get(i).getNextDueDate());
+                            ArrayList<String> immunizationDatePending = new ArrayList<>();
+                            ArrayList<String> vaccineClassPending = new ArrayList<>();
+                            ArrayList<String> nextDueDatePending = new ArrayList<>();
+
+                            for (int i = 0; i < immunizationRecordResponse.getData().getPetPendingVaccinations().size(); i++) {
+                                if(immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getIsVaccinated().equals("true"))
+                                {
+                                    immunizationDate.add(immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getVaccinationDate());
+                                    vaccineClass.add(immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getVaccineName());
+                                    nextDueDate.add(immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getNextVaccinationDate().substring(0, immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getNextVaccinationDate().length() - 9));
+                                }
+                                else
+                                {
+                                    immunizationDatePending.add(immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getVaccinationDate());
+                                    vaccineClassPending.add(immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getVaccineName());
+                                    nextDueDatePending.add(immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getNextVaccinationDate().substring(0, immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getNextVaccinationDate().length() - 9));
+
+                                }
                             }
-                            JSONArray date = new JSONArray(immunizationDate);
-                            JSONArray vaccine = new JSONArray(vaccineClass);
-                            JSONArray nextDate = new JSONArray(nextDueDate);
+                            final JSONArray date = new JSONArray(immunizationDate);
+                            final JSONArray vaccine = new JSONArray(vaccineClass);
+                            final JSONArray nextDate = new JSONArray(nextDueDate);
+
+
+                            final JSONArray datePending = new JSONArray(immunizationDatePending);
+                            final JSONArray vaccinePending = new JSONArray(vaccineClassPending);
+                            final JSONArray nextDatePending = new JSONArray(nextDueDatePending);
+
+
                             Log.e("aaaaaa", vaccineClass.toString());
                             Log.e("aaaaaa", vaccine.toString());
-                            String immunizationSet = methods.immunizationPdfGenarator(petNameImmun, petAgeImmun, petSeximmun, petParentImmun, "4564564644465", date, vaccine, nextDate);
+                            String immunizationSet = methods.immunizationPdfGenarator(petNameImmun, petAgeImmun, petSeximmun, petParentImmun, "4564564644465", date, vaccine, nextDate,datePending, vaccinePending, nextDatePending);
 
                             webview.loadDataWithBaseURL(null, immunizationSet, "text/html", "utf-8", null);
                             new Handler().postDelayed(new Runnable() {

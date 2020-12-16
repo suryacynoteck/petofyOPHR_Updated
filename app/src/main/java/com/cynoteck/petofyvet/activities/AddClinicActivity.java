@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -433,8 +434,6 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
             getFirstVaccine();
             getNextFirstVaccine();
             DeleteTemporaryVaccination();
-
-            getImmunization();
         }else {
 
             methods.DialogInternet();
@@ -1704,7 +1703,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
     private void getImmunization()
     {
         ImmunizationParams immunizationParams = new ImmunizationParams();
-        immunizationParams.setEncryptedId("MTAyMDI=");
+        immunizationParams.setEncryptedId(pet_encrypted_id);
         ImmunizationRequest immunizationRequest = new ImmunizationRequest();
         immunizationRequest.setData(immunizationParams);
 
@@ -1930,7 +1929,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                         methods.customProgressDismiss();
                         Toast.makeText(this, "Add Data Successfully", Toast.LENGTH_SHORT).show();
                         Config.type="list";
-                        //getImmunization();
+                        getImmunization();
                     }
                     else if (responseCode==614){
                         methods.customProgressDismiss();
@@ -1963,17 +1962,40 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                             ArrayList<String> vaccineClass = new ArrayList<>();
                             ArrayList<String> nextDueDate = new ArrayList<>();
 
+                            ArrayList<String> immunizationDatePending = new ArrayList<>();
+                            ArrayList<String> vaccineClassPending = new ArrayList<>();
+                            ArrayList<String> nextDueDatePending = new ArrayList<>();
+
                             for (int i = 0; i < immunizationRecordResponse.getData().getPetPendingVaccinations().size(); i++) {
-                                immunizationDate.add(immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getNextVaccinationDate().substring(0, immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getNextVaccinationDate().length() - 11));
-                                vaccineClass.add(immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getVaccineName());
-                                nextDueDate.add(immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getVaccinationDate());
-                            }
-                            JSONArray date = new JSONArray(immunizationDate);
-                            JSONArray vaccine = new JSONArray(vaccineClass);
-                            JSONArray nextDate = new JSONArray(nextDueDate);
+                                if(immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getIsVaccinated().equals("true"))
+                                {
+                                    immunizationDate.add(immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getVaccinationDate());
+                                    vaccineClass.add(immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getVaccineName());
+                                    nextDueDate.add(immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getNextVaccinationDate().substring(0, immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getNextVaccinationDate().length() - 9));
+                                }
+                                else
+                                {
+                                    immunizationDatePending.add(immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getVaccinationDate());
+                                    vaccineClassPending.add(immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getVaccineName());
+                                    nextDueDatePending.add(immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getNextVaccinationDate().substring(0, immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getNextVaccinationDate().length() - 9));
+
+                                }
+                               }
+                            final JSONArray date = new JSONArray(immunizationDate);
+                            final JSONArray vaccine = new JSONArray(vaccineClass);
+                            final JSONArray nextDate = new JSONArray(nextDueDate);
+                            Log.d("jsjsjjsjs",""+date.length());
+
+                            final JSONArray datePending = new JSONArray(immunizationDatePending);
+                            final JSONArray vaccinePending = new JSONArray(vaccineClassPending);
+                            final JSONArray nextDatePending = new JSONArray(nextDueDatePending);
+                            Log.d("jsjsjjsjs",""+datePending.length());
+
                             Log.e("aaaaaa", vaccineClass.toString());
                             Log.e("aaaaaa", vaccine.toString());
-                            final String immunizationSet = methods.immunizationPdfGenarator(pet_name, pet_age, pet_sex, pet_owner_name, "4564564644465", date, vaccine, nextDate);
+                            String immunizationSet = methods.immunizationPdfGenarator(pet_name, pet_age, pet_sex, pet_owner_name, "4564564644465", date, vaccine, nextDate, datePending, vaccinePending, nextDatePending);
+                            WebSettings webSettings = webview.getSettings();
+                            webSettings.setJavaScriptEnabled(true);
                             webview.loadDataWithBaseURL(null, immunizationSet, "text/html", "utf-8", null);
                             new Handler().postDelayed(new Runnable() {
                                 @RequiresApi(api = Build.VERSION_CODES.KITKAT)
