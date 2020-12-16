@@ -46,6 +46,7 @@ import com.cynoteck.petofyvet.response.getPetReportsResponse.getClinicVisitDetai
 import com.cynoteck.petofyvet.utils.AllVisitsDateWieseOnClick;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 

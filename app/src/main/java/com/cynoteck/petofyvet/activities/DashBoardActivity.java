@@ -28,6 +28,8 @@ import com.cynoteck.petofyvet.response.updateProfileResponse.UserResponse;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.Methods;
 
+import java.util.stream.Collectors;
+
 import retrofit2.Response;
 
 public class DashBoardActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse {
@@ -114,17 +116,41 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         {
             case "GetUserDetails":
                 try {
-                    methods.customProgressDismiss();
                     Log.d("GetUserDetails",response.body().toString());
                     UserResponse userResponse = (UserResponse) response.body();
                     int responseCode = Integer.parseInt(userResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
-                        methods.customProgressDismiss();
                         //Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
                         IsVeterinarian=userResponse.getData().getIsVeterinarian();
                         Log.d("IsVeterinarian",""+userResponse.getData().getIsVeterinarian());
                         if(IsVeterinarian.equals("false")){
-                            startActivity(new Intent(DashBoardActivity.this,UpdateProfileActivity.class));
+                            Intent intent=new Intent(DashBoardActivity.this,UpdateProfileActivity.class);
+                            intent.putExtra("activityName","Update");
+                            intent.putExtra("id",userResponse.getData().getId());
+                            intent.putExtra("password",userResponse.getData().getPassword());
+                            intent.putExtra("firstName",userResponse.getData().getFirstName());
+                            intent.putExtra("lastName",userResponse.getData().getLastName());
+                            intent.putExtra("email",userResponse.getData().getEmail());
+                            intent.putExtra("phone",userResponse.getData().getPhone());
+                            intent.putExtra("address",userResponse.getData().getAddress());
+                            intent.putExtra("country",userResponse.getData().getCountryName());
+                            intent.putExtra("state",userResponse.getData().getStateName());
+                            intent.putExtra("city",userResponse.getData().getCityName());
+                            intent.putExtra("pincode",userResponse.getData().getPostalCode());
+                            intent.putExtra("onlineConsultationCharges",userResponse.getData().getOnlineConsultationCharges());
+                            intent.putExtra("website",userResponse.getData().getWebsite());
+                            intent.putExtra("clinicCode",userResponse.getData().getClinicCode());
+                            intent.putExtra("socialMedia",userResponse.getData().getSocialMediaUrl());
+                            intent.putExtra("vetRegNo",userResponse.getData().getVetRegistrationNumber());
+                            intent.putExtra("vetStudy",userResponse.getData().getVetQualifications());
+                            intent.putExtra("category",userResponse.getData().getCategories());
+                            intent.putExtra("service",userResponse.getData().getServices());
+                            intent.putExtra("serviceImage1",userResponse.getData().getFirstServiceImageUrl());
+                            intent.putExtra("serviceImage2",userResponse.getData().getSecondServiceImageUrl());
+                            intent.putExtra("serviceImage3",userResponse.getData().getThirdServiceImageUrl());
+                            intent.putExtra("serviceImage4",userResponse.getData().getFourthServiceImageUrl());
+                            intent.putExtra("serviceImage5",userResponse.getData().getFirstServiceImageUrl());
+                            startActivity(intent);
                             finish();
                         }
                     }else if (responseCode==614){

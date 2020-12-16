@@ -62,11 +62,15 @@ import com.cynoteck.petofyvet.params.getVaccinationDetails.GetVaccinationRequest
 import com.cynoteck.petofyvet.params.immunizationHistory.ImmunizationHistoryParametr;
 import com.cynoteck.petofyvet.params.immunizationHistory.ImmunizationHistoryRequest;
 import com.cynoteck.petofyvet.params.immunizationRequest.ImmunizationParameter;
+import com.cynoteck.petofyvet.params.immunizationRequest.ImmunizationParams;
+import com.cynoteck.petofyvet.params.immunizationRequest.ImmunizationRequest;
 import com.cynoteck.petofyvet.params.immunizationRequest.ImmunizationRequestt;
 import com.cynoteck.petofyvet.params.nextVaccineParameter.NextVaccineParam;
 import com.cynoteck.petofyvet.params.nextVaccineParameter.NextVaccineRequest;
 import com.cynoteck.petofyvet.params.petReportsRequest.PetClinicVisitDetailsRequest;
 import com.cynoteck.petofyvet.params.petReportsRequest.PetClinicVistsDetailsParams;
+import com.cynoteck.petofyvet.params.removeVccination.RemoveParams;
+import com.cynoteck.petofyvet.params.removeVccination.RemoveRequest;
 import com.cynoteck.petofyvet.params.saveVaccinationParameter.SaveRequest;
 import com.cynoteck.petofyvet.params.saveVaccinationParameter.SaveVaccineModel;
 import com.cynoteck.petofyvet.params.searcgDiagnosisRequest.SearchDiagnosisParameter;
@@ -85,6 +89,7 @@ import com.cynoteck.petofyvet.response.addPetClinicresponse.AddpetClinicResponse
 import com.cynoteck.petofyvet.response.clinicVisist.ClinicVisitResponse;
 import com.cynoteck.petofyvet.response.dateOfBirthResponse.DateOfBirthResponse;
 import com.cynoteck.petofyvet.response.getFirstVaccineReponse.GetFirstVaccineResponseData;
+import com.cynoteck.petofyvet.response.getImmunizationReport.PetImmunizationRecordResponse;
 import com.cynoteck.petofyvet.response.getPetDetailsResponse.GetPetResponse;
 import com.cynoteck.petofyvet.response.getPetParrentnameReponse.GetPetParentResponseData;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.GetReportsTypeResponse;
@@ -128,6 +133,9 @@ import java.util.StringTokenizer;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import org.json.JSONArray;
+
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -143,14 +151,15 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
             strVacine="",strDewormerName="",strDewormerDose="",strToolbarName="",PetCategoryId="1",cocatVal=null,nextVaccineName=null,nextVaccineType=null,
             valueConcat=null,dewormerName=null,dewormerDose=null,strVaccineType="",strVaccineName="",strNextDewormer="";
     Bundle data = new Bundle();
-    TextView folow_up_dt_view,ilness_onset,next_visit, Dewormer_name_ET,Dewormer_name_TV,Dewormer_ET,Dewormer_TV,clinic_head_line,
+    TextView folow_up_dt_view,ilness_onset,next_visit, Dewormer_name_ET,Dewormer_name_TV,Dewormer_ET,Dewormer_TV,clinic_head_line,add_immunization_data_added,
             clinicCalenderTextViewVisitDt,clinicIlness_onset,date_of_illness_TV,upload_documents,follow_up_dt,nextImmunizationDate,
             clinic_peto_edit_reg_number_dialog,next_vaccine_TV,next_vaccine_type_TV,history_TV,
             next_dewormer_TV,add_immunization_data,pet_nameTV,pet_idTV,pet_genderTV,pet_ageTV,pet_breadTV,pet_typeTV;
     ImageView document_name,clinic_back_arrow_IV;
-    LinearLayout addPrescriptionButton,vaccine_layout,diagnosis_Layout,deworming_name_Layout,deworming_dose_Layout;
+    LinearLayout addPrescriptionButton,vaccine_layout,diagnosis_Layout,deworming_name_Layout,deworming_dose_Layout,imaunizatioHeader;
     EditText clinicVeterian_name_ET,clinicCescription_ET,remaks_ET,next_vaccine_ET,history_ET,diagnosis_result,remarks_ET,
             weight_ET,clinicTemparature_ET;
+    View immunizationView;
     AutoCompleteTextView clinicDiagnosis_ET,deworming_AC,deworming_dose_AC;
     AppCompatSpinner clinicNature_of_visit_spinner,clinicNext_visit_spinner,vaccine_type,vaccine_name,
                      next_vaccine_type_spinner,next_dewormer_spinner;
@@ -267,6 +276,10 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         diagnosis_result = findViewById(R.id.diagnosis_result);
         next_vaccine_type_spinner = findViewById(R.id.next_vaccine_type_spinner);
         webview = findViewById(R.id.webview);
+        add_immunization_data_added = findViewById(R.id.add_immunization_data_added);
+        imaunizatioHeader = findViewById(R.id.imaunizatioHeader);
+        immunizationView = findViewById(R.id.immunizationView);
+
 
         clinicCalenderTextViewVisitDt.setOnClickListener(this);
         clinicIlness_onset.setOnClickListener(this);
@@ -418,9 +431,10 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
             searchDeormerDose();
             setNextDewormerDoseSpinner();
             getFirstVaccine();
-
-            saveVaccineAfterAdd();
+            getNextFirstVaccine();
             DeleteTemporaryVaccination();
+
+            getImmunization();
         }else {
 
             methods.DialogInternet();
@@ -1167,7 +1181,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                         hospitalizationReportsAdapter = new ImmunazationVaccineAdopter(AddClinicActivity.this,AddClinicActivity.this, VaccineList);
                         immunization_data.setAdapter(hospitalizationReportsAdapter);
                         hospitalizationReportsAdapter.notifyDataSetChanged();
-                        getNextFirstVaccine();
+                        saveVaccineAfterAdd();
                         vaccineDialog.dismiss();
                     }
                     else
@@ -1648,16 +1662,55 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
     private void saveVaccineAfterAdd()
     {
         SaveVaccineModel saveVaccineModel = new SaveVaccineModel();
-        saveVaccineModel.setVaccineName("PUPPY DP");
-        saveVaccineModel.setVaccineType("Primary");
-        saveVaccineModel.setVaccinationDate("07/12/2020");
+        saveVaccineModel.setVaccineName(strVaccineName);
+        saveVaccineModel.setVaccineType(strVaccineType);
+        saveVaccineModel.setVaccinationDate(Config.currentDate());
         saveVaccineModel.setPetId(pet_id.substring(0,pet_id.length()-2));
-        saveVaccineModel.setPetClinicVisitId("");
+        saveVaccineModel.setPetClinicVisitId("0");
         SaveRequest saveRequest = new SaveRequest();
         saveRequest.setData(saveVaccineModel);
         ApiService<SaveResponseData> service = new ApiService<>();
         service.get(this, ApiClient.getApiInterface().SaveVaccination(Config.token,saveRequest), "SaveVaccination");
         Log.e("SaveVaccination",""+saveRequest);
+    }
+
+    private void savePreviousVaccinationDetails()
+    {
+        SaveVaccineModel saveVaccineModel = new SaveVaccineModel();
+        saveVaccineModel.setVaccineName(strVaccineName);
+        saveVaccineModel.setVaccineType(strVaccineType);
+        saveVaccineModel.setVaccinationDate(Config.currentDate());
+        saveVaccineModel.setPetId(pet_id.substring(0,pet_id.length()-2));
+        saveVaccineModel.setPetClinicVisitId("0");
+        SaveRequest saveRequest = new SaveRequest();
+        saveRequest.setData(saveVaccineModel);
+        ApiService<SaveResponseData> service = new ApiService<>();
+        service.get(this, ApiClient.getApiInterface().savePreviousVaccinationDetails(Config.token,saveRequest), "SaveVaccination");
+        Log.e("SaveVaccination",""+saveRequest);
+    }
+
+    private void removeTemporaryVaccine()
+    {
+            RemoveParams removeParams = new RemoveParams();
+            removeParams.setId(pet_id.substring(0,pet_id.length()-2));
+            RemoveRequest removeRequest = new RemoveRequest();
+            removeRequest.setData(removeParams);
+            ApiService<JsonObject> service = new ApiService<>();
+            service.get(this, ApiClient.getApiInterface().removeVaccineDetails(Config.token,removeRequest), "RemoveVaccineDetails");
+            Log.e("RemoveVaccineDetails",""+removeRequest);
+
+    }
+
+    private void getImmunization()
+    {
+        ImmunizationParams immunizationParams = new ImmunizationParams();
+        immunizationParams.setEncryptedId("MTAyMDI=");
+        ImmunizationRequest immunizationRequest = new ImmunizationRequest();
+        immunizationRequest.setData(immunizationParams);
+
+        ApiService<PetImmunizationRecordResponse> service = new ApiService<>();
+        service.get(this, ApiClient.getApiInterface().viewPetVaccination(Config.token,immunizationRequest), "GetImmunization");
+        Log.d("GetImmunization",immunizationRequest.toString());
     }
 
    private void DeleteTemporaryVaccination()
@@ -1877,7 +1930,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                         methods.customProgressDismiss();
                         Toast.makeText(this, "Add Data Successfully", Toast.LENGTH_SHORT).show();
                         Config.type="list";
-                        onBackPressed();
+                        //getImmunization();
                     }
                     else if (responseCode==614){
                         methods.customProgressDismiss();
@@ -1889,6 +1942,63 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                         Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
                     }
 
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+
+            case "GetImmunization":
+                try {
+                    Log.d("GetImmunization",arg0.body().toString());
+                    PetImmunizationRecordResponse immunizationRecordResponse = (PetImmunizationRecordResponse) arg0.body();
+//                    methods.customProgressDismiss();
+                    int responseCode = Integer.parseInt(immunizationRecordResponse.getResponse().getResponseCode());
+                    if (responseCode== 109){
+                        if (immunizationRecordResponse.getData().getPetImmunizationDetailModels().isEmpty()){
+                           // methods.customProgressDismiss();
+                            Toast.makeText(this, "No Record Found !", Toast.LENGTH_SHORT).show();
+                        }else {
+                            ArrayList<String> immunizationDate = new ArrayList<>();
+                            ArrayList<String> vaccineClass = new ArrayList<>();
+                            ArrayList<String> nextDueDate = new ArrayList<>();
+
+                            for (int i = 0; i < immunizationRecordResponse.getData().getPetPendingVaccinations().size(); i++) {
+                                immunizationDate.add(immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getNextVaccinationDate().substring(0, immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getNextVaccinationDate().length() - 11));
+                                vaccineClass.add(immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getVaccineName());
+                                nextDueDate.add(immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getVaccinationDate());
+                            }
+                            JSONArray date = new JSONArray(immunizationDate);
+                            JSONArray vaccine = new JSONArray(vaccineClass);
+                            JSONArray nextDate = new JSONArray(nextDueDate);
+                            Log.e("aaaaaa", vaccineClass.toString());
+                            Log.e("aaaaaa", vaccine.toString());
+                            final String immunizationSet = methods.immunizationPdfGenarator(pet_name, pet_age, pet_sex, pet_owner_name, "4564564644465", date, vaccine, nextDate);
+                            webview.loadDataWithBaseURL(null, immunizationSet, "text/html", "utf-8", null);
+                            new Handler().postDelayed(new Runnable() {
+                                @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                                @Override
+                                public void run() {
+                                    Context context = AddClinicActivity.this;
+                                    PrintManager printManager = (PrintManager)AddClinicActivity.this.getSystemService(context.PRINT_SERVICE);
+                                    PrintDocumentAdapter adapter = null;
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                                        adapter = webview.createPrintDocumentAdapter();
+                                    }
+                                    String JobName = getString(R.string.app_name) + "Document";
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                                        PrintJob printJob = printManager.print(JobName, adapter, new PrintAttributes.Builder().build());
+                                    }
+                                }
+                            }, 3000);
+
+                        }
+
+                    }else if (responseCode==614){
+                        Toast.makeText(this, immunizationRecordResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 catch(Exception e) {
                     e.printStackTrace();
@@ -2043,7 +2153,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                        }
 
                         String nextType=immunizationVaccineResponse.getData().getNextVaccination().getVaccineType();
-                        setVaccineNextTypeSpinner(nextType);
+
 
                        if(!immunizationVaccineResponse.getData().getNextVaccination().getNextVaccinationDate().equals("null"))
                        {
@@ -2154,6 +2264,26 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     if (responseCode == 109) {
                         getStrVaccineType=getFirstVaccineResponseData.getData().getVaccineType();
                         getStrVaccineName=getFirstVaccineResponseData.getData().getVaccineName();
+                        setVaccineNextTypeSpinner(getStrVaccineType);
+                        Log.e("kakkakka","getStr"+getStrVaccineType+" "+getStrVaccineName);
+
+                        if((getStrVaccineName==null)||(getStrVaccineType==null))
+                        {
+                            add_immunization_data_added.setVisibility(View.VISIBLE);
+                            add_immunization_data.setVisibility(View.GONE);
+                            imaunizatioHeader.setVisibility(View.GONE);
+                            immunizationView.setVisibility(View.GONE);
+                            immunization_data.setVisibility(View.GONE);
+                        }
+                        else
+                        {
+                            add_immunization_data_added.setVisibility(View.GONE);
+                            add_immunization_data.setVisibility(View.VISIBLE);
+                            imaunizatioHeader.setVisibility(View.VISIBLE);
+                            immunizationView.setVisibility(View.VISIBLE);
+                            immunization_data.setVisibility(View.VISIBLE);
+                            next_vaccine_ET.setText(getStrVaccineName);
+                        }
                     }
                     else
                     {
@@ -2169,8 +2299,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     NextVaccineResponse nextVaccineResponse = (NextVaccineResponse) arg0.body();
                     int responseCode = Integer.parseInt(nextVaccineResponse.getResponse().getResponseCode());
                     if (responseCode == 109) {
-                        next_vaccine_ET.setText(nextVaccineResponse.getData().getVaccineName());
-                        setVaccineNextTypeSpinner(nextVaccineResponse.getData().getVaccineType());
+
                     }
                     else
                     {
@@ -2186,11 +2315,31 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     SaveResponseData saveResponseData = (SaveResponseData) arg0.body();
                     int responseCode = Integer.parseInt(saveResponseData.getResponse().getResponseCode());
                     if (responseCode == 109) {
-
+                        getNextFirstVaccine();
+                        getFirstVaccine();
                     }
                     else
                     {
 
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "RemoveVaccineDetails":
+                try {
+                    Log.d("RemoveVaccineRespo", arg0.body().toString());
+                    JsonObject removeResponse = (JsonObject) arg0.body();
+                    JsonObject response = removeResponse.getAsJsonObject("response");
+                    Log.d("hhshshhs",""+response);
+                    int responseCode = Integer.parseInt(String.valueOf(response.get("responseCode")));
+
+                    if (responseCode== 109){
+                        Toast.makeText(this, "Success....", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -2206,10 +2355,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     int responseCode = Integer.parseInt(String.valueOf(response.get("responseCode")));
 
                     if (responseCode== 109){
-                        methods.customProgressDismiss();
-                        Toast.makeText(this, "Add Data Successfully", Toast.LENGTH_SHORT).show();
-                        Config.type="list";
-                        onBackPressed();
+
                     }
                     else if (responseCode==614){
                         methods.customProgressDismiss();
@@ -2469,10 +2615,10 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(AddClinicActivity.this);
         immunization_data.setLayoutManager(linearLayoutManager);
         immunization_data.setNestedScrollingEnabled(false);
-            hospitalizationReportsAdapter = new ImmunazationVaccineAdopter(AddClinicActivity.this,AddClinicActivity.this, VaccineList);
-            immunization_data.setAdapter(hospitalizationReportsAdapter);
-            hospitalizationReportsAdapter.notifyDataSetChanged();
-
+        hospitalizationReportsAdapter = new ImmunazationVaccineAdopter(AddClinicActivity.this,AddClinicActivity.this, VaccineList);
+        immunization_data.setAdapter(hospitalizationReportsAdapter);
+        hospitalizationReportsAdapter.notifyDataSetChanged();
+        removeTemporaryVaccine();
     }
 
     @Override

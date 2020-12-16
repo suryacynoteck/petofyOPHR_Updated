@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
@@ -75,12 +76,12 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
     AppCompatSpinner country_spnr_updt,state_spnr_updt,city_spnr_updt;
     Button update_profile;
     TextView select_Category,select_service_Category;
-    ImageView back_arrow, category_img_one,category_img_two,service_cat_img_one,service_cat_img_two,
+    ImageView back_arrow, category_img_one,category_img_two,service_cat_img_one,service_cat_img_two,logout,
             service_cat_img_three,service_cat_img_four,service_cat_img_five ;
     CheckBox online_CB;
     Dialog dialog;
     String slctCatOneImage="",slctCatTwoImage="",slctServcOneImage="",slctServcTwoImage="",slctServcThreeImage="",
-            slctServcfourImage="",slctServcFiveImage="",id="",password="";
+            slctServcfourImage="",slctServcFiveImage="",id="",password="",activityType="";
     int spnrCountry=0,spnrState=0,spnrCity=0;
     CountryResponse stateResponse;
     Uri fileUri;
@@ -139,6 +140,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
         methods = new Methods(this);
 
         Intent intent = getIntent();
+        activityType = intent.getStringExtra("activityName");
         id = intent.getStringExtra("id");
         password = intent.getStringExtra("password");
         strFirstNm = intent.getStringExtra("firstName");
@@ -175,6 +177,11 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
 
 
         init();
+
+        if(activityType.equals("Edit"))
+        {
+            logout.setVisibility(View.GONE);
+        }
 
         if((strOnlineCharges!=null))
         {
@@ -292,6 +299,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
         city_spnr_updt=findViewById(R.id.city_spnr_updt);
 
         //Image View
+        logout=findViewById(R.id.logout);
         category_img_one=findViewById(R.id.category_img_one);
         category_img_two=findViewById(R.id.category_img_two);
         service_cat_img_one=findViewById(R.id.service_cat_img_one);
@@ -304,6 +312,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
         //Check Box
         online_CB=findViewById(R.id.online_CB);
 
+        logout.setOnClickListener(this);
         category_img_one.setOnClickListener(this);
         category_img_two.setOnClickListener(this);
         service_cat_img_one.setOnClickListener(this);
@@ -875,6 +884,14 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
             case R.id.service_cat_img_five:
                 slctServcFiveImage="1";
                 showPictureDialog();
+                break;
+            case R.id.logout:
+                SharedPreferences preferences =this.getSharedPreferences("userdetails",0);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.clear();
+                editor.apply();
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
                 break;
         }
 

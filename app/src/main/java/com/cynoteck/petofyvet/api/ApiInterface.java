@@ -39,6 +39,8 @@ import com.cynoteck.petofyvet.params.petReportsRequest.PetClinicVisitDetailsRequ
 import com.cynoteck.petofyvet.params.petReportsRequest.PetDataRequest;
 import com.cynoteck.petofyvet.params.petReportsRequest.VisitTypeRequest;
 import com.cynoteck.petofyvet.params.registerRequest.Registerparams;
+import com.cynoteck.petofyvet.params.removeVccination.RemoveParams;
+import com.cynoteck.petofyvet.params.removeVccination.RemoveRequest;
 import com.cynoteck.petofyvet.params.saveVaccinationParameter.SaveRequest;
 import com.cynoteck.petofyvet.params.searcgDiagnosisRequest.SearchDiagnosisRequestData;
 import com.cynoteck.petofyvet.params.searchPetParentRequest.SearchPetParentParameter;
@@ -552,6 +554,7 @@ public interface ApiInterface {
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("pethealthrecord/ViewPetVaccination")
     Call<PetImmunizationRecordResponse> viewPetVaccination(@Header("Authorization") String auth, @Body ImmunizationRequest immunizationRequest);
+   // Call<JsonObject> viewPetVaccination(@Header("Authorization") String auth, @Body ImmunizationRequest immunizationRequest);
 
     //Bank Account .........................................
 
@@ -593,7 +596,6 @@ public interface ApiInterface {
     @POST("immunization/SaveImmunizationDetails")
     Call<SaveImmunizationResponse> saveImmunizationDetails(@Header("Authorization") String auth, @Body VaccinationRequest vaccinationRequest);
 
-
     @POST("pethealthrecord/GetPetImmunizationHistory")
     Call<ImmunizationHistoryResponse> getPetImmunizationHistory(@Body GetVaccinationRequest immunizationHistoryRequest);
 
@@ -615,11 +617,17 @@ public interface ApiInterface {
     @GET("pet/GetPetDateOfBirth/{data}")
     Call<DateOfBirthResponse> GetPetDateOfBirth(@Header("Authorization") String auth, @Path("data") String data);
 
-    //SAVE VACCINATION.........................................
+    //TEMPORARY SAVE VACCINATION.........................................
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
-    @POST("pethealthrecord/SaveVaccination")
+    @POST("immunization/SaveTemporaryVaccinationDetails")
     Call<SaveResponseData> SaveVaccination(@Header("Authorization") String auth, @Body SaveRequest saveRequest);
+
+    //DELETE VACCINATION.................................................
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("immunization/RemoveVaccineDetails")
+    Call<JsonObject> removeVaccineDetails(@Header("Authorization") String auth, @Body RemoveRequest removeRequest);
 
     //SEARCH PET PARENT.......................................
 
@@ -633,7 +641,14 @@ public interface ApiInterface {
     @GET("pethealthrecord/DeleteTemporaryVaccination/{PETID}")
     Call<JsonObject> DeleteTemporaryVaccination(@Header("Authorization") String auth, @Path("PETID") String data);
 
-   //Search Dignisis..........................................
+    //SAVE PREVIOUS VACCINATION..............................
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("immunization/SavePreviousVaccinationDetails")
+    Call<SaveResponseData> savePreviousVaccinationDetails(@Header("Authorization") String auth, @Body SaveRequest saveRequest);
+
+
+    //Search Dignisis..........................................
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("pethealthrecord/SearchDiagnosis")
