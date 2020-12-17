@@ -2,9 +2,11 @@ package com.cynoteck.petofyvet.activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.MediaScannerConnection;
@@ -54,6 +56,8 @@ import com.cynoteck.petofyvet.params.addImmunizationClinic.ImmunizationAddClinic
 import com.cynoteck.petofyvet.params.addImmunizationClinic.ImmunizationClinicData;
 import com.cynoteck.petofyvet.params.addPetClinicParamRequest.AddPetClinicParam;
 import com.cynoteck.petofyvet.params.addPetClinicParamRequest.AddPetClinicRequest;
+import com.cynoteck.petofyvet.params.checkpetInVetRegister.InPetRegisterRequest;
+import com.cynoteck.petofyvet.params.checkpetInVetRegister.InPetregisterParams;
 import com.cynoteck.petofyvet.params.getFirstVaccine.GetFirstVaccineModel;
 import com.cynoteck.petofyvet.params.getFirstVaccine.GetFirstVaccineRequest;
 import com.cynoteck.petofyvet.params.getPetListRequest.GetPetListParams;
@@ -1684,8 +1688,8 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         SaveRequest saveRequest = new SaveRequest();
         saveRequest.setData(saveVaccineModel);
         ApiService<SaveResponseData> service = new ApiService<>();
-        service.get(this, ApiClient.getApiInterface().savePreviousVaccinationDetails(Config.token,saveRequest), "SaveVaccination");
-        Log.e("SaveVaccination",""+saveRequest);
+        service.get(this, ApiClient.getApiInterface().savePreviousVaccinationDetails(Config.token,saveRequest), "SavePreviousVaccination");
+        Log.e("SavePreviousVaccination",""+saveRequest);
     }
 
     private void removeTemporaryVaccine()
@@ -2340,6 +2344,10 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                         getNextFirstVaccine();
                         getFirstVaccine();
                     }
+                    else if(responseCode == 115)
+                    {
+                        alertDialogForVaccineAdd();
+                    }
                     else
                     {
 
@@ -2363,6 +2371,22 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     {
                         Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "SavePreviousVaccinationDetails":
+                try {
+                Log.d("SavePreviousDetails", arg0.body().toString());
+                SaveResponseData saveResponseData = (SaveResponseData) arg0.body();
+                int responseCode = Integer.parseInt(saveResponseData.getResponse().getResponseCode());
+                if (responseCode == 109) {
+                    saveVaccineAfterAdd();
+                }
+                else
+                {
+                   Log.e("Some","Error");
+                }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -2399,6 +2423,28 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onError(Throwable t, String key) {
 
+    }
+
+    private void alertDialogForVaccineAdd()
+    {
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("Do you want to continue?");
+        alertDialog.setMessage("Booster is due for the vaccine");
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        savePreviousVaccinationDetails();
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+        alertDialog.show();
     }
 
     private void setNextDewormerDoseSpinner()
