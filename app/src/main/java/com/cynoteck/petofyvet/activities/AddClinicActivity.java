@@ -2346,7 +2346,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     }
                     else if(responseCode == 115)
                     {
-                        alertDialogForVaccineAdd();
+                        alertDialogForVaccineAdd(saveResponseData.getData().getErrorMessage());
                     }
                     else
                     {
@@ -2375,7 +2375,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     e.printStackTrace();
                 }
                 break;
-            case "SavePreviousVaccinationDetails":
+            case "SavePreviousVaccination":
                 try {
                 Log.d("SavePreviousDetails", arg0.body().toString());
                 SaveResponseData saveResponseData = (SaveResponseData) arg0.body();
@@ -2425,11 +2425,11 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
 
     }
 
-    private void alertDialogForVaccineAdd()
+    private void alertDialogForVaccineAdd(String errorMsg)
     {
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         alertDialog.setTitle("Do you want to continue?");
-        alertDialog.setMessage("Booster is due for the vaccine");
+        alertDialog.setMessage(errorMsg);
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
