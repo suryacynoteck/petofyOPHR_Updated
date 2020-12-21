@@ -50,7 +50,7 @@ public class SaveVaccineModel {
     @Override
     public String toString() {
         return "ClassPojo[" +
-                "vaccineName=String" + vaccineName + 
+                "vaccineName=" + vaccineName +
                 ", vaccineType=" + vaccineType + 
                 ", vaccinationDate=" + vaccinationDate + 
                 ", petId=" + petId + 

@@ -2,9 +2,11 @@ package com.cynoteck.petofyvet.activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.MediaScannerConnection;
@@ -25,6 +27,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -41,9 +44,6 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSpinner;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.cynoteck.petofyvet.R;
 import com.cynoteck.petofyvet.adapters.ImmunazationVaccineAdopter;
@@ -56,12 +56,16 @@ import com.cynoteck.petofyvet.params.addImmunizationClinic.ImmunizationAddClinic
 import com.cynoteck.petofyvet.params.addImmunizationClinic.ImmunizationClinicData;
 import com.cynoteck.petofyvet.params.addPetClinicParamRequest.AddPetClinicParam;
 import com.cynoteck.petofyvet.params.addPetClinicParamRequest.AddPetClinicRequest;
+import com.cynoteck.petofyvet.params.checkpetInVetRegister.InPetRegisterRequest;
+import com.cynoteck.petofyvet.params.checkpetInVetRegister.InPetregisterParams;
 import com.cynoteck.petofyvet.params.getFirstVaccine.GetFirstVaccineModel;
 import com.cynoteck.petofyvet.params.getFirstVaccine.GetFirstVaccineRequest;
 import com.cynoteck.petofyvet.params.getPetListRequest.GetPetListParams;
 import com.cynoteck.petofyvet.params.getPetListRequest.GetPetListRequest;
 import com.cynoteck.petofyvet.params.getVaccinationDetails.GetVaccinationModelParameter;
 import com.cynoteck.petofyvet.params.getVaccinationDetails.GetVaccinationRequest;
+import com.cynoteck.petofyvet.params.immunizationHistory.ImmunizationHistoryParametr;
+import com.cynoteck.petofyvet.params.immunizationHistory.ImmunizationHistoryRequest;
 import com.cynoteck.petofyvet.params.immunizationRequest.ImmunizationParameter;
 import com.cynoteck.petofyvet.params.immunizationRequest.ImmunizationParams;
 import com.cynoteck.petofyvet.params.immunizationRequest.ImmunizationRequest;
@@ -76,18 +80,23 @@ import com.cynoteck.petofyvet.params.saveVaccinationParameter.SaveRequest;
 import com.cynoteck.petofyvet.params.saveVaccinationParameter.SaveVaccineModel;
 import com.cynoteck.petofyvet.params.searcgDiagnosisRequest.SearchDiagnosisParameter;
 import com.cynoteck.petofyvet.params.searcgDiagnosisRequest.SearchDiagnosisRequestData;
+import com.cynoteck.petofyvet.params.searchPetParentRequest.SearchPetParentParameter;
+import com.cynoteck.petofyvet.params.searchPetParentRequest.SearchPetParentRequestData;
 import com.cynoteck.petofyvet.params.searchRemarksParameter.SearchRemaksParametr;
 import com.cynoteck.petofyvet.params.searchRemarksParameter.SearchRemaksRequest;
 import com.cynoteck.petofyvet.params.updateClinicVisitsParams.UpdateClinicReportsParams;
 import com.cynoteck.petofyvet.params.updateClinicVisitsParams.UpdateClinicReportsRequest;
 import com.cynoteck.petofyvet.params.vaccinationSaveParams.VaccinationParameter;
 import com.cynoteck.petofyvet.params.vaccinationSaveParams.VaccinationRequest;
+import com.cynoteck.petofyvet.response.addImmunizationClinicResponse.ImmunizationAddResponse;
 import com.cynoteck.petofyvet.response.addPet.imageUpload.ImageResponse;
 import com.cynoteck.petofyvet.response.addPetClinicresponse.AddpetClinicResponse;
 import com.cynoteck.petofyvet.response.clinicVisist.ClinicVisitResponse;
+import com.cynoteck.petofyvet.response.dateOfBirthResponse.DateOfBirthResponse;
 import com.cynoteck.petofyvet.response.getFirstVaccineReponse.GetFirstVaccineResponseData;
 import com.cynoteck.petofyvet.response.getImmunizationReport.PetImmunizationRecordResponse;
 import com.cynoteck.petofyvet.response.getPetDetailsResponse.GetPetResponse;
+import com.cynoteck.petofyvet.response.getPetParrentnameReponse.GetPetParentResponseData;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.GetReportsTypeResponse;
 import com.cynoteck.petofyvet.response.getPetReportsResponse.getClinicVisitDetails.GetClinicVisitsDetailsResponse;
 import com.cynoteck.petofyvet.response.getVaccinationResponse.GetVaccineResponse;
@@ -103,6 +112,7 @@ import com.cynoteck.petofyvet.response.searchRemaks.SearchRemaksResponse;
 import com.cynoteck.petofyvet.utils.Config;
 import com.cynoteck.petofyvet.utils.ImmunizationOnclickListener;
 import com.cynoteck.petofyvet.utils.Methods;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -115,8 +125,6 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.PermissionRequestErrorListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
-import org.json.JSONArray;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -126,6 +134,12 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.StringTokenizer;
+
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import org.json.JSONArray;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -424,8 +438,6 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
             getFirstVaccine();
             getNextFirstVaccine();
             DeleteTemporaryVaccination();
-
-            getImmunization();
         }else {
 
             methods.DialogInternet();
@@ -1676,8 +1688,8 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         SaveRequest saveRequest = new SaveRequest();
         saveRequest.setData(saveVaccineModel);
         ApiService<SaveResponseData> service = new ApiService<>();
-        service.get(this, ApiClient.getApiInterface().savePreviousVaccinationDetails(Config.token,saveRequest), "SaveVaccination");
-        Log.e("SaveVaccination",""+saveRequest);
+        service.get(this, ApiClient.getApiInterface().savePreviousVaccinationDetails(Config.token,saveRequest), "SavePreviousVaccination");
+        Log.e("SavePreviousVaccination",""+saveRequest);
     }
 
     private void removeTemporaryVaccine()
@@ -1695,7 +1707,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
     private void getImmunization()
     {
         ImmunizationParams immunizationParams = new ImmunizationParams();
-        immunizationParams.setEncryptedId("MTAyMDI=");
+        immunizationParams.setEncryptedId(pet_encrypted_id);
         ImmunizationRequest immunizationRequest = new ImmunizationRequest();
         immunizationRequest.setData(immunizationParams);
 
@@ -1921,7 +1933,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                         methods.customProgressDismiss();
                         Toast.makeText(this, "Add Data Successfully", Toast.LENGTH_SHORT).show();
                         Config.type="list";
-                        //getImmunization();
+                        getImmunization();
                     }
                     else if (responseCode==614){
                         methods.customProgressDismiss();
@@ -1954,17 +1966,40 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                             ArrayList<String> vaccineClass = new ArrayList<>();
                             ArrayList<String> nextDueDate = new ArrayList<>();
 
+                            ArrayList<String> immunizationDatePending = new ArrayList<>();
+                            ArrayList<String> vaccineClassPending = new ArrayList<>();
+                            ArrayList<String> nextDueDatePending = new ArrayList<>();
+
                             for (int i = 0; i < immunizationRecordResponse.getData().getPetPendingVaccinations().size(); i++) {
-                                immunizationDate.add(immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getNextVaccinationDate().substring(0, immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getNextVaccinationDate().length() - 11));
-                                vaccineClass.add(immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getVaccineName());
-                                nextDueDate.add(immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getVaccinationDate());
-                            }
-                            JSONArray date = new JSONArray(immunizationDate);
-                            JSONArray vaccine = new JSONArray(immunizationDate);
-                            JSONArray nextDate = new JSONArray(immunizationDate);
+                                if(immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getIsVaccinated().equals("true"))
+                                {
+                                    immunizationDate.add(immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getVaccinationDate());
+                                    vaccineClass.add(immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getVaccineName());
+                                    nextDueDate.add(immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getNextVaccinationDate().substring(0, immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getNextVaccinationDate().length() - 9));
+                                }
+                                else
+                                {
+                                    immunizationDatePending.add(immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getVaccinationDate());
+                                    vaccineClassPending.add(immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getVaccineName());
+                                    nextDueDatePending.add(immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getNextVaccinationDate().substring(0, immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getNextVaccinationDate().length() - 9));
+
+                                }
+                               }
+                            final JSONArray date = new JSONArray(immunizationDate);
+                            final JSONArray vaccine = new JSONArray(vaccineClass);
+                            final JSONArray nextDate = new JSONArray(nextDueDate);
+                            Log.d("jsjsjjsjs",""+date.length());
+
+                            final JSONArray datePending = new JSONArray(immunizationDatePending);
+                            final JSONArray vaccinePending = new JSONArray(vaccineClassPending);
+                            final JSONArray nextDatePending = new JSONArray(nextDueDatePending);
+                            Log.d("jsjsjjsjs",""+datePending.length());
+
                             Log.e("aaaaaa", vaccineClass.toString());
                             Log.e("aaaaaa", vaccine.toString());
-                            final String immunizationSet = methods.immunizationPdfGenarator(pet_name, pet_age, pet_sex, pet_owner_name, "4564564644465", date, vaccine, nextDate);
+                            String immunizationSet = methods.immunizationPdfGenarator(pet_name, pet_age, pet_sex, pet_owner_name, "4564564644465", date, vaccine, nextDate, datePending, vaccinePending, nextDatePending);
+                            WebSettings webSettings = webview.getSettings();
+                            webSettings.setJavaScriptEnabled(true);
                             webview.loadDataWithBaseURL(null, immunizationSet, "text/html", "utf-8", null);
                             new Handler().postDelayed(new Runnable() {
                                 @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -2309,6 +2344,10 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                         getNextFirstVaccine();
                         getFirstVaccine();
                     }
+                    else if(responseCode == 115)
+                    {
+                        alertDialogForVaccineAdd(saveResponseData.getData().getErrorMessage());
+                    }
                     else
                     {
 
@@ -2332,6 +2371,22 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     {
                         Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "SavePreviousVaccination":
+                try {
+                Log.d("SavePreviousDetails", arg0.body().toString());
+                SaveResponseData saveResponseData = (SaveResponseData) arg0.body();
+                int responseCode = Integer.parseInt(saveResponseData.getResponse().getResponseCode());
+                if (responseCode == 109) {
+                    saveVaccineAfterAdd();
+                }
+                else
+                {
+                   Log.e("Some","Error");
+                }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -2368,6 +2423,28 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onError(Throwable t, String key) {
 
+    }
+
+    private void alertDialogForVaccineAdd(String errorMsg)
+    {
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("Do you want to continue?");
+        alertDialog.setMessage(errorMsg);
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        savePreviousVaccinationDetails();
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+        alertDialog.show();
     }
 
     private void setNextDewormerDoseSpinner()

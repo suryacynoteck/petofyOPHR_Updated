@@ -563,7 +563,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                             Log.e("aaaaaa", vaccineClass.toString());
                             Log.e("aaaaaa", vaccine.toString());
                             methods.customProgressDismiss();
-                            String immunizationSet = methods.immunizationPdfGenarator(petNameImmun, petAgeImmun, petSeximmun, petParentImmun, "4564564644465", date, vaccine, nextDate);
+                           /* String immunizationSet = methods.immunizationPdfGenarator(petNameImmun, petAgeImmun, petSeximmun, petParentImmun, "4564564644465", date, vaccine, nextDate);
 
                             webview.loadDataWithBaseURL(null, immunizationSet, "text/html", "utf-8", null);
                             new Handler().postDelayed(new Runnable() {
@@ -582,7 +582,7 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
                                     }
                                 }
                             }, 3000);
-
+*/
                         }
 
                     }else if (responseCode==614){
