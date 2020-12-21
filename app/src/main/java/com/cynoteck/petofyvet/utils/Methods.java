@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -362,8 +361,8 @@ public class Methods {
                 "<script>\n"+
                 // Initializing arrays
                 "var immuDate = "+immunizationDate+";\n"+
-                "var vaccineName = "+vaccineClass+";\n"+
-                "var nextDate = "+nextDueDate+";\n"+
+                "var vaccineName = "+immunizationDate+";\n"+
+                "var nextDate = "+immunizationDate+";\n"+
                 // Getting output element
                 "var output = document.getElementById('output');\n"+
                 // Creating table tags
