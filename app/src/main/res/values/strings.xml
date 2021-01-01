@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PetofyOPHR</string>
+    <string name="app_name">Petofy OPHR</string>
     <string name="email">example@xyz.com</string>
     <string name="password">* * * * * * *</string>
     <string name="Register_password">Password</string>
@@ -193,5 +193,8 @@
     <string name="upcominVists_toolbar">UPCOMING VISITS</string>
     <string name="allvisits">All Visits\n(Day Wise)</string>
     <string name="allvisits_toolbar">ALL VISITS</string>
+    <string name="verify_email">Verify your Email</string>
+    <string name="verify_email_msg">We have sent an email to</string>
+    <string name="verify_email_deatils">Please click on the link that has just been sent to your registered email id to verify your account and continue the registration process.</string>
 
 </resources>
