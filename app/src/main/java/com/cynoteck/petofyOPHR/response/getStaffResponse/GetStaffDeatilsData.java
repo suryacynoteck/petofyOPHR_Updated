@@ -1,13 +1,11 @@
 package com.cynoteck.petofyOPHR.response.getStaffResponse;
 
 public class GetStaffDeatilsData {
-    private String lastName;
+    private String vetRegistrationNumber;
+
+    private String vetQualification;
 
     private String zipCode;
-
-    private String notificationStatus;
-
-    private String providerLastName;
 
     private String providerPhoneNumber;
 
@@ -15,25 +13,63 @@ public class GetStaffDeatilsData {
 
     private String isActive;
 
-    private String isEmailVerified;
-
-    private String isLogin;
-
     private String password;
 
-    private String locationId;
+    private String identityProof;
 
     private String latLong;
 
     private String customerEmail;
 
-    private String confirmPassword;
-
     private String profileImageUrl;
 
-    private String email;
+    private String isRegisteredPetParent;
+
+    private String onlineAppointmentStatus;
 
     private String petParentConfirmPassword;
+
+    private String enableTwoStepVerification;
+
+    private String displayInPrescription;
+
+    private String initials;
+
+    private String areYouProvider;
+
+    private String guestEmail;
+
+    private String isPrivacyPolicyCheck;
+
+    private String firstName;
+
+    private String qualification;
+
+    private String phoneNumber;
+
+    private String providerPassword;
+
+    private String status;
+
+    private String lastName;
+
+    private String notificationStatus;
+
+    private String providerLastName;
+
+    private String isProfileCreated;
+
+    private String isEmailVerified;
+
+    private String isLogin;
+
+    private String locationId;
+
+    private String confirmPassword;
+
+    private String userSalt;
+
+    private String email;
 
     private String address;
 
@@ -41,29 +77,17 @@ public class GetStaffDeatilsData {
 
     private String fullName;
 
-    private String areYouProvider;
-
-    private String guestEmail;
-
     private String userId;
 
     private String petParentPassword;
 
     private String forgotPasswordEmail;
 
-    private String isPrivacyPolicyCheck;
-
-    private String firstName;
-
     private String locationList;
 
     private String providerConfirmPassword;
 
     private String isMobileNumberVerified;
-
-    private String phoneNumber;
-
-    private String providerPassword;
 
     private String encryptedId;
 
@@ -73,20 +97,30 @@ public class GetStaffDeatilsData {
 
     private String rememberMe;
 
+    private String[] userPermissionMasterList;
+
     private String userRole;
 
     private String providerEmail;
 
-    private String status;
-
-    public String getLastName ()
+    public String getVetRegistrationNumber ()
     {
-        return lastName;
+        return vetRegistrationNumber;
     }
 
-    public void setLastName (String lastName)
+    public void setVetRegistrationNumber (String vetRegistrationNumber)
     {
-        this.lastName = lastName;
+        this.vetRegistrationNumber = vetRegistrationNumber;
+    }
+
+    public String getVetQualification ()
+    {
+        return vetQualification;
+    }
+
+    public void setVetQualification (String vetQualification)
+    {
+        this.vetQualification = vetQualification;
     }
 
     public String getZipCode ()
@@ -97,26 +131,6 @@ public class GetStaffDeatilsData {
     public void setZipCode (String zipCode)
     {
         this.zipCode = zipCode;
-    }
-
-    public String getNotificationStatus ()
-    {
-        return notificationStatus;
-    }
-
-    public void setNotificationStatus (String notificationStatus)
-    {
-        this.notificationStatus = notificationStatus;
-    }
-
-    public String getProviderLastName ()
-    {
-        return providerLastName;
-    }
-
-    public void setProviderLastName (String providerLastName)
-    {
-        this.providerLastName = providerLastName;
     }
 
     public String getProviderPhoneNumber ()
@@ -149,26 +163,6 @@ public class GetStaffDeatilsData {
         this.isActive = isActive;
     }
 
-    public String getIsEmailVerified ()
-    {
-        return isEmailVerified;
-    }
-
-    public void setIsEmailVerified (String isEmailVerified)
-    {
-        this.isEmailVerified = isEmailVerified;
-    }
-
-    public String getIsLogin ()
-    {
-        return isLogin;
-    }
-
-    public void setIsLogin (String isLogin)
-    {
-        this.isLogin = isLogin;
-    }
-
     public String getPassword ()
     {
         return password;
@@ -179,14 +173,14 @@ public class GetStaffDeatilsData {
         this.password = password;
     }
 
-    public String getLocationId ()
+    public String getIdentityProof ()
     {
-        return locationId;
+        return identityProof;
     }
 
-    public void setLocationId (String locationId)
+    public void setIdentityProof (String identityProof)
     {
-        this.locationId = locationId;
+        this.identityProof = identityProof;
     }
 
     public String getLatLong ()
@@ -209,16 +203,6 @@ public class GetStaffDeatilsData {
         this.customerEmail = customerEmail;
     }
 
-    public String getConfirmPassword ()
-    {
-        return confirmPassword;
-    }
-
-    public void setConfirmPassword (String confirmPassword)
-    {
-        this.confirmPassword = confirmPassword;
-    }
-
     public String getProfileImageUrl ()
     {
         return profileImageUrl;
@@ -229,14 +213,24 @@ public class GetStaffDeatilsData {
         this.profileImageUrl = profileImageUrl;
     }
 
-    public String getEmail ()
+    public String getIsRegisteredPetParent ()
     {
-        return email;
+        return isRegisteredPetParent;
     }
 
-    public void setEmail (String email)
+    public void setIsRegisteredPetParent (String isRegisteredPetParent)
     {
-        this.email = email;
+        this.isRegisteredPetParent = isRegisteredPetParent;
+    }
+
+    public String getOnlineAppointmentStatus ()
+    {
+        return onlineAppointmentStatus;
+    }
+
+    public void setOnlineAppointmentStatus (String onlineAppointmentStatus)
+    {
+        this.onlineAppointmentStatus = onlineAppointmentStatus;
     }
 
     public String getPetParentConfirmPassword ()
@@ -247,6 +241,216 @@ public class GetStaffDeatilsData {
     public void setPetParentConfirmPassword (String petParentConfirmPassword)
     {
         this.petParentConfirmPassword = petParentConfirmPassword;
+    }
+
+    public String getEnableTwoStepVerification ()
+    {
+        return enableTwoStepVerification;
+    }
+
+    public void setEnableTwoStepVerification (String enableTwoStepVerification)
+    {
+        this.enableTwoStepVerification = enableTwoStepVerification;
+    }
+
+    public String getDisplayInPrescription ()
+    {
+        return displayInPrescription;
+    }
+
+    public void setDisplayInPrescription (String displayInPrescription)
+    {
+        this.displayInPrescription = displayInPrescription;
+    }
+
+    public String getInitials ()
+    {
+        return initials;
+    }
+
+    public void setInitials (String initials)
+    {
+        this.initials = initials;
+    }
+
+    public String getAreYouProvider ()
+    {
+        return areYouProvider;
+    }
+
+    public void setAreYouProvider (String areYouProvider)
+    {
+        this.areYouProvider = areYouProvider;
+    }
+
+    public String getGuestEmail ()
+    {
+        return guestEmail;
+    }
+
+    public void setGuestEmail (String guestEmail)
+    {
+        this.guestEmail = guestEmail;
+    }
+
+    public String getIsPrivacyPolicyCheck ()
+    {
+        return isPrivacyPolicyCheck;
+    }
+
+    public void setIsPrivacyPolicyCheck (String isPrivacyPolicyCheck)
+    {
+        this.isPrivacyPolicyCheck = isPrivacyPolicyCheck;
+    }
+
+    public String getFirstName ()
+    {
+        return firstName;
+    }
+
+    public void setFirstName (String firstName)
+    {
+        this.firstName = firstName;
+    }
+
+    public String getQualification ()
+    {
+        return qualification;
+    }
+
+    public void setQualification (String qualification)
+    {
+        this.qualification = qualification;
+    }
+
+    public String getPhoneNumber ()
+    {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber (String phoneNumber)
+    {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getProviderPassword ()
+    {
+        return providerPassword;
+    }
+
+    public void setProviderPassword (String providerPassword)
+    {
+        this.providerPassword = providerPassword;
+    }
+
+    public String getStatus ()
+    {
+        return status;
+    }
+
+    public void setStatus (String status)
+    {
+        this.status = status;
+    }
+
+    public String getLastName ()
+    {
+        return lastName;
+    }
+
+    public void setLastName (String lastName)
+    {
+        this.lastName = lastName;
+    }
+
+    public String getNotificationStatus ()
+    {
+        return notificationStatus;
+    }
+
+    public void setNotificationStatus (String notificationStatus)
+    {
+        this.notificationStatus = notificationStatus;
+    }
+
+    public String getProviderLastName ()
+    {
+        return providerLastName;
+    }
+
+    public void setProviderLastName (String providerLastName)
+    {
+        this.providerLastName = providerLastName;
+    }
+
+    public String getIsProfileCreated ()
+    {
+        return isProfileCreated;
+    }
+
+    public void setIsProfileCreated (String isProfileCreated)
+    {
+        this.isProfileCreated = isProfileCreated;
+    }
+
+    public String getIsEmailVerified ()
+    {
+        return isEmailVerified;
+    }
+
+    public void setIsEmailVerified (String isEmailVerified)
+    {
+        this.isEmailVerified = isEmailVerified;
+    }
+
+    public String getIsLogin ()
+    {
+        return isLogin;
+    }
+
+    public void setIsLogin (String isLogin)
+    {
+        this.isLogin = isLogin;
+    }
+
+    public String getLocationId ()
+    {
+        return locationId;
+    }
+
+    public void setLocationId (String locationId)
+    {
+        this.locationId = locationId;
+    }
+
+    public String getConfirmPassword ()
+    {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword (String confirmPassword)
+    {
+        this.confirmPassword = confirmPassword;
+    }
+
+    public String getUserSalt ()
+    {
+        return userSalt;
+    }
+
+    public void setUserSalt (String userSalt)
+    {
+        this.userSalt = userSalt;
+    }
+
+    public String getEmail ()
+    {
+        return email;
+    }
+
+    public void setEmail (String email)
+    {
+        this.email = email;
     }
 
     public String getAddress ()
@@ -279,26 +483,6 @@ public class GetStaffDeatilsData {
         this.fullName = fullName;
     }
 
-    public String getAreYouProvider ()
-    {
-        return areYouProvider;
-    }
-
-    public void setAreYouProvider (String areYouProvider)
-    {
-        this.areYouProvider = areYouProvider;
-    }
-
-    public String getGuestEmail ()
-    {
-        return guestEmail;
-    }
-
-    public void setGuestEmail (String guestEmail)
-    {
-        this.guestEmail = guestEmail;
-    }
-
     public String getUserId ()
     {
         return userId;
@@ -329,26 +513,6 @@ public class GetStaffDeatilsData {
         this.forgotPasswordEmail = forgotPasswordEmail;
     }
 
-    public String getIsPrivacyPolicyCheck ()
-    {
-        return isPrivacyPolicyCheck;
-    }
-
-    public void setIsPrivacyPolicyCheck (String isPrivacyPolicyCheck)
-    {
-        this.isPrivacyPolicyCheck = isPrivacyPolicyCheck;
-    }
-
-    public String getFirstName ()
-    {
-        return firstName;
-    }
-
-    public void setFirstName (String firstName)
-    {
-        this.firstName = firstName;
-    }
-
     public String getLocationList ()
     {
         return locationList;
@@ -377,26 +541,6 @@ public class GetStaffDeatilsData {
     public void setIsMobileNumberVerified (String isMobileNumberVerified)
     {
         this.isMobileNumberVerified = isMobileNumberVerified;
-    }
-
-    public String getPhoneNumber ()
-    {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber (String phoneNumber)
-    {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getProviderPassword ()
-    {
-        return providerPassword;
-    }
-
-    public void setProviderPassword (String providerPassword)
-    {
-        this.providerPassword = providerPassword;
     }
 
     public String getEncryptedId ()
@@ -439,6 +583,16 @@ public class GetStaffDeatilsData {
         this.rememberMe = rememberMe;
     }
 
+    public String[] getUserPermissionMasterList ()
+    {
+        return userPermissionMasterList;
+    }
+
+    public void setUserPermissionMasterList (String[] userPermissionMasterList)
+    {
+        this.userPermissionMasterList = userPermissionMasterList;
+    }
+
     public String getUserRole ()
     {
         return userRole;
@@ -459,20 +613,10 @@ public class GetStaffDeatilsData {
         this.providerEmail = providerEmail;
     }
 
-    public String getStatus ()
-    {
-        return status;
-    }
-
-    public void setStatus (String status)
-    {
-        this.status = status;
-    }
-
     @Override
     public String toString()
     {
-        return "ClassPojo [lastName = "+lastName+", zipCode = "+zipCode+", notificationStatus = "+notificationStatus+", providerLastName = "+providerLastName+", providerPhoneNumber = "+providerPhoneNumber+", cityId = "+cityId+", isActive = "+isActive+", isEmailVerified = "+isEmailVerified+", isLogin = "+isLogin+", password = "+password+", locationId = "+locationId+", latLong = "+latLong+", customerEmail = "+customerEmail+", confirmPassword = "+confirmPassword+", profileImageUrl = "+profileImageUrl+", email = "+email+", petParentConfirmPassword = "+petParentConfirmPassword+", address = "+address+", roleId = "+roleId+", fullName = "+fullName+", areYouProvider = "+areYouProvider+", guestEmail = "+guestEmail+", userId = "+userId+", petParentPassword = "+petParentPassword+", forgotPasswordEmail = "+forgotPasswordEmail+", isPrivacyPolicyCheck = "+isPrivacyPolicyCheck+", firstName = "+firstName+", locationList = "+locationList+", providerConfirmPassword = "+providerConfirmPassword+", isMobileNumberVerified = "+isMobileNumberVerified+", phoneNumber = "+phoneNumber+", providerPassword = "+providerPassword+", encryptedId = "+encryptedId+", customerPassword = "+customerPassword+", providerFirstName = "+providerFirstName+", rememberMe = "+rememberMe+", userRole = "+userRole+", providerEmail = "+providerEmail+", status = "+status+"]";
+        return "ClassPojo [vetRegistrationNumber = "+vetRegistrationNumber+", vetQualification = "+vetQualification+", zipCode = "+zipCode+", providerPhoneNumber = "+providerPhoneNumber+", cityId = "+cityId+", isActive = "+isActive+", password = "+password+", identityProof = "+identityProof+", latLong = "+latLong+", customerEmail = "+customerEmail+", profileImageUrl = "+profileImageUrl+", isRegisteredPetParent = "+isRegisteredPetParent+", onlineAppointmentStatus = "+onlineAppointmentStatus+", petParentConfirmPassword = "+petParentConfirmPassword+", enableTwoStepVerification = "+enableTwoStepVerification+", displayInPrescription = "+displayInPrescription+", initials = "+initials+", areYouProvider = "+areYouProvider+", guestEmail = "+guestEmail+", isPrivacyPolicyCheck = "+isPrivacyPolicyCheck+", firstName = "+firstName+", qualification = "+qualification+", phoneNumber = "+phoneNumber+", providerPassword = "+providerPassword+", status = "+status+", lastName = "+lastName+", notificationStatus = "+notificationStatus+", providerLastName = "+providerLastName+", isProfileCreated = "+isProfileCreated+", isEmailVerified = "+isEmailVerified+", isLogin = "+isLogin+", locationId = "+locationId+", confirmPassword = "+confirmPassword+", userSalt = "+userSalt+", email = "+email+", address = "+address+", roleId = "+roleId+", fullName = "+fullName+", userId = "+userId+", petParentPassword = "+petParentPassword+", forgotPasswordEmail = "+forgotPasswordEmail+", locationList = "+locationList+", providerConfirmPassword = "+providerConfirmPassword+", isMobileNumberVerified = "+isMobileNumberVerified+", encryptedId = "+encryptedId+", customerPassword = "+customerPassword+", providerFirstName = "+providerFirstName+", rememberMe = "+rememberMe+", userPermissionMasterList = "+userPermissionMasterList+", userRole = "+userRole+", providerEmail = "+providerEmail+"]";
     }
 }
 	

@@ -49,6 +49,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.google.gson.Gson;
 
 import retrofit2.Response;
 
@@ -217,7 +218,6 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                 Intent signUP_intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(signUP_intent);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
-
                 break;
 
             case R.id.forgetPass_TV:
@@ -294,27 +294,30 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                         token = responseLogin.getResponseLogin().getToken();
                         if (responseLogin.getData().getIsEmailVerified().equals("false")){
                             showEmailVerifyDialog();
+                        }else if (responseLogin.getData().getIsActive().equals("false")){
+                                isactiveDialog();
                         }else {
                             if (responseLogin.getData().getEnableTwoStepVerification().equals("true")) {
-                            String actualNumber = responseLogin.getData().getPhoneNumber().replaceAll("-", "");
-                            SendOtpRequest sendOtpRequest = new SendOtpRequest();
-                            SendOtpParameter data = new SendOtpParameter();
-                            data.setPhoneNumber(actualNumber);
-                            data.setEmailId(responseLogin.getData().getEmail().trim());
-                            sendOtpRequest.setData(data);
-                            if (methods.isInternetOn()) {
-                                sendotpUsingMobileNumber(sendOtpRequest);
-                            } else {
-                                methods.DialogInternet();
+                                String actualNumber = responseLogin.getData().getPhoneNumber().replaceAll("-", "");
+                                SendOtpRequest sendOtpRequest = new SendOtpRequest();
+                                SendOtpParameter data = new SendOtpParameter();
+                                data.setPhoneNumber(actualNumber);
+                                data.setEmailId(responseLogin.getData().getEmail().trim());
+                                sendOtpRequest.setData(data);
+                                if (methods.isInternetOn()) {
+                                    sendotpUsingMobileNumber(sendOtpRequest);
+                                } else {
+                                    methods.DialogInternet();
+                                }
+
+
                             }
-
-
-                        } else {
-                            if(responseLogin.getData().getUserRole().equals("Veterinarian"))
-                            loginSucess();
-                            else
-                            ifParentIdDialog();
-                        }
+                            else {
+                                if(responseLogin.getData().getUserRole().equals("Veterinarian"))
+                                    loginSucess();
+                                else
+                                    ifParentIdDialog();
+                            }
                         }
 
 
@@ -356,6 +359,28 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                 break;
         }
     }
+
+    private void isactiveDialog() {
+        {
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+            builder1.setTitle("Your Profile is under review.");
+            builder1.setMessage("You should hear back within 24 hours.\nThank You..");
+            builder1.setCancelable(true);
+
+            builder1.setPositiveButton(
+                    "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+
+
+            AlertDialog alert11 = builder1.create();
+            alert11.show();
+        }
+    }
+
     private void showEmailVerifyDialog() {
         email_verify_dialog = new Dialog(this);
         email_verify_dialog.setContentView(R.layout.email_verify_dialog);
@@ -389,10 +414,13 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
         login_editor.putString("address", responseLogin.getData().getAddress());
         login_editor.putString("token", responseLogin.getResponseLogin().getToken());
         login_editor.putString("profilePic", responseLogin.getData().getProfileImageUrl());
-        login_editor.putString("study", responseLogin.getData().getVetRQualification());
+        login_editor.putString("study", responseLogin.getData().getVetQualification());
         login_editor.putString("vetid", responseLogin.getData().getVetRegistrationNumber());
         login_editor.putString("onlineAppoint", responseLogin.getData().getOnlineAppointmentStatus());
         login_editor.putString("twoFactAuth", responseLogin.getData().getEnableTwoStepVerification());
+        Gson gson = new Gson();
+        String json = gson.toJson(responseLogin.getData().getUserPermissionMasterList());
+        login_editor.putString("userPermission", json);
         Config.token = responseLogin.getResponseLogin().getToken();
         login_editor.putString("loggedIn", "loggedIn");
         login_editor.commit();

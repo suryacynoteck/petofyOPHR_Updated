@@ -149,41 +149,41 @@ public class PetProfileActivity extends AppCompatActivity implements ApiResponse
                     .load(getPetResponse.getData().getPetProfileImageUrl())
                     .into(pet_profile_image_IV);
         }
-        if (getPetResponse.getData().getFirstServiceImageUrl().isEmpty()){
-            image_one.setVisibility(View.INVISIBLE);
-        }else {
-            Glide.with(this)
-                    .load(getPetResponse.getData().getFirstServiceImageUrl())
-                    .into(image_one);
-        }
-        if (getPetResponse.getData().getSecondServiceImageUrl().isEmpty()){
-            image_two.setVisibility(View.INVISIBLE);
-
-        }else {
-            Glide.with(this)
-                    .load(getPetResponse.getData().getSecondServiceImageUrl())
-                    .into(image_two);
-        }if (getPetResponse.getData().getThirdServiceImageUrl().isEmpty()){
-            image_three.setVisibility(View.INVISIBLE);
-
-        }else {
-            Glide.with(this)
-                    .load(getPetResponse.getData().getThirdServiceImageUrl())
-                    .into(image_three);
-        }if (getPetResponse.getData().getFourthServiceImageUrl().isEmpty()){
-            image_four.setVisibility(View.INVISIBLE);
-
-        }else {
-            Glide.with(this)
-                    .load(getPetResponse.getData().getFourthServiceImageUrl())
-                    .into(image_four);
-        }if (getPetResponse.getData().getFifthServiceImageUrl().isEmpty()){
-            image_five.setVisibility(View.INVISIBLE);
-        }else {
-            Glide.with(this)
-                    .load(getPetResponse.getData().getFifthServiceImageUrl())
-                    .into(image_five);
-        }
+//        if (getPetResponse.getData().getFirstServiceImageUrl().isEmpty()){
+//            image_one.setVisibility(View.INVISIBLE);
+//        }else {
+//            Glide.with(this)
+//                    .load(getPetResponse.getData().getFirstServiceImageUrl())
+//                    .into(image_one);
+//        }
+//        if (getPetResponse.getData().getSecondServiceImageUrl().isEmpty()){
+//            image_two.setVisibility(View.INVISIBLE);
+//
+//        }else {
+//            Glide.with(this)
+//                    .load(getPetResponse.getData().getSecondServiceImageUrl())
+//                    .into(image_two);
+//        }if (getPetResponse.getData().getThirdServiceImageUrl().isEmpty()){
+//            image_three.setVisibility(View.INVISIBLE);
+//
+//        }else {
+//            Glide.with(this)
+//                    .load(getPetResponse.getData().getThirdServiceImageUrl())
+//                    .into(image_three);
+//        }if (getPetResponse.getData().getFourthServiceImageUrl().isEmpty()){
+//            image_four.setVisibility(View.INVISIBLE);
+//
+//        }else {
+//            Glide.with(this)
+//                    .load(getPetResponse.getData().getFourthServiceImageUrl())
+//                    .into(image_four);
+//        }if (getPetResponse.getData().getFifthServiceImageUrl().isEmpty()){
+//            image_five.setVisibility(View.INVISIBLE);
+//        }else {
+//            Glide.with(this)
+//                    .load(getPetResponse.getData().getFifthServiceImageUrl())
+//                    .into(image_five);
+//        }
     }
 
     @Override

@@ -53,6 +53,7 @@ import com.cynoteck.petofyOPHR.params.updateLapTestParams.UpdateLabTestRequest;
 import com.cynoteck.petofyOPHR.params.updateRequest.getValue.UpdateRequest;
 import com.cynoteck.petofyOPHR.params.updateRequest.updateParamRequest.UpdatePetRequest;
 import com.cynoteck.petofyOPHR.params.updateXRayParams.UpdateXrayRequest;
+import com.cynoteck.petofyOPHR.params.uploadVetProfileImageParams.UploadVetProfileImageData;
 import com.cynoteck.petofyOPHR.params.vaccinationSaveParams.VaccinationRequest;
 import com.cynoteck.petofyOPHR.params.workingHoursParameter.WorkingHoursParameter;
 import com.cynoteck.petofyOPHR.response.CheckTrueFalseStatus;
@@ -343,7 +344,7 @@ public interface ApiInterface {
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("staff/GetStaff")
-    Call<GetStaffDetailsResponse> getStaffDeatils(@Header("Authorization") String auth, @Body StaffDeatilsRequest staffDeatilsRequest);
+    Call<GetStaffDetailsResponse> getStaffDetails(@Header("Authorization") String auth, @Body StaffDeatilsRequest staffDeatilsRequest);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("staff/ChangeStatus")
@@ -683,6 +684,10 @@ public interface ApiInterface {
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("report/SendNotification")
     Call<JsonObject> sendNotification(@Header("Authorization") String auth, @Body SendNotificationRequest sendNotificationRequest);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("user/UpdateProfileImage")
+    Call<JsonObject> updateProfileImage(@Header("Authorization") String auth, @Body UploadVetProfileImageData uploadVetProfileImageData);
 
 
 }

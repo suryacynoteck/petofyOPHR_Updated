@@ -134,7 +134,7 @@
                         <ImageView
                             android:id="@+id/vet_image_CIV"
                             android:scaleType="fitXY"
-                            android:src="@drawable/dog"
+                            android:src="@drawable/logo_petofy"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"/>
 

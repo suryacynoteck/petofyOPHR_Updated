@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,6 +18,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,7 +61,7 @@ import java.util.Locale;
 
 import retrofit2.Response;
 
-public class AddNewPetActivity extends AppCompatActivity implements ApiResponse, View.OnClickListener {
+public class AddNewPetActivity extends AppCompatActivity implements ApiResponse, View.OnClickListener ,TextWatcher{
 
     ScrollView scrollView;
     AppCompatSpinner age_wise,parent_address,  add_pet_type, add_pet_age_dialog ,add_pet_sex_dialog,add_pet_breed_dialog, add_pet_color_dialog,add_pet_size_dialog;
@@ -84,6 +84,7 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
     ArrayList<String> petSex;
     ArrayList<String> petAgeType;
     ArrayList<String> parentAdress;
+    ProgressBar progressBar;
 
     HashMap<String,String> petTypeHashMap=new HashMap<>();
     HashMap<String,String> petBreedHashMap=new HashMap<>();
@@ -155,20 +156,31 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
         day_and_age_layout=findViewById(R.id.day_and_age_layout);
         ageViewTv=findViewById(R.id.ageViewTv);
         ageViewTv.setText("Age:- 0 Days");
-
+        progressBar=findViewById(R.id.progressBar);
         save_BT.setOnClickListener(this);
         back_arrow_IV.setOnClickListener(this);
         calenderTextView_dialog.setOnClickListener(this);
         convert_yr_to_age.setOnClickListener(this);
-
-        scrollView.setOnTouchListener(new View.OnTouchListener() {
+        age_neumeric.addTextChangedListener(this);
+        age_neumeric.addTextChangedListener(new TextWatcher() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                Log.d("dataChange","afterTextChanged"+new String(editable.toString()));
+                String value=editable.toString();
+                if (methods.isInternetOn()){
                     if (age_neumeric.isFocused()) {
                         Rect outRect = new Rect();
                         age_neumeric.getGlobalVisibleRect(outRect);
-                        if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
                             if(age_neumeric.getText().toString().isEmpty())
                             {
 
@@ -200,11 +212,59 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
 
                             }
                         }
-                    }
+
+                }else {
+                    methods.DialogInternet();
                 }
-                return false;
             }
         });
+
+//        scrollView.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+//                    if (age_neumeric.isFocused()) {
+//                        Rect outRect = new Rect();
+//                        age_neumeric.getGlobalVisibleRect(outRect);
+//                        if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+//                            if(age_neumeric.getText().toString().isEmpty())
+//                            {
+//
+//                            }
+//                            else
+//                            {
+//                                if(strAgeCount.equals("Day"))
+//                                {
+//                                    getPetDateofBirthDependsOnDays(age_neumeric.getText().toString());
+//                                }
+//                                else if(strAgeCount.equals("Week"))
+//                                {
+//                                    int weekToDays= Integer.parseInt(age_neumeric.getText().toString());
+//                                    int days=weekToDays*7;
+//                                    getPetDateofBirthDependsOnDays(String.valueOf(days));
+//                                }
+//                                else if(strAgeCount.equals("Month"))
+//                                {
+//                                    int monthToDays= Integer.parseInt(age_neumeric.getText().toString());
+//                                    int days=monthToDays*30;
+//                                    getPetDateofBirthDependsOnDays(String.valueOf(days));
+//                                }
+//                                else
+//                                {
+//                                    int yearsToDays= Integer.parseInt(age_neumeric.getText().toString());
+//                                    int days=yearsToDays*365;
+//                                    getPetDateofBirthDependsOnDays(String.valueOf(days));
+//                                }
+//
+//                            }
+//                        }
+//                    }
+//                }
+//                return false;
+//            }
+//        });
+//
+
     }
 
     @Override
@@ -1034,7 +1094,20 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
         Log.e("DATALOG","check1=> "+addPetRequset);
 
     }
-  
 
 
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
+    }
 }

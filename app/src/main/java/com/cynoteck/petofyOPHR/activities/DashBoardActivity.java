@@ -1,5 +1,6 @@
 package com.cynoteck.petofyOPHR.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -11,7 +12,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -39,15 +42,16 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
     boolean exit = false;
     Methods methods;
     String IsVeterinarian="";
-
-
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor login_editor;
+    private int USER_UPDATION_FIRST_TIME = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dash_board);
         init();
         methods = new Methods(this);
-        SharedPreferences sharedPreferences = getSharedPreferences("userdetails", 0);
+        sharedPreferences = getSharedPreferences("userdetails", 0);
         Config.token = sharedPreferences.getString("token", "");
         Log.e("token",Config.token);
         Config.user_id=sharedPreferences.getString("userId", "");
@@ -59,7 +63,6 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         Config.user_Veterian_online=sharedPreferences.getString("onlineAppoint", "");
         Config.user_Veterian_id=sharedPreferences.getString("vetid", "");
         Config.user_Veterian_study=sharedPreferences.getString("study", "");
-        Config.user_Veterian_url=sharedPreferences.getString("profilePic", "");
         Config.two_fact_auth_status=sharedPreferences.getString("twoFactAuth", "");
 
         if(methods.isInternetOn())
@@ -102,7 +105,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void getUserDetails() {
-       // methods.showCustomProgressBarDialog(this);
+        methods.showCustomProgressBarDialog(this);
         ApiService<UserResponse> service = new ApiService<>();
         service.get(this, ApiClient.getApiInterface().getUserDetailsApi(Config.token), "GetUserDetails");
 
@@ -114,10 +117,16 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         {
             case "GetUserDetails":
                 try {
+                    methods.customProgressDismiss();
                     Log.d("GetUserDetails",response.body().toString());
                     UserResponse userResponse = (UserResponse) response.body();
                     int responseCode = Integer.parseInt(userResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
+                        login_editor = sharedPreferences.edit();
+                        login_editor.putString("profilePic", userResponse.getData().getProfileImageUrl());
+                        login_editor.commit();
+                        Config.user_Veterian_url=sharedPreferences.getString("profilePic", "");
+
                         //Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
                         IsVeterinarian=userResponse.getData().getIsVeterinarian();
                         Log.d("IsVeterinarian",""+userResponse.getData().getIsVeterinarian());
@@ -125,6 +134,8 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                             Intent intent=new Intent(DashBoardActivity.this,UpdateProfileActivity.class);
                             intent.putExtra("activityName","Update");
                             intent.putExtra("id",userResponse.getData().getId());
+                            intent.putExtra("isVeterinarian",userResponse.getData().getIsVeterinarian());
+                            intent.putExtra("isActive",userResponse.getData().getIsActive());
                             intent.putExtra("password",userResponse.getData().getPassword());
                             intent.putExtra("firstName",userResponse.getData().getFirstName());
                             intent.putExtra("lastName",userResponse.getData().getLastName());
@@ -148,7 +159,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                             intent.putExtra("serviceImage3",userResponse.getData().getThirdServiceImageUrl());
                             intent.putExtra("serviceImage4",userResponse.getData().getFourthServiceImageUrl());
                             intent.putExtra("serviceImage5",userResponse.getData().getFirstServiceImageUrl());
-                            startActivity(intent);
+                            startActivityForResult(intent,USER_UPDATION_FIRST_TIME);
                             finish();
                         }
                     }else if (responseCode==614){
@@ -164,6 +175,35 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == USER_UPDATION_FIRST_TIME) {
+            if(resultCode == RESULT_OK) {
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+                builder1.setTitle("Your Profile is under review.");
+                builder1.setMessage("You should hear back within 24 hours.\nThank You..");
+                builder1.setCancelable(false);
+
+                builder1.setPositiveButton(
+                        "Log Out",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                SharedPreferences preferences =getSharedPreferences("userdetails",0);
+                                SharedPreferences.Editor editor = preferences.edit();
+                                editor.clear();
+                                editor.apply();
+                                startActivity(new Intent(DashBoardActivity.this, LoginActivity.class));
+                                finish();                            }
+                        });
+
+
+                AlertDialog alert11 = builder1.create();
+                alert11.show();
+            }
+        }
+    }
     @Override
     public void onError(Throwable t, String key) {
         Log.e("error",t.getMessage());

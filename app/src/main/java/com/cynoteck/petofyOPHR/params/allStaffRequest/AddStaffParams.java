@@ -1,7 +1,9 @@
 package com.cynoteck.petofyOPHR.params.allStaffRequest;
 
 public class AddStaffParams {
-    private String encryptId;
+    private String vetRegistrationNumber;
+
+    private String vetQualification;
 
     private String firstName;
 
@@ -11,16 +13,32 @@ public class AddStaffParams {
 
     private String phoneNumber;
 
+    private String initials;
+
+    private String displayInPrescription;
+
     private String confirmPassword;
 
     private String email;
 
-    public String getEncryptId() {
-        return encryptId;
+    public String getVetRegistrationNumber ()
+    {
+        return vetRegistrationNumber;
     }
 
-    public void setEncryptId(String encryptId) {
-        this.encryptId = encryptId;
+    public void setVetRegistrationNumber (String vetRegistrationNumber)
+    {
+        this.vetRegistrationNumber = vetRegistrationNumber;
+    }
+
+    public String getVetQualification ()
+    {
+        return vetQualification;
+    }
+
+    public void setVetQualification (String vetQualification)
+    {
+        this.vetQualification = vetQualification;
     }
 
     public String getFirstName ()
@@ -63,6 +81,26 @@ public class AddStaffParams {
         this.phoneNumber = phoneNumber;
     }
 
+    public String getInitials ()
+    {
+        return initials;
+    }
+
+    public void setInitials (String initials)
+    {
+        this.initials = initials;
+    }
+
+    public String getDisplayInPrescription ()
+    {
+        return displayInPrescription;
+    }
+
+    public void setDisplayInPrescription (String displayInPrescription)
+    {
+        this.displayInPrescription = displayInPrescription;
+    }
+
     public String getConfirmPassword ()
     {
         return confirmPassword;
@@ -86,6 +124,6 @@ public class AddStaffParams {
     @Override
     public String toString()
     {
-        return "ClassPojo [encryptId = "+encryptId+" ,firstName = "+firstName+", lastName = "+lastName+", password = "+password+", phoneNumber = "+phoneNumber+", confirmPassword = "+confirmPassword+", email = "+email+"]";
+        return "ClassPojo [vetRegistrationNumber = "+vetRegistrationNumber+", vetQualification = "+vetQualification+", firstName = "+firstName+", lastName = "+lastName+", password = "+password+", phoneNumber = "+phoneNumber+", initials = "+initials+", displayInPrescription = "+displayInPrescription+", confirmPassword = "+confirmPassword+", email = "+email+"]";
     }
 }

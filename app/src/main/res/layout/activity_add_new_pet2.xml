@@ -279,6 +279,18 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:textColor="@color/deactivate_red"/>
+            <ProgressBar
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/calenderTextView_dialog"
+                android:id="@+id/progressBar"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:gravity="start"
+                android:textColor="@color/colorAccent" />
 
             <TextView
                 android:visibility="gone"

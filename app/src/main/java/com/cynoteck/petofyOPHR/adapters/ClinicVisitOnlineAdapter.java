@@ -44,7 +44,7 @@ public class ClinicVisitOnlineAdapter extends RecyclerView.Adapter<ClinicVisitOn
     public void onBindViewHolder(@NonNull ClinicVisitOnlineAdapter.MyViewHolder holder, int position) {
 
         holder.pet_name_TV.setText(clinicVisitResponseData.get(position).getPetName()+","+clinicVisitResponseData.get(position).getPetAge()+",\n"+clinicVisitResponseData.get(position).getPetUniqueId());
-        holder.petParent_TV.setText(clinicVisitResponseData.get(position).getPetParent().getFullName()+"\n"+vetAppointmentLists.get(position).getPetParent().getPhoneNumber());
+        holder.petParent_TV.setText(clinicVisitResponseData.get(position).getPetParentName()+"\n"+vetAppointmentLists.get(position).getPetParentContactNumber());
         holder.nextVisit_TV.setText(clinicVisitResponseData.get(position).getLastAppointmentdate());
         holder.typeOfVisit_TV.setText(vetAppointmentLists.get(position).getEventStartDate());
 

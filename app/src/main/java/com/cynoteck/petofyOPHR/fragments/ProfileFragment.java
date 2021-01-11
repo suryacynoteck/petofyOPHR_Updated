@@ -32,6 +32,9 @@ import com.cynoteck.petofyOPHR.params.getPetListRequest.GetPetListRequest;
 import com.cynoteck.petofyOPHR.response.onlineAppointmentOnOff.OnlineAppointmentResponse;
 import com.cynoteck.petofyOPHR.utils.Config;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import retrofit2.Response;
 
 /**
@@ -63,9 +66,13 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, A
     }
 
     private void getVetInfo() {
-        Glide.with(this)
-                .load(Config.user_Veterian_url)
-                .into(vet_profile_pic);
+        try {
+            Glide.with(this)
+                    .load(new URL(Config.user_Veterian_url))
+                    .into(vet_profile_pic);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
         vet_name_TV.setText(Config.user_Veterian_name);
         vet_email_TV.setText(Config.user_Veterian_emial);
         vet_study_TV.setText(Config.user_Veterian_study);

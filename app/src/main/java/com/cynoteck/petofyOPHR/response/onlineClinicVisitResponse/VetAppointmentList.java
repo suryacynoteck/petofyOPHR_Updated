@@ -48,6 +48,24 @@ public class VetAppointmentList {
     private PetParent petParent;
     private Veterinarian veterinarian;
     private String petDetailModel;
+    private String petParentName;
+    private String petParentContactNumber;
+
+    public String getPetParentName() {
+        return petParentName;
+    }
+
+    public void setPetParentName(String petParentName) {
+        this.petParentName = petParentName;
+    }
+
+    public String getPetParentContactNumber() {
+        return petParentContactNumber;
+    }
+
+    public void setPetParentContactNumber(String petParentContactNumber) {
+        this.petParentContactNumber = petParentContactNumber;
+    }
 
     public String getId() {
         return id;

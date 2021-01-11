@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cynoteck.petofyOPHR.R;
+import com.cynoteck.petofyOPHR.activities.AddUpdateStaffActivity;
 import com.cynoteck.petofyOPHR.activities.StaffPermissionActivity;
 import com.cynoteck.petofyOPHR.adapters.AllStaffAdapter;
 import com.cynoteck.petofyOPHR.api.ApiClient;
@@ -44,6 +45,8 @@ import java.util.ArrayList;
 
 import retrofit2.Response;
 
+import static android.app.Activity.RESULT_OK;
+
 public class AllStaffFragment extends Fragment implements ApiResponse, StaffListClickListener,View.OnClickListener {
     RecyclerView all_staff_RV;
     View view;
@@ -58,6 +61,7 @@ public class AllStaffFragment extends Fragment implements ApiResponse, StaffList
     Button cancel_button, submit_button, update_button,update_cancel_button;
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     String staffUserId="";
+    private int ADD_STAFF_DEATILS = 1;
 
     public AllStaffFragment() {
     }
@@ -89,12 +93,17 @@ public class AllStaffFragment extends Fragment implements ApiResponse, StaffList
     public void onViewDetailsClick(int position) {
         Log.d("staff_details",getAllStaffData.toString());
         encrypt_id = getAllStaffData.get(position).getEncryptedId();
-        String staff_first_name = getAllStaffData.get(position).getFirstName();
-        String staff_last_name = getAllStaffData.get(position).getLastName();
-        String staff_email_id = getAllStaffData.get(position).getEmail();
-        String staff_phone = getAllStaffData.get(position).getPhoneNumber();
-        String staff_user_id= getAllStaffData.get(position).getUserId();
-        showEditStaffDialog(staff_first_name,staff_last_name,staff_email_id,staff_phone,staff_user_id);
+
+//        String staff_first_name = getAllStaffData.get(position).getFirstName();
+//        String staff_last_name = getAllStaffData.get(position).getLastName();
+//        String staff_email_id = getAllStaffData.get(position).getEmail();
+//        String staff_phone = getAllStaffData.get(position).getPhoneNumber();
+//        String staff_user_id= getAllStaffData.get(position).getUserId();
+//        String staff_prefix = getAllStaffData.get(position).
+        Intent updateStaffIntent = new Intent(getContext(),AddUpdateStaffActivity.class);
+        updateStaffIntent.putExtra("activityType","Update");
+        updateStaffIntent.putExtra("staffId",encrypt_id);
+        startActivityForResult(updateStaffIntent,ADD_STAFF_DEATILS);
 
     }
 
@@ -136,7 +145,11 @@ public class AllStaffFragment extends Fragment implements ApiResponse, StaffList
 
             case R.id.add_staff_IV:
 
-                showAddStaffDilaog();
+//                showAddStaffDilaog();
+                Intent addUpdateStaff = new Intent(getContext(), AddUpdateStaffActivity.class);
+                addUpdateStaff.putExtra("activityType","Add");
+                startActivityForResult(addUpdateStaff,ADD_STAFF_DEATILS);
+
 
                 break;
 
@@ -516,6 +529,18 @@ public class AllStaffFragment extends Fragment implements ApiResponse, StaffList
 
         }
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ADD_STAFF_DEATILS) {
+            if(resultCode == RESULT_OK) {
+                getAllStaff();
+            }
+        }
+        return;
+    }
+
 
     @Override
     public void onError(Throwable t, String key) {

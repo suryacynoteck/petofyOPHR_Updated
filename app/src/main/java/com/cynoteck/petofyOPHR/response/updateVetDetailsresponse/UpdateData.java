@@ -49,9 +49,11 @@ public class UpdateData {
 
     private String hasLoginAccount;
 
-    private ProviderImage[] providerImage;
+    private String[] providerImage;
 
     private String address2;
+
+    private String[] providerBankDetail;
 
     private String vetQualifications;
 
@@ -74,6 +76,8 @@ public class UpdateData {
     private String referredByNavigation;
 
     private String petTypes;
+
+    private String clinicCode;
 
     public String getIsVeterinarian ()
     {
@@ -315,12 +319,12 @@ public class UpdateData {
         this.hasLoginAccount = hasLoginAccount;
     }
 
-    public ProviderImage[] getProviderImage ()
+    public String[] getProviderImage ()
     {
         return providerImage;
     }
 
-    public void setProviderImage (ProviderImage[] providerImage)
+    public void setProviderImage (String[] providerImage)
     {
         this.providerImage = providerImage;
     }
@@ -333,6 +337,16 @@ public class UpdateData {
     public void setAddress2 (String address2)
     {
         this.address2 = address2;
+    }
+
+    public String[] getProviderBankDetail ()
+    {
+        return providerBankDetail;
+    }
+
+    public void setProviderBankDetail (String[] providerBankDetail)
+    {
+        this.providerBankDetail = providerBankDetail;
     }
 
     public String getVetQualifications ()
@@ -445,11 +459,24 @@ public class UpdateData {
         this.petTypes = petTypes;
     }
 
+    public String getClinicCode ()
+    {
+        return clinicCode;
+    }
+
+    public void setClinicCode (String clinicCode)
+    {
+        this.clinicCode = clinicCode;
+    }
+
     @Override
     public String toString()
     {
-        return "ClassPojo [isVeterinarian = "+isVeterinarian+", vetRegistrationNumber = "+vetRegistrationNumber+", enableOnlineAppointments = "+enableOnlineAppointments+", city = "+city+", coverImageUrl = "+coverImageUrl+", providerPetType = "+providerPetType+", postalCode = "+postalCode+", latitude = "+latitude+", phone2 = "+phone2+", description = "+description+", cityId = "+cityId+", isActive = "+isActive+", providerServiceType = "+providerServiceType+", company = "+company+", id = "+id+", operatingHour = "+operatingHour+", profileImageUrl = "+profileImageUrl+", email = "+email+", longitude = "+longitude+", website = "+website+", isExistingProvider = "+isExistingProvider+", address = "+address+", providerLocation = "+providerLocation+", hasLoginAccount = "+hasLoginAccount+", providerImage = "+providerImage+", address2 = "+address2+", vetQualifications = "+vetQualifications+", providerRating = "+providerRating+", onlineConsultationCharges = "+onlineConsultationCharges+", providerVendorAccount = "+providerVendorAccount+", phone = "+phone+", socialMediaUrl = "+socialMediaUrl+", referredBy = "+referredBy+", name = "+name+", serciceTypes = "+serciceTypes+", referredByNavigation = "+referredByNavigation+", petTypes = "+petTypes+"]";
+        return "ClassPojo [isVeterinarian = "+isVeterinarian+", vetRegistrationNumber = "+vetRegistrationNumber+", enableOnlineAppointments = "+enableOnlineAppointments+", city = "+city+", coverImageUrl = "+coverImageUrl+", providerPetType = "+providerPetType+", postalCode = "+postalCode+", latitude = "+latitude+", phone2 = "+phone2+", description = "+description+", cityId = "+cityId+", isActive = "+isActive+", providerServiceType = "+providerServiceType+", company = "+company+", id = "+id+", operatingHour = "+operatingHour+", profileImageUrl = "+profileImageUrl+", email = "+email+", longitude = "+longitude+", website = "+website+", isExistingProvider = "+isExistingProvider+", address = "+address+", providerLocation = "+providerLocation+", hasLoginAccount = "+hasLoginAccount+", providerImage = "+providerImage+", address2 = "+address2+", providerBankDetail = "+providerBankDetail+", vetQualifications = "+vetQualifications+", providerRating = "+providerRating+", onlineConsultationCharges = "+onlineConsultationCharges+", providerVendorAccount = "+providerVendorAccount+", phone = "+phone+", socialMediaUrl = "+socialMediaUrl+", referredBy = "+referredBy+", name = "+name+", serciceTypes = "+serciceTypes+", referredByNavigation = "+referredByNavigation+", petTypes = "+petTypes+", clinicCode = "+clinicCode+"]";
     }
 }
+			
+	
+			
 			
 		

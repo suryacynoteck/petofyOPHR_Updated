@@ -16,6 +16,8 @@ import com.cynoteck.petofyOPHR.R;
 import com.cynoteck.petofyOPHR.response.getPetReportsResponse.getPetListResponse.PetList;
 import com.cynoteck.petofyOPHR.utils.RegisterRecyclerViewClickListener;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.MyViewHolder> {
@@ -47,10 +49,14 @@ public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.MyViewHo
         holder.pet_name_TV.setText(profileList.get(position).getPetName());
         holder.pet_color_TV.setText(profileList.get(position).getPetColor());
 
-        Glide.with(context)
-                .load(profileList.get(position).getPetProfileImageUrl())
-                .placeholder(R.drawable.pet_image)
-                .into(holder.pet_profile_IV);
+        try {
+            Glide.with(context)
+                    .load(new URL(profileList.get(position).getPetProfileImageUrl()))
+                    .placeholder(R.drawable.pet_image)
+                    .into(holder.pet_profile_IV);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
 
     }
 

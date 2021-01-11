@@ -72,7 +72,7 @@ import retrofit2.Response;
 public class UpdateProfileActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse {
     EditText first_name_updt,last_name_updt,email_updt,phone_updt,address_updt,online_charges_ET,
             postal_code_updt,website_updt,social_media_url_updt,registration_num_updt,clinicCode_updt,
-            vet_qualification_updt;
+            vet_qualification_updt,description_updt,clinic_name_updt;
     AppCompatSpinner country_spnr_updt,state_spnr_updt,city_spnr_updt;
     Button update_profile;
     TextView select_Category,select_service_Category;
@@ -81,7 +81,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
     CheckBox online_CB;
     Dialog dialog;
     String slctCatOneImage="",slctCatTwoImage="",slctServcOneImage="",slctServcTwoImage="",slctServcThreeImage="",
-            slctServcfourImage="",slctServcFiveImage="",id="",password="",activityType="";
+            slctServcfourImage="",slctServcFiveImage="",id="",password="",activityType="",strVetDese="",strClinicName="",strIsVet="",strIsActive="";
     int spnrCountry=0,spnrState=0,spnrCity=0;
     CountryResponse stateResponse;
     Uri fileUri;
@@ -142,6 +142,8 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
         Intent intent = getIntent();
         activityType = intent.getStringExtra("activityName");
         id = intent.getStringExtra("id");
+        strIsActive=intent.getStringExtra("isActive");
+        strIsVet=intent.getStringExtra("isVeterinarian");
         password = intent.getStringExtra("password");
         strFirstNm = intent.getStringExtra("firstName");
         strLstNm = intent.getStringExtra("lastName");
@@ -155,6 +157,8 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
         strVetQulafctnUpdt = intent.getStringExtra("vetStudy");
         strPetCatUpdt = intent.getStringExtra("category");
         strSrvcCatUpdt = intent.getStringExtra("service");
+        strVetDese = intent.getStringExtra("description");
+        strClinicName=intent.getStringExtra("clinicName");
 
         if(intent.getStringExtra("country")!=null)
             strContrySpnr = intent.getStringExtra("country");
@@ -271,6 +275,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
         ApiService<PetTypeResponse> service = new ApiService<>();
         service.get(this, ApiClient.getApiInterface().petTypeApi(Config.token), "GetPetTypes");
     }
+
     private void petServiceType() {
         ApiService<PetServiceResponse> service = new ApiService<>();
         service.get(this, ApiClient.getApiInterface().petServiceTypeApi(Config.token), "GetServiceTypes");
@@ -291,6 +296,9 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
         vet_qualification_updt=findViewById(R.id.vet_qualification_updt);
         clinicCode_updt=findViewById(R.id.clinicCode_updt);
         online_charges_ET=findViewById(R.id.online_charges_ET);
+        description_updt=findViewById(R.id.description_updt);
+        clinic_name_updt=findViewById(R.id.clinic_name_updt);
+
 
         //Spinner
         country_spnr_updt=findViewById(R.id.country_spnr_updt);
@@ -347,6 +355,9 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
         address_updt.setText(strAddrsUpdt);
         vet_qualification_updt.setText(strVetQulafctnUpdt);
         registration_num_updt.setText(strRegistNumUpdt);
+        description_updt.setText(strVetDese);
+        clinic_name_updt.setText(strClinicName);
+
     }
 
     @Override
@@ -376,13 +387,13 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                 strPetCatUpdt = select_Category.getText().toString().trim();
                 strSrvcCatUpdt = select_service_Category.getText().toString().trim();
                 strClinicCode = clinicCode_updt.getText().toString().trim();
+                strVetDese=description_updt.getText().toString();
+                strClinicName=clinic_name_updt.getText().toString();
 
                 if(online_CB.isChecked()==true)
                 strOnlineCharges=online_charges_ET.getText().toString();
                 else
                 strOnlineCharges="10";
-
-
 
                 if(strFirstNm.isEmpty())
                 {
@@ -400,6 +411,8 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     vet_qualification_updt.setError(null);
                     online_charges_ET.setError(null);
                     clinicCode_updt.setError(null);
+                    description_updt.setError(null);
+                    clinic_name_updt.setError(null);
                 }
                 else if(strLstNm.isEmpty())
                 {
@@ -417,6 +430,8 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     vet_qualification_updt.setError(null);
                     online_charges_ET.setError(null);
                     clinicCode_updt.setError(null);
+                    description_updt.setError(null);
+                    clinic_name_updt.setError(null);
                 }
                 else if(strEmlUpdt.isEmpty())
                 {
@@ -434,6 +449,8 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     vet_qualification_updt.setError(null);
                     online_charges_ET.setError(null);
                     clinicCode_updt.setError(null);
+                    description_updt.setError(null);
+                    clinic_name_updt.setError(null);
                 }
                 else if (!strEmlUpdt.matches(emailPattern))
                 {
@@ -453,6 +470,8 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     vet_qualification_updt.setError(null);
                     online_charges_ET.setError(null);
                     clinicCode_updt.setError(null);
+                    description_updt.setError(null);
+                    clinic_name_updt.setError(null);
                 }
                 else if(strPhUpdt.isEmpty())
                 {
@@ -470,6 +489,8 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     vet_qualification_updt.setError(null);
                     online_charges_ET.setError(null);
                     clinicCode_updt.setError(null);
+                    description_updt.setError(null);
+                    clinic_name_updt.setError(null);
                 }
                 else if(strAddrsUpdt.isEmpty())
                 {
@@ -487,6 +508,8 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     vet_qualification_updt.setError(null);
                     online_charges_ET.setError(null);
                     clinicCode_updt.setError(null);
+                    description_updt.setError(null);
+                    clinic_name_updt.setError(null);
                 }
                 else if(strPostlUpdt.isEmpty())
                 {
@@ -504,6 +527,8 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     vet_qualification_updt.setError(null);
                     online_charges_ET.setError(null);
                     clinicCode_updt.setError(null);
+                    description_updt.setError(null);
+                    clinic_name_updt.setError(null);
                 }
                 else if(strRegistNumUpdt.isEmpty())
                 {
@@ -521,6 +546,8 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     vet_qualification_updt.setError(null);
                     online_charges_ET.setError(null);
                     clinicCode_updt.setError(null);
+                    description_updt.setError(null);
+                    clinic_name_updt.setError(null);
                 }
                 else if(strVetQulafctnUpdt.isEmpty())
                 {
@@ -538,6 +565,8 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     online_charges_ET.setError(null);
                     clinicCode_updt.setError(null);
                     vet_qualification_updt.setError("Qualification empty");
+                    description_updt.setError(null);
+                    clinic_name_updt.setError(null);
                 }
                 else if(strClinicCode.isEmpty())
                 {
@@ -555,6 +584,48 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     online_charges_ET.setError(null);
                     vet_qualification_updt.setError(null);
                     clinicCode_updt.setError("Enter Your Clinic Code");
+                    description_updt.setError(null);
+                    clinic_name_updt.setError(null);
+                }
+
+//                else if(strVetDese.isEmpty())
+//                {
+//                    select_Category.setError(null);
+//                    select_service_Category.setError(null);
+//                    first_name_updt.setError(null);
+//                    last_name_updt.setError(null);
+//                    email_updt.setError(null);
+//                    phone_updt.setError(null);
+//                    address_updt.setError(null);
+//                    postal_code_updt.setError(null);
+//                    website_updt.setError(null);
+//                    social_media_url_updt.setError(null);
+//                    registration_num_updt.setError(null);
+//                    online_charges_ET.setError(null);
+//                    vet_qualification_updt.setError(null);
+//                    clinicCode_updt.setError(null);
+//                    description_updt.setError("null");
+//                    clinic_name_updt.setError(null);
+//                }
+
+                else if(strClinicName.isEmpty())
+                {
+                    select_Category.setError(null);
+                    select_service_Category.setError(null);
+                    first_name_updt.setError(null);
+                    last_name_updt.setError(null);
+                    email_updt.setError(null);
+                    phone_updt.setError(null);
+                    address_updt.setError(null);
+                    postal_code_updt.setError(null);
+                    website_updt.setError(null);
+                    social_media_url_updt.setError(null);
+                    registration_num_updt.setError(null);
+                    online_charges_ET.setError(null);
+                    vet_qualification_updt.setError(null);
+                    clinicCode_updt.setError(null);
+                    description_updt.setError(null);
+                    clinic_name_updt.setError("Enter Clinic Name");
                 }
                 else if(strPetCatUpdt.isEmpty()||(strPetCatUpdt.equals("Set Category")))
                 {
@@ -572,6 +643,8 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     vet_qualification_updt.setError(null);
                     online_charges_ET.setError(null);
                     clinicCode_updt.setError(null);
+                    description_updt.setError(null);
+                    clinic_name_updt.setError(null);
                 }
                 else if(strSrvcCatUpdt.isEmpty()||(strSrvcCatUpdt.equals("Set Services")))
                 {
@@ -589,6 +662,8 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     vet_qualification_updt.setError(null);
                     online_charges_ET.setError(null);
                     clinicCode_updt.setError(null);
+                    description_updt.setError(null);
+                    clinic_name_updt.setError(null);
                 }
                 else if((strCitySpnr.equals("Select City")))
                 {
@@ -625,6 +700,8 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                         vet_qualification_updt.setError(null);
                         clinicCode_updt.setError(null);
                         online_charges_ET.setError("Enter Charges");
+                        description_updt.setError(null);
+                        clinic_name_updt.setError(null);
                 }
                 else
                 {
@@ -643,21 +720,23 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     vet_qualification_updt.setError(null);
                     clinicCode_updt.setError(null);
                     online_charges_ET.setError(null);
+                    description_updt.setError(null);
+                    clinic_name_updt.setError(null);
 
                     UpdateParams data = new UpdateParams();
                     data.setId(id);
                     data.setFirstName(strFirstNm.trim());
                     data.setLastName(strLstNm.trim());
                     data.setName(strFirstNm+" "+strLstNm);
-                    data.setPassword("pass@123");
-                    data.setConfirmPassword("pass@123");
-                    data.setCompany("Aviral Care");
-                    data.setDescription("Doctors, also known as Physicians, are licensed health professionals who maintain and restore human health through the practice of medicine. They examine patients, review their medical history, diagnose illnesses or injuries, administer treatment and counsel patients on their health and well being");
+                    data.setPassword("password");
+                    data.setConfirmPassword("password");
+                    data.setCompany(strClinicName);
+                    data.setDescription(strVetDese);
                     data.setPhone(strPhUpdt);
                     data.setPhone2("");
                     data.setEmail(strEmlUpdt);
                     data.setAddress(strAddrsUpdt);
-                    data.setAddress2("Mount View Colony, Dehradun");
+                    data.setAddress2("");
                     data.setWebsite(strWbUpdt);
                     data.setSocialMediaUrl(strSoclMdUelUpdt);
                     data.setCityId(strStringCityId);
@@ -679,6 +758,11 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     data.setVetRegistrationNumber(strRegistNumUpdt);
                     data.setOnlineConsultationCharges(strOnlineCharges);
                     data.setClinicCode(strClinicCode);
+                    if (strIsActive.equals("true")){
+                        data.setIsActive("true");
+                    }else {
+                        data.setIsActive("false");
+                    }
 
 //                    data.setId(id);
 //                    data.setFirstName("aviral");
@@ -713,11 +797,33 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
 //                    data.setVetQualifications(strVetQulafctnUpdt);
 //                    data.setVetRegistrationNumber(strRegistNumUpdt);
 
-                    UpdateRequest updateRequest = new UpdateRequest();
+                    final UpdateRequest updateRequest = new UpdateRequest();
                     updateRequest.setData(data);
                     if(methods.isInternetOn())
                     {
-                        updateUser(updateRequest);
+
+                        androidx.appcompat.app.AlertDialog.Builder confirmationDialog = new androidx.appcompat.app.AlertDialog.Builder(this);
+                        confirmationDialog.setTitle("Confirmation!!");
+                        confirmationDialog.setMessage("Are you want to update your profile..");
+                        confirmationDialog.setCancelable(false);
+
+                        confirmationDialog.setPositiveButton(
+                                "Yes",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        updateUser(updateRequest);
+                                    }
+                                });
+                        confirmationDialog.setNegativeButton(
+                                "No",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+
+                        androidx.appcompat.app.AlertDialog alert11 = confirmationDialog.create();
+                        alert11.show();
                     }
                     else
                     {
@@ -1335,6 +1441,8 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                         phone_updt.setText(userResponse.getData().getPhone());
                         address_updt.setText(userResponse.getData().getAddress());
                         postal_code_updt.setText(userResponse.getData().getPostalCode());
+                        clinic_name_updt.setText(userResponse.getData().getCompany());
+                        description_updt.setText(userResponse.getData().getDescription());
 
 
                     }else if (responseCode==614){
@@ -1489,8 +1597,13 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     int responseCode = Integer.parseInt(userResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
                         Toast.makeText(UpdateProfileActivity.this, "Success", Toast.LENGTH_SHORT).show();
-                        Config.backCall ="hit";
-                        onBackPressed();
+                        if (activityType.equals("Update")){
+                            setResult(RESULT_OK);
+                            finish();
+                        }else if (activityType.equals("Edit")){
+                            setResult(RESULT_OK);
+                            finish();
+                        }
                     }else if (responseCode==614){
                         Toast.makeText(UpdateProfileActivity.this, userResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
                     }else {
@@ -1604,7 +1717,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                 }else {
                     Log.d("spnrState",""+strStateSpnr+" ID=>>>"+strStateId);
                     Log.d("spnrState",""+strStateSpnr+  " ID=>>>"+strStateId.substring(0,strStateId.length()-1));
-                    String stateId= strStateId.substring(0,strStateId.length()-1);
+                    String stateId= strStateId.substring(0,strStateId.length()-2);
                     String url  = "common/GetCity/"+stateId;
                     Log.e("URL",url);
                     getCity(url);

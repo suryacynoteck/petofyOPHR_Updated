@@ -27,10 +27,12 @@
         android:icon="@drawable/logo_petofy"
         android:label="@string/app_name"
         android:largeHeap="true"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@drawable/logo_petofy"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".activities.AddUpdateStaffActivity"></activity>
         <activity android:name=".activities.AllVisitsActivity" />
         <activity android:name=".activities.UpcomingVisitsActivity" />
         <activity android:name=".activities.GetAllBankAccountsActivity" />

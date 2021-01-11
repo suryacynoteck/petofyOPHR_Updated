@@ -71,6 +71,16 @@ public class UpdateParams {
 
     private String onlineConsultationCharges;
 
+    private String IsActive;
+
+    public String getIsActive() {
+        return IsActive;
+    }
+
+    public void setIsActive(String isActive) {
+        IsActive = isActive;
+    }
+
     public String getClinicCode() {
         return clinicCode;
     }
@@ -420,7 +430,7 @@ public class UpdateParams {
     @Override
     public String toString()
     {
-        return "ClassPojo [clinicCode ="+clinicCode+", isVeterinarian = "+isVeterinarian+", vetRegistrationNumber = "+vetRegistrationNumber+", lastName = "+lastName+", coverImageUrl = "+coverImageUrl+", postalCode = "+postalCode+", phone2 = "+phone2+", secondServiceImageUrl = "+secondServiceImageUrl+", description = "+description+", cityId = "+cityId+", countryId = "+countryId+", password = "+password+", serviceImages = "+serviceImages+", confirmPassword = "+confirmPassword+", company = "+company+", id = "+id+", fifthServiceImageUrl = "+fifthServiceImageUrl+", profileImageUrl = "+profileImageUrl+", email = "+email+", selectedServiceTypeIds = "+selectedServiceTypeIds+", website = "+website+", address = "+address+", address2 = "+address2+", stateId = "+stateId+", selectedPetTypeIds = "+selectedPetTypeIds+", vetQualifications = "+vetQualifications+", thirdServiceImageUrl = "+thirdServiceImageUrl+", firstName = "+firstName+", fourthServiceImageUrl = "+fourthServiceImageUrl+", phone = "+phone+", socialMediaUrl = "+socialMediaUrl+", firstServiceImageUrl = "+firstServiceImageUrl+", serviceImageUrl = "+serviceImageUrl+", name = "+name+", onlineConsultationCharges = "+onlineConsultationCharges+"]";
+        return "ClassPojo [clinicCode ="+clinicCode+", isVeterinarian = "+isVeterinarian+", vetRegistrationNumber = "+vetRegistrationNumber+", lastName = "+lastName+", coverImageUrl = "+coverImageUrl+", postalCode = "+postalCode+", phone2 = "+phone2+", secondServiceImageUrl = "+secondServiceImageUrl+", description = "+description+", cityId = "+cityId+", countryId = "+countryId+", password = "+password+", serviceImages = "+serviceImages+", confirmPassword = "+confirmPassword+", company = "+company+", id = "+id+", fifthServiceImageUrl = "+fifthServiceImageUrl+", profileImageUrl = "+profileImageUrl+", email = "+email+", selectedServiceTypeIds = "+selectedServiceTypeIds+", website = "+website+", address = "+address+", address2 = "+address2+", stateId = "+stateId+", selectedPetTypeIds = "+selectedPetTypeIds+", vetQualifications = "+vetQualifications+", thirdServiceImageUrl = "+thirdServiceImageUrl+", firstName = "+firstName+", fourthServiceImageUrl = "+fourthServiceImageUrl+", phone = "+phone+", socialMediaUrl = "+socialMediaUrl+", firstServiceImageUrl = "+firstServiceImageUrl+", serviceImageUrl = "+serviceImageUrl+", name = "+name+", onlineConsultationCharges = "+onlineConsultationCharges+", IsActive = "+IsActive+"]";
     }
 }
 	
