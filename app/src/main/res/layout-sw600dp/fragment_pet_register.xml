@@ -37,7 +37,7 @@
                 android:visibility="gone"
                 android:id="@+id/back_arrow_IV"
                 android:layout_marginRight="5dp"
-                android:padding="5dp"
+                android:padding="8dp"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_alignParentStart="true"

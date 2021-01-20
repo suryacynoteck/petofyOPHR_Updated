@@ -384,15 +384,15 @@ public class Methods {
                 "var output = document.getElementById('output1');\n"+
                 "var outputNext = document.getElementById('output2');\n"+
                 // Creating table tags
-                "var table = \"<table><thead><tr><th>Immunization Date</th><th>Vaccine Class</th><th>Next Due Date</th></tr></thead><tbody>\";\n"+
+                "var table = \"<table><thead><tr><th>Vaccine Class</th><th>Vaccine Type</th><th>Next Due Date</th></tr></thead><tbody>\";\n"+
                 "  for (var i = 0; i < immuDate.length; i++) {\n"+
-                "table += \"<tr><td>\" + immuDate[i] + \"</td><td>\" + vaccineName[i]  + \"</td><td>\" + nextDate[i] + \"</td></tr>\";\n"+
+                "table += \"<tr><td>\" + vaccineName[i] + \"</td><td>\" + immuDate[i]  + \"</td><td>\" + nextDate[i] + \"</td></tr>\";\n"+
                 " }\n"+
                 "  table += \"</tbody></table>\";\n"+
 
-                "var table1 = \"<table><thead><tr><th>Immunization Date</th><th>Vaccine Class</th><th>Next Due Date</th></tr></thead><tbody>\";\n"+
+                "var table1 = \"<table><thead><tr><th>Vaccine Class</th><th>Vaccine Type</th><th>Next Due Date</th></tr></thead><tbody>\";\n"+
                 "  for (var i = 0; i < immuDatePending.length; i++) {\n"+
-                "table1 += \"<tr><td>\" + immuDatePending[i] + \"</td><td>\" + vaccineNamePending[i]  + \"</td><td>\" + nextDatePending[i] + \"</td></tr>\";\n"+
+                "table1 += \"<tr><td>\" + vaccineNamePending[i] + \"</td><td>\" + immuDatePending[i]  + \"</td><td>\" + nextDatePending[i] + \"</td></tr>\";\n"+
                 " }\n"+
                 "  table += \"</tbody></table1>\";\n"+
                 // Binding output element with table var

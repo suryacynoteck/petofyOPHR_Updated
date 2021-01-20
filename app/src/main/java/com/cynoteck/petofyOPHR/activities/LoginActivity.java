@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -40,6 +41,7 @@ import com.cynoteck.petofyOPHR.params.loginRequest.Loginparams;
 import com.cynoteck.petofyOPHR.params.otpRequest.SendOtpParameter;
 import com.cynoteck.petofyOPHR.params.otpRequest.SendOtpRequest;
 import com.cynoteck.petofyOPHR.response.loginRegisterResponse.LoginRegisterResponse;
+import com.cynoteck.petofyOPHR.response.loginRegisterResponse.UserPermissionMasterList;
 import com.cynoteck.petofyOPHR.response.otpResponse.OtpResponse;
 import com.cynoteck.petofyOPHR.utils.Config;
 import com.cynoteck.petofyOPHR.utils.Methods;
@@ -50,6 +52,8 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.gson.Gson;
+
+import java.util.ArrayList;
 
 import retrofit2.Response;
 
@@ -86,7 +90,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
     private static final String channel_name="channel_name";
     private static final String channel_desc="channel_desc";
     private static final String TAG = "LoginActivity";
-
+    ArrayList<UserPermissionMasterList> userPermissionMasterLists = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -216,7 +220,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
 
             case R.id.signUp_TV:
                 Intent signUP_intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(signUP_intent);
+                startActivityForResult(signUP_intent, 1);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
                 break;
 
@@ -233,11 +237,15 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                 } else if (!otp.equals(strResponseOtp)) {
                     pet_parent_otp.setError("Enter Wrong OTP");
                 } else {
+                    Log.e("UserRole",responseLogin.getData().getUserRole());
                     if(responseLogin.getData().getUserRole().equals("Veterinarian"))
-                    loginSucess();
-                    else
-                    ifParentIdDialog();
+                        loginSucess();
+                    else if (responseLogin.getData().getUserRole().equals("Vet Staff")){
+                        loginSucess();
 
+                    }else {
+                        ifParentIdDialog();
+                    }
                 }
                 break;
 
@@ -251,7 +259,31 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
         }
 
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK) {
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+                builder1.setTitle("Verify your Email");
+                builder1.setMessage("Please click on the link that has just been sent to your registered email id to verify your account and continue the registration process.");
+                builder1.setCancelable(true);
 
+                builder1.setPositiveButton(
+                        "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+
+                AlertDialog alert11 = builder1.create();
+                alert11.show();
+
+            }
+        }
+    }
     private void ifParentIdDialog()
     {
         AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
@@ -315,8 +347,14 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                             else {
                                 if(responseLogin.getData().getUserRole().equals("Veterinarian"))
                                     loginSucess();
-                                else
+                                else if (responseLogin.getData().getUserRole().equals("Vet Staff")){
+                                    userPermissionMasterLists = responseLogin.getData().getUserPermissionMasterList();
+                                    Log.e("userPermission",responseLogin.getData().getUserPermissionMasterList().toString());
+                                    Log.e("userPermission",userPermissionMasterLists.toString());
+                                    loginSucess();
+                                }else {
                                     ifParentIdDialog();
+                                }
                             }
                         }
 
@@ -407,6 +445,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
         sharedPreferences = LoginActivity.this.getSharedPreferences("userdetails", 0);
         login_editor = sharedPreferences.edit();
         login_editor.putString("email", responseLogin.getData().getEmail());
+        login_editor.putString("user_type", responseLogin.getData().getUserRole());
         login_editor.putString("userId", responseLogin.getData().getUserId());
         login_editor.putString("firstName", responseLogin.getData().getFirstName());
         login_editor.putString("lastName", responseLogin.getData().getLastName());
@@ -418,9 +457,16 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
         login_editor.putString("vetid", responseLogin.getData().getVetRegistrationNumber());
         login_editor.putString("onlineAppoint", responseLogin.getData().getOnlineAppointmentStatus());
         login_editor.putString("twoFactAuth", responseLogin.getData().getEnableTwoStepVerification());
-        Gson gson = new Gson();
-        String json = gson.toJson(responseLogin.getData().getUserPermissionMasterList());
-        login_editor.putString("userPermission", json);
+        if (responseLogin.getData().getUserRole().equals("Vet Staff")) {
+            Gson gson = new Gson();
+            String json = gson.toJson(userPermissionMasterLists);
+            login_editor.putString("userPermission", json);
+            Log.e("userPermission",userPermissionMasterLists.toString());
+//            login_editor.putInt(userPermissionMasterLists +"_size", userPermissionMasterLists.size());
+//            for(int i=0;i<userPermissionMasterLists.size();i++)
+//                login_editor.putString(userPermissionMasterLists + "_" + i, String.valueOf(userPermissionMasterLists.get(i)));
+
+        }
         Config.token = responseLogin.getResponseLogin().getToken();
         login_editor.putString("loggedIn", "loggedIn");
         login_editor.commit();

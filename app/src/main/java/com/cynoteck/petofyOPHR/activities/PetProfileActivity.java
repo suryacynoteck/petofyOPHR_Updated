@@ -1,6 +1,7 @@
 package com.cynoteck.petofyOPHR.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,8 +19,14 @@ import com.cynoteck.petofyOPHR.api.ApiService;
 import com.cynoteck.petofyOPHR.params.getPetListRequest.GetPetListParams;
 import com.cynoteck.petofyOPHR.params.getPetListRequest.GetPetListRequest;
 import com.cynoteck.petofyOPHR.response.getPetDetailsResponse.GetPetResponse;
+import com.cynoteck.petofyOPHR.response.loginRegisterResponse.UserPermissionMasterList;
 import com.cynoteck.petofyOPHR.utils.Config;
 import com.cynoteck.petofyOPHR.utils.Methods;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 import retrofit2.Response;
 
@@ -30,6 +37,7 @@ public class PetProfileActivity extends AppCompatActivity implements ApiResponse
     TextView pet_name_TV, pet_sex_TV,pet_parent_TV,pet_id_TV,pet_deatils_TV,phone_one,pet_email_id_TV,phone_two,address_line_one_TV,address_line_two_TV;
     GetPetResponse getPetResponse;
     boolean reloadData=false;
+    SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +70,8 @@ public class PetProfileActivity extends AppCompatActivity implements ApiResponse
         getPetListParams.setId(petId);
         GetPetListRequest getPetListRequest = new GetPetListRequest();
         getPetListRequest.setData(getPetListParams);
+        sharedPreferences = getSharedPreferences("userdetails", 0);
+
         if(methods.isInternetOn())
         {
             getPetlistData(getPetListRequest);
@@ -88,20 +98,49 @@ public class PetProfileActivity extends AppCompatActivity implements ApiResponse
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.edit_image:
-                Intent intent=new Intent(this, GetPetDetailsActivity.class);
-                intent.putExtra("pet_id",petId);
-                intent.putExtra("pet_category",getPetResponse.getData().getPetCategory());
-                intent.putExtra("pet_name",getPetResponse.getData().getPetName());
-                intent.putExtra("pet_sex",getPetResponse.getData().getPetSex());
-                intent.putExtra("pet_DOB",getPetResponse.getData().getDateOfBirth());
-                intent.putExtra("pet_age",getPetResponse.getData().getPetAge());
-                intent.putExtra("pet_size",getPetResponse.getData().getPetSize());
-                intent.putExtra("pet_breed",getPetResponse.getData().getPetBreed());
-                intent.putExtra("pet_color",getPetResponse.getData().getPetColor());
-                intent.putExtra("pet_parent",getPetResponse.getData().getPetParentName());
-                intent.putExtra("pet_parent_contact",getPetResponse.getData().getContactNumber());
-                intent.putExtra("image_url",getPetResponse.getData().getPetProfileImageUrl());
-                startActivity(intent);
+                String userTYpe = sharedPreferences.getString("user_type", "");
+                if (userTYpe.equals("Vet Staff")){
+                    Gson gson = new Gson();
+                    String json = sharedPreferences.getString("userPermission", null);
+                    Type type = new TypeToken<ArrayList<UserPermissionMasterList>>() {}.getType();
+                    ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
+                    Log.e("ArrayList",arrayList.toString());
+                    Log.d("UserType",userTYpe);
+                    if (arrayList.get(1).getIsSelected().equals("true")) {
+                        Intent intent=new Intent(this, GetPetDetailsActivity.class);
+                        intent.putExtra("pet_id",petId);
+                        intent.putExtra("pet_category",getPetResponse.getData().getPetCategory());
+                        intent.putExtra("pet_name",getPetResponse.getData().getPetName());
+                        intent.putExtra("pet_sex",getPetResponse.getData().getPetSex());
+                        intent.putExtra("pet_DOB",getPetResponse.getData().getDateOfBirth());
+                        intent.putExtra("pet_age",getPetResponse.getData().getPetAge());
+                        intent.putExtra("pet_size",getPetResponse.getData().getPetSize());
+                        intent.putExtra("pet_breed",getPetResponse.getData().getPetBreed());
+                        intent.putExtra("pet_color",getPetResponse.getData().getPetColor());
+                        intent.putExtra("pet_parent",getPetResponse.getData().getPetParentName());
+                        intent.putExtra("pet_parent_contact",getPetResponse.getData().getContactNumber());
+                        intent.putExtra("image_url",getPetResponse.getData().getPetProfileImageUrl());
+                        startActivity(intent);
+                    }else {
+                        Toast.makeText(getApplicationContext(), "Permission not allowed!!", Toast.LENGTH_SHORT).show();
+                    }
+                }else if (userTYpe.equals("Veterinarian")){
+                    Intent intent=new Intent(this, GetPetDetailsActivity.class);
+                    intent.putExtra("pet_id",petId);
+                    intent.putExtra("pet_category",getPetResponse.getData().getPetCategory());
+                    intent.putExtra("pet_name",getPetResponse.getData().getPetName());
+                    intent.putExtra("pet_sex",getPetResponse.getData().getPetSex());
+                    intent.putExtra("pet_DOB",getPetResponse.getData().getDateOfBirth());
+                    intent.putExtra("pet_age",getPetResponse.getData().getPetAge());
+                    intent.putExtra("pet_size",getPetResponse.getData().getPetSize());
+                    intent.putExtra("pet_breed",getPetResponse.getData().getPetBreed());
+                    intent.putExtra("pet_color",getPetResponse.getData().getPetColor());
+                    intent.putExtra("pet_parent",getPetResponse.getData().getPetParentName());
+                    intent.putExtra("pet_parent_contact",getPetResponse.getData().getContactNumber());
+                    intent.putExtra("image_url",getPetResponse.getData().getPetProfileImageUrl());
+                    startActivity(intent);
+                }
+
                 break;
 
         }

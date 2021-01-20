@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -44,11 +45,15 @@ import com.cynoteck.petofyOPHR.response.getVaccinationResponse.GetVaccineRespons
 import com.cynoteck.petofyOPHR.response.getVaccinationResponse.GetVaccineResponseModel;
 import com.cynoteck.petofyOPHR.response.immuniztionHistory.ImmunizationHistoryResponse;
 import com.cynoteck.petofyOPHR.response.immuniztionHistory.ImmunizationHistorymodel;
+import com.cynoteck.petofyOPHR.response.loginRegisterResponse.UserPermissionMasterList;
 import com.cynoteck.petofyOPHR.response.saveImmunizationData.SaveImmunizationResponse;
 import com.cynoteck.petofyOPHR.utils.Config;
 import com.cynoteck.petofyOPHR.utils.ImmunizationOnclickListener;
 import com.cynoteck.petofyOPHR.utils.Methods;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -74,6 +79,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
 
     VaccineTypeAdapter vaccineTypeAdapter;
     ImmunizationHistoryAdopter immunizationHistoryAdopter;
+    SharedPreferences sharedPreferences;
 
     Dialog vaccineDetailsDialog;
 
@@ -133,6 +139,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
         last_prescription.setOnClickListener(this);
         view_xrayReport_arrow.setOnClickListener(this);
         xray_test.setOnClickListener(this);
+        sharedPreferences = getSharedPreferences("userdetails", 0);
 
         if(methods.isInternetOn())
         {
@@ -261,20 +268,50 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 startActivity(intent);
                 break;
             case R.id.clinic_test:
-                Intent petDetailsClinicVisits = new Intent(this, NewEntrysDetailsActivity.class);
-                Bundle dataClinicVisits = new Bundle();
-                dataClinicVisits.putString("pet_id",pet_id);
-                dataClinicVisits.putString("pet_name",pet_name);
-                dataClinicVisits.putString("pet_parent",patent_name);
-                dataClinicVisits.putString("pet_unique_id",pet_unique_id);
-                dataClinicVisits.putString("reports_id","1.0");
-                dataClinicVisits.putString("pet_sex",pet_sex);
-                dataClinicVisits.putString("pet_age",pet_age);
-                dataClinicVisits.putString("add_button_text","Clinic Visits");
-                dataClinicVisits.putString("pet_DOB",pet_DOB);
-                dataClinicVisits.putString("pet_encrypted_id",pet_encrypted_id);
-                petDetailsClinicVisits.putExtras(dataClinicVisits);
-                startActivity(petDetailsClinicVisits);
+                Toast.makeText(this, "Click", Toast.LENGTH_SHORT).show();
+                String userTYpe = sharedPreferences.getString("user_type", "");
+                if (userTYpe.equals("Vet Staff")){
+                    Gson gson = new Gson();
+                    String json = sharedPreferences.getString("userPermission", null);
+                    Type type = new TypeToken<ArrayList<UserPermissionMasterList>>() {}.getType();
+                    ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
+                    Log.e("ArrayList",arrayList.toString());
+                    Log.d("UserType",userTYpe);
+                    if (arrayList.get(8).getIsSelected().equals("true")) {
+                        Intent petDetailsClinicVisits = new Intent(this, NewEntrysDetailsActivity.class);
+                        Bundle dataClinicVisits = new Bundle();
+                        dataClinicVisits.putString("pet_id",pet_id);
+                        dataClinicVisits.putString("pet_name",pet_name);
+                        dataClinicVisits.putString("pet_parent",patent_name);
+                        dataClinicVisits.putString("pet_unique_id",pet_unique_id);
+                        dataClinicVisits.putString("reports_id","1.0");
+                        dataClinicVisits.putString("pet_sex",pet_sex);
+                        dataClinicVisits.putString("pet_age",pet_age);
+                        dataClinicVisits.putString("add_button_text","Clinic Visits");
+                        dataClinicVisits.putString("pet_DOB",pet_DOB);
+                        dataClinicVisits.putString("pet_encrypted_id",pet_encrypted_id);
+                        petDetailsClinicVisits.putExtras(dataClinicVisits);
+                        startActivity(petDetailsClinicVisits);
+                    }else {
+                        Toast.makeText(this, "Permission not allowed!!", Toast.LENGTH_SHORT).show();
+                    }
+                }else if (userTYpe.equals("Veterinarian")){
+                    Intent petDetailsClinicVisits = new Intent(this, NewEntrysDetailsActivity.class);
+                    Bundle dataClinicVisits = new Bundle();
+                    dataClinicVisits.putString("pet_id",pet_id);
+                    dataClinicVisits.putString("pet_name",pet_name);
+                    dataClinicVisits.putString("pet_parent",patent_name);
+                    dataClinicVisits.putString("pet_unique_id",pet_unique_id);
+                    dataClinicVisits.putString("reports_id","1.0");
+                    dataClinicVisits.putString("pet_sex",pet_sex);
+                    dataClinicVisits.putString("pet_age",pet_age);
+                    dataClinicVisits.putString("add_button_text","Clinic Visits");
+                    dataClinicVisits.putString("pet_DOB",pet_DOB);
+                    dataClinicVisits.putString("pet_encrypted_id",pet_encrypted_id);
+                    petDetailsClinicVisits.putExtras(dataClinicVisits);
+                    startActivity(petDetailsClinicVisits);
+                }
+
                 break;
             case R.id.last_prescription:
                 if(methods.isInternetOn())
@@ -357,8 +394,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                                 getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getFollowUpDate(),
                                 getClinicVisitsDetailsResponse.getData().getVeterinarianDetails().getVetRegistrationNumber(),
                                 getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getDescription(),
-                                getClinicVisitsDetailsResponse.getData().getVeterinarianDetails().getAddress()
-                        );
+                                getClinicVisitsDetailsResponse.getData().getVeterinarianDetails().getAddress());
                     }
                     else
                     {

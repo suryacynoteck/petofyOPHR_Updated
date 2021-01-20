@@ -2,6 +2,7 @@ package com.cynoteck.petofyOPHR.fragments;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,11 +37,15 @@ import com.cynoteck.petofyOPHR.response.getStaffResponse.GetAllStaffResponse;
 import com.cynoteck.petofyOPHR.response.getStaffResponse.GetStaffDetailsResponse;
 import com.cynoteck.petofyOPHR.response.getStaffResponse.GetStaffStatusResponse;
 import com.cynoteck.petofyOPHR.response.getStaffResponse.GetUpdateStaffResponse;
+import com.cynoteck.petofyOPHR.response.loginRegisterResponse.UserPermissionMasterList;
 import com.cynoteck.petofyOPHR.utils.Config;
 import com.cynoteck.petofyOPHR.utils.Methods;
 import com.cynoteck.petofyOPHR.utils.StaffListClickListener;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import retrofit2.Response;
@@ -62,7 +67,7 @@ public class AllStaffFragment extends Fragment implements ApiResponse, StaffList
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     String staffUserId="";
     private int ADD_STAFF_DEATILS = 1;
-
+    SharedPreferences sharedPreferences;
     public AllStaffFragment() {
     }
 
@@ -71,6 +76,7 @@ public class AllStaffFragment extends Fragment implements ApiResponse, StaffList
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_all_staff, container, false);
         init();
+        sharedPreferences = getActivity().getSharedPreferences("userdetails", 0);
 
         return  view;
     }
@@ -100,10 +106,30 @@ public class AllStaffFragment extends Fragment implements ApiResponse, StaffList
 //        String staff_phone = getAllStaffData.get(position).getPhoneNumber();
 //        String staff_user_id= getAllStaffData.get(position).getUserId();
 //        String staff_prefix = getAllStaffData.get(position).
-        Intent updateStaffIntent = new Intent(getContext(),AddUpdateStaffActivity.class);
-        updateStaffIntent.putExtra("activityType","Update");
-        updateStaffIntent.putExtra("staffId",encrypt_id);
-        startActivityForResult(updateStaffIntent,ADD_STAFF_DEATILS);
+
+        String userTYpe = sharedPreferences.getString("user_type", "");
+        if (userTYpe.equals("Vet Staff")){
+            Gson gson = new Gson();
+            String json = sharedPreferences.getString("userPermission", null);
+            Type type = new TypeToken<ArrayList<UserPermissionMasterList>>() {}.getType();
+            ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
+            Log.e("ArrayList",arrayList.toString());
+            Log.d("UserType",userTYpe);
+            if (arrayList.get(4).getIsSelected().equals("true")) {
+                Intent updateStaffIntent = new Intent(getContext(),AddUpdateStaffActivity.class);
+                updateStaffIntent.putExtra("activityType","Update");
+                updateStaffIntent.putExtra("staffId",encrypt_id);
+                startActivityForResult(updateStaffIntent,ADD_STAFF_DEATILS);
+            }else {
+                Toast.makeText(getContext(), "Permission not allowed!!", Toast.LENGTH_SHORT).show();
+            }
+        }else if (userTYpe.equals("Veterinarian")){
+            Intent updateStaffIntent = new Intent(getContext(),AddUpdateStaffActivity.class);
+            updateStaffIntent.putExtra("activityType","Update");
+            updateStaffIntent.putExtra("staffId",encrypt_id);
+            startActivityForResult(updateStaffIntent,ADD_STAFF_DEATILS);
+        }
+
 
     }
 
@@ -146,10 +172,27 @@ public class AllStaffFragment extends Fragment implements ApiResponse, StaffList
             case R.id.add_staff_IV:
 
 //                showAddStaffDilaog();
-                Intent addUpdateStaff = new Intent(getContext(), AddUpdateStaffActivity.class);
-                addUpdateStaff.putExtra("activityType","Add");
-                startActivityForResult(addUpdateStaff,ADD_STAFF_DEATILS);
+                String userTYpe = sharedPreferences.getString("user_type", "");
+                if (userTYpe.equals("Vet Staff")){
+                    Gson gson = new Gson();
+                    String json = sharedPreferences.getString("userPermission", null);
+                    Type type = new TypeToken<ArrayList<UserPermissionMasterList>>() {}.getType();
+                    ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
+                    Log.e("ArrayList",arrayList.toString());
+                    Log.d("UserType",userTYpe);
+                    if (arrayList.get(3).getIsSelected().equals("true")) {
+                        Intent addUpdateStaff = new Intent(getContext(), AddUpdateStaffActivity.class);
+                        addUpdateStaff.putExtra("activityType","Add");
+                        startActivityForResult(addUpdateStaff,ADD_STAFF_DEATILS);
+                    }else {
+                        Toast.makeText(getContext(), "Permission not allowed!!", Toast.LENGTH_SHORT).show();
+                    }
+                }else if (userTYpe.equals("Veterinarian")){
+                    Intent addUpdateStaff = new Intent(getContext(), AddUpdateStaffActivity.class);
+                    addUpdateStaff.putExtra("activityType","Add");
+                    startActivityForResult(addUpdateStaff,ADD_STAFF_DEATILS);
 
+                }
 
                 break;
 

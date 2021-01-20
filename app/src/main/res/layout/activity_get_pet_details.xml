@@ -233,6 +233,7 @@
 
 
             <TextView
+                android:visibility="gone"
                 android:layout_below="@id/add_details_pet_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -244,6 +245,7 @@
                 android:textColor="@color/grey_add_pet"/>
 
             <androidx.appcompat.widget.AppCompatSpinner
+                android:visibility="gone"
                 android:layout_below="@id/pet_age_TV"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="20dp"
@@ -357,6 +359,7 @@
                 android:textColor="@color/grey_add_pet"/>
 
             <TextView
+                android:visibility="gone"
                 android:layout_below="@id/pet_deatils_contact_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -369,6 +372,7 @@
 
 
             <EditText
+                android:visibility="gone"
                 android:layout_below="@id/pet_desce_TV"
                 android:inputType="text"
                 android:maxLines="1"

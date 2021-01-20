@@ -172,6 +172,7 @@
                     android:layout_height="wrap_content">
 
                     <TextView
+                        android:visibility="gone"
                         android:layout_marginTop="20dp"
                         android:id="@+id/pet_desc_head"
                         android:layout_marginLeft="20dp"
@@ -186,6 +187,7 @@
                         android:textStyle="bold"/>
 
                     <TextView
+                        android:visibility="gone"
                         android:id="@+id/pet_deatils_TV"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"

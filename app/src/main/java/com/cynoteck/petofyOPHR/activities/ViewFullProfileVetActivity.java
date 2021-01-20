@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -55,6 +56,7 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -173,19 +175,20 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
             return;
         }
         if (requestCode == GALLERY) {
-            dialog.dismiss();
             if (data != null) {
+                dialog.dismiss();
                 Uri contentURI = data.getData();
                 try {
                     bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), contentURI);
-//                        vet_image_CIV.setImageBitmap(bitmap);
-                        saveImage(bitmap);
-                    Glide.with(this)
-                            .load(bitmap)
-                            .into(vet_image_CIV);
+
+                    vet_image_CIV.setImageBitmap(bitmap);
+                    saveImage(bitmap);
+
+
                 } catch (IOException e) {
                     e.printStackTrace();
-                    Toast.makeText(this, "Failed!", Toast.LENGTH_SHORT).show();
+
+                    Toast.makeText(ViewFullProfileVetActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -195,9 +198,9 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
             if (data.getData() == null)
             {
                 thumbnail = (Bitmap) data.getExtras().get("data");
-                Glide.with(this)
-                        .load(thumbnail)
-                        .into(vet_image_CIV);
+                Log.e("jghl",""+thumbnail);
+                vet_image_CIV.setImageBitmap(thumbnail);
+
                 saveImage(thumbnail);
             }
 
@@ -235,18 +238,18 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
         }
 
         try {
-                catfile1 = new File(wallpaperDirectory, Calendar.getInstance()
-                        .getTimeInMillis() + ".jpg");
-                catfile1.createNewFile();
-//                FileOutputStream fo = new FileOutputStream(catfile1);
-//                fo.write(bytes.toByteArray());
-//                MediaScannerConnection.scanFile(this,
-//                        new String[]{catfile1.getPath()},
-//                        new String[]{"image/jpeg"}, null);
-//                fo.close();
-                Log.d("TAG", "File Saved::---&gt;" + catfile1.getAbsolutePath());
-                UploadImages(catfile1);
-                return catfile1.getAbsolutePath();
+            catfile1 = new File(wallpaperDirectory, Calendar.getInstance()
+                    .getTimeInMillis() + ".png");
+            catfile1.createNewFile();
+            FileOutputStream fo = new FileOutputStream(catfile1);
+            fo.write(bytes.toByteArray());
+            MediaScannerConnection.scanFile(this,
+                    new String[]{catfile1.getPath()},
+                    new String[]{"image/png"}, null);
+            fo.close();
+            Log.d("TAG", "File Saved::---&gt;" + catfile1.getAbsolutePath());
+            UploadImages(catfile1);
+            return catfile1.getAbsolutePath();
 
         } catch (IOException e1) {
             e1.printStackTrace();
@@ -263,7 +266,7 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
         }
 
         ApiService<ImageResponse> service = new ApiService<>();
-        service.get( this, ApiClient.getApiInterface().uploadImages(Config.token,userDpFilePart), "UploadProfile");
+        service.get( this, ApiClient.getApiInterface().uploadImages(Config.token,userDpFilePart), "UploadDocument");
         Log.e("DATALOG","check1=> "+service);
 
     }
@@ -391,10 +394,10 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
     @SuppressLint("NewApi")
     @Override
     public void onResponse(Response response, String key) {
-        methods.customProgressDismiss();
         switch (key){
             case "GetUserDetails":
                 try {
+                    methods.customProgressDismiss();
                     Log.d("GetUserDetails",response.body().toString());
                     userResponse = (UserResponse) response.body();
                     int responseCode = Integer.parseInt(userResponse.getResponse().getResponseCode());
@@ -444,8 +447,9 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
                 }
 
                 break;
-            case "UploadProfile":
+            case "UploadDocument":
                 try {
+                    methods.customProgressDismiss();
                     Log.e("UploadDocument",response.body().toString());
                     ImageResponse imageResponse = (ImageResponse) response.body();
                     int responseCode = Integer.parseInt(imageResponse.getResponse().getResponseCode());
@@ -474,6 +478,7 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
 
             case "UpdateProfileImage":
                 try {
+                    methods.customProgressDismiss();
                     Log.d("UploadDocument",response.body().toString());
                     JsonObject jsonObject = new JsonObject();
                     jsonObject = (JsonObject) response.body();

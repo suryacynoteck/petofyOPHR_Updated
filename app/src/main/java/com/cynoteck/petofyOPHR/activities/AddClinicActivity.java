@@ -1598,7 +1598,6 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         ApiService<JsonObject> service = new ApiService<>();
         service.get(this, ApiClient.getApiInterface().addPetVaccination(Config.token,immunizationClinicData), "AddPetVaccination");
         Log.e("DATALOG_AddPetVaccin",""+immunizationClinicData);
-        methods.showCustomProgressBarDialog(this);
     }
 
 
@@ -1695,6 +1694,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
 
     private void getImmunization()
     {
+        methods.showCustomProgressBarDialog(this);
         ImmunizationParams immunizationParams = new ImmunizationParams();
         immunizationParams.setEncryptedId(pet_encrypted_id);
         ImmunizationRequest immunizationRequest = new ImmunizationRequest();
@@ -1724,7 +1724,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                         ArrayList remarksSearchList=new ArrayList<>();
                         for(int i=0;i<searchDiagnosisResponseData.getData().size();i++)
                         {
-                            remarksSearchList.add(searchDiagnosisResponseData.getData().get(i).getDiagnosisProcedure());
+                            remarksSearchList.add(searchDiagnosisResponseData.getData());
                         }
 
                         //for parent name
@@ -1752,7 +1752,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                         ArrayList remarksSearchList=new ArrayList<>();
                         for(int i=0;i<searchDiagnosisResponseData.getData().size();i++)
                         {
-                            remarksSearchList.add(searchDiagnosisResponseData.getData().get(i).getDewormerName());
+                            remarksSearchList.add(searchDiagnosisResponseData.getData());
                         }
 
                         //for parent name
@@ -1780,7 +1780,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                         ArrayList remarksSearchList=new ArrayList<>();
                         for(int i=0;i<searchDiagnosisResponseData.getData().size();i++)
                         {
-                            remarksSearchList.add(searchDiagnosisResponseData.getData().get(i).getDewormerDose());
+                            remarksSearchList.add(searchDiagnosisResponseData.getData());
                         }
 
                         //for parent name
@@ -1910,6 +1910,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
 
             case "AddPetVaccination":
                 try {
+                    methods.customProgressDismiss();
                     JsonObject immunizationAddResponse = (JsonObject) arg0.body();
                     Log.d("AddPetVaccination", immunizationAddResponse.toString());
 
@@ -1919,18 +1920,16 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     int responseCode = Integer.parseInt(String.valueOf(response.get("responseCode")));
 
                     if (responseCode== 109){
-                        methods.customProgressDismiss();
                         Toast.makeText(this, "Add Data Successfully", Toast.LENGTH_SHORT).show();
-                        Config.type="list";
+//                        Config.type="list";
+
                         getImmunization();
                     }
                     else if (responseCode==614){
-                        methods.customProgressDismiss();
                         Toast.makeText(this, String.valueOf(response.getAsJsonObject("responseMessage")), Toast.LENGTH_SHORT).show();
                     }
                     else
                     {
-                        methods.customProgressDismiss();
                         Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
                     }
 
@@ -1954,10 +1953,12 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                             ArrayList<String> immunizationDate = new ArrayList<>();
                             ArrayList<String> vaccineClass = new ArrayList<>();
                             ArrayList<String> nextDueDate = new ArrayList<>();
+                            ArrayList<String> vaccineType = new ArrayList<>();
 
                             ArrayList<String> immunizationDatePending = new ArrayList<>();
                             ArrayList<String> vaccineClassPending = new ArrayList<>();
                             ArrayList<String> nextDueDatePending = new ArrayList<>();
+                            ArrayList<String> vaccineTypePending = new ArrayList<>();
 
                             for (int i = 0; i < immunizationRecordResponse.getData().getPetPendingVaccinations().size(); i++) {
                                 if(immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getIsVaccinated().equals("true"))
@@ -1965,28 +1966,36 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                                     immunizationDate.add(immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getVaccinationDate());
                                     vaccineClass.add(immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getVaccineName());
                                     nextDueDate.add(immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getNextVaccinationDate().substring(0, immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getNextVaccinationDate().length() - 9));
+                                    vaccineType.add(immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getVaccineType());
+
                                 }
                                 else
                                 {
                                     immunizationDatePending.add(immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getVaccinationDate());
                                     vaccineClassPending.add(immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getVaccineName());
                                     nextDueDatePending.add(immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getNextVaccinationDate().substring(0, immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getNextVaccinationDate().length() - 9));
+                                    vaccineTypePending.add(immunizationRecordResponse.getData().getPetPendingVaccinations().get(i).getVaccineType());
 
                                 }
                                }
                             final JSONArray date = new JSONArray(immunizationDate);
                             final JSONArray vaccine = new JSONArray(vaccineClass);
                             final JSONArray nextDate = new JSONArray(nextDueDate);
+                            final JSONArray vType = new JSONArray(vaccineType);
+
                             Log.d("jsjsjjsjs",""+date.length());
 
                             final JSONArray datePending = new JSONArray(immunizationDatePending);
                             final JSONArray vaccinePending = new JSONArray(vaccineClassPending);
                             final JSONArray nextDatePending = new JSONArray(nextDueDatePending);
+                            final JSONArray vTypePending = new JSONArray(vaccineTypePending);
+
                             Log.d("jsjsjjsjs",""+datePending.length());
 
                             Log.e("aaaaaa", vaccineClass.toString());
                             Log.e("aaaaaa", vaccine.toString());
-                            String immunizationSet = methods.immunizationPdfGenarator(pet_name, pet_age, pet_sex, pet_owner_name, "4564564644465", date, vaccine, nextDate, datePending, vaccinePending, nextDatePending);
+                            methods.customProgressDismiss();
+                            String immunizationSet = methods.immunizationPdfGenarator(pet_name, pet_age, pet_sex, pet_owner_name, Config.user_verterian_reg_no, vType, vaccine, nextDate, vTypePending, vaccinePending, nextDatePending);
                             WebSettings webSettings = webview.getSettings();
                             webSettings.setJavaScriptEnabled(true);
                             webview.loadDataWithBaseURL(null, immunizationSet, "text/html", "utf-8", null);

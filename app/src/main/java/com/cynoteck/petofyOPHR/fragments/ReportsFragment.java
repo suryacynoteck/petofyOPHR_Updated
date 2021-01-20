@@ -2,6 +2,7 @@ package com.cynoteck.petofyOPHR.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -34,11 +35,15 @@ import com.cynoteck.petofyOPHR.params.petReportsRequest.PetDataParams;
 import com.cynoteck.petofyOPHR.params.petReportsRequest.PetDataRequest;
 import com.cynoteck.petofyOPHR.response.getPetReportsResponse.getPetListResponse.GetPetListResponse;
 import com.cynoteck.petofyOPHR.response.getPetReportsResponse.getPetListResponse.PetList;
+import com.cynoteck.petofyOPHR.response.loginRegisterResponse.UserPermissionMasterList;
 import com.cynoteck.petofyOPHR.utils.Config;
 import com.cynoteck.petofyOPHR.utils.Methods;
 import com.cynoteck.petofyOPHR.utils.RegisterRecyclerViewClickListener;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import retrofit2.Response;
@@ -63,6 +68,8 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
     ProgressBar progressBar;
     int page=1, pagelimit=10;
     ArrayList<PetList> profileList;
+    SharedPreferences sharedPreferences;
+    String userTYpe="";
 
     public ReportsFragment() {
         // Required empty public constructor
@@ -73,6 +80,7 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_reports, container, false);
+        sharedPreferences = getActivity().getSharedPreferences("userdetails", 0);
 
         mShimmerViewContainer = view.findViewById(R.id.shimmer_view_container);
 
@@ -299,23 +307,58 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
 
     @Override
     public void onProductClick(int position) {
-        categoryRecordArrayList.get(position).getPetUniqueId();
-        Intent selectReportsIntent = new Intent(getActivity().getApplication(), SelectPetReportsActivity.class);
-        Bundle data = new Bundle();
-//        Toast.makeText(getContext(), ""+categoryRecordArrayList.get(position).getId(), Toast.LENGTH_SHORT).show();
-        data.putString("pet_id",categoryRecordArrayList.get(position).getId());
-        data.putString("pet_name",categoryRecordArrayList.get(position).getPetName());
-        data.putString("pet_unique_id",categoryRecordArrayList.get(position).getPetUniqueId());
-        data.putString("pet_sex",categoryRecordArrayList.get(position).getPetSex());
-        data.putString("pet_owner_name",categoryRecordArrayList.get(position).getPetParentName());
-        data.putString("pet_owner_contact",categoryRecordArrayList.get(position).getContactNumber());
-        data.putString("pet_DOB",categoryRecordArrayList.get(position).getDateOfBirth());
-        data.putString("pet_encrypted_id",categoryRecordArrayList.get(position).getEncryptedId());
 
-        selectReportsIntent.putExtras(data);
-        startActivity(selectReportsIntent);
-        getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
-        clearSearch();
+
+        userTYpe = sharedPreferences.getString("user_type", "");
+        if (userTYpe.equals("Vet Staff")){
+            Gson gson = new Gson();
+            String json = sharedPreferences.getString("userPermission", null);
+            Type type = new TypeToken<ArrayList<UserPermissionMasterList>>() {}.getType();
+            ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
+            Log.e("ArrayList",arrayList.toString());
+            Log.d("UserType",userTYpe);
+            if (arrayList.get(8).getIsSelected().equals("true")) {
+                categoryRecordArrayList.get(position).getPetUniqueId();
+                Intent selectReportsIntent = new Intent(getActivity().getApplication(), SelectPetReportsActivity.class);
+                Bundle data = new Bundle();
+//        Toast.makeText(getContext(), ""+categoryRecordArrayList.get(position).getId(), Toast.LENGTH_SHORT).show();
+                data.putString("pet_id",categoryRecordArrayList.get(position).getId());
+                data.putString("pet_name",categoryRecordArrayList.get(position).getPetName());
+                data.putString("pet_unique_id",categoryRecordArrayList.get(position).getPetUniqueId());
+                data.putString("pet_sex",categoryRecordArrayList.get(position).getPetSex());
+                data.putString("pet_owner_name",categoryRecordArrayList.get(position).getPetParentName());
+                data.putString("pet_owner_contact",categoryRecordArrayList.get(position).getContactNumber());
+                data.putString("pet_DOB",categoryRecordArrayList.get(position).getDateOfBirth());
+                data.putString("pet_encrypted_id",categoryRecordArrayList.get(position).getEncryptedId());
+
+                selectReportsIntent.putExtras(data);
+                startActivity(selectReportsIntent);
+                getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
+                clearSearch();
+            }else {
+                Toast.makeText(getContext(), "Permission not allowed!!", Toast.LENGTH_SHORT).show();
+            }
+        }else if (userTYpe.equals("Veterinarian")){
+            categoryRecordArrayList.get(position).getPetUniqueId();
+            Intent selectReportsIntent = new Intent(getActivity().getApplication(), SelectPetReportsActivity.class);
+            Bundle data = new Bundle();
+//        Toast.makeText(getContext(), ""+categoryRecordArrayList.get(position).getId(), Toast.LENGTH_SHORT).show();
+            data.putString("pet_id",categoryRecordArrayList.get(position).getId());
+            data.putString("pet_name",categoryRecordArrayList.get(position).getPetName());
+            data.putString("pet_unique_id",categoryRecordArrayList.get(position).getPetUniqueId());
+            data.putString("pet_sex",categoryRecordArrayList.get(position).getPetSex());
+            data.putString("pet_owner_name",categoryRecordArrayList.get(position).getPetParentName());
+            data.putString("pet_owner_contact",categoryRecordArrayList.get(position).getContactNumber());
+            data.putString("pet_DOB",categoryRecordArrayList.get(position).getDateOfBirth());
+            data.putString("pet_encrypted_id",categoryRecordArrayList.get(position).getEncryptedId());
+
+            selectReportsIntent.putExtras(data);
+            startActivity(selectReportsIntent);
+            getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
+            clearSearch();
+        }
+
+
 
     }
 

@@ -350,24 +350,24 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
                     pet_details_address.setError(null);
                     calenderTextViewDetails.setError(null);
                 }
-                else if(strPetDescription.isEmpty())
-                {
-                    pet_details_name.setError(null);
-                    pet_details_parent_name.setError(null);
-                    pet_deatils_contact_number.setError(null);
-                    pet_deatils_description.setError("Enter Description");
-                    pet_details_address.setError(null);
-                    calenderTextViewDetails.setError(null);
-                }
-                else if(strPetAdress.isEmpty())
-                {
-                    pet_details_name.setError(null);
-                    pet_details_parent_name.setError(null);
-                    pet_deatils_contact_number.setError(null);
-                    pet_deatils_description.setError(null);
-                    pet_details_address.setError("Enter Pet Address");
-                    calenderTextViewDetails.setError(null);
-                }
+//                else if(strPetDescription.isEmpty())
+//                {
+//                    pet_details_name.setError(null);
+//                    pet_details_parent_name.setError(null);
+//                    pet_deatils_contact_number.setError(null);
+//                    pet_deatils_description.setError("Enter Description");
+//                    pet_details_address.setError(null);
+//                    calenderTextViewDetails.setError(null);
+//                }
+//                else if(strPetAdress.isEmpty())
+//                {
+//                    pet_details_name.setError(null);
+//                    pet_details_parent_name.setError(null);
+//                    pet_deatils_contact_number.setError(null);
+//                    pet_deatils_description.setError(null);
+//                    pet_details_address.setError("Enter Pet Address");
+//                    calenderTextViewDetails.setError(null);
+//                }
                 else if(strPetBirthDay.isEmpty())
                 {
                     pet_details_name.setError(null);
@@ -386,10 +386,10 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
                 {
                     Toast.makeText(this, "Select Breed!!", Toast.LENGTH_SHORT).show();
                 }
-                else if(strSpnrAge.isEmpty()||(strSpnrAge.equals("Select Pet Age")))
-                {
-                    Toast.makeText(this, "Select Pet Age!!", Toast.LENGTH_SHORT).show();
-                }
+//                else if(strSpnrAge.isEmpty()||(strSpnrAge.equals("Select Pet Age")))
+//                {
+//                    Toast.makeText(this, "Select Pet Age!!", Toast.LENGTH_SHORT).show();
+//                }
                 else if(strSpnrSex.isEmpty()||(strSpnrSex.equals("Pet Sex")))
                 {
                     Toast.makeText(this, "Select Pet Sex!!", Toast.LENGTH_SHORT).show();
@@ -409,7 +409,7 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
                     data.setId(pet_id);
                     data.setPetCategoryId(getStrSpnerItemPetNmId);
                     data.setPetSexId(strSpnrSexId);
-                    data.setPetAgeId(strSpnrAgeId);
+                    data.setPetAgeId("1.0");
                     data.setPetSizeId(strSpneSizeId);
                     data.setPetColorId(strSpnrColorId);
                     data.setPetBreedId(strSpnrBreedId);
@@ -417,7 +417,7 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
                     data.setPetParentName(strPetParentName);
                     data.setContactNumber(strPetContactNumber);
                     data.setAddress(strPetAdress);
-                    data.setDescription(strPetDescription);
+                    data.setDescription("Description");
                     data.setCreateDate(currentDateandTime);
                     data.setDateOfBirth(strPetBirthDay);
 
@@ -656,7 +656,7 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
                     if (responseCode== 109){
                         Config.backCall = "hit";
                         onBackPressed();
-                        Toast.makeText(this, "Sucessss", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Update Succesfully ", Toast.LENGTH_SHORT).show();
                     }else if (responseCode==614){
                         Toast.makeText(this, addPetValueResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
                     }else {

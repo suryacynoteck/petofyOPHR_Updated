@@ -1,6 +1,7 @@
 package com.cynoteck.petofyOPHR.response.loginRegisterResponse;
 
-public class UserPermissionMasterList {
+public class UserPermissionMasterList
+{
     private String role;
 
     private String roleId;
@@ -14,9 +15,9 @@ public class UserPermissionMasterList {
     private String permissionName;
 
     public String getRole ()
-    {
-        return role;
-    }
+{
+    return role;
+}
 
     public void setRole (String role)
     {

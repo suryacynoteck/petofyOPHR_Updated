@@ -3,11 +3,11 @@ package com.cynoteck.petofyOPHR.response.searchDiagnosisResponse;
 import com.cynoteck.petofyOPHR.response.Header;
 import com.cynoteck.petofyOPHR.response.Response;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class SearchDiagnosisResponseData {
     private Header header;
-    private List<SearchDiagnosisResponseModel> data = null;
+    private ArrayList<String> data = null;
     private Response response;
 
     public Header getHeader() {
@@ -18,11 +18,11 @@ public class SearchDiagnosisResponseData {
         this.header = header;
     }
 
-    public List<SearchDiagnosisResponseModel> getData() {
+    public ArrayList<String> getData() {
         return data;
     }
 
-    public void setData(List<SearchDiagnosisResponseModel> data) {
+    public void setData(ArrayList<String> data) {
         this.data = data;
     }
 

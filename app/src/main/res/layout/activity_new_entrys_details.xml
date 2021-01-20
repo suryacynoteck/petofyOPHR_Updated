@@ -243,6 +243,13 @@
             android:gravity="center"
             android:drawableRight="@drawable/ic_baseline_add_white"/>
 
+        <WebView
+            android:visibility="gone"
+            android:id="@+id/webview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:ignore="MissingConstraints"/>
+
     </LinearLayout>
 
     <FrameLayout

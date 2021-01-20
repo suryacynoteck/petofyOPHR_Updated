@@ -47,6 +47,7 @@ import com.cynoteck.petofyOPHR.response.updateProfileResponse.UserResponse;
 import com.cynoteck.petofyOPHR.response.updateVetDetailsresponse.UpdateVetResponse;
 import com.cynoteck.petofyOPHR.utils.Config;
 import com.cynoteck.petofyOPHR.utils.Methods;
+import com.google.gson.Gson;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -1008,6 +1009,10 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
         service.get( this, ApiClient.getApiInterface().updateUser(Config.token,updateRequest), "UpdateVeterinarian");
         Log.e("DATALOG","checkUpdate=> "+updateRequest);
 
+        Gson gson = new Gson();
+        String update = gson.toJson(updateRequest);
+        Log.e("DATALOGJSON","checkUpdate=> "+update);
+
     }
 
     private void showPictureDialog() {
@@ -1040,7 +1045,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                 if(slctCatOneImage.equals("1")){
                     slctCatOneImage="0";
                 }
-                if(slctCatOneImage.equals("1")){
+                if(slctCatTwoImage.equals("1")){
                     slctCatTwoImage="0";
                 }
                 if(slctServcOneImage.equals("1")){
@@ -1100,7 +1105,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                         category_img_one.setImageBitmap(bitmap);
                         saveImage(bitmap);
                     }
-                    if(slctCatOneImage.equals("1")){
+                    if(slctCatTwoImage.equals("1")){
                         category_img_two.setImageBitmap(bitmap);
                         saveImage(bitmap);
                     }

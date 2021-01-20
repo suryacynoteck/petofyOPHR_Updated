@@ -1,5 +1,7 @@
 package com.cynoteck.petofyOPHR.response.updateVetDetailsresponse;
 
+import java.util.ArrayList;
+
 public class UpdateData {
     private String isVeterinarian;
 
@@ -49,7 +51,7 @@ public class UpdateData {
 
     private String hasLoginAccount;
 
-    private String[] providerImage;
+    private ArrayList<ProviderImage> providerImage;
 
     private String address2;
 
@@ -319,12 +321,12 @@ public class UpdateData {
         this.hasLoginAccount = hasLoginAccount;
     }
 
-    public String[] getProviderImage ()
+    public ArrayList<ProviderImage> getProviderImage ()
     {
         return providerImage;
     }
 
-    public void setProviderImage (String[] providerImage)
+    public void setProviderImage (ArrayList<ProviderImage> providerImage)
     {
         this.providerImage = providerImage;
     }

@@ -264,6 +264,7 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
         switch (key){
             case "GetPetClinicVisit":
                 try {
+                    progressBar.setVisibility(View.GONE);
                     Log.d("ResponseClinicVisit",response.body().toString());
                     GetPetClinicVisitListResponse petServiceResponse = (GetPetClinicVisitListResponse) response.body();
                     int responseCode = Integer.parseInt(petServiceResponse.getResponse().getResponseCode());
@@ -615,7 +616,7 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
 
     @Override
     public void onViewClick(int position) {
-        Toast.makeText(getContext(), ""+petClinicVisitListArrayList.get(position).getId(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), ""+petClinicVisitListArrayList.get(position).getId(), Toast.LENGTH_SHORT).show();
         Intent viewReportsDeatilsActivityIntent = new Intent(getActivity().getApplication(), ViewReportsDeatilsActivity.class);
         viewReportsDeatilsActivityIntent.putExtra("clinic_id",petClinicVisitListArrayList.get(position).getId());
         viewReportsDeatilsActivityIntent.putExtra("pet_id",pet_id);
@@ -631,7 +632,7 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
 
     @Override
     public void onUpdateClick(int position) {
-        Toast.makeText(getContext(), "Upadte", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "Update", Toast.LENGTH_SHORT).show();
         Intent viewReportsDeatilsActivityIntent = new Intent(getActivity().getApplication(), AddClinicActivity.class);
         viewReportsDeatilsActivityIntent.putExtra("pet_id",pet_id);
         viewReportsDeatilsActivityIntent.putExtra("pet_name",pet_name);

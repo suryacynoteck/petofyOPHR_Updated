@@ -71,7 +71,7 @@ public class RegisterActivity extends FragmentActivity implements ApiResponse, V
         password_TIET = findViewById(R.id.password_TIET);
         confirmPassword_TIET = findViewById(R.id.cPassword_TIET);
 
-        signIN_TV = findViewById(R.id.signIn_TV);
+        signIN_TV = findViewById(R.id.cancel_TV);
 
         signUp_BT=findViewById(R.id.signUp_BT);
 
@@ -122,7 +122,9 @@ public class RegisterActivity extends FragmentActivity implements ApiResponse, V
                     LoginRegisterResponse registerResponse = (LoginRegisterResponse) response.body();
                     int responseCode = Integer.parseInt(registerResponse.getResponseLogin().getResponseCode());
                     if (responseCode==109){
-                        showEmailVerifyDialog();
+//                        showEmailVerifyDialog();
+                        setResult(RESULT_OK);
+                        finish();
                         Toast.makeText(this, registerResponse.getResponseLogin().getResponseMessage(), Toast.LENGTH_SHORT).show();
                     }else if(responseCode==615) {
                         Toast.makeText(this, registerResponse.getResponseLogin().getResponseMessage(), Toast.LENGTH_SHORT).show();
@@ -265,7 +267,7 @@ public class RegisterActivity extends FragmentActivity implements ApiResponse, V
 
                 break;
 
-            case R.id.signIn_TV:
+            case R.id.cancel_TV:
 
                 onBackPressed();
 

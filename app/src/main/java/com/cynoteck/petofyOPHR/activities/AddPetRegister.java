@@ -15,7 +15,6 @@ import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -88,7 +87,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Response;
 
-public class AddPetRegister extends AppCompatActivity implements View.OnClickListener, ApiResponse {
+public class AddPetRegister extends AppCompatActivity implements View.OnClickListener, ApiResponse,TextWatcher {
 
     CircleImageView pet_profile_image;
     ScrollView scrollView;
@@ -410,51 +409,108 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
         //Button
         pet_submit=findViewById(R.id.pet_submit);
         pet_submit.setOnClickListener(this);
-
-        scrollView.setOnTouchListener(new View.OnTouchListener() {
+        age_neumeric.addTextChangedListener(this);
+        age_neumeric.addTextChangedListener(new TextWatcher() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                Log.d("dataChange","afterTextChanged"+new String(editable.toString()));
+                String value=editable.toString();
+                if (methods.isInternetOn()){
                     if (age_neumeric.isFocused()) {
                         Rect outRect = new Rect();
                         age_neumeric.getGlobalVisibleRect(outRect);
-                        if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
-                            if(age_neumeric.getText().toString().isEmpty())
-                            {
+                        if(age_neumeric.getText().toString().isEmpty())
+                        {
 
+                        }
+                        else
+                        {
+                            if(strAgeCount.equals("Day"))
+                            {
+                                getPetDateofBirthDependsOnDays(age_neumeric.getText().toString());
+                            }
+                            else if(strAgeCount.equals("Week"))
+                            {
+                                int weekToDays= Integer.parseInt(age_neumeric.getText().toString());
+                                int days=weekToDays*7;
+                                getPetDateofBirthDependsOnDays(String.valueOf(days));
+                            }
+                            else if(strAgeCount.equals("Month"))
+                            {
+                                int monthToDays= Integer.parseInt(age_neumeric.getText().toString());
+                                int days=monthToDays*30;
+                                getPetDateofBirthDependsOnDays(String.valueOf(days));
                             }
                             else
                             {
-                                if(strAgeCount.equals("Day"))
-                                {
-                                    getPetDateofBirthDependsOnDays(age_neumeric.getText().toString());
-                                }
-                                else if(strAgeCount.equals("Week"))
-                                {
-                                    int weekToDays= Integer.parseInt(age_neumeric.getText().toString());
-                                    int days=weekToDays*7;
-                                    getPetDateofBirthDependsOnDays(String.valueOf(days));
-                                }
-                                else if(strAgeCount.equals("Month"))
-                                {
-                                    int monthToDays= Integer.parseInt(age_neumeric.getText().toString());
-                                    int days=monthToDays*30;
-                                    getPetDateofBirthDependsOnDays(String.valueOf(days));
-                                }
-                                else
-                                {
-                                    int yearsToDays= Integer.parseInt(age_neumeric.getText().toString());
-                                    int days=yearsToDays*365;
-                                    getPetDateofBirthDependsOnDays(String.valueOf(days));
-                                }
-
+                                int yearsToDays= Integer.parseInt(age_neumeric.getText().toString());
+                                int days=yearsToDays*365;
+                                getPetDateofBirthDependsOnDays(String.valueOf(days));
                             }
+
                         }
                     }
+
+                }else {
+                    methods.DialogInternet();
                 }
-                return false;
             }
         });
+
+//        scrollView.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+//                    if (age_neumeric.isFocused()) {
+//                        Rect outRect = new Rect();
+//                        age_neumeric.getGlobalVisibleRect(outRect);
+//                        if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+//                            if(age_neumeric.getText().toString().isEmpty())
+//                            {
+//
+//                            }
+//                            else
+//                            {
+//                                if(strAgeCount.equals("Day"))
+//                                {
+//                                    getPetDateofBirthDependsOnDays(age_neumeric.getText().toString());
+//                                }
+//                                else if(strAgeCount.equals("Week"))
+//                                {
+//                                    int weekToDays= Integer.parseInt(age_neumeric.getText().toString());
+//                                    int days=weekToDays*7;
+//                                    getPetDateofBirthDependsOnDays(String.valueOf(days));
+//                                }
+//                                else if(strAgeCount.equals("Month"))
+//                                {
+//                                    int monthToDays= Integer.parseInt(age_neumeric.getText().toString());
+//                                    int days=monthToDays*30;
+//                                    getPetDateofBirthDependsOnDays(String.valueOf(days));
+//                                }
+//                                else
+//                                {
+//                                    int yearsToDays= Integer.parseInt(age_neumeric.getText().toString());
+//                                    int days=yearsToDays*365;
+//                                    getPetDateofBirthDependsOnDays(String.valueOf(days));
+//                                }
+//
+//                            }
+//                        }
+//                    }
+//                }
+//                return false;
+//            }
+//        });
 
 
     }
@@ -545,16 +601,16 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
                     pet_address.setError(null);
                     calenderView.setError(null);
                 }
-                else if(strPetAdress.isEmpty())
-                {
-                    Toast.makeText(this, "Enter Pet Address", Toast.LENGTH_SHORT).show();
-                    pet_name.setError(null);
-                    pet_parent_name.setError(null);
-                    pet_contact_number.setError(null);
-                    pet_description.setError(null);
-                    pet_address.setError("Enter Pet Address");
-                    calenderView.setError(null);
-                }
+//                else if(strPetAdress.isEmpty())
+//                {
+//                    Toast.makeText(this, "Enter Pet Address", Toast.LENGTH_SHORT).show();
+//                    pet_name.setError(null);
+//                    pet_parent_name.setError(null);
+//                    pet_contact_number.setError(null);
+//                    pet_description.setError(null);
+//                    pet_address.setError("Enter Pet Address");
+//                    calenderView.setError(null);
+//                }
                 else if(strPetBirthDay.isEmpty())
                 {
                     Toast.makeText(this, "Pet YOB", Toast.LENGTH_SHORT).show();
@@ -1535,4 +1591,18 @@ public class AddPetRegister extends AppCompatActivity implements View.OnClickLis
     }
 
 
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
+    }
 }

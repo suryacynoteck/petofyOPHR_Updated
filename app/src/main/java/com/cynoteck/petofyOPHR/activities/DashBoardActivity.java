@@ -27,9 +27,15 @@ import com.cynoteck.petofyOPHR.fragments.HomeFragment;
 import com.cynoteck.petofyOPHR.fragments.PetRegisterFragment;
 import com.cynoteck.petofyOPHR.fragments.ProfileFragment;
 import com.cynoteck.petofyOPHR.fragments.ReportSelectionFragment;
+import com.cynoteck.petofyOPHR.response.loginRegisterResponse.UserPermissionMasterList;
 import com.cynoteck.petofyOPHR.response.updateProfileResponse.UserResponse;
 import com.cynoteck.petofyOPHR.utils.Config;
 import com.cynoteck.petofyOPHR.utils.Methods;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 import retrofit2.Response;
 
@@ -45,6 +51,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor login_editor;
     private int USER_UPDATION_FIRST_TIME = 1;
+    String userTYpe ="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,14 +71,21 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         Config.user_Veterian_id=sharedPreferences.getString("vetid", "");
         Config.user_Veterian_study=sharedPreferences.getString("study", "");
         Config.two_fact_auth_status=sharedPreferences.getString("twoFactAuth", "");
+        Config.user_type=sharedPreferences.getString("user_type", "");
+        Config.user_verterian_reg_no=sharedPreferences.getString("vetid","");
 
-        if(methods.isInternetOn())
-        {
-             getUserDetails();
-        }
-        else
-        {
-            methods.DialogInternet();
+//        Gson gson = new Gson();
+//        String json = sharedPreferences.getString("userPermission", null);
+//        Type type = new TypeToken<ArrayList<UserPermissionMasterList>>() {}.getType();
+//        ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
+//        Log.e("aaa0",arrayList.toString());
+
+        if (Config.user_type.equals("Veterinarian")) {
+            if (methods.isInternetOn()) {
+                getUserDetails();
+            } else {
+                methods.DialogInternet();
+            }
         }
 
         if (savedInstanceState == null) {
@@ -243,26 +257,73 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
 
             case R.id.petRegisterRL:
                 Config.count = 0;
-                icHome.setImageResource(R.drawable.home_normal_icon);
-                icProfile.setImageResource(R.drawable.profile_normal_icon);
-                icPetRegister.setImageResource(R.drawable.pet_green_icon);
-                icAppointment.setImageResource(R.drawable.appointment_normal_icon);
-                PetRegisterFragment petRegisterFragment = new PetRegisterFragment();
-                FragmentTransaction ftPetRegister = getSupportFragmentManager().beginTransaction();
-                ftPetRegister.replace(R.id.content_frame, petRegisterFragment);
-                ftPetRegister.commit();
+                userTYpe = sharedPreferences.getString("user_type", "");
+                if (userTYpe.equals("Vet Staff")){
+                    Gson gson = new Gson();
+                    String json = sharedPreferences.getString("userPermission", null);
+                    Type type = new TypeToken<ArrayList<UserPermissionMasterList>>() {}.getType();
+                    ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
+                    Log.e("ArrayList",arrayList.toString());
+                    Log.d("UserType",userTYpe);
+                    if (arrayList.get(8).getIsSelected().equals("true")) {
+                        icHome.setImageResource(R.drawable.home_normal_icon);
+                        icProfile.setImageResource(R.drawable.profile_normal_icon);
+                        icPetRegister.setImageResource(R.drawable.pet_green_icon);
+                        icAppointment.setImageResource(R.drawable.appointment_normal_icon);
+                        PetRegisterFragment petRegisterFragment = new PetRegisterFragment();
+                        FragmentTransaction ftPetRegister = getSupportFragmentManager().beginTransaction();
+                        ftPetRegister.replace(R.id.content_frame, petRegisterFragment);
+                        ftPetRegister.commit();
+                    }else {
+                        Toast.makeText(DashBoardActivity.this, "Permission not allowed!!", Toast.LENGTH_SHORT).show();
+                    }
+                }else if (userTYpe.equals("Veterinarian")){
+                    icHome.setImageResource(R.drawable.home_normal_icon);
+                    icProfile.setImageResource(R.drawable.profile_normal_icon);
+                    icPetRegister.setImageResource(R.drawable.pet_green_icon);
+                    icAppointment.setImageResource(R.drawable.appointment_normal_icon);
+                    PetRegisterFragment petRegisterFragment = new PetRegisterFragment();
+                    FragmentTransaction ftPetRegister = getSupportFragmentManager().beginTransaction();
+                    ftPetRegister.replace(R.id.content_frame, petRegisterFragment);
+                    ftPetRegister.commit();
+                }
+
                 break;
 
             case R.id.appointmentRL:
                 Config.count = 0;
-                icHome.setImageResource(R.drawable.home_normal_icon);
-                icProfile.setImageResource(R.drawable.profile_normal_icon);
-                icPetRegister.setImageResource(R.drawable.pet_normal_icon);
-                icAppointment.setImageResource(R.drawable.appointment_green_icon);
-                AppointementFragment appointementFragment = new AppointementFragment();
-                FragmentTransaction ftAppointment = getSupportFragmentManager().beginTransaction();
-                ftAppointment.replace(R.id.content_frame, appointementFragment);
-                ftAppointment.commit();
+                userTYpe = sharedPreferences.getString("user_type", "");
+                if (userTYpe.equals("Vet Staff")){
+                    Gson gson = new Gson();
+                    String json = sharedPreferences.getString("userPermission", null);
+                    Type type = new TypeToken<ArrayList<UserPermissionMasterList>>() {}.getType();
+                    ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
+                    Log.e("ArrayList",arrayList.toString());
+                    Log.d("UserType",userTYpe);
+                    if (arrayList.get(15).getIsSelected().equals("true")) {
+                        icHome.setImageResource(R.drawable.home_normal_icon);
+                        icProfile.setImageResource(R.drawable.profile_normal_icon);
+                        icPetRegister.setImageResource(R.drawable.pet_normal_icon);
+                        icAppointment.setImageResource(R.drawable.appointment_green_icon);
+                        AppointementFragment appointementFragment = new AppointementFragment();
+                        FragmentTransaction ftAppointment = getSupportFragmentManager().beginTransaction();
+                        ftAppointment.replace(R.id.content_frame, appointementFragment);
+                        ftAppointment.commit();
+                    }else {
+                        Toast.makeText(DashBoardActivity.this, "Permission not allowed!!", Toast.LENGTH_SHORT).show();
+                    }
+                }else if (userTYpe.equals("Veterinarian")){
+                    icHome.setImageResource(R.drawable.home_normal_icon);
+                    icProfile.setImageResource(R.drawable.profile_normal_icon);
+                    icPetRegister.setImageResource(R.drawable.pet_normal_icon);
+                    icAppointment.setImageResource(R.drawable.appointment_green_icon);
+                    AppointementFragment appointementFragment = new AppointementFragment();
+                    FragmentTransaction ftAppointment = getSupportFragmentManager().beginTransaction();
+                    ftAppointment.replace(R.id.content_frame, appointementFragment);
+                    ftAppointment.commit();
+                }
+
+
                 break;
 
         }

@@ -49,13 +49,17 @@ import com.cynoteck.petofyOPHR.params.petReportsRequest.PetDataParams;
 import com.cynoteck.petofyOPHR.params.petReportsRequest.PetDataRequest;
 import com.cynoteck.petofyOPHR.response.InPetVeterian.InPetVeterianResponse;
 import com.cynoteck.petofyOPHR.response.getPetReportsResponse.getPetListResponse.GetPetListResponse;
+import com.cynoteck.petofyOPHR.response.loginRegisterResponse.UserPermissionMasterList;
 import com.cynoteck.petofyOPHR.response.newPetResponse.NewPetRegisterResponse;
 import com.cynoteck.petofyOPHR.response.otpResponse.OtpResponse;
 import com.cynoteck.petofyOPHR.utils.Config;
 import com.cynoteck.petofyOPHR.utils.Methods;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.StringTokenizer;
@@ -81,7 +85,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
     TextInputLayout otp_TL;
     TextInputEditText pet_parent_otp;
     Button submit_parent_otp;
-
+    SharedPreferences sharedPreferences;
+    String userTYpe="";
 
     @Override
     public void onAttach(Context context) {
@@ -97,6 +102,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_home, container, false);
+        sharedPreferences = getActivity().getSharedPreferences("userdetails", 0);
+
         init();
         return view;
     }
@@ -301,9 +308,27 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
                 break;
 
             case R.id.addNewEntry:
-                Intent addNewPetIntent = new Intent(getContext(), AddNewPetActivity.class);
-                addNewPetIntent.putExtra("appointment","");
-                startActivity(addNewPetIntent);
+                userTYpe = sharedPreferences.getString("user_type", "");
+                if (userTYpe.equals("Vet Staff")){
+                    Gson gson = new Gson();
+                    String json = sharedPreferences.getString("userPermission", null);
+                    Type type = new TypeToken<ArrayList<UserPermissionMasterList>>() {}.getType();
+                    ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
+                    Log.e("ArrayList",arrayList.toString());
+                    Log.d("UserType",userTYpe);
+                    if (arrayList.get(0).getIsSelected().equals("true")) {
+                        Intent addNewPetIntent = new Intent(getContext(), AddNewPetActivity.class);
+                        addNewPetIntent.putExtra("appointment", "");
+                        startActivity(addNewPetIntent);
+                    }else {
+                        Toast.makeText(context, "Permission not allowed!!", Toast.LENGTH_SHORT).show();
+                    }
+                    }else if (userTYpe.equals("Veterinarian")){
+                    Intent addNewPetIntent = new Intent(getContext(), AddNewPetActivity.class);
+                    addNewPetIntent.putExtra("appointment","");
+                    startActivity(addNewPetIntent);
+                }
+
                 break;
 
             case R.id.cancelOtpDialog:
@@ -320,9 +345,27 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
                 break;
 
             case R.id.staff_CV:
+                userTYpe = sharedPreferences.getString("user_type", "");
+                if (userTYpe.equals("Vet Staff")){
+                    Gson gson = new Gson();
+                    String json = sharedPreferences.getString("userPermission", null);
+                    Type type = new TypeToken<ArrayList<UserPermissionMasterList>>() {}.getType();
+                    ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
+                    Log.e("ArrayList",arrayList.toString());
+                    Log.d("UserType",userTYpe);
+                    if (arrayList.get(14).getIsSelected().equals("true")) {
+                        AllStaffFragment allStaffFragment = new AllStaffFragment();
+                        replaceFragment(allStaffFragment);
 
-                AllStaffFragment allStaffFragment = new AllStaffFragment();
-                replaceFragment(allStaffFragment);
+
+                    }else {
+                        Toast.makeText(getContext(), "Permission not allowed!!", Toast.LENGTH_SHORT).show();
+                    }
+                }else if (userTYpe.equals("Veterinarian")){
+                    AllStaffFragment allStaffFragment = new AllStaffFragment();
+                    replaceFragment(allStaffFragment);
+
+                }
 
                 break;
 
@@ -333,8 +376,26 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
                 break;
 
             case R.id.appoint_CV:
-                AppointementFragment appointementFragment = new AppointementFragment();
-                replaceFragment(appointementFragment);
+                userTYpe = sharedPreferences.getString("user_type", "");
+                if (userTYpe.equals("Vet Staff")){
+                    Gson gson = new Gson();
+                    String json = sharedPreferences.getString("userPermission", null);
+                    Type type = new TypeToken<ArrayList<UserPermissionMasterList>>() {}.getType();
+                    ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
+                    Log.e("ArrayList",arrayList.toString());
+                    Log.d("UserType",userTYpe);
+                    if (arrayList.get(15).getIsSelected().equals("true")) {
+                        AppointementFragment appointementFragment = new AppointementFragment();
+                        replaceFragment(appointementFragment);
+
+                    }else {
+                        Toast.makeText(getContext(), "Permission not allowed!!", Toast.LENGTH_SHORT).show();
+                    }
+                }else if (userTYpe.equals("Veterinarian")){
+                    AppointementFragment appointementFragment = new AppointementFragment();
+                    replaceFragment(appointementFragment);
+
+                }
 
                 break;
 
