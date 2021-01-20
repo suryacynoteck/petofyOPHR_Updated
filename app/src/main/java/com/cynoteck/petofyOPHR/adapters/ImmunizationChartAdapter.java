@@ -41,7 +41,12 @@ public class ImmunizationChartAdapter extends RecyclerView.Adapter<ImmunizationC
         min_age = immunizationScheduleScheduleLists.get(position).getMinimunAge().substring(0,immunizationScheduleScheduleLists.get(position).getMinimunAge().length()-3);
         max_age = immunizationScheduleScheduleLists.get(position).getMaximunAge().substring(0,immunizationScheduleScheduleLists.get(position).getMaximunAge().length()-3);
 
+
         holder.age_group_TV.setText(min_age+"-"+max_age+"Days");
+        if (immunizationScheduleScheduleLists.get(position).getRecommendedVaccinations().equals("PUPPY DP")){
+            holder.delete_vaccine_IV.setVisibility(View.INVISIBLE);
+            holder.edit_vaccine_IV.setVisibility(View.INVISIBLE);
+        }
         holder.vaccine_name_TV.setText(immunizationScheduleScheduleLists.get(position).getRecommendedVaccinations());
 
     }

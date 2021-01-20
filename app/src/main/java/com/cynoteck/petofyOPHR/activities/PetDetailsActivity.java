@@ -268,7 +268,6 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 startActivity(intent);
                 break;
             case R.id.clinic_test:
-                Toast.makeText(this, "Click", Toast.LENGTH_SHORT).show();
                 String userTYpe = sharedPreferences.getString("user_type", "");
                 if (userTYpe.equals("Vet Staff")){
                     Gson gson = new Gson();

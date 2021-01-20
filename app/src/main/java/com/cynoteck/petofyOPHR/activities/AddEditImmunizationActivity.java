@@ -29,6 +29,7 @@ import com.cynoteck.petofyOPHR.response.immunizationListResponse.ImmunizationMod
 import com.cynoteck.petofyOPHR.response.updateProfileResponse.PetTypeResponse;
 import com.cynoteck.petofyOPHR.utils.Config;
 import com.cynoteck.petofyOPHR.utils.Methods;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,7 +48,7 @@ public class AddEditImmunizationActivity extends AppCompatActivity implements Ap
     //spinner Strings
     String getStrSpnerItemIsPeriodicVaccineValue="0.0",strSpnerItemIsPeriodicVaccineNm="",strSpnerItemPetNm="Dog",getStrSpnerItemPetNmId="",strSpnerItemPetAgeUnitNm="",getStrSpnerItemPetAgeUnitValue="";
 // page String
-    String booster_one_string_CB="false",booster_two_string_CB="false",is_Periodic_Vaccine_string_CB="false",serial_number_string="",minimum_age_string="",maxmimum_age_string="",primary_vaccine_name_string,booster_one_string="0.0",booster_two_string="0.0";
+    String booster_one_string_CB="false",booster_two_string_CB="false",is_Periodic_Vaccine_string_CB="false",serial_number_string="",minimum_age_string="",maxmimum_age_string="",primary_vaccine_name_string,booster_one_string="",booster_two_string="";
     ArrayList<String> petType = new ArrayList<>();
     ArrayList<String> ageUnit=new ArrayList<>();
     ArrayList<String> isPeriodicVaccine = new ArrayList<>();
@@ -173,8 +174,8 @@ public class AddEditImmunizationActivity extends AppCompatActivity implements Ap
                 if (booster_two_CB.isChecked()){
                     booster_two_string_CB="true";
                     booster_two_ET.setText(booster_two_string);
-                    days_gap_booster_two_TV.setVisibility(View.VISIBLE);
-                    booster_two_ET.setVisibility(View.VISIBLE);
+//                    days_gap_booster_two_TV.setVisibility(View.VISIBLE);
+//                    booster_two_ET.setVisibility(View.VISIBLE);
                 }else {
                     booster_two_ET.setText(booster_two_string);
                     booster_two_string_CB="false";
@@ -222,10 +223,10 @@ public class AddEditImmunizationActivity extends AppCompatActivity implements Ap
                 serial_number_string=serial_number_ET.getText().toString().trim();
                 minimum_age_string=minimum_age_ET.getText().toString().trim();
                 maxmimum_age_string=maxmum_age_ET.getText().toString().trim();
-                booster_two_string=booster_two_ET.getText().toString().trim();
                 primary_vaccine_name_string=primary_vaccine_name_ET.getText().toString().trim();
                 booster_one_string=booster_one_ET.getText().toString().trim();
-                booster_two_string=booster_one_ET.getText().toString().trim();
+                booster_two_string=booster_two_ET.getText().toString().trim();
+
                 if (serial_number_string.isEmpty()){
                     serial_number_ET.setError("Empty Serial Number !");
                     minimum_age_ET.setError(null);
@@ -255,17 +256,19 @@ public class AddEditImmunizationActivity extends AppCompatActivity implements Ap
                         booster_one_ET.setError("Enter Booster One !");
                         booster_two_ET.setError(null);
                         primary_vaccine_name_ET.setError(null);
-
-
-                }else if (booster_two_string.isEmpty()) {
-                        serial_number_ET.setError(null);
-                        minimum_age_ET.setError(null);
-                        maxmum_age_ET.setError(null);
-                        booster_one_ET.setError(null);
-                        booster_two_ET.setError("Enter Booster Two !");
-                        primary_vaccine_name_ET.setError(null);
-
-                }else if (primary_vaccine_name_string.isEmpty()){
+                }else if (Double.parseDouble(booster_one_string)>30){
+                    Toast.makeText(this, "Booster one should less than or equal to 30.", Toast.LENGTH_SHORT).show();
+                }
+//                else if (booster_two_string.isEmpty()) {
+//                        serial_number_ET.setError(null);
+//                        minimum_age_ET.setError(null);
+//                        maxmum_age_ET.setError(null);
+//                        booster_one_ET.setError(null);
+//                        booster_two_ET.setError("Enter Booster Two !");
+//                        primary_vaccine_name_ET.setError(null);
+//
+//                }
+                else if (primary_vaccine_name_string.isEmpty()){
                     serial_number_ET.setError(null);
                     minimum_age_ET.setError(null);
                     maxmum_age_ET.setError(null);
@@ -283,7 +286,7 @@ public class AddEditImmunizationActivity extends AppCompatActivity implements Ap
                         addEditImmunizationParams.setBoosterOne(booster_one_string_CB);
                         addEditImmunizationParams.setBoosterOneDaysGap(booster_one_string);
                         addEditImmunizationParams.setBoosterTwo(booster_two_string_CB);
-                        addEditImmunizationParams.setBoosterTwoDaysGap(booster_two_string);
+                        addEditImmunizationParams.setBoosterTwoDaysGap(String.valueOf(Double.parseDouble(booster_one_string)+Double.parseDouble(booster_one_string)));
                         addEditImmunizationParams.setIsPeriodicVaccine(is_Periodic_Vaccine_string_CB);
                         addEditImmunizationParams.setVaccinationPeriod(getStrSpnerItemIsPeriodicVaccineValue);
                         addEditImmunizationParams.setEncryptedId("");
@@ -292,14 +295,21 @@ public class AddEditImmunizationActivity extends AppCompatActivity implements Ap
                         AddEditImmunizationRequest addEditImmunizationRequest = new AddEditImmunizationRequest();
                         addEditImmunizationRequest.setData(addEditImmunizationParams);
                     if (type.equals("add")) {
+                        methods.showCustomProgressBarDialog(this);
                         ApiService<AddEditImmunizationResponse> service = new ApiService<>();
                         service.get( this, ApiClient.getApiInterface().addImmunizationSchedule(Config.token,addEditImmunizationRequest), "AddImmunization");
-                        Log.d("AddImmunization","parameter"+addEditImmunizationRequest);
+                        Gson gson = new Gson();
+                        String editImmunization = gson.toJson(addEditImmunizationRequest);
+                        Log.d("AddImmunization","parameter"+editImmunization);
 
                     }else {
+                        methods.showCustomProgressBarDialog(this);
                         ApiService<AddEditImmunizationResponse> service = new ApiService<>();
                         service.get( this, ApiClient.getApiInterface().editImmunizationSchedule(Config.token,addEditImmunizationRequest), "EditImmunization");
-                        Log.d("EditImmunization","parameter"+addEditImmunizationRequest);
+                        Gson gson = new Gson();
+                        String editImmunization = gson.toJson(addEditImmunizationRequest);
+                        Log.d("EditImmunization","parameter"+editImmunization);
+
 
                     }
 
@@ -316,6 +326,7 @@ public class AddEditImmunizationActivity extends AppCompatActivity implements Ap
         switch (key) {
             case "ImmunizationModel":
                 try {
+
                     immunizationResponse = (ImmunizationModelResponse) arg0.body();
                     Log.d("ImmunizationModel", immunizationResponse.toString());
                     int responseCode = Integer.parseInt(immunizationResponse.getResponse().getResponseCode());
@@ -377,6 +388,7 @@ public class AddEditImmunizationActivity extends AppCompatActivity implements Ap
 
             case "AddImmunization":
                 try {
+                    methods.customProgressDismiss();
                     AddEditImmunizationResponse addEditImmunizationResponse = (AddEditImmunizationResponse) arg0.body();
                     Log.d("AddImmunization", addEditImmunizationResponse.toString());
                     int responseCode = Integer.parseInt(addEditImmunizationResponse.getResponse().getResponseCode());
@@ -399,6 +411,7 @@ public class AddEditImmunizationActivity extends AppCompatActivity implements Ap
 
             case "EditImmunization":
                 try {
+                    methods.customProgressDismiss();
                     AddEditImmunizationResponse addEditImmunizationResponse = (AddEditImmunizationResponse) arg0.body();
                     Log.d("EditImmunization", addEditImmunizationResponse.toString());
                     int responseCode = Integer.parseInt(addEditImmunizationResponse.getResponse().getResponseCode());

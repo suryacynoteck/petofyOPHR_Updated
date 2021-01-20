@@ -160,7 +160,7 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
             image_url = extras.getString("image_url");
             Log.d("jjsjsjjs",""+image_url);
 
-            if(!image_url.equals(""))
+            if(image_url!=null)
            {
                Glide.with(this)
                        .load(image_url)

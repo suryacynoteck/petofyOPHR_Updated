@@ -174,7 +174,7 @@ public interface ApiInterface {
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("report/GetPetList")
-    Call<GetPetListResponse> getPetList(@Header("Authorization") String auth, @Body PetDataRequest getPetDataRequest);
+    Call<GetPetListResponse>getPetList(@Header("Authorization") String auth, @Body PetDataRequest getPetDataRequest);
 
 
     @POST("user/forgotpassword")

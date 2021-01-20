@@ -1721,10 +1721,10 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     SearchDiagnosisResponseData searchDiagnosisResponseData = (SearchDiagnosisResponseData) arg0.body();
                     int responseCode = Integer.parseInt(searchDiagnosisResponseData.getResponse().getResponseCode());
                     if (responseCode == 109) {
-                        ArrayList remarksSearchList=new ArrayList<>();
+                        ArrayList<String> remarksSearchList=new ArrayList<>();
                         for(int i=0;i<searchDiagnosisResponseData.getData().size();i++)
                         {
-                            remarksSearchList.add(searchDiagnosisResponseData.getData());
+                            remarksSearchList.add(String.valueOf(searchDiagnosisResponseData.getData().get(i)));
                         }
 
                         //for parent name
@@ -1736,7 +1736,8 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     } else if (responseCode == 614) {
                         Toast.makeText(this, searchDiagnosisResponseData.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                        Log.e("ErrorSerach","Plese Try Again !!");
                     }
                 }
                 catch(Exception e) {
@@ -1749,10 +1750,10 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     SearchDiagnosisResponseData searchDiagnosisResponseData = (SearchDiagnosisResponseData) arg0.body();
                     int responseCode = Integer.parseInt(searchDiagnosisResponseData.getResponse().getResponseCode());
                     if (responseCode == 109) {
-                        ArrayList remarksSearchList=new ArrayList<>();
+                        ArrayList<String> remarksSearchList=new ArrayList<>();
                         for(int i=0;i<searchDiagnosisResponseData.getData().size();i++)
                         {
-                            remarksSearchList.add(searchDiagnosisResponseData.getData());
+                            remarksSearchList.add(String.valueOf(searchDiagnosisResponseData.getData().get(i)));
                         }
 
                         //for parent name
@@ -1764,7 +1765,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     } else if (responseCode == 614) {
                         Toast.makeText(this, searchDiagnosisResponseData.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                        Log.e("ErrorSerach","Plese Try Again !!");
                     }
                 }
                 catch(Exception e) {
@@ -1777,10 +1778,10 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     SearchDiagnosisResponseData searchDiagnosisResponseData = (SearchDiagnosisResponseData) arg0.body();
                     int responseCode = Integer.parseInt(searchDiagnosisResponseData.getResponse().getResponseCode());
                     if (responseCode == 109) {
-                        ArrayList remarksSearchList=new ArrayList<>();
+                        ArrayList<String> remarksSearchList=new ArrayList<>();
                         for(int i=0;i<searchDiagnosisResponseData.getData().size();i++)
                         {
-                            remarksSearchList.add(searchDiagnosisResponseData.getData());
+                            remarksSearchList.add(searchDiagnosisResponseData.getData().get(i));
                         }
 
                         //for parent name
@@ -1792,7 +1793,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     } else if (responseCode == 614) {
                         Toast.makeText(this, searchDiagnosisResponseData.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                        Log.e("ErrorSerach","Plese Try Again !!");
                     }
                 }
                 catch(Exception e) {
