@@ -338,7 +338,9 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
         getVaccinationRequest.setData(getVaccinationModelParameter);
         ApiService<ImmunizationHistoryResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().getPetImmunizationHistory(getVaccinationRequest), "GetPetImmunizationHistory");
-        Log.e("GetVaccinHistory==>",""+getVaccinationRequest);
+        Gson gson = new Gson();
+        String getImmunizationHistory = gson.toJson(getVaccinationRequest);
+        Log.e("getImmunHistory=>",""+getImmunizationHistory);
     }
 
     private void getVaccinationDetails() {
@@ -349,6 +351,10 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
         ApiService<GetVaccineResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().getVaccinationScheduleChart(Config.token,getVaccinationRequest), "GetVaccinationScheduleChart");
         Log.e("GetVaccinSchedule==>",""+getVaccinationRequest);
+        Gson gson = new Gson();
+        String getVaccinationDetails = gson.toJson(getVaccinationRequest);
+        Log.e("getVaccinationDetails=>",""+getVaccinationDetails);
+
     }
 
     private void getclinicVisitsReportDetails() {

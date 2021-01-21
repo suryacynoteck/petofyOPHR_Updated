@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -84,7 +83,7 @@ public class VaccineTypeAdapter extends RecyclerView.Adapter<VaccineTypeAdapter.
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView age_group,vaccine_name;
-        CheckBox Primary,booster_one,booster_two;
+        ImageView Primary,booster_one,booster_two;
         LinearLayout vaccine_type_expand_LL;
         ImageView up_IV, down_IV;
 
@@ -99,26 +98,26 @@ public class VaccineTypeAdapter extends RecyclerView.Adapter<VaccineTypeAdapter.
             up_IV = itemView.findViewById(R.id.up_IV);
             vaccine_type_expand_LL = itemView.findViewById(R.id.vaccine_type_expand_LL);
 
-            Primary.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    immunizationOnclickListener.onItemClickImmunizationPrimary(getAdapterPosition());
-                }
-            });
-
-            booster_one.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    immunizationOnclickListener.onItemClickImmunizationBoosterOne(getAdapterPosition());
-                }
-            });
-
-            booster_one.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    immunizationOnclickListener.onItemClickImmunizationBoosterTwo(getAdapterPosition());
-                }
-            });
+//            Primary.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    immunizationOnclickListener.onItemClickImmunizationPrimary(getAdapterPosition());
+//                }
+//            });
+//
+//            booster_one.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    immunizationOnclickListener.onItemClickImmunizationBoosterOne(getAdapterPosition());
+//                }
+//            });
+//
+//            booster_one.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    immunizationOnclickListener.onItemClickImmunizationBoosterTwo(getAdapterPosition());
+//                }
+//            });
 
         }
     }

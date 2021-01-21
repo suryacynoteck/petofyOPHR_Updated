@@ -288,7 +288,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
     {
         AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
         builder1.setTitle("ALERT!!");
-        builder1.setMessage("This is Vet Parent ID, Kindly use this ID Petofy Parent App\nThank You..");
+        builder1.setMessage("This is Pet Parent account, Kindly use this account for  Petofy Parent App\nThank You..");
         builder1.setCancelable(true);
 
         builder1.setPositiveButton(

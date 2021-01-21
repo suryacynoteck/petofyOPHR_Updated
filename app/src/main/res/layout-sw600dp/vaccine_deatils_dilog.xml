@@ -24,7 +24,7 @@
 
 
             <TextView
-                android:text="Immunization Chart"
+                android:text="Vaccination Chart"
                 app:layout_constraintStart_toEndOf="@+id/clinic_back_arrow_IV"
                 app:layout_constraintEnd_toStartOf="@+id/join_BT"
                 app:layout_constraintTop_toTopOf="parent"
@@ -83,6 +83,7 @@
         app:layout_constraintVertical_bias="1.0">
 
         <LinearLayout
+            android:visibility="gone"
             android:background="@color/list_background"
             android:layout_marginTop="15dp"
             android:layout_marginLeft="8dp"
