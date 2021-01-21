@@ -277,7 +277,7 @@ public class ImmunizationChartActivity extends AppCompatActivity implements View
     public void onEditButton(int position) {
         Intent intent = new Intent(this,AddEditImmunizationActivity.class);
         intent.putExtra("type","edit");
-        intent.putExtra("id",immunizationResponse.getData().getImmunizationScheduleScheduleList().get(position).getId());
+        intent.putExtra("id",immunizationResponse.getData().getImmunizationScheduleScheduleList().get(position).getEncryptedId());
         intent.putExtra("petType",immunizationResponse.getData().getImmunizationScheduleScheduleList().get(position).getPetCategoryName());
         intent.putExtra("sNo",immunizationResponse.getData().getImmunizationScheduleScheduleList().get(position).getSerialNumber());
         intent.putExtra("ageUnit","Day");

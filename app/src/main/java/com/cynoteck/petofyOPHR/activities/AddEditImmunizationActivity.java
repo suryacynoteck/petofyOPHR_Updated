@@ -114,7 +114,7 @@ public class AddEditImmunizationActivity extends AppCompatActivity implements Ap
 
     private void getImmunizationModel() {
         ImmunizationParams immunizationParams = new ImmunizationParams();
-        immunizationParams.setEncryptedId("1");
+        immunizationParams.setEncryptedId(immunization_id);
         ImmunizationRequest immunizationRequest = new ImmunizationRequest();
         immunizationRequest.setData(immunizationParams);
         ApiService<ImmunizationModelResponse> service = new ApiService<>();
@@ -346,6 +346,8 @@ public class AddEditImmunizationActivity extends AppCompatActivity implements Ap
                             minimum_age_ET.setText(minage);
                             maxmum_age_ET.setText(maxAge);
                             primary_vaccine_name_ET.setText(vaccineName);
+                            booster_one_ET.setText(immunizationResponse.getData().getBoosterOneDaysGap());
+                            booster_two_ET.setText(immunizationResponse.getData().getBoosterTwoDaysGap());
                             checkBoxSection();
                         }
                         getAgeUnit();
@@ -480,7 +482,7 @@ public class AddEditImmunizationActivity extends AppCompatActivity implements Ap
         }
         if (booster_two_string_CB.equals("true")){
             booster_two_CB.setChecked(true);
-            booster_two_ET.setVisibility(View.VISIBLE);
+//            booster_two_ET.setVisibility(View.VISIBLE);
         }else {
             booster_two_CB.setChecked(false);
             booster_two_ET.setVisibility(View.GONE);
