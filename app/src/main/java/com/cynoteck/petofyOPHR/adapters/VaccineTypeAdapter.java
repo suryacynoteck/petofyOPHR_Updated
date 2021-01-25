@@ -40,16 +40,14 @@ public class VaccineTypeAdapter extends RecyclerView.Adapter<VaccineTypeAdapter.
      String min_age=getVaccineResponseModels.get(position).getVaccinationSchedule().getMinimunAge().substring(0,getVaccineResponseModels.get(position).getVaccinationSchedule().getMinimunAge().length()-3);
      String max_age=getVaccineResponseModels.get(position).getVaccinationSchedule().getMaximunAge().substring(0,getVaccineResponseModels.get(position).getVaccinationSchedule().getMaximunAge().length()-3);
 
-     String boosterOne=getVaccineResponseModels.get(position).getVaccinationSchedule().getBoosterOne();
-     String boosterTwo=getVaccineResponseModels.get(position).getVaccinationSchedule().getBoosterTwo();
-
-     if(boosterOne.equals("true"))
-     {
-         holder.booster_one.setVisibility(View.VISIBLE);
+     if(getVaccineResponseModels.get(position).getVaccineChartDetails().get(0).getStatus().equals("true")) {
+         holder.Primary.setVisibility(View.VISIBLE);
      }
-     if(boosterTwo.equals("true"))
-     {
-         holder.booster_two.setVisibility(View.VISIBLE);
+     if(getVaccineResponseModels.get(position).getVaccineChartDetails().get(1).getStatus().equals("true")) {
+            holder.booster_one.setVisibility(View.VISIBLE);
+     }
+     if(getVaccineResponseModels.get(position).getVaccineChartDetails().get(2).getStatus().equals("true")) {
+            holder.booster_two.setVisibility(View.VISIBLE);
      }
 
 
