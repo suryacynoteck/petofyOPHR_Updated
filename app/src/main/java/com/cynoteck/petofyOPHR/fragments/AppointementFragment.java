@@ -130,6 +130,7 @@ public class AppointementFragment extends Fragment implements ApiResponse ,View.
                             public void onItemClick(int position, ArrayList<AppointmentList> appointmentLists) {
 
                                 String userTYpe = sharedPreferences.getString("user_type", "");
+                                Log.e("USERTYPE",userTYpe);
                                 if (userTYpe.equals("Vet Staff")){
                                     Gson gson = new Gson();
                                     String json = sharedPreferences.getString("userPermission", null);
@@ -154,8 +155,9 @@ public class AppointementFragment extends Fragment implements ApiResponse ,View.
                                     intent.putExtra("id",appointmentLists.get(position).getId());
                                     intent.putExtra("pet_id",appointmentLists.get(position).getPetId());
                                     intent.putExtra("petParent",appointmentLists.get(position).getPetUniqueId());
-                                    if(appointmentLists.get(position).getPaymentStatus().equals("true"))
+                                    if(appointmentLists.get(position).getPaymentStatus().equals("true")) {
                                         startActivity(intent);
+                                    }
                                 }
                             }
 

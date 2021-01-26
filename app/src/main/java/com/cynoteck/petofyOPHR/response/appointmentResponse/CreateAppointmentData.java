@@ -2,7 +2,7 @@ package com.cynoteck.petofyOPHR.response.appointmentResponse;
 
 public class CreateAppointmentData
 {
-    private String veterinarianMeetingNotes;
+        private String veterinarianMeetingNotes;
 
 private String eventEndDate;
 
@@ -32,7 +32,7 @@ private String createdOn;
 
 private String meetingUrl;
 
-private String veterinarianUser;
+private VeterinarianUser veterinarianUser;
 
 private String userMeetingNotes;
 
@@ -42,7 +42,7 @@ private String id;
 
 private String isApproved;
 
-private String user;
+private User user;
 
 private String eventStartDate;
 
@@ -196,12 +196,12 @@ public void setMeetingUrl (String meetingUrl)
         this.meetingUrl = meetingUrl;
         }
 
-public String getVeterinarianUser ()
+public VeterinarianUser getVeterinarianUser ()
         {
         return veterinarianUser;
         }
 
-public void setVeterinarianUser (String veterinarianUser)
+public void setVeterinarianUser (VeterinarianUser veterinarianUser)
         {
         this.veterinarianUser = veterinarianUser;
         }
@@ -246,12 +246,12 @@ public void setIsApproved (String isApproved)
         this.isApproved = isApproved;
         }
 
-public String getUser ()
+public User getUser ()
         {
         return user;
         }
 
-public void setUser (String user)
+public void setUser (User user)
         {
         this.user = user;
         }

@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import androidx.appcompat.app.AlertDialog;
 
 import com.cynoteck.petofyOPHR.R;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 
@@ -410,7 +411,10 @@ public class Methods {
         Date date = new Date();
         return dateFormat.format(date);
     }
-
+    public String getRequestJson(Object object) {
+        Gson gson = new Gson();
+        return gson.toJson(object);
+    }
     public float getDays(String DoB, String currentDate )
     {
         SimpleDateFormat myFormat = new SimpleDateFormat("dd MM yyyy");

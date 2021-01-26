@@ -66,6 +66,7 @@ import com.cynoteck.petofyOPHR.utils.Methods;
 import com.cynoteck.petofyOPHR.utils.RegisterRecyclerViewClickListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.gson.Gson;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -115,10 +116,10 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
             time_TV.setText(currentTime);
             duration_TV.setText("15");
         }else if (type.equals("update")){
-            pet_search_layout.setVisibility(View.INVISIBLE);
+            pet_search_layout.setVisibility(View.GONE);
             add_new_pet.setVisibility(View.INVISIBLE);
             pet_parent_Details.setVisibility(View.VISIBLE);
-            pet_details_TV.setVisibility(View.INVISIBLE);
+            pet_details_TV.setVisibility(View.GONE);
             parent_TV.setVisibility(View.VISIBLE);
             parent_TV.setText(petParentString);
             duration_TV.setFocusable(false);
@@ -296,6 +297,7 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
             case R.id.cancelOtpDialog:
                 otpDialog.dismiss();
                 break;
+
             case R.id.new_pet_search:
                 if((pet_parent_TV.getText().toString().isEmpty())||(petUniueId.contains(pet_parent_TV.getText().toString())==false))
                 {
@@ -332,8 +334,10 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
                             petDetailsIntent.putExtras(data);
                             startActivity(petDetailsIntent);
                         }
+
                         else
                         {
+
                             Log.d("Add Anotheer Veterian","vet");
                             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
                             alertDialog.setTitle("Are you sure?");
@@ -379,10 +383,10 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
                 adNewIntent.putExtra("appointment","appointment");
                 startActivityForResult(adNewIntent, 1);
                 break;
+
             case R.id.appointment_headline_back:
                 onBackPressed();
                 break;
-
 
             case R.id.pet_parent_ACTV:
                 openParentDiloag();
@@ -549,6 +553,7 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
     }
 
     private void getAppointmentDeatils(GetPetListRequest id) {
+        methods.showCustomProgressBarDialog(this);
         ApiService<AppointmentDetailsResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().getAppointmentsDetails(Config.token,id), "GetAppointmentDetails");
 
@@ -563,6 +568,7 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
         methods.showCustomProgressBarDialog(this);
         ApiService<CreateAppointmentResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().updateAppointment(Config.token,updateAppointmentRequest), "UpdateAppointment");
+        Log.e("UpdateAppointment",methods.getRequestJson(updateAppointmentRequest));
     }
 
     private void createUpdateAppointment(CreateAppointRequest createAppointRequest) {
@@ -642,6 +648,9 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
 
     @Override
     public void onResponse(Response arg0, String key) {
+        Log.e("UpdateAppointment",arg0.toString());
+        Log.e("UpdateAppointment",arg0.message());
+        Log.e("UpdateAppointment", String.valueOf(arg0.code()));
 
         switch (key){
 
@@ -735,6 +744,7 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
 
             case "GetAppointmentDetails":
                 try {
+                    methods.customProgressDismiss();
                     Log.d("AppointDeatils",arg0.body().toString());
                     AppointmentDetailsResponse appointmentDetailsResponse  = (AppointmentDetailsResponse) arg0.body();
                     Log.d("AppointDeatils",appointmentDetailsResponse.toString());
@@ -745,14 +755,14 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
                         title_ET.setText(appointmentDetailsResponse.getData().getTitle());
                         dateString = appointmentDetailsResponse.getData().getEventStartDate().substring(0,10);
                         Log.d("time",dateString);
-                        calenderTextViewAppointDt.setText(Config.changeDateFormat(appointmentDetailsResponse.getData().getEventStartDate().substring(0,10)));
+                        calenderTextViewAppointDt.setText((appointmentDetailsResponse.getData().getEventStartDate().substring(0,10)));
                         description_ET.setText(appointmentDetailsResponse.getData().getDescription());
                         duration_TV.setText(appointmentDetailsResponse.getData().getDuration());
 
                         timeString = appointmentDetailsResponse.getData().getEventStartDate().substring(appointmentDetailsResponse.getData().getEventStartDate().length()-8,appointmentDetailsResponse.getData().getEventStartDate().length());
                         Log.d("datee",timeString);
                         Log.d("datee",Config.changeTimeFormat(timeString));
-                        time_TV.setText(Config.changeTimeFormat(timeString));
+                        time_TV.setText(timeString);
 
 
                     }
@@ -902,7 +912,8 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
 
     @Override
     public void onError(Throwable t, String key) {
-
+        methods.customProgressDismiss();
+        Log.e("ERROR",t.getLocalizedMessage());
     }
 
     @Override
