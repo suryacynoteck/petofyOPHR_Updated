@@ -74,6 +74,7 @@
 
     <TextView
         android:id="@+id/immunization_chart_TV"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/two_fact_auth_TV"
         app:layout_constraintStart_toStartOf="@+id/two_fact_auth_TV"
         app:layout_constraintEnd_toEndOf="@id/two_fact_auth_SC"
@@ -87,6 +88,7 @@
 
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/bank_account_details_TV"
         app:layout_constraintTop_toBottomOf="@+id/immunization_chart_TV"
         app:layout_constraintStart_toStartOf="@+id/immunization_chart_TV"

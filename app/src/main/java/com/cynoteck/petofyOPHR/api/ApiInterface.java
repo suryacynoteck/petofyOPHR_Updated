@@ -125,6 +125,7 @@ import com.cynoteck.petofyOPHR.response.saveImmunizationData.SaveImmunizationRes
 import com.cynoteck.petofyOPHR.response.saveResponse.SaveResponseData;
 import com.cynoteck.petofyOPHR.response.saveWorkingReponse.SaveWorkingHoursResponse;
 import com.cynoteck.petofyOPHR.response.searchDiagnosisResponse.SearchDiagnosisResponseData;
+import com.cynoteck.petofyOPHR.response.searchDiagnosisResponse.SearchDiagnosisResponseResponse;
 import com.cynoteck.petofyOPHR.response.searchRemaks.SearchRemaksResponse;
 import com.cynoteck.petofyOPHR.response.staffPermissionListResponse.StaffPermissionResponse;
 import com.cynoteck.petofyOPHR.response.testResponse.XrayTestResponse;
@@ -647,6 +648,10 @@ public interface ApiInterface {
     @POST("immunization/SavePreviousVaccinationDetails")
     Call<SaveResponseData> savePreviousVaccinationDetails(@Header("Authorization") String auth, @Body SaveRequest saveRequest);
 
+    //SearchClinicVisitFieldData
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @GET("pethealthrecord/SearchClinicVisitFieldData")
+    Call<SearchDiagnosisResponseResponse> searchClinicVisitFieldData(@Header("Authorization") String auth);
 
     //Search Dignisis..........................................
 

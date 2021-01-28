@@ -782,7 +782,6 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
     @Override
     public void onProductPrescriptionClick(int position) {
         methods.showCustomProgressBarDialog(getActivity());
-        createPdf(petClinicVisitLists.get(position).getVeterinarian(),petClinicVisitLists.get(position).getCreatedByUser().getProviderPhoneNumber(),petClinicVisitLists.get(position).getCreatedByUser().getCustomerEmail(),petClinicVisitLists.get(position).getPetName(),petClinicVisitLists.get(position).getPetAge(),petClinicVisitLists.get(position).getPetSex(),petClinicVisitLists.get(position).getDateOfOnset(),petClinicVisitLists.get(position).getPetParentName(),petClinicVisitLists.get(position).getTemperature(),petClinicVisitLists.get(position).getDiagnosisProcedure(),petClinicVisitLists.get(position).getTreatmentRemarks(),petClinicVisitLists.get(position).getFollowUpDate(),petClinicVisitLists.get(position).getDescription());
 
 //        showEditStaffDialog(petClinicVisitLists.get(position).getVeterinarian(),petClinicVisitLists.get(position).getCreatedByUser().getEmail(),petClinicVisitLists.get(position).getPetName(),petClinicVisitLists.get(position).getPetAge(),petClinicVisitLists.get(position).getPetSex(),petClinicVisitLists.get(position).getDateOfOnset(),petClinicVisitLists.get(position).getPetParentName(),petClinicVisitLists.get(position).getTemperature(),petClinicVisitLists.get(position).getDiagnosisProcedure(),petClinicVisitLists.get(position).getTreatmentRemarks(),petClinicVisitLists.get(position).getFollowUpDate());
     }
@@ -1095,30 +1094,6 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
         imm1.hideSoftInputFromWindow(search_box_add_new.getWindowToken(), 0);
     }
 
-    public void createPdf(String veterian,String phoneNumber, String strEmail, String strForA, String strAge,String strSex, String strDate,String strParntNm, String strTemparature, String strDiagnosis,String strRemark, String strNxtVisit, String description)
-    {
-        String str=methods.pdfGenarator(strForA,strAge,strSex,strParntNm,strTemparature,
-                description,strDiagnosis,strRemark,strNxtVisit,"");
-        webview.loadDataWithBaseURL(null,str,"text/html","utf-8",null);
-
-        new Handler().postDelayed(new Runnable(){
-            @Override
-            public void run() {
-                methods.customProgressDismiss();
-                Context context=getActivity();
-                PrintManager printManager=(PrintManager)getActivity().getSystemService(context.PRINT_SERVICE);
-                PrintDocumentAdapter adapter=null;
-                if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
-                    adapter=webview.createPrintDocumentAdapter();
-                }
-                String JobName=getString(R.string.app_name) +"Document";
-                if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
-                    PrintJob printJob=printManager.print(JobName,adapter,new PrintAttributes.Builder().build());
-                }
-            }
-        }, 3000);
-
-    }
 
     @Override
     public void onResume() {

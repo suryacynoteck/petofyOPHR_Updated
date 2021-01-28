@@ -69,6 +69,7 @@ public class ImmunizationChartActivity extends AppCompatActivity implements View
         ApiService<PetTypeResponse> service = new ApiService<>();
         service.get(this, ApiClient.getApiInterface().petTypeApi(Config.token), "GetPetTypes");
 
+
     }
 
     private void getImmunizationList(String getStrSpnerItemPetNmId) {
@@ -111,6 +112,7 @@ public class ImmunizationChartActivity extends AppCompatActivity implements View
             case R.id.create_new_immu:
                 Intent intent = new Intent(this,AddEditImmunizationActivity.class);
                 intent.putExtra("type","add");
+                intent.putExtra("pet_encrpt_id","MQ==");
                 startActivityForResult(intent,1);
 
                 break;

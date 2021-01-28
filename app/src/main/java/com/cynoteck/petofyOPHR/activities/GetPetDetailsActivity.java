@@ -410,7 +410,7 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
                     data.setPetCategoryId(getStrSpnerItemPetNmId);
                     data.setPetSexId(strSpnrSexId);
                     data.setPetAgeId("1.0");
-                    data.setPetSizeId(strSpneSizeId);
+                    data.setPetSizeId("0");
                     data.setPetColorId(strSpnrColorId);
                     data.setPetBreedId(strSpnrBreedId);
                     data.setPetName(strPetName);
@@ -1244,7 +1244,7 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
         methods.showCustomProgressBarDialog(this);
         ApiService<AddPetValueResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().updatePetDetails(Config.token,addPetRequset), "UpdatePetDetails");
-        Log.e("DATALOG","check1=> "+addPetRequset);
+        Log.e("DATALOG","check1=> "+methods.getRequestJson(addPetRequset));
 
     }
 

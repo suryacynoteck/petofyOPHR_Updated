@@ -1,5 +1,7 @@
 package com.cynoteck.petofyOPHR.response.getAppointmentsStatusResponse;
 
+import com.cynoteck.petofyOPHR.response.appointmentResponse.PetDetail;
+
 public class VeterinarianUser {
     private String[] forumSubTopic;
 
@@ -18,6 +20,8 @@ public class VeterinarianUser {
     private String password;
 
     private String latLong;
+
+    private String registrationDate;
 
     private String[] petLabworkUpdatedByNavigation;
 
@@ -41,7 +45,7 @@ public class VeterinarianUser {
 
     private String phoneNumber;
 
-    private String[] petDetail;
+    private PetDetail[] petDetail;
 
     private String[] veterinarianAppointmentUser;
 
@@ -50,6 +54,8 @@ public class VeterinarianUser {
     private String userNavigation;
 
     private String[] notificationNotifiedByNavigation;
+
+    private String[] petofySubscription;
 
     private String[] petTestsAndXreyCreatedByNavigation;
 
@@ -211,6 +217,16 @@ public class VeterinarianUser {
         this.latLong = latLong;
     }
 
+    public String getRegistrationDate ()
+    {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate (String registrationDate)
+    {
+        this.registrationDate = registrationDate;
+    }
+
     public String[] getPetLabworkUpdatedByNavigation ()
     {
         return petLabworkUpdatedByNavigation;
@@ -321,12 +337,12 @@ public class VeterinarianUser {
         this.phoneNumber = phoneNumber;
     }
 
-    public String[] getPetDetail ()
+    public PetDetail[] getPetDetail ()
     {
         return petDetail;
     }
 
-    public void setPetDetail (String[] petDetail)
+    public void setPetDetail (PetDetail[] petDetail)
     {
         this.petDetail = petDetail;
     }
@@ -369,6 +385,16 @@ public class VeterinarianUser {
     public void setNotificationNotifiedByNavigation (String[] notificationNotifiedByNavigation)
     {
         this.notificationNotifiedByNavigation = notificationNotifiedByNavigation;
+    }
+
+    public String[] getPetofySubscription ()
+    {
+        return petofySubscription;
+    }
+
+    public void setPetofySubscription (String[] petofySubscription)
+    {
+        this.petofySubscription = petofySubscription;
     }
 
     public String[] getPetTestsAndXreyCreatedByNavigation ()
@@ -724,7 +750,7 @@ public class VeterinarianUser {
     @Override
     public String toString()
     {
-        return "ClassPojo [forumSubTopic = "+forumSubTopic+", lastLogin = "+lastLogin+", petHospitalizationsSurgeriesUpdatedByNavigation = "+petHospitalizationsSurgeriesUpdatedByNavigation+", cityId = "+cityId+", isActive = "+isActive+", cart = "+cart+", petTestsAndXreyVeterinarianUser = "+petTestsAndXreyVeterinarianUser+", password = "+password+", latLong = "+latLong+", petLabworkUpdatedByNavigation = "+petLabworkUpdatedByNavigation+", productRating = "+productRating+", requestToNgo = "+requestToNgo+", petDonation = "+petDonation+", enableTwoStepVerification = "+enableTwoStepVerification+", eventCreatedByNavigation = "+eventCreatedByNavigation+", veterinaryStaffVeterinary = "+veterinaryStaffVeterinary+", veterinaryStaffStaff = "+veterinaryStaffStaff+", firstName = "+firstName+", petClinicVisitVeterinarianUser = "+petClinicVisitVeterinarianUser+", phoneNumber = "+phoneNumber+", petDetail = "+petDetail+", veterinarianAppointmentUser = "+veterinarianAppointmentUser+", lastName = "+lastName+", userNavigation = "+userNavigation+", notificationNotifiedByNavigation = "+notificationNotifiedByNavigation+", petTestsAndXreyCreatedByNavigation = "+petTestsAndXreyCreatedByNavigation+", city = "+city+", veterinarianPetRegister = "+veterinarianPetRegister+", forumTopic = "+forumTopic+", petLabworkVeterinarianUser = "+petLabworkVeterinarianUser+", isEmailVerified = "+isEmailVerified+", forumComment = "+forumComment+", provider = "+provider+", locationId = "+locationId+", petLabworkCreatedByNavigation = "+petLabworkCreatedByNavigation+", userSalt = "+userSalt+", forumDiscussion = "+forumDiscussion+", veterinarianAppointmentVeterinarianUser = "+veterinarianAppointmentVeterinarianUser+", email = "+email+", eventNgoUser = "+eventNgoUser+", isProvider = "+isProvider+", address = "+address+", petHospitalizationsSurgeriesVeterinarianUser = "+petHospitalizationsSurgeriesVeterinarianUser+", petTestsAndXreyUpdatedByNavigation = "+petTestsAndXreyUpdatedByNavigation+", userProfileDetail = "+userProfileDetail+", forumSubject = "+forumSubject+", userPermission = "+userPermission+", privacyPolicy = "+privacyPolicy+", petAdoption = "+petAdoption+", rescueInjuredAnimalNgo = "+rescueInjuredAnimalNgo+", rescueInjuredAnimalUser = "+rescueInjuredAnimalUser+", providerRating = "+providerRating+", userId = "+userId+", notificationNotifiedToNavigation = "+notificationNotifiedToNavigation+", petClinicVisitCreatedByNavigation = "+petClinicVisitCreatedByNavigation+", petClinicVisitUpdatedByNavigation = "+petClinicVisitUpdatedByNavigation+", isMobileNumberVerified = "+isMobileNumberVerified+", petHospitalizationsSurgeriesCreatedByNavigation = "+petHospitalizationsSurgeriesCreatedByNavigation+", userDeviceInformation = "+userDeviceInformation+", location = "+location+"]";
+        return "ClassPojo [forumSubTopic = "+forumSubTopic+", lastLogin = "+lastLogin+", petHospitalizationsSurgeriesUpdatedByNavigation = "+petHospitalizationsSurgeriesUpdatedByNavigation+", cityId = "+cityId+", isActive = "+isActive+", cart = "+cart+", petTestsAndXreyVeterinarianUser = "+petTestsAndXreyVeterinarianUser+", password = "+password+", latLong = "+latLong+", registrationDate = "+registrationDate+", petLabworkUpdatedByNavigation = "+petLabworkUpdatedByNavigation+", productRating = "+productRating+", requestToNgo = "+requestToNgo+", petDonation = "+petDonation+", enableTwoStepVerification = "+enableTwoStepVerification+", eventCreatedByNavigation = "+eventCreatedByNavigation+", veterinaryStaffVeterinary = "+veterinaryStaffVeterinary+", veterinaryStaffStaff = "+veterinaryStaffStaff+", firstName = "+firstName+", petClinicVisitVeterinarianUser = "+petClinicVisitVeterinarianUser+", phoneNumber = "+phoneNumber+", petDetail = "+petDetail+", veterinarianAppointmentUser = "+veterinarianAppointmentUser+", lastName = "+lastName+", userNavigation = "+userNavigation+", notificationNotifiedByNavigation = "+notificationNotifiedByNavigation+", petofySubscription = "+petofySubscription+", petTestsAndXreyCreatedByNavigation = "+petTestsAndXreyCreatedByNavigation+", city = "+city+", veterinarianPetRegister = "+veterinarianPetRegister+", forumTopic = "+forumTopic+", petLabworkVeterinarianUser = "+petLabworkVeterinarianUser+", isEmailVerified = "+isEmailVerified+", forumComment = "+forumComment+", provider = "+provider+", locationId = "+locationId+", petLabworkCreatedByNavigation = "+petLabworkCreatedByNavigation+", userSalt = "+userSalt+", forumDiscussion = "+forumDiscussion+", veterinarianAppointmentVeterinarianUser = "+veterinarianAppointmentVeterinarianUser+", email = "+email+", eventNgoUser = "+eventNgoUser+", isProvider = "+isProvider+", address = "+address+", petHospitalizationsSurgeriesVeterinarianUser = "+petHospitalizationsSurgeriesVeterinarianUser+", petTestsAndXreyUpdatedByNavigation = "+petTestsAndXreyUpdatedByNavigation+", userProfileDetail = "+userProfileDetail+", forumSubject = "+forumSubject+", userPermission = "+userPermission+", privacyPolicy = "+privacyPolicy+", petAdoption = "+petAdoption+", rescueInjuredAnimalNgo = "+rescueInjuredAnimalNgo+", rescueInjuredAnimalUser = "+rescueInjuredAnimalUser+", providerRating = "+providerRating+", userId = "+userId+", notificationNotifiedToNavigation = "+notificationNotifiedToNavigation+", petClinicVisitCreatedByNavigation = "+petClinicVisitCreatedByNavigation+", petClinicVisitUpdatedByNavigation = "+petClinicVisitUpdatedByNavigation+", isMobileNumberVerified = "+isMobileNumberVerified+", petHospitalizationsSurgeriesCreatedByNavigation = "+petHospitalizationsSurgeriesCreatedByNavigation+", userDeviceInformation = "+userDeviceInformation+", location = "+location+"]";
     }
 }
 			

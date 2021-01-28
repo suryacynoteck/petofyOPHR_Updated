@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -38,7 +37,6 @@
                 android:textColor="@color/black_color"
                 android:textSize="20dp"
                 android:textStyle="bold"/>
-
 
 
             <ImageView
@@ -508,15 +506,13 @@
             <EditText
                 android:id="@+id/description_ET"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="100dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
                 android:background="@drawable/edit_text_background"
                 android:gravity="center_vertical"
                 android:hint="Description Problem / illness*"
                 android:inputType="text"
-                android:maxLines="1"
                 android:paddingLeft="25dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -539,7 +535,7 @@
             <EditText
                 android:id="@+id/history_ET"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="100dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
@@ -547,7 +543,6 @@
                 android:gravity="center_vertical"
                 android:hint="History"
                 android:inputType="text"
-                android:maxLines="1"
                 android:paddingLeft="25dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -590,12 +585,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
                 android:text="Temperature(F)"
                 android:textColor="@color/grey_add_pet"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/weight_ET" />
 
@@ -688,9 +682,7 @@
                      app:layout_constraintTop_toBottomOf="@id/vaccine_TV" />
 
  -->
-
                 <TextView
-                    android:visibility="gone"
                     android:id="@+id/add_immunization_data_added"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -742,6 +734,7 @@
                         android:textColor="@color/black_color"
                         android:gravity="center"/>
 
+
                     <TextView
                         android:layout_width="0dp"
                         android:layout_weight="1.5"
@@ -774,7 +767,7 @@
             </LinearLayout>
 
             <TextView
-                android:visibility="gone"
+                android:visibility="visible"
                 android:id="@+id/Dewormer_TV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -790,7 +783,7 @@
             <LinearLayout
                 android:id="@+id/deworming_name_Layout"
                 android:layout_width="0dp"
-                android:layout_height="150dp"
+                android:layout_height="50dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
@@ -800,20 +793,21 @@
                 app:layout_constraintTop_toBottomOf="@id/Dewormer_TV"
                 android:orientation="vertical">
 
-                <AutoCompleteTextView
+                <MultiAutoCompleteTextView
                     android:id="@+id/deworming_AC"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_marginTop="10dp"
+                    android:paddingBottom="10dp"
                     android:gravity="center_vertical"
-                    android:hint="Find Dewormer name*"
-                    android:inputType="text"
-                    android:maxLines="1"
+                    android:hint="Dewormer name*"
                     android:paddingLeft="25dp"
-                    android:textColor="@color/grey_add_pet"
-                    android:layout_marginLeft="20dp"  />
+                    android:inputType="text"
+                    android:background="@null"
+                    android:maxLines="1"
+                    android:textColor="@color/grey_add_pet" />
 
                 <EditText
+                    android:visibility="gone"
                     android:id="@+id/Dewormer_ET"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -826,7 +820,7 @@
 
 
             <TextView
-                android:visibility="gone"
+                android:visibility="visible"
                 android:id="@+id/Dewormer_name_TV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -842,7 +836,7 @@
             <LinearLayout
                 android:id="@+id/deworming_dose_Layout"
                 android:layout_width="0dp"
-                android:layout_height="150dp"
+                android:layout_height="50dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
@@ -852,20 +846,20 @@
                 app:layout_constraintTop_toBottomOf="@id/Dewormer_name_TV"
                 android:orientation="vertical">
 
-                <AutoCompleteTextView
+                <MultiAutoCompleteTextView
                     android:id="@+id/deworming_dose_AC"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_marginTop="10dp"
                     android:gravity="center_vertical"
-                    android:hint="Find Dewormer Dose*"
+                    android:hint="Dewormer Dose*"
                     android:inputType="text"
-                    android:maxLines="1"
-                    android:paddingLeft="25dp"
-                    android:textColor="@color/grey_add_pet"
-                    android:layout_marginLeft="20dp"/>
+                    android:paddingLeft="20dp"
+                    android:paddingBottom="10dp"
+                    android:background="@null"
+                    android:textColor="@color/grey_add_pet" />
 
                 <EditText
+                    android:visibility="gone"
                     android:id="@+id/Dewormer_name_ET"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -878,6 +872,7 @@
 
 
             <TextView
+                android:visibility="visible"
                 android:id="@+id/diagnosis_TV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -891,9 +886,10 @@
                 app:layout_constraintTop_toBottomOf="@id/deworming_dose_Layout" />
 
             <LinearLayout
+                android:visibility="visible"
                 android:id="@+id/diagnosis_Layout"
                 android:layout_width="0dp"
-                android:layout_height="150dp"
+                android:layout_height="100dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="10dp"
@@ -903,21 +899,22 @@
                 app:layout_constraintTop_toBottomOf="@id/diagnosis_TV"
                 android:orientation="vertical">
 
-                <AutoCompleteTextView
+                <MultiAutoCompleteTextView
+                    android:background="@null"
+                    android:singleLine="false"
                     android:id="@+id/diagnosis_ET"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="100dp"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginTop="10dp"
                     android:gravity="center_vertical"
                     android:hint="Find Diagnosis*"
                     android:inputType="text"
-                    android:maxLines="1"
-                    android:paddingLeft="25dp"
+                    android:paddingLeft="20dp"
                     android:textColor="@color/grey_add_pet"
                     />
 
                 <EditText
+                    android:visibility="gone"
                     android:id="@+id/diagnosis_result"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -934,6 +931,7 @@
 
 
             <TextView
+                android:visibility="visible"
                 android:id="@+id/treatment_remaks_TV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -948,16 +946,16 @@
 
 
             <LinearLayout
+                android:visibility="visible"
                 android:id="@+id/treatment_remarks_LL"
                 android:layout_width="0dp"
-                android:layout_height="150dp"
+                android:layout_height="100dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edit_text_background"
                 android:gravity="center_vertical"
                 android:inputType="text"
-                android:maxLines="1"
                 android:paddingLeft="25dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -965,15 +963,17 @@
                 android:orientation="vertical">
 
                 <MultiAutoCompleteTextView
+                    android:singleLine="false"
                     android:id="@+id/clinicTreatment_remarks_MT"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_height="100dp"
+                    android:background="@null"
                     android:hint="Find Treatment Remarks"
                     android:gravity="center_vertical"
-                    android:paddingLeft="25dp"/>
+                    android:paddingLeft="20dp"/>
 
                 <EditText
+                    android:visibility="gone"
                     android:id="@+id/remaks_TV"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -1001,14 +1001,13 @@
             <EditText
                 android:id="@+id/remarks_ET"
                 android:layout_width="0dp"
-                android:layout_height="120dp"
+                android:layout_height="100dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edit_text_background"
                 android:gravity="center_vertical"
                 android:hint="Remarks*"
                 android:inputType="text"
-                android:maxLines="1"
                 android:paddingLeft="25dp"
                 android:layout_marginRight="20dp"
                 android:textColor="@color/grey_add_pet"

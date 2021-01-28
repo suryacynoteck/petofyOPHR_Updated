@@ -298,6 +298,80 @@
                 android:layout_height="65dp">
 
                 <RelativeLayout
+                    android:id="@+id/immunization_master_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:textColor="@color/black_color"
+                        android:textSize="20sp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_alignParentStart="true"
+                        android:gravity="center_vertical"
+                        android:text="Immunization Master"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+
+                    <ImageView
+                        android:layout_alignParentEnd="true"
+                        android:padding="10dp"
+                        android:src="@drawable/forward_arrow"
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent"/>
+
+                </RelativeLayout>
+
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+                app:cardElevation="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="65dp">
+
+                <RelativeLayout
+                    android:id="@+id/bank_accounts_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:textColor="@color/black_color"
+                        android:textSize="20sp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_alignParentStart="true"
+                        android:gravity="center_vertical"
+                        android:text="Bank Accounts"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+
+                    <ImageView
+                        android:layout_alignParentEnd="true"
+                        android:padding="10dp"
+                        android:src="@drawable/forward_arrow"
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent"/>
+
+                </RelativeLayout>
+
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+                app:cardElevation="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="65dp">
+
+                <RelativeLayout
                     android:id="@+id/setings_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">

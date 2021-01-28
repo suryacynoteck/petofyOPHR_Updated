@@ -211,6 +211,7 @@
                 android:background="@drawable/cal_background"/>
 
             <TextView
+                android:visibility="gone"
                 android:layout_below="@id/calenderTextViewDetails"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -222,6 +223,7 @@
                 android:textColor="@color/grey_add_pet"/>
 
             <androidx.appcompat.widget.AppCompatSpinner
+                android:visibility="gone"
                 android:layout_below="@id/add_pet_size_TV"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="20dp"

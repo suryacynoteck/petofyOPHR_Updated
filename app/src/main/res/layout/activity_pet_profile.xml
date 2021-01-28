@@ -27,6 +27,17 @@
             android:textSize="20sp"
             android:textStyle="bold"/>
 
+
+        <ImageView
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/back_arrow_IV"
+            android:padding="8dp"
+            android:visibility="visible"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/back_arrow" />
+
     </com.google.android.material.card.MaterialCardView>
 
     <ScrollView
@@ -135,7 +146,7 @@
                         <ImageView
                             android:id="@+id/pet_profile_image_IV"
                             android:scaleType="fitXY"
-                            android:src="@drawable/dog"
+                            android:src="@drawable/logo_petofy"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"/>
 
@@ -160,7 +171,7 @@
                 app:cardElevation="5dp"
                 android:layout_marginTop="20dp"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/vet_info_CV">

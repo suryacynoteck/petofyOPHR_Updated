@@ -6,40 +6,57 @@ import com.cynoteck.petofyOPHR.response.Response;
 import java.util.ArrayList;
 
 public class SearchDiagnosisResponseData {
-    private Header header;
-    private ArrayList<String> data = null;
-    private Response response;
+    private ArrayList<String> dewormerDose;
 
-    public Header getHeader() {
-        return header;
+    private ArrayList<String> treammentRemarks;
+
+    private ArrayList<String> diagnosis;
+
+    private ArrayList<String> dewormer;
+
+    public ArrayList<String> getDewormerDose ()
+    {
+        return dewormerDose;
     }
 
-    public void setHeader(Header header) {
-        this.header = header;
+    public void setDewormerDose (ArrayList<String> dewormerDose)
+    {
+        this.dewormerDose = dewormerDose;
     }
 
-    public ArrayList<String> getData() {
-        return data;
+    public ArrayList<String> getTreammentRemarks ()
+    {
+        return treammentRemarks;
     }
 
-    public void setData(ArrayList<String> data) {
-        this.data = data;
+    public void setTreammentRemarks (ArrayList<String> treammentRemarks)
+    {
+        this.treammentRemarks = treammentRemarks;
     }
 
-    public Response getResponse() {
-        return response;
+    public ArrayList<String> getDiagnosis ()
+    {
+        return diagnosis;
     }
 
-    public void setResponse(Response response) {
-        this.response = response;
+    public void setDiagnosis (ArrayList<String> diagnosis)
+    {
+        this.diagnosis = diagnosis;
+    }
+
+    public ArrayList<String> getDewormer ()
+    {
+        return dewormer;
+    }
+
+    public void setDewormer (ArrayList<String> dewormer)
+    {
+        this.dewormer = dewormer;
     }
 
     @Override
-    public String toString() {
-        return "ClassPojo[" +
-                "header= " + header +
-                ", data= " + data +
-                ", response= " + response +
-                "]";
+    public String toString()
+    {
+        return "ClassPojo [dewormerDose = "+dewormerDose+", treammentRemarks = "+treammentRemarks+", diagnosis = "+diagnosis+", dewormer = "+dewormer+"]";
     }
 }

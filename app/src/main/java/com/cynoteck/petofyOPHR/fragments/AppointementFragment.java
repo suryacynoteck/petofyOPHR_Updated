@@ -104,8 +104,7 @@ public class AppointementFragment extends Fragment implements ApiResponse ,View.
         appointmentStatusParams.setStatus(status);
         AppointmentsStatusRequest appointmentsStatusRequest = new AppointmentsStatusRequest();
         appointmentsStatusRequest.setData(appointmentStatusParams);
-        Log.d("Statusrequest",appointmentsStatusRequest.toString());
-
+        Log.d("Statusrequest",methods.getRequestJson(appointmentsStatusRequest));
         ApiService<AppointmentStatusResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().appointmentApproveReject(Config.token,appointmentsStatusRequest), "Status");
 
@@ -155,7 +154,7 @@ public class AppointementFragment extends Fragment implements ApiResponse ,View.
                                     intent.putExtra("id",appointmentLists.get(position).getId());
                                     intent.putExtra("pet_id",appointmentLists.get(position).getPetId());
                                     intent.putExtra("petParent",appointmentLists.get(position).getPetUniqueId());
-                                    if(appointmentLists.get(position).getPaymentStatus().equals("true")) {
+                                    if(appointmentLists.get(position).getPaymentStatus().equals("false")) {
                                         startActivity(intent);
                                     }
                                 }
@@ -301,7 +300,7 @@ public class AppointementFragment extends Fragment implements ApiResponse ,View.
 
     @Override
     public void onError(Throwable t, String key) {
-
+        Log.e("ERROR",t.getLocalizedMessage());
     }
 
 

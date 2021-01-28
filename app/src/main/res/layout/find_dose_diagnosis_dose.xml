@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@color/grey_transparent"
+    android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/whiteColor">
+
+        <TextView
+            android:id="@+id/find_doses_dewormer_diagnosis_TV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"/>
+
+        <LinearLayout
+            android:id="@+id/pet_search_layout"
+            android:layout_width="match_parent"
+            android:weightSum="2"
+            android:layout_height="50dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:orientation="horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/edit_text_background">
+
+            <AutoCompleteTextView
+                android:gravity="center_vertical"
+                android:imeOptions="actionSearch"
+                android:singleLine="true"
+                android:id="@+id/pet_parent_ACTV"
+                android:hint="Search Pet by Pet ID,Name..(if already added)"
+                android:background="@null"
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_marginLeft="5dp"
+                android:textSize="14sp"
+                android:layout_weight="1.7" />
+
+            <ImageView
+                android:gravity="center_vertical"
+                android:visibility="visible"
+                android:id="@+id/new_pet_search"
+                android:layout_width="0dp"
+                android:layout_weight=".3"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                android:src="@drawable/searchicon" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/list_background"
+            tools:ignore="MissingConstraints"
+            android:layout_marginTop="10dp"/>
+
+    </LinearLayout>
+
+
+
+
+
+
+</LinearLayout>

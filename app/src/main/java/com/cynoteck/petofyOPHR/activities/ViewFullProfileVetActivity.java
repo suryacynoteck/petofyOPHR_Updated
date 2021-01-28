@@ -75,7 +75,7 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
     SharedPreferences.Editor login_editor;
     ImageView vet_image_CIV;
     TextView vet_name_TV, vet_office_TV,vet_study_TV, vet_id_TV,vet_details_TV,phone_one,phone_two,vet_email_id_TV,address_line_one_TV,address_line_two_TV,link_one_TV,link_two_TV;
-    ImageView image_one, image_two, image_three, image_four,image_five,edit_image;
+    ImageView image_one, image_two, image_three, image_four,image_five,edit_image,back_arrow_IV;
     SwitchCompat online_switch;
     Methods methods;
     UserResponse userResponse;
@@ -379,7 +379,9 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
         image_five = findViewById(R.id.image_five);
         online_switch = findViewById(R.id.online_switch);
         edit_image=findViewById(R.id.edit_image);
+        back_arrow_IV=findViewById(R.id.back_arrow_IV);
 
+        back_arrow_IV.setOnClickListener(this);
         edit_image.setOnClickListener(this);
         vet_image_CIV.setOnClickListener(this);
         image_one.setOnClickListener(this);
@@ -564,15 +566,6 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
     }
 
     private void setPetType() {
-//        for(int i=0; i<userResponse.getData().getServiceTypeList().size(); i++){
-//            Log.d("petttt",""+userResponse.getData().getServiceTypeList().get(i).getText());
-//            petCategory[i] = userResponse.getData().getServiceTypeList().get(i).getText();
-//            categoryHasmap.put(userResponse.getData().getServiceTypeList().get(i).getText(),userResponse.getData().getServiceTypeList().get(i).getValue());
-//        }
-//        chkItems=new boolean[petCategory.length];
-//        Log.d("CheckBox chkItems",chkItems.toString());
-//        Log.d("CheckBox petCategory ",petCategory.toString());
-//        Log.d("CheckBox Hasmap",categoryHasmap.toString());
         pet_type_RV.setLayoutManager(new GridLayoutManager(this, 2));
         petTypeListAdapter  = new PetTypeListAdapter(this,userResponse.getData().getPetTypeList());
         pet_type_RV.setAdapter(petTypeListAdapter);
@@ -629,6 +622,11 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
     public void onClick(View v) {
 
         switch (v.getId()){
+
+            case R.id.back_arrow_IV:
+                onBackPressed();
+                break;
+
 
             case R.id.vet_image_CIV:
                 showPictureDialog();

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -148,9 +149,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
             @Override
             public void afterTextChanged(Editable editable) {
                 Log.d("dataChange","afterTextChanged"+new String(editable.toString()));
-                String value=editable.toString();
+                final String value=editable.toString();
                 if (methods.isInternetOn()){
-                    getPetList(value);
+                            getPetList(value);
                 }else {
                     methods.DialogInternet();
                 }
@@ -173,7 +174,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
                 String Id = st.nextToken();
                 String pet_DOB = st.nextToken();
                 String pet_encrypted_id = st.nextToken();
-                Log.d("ppppp",""+PetUniqueId+" "+PetName+" "+PetParentName+" "+PetSex+" "+PetAge+" "+Id+" "+pet_DOB+" "+pet_encrypted_id);
+                String pet_cat_id = st.nextToken();
+                Log.d("ppppp",""+PetUniqueId+" "+PetName+" "+PetParentName+" "+PetSex+" "+PetAge+" "+Id+" "+pet_DOB+" "+pet_encrypted_id+" "+pet_cat_id);
                 Intent petDetailsIntent = new Intent(getActivity().getApplication(), PetDetailsActivity.class);
                 Bundle data = new Bundle();
                 data.putString("pet_id",Id);
@@ -184,6 +186,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
                 data.putString("pet_unique_id",PetUniqueId);
                 data.putString("pet_DOB",pet_DOB);
                 data.putString("pet_encrypted_id",pet_encrypted_id);
+                data.putString("pet_cat_id",pet_cat_id);
                 petDetailsIntent.putExtras(data);
                 startActivity(petDetailsIntent);
                 clearSearch();
@@ -224,7 +227,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
                             String Id = st.nextToken();
                             String pet_DOB = st.nextToken();
                             String pet_encrypted_id = st.nextToken();
-                            Log.d("ppppp",""+PetUniqueId+" "+PetName+" "+PetParentName+" "+PetSex+" "+petAge+" "+Id+" "+pet_DOB+" "+pet_encrypted_id);
+                            String pet_cat_id = st.nextToken();
+                            Log.d("ppppp",""+PetUniqueId+" "+PetName+" "+PetParentName+" "+PetSex+" "+petAge+" "+Id+" "+pet_DOB+" "+pet_encrypted_id+" "+pet_cat_id);
                             Intent petDetailsIntent = new Intent(getActivity().getApplication(), PetDetailsActivity.class);
                             Bundle data = new Bundle();
                             data.putString("pet_id",Id);
@@ -235,6 +239,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
                             data.putString("pet_unique_id",PetUniqueId);
                             data.putString("pet_DOB",pet_DOB);
                             data.putString("pet_encrypted_id",pet_encrypted_id);
+                            data.putString("pet_cat_id",pet_cat_id);
                             petDetailsIntent.putExtras(data);
                             startActivity(petDetailsIntent);
                         }
@@ -422,7 +427,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
 
         ApiService<GetPetListResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().getPetList(Config.token,getPetDataRequest), "GetPetList");
-        Log.e("DATALOG","check1=> "+getPetDataRequest);
+        Log.e("DATALOG","check1=> "+methods.getRequestJson(getPetDataRequest));
 
 
     }
@@ -471,7 +476,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
                                             + getPetListResponse.getData().getPetList().get(i).getPetAge() + ","
                                             + getPetListResponse.getData().getPetList().get(i).getId() + ","
                                             + getPetListResponse.getData().getPetList().get(i).getDateOfBirth() + ","
-                                            + getPetListResponse.getData().getPetList().get(i).getEncryptedId());
+                                            + getPetListResponse.getData().getPetList().get(i).getEncryptedId() +","
+                                            +getPetListResponse.getData().getPetList().get(i).getPetCategoryId());
                         }
 
                         Log.d("jajajajjaja", "" + petUniueId.size() + " \n" + petUniueId.toString());

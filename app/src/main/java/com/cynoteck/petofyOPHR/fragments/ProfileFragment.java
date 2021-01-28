@@ -20,6 +20,8 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.cynoteck.petofyOPHR.R;
 import com.cynoteck.petofyOPHR.activities.ChangePasswordActivity;
+import com.cynoteck.petofyOPHR.activities.GetAllBankAccountsActivity;
+import com.cynoteck.petofyOPHR.activities.ImmunizationChartActivity;
 import com.cynoteck.petofyOPHR.activities.LoginActivity;
 import com.cynoteck.petofyOPHR.activities.OperatingHoursActivity;
 import com.cynoteck.petofyOPHR.activities.SettingActivity;
@@ -46,7 +48,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, A
     ImageView vet_profile_pic;
     SwitchCompat online_switch;
     View view;
-    RelativeLayout veterian_full_profile_layout,operating_hrs_layout,setings_layout,logout_layout,changePass_layout;
+    RelativeLayout veterian_full_profile_layout,operating_hrs_layout,setings_layout,logout_layout,changePass_layout,immunization_master_layout,bank_accounts_layout;
     String status;
     public ProfileFragment() {
         // Required empty public constructor
@@ -121,26 +123,38 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, A
         vet_id_TV = view.findViewById(R.id.vet_id_TV);
         vet_profile_pic = view.findViewById(R.id.vet_profile_pic);
         online_switch = view.findViewById(R.id.online_switch);
+        immunization_master_layout=view.findViewById(R.id.immunization_master_layout);
+        bank_accounts_layout=view.findViewById(R.id.bank_accounts_layout);
 
+        immunization_master_layout.setOnClickListener(this);
         veterian_full_profile_layout.setOnClickListener(this);
         operating_hrs_layout.setOnClickListener(this);
         setings_layout.setOnClickListener(this);
         logout_layout.setOnClickListener(this);
         changePass_layout.setOnClickListener(this);
+        bank_accounts_layout.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId())
         {
+            case R.id.bank_accounts_layout:
+                Intent  bank_accounts_intent = new Intent(getContext(), GetAllBankAccountsActivity.class);
+                startActivity(bank_accounts_intent);
+                break;
+            case R.id.immunization_master_layout:
+                Intent immunization_master_intent = new Intent(getContext(), ImmunizationChartActivity.class);
+                startActivity(immunization_master_intent);
+                break;
             case R.id.changePass_layout:
 
-                Intent changePass = new Intent(getContext(), ChangePasswordActivity.class);
-                startActivity(changePass);
+                Intent changePass_intent = new Intent(getContext(), ChangePasswordActivity.class);
+                startActivity(changePass_intent);
                 break;
             case R.id.veterian_full_profile_layout:
-                Intent intent = new Intent(getContext(), ViewFullProfileVetActivity.class);
-                startActivity(intent);
+                Intent veterian_full_profile_intent = new Intent(getContext(), ViewFullProfileVetActivity.class);
+                startActivity(veterian_full_profile_intent);
                 break;
 
             case R.id.operating_hrs_layout:

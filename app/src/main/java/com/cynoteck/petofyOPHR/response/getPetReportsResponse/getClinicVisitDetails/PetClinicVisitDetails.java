@@ -9,37 +9,21 @@ public class PetClinicVisitDetails
 {
     private String natureOfVisitList;
 
-    private String petId;
+    private String viewPermission;
+
+    private String dewormerDose;
 
     private String petAge;
 
     private String documents;
 
-    private CreatedByUser createdByUser;
-
-    private String description;
-
     private String weightOz;
-
-    private String followUpId;
 
     private PetAgeList[] petAgeList;
 
     private String[] vaccinationModels;
 
-    private String createdOn;
-
-    private String petName;
-
-    private FollowUp followUp;
-
-    private String dateOfOnset;
-
     private String petParentName;
-
-    private String temperature;
-
-    private String treatmentRemarks;
 
     private String visitDate;
 
@@ -47,13 +31,9 @@ public class PetClinicVisitDetails
 
     private String id;
 
-    private String petUniqueId;
-
     private String pet;
 
     private UpdatedByUser updatedByUser;
-
-    private String weightLbs;
 
     private String petSex;
 
@@ -61,15 +41,57 @@ public class PetClinicVisitDetails
 
     private String followUpList;
 
-    private String updatedOn;
+    private String history;
 
-    private String veterinarianUserId;
+    private String updatedOn;
 
     private NatureOfVisit natureOfVisit;
 
-    private String dewormerName;
+    private String encryptedPetId;
+
+    private String symptoms;
 
     private String followUpDate;
+
+    private String appointmentId;
+
+    private String isReminderSent;
+
+    private String optionalVaccine;
+
+    private String petId;
+
+    private CreatedByUser createdByUser;
+
+    private String description;
+
+    private String followUpId;
+
+    private String createdOn;
+
+    private String petName;
+
+    private String followUp;
+
+    private String nextVaccineName;
+
+    private String dateOfOnset;
+
+    private String contactNumber;
+
+    private String temperature;
+
+    private String treatmentRemarks;
+
+    private String petUniqueId;
+
+    private String nextVaccineType;
+
+    private String weightLbs;
+
+    private String veterinarianUserId;
+
+    private String dewormerName;
 
     private String vaccine;
 
@@ -81,7 +103,11 @@ public class PetClinicVisitDetails
 
     private String veterinarian;
 
-    private String optionalVaccine;
+    private String petDOB;
+
+    private String remarks;
+
+    private String navStatus;
 
     public String getNatureOfVisitList ()
 {
@@ -93,14 +119,24 @@ public class PetClinicVisitDetails
         this.natureOfVisitList = natureOfVisitList;
     }
 
-    public String getPetId ()
+    public String getViewPermission ()
     {
-        return petId;
+        return viewPermission;
     }
 
-    public void setPetId (String petId)
+    public void setViewPermission (String viewPermission)
     {
-        this.petId = petId;
+        this.viewPermission = viewPermission;
+    }
+
+    public String getDewormerDose ()
+{
+    return dewormerDose;
+}
+
+    public void setDewormerDose (String dewormerDose)
+    {
+        this.dewormerDose = dewormerDose;
     }
 
     public String getPetAge ()
@@ -114,53 +150,23 @@ public class PetClinicVisitDetails
     }
 
     public String getDocuments ()
-{
-    return documents;
-}
+    {
+        return documents;
+    }
 
     public void setDocuments (String documents)
     {
         this.documents = documents;
     }
 
-    public CreatedByUser getCreatedByUser ()
-    {
-        return createdByUser;
-    }
-
-    public void setCreatedByUser (CreatedByUser createdByUser)
-    {
-        this.createdByUser = createdByUser;
-    }
-
-    public String getDescription ()
-    {
-        return description;
-    }
-
-    public void setDescription (String description)
-    {
-        this.description = description;
-    }
-
     public String getWeightOz ()
-{
-    return weightOz;
-}
+    {
+        return weightOz;
+    }
 
     public void setWeightOz (String weightOz)
     {
         this.weightOz = weightOz;
-    }
-
-    public String getFollowUpId ()
-{
-    return followUpId;
-}
-
-    public void setFollowUpId (String followUpId)
-    {
-        this.followUpId = followUpId;
     }
 
     public PetAgeList[] getPetAgeList ()
@@ -183,46 +189,6 @@ public class PetClinicVisitDetails
         this.vaccinationModels = vaccinationModels;
     }
 
-    public String getCreatedOn ()
-    {
-        return createdOn;
-    }
-
-    public void setCreatedOn (String createdOn)
-    {
-        this.createdOn = createdOn;
-    }
-
-    public String getPetName ()
-    {
-        return petName;
-    }
-
-    public void setPetName (String petName)
-    {
-        this.petName = petName;
-    }
-
-    public FollowUp getFollowUp ()
-{
-    return followUp;
-}
-
-    public void setFollowUp (FollowUp followUp)
-    {
-        this.followUp = followUp;
-    }
-
-    public String getDateOfOnset ()
-    {
-        return dateOfOnset;
-    }
-
-    public void setDateOfOnset (String dateOfOnset)
-    {
-        this.dateOfOnset = dateOfOnset;
-    }
-
     public String getPetParentName ()
     {
         return petParentName;
@@ -231,26 +197,6 @@ public class PetClinicVisitDetails
     public void setPetParentName (String petParentName)
     {
         this.petParentName = petParentName;
-    }
-
-    public String getTemperature ()
-    {
-        return temperature;
-    }
-
-    public void setTemperature (String temperature)
-    {
-        this.temperature = temperature;
-    }
-
-    public String getTreatmentRemarks ()
-    {
-        return treatmentRemarks;
-    }
-
-    public void setTreatmentRemarks (String treatmentRemarks)
-    {
-        this.treatmentRemarks = treatmentRemarks;
     }
 
     public String getVisitDate ()
@@ -283,16 +229,6 @@ public class PetClinicVisitDetails
         this.id = id;
     }
 
-    public String getPetUniqueId ()
-    {
-        return petUniqueId;
-    }
-
-    public void setPetUniqueId (String petUniqueId)
-    {
-        this.petUniqueId = petUniqueId;
-    }
-
     public String getPet ()
 {
     return pet;
@@ -311,16 +247,6 @@ public class PetClinicVisitDetails
     public void setUpdatedByUser (UpdatedByUser updatedByUser)
     {
         this.updatedByUser = updatedByUser;
-    }
-
-    public String getWeightLbs ()
-    {
-        return weightLbs;
-    }
-
-    public void setWeightLbs (String weightLbs)
-    {
-        this.weightLbs = weightLbs;
     }
 
     public String getPetSex ()
@@ -353,6 +279,16 @@ public class PetClinicVisitDetails
         this.followUpList = followUpList;
     }
 
+    public String getHistory ()
+    {
+        return history;
+    }
+
+    public void setHistory (String history)
+    {
+        this.history = history;
+    }
+
     public String getUpdatedOn ()
     {
         return updatedOn;
@@ -361,16 +297,6 @@ public class PetClinicVisitDetails
     public void setUpdatedOn (String updatedOn)
     {
         this.updatedOn = updatedOn;
-    }
-
-    public String getVeterinarianUserId ()
-{
-    return veterinarianUserId;
-}
-
-    public void setVeterinarianUserId (String veterinarianUserId)
-    {
-        this.veterinarianUserId = veterinarianUserId;
     }
 
     public NatureOfVisit getNatureOfVisit ()
@@ -383,14 +309,24 @@ public class PetClinicVisitDetails
         this.natureOfVisit = natureOfVisit;
     }
 
-    public String getDewormerName ()
+    public String getEncryptedPetId ()
+    {
+        return encryptedPetId;
+    }
+
+    public void setEncryptedPetId (String encryptedPetId)
+    {
+        this.encryptedPetId = encryptedPetId;
+    }
+
+    public String getSymptoms ()
 {
-    return dewormerName;
+    return symptoms;
 }
 
-    public void setDewormerName (String dewormerName)
+    public void setSymptoms (String symptoms)
     {
-        this.dewormerName = dewormerName;
+        this.symptoms = symptoms;
     }
 
     public String getFollowUpDate ()
@@ -403,10 +339,210 @@ public class PetClinicVisitDetails
         this.followUpDate = followUpDate;
     }
 
-    public String getVaccine ()
+    public String getAppointmentId ()
+    {
+        return appointmentId;
+    }
+
+    public void setAppointmentId (String appointmentId)
+    {
+        this.appointmentId = appointmentId;
+    }
+
+    public String getIsReminderSent ()
+    {
+        return isReminderSent;
+    }
+
+    public void setIsReminderSent (String isReminderSent)
+    {
+        this.isReminderSent = isReminderSent;
+    }
+
+    public String getOptionalVaccine ()
 {
-    return vaccine;
+    return optionalVaccine;
 }
+
+    public void setOptionalVaccine (String optionalVaccine)
+    {
+        this.optionalVaccine = optionalVaccine;
+    }
+
+    public String getPetId ()
+    {
+        return petId;
+    }
+
+    public void setPetId (String petId)
+    {
+        this.petId = petId;
+    }
+
+    public CreatedByUser getCreatedByUser ()
+    {
+        return createdByUser;
+    }
+
+    public void setCreatedByUser (CreatedByUser createdByUser)
+    {
+        this.createdByUser = createdByUser;
+    }
+
+    public String getDescription ()
+    {
+        return description;
+    }
+
+    public void setDescription (String description)
+    {
+        this.description = description;
+    }
+
+    public String getFollowUpId ()
+{
+    return followUpId;
+}
+
+    public void setFollowUpId (String followUpId)
+    {
+        this.followUpId = followUpId;
+    }
+
+    public String getCreatedOn ()
+    {
+        return createdOn;
+    }
+
+    public void setCreatedOn (String createdOn)
+    {
+        this.createdOn = createdOn;
+    }
+
+    public String getPetName ()
+    {
+        return petName;
+    }
+
+    public void setPetName (String petName)
+    {
+        this.petName = petName;
+    }
+
+    public String getFollowUp ()
+{
+    return followUp;
+}
+
+    public void setFollowUp (String followUp)
+    {
+        this.followUp = followUp;
+    }
+
+    public String getNextVaccineName ()
+    {
+        return nextVaccineName;
+    }
+
+    public void setNextVaccineName (String nextVaccineName)
+    {
+        this.nextVaccineName = nextVaccineName;
+    }
+
+    public String getDateOfOnset ()
+    {
+        return dateOfOnset;
+    }
+
+    public void setDateOfOnset (String dateOfOnset)
+    {
+        this.dateOfOnset = dateOfOnset;
+    }
+
+    public String getContactNumber ()
+{
+    return contactNumber;
+}
+
+    public void setContactNumber (String contactNumber)
+    {
+        this.contactNumber = contactNumber;
+    }
+
+    public String getTemperature ()
+    {
+        return temperature;
+    }
+
+    public void setTemperature (String temperature)
+    {
+        this.temperature = temperature;
+    }
+
+    public String getTreatmentRemarks ()
+    {
+        return treatmentRemarks;
+    }
+
+    public void setTreatmentRemarks (String treatmentRemarks)
+    {
+        this.treatmentRemarks = treatmentRemarks;
+    }
+
+    public String getPetUniqueId ()
+    {
+        return petUniqueId;
+    }
+
+    public void setPetUniqueId (String petUniqueId)
+    {
+        this.petUniqueId = petUniqueId;
+    }
+
+    public String getNextVaccineType ()
+    {
+        return nextVaccineType;
+    }
+
+    public void setNextVaccineType (String nextVaccineType)
+    {
+        this.nextVaccineType = nextVaccineType;
+    }
+
+    public String getWeightLbs ()
+    {
+        return weightLbs;
+    }
+
+    public void setWeightLbs (String weightLbs)
+    {
+        this.weightLbs = weightLbs;
+    }
+
+    public String getVeterinarianUserId ()
+{
+    return veterinarianUserId;
+}
+
+    public void setVeterinarianUserId (String veterinarianUserId)
+    {
+        this.veterinarianUserId = veterinarianUserId;
+    }
+
+    public String getDewormerName ()
+    {
+        return dewormerName;
+    }
+
+    public void setDewormerName (String dewormerName)
+    {
+        this.dewormerName = dewormerName;
+    }
+
+    public String getVaccine ()
+    {
+        return vaccine;
+    }
 
     public void setVaccine (String vaccine)
     {
@@ -453,21 +589,42 @@ public class PetClinicVisitDetails
         this.veterinarian = veterinarian;
     }
 
-    public String getOptionalVaccine ()
-{
-    return optionalVaccine;
-}
-
-    public void setOptionalVaccine (String optionalVaccine)
+    public String getPetDOB ()
     {
-        this.optionalVaccine = optionalVaccine;
+        return petDOB;
+    }
+
+    public void setPetDOB (String petDOB)
+    {
+        this.petDOB = petDOB;
+    }
+
+    public String getRemarks ()
+    {
+        return remarks;
+    }
+
+    public void setRemarks (String remarks)
+    {
+        this.remarks = remarks;
+    }
+
+    public String getNavStatus ()
+    {
+        return navStatus;
+    }
+
+    public void setNavStatus (String navStatus)
+    {
+        this.navStatus = navStatus;
     }
 
     @Override
     public String toString()
     {
-        return "ClassPojo [natureOfVisitList = "+natureOfVisitList+", petId = "+petId+", petAge = "+petAge+", documents = "+documents+", createdByUser = "+createdByUser+", description = "+description+", weightOz = "+weightOz+", followUpId = "+followUpId+", petAgeList = "+petAgeList+", vaccinationModels = "+vaccinationModels+", createdOn = "+createdOn+", petName = "+petName+", followUp = "+followUp+", dateOfOnset = "+dateOfOnset+", petParentName = "+petParentName+", temperature = "+temperature+", treatmentRemarks = "+treatmentRemarks+", visitDate = "+visitDate+", natureOfVisitId = "+natureOfVisitId+", id = "+id+", petUniqueId = "+petUniqueId+", pet = "+pet+", updatedByUser = "+updatedByUser+", weightLbs = "+weightLbs+", petSex = "+petSex+", updatedBy = "+updatedBy+", followUpList = "+followUpList+", updatedOn = "+updatedOn+", veterinarianUserId = "+veterinarianUserId+", natureOfVisit = "+natureOfVisit+", dewormerName = "+dewormerName+", followUpDate = "+followUpDate+", vaccine = "+vaccine+", createdBy = "+createdBy+", diagnosisProcedure = "+diagnosisProcedure+", encryptedId = "+encryptedId+", veterinarian = "+veterinarian+", optionalVaccine = "+optionalVaccine+"]";
+        return "ClassPojo [natureOfVisitList = "+natureOfVisitList+", viewPermission = "+viewPermission+", dewormerDose = "+dewormerDose+", petAge = "+petAge+", documents = "+documents+", weightOz = "+weightOz+", petAgeList = "+petAgeList+", vaccinationModels = "+vaccinationModels+", petParentName = "+petParentName+", visitDate = "+visitDate+", natureOfVisitId = "+natureOfVisitId+", id = "+id+", pet = "+pet+", updatedByUser = "+updatedByUser+", petSex = "+petSex+", updatedBy = "+updatedBy+", followUpList = "+followUpList+", history = "+history+", updatedOn = "+updatedOn+", natureOfVisit = "+natureOfVisit+", encryptedPetId = "+encryptedPetId+", symptoms = "+symptoms+", followUpDate = "+followUpDate+", appointmentId = "+appointmentId+", isReminderSent = "+isReminderSent+", optionalVaccine = "+optionalVaccine+", petId = "+petId+", createdByUser = "+createdByUser+", description = "+description+", followUpId = "+followUpId+", createdOn = "+createdOn+", petName = "+petName+", followUp = "+followUp+", nextVaccineName = "+nextVaccineName+", dateOfOnset = "+dateOfOnset+", contactNumber = "+contactNumber+", temperature = "+temperature+", treatmentRemarks = "+treatmentRemarks+", petUniqueId = "+petUniqueId+", nextVaccineType = "+nextVaccineType+", weightLbs = "+weightLbs+", veterinarianUserId = "+veterinarianUserId+", dewormerName = "+dewormerName+", vaccine = "+vaccine+", createdBy = "+createdBy+", diagnosisProcedure = "+diagnosisProcedure+", encryptedId = "+encryptedId+", veterinarian = "+veterinarian+", petDOB = "+petDOB+", remarks = "+remarks+", navStatus = "+navStatus+"]";
     }
 }
+
 			
 		

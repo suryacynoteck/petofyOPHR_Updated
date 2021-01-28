@@ -60,7 +60,7 @@ import java.util.HashMap;
 import retrofit2.Response;
 
 public class PetDetailsActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse, ImmunizationOnclickListener {
-    String pet_id,pet_name,patent_name,pet_bread,pet_unique_id="",pet_sex="",pet_age="",pet_DOB="",pet_encrypted_id="";
+    String pet_id,pet_name,patent_name,pet_bread,pet_unique_id="",pet_sex="",pet_age="",pet_DOB="",pet_encrypted_id="",pet_cat_id="";
     TextView pet_nameTV, pet_parentNameTV,pet_id_TV;
     ImageView back_arrow_IV,view_clinicVisits_arrow,view_xrayReport_arrow,view_labTestReport_arrow,view_Hospitalization_arrow,last_prescription_arrow,recent_visits_arrow,print_id_card_arrow,view_history_arrow;
     CardView clinic_test,xray_test,lab_test_report,hospitalization_sugeries,last_prescription,print_id_card,view_history,immunization_CV;
@@ -98,8 +98,8 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
         pet_age=extras.getString("pet_age");
         pet_DOB=extras.getString("pet_DOB");
         pet_encrypted_id=extras.getString("pet_encrypted_id");
-        Log.d("nannan",""+pet_DOB+" "+pet_id);
-        Log.d("nannan",""+pet_encrypted_id);//
+        pet_cat_id = extras.getString("pet_cat_id");
+        Log.d("PET_DETAILS",""+pet_DOB+" "+pet_id+" "+" "+pet_encrypted_id+" "+pet_cat_id);
 
         pet_nameTV = findViewById(R.id.pet_name_TV);
         pet_parentNameTV = findViewById(R.id.pet_owner_name_TV);
@@ -289,6 +289,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                         dataClinicVisits.putString("add_button_text","Clinic Visits");
                         dataClinicVisits.putString("pet_DOB",pet_DOB);
                         dataClinicVisits.putString("pet_encrypted_id",pet_encrypted_id);
+                        dataClinicVisits.putString("pet_cat_id",pet_cat_id);
                         petDetailsClinicVisits.putExtras(dataClinicVisits);
                         startActivity(petDetailsClinicVisits);
                     }else {
@@ -307,6 +308,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                     dataClinicVisits.putString("add_button_text","Clinic Visits");
                     dataClinicVisits.putString("pet_DOB",pet_DOB);
                     dataClinicVisits.putString("pet_encrypted_id",pet_encrypted_id);
+                    dataClinicVisits.putString("pet_cat_id",pet_cat_id);
                     petDetailsClinicVisits.putExtras(dataClinicVisits);
                     startActivity(petDetailsClinicVisits);
                 }
@@ -383,23 +385,68 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                     Log.d("ResponseClinicVisit", arg0.body().toString());
                     GetClinicVisitsDetailsResponse getClinicVisitsDetailsResponse = (GetClinicVisitsDetailsResponse) arg0.body();
                     int responseCode = Integer.parseInt(getClinicVisitsDetailsResponse.getResponse().getResponseCode());
-                    Log.d("ajajjaja",""+responseCode);
                     if (responseCode == 109) {
-                        lastPrescriptionPdf(getClinicVisitsDetailsResponse.getData().getVeterinarianDetails().getName(),
-                                getClinicVisitsDetailsResponse.getData().getVeterinarianDetails().getEmail(),
-                                getClinicVisitsDetailsResponse.getData().getVeterinarianDetails().getVetQualifications(),
-                                getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getPetName(),
-                                getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getPetAge(),
-                                getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getPetSex(),
-                                getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getVisitDate(),
-                                getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getPetParentName(),
-                                getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getTemperature(),
-                                getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getDiagnosisProcedure(),
-                                getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getTreatmentRemarks(),
-                                getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getFollowUpDate(),
-                                getClinicVisitsDetailsResponse.getData().getVeterinarianDetails().getVetRegistrationNumber(),
-                                getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getDescription(),
-                                getClinicVisitsDetailsResponse.getData().getVeterinarianDetails().getAddress());
+                            if (getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getDewormerName().equals("")){
+                                String str = methods.pdfGenarator(getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getPetName(),
+                                        getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getPetAge(),
+                                        getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getPetSex(),
+                                        getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getPetParentName(),
+                                        getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getTemperature(),
+                                        getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getHistory(),
+                                        getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getSymptoms(),
+                                        getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getDiagnosisProcedure(),
+                                        getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getTreatmentRemarks(),
+                                        getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getFollowUpDate(),
+                                        getClinicVisitsDetailsResponse.getData().getVeterinarianDetails().getVetRegistrationNumber());
+                                webview.loadDataWithBaseURL(null, str, "text/html", "utf-8", null);
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        methods.customProgressDismiss();
+                                        Context context = PetDetailsActivity.this;
+                                        PrintManager printManager = (PrintManager) getSystemService(context.PRINT_SERVICE);
+                                        PrintDocumentAdapter adapter = null;
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                                            adapter = webview.createPrintDocumentAdapter();
+                                        }
+                                        String JobName = getString(R.string.app_name) + "Document";
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                                            PrintJob printJob = printManager.print(JobName, adapter, new PrintAttributes.Builder().build());
+                                        }
+                                    }
+                                }, 1000);
+
+                            }
+                            else {
+                                String str=methods.pdfGenaratorDeworming(getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getPetName(),
+                                        getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getPetAge(),
+                                        getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getPetSex(),
+                                        getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getPetParentName(),
+                                        getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getTemperature(),
+                                        getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getSymptoms(),
+                                        getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getHistory(),
+                                        getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getDewormerName(),
+                                        getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getTreatmentRemarks(),
+                                        getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getFollowUpDate(),
+                                        getClinicVisitsDetailsResponse.getData().getVeterinarianDetails().getVetRegistrationNumber());
+                                webview.loadDataWithBaseURL(null,str,"text/html","utf-8",null);
+                                new Handler().postDelayed(new Runnable(){
+                                    @Override
+                                    public void run() {
+                                        methods.customProgressDismiss();
+                                        Context context=PetDetailsActivity.this;
+                                        PrintManager printManager=(PrintManager)getSystemService(context.PRINT_SERVICE);
+                                        PrintDocumentAdapter adapter=null;
+                                        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
+                                            adapter=webview.createPrintDocumentAdapter();
+                                        }
+                                        String JobName=getString(R.string.app_name) +"Document";
+                                        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
+                                            PrintJob printJob=printManager.print(JobName,adapter,new PrintAttributes.Builder().build());
+                                        }
+                                    }
+                                }, 1000);
+                            }
                     }
                     else
                     {
@@ -590,29 +637,6 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
         vaccineDetailsDialog.show();
 
     }
-
-    public void lastPrescriptionPdf(String veterian, String strEmail,String qualification,String strForA, String strAge,String strSex, String strDate,String pet_parent, String strTemparature, String strDiagnosis,String strRemark, String strNxtVisit,String registration_number, String Symptons,String address)
-    {
-        String str=methods.pdfGenarator(strForA,strAge,strSex,pet_parent,strTemparature,Symptons,strDiagnosis,strRemark,strNxtVisit,registration_number);
-        webview.loadDataWithBaseURL(null,str,"text/html","utf-8",null);
-        new Handler().postDelayed(new Runnable(){
-            @Override
-            public void run() {
-                methods.customProgressDismiss();
-                Context context=PetDetailsActivity.this;
-                PrintManager printManager=(PrintManager)getSystemService(context.PRINT_SERVICE);
-                PrintDocumentAdapter adapter=null;
-                if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
-                    adapter=webview.createPrintDocumentAdapter();
-                }
-                String JobName=getString(R.string.app_name) +"Document";
-                if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
-                    PrintJob printJob=printManager.print(JobName,adapter,new PrintAttributes.Builder().build());
-                }
-            }
-        }, 3000);
-    }
-
     @Override
     public void onError(Throwable t, String key) {
 

@@ -60,7 +60,8 @@ public class AddEditImmunizationActivity extends AppCompatActivity implements Ap
 
     ImmunizationModelResponse immunizationResponse;
     //intent Strings
-    String type="",immunization_id="",sNo="",minage="",maxAge="",vaccineName="";
+    String type="",immunization_id="",sNo="",minage="",maxAge="",vaccineName="",encrypt_id="";
+
 
 
     @Override
@@ -74,6 +75,7 @@ public class AddEditImmunizationActivity extends AppCompatActivity implements Ap
         if (type.equals("add")){
             create_headline_TV.setText("Create Immunization");
             create_Edit_immui_BT.setText("Create");
+            immunization_id = intent.getStringExtra("pet_encrpt_id");
         }else {
             immunization_id = intent.getStringExtra("id");
             strSpnerItemPetNm = intent.getStringExtra("petType");
@@ -119,7 +121,7 @@ public class AddEditImmunizationActivity extends AppCompatActivity implements Ap
         immunizationRequest.setData(immunizationParams);
         ApiService<ImmunizationModelResponse> service = new ApiService<>();
         service.get(this, ApiClient.getApiInterface().getImmunizationModel(Config.token, immunizationRequest), "ImmunizationModel");
-        Log.d("Immuniztaion", "parameter" + immunizationRequest);
+        Log.e("Immuniztaion", methods.getRequestJson(immunizationRequest));
     }
     private void petType() {
         ApiService<PetTypeResponse> service = new ApiService<>();
@@ -258,6 +260,8 @@ public class AddEditImmunizationActivity extends AppCompatActivity implements Ap
                         primary_vaccine_name_ET.setError(null);
                 }else if (Double.parseDouble(booster_one_string)>30){
                     Toast.makeText(this, "Booster one should less than or equal to 30.", Toast.LENGTH_SHORT).show();
+                }else if (Double.parseDouble(booster_one_string)<21){
+                    Toast.makeText(this, "Booster one should be greater than or equal to 21.", Toast.LENGTH_SHORT).show();
                 }
 //                else if (booster_two_string.isEmpty()) {
 //                        serial_number_ET.setError(null);
@@ -298,17 +302,14 @@ public class AddEditImmunizationActivity extends AppCompatActivity implements Ap
                         methods.showCustomProgressBarDialog(this);
                         ApiService<AddEditImmunizationResponse> service = new ApiService<>();
                         service.get( this, ApiClient.getApiInterface().addImmunizationSchedule(Config.token,addEditImmunizationRequest), "AddImmunization");
-                        Gson gson = new Gson();
-                        String editImmunization = gson.toJson(addEditImmunizationRequest);
-                        Log.d("AddImmunization","parameter"+editImmunization);
+                        Log.e("AddImmunization",""+methods.getRequestJson(addEditImmunizationRequest));
 
                     }else {
                         methods.showCustomProgressBarDialog(this);
                         ApiService<AddEditImmunizationResponse> service = new ApiService<>();
                         service.get( this, ApiClient.getApiInterface().editImmunizationSchedule(Config.token,addEditImmunizationRequest), "EditImmunization");
-                        Gson gson = new Gson();
-                        String editImmunization = gson.toJson(addEditImmunizationRequest);
-                        Log.d("EditImmunization","parameter"+editImmunization);
+                        Log.e("AddImmunization",""+methods.getRequestJson(addEditImmunizationRequest));
+
 
 
                     }
