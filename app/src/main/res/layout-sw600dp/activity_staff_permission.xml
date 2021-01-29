@@ -22,17 +22,15 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/back"
-                android:layout_margin="5dp"
-                android:layout_width="wrap_content"
+                android:elevation="2dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:id="@+id/back_arrow_IV"
+                android:padding="8dp"
+                android:visibility="visible"
+                android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="10dp"
-                android:padding="5dp"
-                android:textSize="18sp"
-                android:gravity="center"
-                android:src="@drawable/back_arrow"/>
+                android:src="@drawable/back_arrow" />
 
             <TextView
                 android:visibility="visible"

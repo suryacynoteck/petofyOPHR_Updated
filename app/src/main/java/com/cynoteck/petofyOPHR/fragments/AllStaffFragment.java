@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cynoteck.petofyOPHR.R;
+import com.cynoteck.petofyOPHR.activities.AddNewPetActivity;
 import com.cynoteck.petofyOPHR.activities.AddUpdateStaffActivity;
 import com.cynoteck.petofyOPHR.activities.StaffPermissionActivity;
 import com.cynoteck.petofyOPHR.adapters.AllStaffAdapter;
@@ -38,6 +39,7 @@ import com.cynoteck.petofyOPHR.response.getStaffResponse.GetStaffDetailsResponse
 import com.cynoteck.petofyOPHR.response.getStaffResponse.GetStaffStatusResponse;
 import com.cynoteck.petofyOPHR.response.getStaffResponse.GetUpdateStaffResponse;
 import com.cynoteck.petofyOPHR.response.loginRegisterResponse.UserPermissionMasterList;
+import com.cynoteck.petofyOPHR.response.staffPermissionListResponse.CheckStaffPermissionResponse;
 import com.cynoteck.petofyOPHR.utils.Config;
 import com.cynoteck.petofyOPHR.utils.Methods;
 import com.cynoteck.petofyOPHR.utils.StaffListClickListener;
@@ -65,7 +67,7 @@ public class AllStaffFragment extends Fragment implements ApiResponse, StaffList
     TextView staff_permission,add_staff_IV;
     Button cancel_button, submit_button, update_button,update_cancel_button;
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-    String staffUserId="";
+    String staffUserId="",permissionId;
     private int ADD_STAFF_DEATILS = 1;
     SharedPreferences sharedPreferences;
     public AllStaffFragment() {
@@ -115,14 +117,12 @@ public class AllStaffFragment extends Fragment implements ApiResponse, StaffList
             ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
             Log.e("ArrayList",arrayList.toString());
             Log.d("UserType",userTYpe);
-            if (arrayList.get(4).getIsSelected().equals("true")) {
-                Intent updateStaffIntent = new Intent(getContext(),AddUpdateStaffActivity.class);
-                updateStaffIntent.putExtra("activityType","Update");
-                updateStaffIntent.putExtra("staffId",encrypt_id);
-                startActivityForResult(updateStaffIntent,ADD_STAFF_DEATILS);
-            }else {
-                Toast.makeText(getContext(), "Permission not allowed!!", Toast.LENGTH_SHORT).show();
-            }
+            permissionId = "5";
+            methods.showCustomProgressBarDialog(getContext());
+            String url  = "user/CheckStaffPermission/"+permissionId;
+            Log.e("URL",url);
+            ApiService<CheckStaffPermissionResponse> service = new ApiService<>();
+            service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token,url), "CheckPermission");
         }else if (userTYpe.equals("Veterinarian")){
             Intent updateStaffIntent = new Intent(getContext(),AddUpdateStaffActivity.class);
             updateStaffIntent.putExtra("activityType","Update");
@@ -180,13 +180,12 @@ public class AllStaffFragment extends Fragment implements ApiResponse, StaffList
                     ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
                     Log.e("ArrayList",arrayList.toString());
                     Log.d("UserType",userTYpe);
-                    if (arrayList.get(3).getIsSelected().equals("true")) {
-                        Intent addUpdateStaff = new Intent(getContext(), AddUpdateStaffActivity.class);
-                        addUpdateStaff.putExtra("activityType","Add");
-                        startActivityForResult(addUpdateStaff,ADD_STAFF_DEATILS);
-                    }else {
-                        Toast.makeText(getContext(), "Permission not allowed!!", Toast.LENGTH_SHORT).show();
-                    }
+                    permissionId = "4";
+                    methods.showCustomProgressBarDialog(getContext());
+                    String url  = "user/CheckStaffPermission/"+permissionId;
+                    Log.e("URL",url);
+                    ApiService<CheckStaffPermissionResponse> service = new ApiService<>();
+                    service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token,url), "CheckPermission");
                 }else if (userTYpe.equals("Veterinarian")){
                     Intent addUpdateStaff = new Intent(getContext(), AddUpdateStaffActivity.class);
                     addUpdateStaff.putExtra("activityType","Add");
@@ -479,6 +478,42 @@ public class AllStaffFragment extends Fragment implements ApiResponse, StaffList
         Log.e("DATALOG","=> "+response.body());
 
         switch (key){
+            case "CheckPermission":
+                try {
+                    methods.customProgressDismiss();
+                    CheckStaffPermissionResponse checkStaffPermissionResponse = (CheckStaffPermissionResponse) response.body();
+                    Log.d("GetPetList", checkStaffPermissionResponse.toString());
+                    int responseCode = Integer.parseInt(checkStaffPermissionResponse.getResponse().getResponseCode());
+
+                    if (responseCode == 109) {
+                        if (checkStaffPermissionResponse.getData().equals("true")){
+                            if (permissionId.equals("4")) {
+                                Intent addUpdateStaff = new Intent(getContext(), AddUpdateStaffActivity.class);
+                                addUpdateStaff.putExtra("activityType","Add");
+                                startActivityForResult(addUpdateStaff,ADD_STAFF_DEATILS);
+
+                            }else if (permissionId.equals("5")){
+                                Intent updateStaffIntent = new Intent(getContext(),AddUpdateStaffActivity.class);
+                                updateStaffIntent.putExtra("activityType","Update");
+                                updateStaffIntent.putExtra("staffId",encrypt_id);
+                                startActivityForResult(updateStaffIntent,ADD_STAFF_DEATILS);
+                            }
+                        }else {
+                            Toast.makeText(getContext(), "Permission not Granted!!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    else
+                    {
+                        Toast.makeText(getContext(), "Please Try Again!!", Toast.LENGTH_SHORT).show();
+                    }
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                break;
+
             case "GetAllStaff":
                 try {
                     GetAllStaffResponse getAllStaffResponse = (GetAllStaffResponse) response.body();

@@ -53,6 +53,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
+        android:visibility="gone"
         app:cardElevation="10dp"
         android:elevation="1dp"
         android:layout_marginTop="20dp"
@@ -119,6 +120,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
+        android:visibility="gone"
         app:cardElevation="5dp"
         android:elevation="1dp"
         android:layout_marginTop="20dp"

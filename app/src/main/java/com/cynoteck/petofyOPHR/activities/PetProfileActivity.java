@@ -16,10 +16,13 @@ import com.cynoteck.petofyOPHR.R;
 import com.cynoteck.petofyOPHR.api.ApiClient;
 import com.cynoteck.petofyOPHR.api.ApiResponse;
 import com.cynoteck.petofyOPHR.api.ApiService;
+import com.cynoteck.petofyOPHR.fragments.AllStaffFragment;
+import com.cynoteck.petofyOPHR.fragments.AppointementFragment;
 import com.cynoteck.petofyOPHR.params.getPetListRequest.GetPetListParams;
 import com.cynoteck.petofyOPHR.params.getPetListRequest.GetPetListRequest;
 import com.cynoteck.petofyOPHR.response.getPetDetailsResponse.GetPetResponse;
 import com.cynoteck.petofyOPHR.response.loginRegisterResponse.UserPermissionMasterList;
+import com.cynoteck.petofyOPHR.response.staffPermissionListResponse.CheckStaffPermissionResponse;
 import com.cynoteck.petofyOPHR.utils.Config;
 import com.cynoteck.petofyOPHR.utils.Methods;
 import com.google.gson.Gson;
@@ -38,6 +41,7 @@ public class PetProfileActivity extends AppCompatActivity implements ApiResponse
     GetPetResponse getPetResponse;
     boolean reloadData=false;
     SharedPreferences sharedPreferences;
+    String permissionId="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,24 +116,12 @@ public class PetProfileActivity extends AppCompatActivity implements ApiResponse
                     ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
                     Log.e("ArrayList",arrayList.toString());
                     Log.d("UserType",userTYpe);
-                    if (arrayList.get(1).getIsSelected().equals("true")) {
-                        Intent intent=new Intent(this, GetPetDetailsActivity.class);
-                        intent.putExtra("pet_id",petId);
-                        intent.putExtra("pet_category",getPetResponse.getData().getPetCategory());
-                        intent.putExtra("pet_name",getPetResponse.getData().getPetName());
-                        intent.putExtra("pet_sex",getPetResponse.getData().getPetSex());
-                        intent.putExtra("pet_DOB",getPetResponse.getData().getDateOfBirth());
-                        intent.putExtra("pet_age",getPetResponse.getData().getPetAge());
-                        intent.putExtra("pet_size",getPetResponse.getData().getPetSize());
-                        intent.putExtra("pet_breed",getPetResponse.getData().getPetBreed());
-                        intent.putExtra("pet_color",getPetResponse.getData().getPetColor());
-                        intent.putExtra("pet_parent",getPetResponse.getData().getPetParentName());
-                        intent.putExtra("pet_parent_contact",getPetResponse.getData().getContactNumber());
-                        intent.putExtra("image_url",getPetResponse.getData().getPetProfileImageUrl());
-                        startActivity(intent);
-                    }else {
-                        Toast.makeText(getApplicationContext(), "Permission not allowed!!", Toast.LENGTH_SHORT).show();
-                    }
+                    permissionId = arrayList.get(1).getPermissionCode();
+                    methods.showCustomProgressBarDialog(this);
+                    String url  = "user/CheckStaffPermission/"+permissionId;
+                    Log.e("URL",url);
+                    ApiService<CheckStaffPermissionResponse> service = new ApiService<>();
+                    service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token,url), "CheckPermission");
                 }else if (userTYpe.equals("Veterinarian")){
                     Intent intent=new Intent(this, GetPetDetailsActivity.class);
                     intent.putExtra("pet_id",petId);
@@ -158,6 +150,48 @@ public class PetProfileActivity extends AppCompatActivity implements ApiResponse
         methods.customProgressDismiss();
         reloadData=false;
         switch (key) {
+            case "CheckPermission":
+                try {
+                    methods.customProgressDismiss();
+                    CheckStaffPermissionResponse checkStaffPermissionResponse = (CheckStaffPermissionResponse) arg0.body();
+                    Log.d("GetPetList", checkStaffPermissionResponse.toString());
+                    int responseCode = Integer.parseInt(checkStaffPermissionResponse.getResponse().getResponseCode());
+
+                    if (responseCode == 109) {
+                        if (checkStaffPermissionResponse.getData().equals("true")){
+                            if (permissionId.equals("2")){
+                                Intent intent=new Intent(this, GetPetDetailsActivity.class);
+                                intent.putExtra("pet_id",petId);
+                                intent.putExtra("pet_category",getPetResponse.getData().getPetCategory());
+                                intent.putExtra("pet_name",getPetResponse.getData().getPetName());
+                                intent.putExtra("pet_sex",getPetResponse.getData().getPetSex());
+                                intent.putExtra("pet_DOB",getPetResponse.getData().getDateOfBirth());
+                                intent.putExtra("pet_age",getPetResponse.getData().getPetAge());
+                                intent.putExtra("pet_size",getPetResponse.getData().getPetSize());
+                                intent.putExtra("pet_breed",getPetResponse.getData().getPetBreed());
+                                intent.putExtra("pet_color",getPetResponse.getData().getPetColor());
+                                intent.putExtra("pet_parent",getPetResponse.getData().getPetParentName());
+                                intent.putExtra("pet_parent_contact",getPetResponse.getData().getContactNumber());
+                                intent.putExtra("image_url",getPetResponse.getData().getPetProfileImageUrl());
+                                startActivity(intent);
+                            }
+                        }else {
+                            Toast.makeText(this, "Permission not Granted!!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    else
+                    {
+                        Toast.makeText(this, "Please Try Again!!", Toast.LENGTH_SHORT).show();
+                    }
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                break;
+
+
             case "GetPetDetail":
                 try {
                     methods.customProgressDismiss();

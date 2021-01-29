@@ -1135,7 +1135,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     if(slctCatOneImage.equals("1")){
                         slctCatOneImage="0";
                     }
-                    if(slctCatOneImage.equals("1")){
+                    if(slctCatTwoImage.equals("1")){
                         slctCatTwoImage="0";
                     }
                     if(slctServcOneImage.equals("1")){
@@ -1168,7 +1168,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     category_img_one.setImageBitmap(thumbnail);
                     saveImage(thumbnail);
                 }
-                if(slctCatOneImage.equals("1")){
+                if(slctCatTwoImage.equals("1")){
                     category_img_two.setImageBitmap(thumbnail);
                     saveImage(thumbnail);
                 }
@@ -1202,7 +1202,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                         category_img_one.setImageBitmap(bitmap);
                         saveImage(bitmap);
                     }
-                    if(slctCatOneImage.equals("1")){
+                    if(slctCatTwoImage.equals("1")){
                         category_img_two.setImageBitmap(bitmap);
                         saveImage(bitmap);
                     }
@@ -1231,7 +1231,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     if(slctCatOneImage.equals("1")){
                         slctCatOneImage="0";
                     }
-                    if(slctCatOneImage.equals("1")){
+                    if(slctCatTwoImage.equals("1")){
                         slctCatTwoImage="0";
                     }
                     if(slctServcOneImage.equals("1")){
@@ -1284,7 +1284,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                 UploadImages(catfile1);
                 return catfile1.getAbsolutePath();
             }
-            if(slctCatOneImage.equals("1")){
+            if(slctCatTwoImage.equals("1")){
                 catfile2 = new File(wallpaperDirectory, Calendar.getInstance()
                         .getTimeInMillis() + ".jpg");
                 catfile2.createNewFile();
@@ -1573,7 +1573,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     PetServiceResponse petServiceResponse = (PetServiceResponse) response.body();
                     int responseCode = Integer.parseInt(petServiceResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
-                        Toast.makeText(UpdateProfileActivity.this, "Success", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(UpdateProfileActivity.this, "Success", Toast.LENGTH_SHORT).show();
                         serviceCategory=new String[petServiceResponse.getData().size()];
                         Log.d("lalal",""+petServiceResponse.getData().size());
                         for(int i=0; i<petServiceResponse.getData().size(); i++){
@@ -1601,7 +1601,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     UpdateVetResponse userResponse = (UpdateVetResponse) response.body();
                     int responseCode = Integer.parseInt(userResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
-                        Toast.makeText(UpdateProfileActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UpdateProfileActivity.this, "Updated", Toast.LENGTH_SHORT).show();
                         if (activityType.equals("Update")){
                             setResult(RESULT_OK);
                             finish();
@@ -1634,7 +1634,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                             strCatUrl1=imageResponse.getData().getDocumentUrl();
                             slctCatOneImage="0";
                         }
-                        if(slctCatOneImage.equals("1")){
+                        if(slctCatTwoImage.equals("1")){
                             strCatUrl2=imageResponse.getData().getDocumentUrl();
                             slctCatTwoImage="0";
                         }

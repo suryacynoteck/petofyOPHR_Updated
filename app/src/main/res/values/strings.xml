@@ -44,7 +44,7 @@
     <string name="petcolor"><![CDATA[Brown & White]]></string>
     <string name="viewReports">View Reports</string>
     <string name="viewDetails">VIEW DETAILS</string>
-    <string name="reports">REPORTS</string>
+    <string name="reports">RECORDS</string>
     <string name="register_pets">Pet Register</string>
     <string name="register_pets_home">PET REGISTER</string>
     <string name="add_pet">ADD PET</string>
@@ -66,7 +66,7 @@
     <string name="permission">PERMISSION</string>
     <string name="add_new_pet">ADD NEW PET</string>
     <string name="add_new_staff">ADD NEW STAFF</string>
-    <string name="add_clinic_data">Clinic Visit</string>
+    <string name="add_clinic_data">Add Clinic Visit</string>
     <string name="name">Name</string>
     <string name="acitivated">Activated</string>
     <string name="add_staff">Add Staff</string>
@@ -201,5 +201,6 @@
     <string name="prefix">Prefix</string>
     <string name="qualification">Qualifications</string>
     <string name="regNumber">Registration Number</string>
+    <string name="addrecords">Add Records</string>
 
 </resources>

@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cynoteck.petofyOPHR.R;
 import com.cynoteck.petofyOPHR.activities.AddClinicActivity;
+import com.cynoteck.petofyOPHR.activities.AddNewPetActivity;
 import com.cynoteck.petofyOPHR.activities.AddUpdateAppointmentActivity;
 import com.cynoteck.petofyOPHR.adapters.DateListAdapter;
 import com.cynoteck.petofyOPHR.api.ApiClient;
@@ -31,6 +32,7 @@ import com.cynoteck.petofyOPHR.response.appointmentResponse.GetAppointmentDates;
 import com.cynoteck.petofyOPHR.response.appointmentResponse.GetAppointmentResponse;
 import com.cynoteck.petofyOPHR.response.getAppointmentsStatusResponse.AppointmentStatusResponse;
 import com.cynoteck.petofyOPHR.response.loginRegisterResponse.UserPermissionMasterList;
+import com.cynoteck.petofyOPHR.response.staffPermissionListResponse.CheckStaffPermissionResponse;
 import com.cynoteck.petofyOPHR.utils.AppointmentsClickListner;
 import com.cynoteck.petofyOPHR.utils.Config;
 import com.cynoteck.petofyOPHR.utils.Methods;
@@ -59,10 +61,11 @@ public class AppointementFragment extends Fragment implements ApiResponse ,View.
     ArrayList<AppointmentList> appointmentList;
     String mettingId="", status="",pet_id="",pet_owner_name="",pet_sex="",pet_age="",pet_unique_id="";
     SharedPreferences sharedPreferences;
-
+    String permissionId="";
     private ShimmerFrameLayout mShimmerViewContainer;
     AppointmentsClickListner appointmentsClickListner;
-
+    int joinPostion;
+    ArrayList<AppointmentList> appointmentListsJoin;
 
     public AppointementFragment() {
         // Required empty public constructor
@@ -119,15 +122,14 @@ public class AppointementFragment extends Fragment implements ApiResponse ,View.
                     Log.d("GetAppointment", getAppointmentResponse.toString());
                     int responseCode = Integer.parseInt(getAppointmentResponse.getResponse().getResponseCode());
                     if (responseCode == 109) {
-//                        approveAndReject("19","false");
-
                         mShimmerViewContainer.setVisibility(View.GONE);
                         create_appointment_FBT.setVisibility(View.VISIBLE);
                         mShimmerViewContainer.stopShimmerAnimation();
                         dateListAdapter= new DateListAdapter(getAppointmentResponse.getData(), getContext(), new AppointmentsClickListner() {
                             @Override
                             public void onItemClick(int position, ArrayList<AppointmentList> appointmentLists) {
-
+                                joinPostion =position;
+                                appointmentListsJoin = appointmentLists;
                                 String userTYpe = sharedPreferences.getString("user_type", "");
                                 Log.e("USERTYPE",userTYpe);
                                 if (userTYpe.equals("Vet Staff")){
@@ -137,17 +139,12 @@ public class AppointementFragment extends Fragment implements ApiResponse ,View.
                                     ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
                                     Log.e("ArrayList",arrayList.toString());
                                     Log.d("UserType",userTYpe);
-                                    if (arrayList.get(11).getIsSelected().equals("true")) {
-                                        Intent intent = new Intent(getContext(),AddUpdateAppointmentActivity.class);
-                                        intent.putExtra("type","update");
-                                        intent.putExtra("id",appointmentLists.get(position).getId());
-                                        intent.putExtra("pet_id",appointmentLists.get(position).getPetId());
-                                        intent.putExtra("petParent",appointmentLists.get(position).getPetUniqueId());
-                                        if(appointmentLists.get(position).getPaymentStatus().equals("true"))
-                                            startActivity(intent);
-                                    }else {
-                                        Toast.makeText(getContext(), "Permission not allowed!!", Toast.LENGTH_SHORT).show();
-                                    }
+                                    permissionId = "12";
+                                    methods.showCustomProgressBarDialog(getContext());
+                                    String url  = "user/CheckStaffPermission/"+permissionId;
+                                    Log.e("URL",url);
+                                    checkPermission(url);
+
                                 }else if (userTYpe.equals("Veterinarian")){
                                     Intent intent = new Intent(getContext(),AddUpdateAppointmentActivity.class);
                                     intent.putExtra("type","update");
@@ -162,9 +159,8 @@ public class AppointementFragment extends Fragment implements ApiResponse ,View.
 
                             @Override
                             public void onJoinClick(int position, ArrayList<AppointmentList> appointmentLists, Button button) {
-                                Uri uri = Uri.parse(appointmentLists.get(position).getMeetingUrl()); // missing 'http://' will cause crashed
-//                                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-//                                startActivity(intent);
+                                joinPostion =position;
+                                appointmentListsJoin = appointmentLists;
                                 String userTYpe = sharedPreferences.getString("user_type", "");
                                 if (userTYpe.equals("Vet Staff")){
                                     Gson gson = new Gson();
@@ -173,35 +169,11 @@ public class AppointementFragment extends Fragment implements ApiResponse ,View.
                                     ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
                                     Log.e("ArrayList",arrayList.toString());
                                     Log.d("UserType",userTYpe);
-                                    if (arrayList.get(12).getIsSelected().equals("true")) {
-                                        Intent petDetailsIntent = new Intent(getContext(), AddClinicActivity.class);
-                                        Bundle data = new Bundle();
-                                        data.putString("pet_id",appointmentLists.get(position).getPetId()+".0");
-                                        data.putString("pet_parent",appointmentLists.get(position).getPetParentName());
-                                        data.putString("pet_sex",appointmentLists.get(position).getPetSex());
-                                        data.putString("pet_age",appointmentLists.get(position).getPetAge());
-                                        data.putString("pet_unique_id",appointmentLists.get(position).getPetUniqueId());
-                                        data.putString("appointment_ID",appointmentLists.get(position).getId());
-                                        data.putString("pet_DOB",appointmentLists.get(position).getPetDOB());
-                                        data.putString("pet_encrypted_id",appointmentLists.get(position).getEncrptedId());
-                                        data.putString("nature_of_visit","");
-                                        data.putString("visit_dt","");
-                                        data.putString("visit_description","");
-                                        data.putString("remarks","");
-                                        data.putString("visit_weight","");
-                                        data.putString("visit_temparature","");
-                                        data.putString("dt_of_illness","");
-                                        data.putString("pet_diognosis","");
-                                        data.putString("next_dt","");
-                                        data.putString("appointment","join");
-                                        data.putString("appoint_link", String.valueOf((Uri.parse(appointmentLists.get(position).getMeetingUrl()))));
-                                        data.putString("toolbar_name","ADD CLINIC");
-                                        petDetailsIntent.putExtras(data);
-                                        startActivity(petDetailsIntent);
-                                    }
-                                    else {
-                                        Toast.makeText(getContext(), "Permission not allowed!!", Toast.LENGTH_SHORT).show();
-                                    }
+                                    permissionId = "13";
+                                    methods.showCustomProgressBarDialog(getContext());
+                                    String url  = "user/CheckStaffPermission/"+permissionId;
+                                    Log.e("URL",url);
+                                    checkPermission(url);
                                 }else if (userTYpe.equals("Veterinarian")){
                                     Intent petDetailsIntent = new Intent(getContext(), AddClinicActivity.class);
                                     Bundle data = new Bundle();
@@ -292,10 +264,78 @@ public class AppointementFragment extends Fragment implements ApiResponse ,View.
                     e.printStackTrace();
                 }
                 break;
+            case "CheckPermission":
+                try {
+                    methods.customProgressDismiss();
+                    CheckStaffPermissionResponse checkStaffPermissionResponse = (CheckStaffPermissionResponse) arg0.body();
+                    Log.d("GetPetList", checkStaffPermissionResponse.toString());
+                    int responseCode = Integer.parseInt(checkStaffPermissionResponse.getResponse().getResponseCode());
+                    if (responseCode == 109) {
+                        if (checkStaffPermissionResponse.getData().equals("true")){
+                            if (permissionId.equals("11")) {
+                                Intent intent = new Intent(getContext(), AddUpdateAppointmentActivity.class);
+                                intent.putExtra("type","add");
+                                intent.putExtra("id","");
+                                intent.putExtra("pet_id","");
+                                startActivity(intent);
+                            }else if (permissionId.equals("13")){
+                                Intent petDetailsIntent = new Intent(getContext(), AddClinicActivity.class);
+                                Bundle data = new Bundle();
+                                data.putString("pet_id",appointmentListsJoin.get(joinPostion).getPetId()+".0");
+                                data.putString("pet_parent",appointmentListsJoin.get(joinPostion).getPetParentName());
+                                data.putString("pet_sex",appointmentListsJoin.get(joinPostion).getPetSex());
+                                data.putString("pet_age",appointmentListsJoin.get(joinPostion).getPetAge());
+                                data.putString("pet_unique_id",appointmentListsJoin.get(joinPostion).getPetUniqueId());
+                                data.putString("appointment_ID",appointmentListsJoin.get(joinPostion).getId());
+                                data.putString("pet_DOB",appointmentListsJoin.get(joinPostion).getPetDOB());
+                                data.putString("pet_encrypted_id",appointmentListsJoin.get(joinPostion).getEncrptedId());
+                                data.putString("nature_of_visit","");
+                                data.putString("visit_dt","");
+                                data.putString("visit_description","");
+                                data.putString("remarks","");
+                                data.putString("visit_weight","");
+                                data.putString("visit_temparature","");
+                                data.putString("dt_of_illness","");
+                                data.putString("pet_diognosis","");
+                                data.putString("next_dt","");
+                                data.putString("appointment","join");
+                                data.putString("appoint_link", String.valueOf((Uri.parse(appointmentListsJoin.get(joinPostion).getMeetingUrl()))));
+                                data.putString("toolbar_name","ADD CLINIC");
+                                petDetailsIntent.putExtras(data);
+                                startActivity(petDetailsIntent);
+                            }else if (permissionId.equals("12")){
+                                Intent intent = new Intent(getContext(),AddUpdateAppointmentActivity.class);
+                                intent.putExtra("type","update");
+                                intent.putExtra("id",appointmentListsJoin.get(joinPostion).getId());
+                                intent.putExtra("pet_id",appointmentListsJoin.get(joinPostion).getPetId());
+                                intent.putExtra("petParent",appointmentListsJoin.get(joinPostion).getPetUniqueId());
+                                if(appointmentListsJoin.get(joinPostion).getPaymentStatus().equals("false")) {
+                                    startActivity(intent);
+                                }
+                            }
+                        }else {
+                            Toast.makeText(getContext(), "Permission not Granted!!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    else
+                    {
+                        Toast.makeText(getContext(), "Please Try Again!!", Toast.LENGTH_SHORT).show();
+                    }
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                break;
 
         }
     }
 
+    private void checkPermission(String url) {
+        ApiService<CheckStaffPermissionResponse> service = new ApiService<>();
+        service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token,url), "CheckPermission");
+    }
 
 
     @Override
@@ -335,15 +375,12 @@ public class AppointementFragment extends Fragment implements ApiResponse ,View.
                     ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
                     Log.e("ArrayList",arrayList.toString());
                     Log.d("UserType",userTYpe);
-                    if (arrayList.get(10).getIsSelected().equals("true")) {
-                        Intent intent = new Intent(getContext(), AddUpdateAppointmentActivity.class);
-                        intent.putExtra("type","add");
-                        intent.putExtra("id","");
-                        intent.putExtra("pet_id","");
-                        startActivity(intent);
-                    }else {
-                        Toast.makeText(getContext(), "Permission not allowed!!", Toast.LENGTH_SHORT).show();
-                    }
+                    permissionId = "11";
+                    methods.showCustomProgressBarDialog(getContext());
+                    String url  = "user/CheckStaffPermission/"+permissionId;
+                    Log.e("URL",url);
+                    ApiService<CheckStaffPermissionResponse> service = new ApiService<>();
+                    service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token,url), "CheckPermission");
                 }else if (userTYpe.equals("Veterinarian")){
                     Intent intent = new Intent(getContext(), AddUpdateAppointmentActivity.class);
                     intent.putExtra("type","add");

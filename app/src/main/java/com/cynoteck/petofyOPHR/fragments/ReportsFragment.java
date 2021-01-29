@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cynoteck.petofyOPHR.R;
+import com.cynoteck.petofyOPHR.activities.NewEntrysDetailsActivity;
 import com.cynoteck.petofyOPHR.activities.SelectPetReportsActivity;
 import com.cynoteck.petofyOPHR.adapters.ReportsAdapter;
 import com.cynoteck.petofyOPHR.api.ApiClient;
@@ -36,6 +37,7 @@ import com.cynoteck.petofyOPHR.params.petReportsRequest.PetDataRequest;
 import com.cynoteck.petofyOPHR.response.getPetReportsResponse.getPetListResponse.GetPetListResponse;
 import com.cynoteck.petofyOPHR.response.getPetReportsResponse.getPetListResponse.PetList;
 import com.cynoteck.petofyOPHR.response.loginRegisterResponse.UserPermissionMasterList;
+import com.cynoteck.petofyOPHR.response.staffPermissionListResponse.CheckStaffPermissionResponse;
 import com.cynoteck.petofyOPHR.utils.Config;
 import com.cynoteck.petofyOPHR.utils.Methods;
 import com.cynoteck.petofyOPHR.utils.RegisterRecyclerViewClickListener;
@@ -69,7 +71,8 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
     int page=1, pagelimit=10;
     ArrayList<PetList> profileList;
     SharedPreferences sharedPreferences;
-    String userTYpe="";
+    String userTYpe="",permissionId="";
+    int pos;
 
     public ReportsFragment() {
         // Required empty public constructor
@@ -294,6 +297,48 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
                     e.printStackTrace();
                 }
                 break;
+
+            case "CheckPermission":
+                try {
+                    methods.customProgressDismiss();
+                    CheckStaffPermissionResponse checkStaffPermissionResponse = (CheckStaffPermissionResponse) response.body();
+                    Log.d("GetPetList", checkStaffPermissionResponse.toString());
+                    int responseCode = Integer.parseInt(checkStaffPermissionResponse.getResponse().getResponseCode());
+
+                    if (responseCode == 109) {
+                        if (checkStaffPermissionResponse.getData().equals("true")){
+                            if (permissionId.equals("9")){
+                                categoryRecordArrayList.get(pos).getPetUniqueId();
+                                Intent selectReportsIntent = new Intent(getActivity().getApplication(), SelectPetReportsActivity.class);
+                                Bundle data = new Bundle();
+                                data.putString("pet_id",categoryRecordArrayList.get(pos).getId());
+                                data.putString("pet_name",categoryRecordArrayList.get(pos).getPetName());
+                                data.putString("pet_unique_id",categoryRecordArrayList.get(pos).getPetUniqueId());
+                                data.putString("pet_sex",categoryRecordArrayList.get(pos).getPetSex());
+                                data.putString("pet_owner_name",categoryRecordArrayList.get(pos).getPetParentName());
+                                data.putString("pet_owner_contact",categoryRecordArrayList.get(pos).getContactNumber());
+                                data.putString("pet_DOB",categoryRecordArrayList.get(pos).getDateOfBirth());
+                                data.putString("pet_encrypted_id",categoryRecordArrayList.get(pos).getEncryptedId());
+                                selectReportsIntent.putExtras(data);
+                                startActivity(selectReportsIntent);
+                                getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
+                                clearSearch();
+                            }
+                        }else {
+                            Toast.makeText(getContext(), "Permission not Granted!!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    else
+                    {
+                        Toast.makeText(getContext(), "Please Try Again!!", Toast.LENGTH_SHORT).show();
+                    }
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                break;
         }
     }
 
@@ -307,8 +352,7 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
 
     @Override
     public void onProductClick(int position) {
-
-
+        pos=position;
         userTYpe = sharedPreferences.getString("user_type", "");
         if (userTYpe.equals("Vet Staff")){
             Gson gson = new Gson();
@@ -317,27 +361,12 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
             ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
             Log.e("ArrayList",arrayList.toString());
             Log.d("UserType",userTYpe);
-            if (arrayList.get(8).getIsSelected().equals("true")) {
-                categoryRecordArrayList.get(position).getPetUniqueId();
-                Intent selectReportsIntent = new Intent(getActivity().getApplication(), SelectPetReportsActivity.class);
-                Bundle data = new Bundle();
-//        Toast.makeText(getContext(), ""+categoryRecordArrayList.get(position).getId(), Toast.LENGTH_SHORT).show();
-                data.putString("pet_id",categoryRecordArrayList.get(position).getId());
-                data.putString("pet_name",categoryRecordArrayList.get(position).getPetName());
-                data.putString("pet_unique_id",categoryRecordArrayList.get(position).getPetUniqueId());
-                data.putString("pet_sex",categoryRecordArrayList.get(position).getPetSex());
-                data.putString("pet_owner_name",categoryRecordArrayList.get(position).getPetParentName());
-                data.putString("pet_owner_contact",categoryRecordArrayList.get(position).getContactNumber());
-                data.putString("pet_DOB",categoryRecordArrayList.get(position).getDateOfBirth());
-                data.putString("pet_encrypted_id",categoryRecordArrayList.get(position).getEncryptedId());
-
-                selectReportsIntent.putExtras(data);
-                startActivity(selectReportsIntent);
-                getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
-                clearSearch();
-            }else {
-                Toast.makeText(getContext(), "Permission not allowed!!", Toast.LENGTH_SHORT).show();
-            }
+            permissionId = "9";
+            methods.showCustomProgressBarDialog(getContext());
+            String url  = "user/CheckStaffPermission/"+permissionId;
+            Log.e("URL",url);
+            ApiService<CheckStaffPermissionResponse> service = new ApiService<>();
+            service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token,url), "CheckPermission");
         }else if (userTYpe.equals("Veterinarian")){
             categoryRecordArrayList.get(position).getPetUniqueId();
             Intent selectReportsIntent = new Intent(getActivity().getApplication(), SelectPetReportsActivity.class);

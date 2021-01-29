@@ -300,7 +300,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/report_clinicVisits_TV"
-                        android:text="@string/clinicVisits" />
+                        android:text="@string/addrecords" />
 
 
                     <ImageView
@@ -321,6 +321,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:visibility="gone"
                 android:id="@+id/xray_test"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
@@ -378,6 +379,8 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+
+                android:visibility="gone"
                 android:id="@+id/lab_test_report"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
@@ -431,6 +434,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:visibility="gone"
                 android:id="@+id/hospitalization_sugeries"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"

@@ -53,6 +53,8 @@ import com.cynoteck.petofyOPHR.response.getPetReportsResponse.getPetListResponse
 import com.cynoteck.petofyOPHR.response.loginRegisterResponse.UserPermissionMasterList;
 import com.cynoteck.petofyOPHR.response.newPetResponse.NewPetRegisterResponse;
 import com.cynoteck.petofyOPHR.response.otpResponse.OtpResponse;
+import com.cynoteck.petofyOPHR.response.staffPermissionListResponse.CheckStaffPermissionResponse;
+import com.cynoteck.petofyOPHR.response.updateProfileResponse.CityResponse;
 import com.cynoteck.petofyOPHR.utils.Config;
 import com.cynoteck.petofyOPHR.utils.Methods;
 import com.google.android.material.textfield.TextInputEditText;
@@ -88,7 +90,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
     Button submit_parent_otp;
     SharedPreferences sharedPreferences;
     String userTYpe="";
-
+    String permissionId="";
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -321,14 +323,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
                     ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
                     Log.e("ArrayList",arrayList.toString());
                     Log.d("UserType",userTYpe);
-                    if (arrayList.get(0).getIsSelected().equals("true")) {
-                        Intent addNewPetIntent = new Intent(getContext(), AddNewPetActivity.class);
-                        addNewPetIntent.putExtra("appointment", "");
-                        startActivity(addNewPetIntent);
-                    }else {
-                        Toast.makeText(context, "Permission not allowed!!", Toast.LENGTH_SHORT).show();
-                    }
-                    }else if (userTYpe.equals("Veterinarian")){
+                    permissionId = "1";
+                    methods.showCustomProgressBarDialog(getContext());
+                    String url  = "user/CheckStaffPermission/"+permissionId;
+                    Log.e("URL",url);
+                    ApiService<CheckStaffPermissionResponse> service = new ApiService<>();
+                    service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token,url), "CheckPermission");
+                }else if (userTYpe.equals("Veterinarian")){
                     Intent addNewPetIntent = new Intent(getContext(), AddNewPetActivity.class);
                     addNewPetIntent.putExtra("appointment","");
                     startActivity(addNewPetIntent);
@@ -356,16 +357,20 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
                     String json = sharedPreferences.getString("userPermission", null);
                     Type type = new TypeToken<ArrayList<UserPermissionMasterList>>() {}.getType();
                     ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
+//                    for (int i=0;i<arrayList.size();i++){
+//                        if (arrayList.get(i).getPermissionCode().equals("15")){
+//                            Toast.makeText(context, "15", Toast.LENGTH_SHORT).show();
+//
+//                        }
+//                    }
                     Log.e("ArrayList",arrayList.toString());
                     Log.d("UserType",userTYpe);
-                    if (arrayList.get(14).getIsSelected().equals("true")) {
-                        AllStaffFragment allStaffFragment = new AllStaffFragment();
-                        replaceFragment(allStaffFragment);
-
-
-                    }else {
-                        Toast.makeText(getContext(), "Permission not allowed!!", Toast.LENGTH_SHORT).show();
-                    }
+                    permissionId = "15";
+                    methods.showCustomProgressBarDialog(getContext());
+                    String url  = "user/CheckStaffPermission/"+permissionId;
+                    Log.e("URL",url);
+                    ApiService<CheckStaffPermissionResponse> service = new ApiService<>();
+                    service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token,url), "CheckPermission");
                 }else if (userTYpe.equals("Veterinarian")){
                     AllStaffFragment allStaffFragment = new AllStaffFragment();
                     replaceFragment(allStaffFragment);
@@ -389,13 +394,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
                     ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
                     Log.e("ArrayList",arrayList.toString());
                     Log.d("UserType",userTYpe);
-                    if (arrayList.get(15).getIsSelected().equals("true")) {
-                        AppointementFragment appointementFragment = new AppointementFragment();
-                        replaceFragment(appointementFragment);
-
-                    }else {
-                        Toast.makeText(getContext(), "Permission not allowed!!", Toast.LENGTH_SHORT).show();
-                    }
+                    permissionId = "16";
+                    methods.showCustomProgressBarDialog(getContext());
+                    String url  = "user/CheckStaffPermission/"+permissionId;
+                    Log.e("URL",url);
+                    ApiService<CheckStaffPermissionResponse> service = new ApiService<>();
+                    service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token,url), "CheckPermission");
                 }else if (userTYpe.equals("Veterinarian")){
                     AppointementFragment appointementFragment = new AppointementFragment();
                     replaceFragment(appointementFragment);
@@ -454,6 +458,42 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
     public void onResponse(Response arg0, String key) {
 
         switch (key) {
+            case "CheckPermission":
+                try {
+                    methods.customProgressDismiss();
+                    CheckStaffPermissionResponse checkStaffPermissionResponse = (CheckStaffPermissionResponse) arg0.body();
+                    Log.d("GetPetList", checkStaffPermissionResponse.toString());
+                    int responseCode = Integer.parseInt(checkStaffPermissionResponse.getResponse().getResponseCode());
+
+                    if (responseCode == 109) {
+                        if (checkStaffPermissionResponse.getData().equals("true")){
+                            if (permissionId.equals("16")) {
+                                AppointementFragment appointementFragment = new AppointementFragment();
+                                replaceFragment(appointementFragment);
+                            }else if (permissionId.equals("1")){
+                                Intent addNewPetIntent = new Intent(getContext(), AddNewPetActivity.class);
+                                addNewPetIntent.putExtra("appointment","");
+                                startActivity(addNewPetIntent);
+                            }else if (permissionId.equals("15")){
+                                AllStaffFragment allStaffFragment = new AllStaffFragment();
+                                replaceFragment(allStaffFragment);
+                            }
+                        }else {
+                            Toast.makeText(context, "Permission not Granted!!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    else
+                    {
+                        Toast.makeText(context, "Please Try Again!!", Toast.LENGTH_SHORT).show();
+                    }
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                break;
+
             case "GetPetList":
                 try {
                     GetPetListResponse getPetListResponse = (GetPetListResponse) arg0.body();

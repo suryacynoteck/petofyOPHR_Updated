@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cynoteck.petofyOPHR.R;
+import com.cynoteck.petofyOPHR.activities.AddNewPetActivity;
 import com.cynoteck.petofyOPHR.activities.AddPetRegister;
 import com.cynoteck.petofyOPHR.activities.PetDetailsActivity;
 import com.cynoteck.petofyOPHR.activities.PetIdCardActivity;
@@ -39,6 +40,7 @@ import com.cynoteck.petofyOPHR.params.petReportsRequest.PetDataRequest;
 import com.cynoteck.petofyOPHR.response.getPetReportsResponse.getPetListResponse.GetPetListResponse;
 import com.cynoteck.petofyOPHR.response.getPetReportsResponse.getPetListResponse.PetList;
 import com.cynoteck.petofyOPHR.response.loginRegisterResponse.UserPermissionMasterList;
+import com.cynoteck.petofyOPHR.response.staffPermissionListResponse.CheckStaffPermissionResponse;
 import com.cynoteck.petofyOPHR.utils.Config;
 import com.cynoteck.petofyOPHR.utils.Methods;
 import com.cynoteck.petofyOPHR.utils.ViewDeatilsAndIdCardClick;
@@ -71,7 +73,7 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, ViewD
     ProgressBar progressBar;
     int page=1, pagelimit=10;
     ArrayList<PetList> profileList;
-
+    String permissionId="";
     SharedPreferences sharedPreferences;
     String userTYpe="";
     @Override
@@ -205,12 +207,12 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, ViewD
                     ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
                     Log.e("ArrayList",arrayList.toString());
                     Log.d("UserType",userTYpe);
-                    if (arrayList.get(0).getIsSelected().equals("true")) {
-                        startActivity(new Intent(getActivity(),AddPetRegister.class));
-
-                    }else {
-                        Toast.makeText(context, "Permission not allowed!!", Toast.LENGTH_SHORT).show();
-                    }
+                    permissionId = "1";
+                    methods.showCustomProgressBarDialog(getContext());
+                    String url  = "user/CheckStaffPermission/"+permissionId;
+                    Log.e("URL",url);
+                    ApiService<CheckStaffPermissionResponse> service = new ApiService<>();
+                    service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token,url), "CheckPermission");
                 }else if (userTYpe.equals("Veterinarian")){
                     startActivity(new Intent(getActivity(),AddPetRegister.class));
 
@@ -256,6 +258,33 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, ViewD
     public void onResponse(Response response, String key) {
 //        methods.customProgressDismiss();
         switch (key){
+            case "CheckPermission":
+                try {
+                    methods.customProgressDismiss();
+                    CheckStaffPermissionResponse checkStaffPermissionResponse = (CheckStaffPermissionResponse) response.body();
+                    Log.d("GetPetList", checkStaffPermissionResponse.toString());
+                    int responseCode = Integer.parseInt(checkStaffPermissionResponse.getResponse().getResponseCode());
+
+                    if (responseCode == 109) {
+                        if (checkStaffPermissionResponse.getData().equals("true")){
+                         if (permissionId.equals("1")){
+                             startActivity(new Intent(getActivity(),AddPetRegister.class));
+                         }
+                        }else {
+                            Toast.makeText(context, "Permission not Granted!!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    else
+                    {
+                        Toast.makeText(context, "Please Try Again!!", Toast.LENGTH_SHORT).show();
+                    }
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                break;
             case "GetPetList":
                 try {
                     GetPetListResponse getPetListResponse = (GetPetListResponse) response.body();

@@ -28,6 +28,7 @@ import com.cynoteck.petofyOPHR.fragments.PetRegisterFragment;
 import com.cynoteck.petofyOPHR.fragments.ProfileFragment;
 import com.cynoteck.petofyOPHR.fragments.ReportSelectionFragment;
 import com.cynoteck.petofyOPHR.response.loginRegisterResponse.UserPermissionMasterList;
+import com.cynoteck.petofyOPHR.response.staffPermissionListResponse.CheckStaffPermissionResponse;
 import com.cynoteck.petofyOPHR.response.updateProfileResponse.UserResponse;
 import com.cynoteck.petofyOPHR.utils.Config;
 import com.cynoteck.petofyOPHR.utils.Methods;
@@ -51,7 +52,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor login_editor;
     private int USER_UPDATION_FIRST_TIME = 1;
-    String userTYpe ="";
+    String userTYpe ="",permissionId="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -186,6 +187,52 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                     e.printStackTrace();
                 }
 
+                break;
+
+            case "CheckPermission":
+            try {
+                methods.customProgressDismiss();
+                CheckStaffPermissionResponse checkStaffPermissionResponse = (CheckStaffPermissionResponse) response.body();
+                Log.d("GetPetList", checkStaffPermissionResponse.toString());
+                int responseCode = Integer.parseInt(checkStaffPermissionResponse.getResponse().getResponseCode());
+
+                if (responseCode == 109) {
+                    if (checkStaffPermissionResponse.getData().equals("true")){
+                        if (permissionId.equals("9")) {
+                            icHome.setImageResource(R.drawable.home_normal_icon);
+                            icProfile.setImageResource(R.drawable.profile_normal_icon);
+                            icPetRegister.setImageResource(R.drawable.pet_green_icon);
+                            icAppointment.setImageResource(R.drawable.appointment_normal_icon);
+                            PetRegisterFragment petRegisterFragment = new PetRegisterFragment();
+                            FragmentTransaction ftPetRegister = getSupportFragmentManager().beginTransaction();
+                            ftPetRegister.replace(R.id.content_frame, petRegisterFragment);
+                            ftPetRegister.commit();
+                        }else if (permissionId.equals("16")){
+                            icHome.setImageResource(R.drawable.home_normal_icon);
+                            icProfile.setImageResource(R.drawable.profile_normal_icon);
+                            icPetRegister.setImageResource(R.drawable.pet_normal_icon);
+                            icAppointment.setImageResource(R.drawable.appointment_green_icon);
+                            AppointementFragment appointementFragment = new AppointementFragment();
+                            FragmentTransaction ftAppointment = getSupportFragmentManager().beginTransaction();
+                            ftAppointment.replace(R.id.content_frame, appointementFragment);
+                            ftAppointment.commit();
+                        }
+                    }else {
+                        Toast.makeText(this, "Permission not Granted!!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else
+                {
+                    Toast.makeText(this, "Please Try Again!!", Toast.LENGTH_SHORT).show();
+                }
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            break;
+
         }
     }
 
@@ -265,18 +312,12 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                     ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
                     Log.e("ArrayList",arrayList.toString());
                     Log.d("UserType",userTYpe);
-                    if (arrayList.get(8).getIsSelected().equals("true")) {
-                        icHome.setImageResource(R.drawable.home_normal_icon);
-                        icProfile.setImageResource(R.drawable.profile_normal_icon);
-                        icPetRegister.setImageResource(R.drawable.pet_green_icon);
-                        icAppointment.setImageResource(R.drawable.appointment_normal_icon);
-                        PetRegisterFragment petRegisterFragment = new PetRegisterFragment();
-                        FragmentTransaction ftPetRegister = getSupportFragmentManager().beginTransaction();
-                        ftPetRegister.replace(R.id.content_frame, petRegisterFragment);
-                        ftPetRegister.commit();
-                    }else {
-                        Toast.makeText(DashBoardActivity.this, "Permission not allowed!!", Toast.LENGTH_SHORT).show();
-                    }
+                    permissionId = "9";
+                    methods.showCustomProgressBarDialog(this);
+                    String url  = "user/CheckStaffPermission/"+permissionId;
+                    Log.e("URL",url);
+                    ApiService<CheckStaffPermissionResponse> service = new ApiService<>();
+                    service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token,url), "CheckPermission");
                 }else if (userTYpe.equals("Veterinarian")){
                     icHome.setImageResource(R.drawable.home_normal_icon);
                     icProfile.setImageResource(R.drawable.profile_normal_icon);
@@ -300,18 +341,12 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                     ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
                     Log.e("ArrayList",arrayList.toString());
                     Log.d("UserType",userTYpe);
-                    if (arrayList.get(15).getIsSelected().equals("true")) {
-                        icHome.setImageResource(R.drawable.home_normal_icon);
-                        icProfile.setImageResource(R.drawable.profile_normal_icon);
-                        icPetRegister.setImageResource(R.drawable.pet_normal_icon);
-                        icAppointment.setImageResource(R.drawable.appointment_green_icon);
-                        AppointementFragment appointementFragment = new AppointementFragment();
-                        FragmentTransaction ftAppointment = getSupportFragmentManager().beginTransaction();
-                        ftAppointment.replace(R.id.content_frame, appointementFragment);
-                        ftAppointment.commit();
-                    }else {
-                        Toast.makeText(DashBoardActivity.this, "Permission not allowed!!", Toast.LENGTH_SHORT).show();
-                    }
+                    permissionId = "16";
+                    methods.showCustomProgressBarDialog(this);
+                    String url  = "user/CheckStaffPermission/"+permissionId;
+                    Log.e("URL",url);
+                    ApiService<CheckStaffPermissionResponse> service = new ApiService<>();
+                    service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token,url), "CheckPermission");
                 }else if (userTYpe.equals("Veterinarian")){
                     icHome.setImageResource(R.drawable.home_normal_icon);
                     icProfile.setImageResource(R.drawable.profile_normal_icon);

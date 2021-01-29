@@ -432,8 +432,10 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                         // check if all permissions are granted
                         if (report.areAllPermissionsGranted()) {
-                            Toast.makeText(AddXRayDeatilsActivity.this, "All permissions are granted by user!", Toast.LENGTH_SHORT).show();
+                            Log.d("PERMISSION","All permissions are granted by user!");
+//                            Toast.makeText(AddXRayDeatilsActivity.this, "All permissions are granted by user!", Toast.LENGTH_SHORT).show();
                         }
+
 
                         // check for permanent denial of any permission
                         if (report.isAnyPermissionPermanentlyDenied()) {

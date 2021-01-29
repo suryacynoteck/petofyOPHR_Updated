@@ -1,6 +1,7 @@
 package com.cynoteck.petofyOPHR.fragments;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.cynoteck.petofyOPHR.R;
+import com.cynoteck.petofyOPHR.activities.AddNewPetActivity;
 import com.cynoteck.petofyOPHR.activities.ChangePasswordActivity;
 import com.cynoteck.petofyOPHR.activities.GetAllBankAccountsActivity;
 import com.cynoteck.petofyOPHR.activities.ImmunizationChartActivity;
@@ -31,11 +33,18 @@ import com.cynoteck.petofyOPHR.api.ApiResponse;
 import com.cynoteck.petofyOPHR.api.ApiService;
 import com.cynoteck.petofyOPHR.params.getPetListRequest.GetPetListParams;
 import com.cynoteck.petofyOPHR.params.getPetListRequest.GetPetListRequest;
+import com.cynoteck.petofyOPHR.response.loginRegisterResponse.UserPermissionMasterList;
 import com.cynoteck.petofyOPHR.response.onlineAppointmentOnOff.OnlineAppointmentResponse;
+import com.cynoteck.petofyOPHR.response.staffPermissionListResponse.CheckStaffPermissionResponse;
 import com.cynoteck.petofyOPHR.utils.Config;
+import com.cynoteck.petofyOPHR.utils.Methods;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 import retrofit2.Response;
 
@@ -50,6 +59,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, A
     View view;
     RelativeLayout veterian_full_profile_layout,operating_hrs_layout,setings_layout,logout_layout,changePass_layout,immunization_master_layout,bank_accounts_layout;
     String status;
+    SharedPreferences sharedPreferences;
+    String userTYpe="";
+    String permissionId="";
+    Methods methods;
+    Context context;
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -60,6 +74,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, A
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_profile, container, false);
+        sharedPreferences = getActivity().getSharedPreferences("userdetails", 0);
+        methods = new Methods(context);
+
         initialize();
         getVetInfo();
         switchOnline();
@@ -144,8 +161,26 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, A
                 startActivity(bank_accounts_intent);
                 break;
             case R.id.immunization_master_layout:
-                Intent immunization_master_intent = new Intent(getContext(), ImmunizationChartActivity.class);
-                startActivity(immunization_master_intent);
+                userTYpe = sharedPreferences.getString("user_type", "");
+                if (userTYpe.equals("Vet Staff")){
+                    Gson gson = new Gson();
+                    String json = sharedPreferences.getString("userPermission", null);
+                    Type type = new TypeToken<ArrayList<UserPermissionMasterList>>() {}.getType();
+                    ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
+                    Log.e("ArrayList",arrayList.toString());
+                    Log.d("UserType",userTYpe);
+                    permissionId = "18";
+                    methods.showCustomProgressBarDialog(getContext());
+                    String url  = "user/CheckStaffPermission/"+permissionId;
+                    Log.e("URL",url);
+                    ApiService<CheckStaffPermissionResponse> service = new ApiService<>();
+                    service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token,url), "CheckPermission");
+                }else if (userTYpe.equals("Veterinarian")){
+                    Intent immunization_master_intent = new Intent(getContext(), ImmunizationChartActivity.class);
+                    startActivity(immunization_master_intent);
+
+                }
+
                 break;
             case R.id.changePass_layout:
 
@@ -198,7 +233,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, A
                     int responseCode = Integer.parseInt(onlineAppointmentResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
                         if (status.equals("1")){
-                            Toast.makeText(getContext(), "Enable Online Appointment", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getContext(), "Enable Online Appointment", Toast.LENGTH_SHORT).show();
                             SharedPreferences sharedPreferences = getActivity().getSharedPreferences("userdetails", 0);
                             SharedPreferences.Editor login_editor;
                             login_editor = sharedPreferences.edit();
@@ -223,6 +258,35 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, A
                     }
                 }
                 catch(Exception e) {
+                    e.printStackTrace();
+                }
+
+                break;
+
+            case "CheckPermission":
+                try {
+                    methods.customProgressDismiss();
+                    CheckStaffPermissionResponse checkStaffPermissionResponse = (CheckStaffPermissionResponse) response.body();
+                    Log.d("GetPetList", checkStaffPermissionResponse.toString());
+                    int responseCode = Integer.parseInt(checkStaffPermissionResponse.getResponse().getResponseCode());
+
+                    if (responseCode == 109) {
+                        if (checkStaffPermissionResponse.getData().equals("true")){
+                            if (permissionId.equals("18")) {
+                                Intent immunization_master_intent = new Intent(getContext(), ImmunizationChartActivity.class);
+                                startActivity(immunization_master_intent);
+                            }
+                        }else {
+                            Toast.makeText(getContext(), "Permission not Granted!!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    else
+                    {
+                        Toast.makeText(context, "Please Try Again!!", Toast.LENGTH_SHORT).show();
+                    }
+
+
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 

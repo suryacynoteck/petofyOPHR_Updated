@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.cynoteck.petofyOPHR.R;
@@ -52,7 +53,7 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
     Bundle data = new Bundle();
     TextView pet_name_TV,pet_sex_TV,pet_id_TV,pet_owner_name_TV,pet_owner_phone_no_TV,
             reports_headline_TV,add_text_button;
-    LinearLayout addPrescriptionButton;
+    CardView addPrescription,xray_test,hospitalization_sugeries;
     SharedPreferences sharedPreferences;
     Methods methods;
     WebView webview;
@@ -91,14 +92,19 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
         add_text_button = findViewById(R.id.add_text_button);
         pet_owner_name_TV = findViewById(R.id.pet_owner_name_TV);
         pet_owner_phone_no_TV = findViewById(R.id.pet_owner_phone_no_TV);
-        addPrescriptionButton = findViewById(R.id.addPrescriptionButton);
+        addPrescription = findViewById(R.id.addPrescription);
+        xray_test=findViewById(R.id.xray_test);
+        hospitalization_sugeries=findViewById(R.id.hospitalization_sugeries);
         webview = findViewById(R.id.webview);
 
 
-        addPrescriptionButton.setOnClickListener(this);
+        addPrescription.setOnClickListener(this);
+        hospitalization_sugeries.setOnClickListener(this);
+        xray_test.setOnClickListener(this);
+        back_arrow_IV.setOnClickListener(this);
 
         if((button_text.equals("RecentVisit"))||(button_text.equals("petHistory")))
-            addPrescriptionButton.setVisibility(View.GONE);
+            addPrescription.setVisibility(View.GONE);
 
         add_text_button.setText(button_text);
         pet_name_TV.setText(pet_name+"("+pet_sex+")");
@@ -305,12 +311,6 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
 
         }
 
-        back_arrow_IV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
 
     }
 
@@ -319,22 +319,24 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.addPrescriptionButton:
-                if(button_text.equals("Test/X-rays"))
-                {
-                    TestXrayDialog();
-                }
-                else if(button_text.equals("Lab Work"))
-                {
-                    LabWorkDialog();
-                }
-                else if(button_text.equals("Hospitalization"))
-                {
-                    HospitalizationDialog();
-                }
-                else if(button_text.equals("Clinic Visits"))
+            case R.id.addPrescription:
                     clinicDialog();
                 break;
+
+            case R.id.hospitalization_sugeries:
+                HospitalizationDialog();
+                break;
+
+            case R.id.xray_test:
+                TestXrayDialog();
+
+                break;
+
+            case R.id.back_arrow_IV:
+                onBackPressed();
+                break;
+
+
 
         }
     }

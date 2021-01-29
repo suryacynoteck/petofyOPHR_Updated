@@ -1,7 +1,10 @@
 package com.cynoteck.petofyOPHR.activities;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.text.InputType;
+import android.text.method.DigitsKeyListener;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -76,6 +79,8 @@ public class AddEditImmunizationActivity extends AppCompatActivity implements Ap
             create_headline_TV.setText("Create Immunization");
             create_Edit_immui_BT.setText("Create");
             immunization_id = intent.getStringExtra("pet_encrpt_id");
+            sNo = intent.getStringExtra("serialNumber");
+
         }else {
             immunization_id = intent.getStringExtra("id");
             strSpnerItemPetNm = intent.getStringExtra("petType");
@@ -152,6 +157,9 @@ public class AddEditImmunizationActivity extends AppCompatActivity implements Ap
         booster_one_CB.setOnClickListener(this);
         Is_Periodic_Vaccine_CB.setOnClickListener(this);
         back_arrow_IV.setOnClickListener(this);
+        booster_one_ET.setInputType(Configuration.KEYBOARD_12KEY);
+        booster_one_ET.setKeyListener(new DigitsKeyListener());
+        booster_one_ET.setInputType(InputType.TYPE_NUMBER_VARIATION_NORMAL|InputType.TYPE_CLASS_NUMBER);
 
         booster_one_CB.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -251,18 +259,17 @@ public class AddEditImmunizationActivity extends AppCompatActivity implements Ap
                     booster_one_ET.setError(null);
                     booster_two_ET.setError(null);
                     primary_vaccine_name_ET.setError(null);
-                }else if (booster_one_string.isEmpty()){
-                        serial_number_ET.setError(null);
-                        minimum_age_ET.setError(null);
-                        maxmum_age_ET.setError(null);
-                        booster_one_ET.setError("Enter Booster One !");
-                        booster_two_ET.setError(null);
-                        primary_vaccine_name_ET.setError(null);
-                }else if (Double.parseDouble(booster_one_string)>30){
-                    Toast.makeText(this, "Booster one should less than or equal to 30.", Toast.LENGTH_SHORT).show();
-                }else if (Double.parseDouble(booster_one_string)<21){
-                    Toast.makeText(this, "Booster one should be greater than or equal to 21.", Toast.LENGTH_SHORT).show();
                 }
+                else if (!booster_one_string.isEmpty()){
+
+
+                    if (Double.parseDouble(booster_one_string)>30){
+                        Toast.makeText(this, "Booster one should less than or equal to 30.", Toast.LENGTH_SHORT).show();
+                    }else if (Double.parseDouble(booster_one_string)<21){
+                        Toast.makeText(this, "Booster one should be greater than or equal to 21.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
 //                else if (booster_two_string.isEmpty()) {
 //                        serial_number_ET.setError(null);
 //                        minimum_age_ET.setError(null);
@@ -288,14 +295,20 @@ public class AddEditImmunizationActivity extends AppCompatActivity implements Ap
                         addEditImmunizationParams.setMaximunAge(maxmimum_age_string);
                         addEditImmunizationParams.setRecommendedVaccinations(primary_vaccine_name_string);
                         addEditImmunizationParams.setBoosterOne(booster_one_string_CB);
-                        addEditImmunizationParams.setBoosterOneDaysGap(booster_one_string);
                         addEditImmunizationParams.setBoosterTwo(booster_two_string_CB);
-                        addEditImmunizationParams.setBoosterTwoDaysGap(String.valueOf(Double.parseDouble(booster_one_string)+Double.parseDouble(booster_one_string)));
+                       if (booster_one_string.isEmpty()){
+                            addEditImmunizationParams.setBoosterOneDaysGap("0.0");
+                            addEditImmunizationParams.setBoosterTwoDaysGap("0.0");
+
+                        }else {
+                            addEditImmunizationParams.setBoosterOneDaysGap(booster_one_string);
+                            addEditImmunizationParams.setBoosterTwoDaysGap(String.valueOf(Double.parseDouble(booster_one_string) + Double.parseDouble(booster_one_string)));
+                        }
                         addEditImmunizationParams.setIsPeriodicVaccine(is_Periodic_Vaccine_string_CB);
                         addEditImmunizationParams.setVaccinationPeriod(getStrSpnerItemIsPeriodicVaccineValue);
-                        addEditImmunizationParams.setEncryptedId("");
+                        addEditImmunizationParams.setEncryptedId(immunization_id);
                         addEditImmunizationParams.setVeterinarianUserId("");
-                        addEditImmunizationParams.setId(immunization_id);
+                        addEditImmunizationParams.setId("");
                         AddEditImmunizationRequest addEditImmunizationRequest = new AddEditImmunizationRequest();
                         addEditImmunizationRequest.setData(addEditImmunizationParams);
                     if (type.equals("add")) {
@@ -334,7 +347,7 @@ public class AddEditImmunizationActivity extends AppCompatActivity implements Ap
 
                     if (responseCode == 109) {
                         if (type.equals("add")) {
-                            serial_number_ET.setText(immunizationResponse.getData().getSerialNumber());
+                            serial_number_ET.setText(sNo);
                             minimum_age_ET.setText(immunizationResponse.getData().getMinimunAge());
                             maxmum_age_ET.setText(immunizationResponse.getData().getMaximunAge());
                             booster_one_string_CB=immunizationResponse.getData().getBoosterOne();

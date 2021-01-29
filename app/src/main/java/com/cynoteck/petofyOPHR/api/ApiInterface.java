@@ -127,6 +127,7 @@ import com.cynoteck.petofyOPHR.response.saveWorkingReponse.SaveWorkingHoursRespo
 import com.cynoteck.petofyOPHR.response.searchDiagnosisResponse.SearchDiagnosisResponseData;
 import com.cynoteck.petofyOPHR.response.searchDiagnosisResponse.SearchDiagnosisResponseResponse;
 import com.cynoteck.petofyOPHR.response.searchRemaks.SearchRemaksResponse;
+import com.cynoteck.petofyOPHR.response.staffPermissionListResponse.CheckStaffPermissionResponse;
 import com.cynoteck.petofyOPHR.response.staffPermissionListResponse.StaffPermissionResponse;
 import com.cynoteck.petofyOPHR.response.testResponse.XrayTestResponse;
 import com.cynoteck.petofyOPHR.response.upcommingVisitsResponse.UpcommingVisitsResponse;
@@ -694,6 +695,10 @@ public interface ApiInterface {
     @POST("user/UpdateProfileImage")
     Call<JsonObject> updateProfileImage(@Header("Authorization") String auth, @Body UploadVetProfileImageData uploadVetProfileImageData);
 
+
+    //check Staff Permission
+    @GET
+    Call<CheckStaffPermissionResponse> getCheckStaffPermission(@Header("Authorization") String auth, @Url String url);
 
 }
 

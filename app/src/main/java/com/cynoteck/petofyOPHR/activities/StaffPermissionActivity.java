@@ -34,7 +34,7 @@ public class StaffPermissionActivity extends AppCompatActivity implements View.O
 
     ShimmerFrameLayout shimmer_view_container;
     RecyclerView staff_permissionList;
-    ImageView back;
+    ImageView back_arrow_IV;
 
     Methods methods;
     private String staffId="";
@@ -54,7 +54,7 @@ public class StaffPermissionActivity extends AppCompatActivity implements View.O
 
         shimmer_view_container=findViewById(R.id.shimmer_view_container);
         staff_permissionList=findViewById(R.id.staff_permissionList);
-        back=findViewById(R.id.back);
+        back_arrow_IV=findViewById(R.id.back_arrow_IV);
 
         methods=new Methods(this);
 
@@ -85,7 +85,7 @@ public class StaffPermissionActivity extends AppCompatActivity implements View.O
 
         switch (view.getId())
         {
-            case R.id.back:
+            case R.id.back_arrow_IV:
                 onBackPressed();
                 break;
         }

@@ -3,6 +3,7 @@ package com.cynoteck.petofyOPHR.activities;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSpinner;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,11 +29,16 @@ import com.cynoteck.petofyOPHR.params.immunizationRequest.ImmunizationParams;
 import com.cynoteck.petofyOPHR.params.immunizationRequest.ImmunizationRequest;
 import com.cynoteck.petofyOPHR.response.CheckTrueFalseStatus;
 import com.cynoteck.petofyOPHR.response.immunizationListResponse.ImmunizationResponse;
+import com.cynoteck.petofyOPHR.response.loginRegisterResponse.UserPermissionMasterList;
+import com.cynoteck.petofyOPHR.response.staffPermissionListResponse.CheckStaffPermissionResponse;
 import com.cynoteck.petofyOPHR.response.updateProfileResponse.PetTypeResponse;
 import com.cynoteck.petofyOPHR.utils.Config;
 import com.cynoteck.petofyOPHR.utils.ImmunizationOnclick;
 import com.cynoteck.petofyOPHR.utils.Methods;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -48,12 +55,20 @@ public class ImmunizationChartActivity extends AppCompatActivity implements View
     int deletePostion;
     ArrayList<String> petType = new ArrayList<>();
     HashMap<String,String> petTypeHashMap=new HashMap<>();
-    String strSpnerItemPetNm="Dog",getStrSpnerItemPetNmId="";
+    String strSpnerItemPetNm="Dog",getStrSpnerItemPetNmId="",strChartSize="";
+    CardView createNew_card,immue_list_card;
+    String userTYpe="";
+    String permissionId="";
+    SharedPreferences sharedPreferences;
+    int immunizationPostion;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_immunization_chart);
         methods = new Methods(this);
+        sharedPreferences = getSharedPreferences("userdetails", 0);
+
         initization();
         if (methods.isInternetOn()) {
             petType();
@@ -73,6 +88,7 @@ public class ImmunizationChartActivity extends AppCompatActivity implements View
     }
 
     private void getImmunizationList(String getStrSpnerItemPetNmId) {
+        methods.showCustomProgressBarDialog(this);
         ImmunizationParams immunizationParams = new ImmunizationParams();
         immunizationParams.setEncryptedId(getStrSpnerItemPetNmId);
         ImmunizationRequest immunizationRequest = new ImmunizationRequest();
@@ -87,6 +103,8 @@ public class ImmunizationChartActivity extends AppCompatActivity implements View
         pet_type_ACS = findViewById(R.id.pet_type);
         immue_list_RV = findViewById(R.id.immue_list_RV);
         back_arrow_IV = findViewById(R.id.back_arrow_IV);
+        immue_list_card=findViewById(R.id.immue_list_card);
+        createNew_card=findViewById(R.id.createNew_card);
 
         create_new_immu.setOnClickListener(this);
         back_arrow_IV.setOnClickListener(this);
@@ -105,15 +123,34 @@ public class ImmunizationChartActivity extends AppCompatActivity implements View
     }
 
 
+
     @Override
     public void onClick(View v) {
 
         switch (v.getId()) {
             case R.id.create_new_immu:
-                Intent intent = new Intent(this,AddEditImmunizationActivity.class);
-                intent.putExtra("type","add");
-                intent.putExtra("pet_encrpt_id","MQ==");
-                startActivityForResult(intent,1);
+                userTYpe = sharedPreferences.getString("user_type", "");
+                if (userTYpe.equals("Vet Staff")){
+                    Gson gson = new Gson();
+                    String json = sharedPreferences.getString("userPermission", null);
+                    Type type = new TypeToken<ArrayList<UserPermissionMasterList>>() {}.getType();
+                    ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
+                    Log.e("ArrayList",arrayList.toString());
+                    Log.d("UserType",userTYpe);
+                    permissionId = "19";
+                    methods.showCustomProgressBarDialog(this);
+                    String url  = "user/CheckStaffPermission/"+permissionId;
+                    Log.e("URL",url);
+                    ApiService<CheckStaffPermissionResponse> service = new ApiService<>();
+                    service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token,url), "CheckPermission");
+                }else if (userTYpe.equals("Veterinarian")){
+                    Intent intent = new Intent(this,AddEditImmunizationActivity.class);
+                    intent.putExtra("type","add");
+                    intent.putExtra("pet_encrpt_id","MQ==");
+                    intent.putExtra("serialNumber",strChartSize);
+                    startActivityForResult(intent,1);
+
+                }
 
                 break;
 
@@ -130,18 +167,20 @@ public class ImmunizationChartActivity extends AppCompatActivity implements View
         switch (key) {
             case "ImmunizationList":
                 try {
+                    methods.customProgressDismiss();
                     immunizationResponse = (ImmunizationResponse) arg0.body();
                     Log.d("ImmunizationList", immunizationResponse.toString());
                     int responseCode = Integer.parseInt(immunizationResponse.getResponse().getResponseCode());
 
                     if (responseCode == 109) {
+                        createNew_card.setVisibility(View.VISIBLE);
+                        immue_list_card.setVisibility(View.VISIBLE);
+                        strChartSize = String.valueOf(immunizationResponse.getData().getImmunizationScheduleScheduleList().size()+1);
+                        Log.e("SIZE",strChartSize);
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
                         immue_list_RV.setLayoutManager(linearLayoutManager);
                         immunizationChartAdapter = new ImmunizationChartAdapter(this, immunizationResponse.getData().getImmunizationScheduleScheduleList(), this);
                         immue_list_RV.setAdapter(immunizationChartAdapter);
-//                        immunizationChartAdapter.notifyDataSetChanged();
-//                        shimmer_view_container.setVisibility(View.GONE);
-////                        shimmer_view_container.stopShimmerAnimation();
                     } else if (responseCode == 614) {
                         Toast.makeText(this, immunizationResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
                     } else {
@@ -202,6 +241,63 @@ public class ImmunizationChartActivity extends AppCompatActivity implements View
                 }
 
                 break;
+
+            case "CheckPermission":
+                try {
+                    methods.customProgressDismiss();
+                    CheckStaffPermissionResponse checkStaffPermissionResponse = (CheckStaffPermissionResponse) arg0.body();
+                    Log.d("GetPetList", checkStaffPermissionResponse.toString());
+                    int responseCode = Integer.parseInt(checkStaffPermissionResponse.getResponse().getResponseCode());
+
+                    if (responseCode == 109) {
+                        if (checkStaffPermissionResponse.getData().equals("true")){
+                            if (permissionId.equals("19")) {
+                                Intent intent = new Intent(this,AddEditImmunizationActivity.class);
+                                intent.putExtra("type","add");
+                                intent.putExtra("pet_encrpt_id","MQ==");
+                                intent.putExtra("serialNumber",strChartSize);
+                                startActivityForResult(intent,1);
+                            }else if (permissionId.equals("20")){
+                                addEditIntent(immunizationPostion);
+                            }else if (permissionId.equals("21")){
+                                Log.d("Add Anotheer Veterian","vet");
+                                AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+                                alertDialog.setTitle("Are you sure?");
+                                alertDialog.setMessage("Do You Want to Delete This Schedule ?");
+                                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                if (methods.isInternetOn()) {
+                                                    deleteImmunization(deletePostion);
+                                                } else {
+                                                    methods.DialogInternet();
+                                                }
+                                                dialog.dismiss();
+                                            }
+                                        });
+                                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                dialogInterface.dismiss();
+                                            }
+                                        });
+                                alertDialog.show();
+                            }
+                        }else {
+                            Toast.makeText(this, "Permission not Granted!!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    else {
+                        Toast.makeText(this, "Please Try Again!!", Toast.LENGTH_SHORT).show();
+                    }
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                break;
         }
     }
 
@@ -231,35 +327,55 @@ public class ImmunizationChartActivity extends AppCompatActivity implements View
 
     @Override
         public void onError (Throwable t, String key){
-
+        Log.e("ERROR",t.getLocalizedMessage());
+        methods.customProgressDismiss();
         }
 
     @Override
     public void onDeleteButton(final int position) {
         deletePostion = position;
-        Log.d("Add Anotheer Veterian","vet");
-        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-        alertDialog.setTitle("Are you sure?");
-        alertDialog.setMessage("Do You Want to Delete This Schedule ?");
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (methods.isInternetOn()) {
-                            deleteImmunization(position);
-                        } else {
-                            methods.DialogInternet();
+
+
+        userTYpe = sharedPreferences.getString("user_type", "");
+        if (userTYpe.equals("Vet Staff")){
+            Gson gson = new Gson();
+            String json = sharedPreferences.getString("userPermission", null);
+            Type type = new TypeToken<ArrayList<UserPermissionMasterList>>() {}.getType();
+            ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
+            Log.e("ArrayList",arrayList.toString());
+            Log.d("UserType",userTYpe);
+            permissionId = "21";
+            methods.showCustomProgressBarDialog(this);
+            String url  = "user/CheckStaffPermission/"+permissionId;
+            Log.e("URL",url);
+            ApiService<CheckStaffPermissionResponse> service = new ApiService<>();
+            service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token,url), "CheckPermission");
+        }else if (userTYpe.equals("Veterinarian")){
+            Log.d("Add Anotheer Veterian","vet");
+            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            alertDialog.setTitle("Are you sure?");
+            alertDialog.setMessage("Do You Want to Delete This Schedule ?");
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (methods.isInternetOn()) {
+                                deleteImmunization(position);
+                            } else {
+                                methods.DialogInternet();
+                            }
+                            dialog.dismiss();
                         }
-                        dialog.dismiss();
-                    }
-                });
-        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-        alertDialog.show();
+                    });
+            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "CANCEL",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    });
+            alertDialog.show();
+        }
+
 
 
     }
@@ -277,6 +393,29 @@ public class ImmunizationChartActivity extends AppCompatActivity implements View
 
     @Override
     public void onEditButton(int position) {
+        immunizationPostion = position;
+        userTYpe = sharedPreferences.getString("user_type", "");
+        if (userTYpe.equals("Vet Staff")){
+            Gson gson = new Gson();
+            String json = sharedPreferences.getString("userPermission", null);
+            Type type = new TypeToken<ArrayList<UserPermissionMasterList>>() {}.getType();
+            ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
+            Log.e("ArrayList",arrayList.toString());
+            Log.d("UserType",userTYpe);
+            permissionId = "20";
+            methods.showCustomProgressBarDialog(this);
+            String url  = "user/CheckStaffPermission/"+permissionId;
+            Log.e("URL",url);
+            ApiService<CheckStaffPermissionResponse> service = new ApiService<>();
+            service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token,url), "CheckPermission");
+        }else if (userTYpe.equals("Veterinarian")){
+            addEditIntent(position);
+
+        }
+
+    }
+
+    private void addEditIntent(int position) {
         Intent intent = new Intent(this,AddEditImmunizationActivity.class);
         intent.putExtra("type","edit");
         intent.putExtra("id",immunizationResponse.getData().getImmunizationScheduleScheduleList().get(position).getEncryptedId());
@@ -292,9 +431,7 @@ public class ImmunizationChartActivity extends AppCompatActivity implements View
         intent.putExtra("gapBoosterTwo",immunizationResponse.getData().getImmunizationScheduleScheduleList().get(position).getBoosterTwoDaysGap());
         intent.putExtra("isPeriodicVaccine",immunizationResponse.getData().getImmunizationScheduleScheduleList().get(position).getIsPeriodicVaccine());
         intent.putExtra("vaccinePeriod",immunizationResponse.getData().getImmunizationScheduleScheduleList().get(position).getVaccinationPeriodText());
-
         startActivityForResult(intent,1);
-
 
     }
 }

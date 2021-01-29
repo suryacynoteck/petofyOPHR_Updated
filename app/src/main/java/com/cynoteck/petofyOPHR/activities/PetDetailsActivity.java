@@ -47,6 +47,7 @@ import com.cynoteck.petofyOPHR.response.immuniztionHistory.ImmunizationHistoryRe
 import com.cynoteck.petofyOPHR.response.immuniztionHistory.ImmunizationHistorymodel;
 import com.cynoteck.petofyOPHR.response.loginRegisterResponse.UserPermissionMasterList;
 import com.cynoteck.petofyOPHR.response.saveImmunizationData.SaveImmunizationResponse;
+import com.cynoteck.petofyOPHR.response.staffPermissionListResponse.CheckStaffPermissionResponse;
 import com.cynoteck.petofyOPHR.utils.Config;
 import com.cynoteck.petofyOPHR.utils.ImmunizationOnclickListener;
 import com.cynoteck.petofyOPHR.utils.Methods;
@@ -80,7 +81,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
     VaccineTypeAdapter vaccineTypeAdapter;
     ImmunizationHistoryAdopter immunizationHistoryAdopter;
     SharedPreferences sharedPreferences;
-
+    String permissionId="";
     Dialog vaccineDetailsDialog;
 
 
@@ -276,25 +277,12 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                     ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
                     Log.e("ArrayList",arrayList.toString());
                     Log.d("UserType",userTYpe);
-                    if (arrayList.get(8).getIsSelected().equals("true")) {
-                        Intent petDetailsClinicVisits = new Intent(this, NewEntrysDetailsActivity.class);
-                        Bundle dataClinicVisits = new Bundle();
-                        dataClinicVisits.putString("pet_id",pet_id);
-                        dataClinicVisits.putString("pet_name",pet_name);
-                        dataClinicVisits.putString("pet_parent",patent_name);
-                        dataClinicVisits.putString("pet_unique_id",pet_unique_id);
-                        dataClinicVisits.putString("reports_id","1.0");
-                        dataClinicVisits.putString("pet_sex",pet_sex);
-                        dataClinicVisits.putString("pet_age",pet_age);
-                        dataClinicVisits.putString("add_button_text","Clinic Visits");
-                        dataClinicVisits.putString("pet_DOB",pet_DOB);
-                        dataClinicVisits.putString("pet_encrypted_id",pet_encrypted_id);
-                        dataClinicVisits.putString("pet_cat_id",pet_cat_id);
-                        petDetailsClinicVisits.putExtras(dataClinicVisits);
-                        startActivity(petDetailsClinicVisits);
-                    }else {
-                        Toast.makeText(this, "Permission not allowed!!", Toast.LENGTH_SHORT).show();
-                    }
+                    permissionId = "6";
+                    methods.showCustomProgressBarDialog(this);
+                    String url  = "user/CheckStaffPermission/"+permissionId;
+                    Log.e("URL",url);
+                    ApiService<CheckStaffPermissionResponse> service = new ApiService<>();
+                    service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token,url), "CheckPermission");
                 }else if (userTYpe.equals("Veterinarian")){
                     Intent petDetailsClinicVisits = new Intent(this, NewEntrysDetailsActivity.class);
                     Bundle dataClinicVisits = new Bundle();
@@ -315,15 +303,30 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
 
                 break;
             case R.id.last_prescription:
-                if(methods.isInternetOn())
-                {
-                    getclinicVisitsReportDetails();
+                userTYpe = sharedPreferences.getString("user_type", "");
+                if (userTYpe.equals("Vet Staff")){
+                    Gson gson = new Gson();
+                    String json = sharedPreferences.getString("userPermission", null);
+                    Type type = new TypeToken<ArrayList<UserPermissionMasterList>>() {}.getType();
+                    ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
+                    Log.e("ArrayList",arrayList.toString());
+                    Log.d("UserType",userTYpe);
+                    permissionId = "7";
+                    methods.showCustomProgressBarDialog(this);
+                    String url  = "user/CheckStaffPermission/"+permissionId;
+                    Log.e("URL",url);
+                    ApiService<CheckStaffPermissionResponse> service = new ApiService<>();
+                    service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token,url), "CheckPermission");
+                }else if (userTYpe.equals("Veterinarian")) {
+                    if (methods.isInternetOn()) {
+                        getclinicVisitsReportDetails();
 
+                    } else {
+                        methods.DialogInternet();
+                    }
                 }
-                else
-                {
-                    methods.DialogInternet();
-                }
+
+
                 break;
             case R.id.back_arrow_IV:
                 onBackPressed();
@@ -380,6 +383,56 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
     public void onResponse(Response arg0, String key) {
         Log.d("kkakakak",""+key+" response: "+arg0);
         switch (key) {
+            case "CheckPermission":
+                try {
+                    methods.customProgressDismiss();
+                    CheckStaffPermissionResponse checkStaffPermissionResponse = (CheckStaffPermissionResponse) arg0.body();
+                    Log.d("GetPetList", checkStaffPermissionResponse.toString());
+                    int responseCode = Integer.parseInt(checkStaffPermissionResponse.getResponse().getResponseCode());
+
+                    if (responseCode == 109) {
+                        if (checkStaffPermissionResponse.getData().equals("true")){
+                            if (permissionId.equals("6")){
+                                Intent petDetailsClinicVisits = new Intent(this, NewEntrysDetailsActivity.class);
+                                Bundle dataClinicVisits = new Bundle();
+                                dataClinicVisits.putString("pet_id",pet_id);
+                                dataClinicVisits.putString("pet_name",pet_name);
+                                dataClinicVisits.putString("pet_parent",patent_name);
+                                dataClinicVisits.putString("pet_unique_id",pet_unique_id);
+                                dataClinicVisits.putString("reports_id","1.0");
+                                dataClinicVisits.putString("pet_sex",pet_sex);
+                                dataClinicVisits.putString("pet_age",pet_age);
+                                dataClinicVisits.putString("add_button_text","Clinic Visits");
+                                dataClinicVisits.putString("pet_DOB",pet_DOB);
+                                dataClinicVisits.putString("pet_encrypted_id",pet_encrypted_id);
+                                dataClinicVisits.putString("pet_cat_id",pet_cat_id);
+                                petDetailsClinicVisits.putExtras(dataClinicVisits);
+                                startActivity(petDetailsClinicVisits);
+                            }else if (permissionId.equals("7")){
+                                if (methods.isInternetOn()) {
+                                    getclinicVisitsReportDetails();
+
+                                } else {
+                                    methods.DialogInternet();
+                                }
+                            }
+                        }else {
+                            Toast.makeText(this, "Permission not Granted!!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    else
+                    {
+                        Toast.makeText(this, "Please Try Again!!", Toast.LENGTH_SHORT).show();
+                    }
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                break;
+
+
             case "GetPetClinicVisitDetails":
                 try {
                     Log.d("ResponseClinicVisit", arg0.body().toString());

@@ -41,16 +41,26 @@ public class StaffPermissionListAdapter extends RecyclerView.Adapter<StaffPermis
 
     @Override
     public void onBindViewHolder(@NonNull StaffPermissionListAdapter.MyViewHolder holder, final int position) {
+        holder.setIsRecyclable(false);
 
-    holder.permission_name.setText(staffPermissionResponseModels.get(position).getPermissionName());
+        holder.permission_name.setText(staffPermissionResponseModels.get(position).getPermissionName());
 
     if(staffPermissionResponseModels.get(position).getIsSelected().equals("true"))
          holder.permission_switch.setChecked(true);
-    else
+    else {
         holder.permission_switch.setChecked(false);
-
+    }
     }
 
+    @Override
+    public void onViewRecycled(@NonNull StaffPermissionListAdapter.MyViewHolder holder) {
+        super.onViewRecycled(holder);
+        holder.permission_switch.setOnCheckedChangeListener(null);
+    }
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
     @Override
     public int getItemCount() {
         return staffPermissionResponseModels.size();
