@@ -1,9 +1,11 @@
 package com.cynoteck.petofyOPHR.params.appointmentParams;
 
 public class CreateAppointParams {
-    private String petId;
-
     private String duration;
+
+    private String petid;
+
+    private String isVideoCall;
 
     private String description;
 
@@ -15,13 +17,7 @@ public class CreateAppointParams {
 
     private String eventStartDate;
 
-    public String getPetId() {
-        return petId;
-    }
-
-    public void setPetId(String petId) {
-        this.petId = petId;
-    }
+    private String vetId;
 
     public String getDuration ()
     {
@@ -31,6 +27,26 @@ public class CreateAppointParams {
     public void setDuration (String duration)
     {
         this.duration = duration;
+    }
+
+    public String getPetid ()
+    {
+        return petid;
+    }
+
+    public void setPetid (String petid)
+    {
+        this.petid = petid;
+    }
+
+    public String getIsVideoCall ()
+    {
+        return isVideoCall;
+    }
+
+    public void setIsVideoCall (String isVideoCall)
+    {
+        this.isVideoCall = isVideoCall;
     }
 
     public String getDescription ()
@@ -83,10 +99,20 @@ public class CreateAppointParams {
         this.eventStartDate = eventStartDate;
     }
 
+    public String getVetId ()
+    {
+        return vetId;
+    }
+
+    public void setVetId (String vetId)
+    {
+        this.vetId = vetId;
+    }
+
     @Override
     public String toString()
     {
-        return "ClassPojo [petId = "+petId+", duration = "+duration+", description = "+description+", eventStartTime = "+eventStartTime+", title = "+title+", userId = "+userId+", eventStartDate = "+eventStartDate+"]";
+        return "ClassPojo [duration = "+duration+", petid = "+petid+", isVideoCall = "+isVideoCall+", description = "+description+", eventStartTime = "+eventStartTime+", title = "+title+", userId = "+userId+", eventStartDate = "+eventStartDate+", vetId = "+vetId+"]";
     }
 }
 

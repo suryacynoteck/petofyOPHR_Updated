@@ -49,7 +49,7 @@ public class AddEditImmunizationActivity extends AppCompatActivity implements Ap
     TextView is_periodic_TV,days_gap_booster_one_TV,days_gap_booster_two_TV,create_headline_TV;
     ImageView back_arrow_IV;
     //spinner Strings
-    String getStrSpnerItemIsPeriodicVaccineValue="0.0",strSpnerItemIsPeriodicVaccineNm="",strSpnerItemPetNm="Dog",getStrSpnerItemPetNmId="",strSpnerItemPetAgeUnitNm="",getStrSpnerItemPetAgeUnitValue="";
+    String vaacineID="",getStrSpnerItemIsPeriodicVaccineValue="0.0",strSpnerItemIsPeriodicVaccineNm="",strSpnerItemPetNm="Dog",getStrSpnerItemPetNmId="",strSpnerItemPetAgeUnitNm="",getStrSpnerItemPetAgeUnitValue="";
 // page String
     String booster_one_string_CB="false",booster_two_string_CB="false",is_Periodic_Vaccine_string_CB="false",serial_number_string="",minimum_age_string="",maxmimum_age_string="",primary_vaccine_name_string,booster_one_string="",booster_two_string="";
     ArrayList<String> petType = new ArrayList<>();
@@ -64,8 +64,6 @@ public class AddEditImmunizationActivity extends AppCompatActivity implements Ap
     ImmunizationModelResponse immunizationResponse;
     //intent Strings
     String type="",immunization_id="",sNo="",minage="",maxAge="",vaccineName="",encrypt_id="";
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,12 +164,12 @@ public class AddEditImmunizationActivity extends AppCompatActivity implements Ap
             public void onClick(View v) {
                 if (booster_one_CB.isChecked()){
                     booster_one_string_CB="true";
-                    booster_one_ET.setText(booster_one_string);
+//                    booster_one_ET.setText(booster_one_string);
                     days_gap_booster_one_TV.setVisibility(View.VISIBLE);
                     booster_one_ET.setVisibility(View.VISIBLE);
                 }else {
                     booster_one_string_CB="false";
-                    booster_one_ET.setText(booster_one_string);
+//                    booster_one_ET.setText(booster_one_string);
                     days_gap_booster_one_TV.setVisibility(View.GONE);
                     booster_one_ET.setVisibility(View.GONE);
                 }
@@ -230,12 +228,13 @@ public class AddEditImmunizationActivity extends AppCompatActivity implements Ap
                 break;
 
             case R.id.create_Edit_immui_BT:
+                Log.e("RUN","RRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
                 serial_number_string=serial_number_ET.getText().toString().trim();
                 minimum_age_string=minimum_age_ET.getText().toString().trim();
                 maxmimum_age_string=maxmum_age_ET.getText().toString().trim();
                 primary_vaccine_name_string=primary_vaccine_name_ET.getText().toString().trim();
                 booster_one_string=booster_one_ET.getText().toString().trim();
-                booster_two_string=booster_two_ET.getText().toString().trim();
+//                booster_two_string=booster_two_ET.getText().toString().trim();
 
                 if (serial_number_string.isEmpty()){
                     serial_number_ET.setError("Empty Serial Number !");
@@ -259,34 +258,27 @@ public class AddEditImmunizationActivity extends AppCompatActivity implements Ap
                     booster_one_ET.setError(null);
                     booster_two_ET.setError(null);
                     primary_vaccine_name_ET.setError(null);
-                }
-                else if (!booster_one_string.isEmpty()){
-
-
-                    if (Double.parseDouble(booster_one_string)>30){
-                        Toast.makeText(this, "Booster one should less than or equal to 30.", Toast.LENGTH_SHORT).show();
-                    }else if (Double.parseDouble(booster_one_string)<21){
-                        Toast.makeText(this, "Booster one should be greater than or equal to 21.", Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-//                else if (booster_two_string.isEmpty()) {
-//                        serial_number_ET.setError(null);
-//                        minimum_age_ET.setError(null);
-//                        maxmum_age_ET.setError(null);
-//                        booster_one_ET.setError(null);
-//                        booster_two_ET.setError("Enter Booster Two !");
-//                        primary_vaccine_name_ET.setError(null);
-//
-//                }
-                else if (primary_vaccine_name_string.isEmpty()){
+                }  else if (primary_vaccine_name_string.isEmpty()){
                     serial_number_ET.setError(null);
                     minimum_age_ET.setError(null);
                     maxmum_age_ET.setError(null);
                     booster_one_ET.setError(null);
                     booster_two_ET.setError(null);
                     primary_vaccine_name_ET.setError("Enter Vaccine Name !");
-                }else {
+                }else if (booster_one_string_CB.equals("true")&&booster_one_string.isEmpty()){
+                    Log.e("RUN","RRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
+                        serial_number_ET.setError(null);
+                        minimum_age_ET.setError(null);
+                        maxmum_age_ET.setError(null);
+                        booster_one_ET.setError("Enter Booster One!");
+                        booster_two_ET.setError(null);
+                        primary_vaccine_name_ET.setError(null);
+                 } else if (!booster_one_string.isEmpty()&&Double.parseDouble(booster_one_string)>30){
+                    Toast.makeText(this, "Booster one should less than or equal to 30.", Toast.LENGTH_SHORT).show();
+                }else if (!booster_one_string.isEmpty()&&Double.parseDouble(booster_one_string)<21){
+                    Toast.makeText(this, "Booster one should be greater than or equal to 21.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.e("RUN","RRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
                         AddEditImmunizationParams addEditImmunizationParams = new AddEditImmunizationParams();
                         addEditImmunizationParams.setSerialNumber(serial_number_string);
                         addEditImmunizationParams.setPetCategoryId(getStrSpnerItemPetNmId);
@@ -297,27 +289,31 @@ public class AddEditImmunizationActivity extends AppCompatActivity implements Ap
                         addEditImmunizationParams.setBoosterOne(booster_one_string_CB);
                         addEditImmunizationParams.setBoosterTwo(booster_two_string_CB);
                        if (booster_one_string.isEmpty()){
-                            addEditImmunizationParams.setBoosterOneDaysGap("0.0");
+                           Log.e("RUN","RRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
+                           addEditImmunizationParams.setBoosterOneDaysGap("0.0");
                             addEditImmunizationParams.setBoosterTwoDaysGap("0.0");
 
                         }else {
-                            addEditImmunizationParams.setBoosterOneDaysGap(booster_one_string);
+                           Log.e("RUN","RRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
+                           addEditImmunizationParams.setBoosterOneDaysGap(booster_one_string);
                             addEditImmunizationParams.setBoosterTwoDaysGap(String.valueOf(Double.parseDouble(booster_one_string) + Double.parseDouble(booster_one_string)));
                         }
                         addEditImmunizationParams.setIsPeriodicVaccine(is_Periodic_Vaccine_string_CB);
                         addEditImmunizationParams.setVaccinationPeriod(getStrSpnerItemIsPeriodicVaccineValue);
                         addEditImmunizationParams.setEncryptedId(immunization_id);
                         addEditImmunizationParams.setVeterinarianUserId("");
-                        addEditImmunizationParams.setId("");
+                        addEditImmunizationParams.setId(immunization_id);
                         AddEditImmunizationRequest addEditImmunizationRequest = new AddEditImmunizationRequest();
                         addEditImmunizationRequest.setData(addEditImmunizationParams);
                     if (type.equals("add")) {
+                        Log.e("RUN","RRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
                         methods.showCustomProgressBarDialog(this);
                         ApiService<AddEditImmunizationResponse> service = new ApiService<>();
                         service.get( this, ApiClient.getApiInterface().addImmunizationSchedule(Config.token,addEditImmunizationRequest), "AddImmunization");
                         Log.e("AddImmunization",""+methods.getRequestJson(addEditImmunizationRequest));
 
                     }else {
+                        Log.e("RUN","RRRRRRRRRRRRRRRRRRRRRRRRRRRRR");
                         methods.showCustomProgressBarDialog(this);
                         ApiService<AddEditImmunizationResponse> service = new ApiService<>();
                         service.get( this, ApiClient.getApiInterface().editImmunizationSchedule(Config.token,addEditImmunizationRequest), "EditImmunization");
@@ -356,11 +352,18 @@ public class AddEditImmunizationActivity extends AppCompatActivity implements Ap
                             checkBoxSection();
 
                         }else {
+                            vaacineID = immunizationResponse.getData().getId();
                             serial_number_ET.setText(sNo);
                             minimum_age_ET.setText(minage);
                             maxmum_age_ET.setText(maxAge);
                             primary_vaccine_name_ET.setText(vaccineName);
-                            booster_one_ET.setText(immunizationResponse.getData().getBoosterOneDaysGap());
+                            String boosterOne_day_gap = immunizationResponse.getData().getBoosterOneDaysGap();
+                            Log.e("BOOSTER_ONE_GAP",boosterOne_day_gap);
+                            if (boosterOne_day_gap.equals("0.0")){
+                                booster_one_ET.setText(" ");
+                            }else {
+                                booster_one_ET.setText(immunizationResponse.getData().getBoosterOneDaysGap());
+                            }
                             booster_two_ET.setText(immunizationResponse.getData().getBoosterTwoDaysGap());
                             checkBoxSection();
                         }

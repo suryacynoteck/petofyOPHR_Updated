@@ -38,9 +38,8 @@ public class ImmunizationChartAdapter extends RecyclerView.Adapter<ImmunizationC
     @Override
     public void onBindViewHolder(@NonNull ImmunizationChartAdapter.MyViewHolder holder, int position) {
         String min_age="",max_age;
-        min_age = immunizationScheduleScheduleLists.get(position).getMinimunAge().substring(0,immunizationScheduleScheduleLists.get(position).getMinimunAge().length()-3);
-        max_age = immunizationScheduleScheduleLists.get(position).getMaximunAge().substring(0,immunizationScheduleScheduleLists.get(position).getMaximunAge().length()-3);
-
+        min_age =Double.toString(Math.floor(Double.parseDouble(immunizationScheduleScheduleLists.get(position).getMinimunAge())));
+        max_age =Double.toString(Math.floor(Double.parseDouble(immunizationScheduleScheduleLists.get(position).getMaximunAge())));
 
         holder.age_group_TV.setText(min_age+"-"+max_age+"Days");
         if (immunizationScheduleScheduleLists.get(position).getRecommendedVaccinations().equals("PUPPY DP")){

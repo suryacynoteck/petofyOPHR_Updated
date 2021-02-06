@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -49,7 +50,7 @@ import retrofit2.Response;
 public class NewEntrysDetailsActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse {
     ImageView back_arrow_IV;
     String pet_unique_id, pet_name,pet_sex,pet_age,pet_DOB,pet_owner_name,pet_owner_contact,pet_id ,
-            report_type_id,button_text,button_type,pet_encrypted_id,pet_cat_id="";
+            report_type_id,button_text,button_type,pet_encrypted_id,pet_cat_id="",lastVisitEncryptedId="";
     Bundle data = new Bundle();
     TextView pet_name_TV,pet_sex_TV,pet_id_TV,pet_owner_name_TV,pet_owner_phone_no_TV,
             reports_headline_TV,add_text_button;
@@ -57,6 +58,8 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
     SharedPreferences sharedPreferences;
     Methods methods;
     WebView webview;
+    int ADD_CLINIC_VISIT = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,10 +81,11 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
         pet_DOB=extras.getString("pet_DOB");
         pet_encrypted_id=extras.getString("pet_encrypted_id");
         pet_cat_id = extras.getString("pet_cat_id");
+        lastVisitEncryptedId = extras.getString("lastVisitEncryptedId");
 
         pet_unique_id = extras.getString("pet_unique_id");
         button_text = extras.getString("add_button_text");
-        Log.e("PET_DETAILS",""+pet_DOB+" "+pet_encrypted_id+" "+pet_cat_id);
+        Log.e("PET_DETAILS",""+pet_DOB+" "+pet_encrypted_id+" "+pet_cat_id+" "+lastVisitEncryptedId);
 
 
         reports_headline_TV = findViewById(R.id.reports_headline_TV);
@@ -107,11 +111,10 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
             addPrescription.setVisibility(View.GONE);
 
         add_text_button.setText(button_text);
-        pet_name_TV.setText(pet_name+"("+pet_sex+")");
+        pet_name_TV.setText(pet_name.substring(0, 1).toUpperCase() + pet_name.substring(1)+"("+pet_sex+")");
         pet_owner_name_TV.setText(pet_owner_name);
         pet_id_TV.setText(pet_unique_id);
         pet_owner_name_TV.setText(pet_owner_name);
-        pet_name_TV.setText(pet_name);
 
         data.putString("pet_id",pet_id);
         data.putString("pet_name",pet_name);
@@ -407,7 +410,7 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
             data.putString("toolbar_name","ADD CLINIC VISITS");
             data.putString("pet_cat_id",pet_cat_id);
             petDetailsIntent.putExtras(data);
-            startActivityForResult(petDetailsIntent,1);
+            startActivityForResult(petDetailsIntent,ADD_CLINIC_VISIT);
 
         }
 
@@ -423,6 +426,7 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
         data.putString("pet_sex",pet_sex);
         data.putString("pet_age",pet_age);
         data.putString("pet_unique_id",pet_unique_id);
+        data.putString("pet_cat_id",pet_cat_id);
         data.putString("type","Add Test/X-rays");
         xRayIntent.putExtras(data);
         startActivity(xRayIntent);
@@ -437,6 +441,7 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
         data.putString("pet_sex",pet_sex);
         data.putString("pet_age",pet_age);
         data.putString("pet_unique_id",pet_unique_id);
+        data.putString("pet_cat_id",pet_cat_id);
         data.putString("lab_type","");
         data.putString("type","Add");
 
@@ -453,6 +458,7 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
         data.putString("pet_sex",pet_sex);
         data.putString("pet_age",pet_age);
         data.putString("pet_unique_id",pet_unique_id);
+        data.putString("pet_cat_id",pet_cat_id);
         data.putString("type","Add");
         hospitalIntent.putExtras(data);
         startActivity(hospitalIntent);
@@ -556,5 +562,18 @@ public class NewEntrysDetailsActivity extends AppCompatActivity implements View.
     @Override
     public void onError(Throwable t, String key) {
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ADD_CLINIC_VISIT) {
+            if(resultCode == RESULT_OK) {
+                Intent lastPrescriptionIntent = new Intent(this,PdfEditorActivity.class);
+                lastPrescriptionIntent.putExtra("encryptId",data.getStringExtra("encryptId"));
+                startActivity(lastPrescriptionIntent);
+
+            }
+        }
     }
 }

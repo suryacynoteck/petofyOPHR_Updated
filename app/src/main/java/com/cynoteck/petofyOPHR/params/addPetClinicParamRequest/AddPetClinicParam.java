@@ -1,5 +1,7 @@
 package com.cynoteck.petofyOPHR.params.addPetClinicParamRequest;
 
+import com.google.gson.JsonArray;
+
 public class AddPetClinicParam {
     private String petId;
     private String veterinarian;
@@ -23,6 +25,15 @@ public class AddPetClinicParam {
     private String documents;
     private String appointmentId;
     private String dewormerDose;
+    private JsonArray vaccinationModels = null;
+
+    public JsonArray getVaccinationModels() {
+        return vaccinationModels;
+    }
+
+    public void setVaccinationModels(JsonArray vaccinationModels) {
+        this.vaccinationModels = vaccinationModels;
+    }
 
     public String getPetId() {
         return petId;
@@ -203,7 +214,7 @@ public class AddPetClinicParam {
     @Override
     public String toString()
     {
-        return "ClassPojo [petId= "+petId+", veterinarian = "+veterinarian+", visitDate = "+visitDate+", natureOfVisitId = "+natureOfVisitId+", vaccine = "+vaccine+", description= "+description+", weightLbs = "+weightLbs+", weightOz = "+weightOz+", temperature = "+temperature+", dateOfOnset = "+dateOfOnset+", description = "+description+", dewormerName = "+dewormerName+", remarks= "+remarks+", nextVaccineName ="+nextVaccineName+", history = "+history+", nextVaccinetype = "+nextVaccinetype+", treatmentRemarks = "+treatmentRemarks+", diagnosisProcedure = "+diagnosisProcedure+", followUpId = "+followUpId+", followUpDate = "+followUpDate+", documents = "+documents+", appointmentId= "+appointmentId+",dewormerDose="+dewormerDose+"]";
+        return "ClassPojo [petId= "+petId+", veterinarian = "+veterinarian+", visitDate = "+visitDate+", natureOfVisitId = "+natureOfVisitId+", vaccine = "+vaccine+", description= "+description+", weightLbs = "+weightLbs+", weightOz = "+weightOz+", temperature = "+temperature+", dateOfOnset = "+dateOfOnset+", description = "+description+", dewormerName = "+dewormerName+", remarks= "+remarks+", nextVaccineName ="+nextVaccineName+", history = "+history+", nextVaccinetype = "+nextVaccinetype+", treatmentRemarks = "+treatmentRemarks+", diagnosisProcedure = "+diagnosisProcedure+", followUpId = "+followUpId+", followUpDate = "+followUpDate+", documents = "+documents+", appointmentId= "+appointmentId+",dewormerDose="+dewormerDose+", vaccinationModels= " + vaccinationModels +"]";
     }
 
 }

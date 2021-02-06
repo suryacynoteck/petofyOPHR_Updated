@@ -248,7 +248,7 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, ViewD
 
         ApiService<GetPetListResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().getPetList(Config.token,getPetDataRequest), "GetPetList");
-        Log.e("DATALOG","check1=> "+getPetDataRequest);
+        Log.e("DATALOG","check1=> "+methods.getRequestJson(getPetDataRequest));
 
 
     }
@@ -296,7 +296,7 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, ViewD
                         register_pet_RV.setLayoutManager(linearLayoutManager);
                         if(getPetListResponse.getData().getPetList().size()>0)
                         {
-                            Log.d("DATALOG", String.valueOf(getPetListResponse.getData().getPetList().get(0).getPetUniqueId()));
+                            Log.d("DATALOG", String.valueOf(getPetListResponse.getData().getPetList().get(0).getPetCategoryId()));
 
                             for(int i=0; i<getPetListResponse.getData().getPetList().size();i++)
                             {
@@ -310,6 +310,10 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, ViewD
                                 petList.setEncryptedId(getPetListResponse.getData().getPetList().get(i).getEncryptedId());
                                 petList.setId(getPetListResponse.getData().getPetList().get(i).getId());
                                 petList.setPetAge(getPetListResponse.getData().getPetList().get(i).getPetAge());
+                                petList.setPetCategoryId(getPetListResponse.getData().getPetList().get(i).getPetCategoryId());
+                                petList.setLastVisitEncryptedId(getPetListResponse.getData().getPetList().get(i).getLastVisitEncryptedId());
+                                Log.e("LAST_VISIT",getPetListResponse.getData().getPetList().get(i).getLastVisitEncryptedId());
+
                                 profileList.add(petList);
                             }
                             progressBar.setVisibility(View.GONE);
@@ -360,7 +364,9 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, ViewD
                                 petList.setEncryptedId(getPetListResponse.getData().getPetList().get(i).getEncryptedId());
                                 petList.setId(getPetListResponse.getData().getPetList().get(i).getId());
                                 petList.setPetAge(getPetListResponse.getData().getPetList().get(i).getPetAge());
-
+                                petList.setPetCategoryId(getPetListResponse.getData().getPetList().get(i).getPetCategoryId());
+                                petList.setLastVisitEncryptedId(getPetListResponse.getData().getPetList().get(i).getLastVisitEncryptedId());
+                                Log.e("LAST_VISIT",getPetListResponse.getData().getPetList().get(i).getLastVisitEncryptedId());
                                 profileList.add(petList);
                             }
                             progressBar.setVisibility(View.GONE);
@@ -425,16 +431,6 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, ViewD
 
         Intent intent=new Intent(getActivity(), PetProfileActivity.class);
         intent.putExtra("pet_id",first);
-//        intent.putExtra("pet_category",profileList.get(position).getPetCategory());
-//        intent.putExtra("pet_name",profileList.get(position).getPetName());
-//        intent.putExtra("pet_sex",profileList.get(position).getPetSex());
-//        intent.putExtra("pet_DOB",profileList.get(position).getPetTestsAndXrey());
-//        intent.putExtra("pet_age",profileList.get(position).getPetAge());
-//        intent.putExtra("pet_size",profileList.get(position).getPetSize());
-//        intent.putExtra("pet_breed",profileList.get(position).getPetBreed());
-//        intent.putExtra("pet_color",profileList.get(position).getPetColor());
-//        intent.putExtra("pet_parent",profileList.get(position).getPetParentName());
-//        intent.putExtra("pet_parent_contact",profileList.get(position).getContactNumber());
         startActivity(intent);
 
     }
@@ -467,6 +463,9 @@ public class PetRegisterFragment extends Fragment implements  ApiResponse, ViewD
         data.putString("pet_unique_id",profileList.get(position).getPetUniqueId());
         data.putString("pet_DOB",profileList.get(position).getDateOfBirth());
         data.putString("pet_encrypted_id",profileList.get(position).getEncryptedId());
+        data.putString("pet_cat_id",profileList.get(position).getPetCategoryId());
+        data.putString("lastVisitEncryptedId",profileList.get(position).getLastVisitEncryptedId());
+
         petDetailsIntent.putExtras(data);
         startActivity(petDetailsIntent);
     }

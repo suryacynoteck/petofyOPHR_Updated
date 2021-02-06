@@ -43,10 +43,11 @@ public class ReportsCommonActivity extends AppCompatActivity {
         pet_owner_name_TV = findViewById(R.id.pet_owner_name_TV);
         pet_owner_phone_no_TV = findViewById(R.id.pet_owner_phone_no_TV);
 
-        pet_name_TV.setText(pet_name);
+        pet_name_TV.setText(pet_name.substring(0, 1).toUpperCase() + pet_name.substring(1));
         pet_sex_TV.setText("("+pet_sex+")");
-        pet_owner_name_TV.setText(pet_owner_name);
+        pet_owner_name_TV.setText(pet_owner_name.substring(0, 1).toUpperCase() + pet_owner_name.substring(1));
         pet_id_TV.setText(pet_unique_id);
+        pet_owner_phone_no_TV.setText("("+pet_owner_contact+")");
 
         data.putString("pet_id",pet_id);
         data.putString("pet_name",pet_name);

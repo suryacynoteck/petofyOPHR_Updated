@@ -641,6 +641,7 @@
                 app:layout_constraintTop_toBottomOf="@id/date_of_illness_TV" />
 
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/vaccine_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -683,6 +684,7 @@
 
  -->
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/add_immunization_data_added"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -1082,6 +1084,7 @@
                 app:layout_constraintTop_toBottomOf="@id/follow_up_dt"/>
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/next_vaccine_TV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -1095,6 +1098,7 @@
                 app:layout_constraintTop_toBottomOf="@id/folow_up_dt_view" />
 
             <EditText
+                android:visibility="gone"
                 android:id="@+id/next_vaccine_ET"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -1112,6 +1116,7 @@
                 app:layout_constraintTop_toBottomOf="@id/next_vaccine_TV" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/next_vaccine_type_TV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -1125,6 +1130,7 @@
                 app:layout_constraintTop_toBottomOf="@id/next_vaccine_ET" />
 
             <androidx.appcompat.widget.AppCompatSpinner
+                android:visibility="gone"
                 android:id="@+id/next_vaccine_type_spinner"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -1137,6 +1143,7 @@
                 app:layout_constraintTop_toBottomOf="@id/next_vaccine_type_TV" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/next_dewormer_TV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -1151,6 +1158,7 @@
 
 
             <androidx.appcompat.widget.AppCompatSpinner
+                android:visibility="gone"
                 android:id="@+id/next_dewormer_spinner"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"

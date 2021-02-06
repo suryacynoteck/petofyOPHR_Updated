@@ -35,6 +35,7 @@ public class XRayReportDeatilsActivity extends AppCompatActivity implements ApiR
     String nature="",date_of_test="",follow_up="",result="",pet_unique_id, pet_name,pet_sex, pet_owner_name,pet_owner_contact,pet_id ,report_type_id,type,follow_up_date;
 
     Methods methods;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,8 +47,6 @@ public class XRayReportDeatilsActivity extends AppCompatActivity implements ApiR
         setdataInFields();
         //getXRayReportDeatilsDeatils();
     }
-
-
 
     private void setdataInFields() {
         pet_name_TV.setText(pet_name);
@@ -137,6 +136,7 @@ public class XRayReportDeatilsActivity extends AppCompatActivity implements ApiR
         }
 
     }
+
     private void getXRayReportDeatilsDeatils() {
 
         PetClinicVistsDetailsParams petClinicVistsDetailsParams = new PetClinicVistsDetailsParams();

@@ -39,6 +39,7 @@ import com.cynoteck.petofyOPHR.utils.Methods;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
@@ -99,7 +100,6 @@ public class AppointementFragment extends Fragment implements ApiResponse ,View.
     public void getAppointment() {
         ApiService<GetAppointmentResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().getAppointment(Config.token), "GetAppointment");
-
     }
     private void approveAndReject() {
         AppointmentStatusParams appointmentStatusParams = new AppointmentStatusParams();
@@ -108,7 +108,7 @@ public class AppointementFragment extends Fragment implements ApiResponse ,View.
         AppointmentsStatusRequest appointmentsStatusRequest = new AppointmentsStatusRequest();
         appointmentsStatusRequest.setData(appointmentStatusParams);
         Log.d("Statusrequest",methods.getRequestJson(appointmentsStatusRequest));
-        ApiService<AppointmentStatusResponse> service = new ApiService<>();
+        ApiService<JsonObject> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().appointmentApproveReject(Config.token,appointmentsStatusRequest), "Status");
 
     }
@@ -252,9 +252,11 @@ public class AppointementFragment extends Fragment implements ApiResponse ,View.
             case "Status":
                 try {
                     Log.d("appointmentstaus",arg0.body().toString());
-                    AppointmentStatusResponse appointmentStatusResponse = (AppointmentStatusResponse) arg0.body();
-                    Log.d("appointmentstaus",appointmentStatusResponse.toString());
-                    int responseCode = Integer.parseInt(appointmentStatusResponse.getResponse().getResponseCode());
+                    JsonObject appointmentstaus = (JsonObject) arg0.body();
+                    Log.d("appointmentstaus", appointmentstaus.toString());
+                    JsonObject response = appointmentstaus.getAsJsonObject("response");
+                    Log.d("hhshshhs",""+response);
+                    int responseCode = Integer.parseInt(String.valueOf(response.get("responseCode")));
                     if (responseCode==109) {
                         Toast.makeText(getContext(), "Status Changes Successfully", Toast.LENGTH_SHORT).show();
                         getAppointment();

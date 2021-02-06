@@ -87,6 +87,7 @@ public class Methods {
             e.printStackTrace();
         }
     }
+
     public void customProgressDismiss() {
         progressBarDialog.dismiss();
     }
@@ -98,7 +99,7 @@ public class Methods {
         return str;
     }
 
-    public String pdfGenarator(String strForA,String strAge,String strSex,String pet_parent,String strTemparature,String history,String Symptons, String strDiagnosis,String strRemark,String strNxtVisit,String regisNumber) {
+    public String pdfGenarator(String petName,String petAge,String petSex,String pet_parent,String strTemparature,String history,String Symptons, String strDiagnosis,String strRemark,String strNxtVisit,String regisNumber) {
         String care="Vet Care";
         String str = "<!DOCTYPE html>\n" +
                 "<html>\n" +
@@ -170,13 +171,13 @@ public class Methods {
                 "            </div>\n" +
                 "            <div class=\"row\">\n" +
                 "                <div class=\"col-xs-3\" style=\"font-size: 20px;\">\n" +
-                "                    <b>For a: " + strForA + "</b>\n" +
+                "                    <b>For a: " + petName + "</b>\n" +
                 "                </div>\n" +
                 "                <div class=\"col-xs-3\" style=\"font-size: 20px;\">\n" +
-                "                    <b>Age: " + strAge + "</b>\n" +
+                "                    <b>Age: " + petAge + "</b>\n" +
                 "                </div>\n" +
                 "                <div class=\"col-xs-3\" style=\"font-size: 20px;\">\n" +
-                "                    <b>Sex: " + strSex + "</b>\n" +
+                "                    <b>Sex: " + petSex + "</b>\n" +
                 "                </div>\n" +
                 "                <div class=\"col-xs-3\" style=\"font-size: 20px; margin-bottom: 25px;\">\n" +
                 "                    <b>Date:"+Config.currentDate()+" <?=date('d/m/Y')?></b>\n" +
@@ -186,36 +187,53 @@ public class Methods {
                 "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 25px;\">\n" +
                 "                    <b>Pet Parant Name:" + pet_parent + "</b>\n" +
                 "                </div>\n" +
+                "               <script>\n"+
+                "                var Temperature = "+strTemparature+";\n"+
+                "                if (!Temperature.equals("+""+")) {\n"+
                 "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 10px;\">\n" +
-                "                    <b>Temparature(F): " + strTemparature + "\u2109</b>\n" +
+                "                    <b>Temperature(F): " + strTemparature + "\u2109</b>\n" +
                 "                </div>\n" +
-                "                <div class=\"col-xs-12\" style=\"font-size: 40px; margin-bottom: 25px;\">\n" +
-                "                    <b>Routine/Health Problem:</b>\n" +
+                "                   }\n"+
+                "               </script>\n"+
+                "                <div class=\"col-xs-12\" style=\"font-size: 30px; margin-bottom: 25px;\">\n" +
+                "                    <b>Routine/Health Problem/</b>\n" +
                 "                </div>\n" +
+                "               <script>\n"+
+                "                var history = "+history+";\n"+
+                "                if (!history.equals("+""+")) {\n"+
                 "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 25px;\">\n" +
                 "                    <b>History:</b>\n" +
                 "                </div>\n" +
                 "                <div class=\"col-xs-12\" style=\"margin-bottom: 10px;\">\n" +
                 "                    <p>" + history + "</p>\n" +
                 "                </div>\n" +
+                "                   }\n"+
+                "               </script>\n"+
+                "               <script>\n"+
+                "                var Symptoms = "+Symptons+";\n"+
+                "                if (!Symptoms.equals("+""+")) {\n"+
                 "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 25px;\">\n" +
-                "                    <b>Symptons:</b>\n" +
+                "                    <b>Symptoms:</b>\n" +
                 "                </div>\n" +
                 "                <div class=\"col-xs-12\" style=\"margin-bottom: 10px;\">\n" +
                 "                    <p>" + Symptons + "</p>\n" +
                 "                </div>\n" +
-                "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 25px;\">\n" +
-                "                    <b>Diagnosis:</b>\n" +
-                "                </div>\n" +
+                "                   }\n"+
+                "               </script>\n"+
                 "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 10px;\">\n" +
                 "                    <p>" + strDiagnosis + "</p>\n" +
                 "                </div>\n" +
+                "               <script>\n"+
+                "                var strRemark = "+strRemark+";\n"+
+                "                if (!strRemark.equals("+""+")) {\n"+
                 "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 25px;\">\n" +
                 "                    <b>Treatment Remarks:</b>\n" +
                 "                </div>\n" +
                 "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 10px;\">\n" +
                 "                    <p>" + strRemark + "</p>\n" +
                 "                </div>\n" +
+                "                   }\n"+
+                "               </script>\n"+
                 "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 25px;\">\n" +
                 "                    <b>Next Visit:</b>\n" +
                 "                </div>\n" +
@@ -244,7 +262,7 @@ public class Methods {
         return str;
     }
 
-    public String pdfGenaratorDeworming(String strForA,String strAge,String strSex,String pet_parent,String strTemparature,String Symptons,String history, String dewormerdose,String strRemark,String strNxtVisit,String regisNumber) {
+    public String pdfGenaratorDeworming(String petName,String petAge,String petSex,String pet_parent,String strTemparature,String Symptons,String history, String dewormerName,String dewormerdose,String strRemark,String strNxtVisit,String regisNumber,String petWeight) {
         String care="Vet Care";
         String str = "<!DOCTYPE html>\n" +
                 "<html>\n" +
@@ -316,13 +334,13 @@ public class Methods {
                 "            </div>\n" +
                 "            <div class=\"row\">\n" +
                 "                <div class=\"col-xs-3\" style=\"font-size: 20px;\">\n" +
-                "                    <b>For a: " + strForA + "</b>\n" +
+                "                    <b>For a: " + petName + "</b>\n" +
                 "                </div>\n" +
                 "                <div class=\"col-xs-3\" style=\"font-size: 20px;\">\n" +
-                "                    <b>Age: " + strAge + "</b>\n" +
+                "                    <b>" + petAge + "</b>\n" +
                 "                </div>\n" +
                 "                <div class=\"col-xs-3\" style=\"font-size: 20px;\">\n" +
-                "                    <b>Sex: " + strSex + "</b>\n" +
+                "                    <b>Sex: " + petSex + "</b>\n" +
                 "                </div>\n" +
                 "                <div class=\"col-xs-3\" style=\"font-size: 20px; margin-bottom: 25px;\">\n" +
                 "                    <b>Date:"+Config.currentDate()+" <?=date('d/m/Y')?></b>\n" +
@@ -330,38 +348,59 @@ public class Methods {
                 "\n" +
                 "\n" +
                 "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 25px;\">\n" +
-                "                    <b>Pet Parant Name:" + pet_parent + "</b>\n" +
+                "                    <b>Pet Parent Name:" + pet_parent + "</b>\n" +
                 "                </div>\n" +
+                "               <script>\n"+
+                "                var temperature = "+""+";\n"+
+                "                if (temperature === "+""+") {\n"+
                 "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 10px;\">\n" +
-                "                    <b>Temparature(F): " + strTemparature + "\u2109</b>\n" +
+                "                    <b>Temperature(F): " + strTemparature + "\u2109</b>\n" +
                 "                </div>\n" +
+                "                   }\n"+
+                "               </script>\n"+
                 "                <div class=\"col-xs-12\" style=\"font-size: 30px; margin-bottom: 25px;\">\n" +
                 "                    <b>DEWORMING</b>\n" +
                 "                </div>\n" +
+                "               <script>\n"+
+                "                var history = "+history+";\n"+
+                "                if (!history.equals("+""+")) {\n"+
                 "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 25px;\">\n" +
                 "                    <b>History:</b>\n" +
                 "                </div>\n" +
                 "                <div class=\"col-xs-12\" style=\"margin-bottom: 10px;\">\n" +
                 "                    <p>" + history + "</p>\n" +
                 "                </div>\n" +
+                "                   }\n"+
+                "               </script>\n"+
+                "               <script>\n"+
+                "                var Symptoms = "+Symptons+";\n"+
+                "                if (!Symptoms.equals("+""+")) {\n"+
                 "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 25px;\">\n" +
-                "                    <b>Symptons:</b>\n" +
+                "                    <b>Symptoms:</b>\n" +
                 "                </div>\n" +
                 "                <div class=\"col-xs-12\" style=\"margin-bottom: 10px;\">\n" +
                 "                    <p>" + Symptons + "</p>\n" +
                 "                </div>\n" +
+                "                   }\n"+
+                "               </script>\n"+
+
                 "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 25px;\">\n" +
                 "                    <b>Dewormer Name:</b>\n" +
                 "                </div>\n" +
                 "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 10px;\">\n" +
-                "                    <p>" + dewormerdose + "</p>\n" +
+                "                    <p>" + dewormerName + " "+dewormerdose+"</p>\n" +
                 "                </div>\n" +
+                "               <script>\n"+
+                "                var strRemark = "+strRemark+";\n"+
+                "                if (!strRemark.equals("+""+")) {\n"+
                 "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 25px;\">\n" +
                 "                    <b>Treatment Remarks:</b>\n" +
                 "                </div>\n" +
-                "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 10px;\">\n" +
+                "                <div class=\"col-xs-12\" style=\"margin-bottom: 10px;\">\n" +
                 "                    <p>" + strRemark + "</p>\n" +
                 "                </div>\n" +
+                "                   }\n"+
+                "               </script>\n"+
                 "                <div class=\"col-xs-12\" style=\"font-size: 20px; margin-bottom: 25px;\">\n" +
                 "                    <b>Next Visit:</b>\n" +
                 "                </div>\n" +
@@ -558,7 +597,6 @@ public class Methods {
                 "</html>";
         return str;
     }
-
 
     public String getDate() {
         DateFormat dateFormat = new SimpleDateFormat("dd MM yyyy");

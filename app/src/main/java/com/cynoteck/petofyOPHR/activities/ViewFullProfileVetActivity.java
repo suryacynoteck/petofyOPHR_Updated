@@ -34,6 +34,8 @@ import com.cynoteck.petofyOPHR.adapters.ServiceTypeListAdpater;
 import com.cynoteck.petofyOPHR.api.ApiClient;
 import com.cynoteck.petofyOPHR.api.ApiResponse;
 import com.cynoteck.petofyOPHR.api.ApiService;
+import com.cynoteck.petofyOPHR.params.appointmentParams.AppointmentStatusParams;
+import com.cynoteck.petofyOPHR.params.appointmentParams.AppointmentsStatusRequest;
 import com.cynoteck.petofyOPHR.params.getPetListRequest.GetPetListParams;
 import com.cynoteck.petofyOPHR.params.getPetListRequest.GetPetListRequest;
 import com.cynoteck.petofyOPHR.params.uploadVetProfileImageParams.UploadProfileImageParams;
@@ -324,12 +326,13 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
     }
 
     private void onlineAppoint(String value) {
-        GetPetListParams getPetListParams = new GetPetListParams();
+        AppointmentStatusParams getPetListParams = new AppointmentStatusParams();
         getPetListParams.setId(value);
-        GetPetListRequest getPetListRequest = new GetPetListRequest();
+        AppointmentsStatusRequest getPetListRequest = new AppointmentsStatusRequest();
         getPetListRequest.setData(getPetListParams);
         ApiService<OnlineAppointmentResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().onlineAppointmentOnOff(Config.token,getPetListRequest), "OnlineAppoint");
+        Log.e("onlineAppointment==>",""+methods.getRequestJson(getPetListRequest));
 
     }
 

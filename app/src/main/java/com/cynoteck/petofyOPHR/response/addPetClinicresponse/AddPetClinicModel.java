@@ -2,6 +2,24 @@ package com.cynoteck.petofyOPHR.response.addPetClinicresponse;
 
 public class AddPetClinicModel {
     private Integer id;
+    private String encryptedId;
+    private String status;
+
+    public String getEncryptedId() {
+        return encryptedId;
+    }
+
+    public void setEncryptedId(String encryptedId) {
+        this.encryptedId = encryptedId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public Integer getId() {
         return id;
@@ -14,7 +32,7 @@ public class AddPetClinicModel {
     @Override
     public String toString()
     {
-        return "ClassPojo [id = "+id+"]";
+        return "ClassPojo [encryptedId = "+encryptedId+", id = "+id+", status = "+status+"]";
     }
 
 }

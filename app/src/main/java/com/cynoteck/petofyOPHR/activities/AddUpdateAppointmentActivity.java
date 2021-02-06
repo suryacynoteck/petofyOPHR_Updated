@@ -20,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -30,6 +31,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -89,7 +91,7 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
     ArrayList<GetPetParentListData> petParent = new ArrayList<>();
     PetParentAdapter petParentAdapter;
     Dialog petParentDilog;
-    String  currentTime="", strResponseOtp="",petParentContactNumber="",petName="",petSex="",petAge="",petId="",id="",appointmentID="",userID="", type="", titleString="",descriptionString="",dateString="",timeString ="",durationString="",petParentString="", petUniqueID="";
+    String  isVedioCall="false",currentTime="", strResponseOtp="",petParentContactNumber="",petName="",petSex="",petAge="",petId="",id="",appointmentID="",userID="", type="", titleString="",descriptionString="",dateString="",timeString ="",durationString="",petParentString="", petUniqueID="";
     DatePickerDialog picker;
     TimePicker timePicker;
     ArrayList<String> petUniueId=null;
@@ -98,6 +100,10 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
     TextInputLayout mobile_numberTL,otp_TL;
     TextInputEditText pet_parent_mobile_number, pet_parent_otp;
     Button submit_parent_otp;
+    SwitchCompat visit_type_SC;
+    TextView visit_type_TV;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -226,7 +232,8 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
         new_pet_search= findViewById(R.id.new_pet_search);
         pet_search_layout= findViewById(R.id.pet_search_layout);
         pet_details_TV= findViewById(R.id.pet_details_TV);
-
+        visit_type_TV=findViewById(R.id.visit_type_TV);
+        visit_type_SC=findViewById(R.id.visit_type_SC);
         add_new_pet.setOnClickListener(this);
         new_pet_search.setOnClickListener(this);
         appointment_headline_back.setOnClickListener(this);
@@ -234,10 +241,20 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
         calenderTextViewAppointDt.setOnClickListener(this);
         time_TV.setOnClickListener(this);
         pet_parent_TV.addTextChangedListener(this);
+        visit_type_SC.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked){
+                        isVedioCall = "true";
+                        visit_type_TV.setText("Online Appointment");
+                    }else {
+                        isVedioCall = "false";
+                        visit_type_TV.setText("Clinic Visit");
 
-
-
-    }
+                    }
+                }
+            });
+        }
 
     private void searchPet()
     {
@@ -444,7 +461,8 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
                         createAppointParams.setEventStartDate(dateString);
                         createAppointParams.setEventStartTime(timeString);
                         createAppointParams.setTitle(titleString);
-                        createAppointParams.setPetId(petId.substring(0,petId.length()-2));
+                        createAppointParams.setPetid(petId.substring(0,petId.length()-2));
+                        createAppointParams.setIsVideoCall(isVedioCall);
                         CreateAppointRequest createAppointRequest = new CreateAppointRequest();
                         createAppointRequest.setData(createAppointParams);
                         if (methods.isInternetOn()){
@@ -463,6 +481,7 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
                         updateAppointmentParams.setTitle(titleString);
                         updateAppointmentParams.setId(id);
                         updateAppointmentParams.setPetId(petId);
+                        updateAppointmentParams.setIsVideoCall(isVedioCall);
                         UpdateAppointmentRequest  updateAppointmentRequest = new UpdateAppointmentRequest();
                         updateAppointmentRequest.setData(updateAppointmentParams);
                         if (methods.isInternetOn()){
@@ -576,6 +595,8 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
         Log.d("create",createAppointRequest.toString());
         ApiService<CreateAppointmentResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().createAppointment(Config.token,createAppointRequest), "CreateAppointment");
+        Log.e("UpdateAppointment",methods.getRequestJson(createAppointRequest));
+
     }
     private void chkVetInregister(InPetRegisterRequest inPetRegisterRequest) {
         ApiService<InPetVeterianResponse> service = new ApiService<>();
@@ -758,6 +779,15 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
                         calenderTextViewAppointDt.setText((appointmentDetailsResponse.getData().getEventStartDate().substring(0,10)));
                         description_ET.setText(appointmentDetailsResponse.getData().getDescription());
                         duration_TV.setText(appointmentDetailsResponse.getData().getDuration());
+                        isVedioCall=appointmentDetailsResponse.getData().getIsVideoCall();
+                        if (isVedioCall.equals("true")){
+                            visit_type_TV.setText("Online Appointment");
+                            visit_type_SC.setChecked(true);
+                        }else {
+                            visit_type_TV.setText("Clinic Visit");
+                            visit_type_SC.setChecked(false);
+
+                        }
 
                         timeString = appointmentDetailsResponse.getData().getEventStartDate().substring(appointmentDetailsResponse.getData().getEventStartDate().length()-8,appointmentDetailsResponse.getData().getEventStartDate().length());
                         Log.d("datee",timeString);

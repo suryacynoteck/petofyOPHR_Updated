@@ -1376,6 +1376,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
     }
 
     private void UploadImages(File absolutePath) {
+        methods.showCustomProgressBarDialog(this);
         MultipartBody.Part userDpFilePart = null;
         if (absolutePath != null) {
             RequestBody userDpFile = RequestBody.create(MediaType.parse("image/*"), absolutePath);
@@ -1625,6 +1626,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
 
             case "UploadDocument":
                 try {
+                    methods.customProgressDismiss();
                     Log.d("UploadDocument",response.body().toString());
                     ImageResponse imageResponse = (ImageResponse) response.body();
                     int responseCode = Integer.parseInt(imageResponse.getResponse().getResponseCode());
@@ -1676,6 +1678,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
     public void onError(Throwable t, String key) {
         methods.customProgressDismiss();
         Log.e("error",t.getLocalizedMessage());
+        Toast.makeText(this, "Please try again!", Toast.LENGTH_SHORT).show();
     }
 
     private void setCountrySpinner() {

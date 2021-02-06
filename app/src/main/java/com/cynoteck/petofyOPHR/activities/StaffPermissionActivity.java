@@ -3,6 +3,7 @@ package com.cynoteck.petofyOPHR.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import retrofit2.Response;
 
 import android.os.Bundle;
@@ -35,9 +36,9 @@ public class StaffPermissionActivity extends AppCompatActivity implements View.O
     ShimmerFrameLayout shimmer_view_container;
     RecyclerView staff_permissionList;
     ImageView back_arrow_IV;
-
+    int pos;
     Methods methods;
-    private String staffId="";
+    private String staffId = "";
     List<StaffPermissionResponseModel> staffPermissionResponseModels;
     StaffPermissionListAdapter staffPermissionListAdapter;
 
@@ -52,39 +53,38 @@ public class StaffPermissionActivity extends AppCompatActivity implements View.O
     private void initialize() {
         Bundle extras = getIntent().getExtras();
 
-        shimmer_view_container=findViewById(R.id.shimmer_view_container);
-        staff_permissionList=findViewById(R.id.staff_permissionList);
-        back_arrow_IV=findViewById(R.id.back_arrow_IV);
-
-        methods=new Methods(this);
+        shimmer_view_container = findViewById(R.id.shimmer_view_container);
+        staff_permissionList = findViewById(R.id.staff_permissionList);
+        back_arrow_IV = findViewById(R.id.back_arrow_IV);
+        back_arrow_IV.setOnClickListener(this);
+        methods = new Methods(this);
 
         if (extras != null) {
             staffId = extras.getString("staffUserId");
         }
 
-        StaffPermissionModel staffPermissionModel=new StaffPermissionModel();
+        StaffPermissionModel staffPermissionModel = new StaffPermissionModel();
         staffPermissionModel.setUserId(staffId);
-        StaffPermissionRequest staffPermissionRequest=new StaffPermissionRequest();
+        StaffPermissionRequest staffPermissionRequest = new StaffPermissionRequest();
         staffPermissionRequest.setData(staffPermissionModel);
-        
-        if(methods.isInternetOn())
+
+        if (methods.isInternetOn())
             getStafPermission(staffPermissionRequest);
         else
-            methods.DialogInternet(); 
+            methods.DialogInternet();
     }
 
     private void getStafPermission(StaffPermissionRequest staffPermissionRequest) {
         shimmer_view_container.startShimmerAnimation();
         ApiService<StaffPermissionResponse> service = new ApiService<>();
-        service.get( this, ApiClient.getApiInterface().getStaffPermissionList(Config.token,staffPermissionRequest), "GetStaffPermissionList");
-        Log.d("GetStaffPermissionList","parameter"+staffPermissionRequest);
+        service.get(this, ApiClient.getApiInterface().getStaffPermissionList(Config.token, staffPermissionRequest), "GetStaffPermissionList");
+        Log.d("GetStaffPermissionList", "parameter" + staffPermissionRequest);
     }
 
     @Override
     public void onClick(View view) {
 
-        switch (view.getId())
-        {
+        switch (view.getId()) {
             case R.id.back_arrow_IV:
                 onBackPressed();
                 break;
@@ -94,50 +94,43 @@ public class StaffPermissionActivity extends AppCompatActivity implements View.O
 
     private void assignPermission(AssignRemovePermissionRequest assignRemovePermissionRequest) {
         ApiService<StaffPermissionResponse> service = new ApiService<>();
-        service.get( this, ApiClient.getApiInterface().assignPermission(Config.token,assignRemovePermissionRequest), "AssignPermission");
-        Log.d("AssignPermission","parameter"+assignRemovePermissionRequest);
+        service.get(this, ApiClient.getApiInterface().assignPermission(Config.token, assignRemovePermissionRequest), "AssignPermission");
+        Log.d("AssignPermission", "parameter" + assignRemovePermissionRequest);
     }
 
     private void removePermission(AssignRemovePermissionRequest assignRemovePermissionRequest) {
         ApiService<StaffPermissionResponse> service = new ApiService<>();
-        service.get( this, ApiClient.getApiInterface().removePermission(Config.token,assignRemovePermissionRequest), "RemovePermission");
-        Log.d("RemovePermission","parameter"+assignRemovePermissionRequest);
+        service.get(this, ApiClient.getApiInterface().removePermission(Config.token, assignRemovePermissionRequest), "RemovePermission");
+        Log.d("RemovePermission", "parameter" + assignRemovePermissionRequest);
     }
 
 
-
     @Override
-    public void onResponse(Response arg0, String key)
-    {
-        switch (key)
-        {
+    public void onResponse(Response arg0, String key) {
+        switch (key) {
             case "GetStaffPermissionList":
                 try {
                     StaffPermissionResponse staffPermissionResponse = (StaffPermissionResponse) arg0.body();
                     Log.d("GetStaffPermissionList", staffPermissionResponse.toString());
                     int responseCode = Integer.parseInt(staffPermissionResponse.getResponse().getResponseCode());
 
-                    if (responseCode== 109){
+                    if (responseCode == 109) {
                         //Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
                         staff_permissionList.setLayoutManager(linearLayoutManager);
-                        staffPermissionListAdapter  = new StaffPermissionListAdapter(this,staffPermissionResponse.getData(),this);
+                        staffPermissionListAdapter = new StaffPermissionListAdapter(this, staffPermissionResponse.getData(), this);
                         staff_permissionList.setAdapter(staffPermissionListAdapter);
                         staffPermissionResponseModels = staffPermissionResponse.getData();
                         staffPermissionListAdapter.notifyDataSetChanged();
                         shimmer_view_container.setVisibility(View.GONE);
                         shimmer_view_container.stopShimmerAnimation();
-                    }
-                    else if (responseCode==614){
+                    } else if (responseCode == 614) {
                         Toast.makeText(this, staffPermissionResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                    else
-                    {
+                    } else {
                         Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
                     }
 
-                }
-                catch(Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
@@ -148,19 +141,18 @@ public class StaffPermissionActivity extends AppCompatActivity implements View.O
                     Log.d("AssignPermission", staffPermissionResponse.toString());
                     int responseCode = Integer.parseInt(staffPermissionResponse.getResponse().getResponseCode());
 
-                    if (responseCode== 109){
+                    if (responseCode == 109) {
+                        staffPermissionResponse.getData().get(pos).setIsSelected("true");
                         //Toast.makeText(this, "Assign Successfully", Toast.LENGTH_SHORT).show();
-                    }
-                    else if (responseCode==614){
+                    } else if (responseCode == 614) {
+                        staffPermissionResponse.getData().get(pos).setIsSelected("false");
                         Toast.makeText(this, staffPermissionResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                    else
-                    {
+                    } else {
+                        staffPermissionResponse.getData().get(pos).setIsSelected("false");
                         Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
                     }
 
-                }
-                catch(Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
@@ -171,19 +163,19 @@ public class StaffPermissionActivity extends AppCompatActivity implements View.O
                     Log.d("RemovePermission", staffPermissionResponse.toString());
                     int responseCode = Integer.parseInt(staffPermissionResponse.getResponse().getResponseCode());
 
-                    if (responseCode== 109){
+                    if (responseCode == 109) {
+                        staffPermissionResponse.getData().get(pos).setIsSelected("false");
                         Toast.makeText(this, "Remove Successfully", Toast.LENGTH_SHORT).show();
-                    }
-                    else if (responseCode==614){
+                    } else if (responseCode == 614) {
+                        staffPermissionResponse.getData().get(pos).setIsSelected("true");
                         Toast.makeText(this, staffPermissionResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                    else
-                    {
+                    } else {
+                        staffPermissionResponse.getData().get(pos).setIsSelected("true");
+
                         Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
                     }
 
-                }
-                catch(Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
@@ -200,32 +192,30 @@ public class StaffPermissionActivity extends AppCompatActivity implements View.O
 
     @Override
     public void onViewSetTime(int position, String id, String state) {
-        Log.d("annananan",""+id+" "+state);
-        if(state.equals("true"))
-        {
-            Log.d("call Asign","");
-            AssignRemovePermissionModel assignRemovePermissionModel=new AssignRemovePermissionModel();
+        pos = position;
+        Log.d("annananan", "" + id + " " + state);
+        if (state.equals("true")) {
+            Log.d("call Asign", "");
+            AssignRemovePermissionModel assignRemovePermissionModel = new AssignRemovePermissionModel();
             assignRemovePermissionModel.setUserId(staffId);
-            assignRemovePermissionModel.setPermissionId(id.substring(0,id.length()-2));
-            AssignRemovePermissionRequest assignRemovePermissionRequest=new AssignRemovePermissionRequest();
+            assignRemovePermissionModel.setPermissionId(id.substring(0, id.length() - 2));
+            AssignRemovePermissionRequest assignRemovePermissionRequest = new AssignRemovePermissionRequest();
             assignRemovePermissionRequest.setData(assignRemovePermissionModel);
 
-            if(methods.isInternetOn())
+            if (methods.isInternetOn())
                 assignPermission(assignRemovePermissionRequest);
             else
                 methods.isInternetOn();
 
-        }
-        else
-        {
-            Log.d("call remove","");
-            AssignRemovePermissionModel assignRemovePermissionModel=new AssignRemovePermissionModel();
+        } else {
+            Log.d("call remove", "");
+            AssignRemovePermissionModel assignRemovePermissionModel = new AssignRemovePermissionModel();
             assignRemovePermissionModel.setUserId(staffId);
-            assignRemovePermissionModel.setPermissionId(id.substring(0,id.length()-2));
-            AssignRemovePermissionRequest assignRemovePermissionRequest=new AssignRemovePermissionRequest();
+            assignRemovePermissionModel.setPermissionId(id.substring(0, id.length() - 2));
+            AssignRemovePermissionRequest assignRemovePermissionRequest = new AssignRemovePermissionRequest();
             assignRemovePermissionRequest.setData(assignRemovePermissionModel);
 
-            if(methods.isInternetOn())
+            if (methods.isInternetOn())
                 removePermission(assignRemovePermissionRequest);
             else
                 methods.isInternetOn();
@@ -236,12 +226,12 @@ public class StaffPermissionActivity extends AppCompatActivity implements View.O
     @Override
     protected void onResume() {
         super.onResume();
-        StaffPermissionModel staffPermissionModel=new StaffPermissionModel();
+        StaffPermissionModel staffPermissionModel = new StaffPermissionModel();
         staffPermissionModel.setUserId(staffId);
-        StaffPermissionRequest staffPermissionRequest=new StaffPermissionRequest();
+        StaffPermissionRequest staffPermissionRequest = new StaffPermissionRequest();
         staffPermissionRequest.setData(staffPermissionModel);
 
-        if(methods.isInternetOn())
+        if (methods.isInternetOn())
             getStafPermission(staffPermissionRequest);
         else
             methods.DialogInternet();

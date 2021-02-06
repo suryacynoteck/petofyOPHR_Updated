@@ -43,12 +43,12 @@ public class RegisterPetAdapter extends RecyclerView.Adapter<RegisterPetAdapter.
 
         holder.pet_reg__id_TV.setText(profileList.get(position).getPetUniqueId());
         holder.pet_reg_date_of_birth_TV.setText(profileList.get(position).getDateOfBirth());
-        holder.pet_reg_name_TV.setText(profileList.get(position).getPetName());
+        holder.pet_reg_name_TV.setText(profileList.get(position).getPetName().substring(0, 1).toUpperCase() + profileList.get(position).getPetName().substring(1));
         holder.pet_reg_gender_TV.setText(profileList.get(position).getPetSex());
 
         Glide.with(context)
                 .load(profileList.get(position).getPetProfileImageUrl())
-                .placeholder(R.drawable.pet_image)
+                .placeholder(R.drawable.petofy)
                 .into(holder.petRegImage_IV);
     }
 

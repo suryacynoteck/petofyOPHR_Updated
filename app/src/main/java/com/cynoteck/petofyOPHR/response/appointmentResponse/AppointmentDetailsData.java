@@ -57,6 +57,7 @@ public class AppointmentDetailsData {
 
     private String eventStartDate;
 
+
     public String getUpdateDate ()
     {
         return updateDate;

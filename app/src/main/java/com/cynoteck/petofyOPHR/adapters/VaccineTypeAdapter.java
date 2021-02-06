@@ -40,16 +40,21 @@ public class VaccineTypeAdapter extends RecyclerView.Adapter<VaccineTypeAdapter.
      String min_age=getVaccineResponseModels.get(position).getVaccinationSchedule().getMinimunAge().substring(0,getVaccineResponseModels.get(position).getVaccinationSchedule().getMinimunAge().length()-3);
      String max_age=getVaccineResponseModels.get(position).getVaccinationSchedule().getMaximunAge().substring(0,getVaccineResponseModels.get(position).getVaccinationSchedule().getMaximunAge().length()-3);
 
-     if(getVaccineResponseModels.get(position).getVaccineChartDetails().get(0).getStatus().equals("true")) {
-         holder.Primary.setVisibility(View.VISIBLE);
+     for (int i =0;i<getVaccineResponseModels.get(position).getVaccineChartDetails().size();i++){
+         if (getVaccineResponseModels.get(position).getVaccineChartDetails().get(i).getVaccineType().equals("Primary")){
+             if (getVaccineResponseModels.get(position).getVaccineChartDetails().get(i).getStatus().equals("true")){
+             holder.Primary.setVisibility(View.VISIBLE);
+             }
+         } if (getVaccineResponseModels.get(position).getVaccineChartDetails().get(i).getVaccineType().equals("BoosterOne")){
+             if (getVaccineResponseModels.get(position).getVaccineChartDetails().get(i).getStatus().equals("true")){
+                 holder.booster_one.setVisibility(View.VISIBLE);
+             }
+         } if (getVaccineResponseModels.get(position).getVaccineChartDetails().get(i).getVaccineType().equals("BoosterTwo")){
+             if (getVaccineResponseModels.get(position).getVaccineChartDetails().get(i).getStatus().equals("true")){
+                 holder.booster_two.setVisibility(View.VISIBLE);
+             }
+         }
      }
-     if(getVaccineResponseModels.get(position).getVaccineChartDetails().get(1).getStatus().equals("true")) {
-            holder.booster_one.setVisibility(View.VISIBLE);
-     }
-     if(getVaccineResponseModels.get(position).getVaccineChartDetails().get(2).getStatus().equals("true")) {
-            holder.booster_two.setVisibility(View.VISIBLE);
-     }
-
 
      holder.age_group.setText(min_age+" - "+max_age+" Days");
      holder.vaccine_name.setText(getVaccineResponseModels.get(position).getVaccinationSchedule().getPrimaryVaccine());

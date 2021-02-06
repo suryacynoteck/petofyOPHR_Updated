@@ -17,12 +17,14 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -40,6 +42,7 @@ import com.cynoteck.petofyOPHR.params.petReportsRequest.PetClinicVisitDetailsReq
 import com.cynoteck.petofyOPHR.params.petReportsRequest.PetClinicVistsDetailsParams;
 import com.cynoteck.petofyOPHR.params.vaccinationSaveParams.VaccinationParameter;
 import com.cynoteck.petofyOPHR.params.vaccinationSaveParams.VaccinationRequest;
+import com.cynoteck.petofyOPHR.response.getLastPrescriptionResponse.GetLastPrescriptionResponse;
 import com.cynoteck.petofyOPHR.response.getPetReportsResponse.getClinicVisitDetails.GetClinicVisitsDetailsResponse;
 import com.cynoteck.petofyOPHR.response.getVaccinationResponse.GetVaccineResponse;
 import com.cynoteck.petofyOPHR.response.getVaccinationResponse.GetVaccineResponseModel;
@@ -52,7 +55,10 @@ import com.cynoteck.petofyOPHR.utils.Config;
 import com.cynoteck.petofyOPHR.utils.ImmunizationOnclickListener;
 import com.cynoteck.petofyOPHR.utils.Methods;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONArray;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -61,7 +67,7 @@ import java.util.HashMap;
 import retrofit2.Response;
 
 public class PetDetailsActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse, ImmunizationOnclickListener {
-    String pet_id,pet_name,patent_name,pet_bread,pet_unique_id="",pet_sex="",pet_age="",pet_DOB="",pet_encrypted_id="",pet_cat_id="";
+    String pet_id,pet_name,patent_name,pet_bread,pet_unique_id="",pet_sex="",pet_age="",pet_DOB="",pet_encrypted_id="",lastVisitEncryptedId="",pet_cat_id="";
     TextView pet_nameTV, pet_parentNameTV,pet_id_TV;
     ImageView back_arrow_IV,view_clinicVisits_arrow,view_xrayReport_arrow,view_labTestReport_arrow,view_Hospitalization_arrow,last_prescription_arrow,recent_visits_arrow,print_id_card_arrow,view_history_arrow;
     CardView clinic_test,xray_test,lab_test_report,hospitalization_sugeries,last_prescription,print_id_card,view_history,immunization_CV;
@@ -100,7 +106,8 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
         pet_DOB=extras.getString("pet_DOB");
         pet_encrypted_id=extras.getString("pet_encrypted_id");
         pet_cat_id = extras.getString("pet_cat_id");
-        Log.d("PET_DETAILS",""+pet_DOB+" "+pet_id+" "+" "+pet_encrypted_id+" "+pet_cat_id);
+        lastVisitEncryptedId = extras.getString("lastVisitEncryptedId");
+        Log.d("PET_DETAILS",""+pet_DOB+" "+pet_id+" "+" "+pet_encrypted_id+" "+pet_cat_id+" "+lastVisitEncryptedId);
 
         pet_nameTV = findViewById(R.id.pet_name_TV);
         pet_parentNameTV = findViewById(R.id.pet_owner_name_TV);
@@ -153,7 +160,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
             methods.DialogInternet();
         }
 
-        pet_nameTV.setText(pet_name+"("+pet_sex+")");
+        pet_nameTV.setText(pet_name.substring(0, 1).toUpperCase() + pet_name.substring(1)+"("+pet_sex+")");
         pet_parentNameTV.setText(patent_name);
         pet_id_TV.setText(pet_unique_id);
     }
@@ -303,30 +310,13 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
 
                 break;
             case R.id.last_prescription:
-                userTYpe = sharedPreferences.getString("user_type", "");
-                if (userTYpe.equals("Vet Staff")){
-                    Gson gson = new Gson();
-                    String json = sharedPreferences.getString("userPermission", null);
-                    Type type = new TypeToken<ArrayList<UserPermissionMasterList>>() {}.getType();
-                    ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
-                    Log.e("ArrayList",arrayList.toString());
-                    Log.d("UserType",userTYpe);
-                    permissionId = "7";
-                    methods.showCustomProgressBarDialog(this);
-                    String url  = "user/CheckStaffPermission/"+permissionId;
-                    Log.e("URL",url);
-                    ApiService<CheckStaffPermissionResponse> service = new ApiService<>();
-                    service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token,url), "CheckPermission");
-                }else if (userTYpe.equals("Veterinarian")) {
-                    if (methods.isInternetOn()) {
-                        getclinicVisitsReportDetails();
-
-                    } else {
-                        methods.DialogInternet();
-                    }
+                if (lastVisitEncryptedId.equals("")){
+                    Toast.makeText(this, "No record found!", Toast.LENGTH_SHORT).show();
+                }else {
+                    Intent lastPrescriptionIntent = new Intent(this, PdfEditorActivity.class);
+                    lastPrescriptionIntent.putExtra("encryptId", lastVisitEncryptedId);
+                    startActivity(lastPrescriptionIntent);
                 }
-
-
                 break;
             case R.id.back_arrow_IV:
                 onBackPressed();
@@ -367,10 +357,9 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
         petClinicVistsDetailsParams.setId(pet_id.substring(0,pet_id.length()-2));
         PetClinicVisitDetailsRequest petClinicVisitDetailsRequest = new PetClinicVisitDetailsRequest();
         petClinicVisitDetailsRequest.setData(petClinicVistsDetailsParams);
-        Log.d("petClinicVisitDetail",petClinicVisitDetailsRequest.toString());
-        ApiService<GetClinicVisitsDetailsResponse> service = new ApiService<>();
-        service.get(this, ApiClient.getApiInterface().getLastPrescription(Config.token,petClinicVisitDetailsRequest), "GetPetClinicVisitDetails");
-        methods.showCustomProgressBarDialog(this);
+        Log.e("petClinicVisitDetail",methods.getRequestJson(petClinicVisitDetailsRequest));
+        ApiService<JsonObject> service = new ApiService<>();
+        service.get(this, ApiClient.getApiInterface().getLastPrescriptionUrl(Config.token,petClinicVisitDetailsRequest), "LastPrescriptionUrl");
     }
 
     private void saveVaccineData(VaccinationRequest vaccinationRequest) {
@@ -406,6 +395,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                                 dataClinicVisits.putString("pet_DOB",pet_DOB);
                                 dataClinicVisits.putString("pet_encrypted_id",pet_encrypted_id);
                                 dataClinicVisits.putString("pet_cat_id",pet_cat_id);
+                                dataClinicVisits.putString("lastVisitEncryptedId",lastVisitEncryptedId);
                                 petDetailsClinicVisits.putExtras(dataClinicVisits);
                                 startActivity(petDetailsClinicVisits);
                             }else if (permissionId.equals("7")){
@@ -435,18 +425,19 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
 
             case "GetPetClinicVisitDetails":
                 try {
+                    methods.customProgressDismiss();
                     Log.d("ResponseClinicVisit", arg0.body().toString());
-                    GetClinicVisitsDetailsResponse getClinicVisitsDetailsResponse = (GetClinicVisitsDetailsResponse) arg0.body();
+                    GetLastPrescriptionResponse getClinicVisitsDetailsResponse = (GetLastPrescriptionResponse) arg0.body();
                     int responseCode = Integer.parseInt(getClinicVisitsDetailsResponse.getResponse().getResponseCode());
                     if (responseCode == 109) {
-                            if (getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getDewormerName().equals("")){
+                        if (getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getNatureOfVisitId().equals("1.0")){
                                 String str = methods.pdfGenarator(getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getPetName(),
                                         getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getPetAge(),
                                         getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getPetSex(),
                                         getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getPetParentName(),
                                         getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getTemperature(),
                                         getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getHistory(),
-                                        getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getSymptoms(),
+                                        getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getDescription(),
                                         getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getDiagnosisProcedure(),
                                         getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getTreatmentRemarks(),
                                         getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getFollowUpDate(),
@@ -467,21 +458,24 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                                             PrintJob printJob = printManager.print(JobName, adapter, new PrintAttributes.Builder().build());
                                         }
                                     }
-                                }, 1000);
+                                }, 500);
 
                             }
-                            else {
+                        else if (getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getNatureOfVisitId().equals("5.0")){
                                 String str=methods.pdfGenaratorDeworming(getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getPetName(),
                                         getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getPetAge(),
                                         getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getPetSex(),
                                         getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getPetParentName(),
                                         getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getTemperature(),
-                                        getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getSymptoms(),
+                                        getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getDescription(),
                                         getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getHistory(),
                                         getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getDewormerName(),
+                                        getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getDewormerDose(),
                                         getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getTreatmentRemarks(),
                                         getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getFollowUpDate(),
-                                        getClinicVisitsDetailsResponse.getData().getVeterinarianDetails().getVetRegistrationNumber());
+                                        getClinicVisitsDetailsResponse.getData().getVeterinarianDetails().getVetRegistrationNumber(),
+                                        getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getWeightLbs()
+                                );
                                 webview.loadDataWithBaseURL(null,str,"text/html","utf-8",null);
                                 new Handler().postDelayed(new Runnable(){
                                     @Override
@@ -498,12 +492,83 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                                             PrintJob printJob=printManager.print(JobName,adapter,new PrintAttributes.Builder().build());
                                         }
                                     }
-                                }, 1000);
+                                }, 500);
                             }
-                    }
-                    else
+                        else if (getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getNatureOfVisitId().equals("4.0")){
+                            ArrayList<String> immunizationDate = new ArrayList<>();
+                            ArrayList<String> vaccineClass = new ArrayList<>();
+                            ArrayList<String> nextDueDate = new ArrayList<>();
+                            ArrayList<String> vaccineType = new ArrayList<>();
+
+                            ArrayList<String> immunizationDatePending = new ArrayList<>();
+                            ArrayList<String> vaccineClassPending = new ArrayList<>();
+                            ArrayList<String> nextDueDatePending = new ArrayList<>();
+                            ArrayList<String> vaccineTypePending = new ArrayList<>();
+
+                            for (int i = 0; i < getClinicVisitsDetailsResponse.getData().getPendingVaccinations().size(); i++) {
+                                if(getClinicVisitsDetailsResponse.getData().getPendingVaccinations().get(i).getIsVaccinated().equals("true"))
+                                {
+                                    immunizationDate.add(getClinicVisitsDetailsResponse.getData().getPendingVaccinations().get(i).getVaccinationDate());
+                                    vaccineClass.add(getClinicVisitsDetailsResponse.getData().getPendingVaccinations().get(i).getVaccineName());
+                                    nextDueDate.add(getClinicVisitsDetailsResponse.getData().getPendingVaccinations().get(i).getNextVaccinationDate().substring(0, getClinicVisitsDetailsResponse.getData().getPendingVaccinations().get(i).getNextVaccinationDate().length() - 9));
+                                    vaccineType.add(getClinicVisitsDetailsResponse.getData().getPendingVaccinations().get(i).getVaccineType());
+
+                                }
+                                else
+                                {
+                                    immunizationDatePending.add(getClinicVisitsDetailsResponse.getData().getPendingVaccinations().get(i).getVaccinationDate());
+                                    vaccineClassPending.add(getClinicVisitsDetailsResponse.getData().getPendingVaccinations().get(i).getVaccineName());
+                                    nextDueDatePending.add(getClinicVisitsDetailsResponse.getData().getPendingVaccinations().get(i).getNextVaccinationDate().substring(0, getClinicVisitsDetailsResponse.getData().getPendingVaccinations().get(i).getNextVaccinationDate().length() - 9));
+                                    vaccineTypePending.add(getClinicVisitsDetailsResponse.getData().getPendingVaccinations().get(i).getVaccineType());
+
+                                }
+                            }
+                            final JSONArray date = new JSONArray(immunizationDate);
+                            final JSONArray vaccine = new JSONArray(vaccineClass);
+                            final JSONArray nextDate = new JSONArray(nextDueDate);
+                            final JSONArray vType = new JSONArray(vaccineType);
+
+                            Log.d("jsjsjjsjs",""+date.length());
+
+                            final JSONArray datePending = new JSONArray(immunizationDatePending);
+                            final JSONArray vaccinePending = new JSONArray(vaccineClassPending);
+                            final JSONArray nextDatePending = new JSONArray(nextDueDatePending);
+                            final JSONArray vTypePending = new JSONArray(vaccineTypePending);
+
+                            Log.d("jsjsjjsjs",""+datePending.length());
+
+                            Log.e("aaaaaa", vaccineClass.toString());
+                            Log.e("aaaaaa", vaccine.toString());
+                            methods.customProgressDismiss();
+                            String immunizationSet = methods.immunizationPdfGenarator(pet_name, pet_age, pet_sex, pet_parentNameTV.getText().toString(), Config.user_verterian_reg_no, vType, vaccine, nextDate, vTypePending, vaccinePending, nextDatePending);
+                            WebSettings webSettings = webview.getSettings();
+                            webSettings.setJavaScriptEnabled(true);
+                            webview.loadDataWithBaseURL(null, immunizationSet, "text/html", "utf-8", null);
+                            new Handler().postDelayed(new Runnable() {
+                                @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                                @Override
+                                public void run() {
+                                    Context context = PetDetailsActivity.this;
+                                    PrintManager printManager = (PrintManager)PetDetailsActivity.this.getSystemService(context.PRINT_SERVICE);
+                                    PrintDocumentAdapter adapter = null;
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                                        adapter = webview.createPrintDocumentAdapter();
+                                    }
+                                    String JobName = getString(R.string.app_name) + "Document";
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                                        PrintJob printJob = printManager.print(JobName, adapter, new PrintAttributes.Builder().build());
+                                    }
+                                }
+                            }, 500);
+
+                        }
+
+                        }
+                    else if (responseCode==404)
                     {
-                        methods.customProgressDismiss();
+                        Toast.makeText(this, getClinicVisitsDetailsResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(this, "Please try again!", Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -554,6 +619,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                     if (responseCode == 109) {
                         Log.e("amamamammamamam","Vaccine Detailsss"+getVaccineResponse.getData().size());
                         getVaccineResponseModels = getVaccineResponse.getData();
+                        Log.e("VaccineResponseModels",methods.getRequestJson(arg0.body()));
                     }
                     else
                     {
@@ -577,6 +643,30 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                     {
                         Toast.makeText(this, "Not Save", Toast.LENGTH_SHORT).show();
                         vaccineDetailsDialog.dismiss();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+
+            case "LastPrescriptionUrl":
+                try {
+                    Log.d("LastPrescriptionUrl", arg0.body().toString());
+                    JsonObject lastPrescriptionUrl = (JsonObject) arg0.body();
+                    JsonObject response = lastPrescriptionUrl.getAsJsonObject("response");
+                    Log.d("hhshshhs",""+response);
+
+                    int responseCode = Integer.parseInt(String.valueOf(response.get("responseCode")));
+
+                    if (responseCode== 109){
+                    String urlData = String.valueOf(lastPrescriptionUrl.get("data"));
+                    Log.e("URL",urlData);
+                        Intent intent = new Intent(this,PdfEditorActivity.class);
+                        intent.putExtra("URL", urlData);
+                        startActivity(intent);
+                    }
+                    else
+                    {
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

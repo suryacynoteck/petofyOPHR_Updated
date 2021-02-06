@@ -85,6 +85,7 @@ import com.cynoteck.petofyOPHR.response.getFirstVaccineReponse.GetFirstVaccineRe
 import com.cynoteck.petofyOPHR.response.getImmunizationReport.PetImmunizationRecordResponse;
 import com.cynoteck.petofyOPHR.response.getLabTestReportResponse.getLabTestReportDetailsResponse.GetLabTestReportDeatilsResponse;
 import com.cynoteck.petofyOPHR.response.getLabTestReportResponse.getPetLabWorkListResponse.PetLabWorkResponse;
+import com.cynoteck.petofyOPHR.response.getLastPrescriptionResponse.GetLastPrescriptionResponse;
 import com.cynoteck.petofyOPHR.response.getMyVisitedPetRecordResponse.GetMyVisitPetRecordResponse;
 import com.cynoteck.petofyOPHR.response.getPetAgeResponse.GetPetAgeresponseData;
 import com.cynoteck.petofyOPHR.response.getPetDetailsResponse.GetPetResponse;
@@ -397,7 +398,7 @@ public interface ApiInterface {
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("pethealthrecord/AddPetVaccination")
-    Call<JsonObject> addPetVaccination(@Header("Authorization") String auth, @Body ImmunizationClinicData immunizationClinicData);
+    Call<AddpetClinicResponse> addPetVaccination(@Header("Authorization") String auth, @Body ImmunizationClinicData immunizationClinicData);
 
     //Update CLINIC VISIT...................................................................
 
@@ -427,7 +428,7 @@ public interface ApiInterface {
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("pethealthrecord/GetLastPrescription")
-    Call<GetClinicVisitsDetailsResponse> getLastPrescription(@Header("Authorization") String auth, @Body PetClinicVisitDetailsRequest petClinicVisitDetailsRequest);
+    Call<GetLastPrescriptionResponse> getLastPrescription(@Header("Authorization") String auth, @Body PetClinicVisitDetailsRequest petClinicVisitDetailsRequest);
 
     //ADD PET LAB WORK.......................................................................
 
@@ -473,7 +474,7 @@ public interface ApiInterface {
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("appointment/ApproveRejectAppointment")
-    Call<AppointmentStatusResponse> appointmentApproveReject(@Header("Authorization") String auth, @Body AppointmentsStatusRequest appointmentsStatusRequest);
+    Call<JsonObject> appointmentApproveReject(@Header("Authorization") String auth, @Body AppointmentsStatusRequest appointmentsStatusRequest);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("appointment/CreateAppointment")
@@ -495,7 +496,7 @@ public interface ApiInterface {
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("user/EnableDisableOnlineAppointments")
     Call<OnlineAppointmentResponse> onlineAppointmentOnOff(@Header("Authorization") String auth,
-                                                           @Body GetPetListRequest addPetRequset);
+                                                           @Body AppointmentsStatusRequest addPetRequset);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("user/EnableTwoStepAuthentication")
@@ -647,7 +648,7 @@ public interface ApiInterface {
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("immunization/SavePreviousVaccinationDetails")
-    Call<SaveResponseData> savePreviousVaccinationDetails(@Header("Authorization") String auth, @Body SaveRequest saveRequest);
+    Call<JsonObject> savePreviousVaccinationDetails(@Header("Authorization") String auth, @Body SaveRequest saveRequest);
 
     //SearchClinicVisitFieldData
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
@@ -699,6 +700,10 @@ public interface ApiInterface {
     //check Staff Permission
     @GET
     Call<CheckStaffPermissionResponse> getCheckStaffPermission(@Header("Authorization") String auth, @Url String url);
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("pethealthrecord/GetLastPrescriptionUrl")
+    Call<JsonObject> getLastPrescriptionUrl(@Header("Authorization") String auth, @Body PetClinicVisitDetailsRequest petClinicVisitDetailsRequest );
 
 }
 

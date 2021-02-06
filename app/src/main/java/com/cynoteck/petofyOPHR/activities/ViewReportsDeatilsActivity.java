@@ -132,8 +132,6 @@ public class ViewReportsDeatilsActivity extends AppCompatActivity implements Api
                         diagnosis_textView.setText(getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getDiagnosisProcedure());
                         remarks_textView.setText(getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getTreatmentRemarks());
 
-
-                        Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show();
                     }
                 }
                 catch(Exception e) {
@@ -149,8 +147,7 @@ public class ViewReportsDeatilsActivity extends AppCompatActivity implements Api
                         if (responseCode== 109){
                             Config.type = "list";
                             onBackPressed();
-                            Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show();
-
+                            Toast.makeText(this, "Report deleted successfully!", Toast.LENGTH_SHORT).show();
                         }
                     }
                     catch(Exception e) {

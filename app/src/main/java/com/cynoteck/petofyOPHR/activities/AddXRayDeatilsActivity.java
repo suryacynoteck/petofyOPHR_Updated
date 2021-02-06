@@ -409,6 +409,7 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
     }
 
     private void UploadImages(File absolutePath) {
+        methods.showCustomProgressBarDialog(this);
         MultipartBody.Part userDpFilePart = null;
         if (absolutePath != null) {
             RequestBody userDpFile = RequestBody.create(MediaType.parse("image/*"), absolutePath);
@@ -539,6 +540,7 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
                 break;
             case "UploadDocument":
                 try {
+                    methods.customProgressDismiss();
                     Log.d("UploadDocument",arg0.body().toString());
                     ImageResponse imageResponse = (ImageResponse) arg0.body();
                     int responseCode = Integer.parseInt(imageResponse.getResponse().getResponseCode());
@@ -652,7 +654,8 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
 
     @Override
     public void onError(Throwable t, String key) {
-
+        methods.customProgressDismiss();
+        Toast.makeText(this, "Please try again!", Toast.LENGTH_SHORT).show();
         Log.e("error",t.getLocalizedMessage());
     }
 }

@@ -40,7 +40,7 @@ public class StaffPermissionListAdapter extends RecyclerView.Adapter<StaffPermis
     }
 
     @Override
-    public void onBindViewHolder(@NonNull StaffPermissionListAdapter.MyViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull StaffPermissionListAdapter.MyViewHolder holder,  int position) {
         holder.setIsRecyclable(false);
 
         holder.permission_name.setText(staffPermissionResponseModels.get(position).getPermissionName());
@@ -81,10 +81,14 @@ public class StaffPermissionListAdapter extends RecyclerView.Adapter<StaffPermis
                 public void onClick(View view) {
                     if(((CompoundButton) view).isChecked()){
                         operatingHoursClickListener.onViewSetTime(getAdapterPosition(),staffPermissionResponseModels.get(getAdapterPosition()).getId(),"true");
+                        //notifyDataSetChanged();
+                        staffPermissionResponseModels.get(getAdapterPosition()).setIsSelected("true");
                     }
                     else
                     {
                         operatingHoursClickListener.onViewSetTime(getAdapterPosition(),staffPermissionResponseModels.get(getAdapterPosition()).getId(),"false");
+//                        notifyDataSetChanged();
+                        staffPermissionResponseModels.get(getAdapterPosition()).setIsSelected("false");
 
                     }
                 }

@@ -31,6 +31,8 @@ import com.cynoteck.petofyOPHR.activities.ViewFullProfileVetActivity;
 import com.cynoteck.petofyOPHR.api.ApiClient;
 import com.cynoteck.petofyOPHR.api.ApiResponse;
 import com.cynoteck.petofyOPHR.api.ApiService;
+import com.cynoteck.petofyOPHR.params.appointmentParams.AppointmentStatusParams;
+import com.cynoteck.petofyOPHR.params.appointmentParams.AppointmentsStatusRequest;
 import com.cynoteck.petofyOPHR.params.getPetListRequest.GetPetListParams;
 import com.cynoteck.petofyOPHR.params.getPetListRequest.GetPetListRequest;
 import com.cynoteck.petofyOPHR.response.loginRegisterResponse.UserPermissionMasterList;
@@ -117,13 +119,13 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, A
     }
 
     private void onlineAppoint(String value) {
-        GetPetListParams getPetListParams = new GetPetListParams();
+        AppointmentStatusParams getPetListParams = new AppointmentStatusParams();
         getPetListParams.setId(value);
-        GetPetListRequest getPetListRequest = new GetPetListRequest();
+        AppointmentsStatusRequest getPetListRequest = new AppointmentsStatusRequest();
         getPetListRequest.setData(getPetListParams);
         ApiService<OnlineAppointmentResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().onlineAppointmentOnOff(Config.token,getPetListRequest), "OnlineAppoint");
-        Log.e("onlineAppointment==>",""+getPetListRequest);
+        Log.e("onlineAppointment==>",""+methods.getRequestJson(getPetListRequest));
 
     }
 

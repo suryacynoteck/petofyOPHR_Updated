@@ -50,9 +50,9 @@ public class SelectPetReportsActivity extends AppCompatActivity implements ApiRe
     }
 
     private void setDeatils() {
-        pet_name_TV.setText(pet_name);
+        pet_name_TV.setText(pet_name.substring(0, 1).toUpperCase() + pet_name.substring(1));
         pet_sex_TV.setText("("+pet_sex+")");
-        pet_owner_name_TV.setText(pet_owner_name);
+        pet_owner_name_TV.setText(pet_owner_name.substring(0, 1).toUpperCase() + pet_owner_name.substring(1));
         pet_id_TV.setText(pet_unique_id);
         pet_owner_phone_no_TV.setText("("+pet_owner_contact+")");
 
@@ -171,6 +171,7 @@ public class SelectPetReportsActivity extends AppCompatActivity implements ApiRe
     public void onError(Throwable t, String key) {
 
     }
+
     @Override
     public void onProductClick(int position) {
         getReportsTypeData.get(position).getId();
@@ -191,4 +192,5 @@ public class SelectPetReportsActivity extends AppCompatActivity implements ApiRe
         overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
 
     }
+
 }

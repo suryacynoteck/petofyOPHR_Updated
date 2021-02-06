@@ -1,70 +1,81 @@
 package com.cynoteck.petofyOPHR.response.nextVaccineResponse;
 
 public class NextVaccineResponseModel {
-    private String nextVaccinationDate;
-    private String nextDate;
     private String vaccineName;
-    private String vaccineType;
+
+    private String nextVaccinationDate;
+
     private String vaccinationStatusMessage;
-    private Boolean isVaccinated;
 
-    public String getNextVaccinationDate() {
-        return nextVaccinationDate;
-    }
+    private String isVaccinated;
 
-    public void setNextVaccinationDate(String nextVaccinationDate) {
-        this.nextVaccinationDate = nextVaccinationDate;
-    }
+    private String vaccineType;
 
-    public String getNextDate() {
-        return nextDate;
-    }
+    private String nextDate;
 
-    public void setNextDate(String nextDate) {
-        this.nextDate = nextDate;
-    }
-
-    public String getVaccineName() {
+    public String getVaccineName ()
+    {
         return vaccineName;
     }
 
-    public void setVaccineName(String vaccineName) {
+    public void setVaccineName (String vaccineName)
+    {
         this.vaccineName = vaccineName;
     }
 
-    public String getVaccineType() {
-        return vaccineType;
+    public String getNextVaccinationDate ()
+    {
+        return nextVaccinationDate;
     }
 
-    public void setVaccineType(String vaccineType) {
-        this.vaccineType = vaccineType;
+    public void setNextVaccinationDate (String nextVaccinationDate)
+    {
+        this.nextVaccinationDate = nextVaccinationDate;
     }
 
-    public String getVaccinationStatusMessage() {
+    public String getVaccinationStatusMessage ()
+    {
         return vaccinationStatusMessage;
     }
 
-    public void setVaccinationStatusMessage(String vaccinationStatusMessage) {
+    public void setVaccinationStatusMessage (String vaccinationStatusMessage)
+    {
         this.vaccinationStatusMessage = vaccinationStatusMessage;
     }
 
-    public Boolean getIsVaccinated() {
+    public String getIsVaccinated ()
+    {
         return isVaccinated;
     }
 
-    public void setIsVaccinated(Boolean isVaccinated) {
+    public void setIsVaccinated (String isVaccinated)
+    {
         this.isVaccinated = isVaccinated;
     }
 
+    public String getVaccineType ()
+    {
+        return vaccineType;
+    }
+
+    public void setVaccineType (String vaccineType)
+    {
+        this.vaccineType = vaccineType;
+    }
+
+    public String getNextDate ()
+    {
+        return nextDate;
+    }
+
+    public void setNextDate (String nextDate)
+    {
+        this.nextDate = nextDate;
+    }
+
     @Override
-    public String toString() {
-        return "ClassPojo[" +
-                "nextVaccinationDate=" + nextVaccinationDate +
-                ", nextDate=" + nextDate +
-                ", vaccineName=" + vaccineName +
-                ", vaccineType=" + vaccineType +
-                ", vaccinationStatusMessage=" + vaccinationStatusMessage +
-                ", isVaccinated=" + isVaccinated +
-                "]";
+    public String toString()
+    {
+        return "ClassPojo [vaccineName = "+vaccineName+", nextVaccinationDate = "+nextVaccinationDate+", vaccinationStatusMessage = "+vaccinationStatusMessage+", isVaccinated = "+isVaccinated+", vaccineType = "+vaccineType+", nextDate = "+nextDate+"]";
     }
 }

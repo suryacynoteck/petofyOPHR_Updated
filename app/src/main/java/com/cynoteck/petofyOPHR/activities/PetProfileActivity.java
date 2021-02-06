@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
@@ -94,7 +95,7 @@ public class PetProfileActivity extends AppCompatActivity implements ApiResponse
         methods.showCustomProgressBarDialog(this);
         ApiService<GetPetResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().getPetDetails(Config.token,getPetListRequest), "GetPetDetail");
-        Log.e("DATALOG","check1=> "+getPetListRequest);
+        Log.e("DATALOG","check1=> "+methods.getRequestJson(getPetListRequest));
 
     }
 
@@ -136,7 +137,7 @@ public class PetProfileActivity extends AppCompatActivity implements ApiResponse
                     intent.putExtra("pet_parent",getPetResponse.getData().getPetParentName());
                     intent.putExtra("pet_parent_contact",getPetResponse.getData().getContactNumber());
                     intent.putExtra("image_url",getPetResponse.getData().getPetProfileImageUrl());
-                    startActivity(intent);
+                    startActivityForResult(intent,1);
                 }
 
                 break;
@@ -173,7 +174,7 @@ public class PetProfileActivity extends AppCompatActivity implements ApiResponse
                                 intent.putExtra("pet_parent",getPetResponse.getData().getPetParentName());
                                 intent.putExtra("pet_parent_contact",getPetResponse.getData().getContactNumber());
                                 intent.putExtra("image_url",getPetResponse.getData().getPetProfileImageUrl());
-                                startActivity(intent);
+                                startActivityForResult(intent,1);
                             }
                         }else {
                             Toast.makeText(this, "Permission not Granted!!", Toast.LENGTH_SHORT).show();
@@ -200,12 +201,13 @@ public class PetProfileActivity extends AppCompatActivity implements ApiResponse
                     int responseCode = Integer.parseInt(getPetResponse.getResponse().getResponseCode());
                     if (responseCode == 109) {
                        // Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
-                        pet_name_TV.setText(getPetResponse.getData().getPetName());
+                        pet_name_TV.setText(getPetResponse.getData().getPetName().substring(0, 1).toUpperCase() + getPetResponse.getData().getPetName().substring(1));
                         pet_parent_TV.setText(getPetResponse.getData().getPetParentName());
                         phone_one.setText(getPetResponse.getData().getContactNumber());
                         pet_sex_TV.setText(getPetResponse.getData().getPetSex());
                         pet_id_TV.setText(getPetResponse.getData().getPetUniqueId());
                         pet_deatils_TV.setText(getPetResponse.getData().getDescription());
+//                        pet_email_id_TV.setText(getPetResponse.getData().getpetpa);
                         address_line_one_TV.setText(getPetResponse.getData().getAddress());
                         setImages();
 
@@ -266,6 +268,28 @@ public class PetProfileActivity extends AppCompatActivity implements ApiResponse
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode==1){
+            if (resultCode==RESULT_OK){
+                GetPetListParams getPetListParams = new GetPetListParams();
+                getPetListParams.setId(petId);
+                GetPetListRequest getPetListRequest = new GetPetListRequest();
+                getPetListRequest.setData(getPetListParams);
+                if(methods.isInternetOn())
+                {
+                    getPetlistData(getPetListRequest);
+                }
+                else
+                {
+                    methods.DialogInternet();
+                }
+            }
+        }
+    }
+
+    @Override
     public void onError(Throwable t, String key) {
 
     }
@@ -273,21 +297,5 @@ public class PetProfileActivity extends AppCompatActivity implements ApiResponse
     @Override
     protected void onResume() {
         super.onResume();
-        if(reloadData==false)
-        {
-            GetPetListParams getPetListParams = new GetPetListParams();
-            getPetListParams.setId(petId);
-            GetPetListRequest getPetListRequest = new GetPetListRequest();
-            getPetListRequest.setData(getPetListParams);
-            if(methods.isInternetOn())
-            {
-                getPetlistData(getPetListRequest);
-            }
-            else
-            {
-                methods.DialogInternet();
-            }
-        }
-
     }
 }

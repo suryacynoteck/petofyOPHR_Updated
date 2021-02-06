@@ -330,9 +330,7 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
                             petTestsAndXrayListt.setResults(getPetTestAndXRayResponse.getData().getPetTestsAndXrayList().get(i).getResults());
                             petTestsAndXrayListt.setDateTested(getPetTestAndXRayResponse.getData().getPetTestsAndXrayList().get(i).getDateTested());
                             petTestsAndXrayListsData.add(petTestsAndXrayListt);
-                        }
-
-                        if ((getPetTestAndXRayResponse.getData().getPetTestsAndXrayList().isEmpty()) && (petTestsAndXrayListsData.size()<1)){
+                        }if ((getPetTestAndXRayResponse.getData().getPetTestsAndXrayList().isEmpty()) && (petTestsAndXrayListsData.size()<1)){
                             empty_IV.setVisibility(View.VISIBLE);
                             routine_report_RV.setVisibility(View.GONE);
                             progressBar.setVisibility(View.GONE);
@@ -475,7 +473,7 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
 
     @Override
     public void onViewXrayClick(int position) {
-        Toast.makeText(getContext(), ""+petTestsAndXrayLists.get(position).getId(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), ""+petTestsAndXrayLists.get(position).getId(), Toast.LENGTH_SHORT).show();
         Intent labIntent = new Intent(getContext(), XRayReportDeatilsActivity.class);
         labIntent.putExtra("pet_id",pet_id);
         labIntent.putExtra("pet_name",pet_name);
@@ -497,7 +495,7 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
 
     @Override
     public void onUpdateXrayClick(int position) {
-        Toast.makeText(getContext(), "Upadte", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), "Upadte", Toast.LENGTH_SHORT).show();
         Intent addXrayActivityIntent = new Intent(getActivity().getApplication(), AddXRayDeatilsActivity.class);
         addXrayActivityIntent.putExtra("report_id",petTestsAndXrayLists.get(position).getId());
         addXrayActivityIntent.putExtra("pet_id",pet_id);
@@ -518,7 +516,7 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
     }
     @Override
     public void onViewLabTestReportsClick(int position) {
-        Toast.makeText(getContext(), ""+petLabWorkLists.get(position).getId(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), ""+petLabWorkLists.get(position).getId(), Toast.LENGTH_SHORT).show();
 
         Intent labIntent = new Intent(getContext(), LabTestReportDeatilsActivity.class);
         labIntent.putExtra("pet_id",pet_id);
@@ -537,7 +535,7 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
 
     @Override
     public void onViewHospitalizationClick(int position) {
-        Toast.makeText(getContext(), ""+petHospitalizationsLists.get(position).getId(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), ""+petHospitalizationsLists.get(position).getId(), Toast.LENGTH_SHORT).show();
         Intent labIntent = new Intent(getContext(), HospitalizationDetailsActivity.class);
         labIntent.putExtra("pet_id",pet_id);
         labIntent.putExtra("pet_name",pet_name);
@@ -632,7 +630,7 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
 
     @Override
     public void onUpdateClick(int position) {
-        Toast.makeText(getContext(), "Update", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), "Update", Toast.LENGTH_SHORT).show();
         Intent viewReportsDeatilsActivityIntent = new Intent(getActivity().getApplication(), AddClinicActivity.class);
         viewReportsDeatilsActivityIntent.putExtra("pet_id",pet_id);
         viewReportsDeatilsActivityIntent.putExtra("pet_name",pet_name);

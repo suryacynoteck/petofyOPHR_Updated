@@ -177,7 +177,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
                 String pet_DOB = st.nextToken();
                 String pet_encrypted_id = st.nextToken();
                 String pet_cat_id = st.nextToken();
-                Log.d("ppppp",""+PetUniqueId+" "+PetName+" "+PetParentName+" "+PetSex+" "+PetAge+" "+Id+" "+pet_DOB+" "+pet_encrypted_id+" "+pet_cat_id);
+                String lastVisitEncryptedId = st.nextToken();
+
+                Log.d("ppppp",""+PetUniqueId+" "+PetName+" "+PetParentName+" "+PetSex+" "+PetAge+" "+Id+" "+pet_DOB+" "+pet_encrypted_id+" "+pet_cat_id+" "+lastVisitEncryptedId);
                 Intent petDetailsIntent = new Intent(getActivity().getApplication(), PetDetailsActivity.class);
                 Bundle data = new Bundle();
                 data.putString("pet_id",Id);
@@ -189,6 +191,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
                 data.putString("pet_DOB",pet_DOB);
                 data.putString("pet_encrypted_id",pet_encrypted_id);
                 data.putString("pet_cat_id",pet_cat_id);
+                data.putString("lastVisitEncryptedId",lastVisitEncryptedId);
                 petDetailsIntent.putExtras(data);
                 startActivity(petDetailsIntent);
                 clearSearch();
@@ -230,7 +233,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
                             String pet_DOB = st.nextToken();
                             String pet_encrypted_id = st.nextToken();
                             String pet_cat_id = st.nextToken();
-                            Log.d("ppppp",""+PetUniqueId+" "+PetName+" "+PetParentName+" "+PetSex+" "+petAge+" "+Id+" "+pet_DOB+" "+pet_encrypted_id+" "+pet_cat_id);
+                            String lastVisitEncryptedId = st.nextToken();
+                            Log.d("ppppp",""+PetUniqueId+" "+PetName+" "+PetParentName+" "+PetSex+" "+petAge+" "+Id+" "+pet_DOB+" "+pet_encrypted_id+" "+pet_cat_id+" "+lastVisitEncryptedId);
                             Intent petDetailsIntent = new Intent(getActivity().getApplication(), PetDetailsActivity.class);
                             Bundle data = new Bundle();
                             data.putString("pet_id",Id);
@@ -242,6 +246,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
                             data.putString("pet_DOB",pet_DOB);
                             data.putString("pet_encrypted_id",pet_encrypted_id);
                             data.putString("pet_cat_id",pet_cat_id);
+                            data.putString("lastVisitEncryptedId",lastVisitEncryptedId);
                             petDetailsIntent.putExtras(data);
                             startActivity(petDetailsIntent);
                         }
@@ -517,7 +522,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
                                             + getPetListResponse.getData().getPetList().get(i).getId() + ","
                                             + getPetListResponse.getData().getPetList().get(i).getDateOfBirth() + ","
                                             + getPetListResponse.getData().getPetList().get(i).getEncryptedId() +","
-                                            +getPetListResponse.getData().getPetList().get(i).getPetCategoryId());
+                                            +getPetListResponse.getData().getPetList().get(i).getPetCategoryId()+","
+                                            +getPetListResponse.getData().getPetList().get(i).getLastVisitEncryptedId()
+
+                            );
                         }
 
                         Log.d("jajajajjaja", "" + petUniueId.size() + " \n" + petUniueId.toString());
@@ -646,6 +654,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
                         data.putString("pet_unique_id",newPetRegisterResponse.getData().getPetUniqueId());
                         data.putString("pet_DOB",newPetRegisterResponse.getData().getDateOfBirth());
                         data.putString("pet_encrypted_id","");
+                        data.putString("pet_cat_id",newPetRegisterResponse.getData().getPetCategoryId());
+                        data.putString("lastVisitEncryptedId","");
                         petDetailsIntent.putExtras(data);
                         startActivity(petDetailsIntent);
                     }else if (responseCode==614){

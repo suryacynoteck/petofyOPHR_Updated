@@ -33,6 +33,10 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".activities.AddUpdateStaffActivity"></activity>
+        <activity android:name=".activities.PdfViewerActivity"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"/>
+        <activity android:name=".activities.PdfEditorActivity"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"/>
         <activity android:name=".activities.AllVisitsActivity" />
         <activity android:name=".activities.UpcomingVisitsActivity" />
         <activity android:name=".activities.GetAllBankAccountsActivity" />
@@ -122,6 +126,15 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_provider_paths" />
+        </provider>
     </application>
 
 </manifest>
