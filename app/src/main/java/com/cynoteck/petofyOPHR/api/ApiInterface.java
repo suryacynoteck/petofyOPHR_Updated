@@ -169,7 +169,7 @@ public interface ApiInterface {
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @GET("common/GetPetTypes")
-    Call<PetTypeResponse> petTypeApi(@Header("Authorization") String auth);
+    Call<PetTypeResponse> petTypeApi();
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @GET("common/GetServiceTypes")
@@ -203,19 +203,19 @@ public interface ApiInterface {
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("pet/GetPetBreed")
-    Call<BreedCatRespose> getGetPetBreedApi(@Header("Authorization") String auth, @Body BreedParams breedParams);
+    Call<BreedCatRespose> getGetPetBreedApi(@Body BreedParams breedParams);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("pet/GetPetAge")
-    Call<PetAgeValueResponse> getGetPetAgeApi(@Header("Authorization") String auth, @Body BreedParams breedParams);
+    Call<PetAgeValueResponse> getGetPetAgeApi(@Body BreedParams breedParams);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("pet/GetPetColor")
-    Call<PetColorValueResponse> getGetPetColorApi(@Header("Authorization") String auth, @Body BreedParams breedParams);
+    Call<PetColorValueResponse> getGetPetColorApi(@Body BreedParams breedParams);
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("pet/GetPetSize")
-    Call<PetSizeValueResponse> getGetPetSizeApi(@Header("Authorization") String auth, @Body BreedParams breedParams);
+    Call<PetSizeValueResponse> getGetPetSizeApi(@Body BreedParams breedParams);
 
 
 
@@ -612,13 +612,13 @@ public interface ApiInterface {
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("pet/GetPetAgeString")
-    Call<GetPetAgeresponseData> getPetAgeString(@Header("Authorization") String auth, @Body GetPetAgeRequestData getPetAgeRequestData);
+    Call<GetPetAgeresponseData> getPetAgeString(@Body GetPetAgeRequestData getPetAgeRequestData);
 
     //GET DATE OF BIRTH........................................
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @GET("pet/GetPetDateOfBirth/{data}")
-    Call<DateOfBirthResponse> GetPetDateOfBirth(@Header("Authorization") String auth, @Path("data") String data);
+    Call<DateOfBirthResponse> GetPetDateOfBirth( @Path("data") String data);
 
     //TEMPORARY SAVE VACCINATION.........................................
 

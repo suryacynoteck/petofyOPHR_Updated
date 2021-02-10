@@ -128,7 +128,7 @@ public class AddEditImmunizationActivity extends AppCompatActivity implements Ap
     }
     private void petType() {
         ApiService<PetTypeResponse> service = new ApiService<>();
-        service.get(this, ApiClient.getApiInterface().petTypeApi(Config.token), "GetPetTypes");
+        service.get(this, ApiClient.getApiInterface().petTypeApi(), "GetPetTypes");
     }
     private void initization() {
         create_headline_TV=findViewById(R.id.create_headline_TV);

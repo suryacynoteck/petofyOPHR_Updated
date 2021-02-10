@@ -82,7 +82,7 @@ public class ImmunizationChartActivity extends AppCompatActivity implements View
 
     private void petType() {
         ApiService<PetTypeResponse> service = new ApiService<>();
-        service.get(this, ApiClient.getApiInterface().petTypeApi(Config.token), "GetPetTypes");
+        service.get(this, ApiClient.getApiInterface().petTypeApi(), "GetPetTypes");
 
 
     }

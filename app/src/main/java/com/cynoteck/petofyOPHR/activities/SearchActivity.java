@@ -130,6 +130,7 @@ switch(key){
                         petList.setEncryptedId(getPetListResponse.getData().getPetList().get(i).getEncryptedId());
                         petList.setId(getPetListResponse.getData().getPetList().get(i).getId());
                         petList.setPetAge(getPetListResponse.getData().getPetList().get(i).getPetAge());
+                        petList.setLastVisitEncryptedId(getPetListResponse.getData().getPetList().get(i).getLastVisitEncryptedId());
 
                         profileList.add(petList);
                     }

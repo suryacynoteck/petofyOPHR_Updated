@@ -274,7 +274,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
     }
     private void petType() {
         ApiService<PetTypeResponse> service = new ApiService<>();
-        service.get(this, ApiClient.getApiInterface().petTypeApi(Config.token), "GetPetTypes");
+        service.get(this, ApiClient.getApiInterface().petTypeApi(), "GetPetTypes");
     }
 
     private void petServiceType() {

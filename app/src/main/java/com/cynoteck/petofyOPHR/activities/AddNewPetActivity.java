@@ -440,7 +440,7 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
     private void getPetDateofBirthDependsOnDays(String days)
     {
         ApiService<DateOfBirthResponse> service = new ApiService<>();
-        service.get( this, ApiClient.getApiInterface().GetPetDateOfBirth(Config.token,days), "getDateOfYear");
+        service.get( this, ApiClient.getApiInterface().GetPetDateOfBirth(days), "getDateOfYear");
     }
 
     private void getPetAgeString(String DOB)
@@ -450,7 +450,7 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
         GetPetAgeRequestData getPetAgeRequestData=new GetPetAgeRequestData();
         getPetAgeRequestData.setData(getPetAgeParameter);
         ApiService<GetPetAgeresponseData> service = new ApiService<>();
-        service.get( this, ApiClient.getApiInterface().getPetAgeString(Config.token,getPetAgeRequestData), "GetPetAgeString");
+        service.get( this, ApiClient.getApiInterface().getPetAgeString(getPetAgeRequestData), "GetPetAgeString");
         Log.e("DAILOG","getPetAgeString==>"+getPetAgeRequestData);
     }
 
@@ -1030,7 +1030,7 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
 
     private void petType() {
         ApiService<PetTypeResponse> service = new ApiService<>();
-        service.get(this, ApiClient.getApiInterface().petTypeApi(Config.token), "GetPetTypes");
+        service.get(this, ApiClient.getApiInterface().petTypeApi(), "GetPetTypes");
     }
     private void getPetBreed() {
         BreedRequest breedRequest = new BreedRequest();
@@ -1043,7 +1043,7 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
         breedParams.setData(breedRequest);
 
         ApiService<BreedCatRespose> service = new ApiService<>();
-        service.get(this, ApiClient.getApiInterface().getGetPetBreedApi(Config.token,breedParams), "GetPetBreed");
+        service.get(this, ApiClient.getApiInterface().getGetPetBreedApi(breedParams), "GetPetBreed");
     }
     private void genaretePetUniqueKey() {
         ApiService<UniqueResponse> service = new ApiService<>();
@@ -1060,7 +1060,7 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
         breedParams.setData(breedRequest);
 
         ApiService<PetAgeValueResponse> service = new ApiService<>();
-        service.get(this, ApiClient.getApiInterface().getGetPetAgeApi(Config.token,breedParams), "GetPetAge");
+        service.get(this, ApiClient.getApiInterface().getGetPetAgeApi(breedParams), "GetPetAge");
     }
     private void getPetColor() {
         methods.showCustomProgressBarDialog(this);
@@ -1074,7 +1074,7 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
         breedParams.setData(breedRequest);
 
         ApiService<PetColorValueResponse> service = new ApiService<>();
-        service.get(this, ApiClient.getApiInterface().getGetPetColorApi(Config.token,breedParams), "GetPetColor");
+        service.get(this, ApiClient.getApiInterface().getGetPetColorApi(breedParams), "GetPetColor");
     }
     private void getPetSize() {
         BreedRequest breedRequest = new BreedRequest();
@@ -1087,7 +1087,7 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
         breedParams.setData(breedRequest);
 
         ApiService<PetSizeValueResponse> service = new ApiService<>();
-        service.get(this, ApiClient.getApiInterface().getGetPetSizeApi(Config.token,breedParams), "GetPetSize");
+        service.get(this, ApiClient.getApiInterface().getGetPetSizeApi(breedParams), "GetPetSize");
     }
     private void addPetData(AddPetRequset addPetRequset) {
         methods.showCustomProgressBarDialog(this);
