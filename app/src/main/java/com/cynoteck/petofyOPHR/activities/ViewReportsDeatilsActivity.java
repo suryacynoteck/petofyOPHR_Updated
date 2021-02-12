@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,19 +33,22 @@ import retrofit2.Response;
 public class ViewReportsDeatilsActivity extends AppCompatActivity implements ApiResponse, View.OnClickListener {
 
     String clinic_id, type;
-    TextView vet_name_textView,visit_date_textView,nature_ofVist_textView,weight_textView,temperature_textView,vaccine_textView,symptoms_textView,diagnosis_textView,remarks_textView;
+    TextView vet_name_textView,visit_date_textView,nature_ofVist_textView,weight_textView
+            ,temperature_textView,vaccine_textView,symptoms_textView,diagnosis_textView,
+            remarks_textView,pet_weight_TV,dot_pet_weight,dot_pet_temp,pet_temp_TV,pet_remarks_TV,dot_pet_remarks;
     ImageView back_arrow_IV;
     Button deleteReport_BT;
     String pet_unique_id, pet_name,pet_sex, pet_owner_name,pet_owner_contact,pet_id ,report_type_id;
-    TextView pet_name_TV,pet_sex_TV,pet_id_TV,pet_owner_name_TV,pet_owner_phone_no_TV;
+    TextView pet_name_TV,pet_sex_TV,pet_id_TV,pet_owner_name_TV,pet_owner_phone_no_TV,dewarmername_textView,dose_textView,next_dewarmer_textView;
     Methods methods;
     ProgressBar progressBar;
+    LinearLayout linearLayout,layout_next_dewarmer,layout_dose,layout_dewarming_name;
     CardView card_view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_reports_deatils);
+        setContentView(R.layout.view_reports_details);
         methods = new Methods(this);
 
         init();
@@ -69,7 +73,7 @@ public class ViewReportsDeatilsActivity extends AppCompatActivity implements Api
         petClinicVistsDetailsParams.setId(clinic_id.substring(0,clinic_id.length()-2));
         PetClinicVisitDetailsRequest petClinicVisitDetailsRequest = new PetClinicVisitDetailsRequest();
         petClinicVisitDetailsRequest.setData(petClinicVistsDetailsParams);
-        Log.d("petClinicVisitDetail",petClinicVisitDetailsRequest.toString());
+        Log.e("petClinicVisitDetail",methods.getRequestJson(petClinicVisitDetailsRequest).toString());
         ApiService<GetClinicVisitsDetailsResponse> service = new ApiService<>();
         service.get(this, ApiClient.getApiInterface().getClinicVisitDetails(Config.token,petClinicVisitDetailsRequest), "GetPetClinicVisitDetails");
 
@@ -85,7 +89,7 @@ public class ViewReportsDeatilsActivity extends AppCompatActivity implements Api
         pet_name = extras.getExtras().getString("pet_name");
         pet_unique_id = extras.getExtras().getString("pet_unique_id");
         report_type_id=extras.getExtras().getString("id");
-
+        linearLayout=findViewById(R.id.data);
         card_view = findViewById(R.id.card_view);
         progressBar = findViewById(R.id.progressBar);
         deleteReport_BT=findViewById(R.id.deleteReport_BT);
@@ -99,12 +103,25 @@ public class ViewReportsDeatilsActivity extends AppCompatActivity implements Api
         diagnosis_textView=findViewById(R.id.diagnosis_textView);
         remarks_textView=findViewById(R.id.remarks_textView);
         back_arrow_IV=findViewById(R.id.back_arrow_IV);
+        dewarmername_textView=findViewById(R.id.dewarmername_textView);
+        dose_textView=findViewById(R.id.dose_textView);
+        next_dewarmer_textView=findViewById(R.id.next_dewarmer_textView);
 
+        layout_next_dewarmer=findViewById(R.id.layout_next_dewarmer);
+        layout_dose=findViewById(R.id.layout_dose);
+        layout_dewarming_name=findViewById(R.id.layout_dewarming_name);
+        dot_pet_weight=findViewById(R.id.dot_pet_weight);
+        pet_weight_TV=findViewById(R.id.pet_weight_TV);
         pet_name_TV = findViewById(R.id.pet_name_TV);
         pet_sex_TV = findViewById(R.id.pet_sex_TV);
         pet_id_TV = findViewById(R.id.pet_id_TV);
         pet_owner_name_TV = findViewById(R.id.pet_owner_name_TV);
         pet_owner_phone_no_TV = findViewById(R.id.pet_owner_phone_no_TV);
+        dot_pet_temp=findViewById(R.id.dot_pet_temp);
+        pet_temp_TV=findViewById(R.id.pet_temp_TV);
+        dot_pet_temp=findViewById(R.id.dot_pet_temp);
+        pet_remarks_TV=findViewById(R.id.pet_remarks_TV);
+        dot_pet_remarks=findViewById(R.id.dot_pet_remarks);
         back_arrow_IV.setOnClickListener(this);
         deleteReport_BT.setOnClickListener(this);
 
@@ -119,41 +136,90 @@ public class ViewReportsDeatilsActivity extends AppCompatActivity implements Api
                     GetClinicVisitsDetailsResponse getClinicVisitsDetailsResponse = (GetClinicVisitsDetailsResponse) response.body();
                     int responseCode = Integer.parseInt(getClinicVisitsDetailsResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
-                        deleteReport_BT.setVisibility(View.VISIBLE);
+//                        deleteReport_BT.setVisibility(View.VISIBLE);
                         progressBar.setVisibility(View.GONE);
+                        linearLayout.setVisibility(View.VISIBLE);
                         card_view.setVisibility(View.VISIBLE);
                         vet_name_textView.setText(getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getVeterinarian());
                         visit_date_textView.setText(getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getVisitDate());
                         nature_ofVist_textView.setText(getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getNatureOfVisit().getNature());
-                        weight_textView.setText(getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getWeightLbs());
-                        temperature_textView.setText(getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getTemperature());
+                        if(getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getWeightLbs().equals("")){
+                            weight_textView.setVisibility(View.GONE);
+                            pet_weight_TV.setVisibility(View.GONE);
+                            dot_pet_weight.setVisibility(View.GONE);
+                        }
+                        else{
+                            weight_textView.setText(getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getWeightLbs());
+
+                        }
+                        if(getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getTemperature().equals("")){
+                            temperature_textView.setVisibility(View.GONE);
+                            pet_temp_TV.setVisibility(View.GONE);
+                            dot_pet_temp.setVisibility(View.GONE);
+                        }
+                        else{
+                            temperature_textView.setText(getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getTemperature());
+                        }
                         vaccine_textView.setText(getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getVaccine());
                         symptoms_textView.setText(getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getDescription());
                         diagnosis_textView.setText(getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getDiagnosisProcedure());
-                        remarks_textView.setText(getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getTreatmentRemarks());
+                        if(getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getTreatmentRemarks().equals("")){
+                            remarks_textView.setVisibility(View.GONE);
+                            pet_remarks_TV.setVisibility(View.GONE);
+                            dot_pet_remarks.setVisibility(View.GONE);
+
+                        }
+                        else {
+                            remarks_textView.setText(getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getTreatmentRemarks());
+                        }
+                        if(getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getDewormerName().equals("")){
+                            layout_dewarming_name.setVisibility(View.GONE);
+
+                        }
+                        else {
+                            layout_dewarming_name.setVisibility(View.VISIBLE);
+                            dewarmername_textView.setText(getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getDewormerName());
+                        }
+                    }
+                    if(getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getDewormerDose()==null){
+                        layout_dose.setVisibility(View.GONE);
 
                     }
+                    else {
+                        layout_dose.setVisibility(View.VISIBLE);
+                        dose_textView.setText(getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getDewormerDose());
+                    }
+                    if(getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getFollowUpDate().equals("")){
+                        layout_next_dewarmer.setVisibility(View.GONE);
+
+                    }
+                    else {
+                        layout_next_dewarmer.setVisibility(View.VISIBLE);
+                        next_dewarmer_textView.setText(getClinicVisitsDetailsResponse.getData().getPetClinicVisitDetails().getFollowUpDate());
+                    }
+
+
                 }
                 catch(Exception e) {
                     e.printStackTrace();
                 }
                 break;
 
-                case "DeletePetClinicVisitDetails":
-                    try {
-                        Log.d("DeleteClinicVisit",response.body().toString());
-                        AddUpdateDeleteClinicVisitResponse addUpdateDeleteClinicVisitResponse = (AddUpdateDeleteClinicVisitResponse) response.body();
-                        int responseCode = Integer.parseInt(addUpdateDeleteClinicVisitResponse.getResponse().getResponseCode());
-                        if (responseCode== 109){
-                            Config.type = "list";
-                            onBackPressed();
-                            Toast.makeText(this, "Report deleted successfully!", Toast.LENGTH_SHORT).show();
-                        }
+            case "DeletePetClinicVisitDetails":
+                try {
+                    Log.d("DeleteClinicVisit",response.body().toString());
+                    AddUpdateDeleteClinicVisitResponse addUpdateDeleteClinicVisitResponse = (AddUpdateDeleteClinicVisitResponse) response.body();
+                    int responseCode = Integer.parseInt(addUpdateDeleteClinicVisitResponse.getResponse().getResponseCode());
+                    if (responseCode== 109){
+                        Config.type = "list";
+                        onBackPressed();
+                        Toast.makeText(this, "Report deleted successfully!", Toast.LENGTH_SHORT).show();
                     }
-                    catch(Exception e) {
-                        e.printStackTrace();
-                    }
-                    break;
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+                break;
         }
     }
 

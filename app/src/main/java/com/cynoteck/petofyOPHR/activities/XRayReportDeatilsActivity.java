@@ -46,6 +46,7 @@ public class XRayReportDeatilsActivity extends AppCompatActivity implements ApiR
         init();
         setdataInFields();
         //getXRayReportDeatilsDeatils();
+        deleteReport_BT.setVisibility(View.GONE);
     }
 
     private void setdataInFields() {

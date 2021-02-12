@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -51,7 +52,9 @@ public class ReportsTypeAdapter extends RecyclerView.Adapter<ReportsTypeAdapter.
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView vet_name_TV,visit_date_TV,reson_of_visit_TV,followUp_date_TV,view_TV;
+        TextView vet_name_TV, visit_date_TV, reson_of_visit_TV, followUp_date_TV, view_TV;
+        LinearLayout follow_up_date_LL;
+
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -59,18 +62,17 @@ public class ReportsTypeAdapter extends RecyclerView.Adapter<ReportsTypeAdapter.
             visit_date_TV = itemView.findViewById(R.id.visit_date_TV);
             reson_of_visit_TV = itemView.findViewById(R.id.reson_of_visit_TV);
             followUp_date_TV = itemView.findViewById(R.id.followUp_date_TV);
-            view_TV=itemView.findViewById(R.id.view_TV);
+            follow_up_date_LL = itemView.findViewById(R.id.follow_up_date_LL);
+            view_TV = itemView.findViewById(R.id.view_TV);
 
             view_TV.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (onProductItemClickListner!=null){
+                    if (onProductItemClickListner != null) {
                         onProductItemClickListner.onViewClick(getAdapterPosition());
                     }
                 }
             });
-
-
 
 
         }

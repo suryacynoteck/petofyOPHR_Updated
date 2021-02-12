@@ -270,36 +270,41 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
                     int responseCode = Integer.parseInt(petServiceResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
                         if ((petServiceResponse.getData().getPetClinicVisitList().isEmpty()) && (petClinicVisitLists.size()<1)){
-//                            Toast.makeText(getContext(), "Empty", Toast.LENGTH_SHORT).show();
                             empty_IV.setVisibility(View.VISIBLE);
                             routine_report_RV.setVisibility(View.GONE);
                             progressBar.setVisibility(View.GONE);
                         }
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-                        petClinicVisitListArrayList = petServiceResponse.getData().getPetClinicVisitList();
-                        for(int i=0;i<petServiceResponse.getData().getPetClinicVisitList().size();i++)
-                        {
-                            PetClinicVisitList petClinicVisitList=new PetClinicVisitList();
-                            petClinicVisitList.setVeterinarian(petServiceResponse.getData().getPetClinicVisitList().get(i).getVeterinarian());
-                            petClinicVisitList.setVisitDate(petServiceResponse.getData().getPetClinicVisitList().get(i).getVisitDate());
-                            petClinicVisitList.setDescription(petServiceResponse.getData().getPetClinicVisitList().get(i).getDescription());
-                            petClinicVisitList.setFollowUpDate(petServiceResponse.getData().getPetClinicVisitList().get(i).getFollowUpDate());
-                            petClinicVisitLists.add(petClinicVisitList);
-                        }
                         routine_report_RV.setLayoutManager(linearLayoutManager);
-                        routine_report_RV.setNestedScrollingEnabled(false);
+                        petClinicVisitListArrayList = petServiceResponse.getData().getPetClinicVisitList();
 
-                        if (button_type.equals("view")){
-                            routine_report_RV.setVisibility(View.VISIBLE);
-                            reportsTypeAdapter = new ReportsTypeAdapter(getContext(), petServiceResponse.getData().getPetClinicVisitList(), this);
-                            routine_report_RV.setAdapter(reportsTypeAdapter);
-                            reportsTypeAdapter.notifyDataSetChanged();
-                        }else if (button_type.equals("update")){
-                            routine_report_RV.setVisibility(View.VISIBLE);
-                            updateClinicVisitAdapter = new UpdateClinicVisitAdapter(getContext(), petClinicVisitLists, this);
-                            routine_report_RV.setAdapter(updateClinicVisitAdapter);
-                            updateClinicVisitAdapter.notifyDataSetChanged();
+                        if(petServiceResponse.getData().getPetClinicVisitList().size()>0){
+                            for(int i=0;i<petServiceResponse.getData().getPetClinicVisitList().size();i++) {
+                                PetClinicVisitList petClinicVisitList=new PetClinicVisitList();
+                                petClinicVisitList.setVeterinarian(petServiceResponse.getData().getPetClinicVisitList().get(i).getVeterinarian());
+                                petClinicVisitList.setVisitDate(petServiceResponse.getData().getPetClinicVisitList().get(i).getVisitDate());
+                                petClinicVisitList.setDescription(petServiceResponse.getData().getPetClinicVisitList().get(i).getDescription());
+                                petClinicVisitList.setFollowUpDate(petServiceResponse.getData().getPetClinicVisitList().get(i).getFollowUpDate());
+                                petClinicVisitLists.add(petClinicVisitList);
+                            }
+                            routine_report_RV.setNestedScrollingEnabled(false);
+                            if (button_type.equals("view")){
+                                routine_report_RV.setVisibility(View.VISIBLE);
+                                reportsTypeAdapter = new ReportsTypeAdapter(getContext(), petServiceResponse.getData().getPetClinicVisitList(), this);
+                                routine_report_RV.setAdapter(reportsTypeAdapter);
+                                reportsTypeAdapter.notifyDataSetChanged();
+                            }else if (button_type.equals("update")){
+                                routine_report_RV.setVisibility(View.VISIBLE);
+                                updateClinicVisitAdapter = new UpdateClinicVisitAdapter(getContext(), petClinicVisitLists, this);
+                                routine_report_RV.setAdapter(updateClinicVisitAdapter);
+                                updateClinicVisitAdapter.notifyDataSetChanged();
+                            }
+
+
+
                         }
+
+
 
                     }
                 }
@@ -310,42 +315,47 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
 
             case "GetPetTestAndXRay":
                 try {
+                    progressBar.setVisibility(View.GONE);
+
                     Log.d("GetPetTestAndXRay","GetPetTestAndXRay=> "+(response.body()));
                     GetPetTestAndXRayResponse getPetTestAndXRayResponse = (GetPetTestAndXRayResponse) response.body();
                     int responseCode = Integer.parseInt(getPetTestAndXRayResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
-//                        Toast.makeText(getContext(), "GetPetTestAndXRay", Toast.LENGTH_SHORT).show();
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
                         petTestsAndXrayLists = getPetTestAndXRayResponse.getData().getPetTestsAndXrayList();
                         routine_report_RV.setLayoutManager(linearLayoutManager);
                         routine_report_RV.setNestedScrollingEnabled(false);
+                        if(getPetTestAndXRayResponse.getData().getPetTestsAndXrayList().size()>0){
 
-                        for(int i=0;i<getPetTestAndXRayResponse.getData().getPetTestsAndXrayList().size();i++)
-                        {
-                            PetTestsAndXrayList petTestsAndXrayListt=new PetTestsAndXrayList();
-                            TypeOfTest typeOfTest=new TypeOfTest();
-                            String getTestType=getPetTestAndXRayResponse.getData().getPetTestsAndXrayList().get(i).getTypeOfTest().getTestType();
-                            typeOfTest.setTestType(getTestType);
-                            petTestsAndXrayListt.setTypeOfTest(typeOfTest);
-                            petTestsAndXrayListt.setResults(getPetTestAndXRayResponse.getData().getPetTestsAndXrayList().get(i).getResults());
-                            petTestsAndXrayListt.setDateTested(getPetTestAndXRayResponse.getData().getPetTestsAndXrayList().get(i).getDateTested());
-                            petTestsAndXrayListsData.add(petTestsAndXrayListt);
-                        }if ((getPetTestAndXRayResponse.getData().getPetTestsAndXrayList().isEmpty()) && (petTestsAndXrayListsData.size()<1)){
-                            empty_IV.setVisibility(View.VISIBLE);
-                            routine_report_RV.setVisibility(View.GONE);
-                            progressBar.setVisibility(View.GONE);
-                        }else if (button_type.equals("view")){
-                            routine_report_RV.setVisibility(View.VISIBLE);
-                            testAndXRayAdpater = new TestAndXRayAdpater(getContext(), getPetTestAndXRayResponse.getData().getPetTestsAndXrayList(), this);
-                            routine_report_RV.setAdapter(testAndXRayAdpater);
-                            testAndXRayAdpater.notifyDataSetChanged();
-                        }else if (button_type.equals("update")){
-                            routine_report_RV.setVisibility(View.VISIBLE);
-//                            Toast.makeText(getContext(), "Update", Toast.LENGTH_SHORT).show();
-                            updateXRayAdpater = new UpdateXRayAdpater(getContext(), petTestsAndXrayListsData, this);
-                            routine_report_RV.setAdapter(updateXRayAdpater);
-                            updateXRayAdpater.notifyDataSetChanged();
+                            for(int i=0;i<getPetTestAndXRayResponse.getData().getPetTestsAndXrayList().size();i++)
+                            {
+                                PetTestsAndXrayList petTestsAndXrayListt=new PetTestsAndXrayList();
+                                TypeOfTest typeOfTest=new TypeOfTest();
+                                String getTestType=getPetTestAndXRayResponse.getData().getPetTestsAndXrayList().get(i).getTypeOfTest().getTestType();
+                                typeOfTest.setTestType(getTestType);
+                                petTestsAndXrayListt.setTypeOfTest(typeOfTest);
+                                petTestsAndXrayListt.setResults(getPetTestAndXRayResponse.getData().getPetTestsAndXrayList().get(i).getResults());
+                                petTestsAndXrayListt.setDateTested(getPetTestAndXRayResponse.getData().getPetTestsAndXrayList().get(i).getDateTested());
+                                petTestsAndXrayListsData.add(petTestsAndXrayListt);
+                            }if ((getPetTestAndXRayResponse.getData().getPetTestsAndXrayList().isEmpty()) && (petTestsAndXrayListsData.size()<1)){
+                                empty_IV.setVisibility(View.VISIBLE);
+                                routine_report_RV.setVisibility(View.GONE);
+                                progressBar.setVisibility(View.GONE);
+                            }else if (button_type.equals("view")){
+                                routine_report_RV.setVisibility(View.VISIBLE);
+                                testAndXRayAdpater = new TestAndXRayAdpater(getContext(), getPetTestAndXRayResponse.getData().getPetTestsAndXrayList(), this);
+                                routine_report_RV.setAdapter(testAndXRayAdpater);
+                                testAndXRayAdpater.notifyDataSetChanged();
+                            }else if (button_type.equals("update")){
+                                routine_report_RV.setVisibility(View.VISIBLE);
+                                updateXRayAdpater = new UpdateXRayAdpater(getContext(), petTestsAndXrayListsData, this);
+                                routine_report_RV.setAdapter(updateXRayAdpater);
+                                updateXRayAdpater.notifyDataSetChanged();
+                            }
+
+
                         }
+
 
                     }
                 }
@@ -356,48 +366,51 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
 
             case "GetLabTest":
                 try {
+                    progressBar.setVisibility(View.GONE);
                     Log.d("GetLabTest","GetLabTest=> "+(response.body()));
                     PetLabWorkResponse petLabWorkResponse = (PetLabWorkResponse) response.body();
                     int responseCode = Integer.parseInt(petLabWorkResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
-//                        Toast.makeText(getContext(), "GetLabTest", Toast.LENGTH_SHORT).show();
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
                         petLabWorkLists = petLabWorkResponse.getData().getPetLabWorkList();
                         routine_report_RV.setLayoutManager(linearLayoutManager);
                         routine_report_RV.setNestedScrollingEnabled(false);
+                        if(petLabWorkResponse.getData().getPetLabWorkList().size()>0){
+                            for(int i=0;i<petLabWorkResponse.getData().getPetLabWorkList().size();i++)
+                            {
+                                PetLabWorkList petLabWorkListt=new PetLabWorkList();
+                                petLabWorkListt.setRequestingVeterinarian(petLabWorkResponse.getData().getPetLabWorkList().get(i).getRequestingVeterinarian());
+                                petLabWorkListt.setVeterinarianPhone(petLabWorkResponse.getData().getPetLabWorkList().get(i).getVeterinarianPhone());
+                                petLabWorkListt.setVisitDate(petLabWorkResponse.getData().getPetLabWorkList().get(i).getVisitDate());
+                                String labType=petLabWorkResponse.getData().getPetLabWorkList().get(i).getLabType().getLab();
+                                LabType labType1=new LabType();
+                                labType1.setLab(labType);
+                                petLabWorkListt.setLabType(labType1);
+                                petLabWorkListt.setNameOfLab(petLabWorkResponse.getData().getPetLabWorkList().get(i).getNameOfLab());
+                                petLabWorkListsData.add(petLabWorkListt);
+                            }
 
-                        for(int i=0;i<petLabWorkResponse.getData().getPetLabWorkList().size();i++)
-                        {
-                            PetLabWorkList petLabWorkListt=new PetLabWorkList();
-                            petLabWorkListt.setRequestingVeterinarian(petLabWorkResponse.getData().getPetLabWorkList().get(i).getRequestingVeterinarian());
-                            petLabWorkListt.setVeterinarianPhone(petLabWorkResponse.getData().getPetLabWorkList().get(i).getVeterinarianPhone());
-                            petLabWorkListt.setVisitDate(petLabWorkResponse.getData().getPetLabWorkList().get(i).getVisitDate());
-                            String labType=petLabWorkResponse.getData().getPetLabWorkList().get(i).getLabType().getLab();
-                            LabType labType1=new LabType();
-                            labType1.setLab(labType);
-                            petLabWorkListt.setLabType(labType1);
-                            petLabWorkListt.setNameOfLab(petLabWorkResponse.getData().getPetLabWorkList().get(i).getNameOfLab());
-                            petLabWorkListsData.add(petLabWorkListt);
+                            if (petLabWorkResponse.getData().getPetLabWorkList().isEmpty()){
+                                empty_IV.setVisibility(View.VISIBLE);
+                                routine_report_RV.setVisibility(View.GONE);
+                                progressBar.setVisibility(View.GONE);
+                            }else if (button_type.equals("view")){
+                                empty_IV.setVisibility(View.GONE);
+                                routine_report_RV.setVisibility(View.VISIBLE);
+                                labTestReportsAdapter = new LabTestReportsAdapter(getContext(), petLabWorkResponse.getData().getPetLabWorkList(), this);
+                                routine_report_RV.setAdapter(labTestReportsAdapter);
+                                labTestReportsAdapter.notifyDataSetChanged();
+                            }else if (button_type.equals("update")){
+                                empty_IV.setVisibility(View.GONE);
+                                routine_report_RV.setVisibility(View.VISIBLE);
+                                updateLabTestAdpater = new UpdateLabTestAdpater(getContext(), petLabWorkListsData, this);
+                                routine_report_RV.setAdapter(updateLabTestAdpater);
+                                updateLabTestAdpater.notifyDataSetChanged();
+                            }
+
+
                         }
 
-                        if (petLabWorkResponse.getData().getPetLabWorkList().isEmpty()){
-                            empty_IV.setVisibility(View.VISIBLE);
-                            routine_report_RV.setVisibility(View.GONE);
-                            progressBar.setVisibility(View.GONE);
-                        }else if (button_type.equals("view")){
-                            empty_IV.setVisibility(View.GONE);
-                            routine_report_RV.setVisibility(View.VISIBLE);
-                            labTestReportsAdapter = new LabTestReportsAdapter(getContext(), petLabWorkResponse.getData().getPetLabWorkList(), this);
-                            routine_report_RV.setAdapter(labTestReportsAdapter);
-                            labTestReportsAdapter.notifyDataSetChanged();
-                        }else if (button_type.equals("update")){
-                            empty_IV.setVisibility(View.GONE);
-                            routine_report_RV.setVisibility(View.VISIBLE);
-//                            Toast.makeText(getContext(), "Update", Toast.LENGTH_SHORT).show();
-                            updateLabTestAdpater = new UpdateLabTestAdpater(getContext(), petLabWorkListsData, this);
-                            routine_report_RV.setAdapter(updateLabTestAdpater);
-                            updateLabTestAdpater.notifyDataSetChanged();
-                        }
 
                     }
                 }
@@ -409,49 +422,52 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
 
             case "GetHospitalization":
                 try {
+                    progressBar.setVisibility(View.GONE);
                     Log.d("GetHospitalization","GetHospitalization=> "+(response.body()));
                     GetPetHospitalizationResponse getPetHospitalizationResponse = (GetPetHospitalizationResponse) response.body();
                     int responseCode = Integer.parseInt(getPetHospitalizationResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
-//                        Toast.makeText(getContext(), "GetHospitalization", Toast.LENGTH_SHORT).show();
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
                         petHospitalizationsLists = getPetHospitalizationResponse.getData().getPetHospitalizationsList();
                         routine_report_RV.setLayoutManager(linearLayoutManager);
                         routine_report_RV.setNestedScrollingEnabled(false);
+                        if(getPetHospitalizationResponse.getData().getPetHospitalizationsList().size()>0){
 
-                        for(int i=0;i<getPetHospitalizationResponse.getData().getPetHospitalizationsList().size();i++)
-                        {
-                            PetHospitalizationsList petHospitalizationsListt=new PetHospitalizationsList();
-                            petHospitalizationsListt.setRequestingVeterinarian(getPetHospitalizationResponse.getData().getPetHospitalizationsList().get(i).getRequestingVeterinarian());
-                            petHospitalizationsListt.setVeterinarianPhone(getPetHospitalizationResponse.getData().getPetHospitalizationsList().get(i).getVeterinarianPhone());
-                            HospitalizationType hospitalizationType=new HospitalizationType();
-                            hospitalizationType.setHospitalization(getPetHospitalizationResponse.getData().getPetHospitalizationsList().get(i).getHospitalizationType().getHospitalization());
-                            petHospitalizationsListt.setHospitalizationType(hospitalizationType);
-                            petHospitalizationsListt.setHospitalName(getPetHospitalizationResponse.getData().getPetHospitalizationsList().get(i).getHospitalName());
-                            petHospitalizationsListt.setAdmissionDate(getPetHospitalizationResponse.getData().getPetHospitalizationsList().get(i).getAdmissionDate());
-                            petHospitalizationsListsData.add(petHospitalizationsListt);
+                            for(int i=0;i<getPetHospitalizationResponse.getData().getPetHospitalizationsList().size();i++)
+                            {
+                                PetHospitalizationsList petHospitalizationsListt=new PetHospitalizationsList();
+                                petHospitalizationsListt.setRequestingVeterinarian(getPetHospitalizationResponse.getData().getPetHospitalizationsList().get(i).getRequestingVeterinarian());
+                                petHospitalizationsListt.setVeterinarianPhone(getPetHospitalizationResponse.getData().getPetHospitalizationsList().get(i).getVeterinarianPhone());
+                                HospitalizationType hospitalizationType=new HospitalizationType();
+                                hospitalizationType.setHospitalization(getPetHospitalizationResponse.getData().getPetHospitalizationsList().get(i).getHospitalizationType().getHospitalization());
+                                petHospitalizationsListt.setHospitalizationType(hospitalizationType);
+                                petHospitalizationsListt.setHospitalName(getPetHospitalizationResponse.getData().getPetHospitalizationsList().get(i).getHospitalName());
+                                petHospitalizationsListt.setAdmissionDate(getPetHospitalizationResponse.getData().getPetHospitalizationsList().get(i).getAdmissionDate());
+                                petHospitalizationsListsData.add(petHospitalizationsListt);
+                            }
+
+                            if (getPetHospitalizationResponse.getData().getPetHospitalizationsList().isEmpty()) {
+                                empty_IV.setVisibility(View.VISIBLE);
+                                routine_report_RV.setVisibility(View.GONE);
+                                progressBar.setVisibility(View.GONE);
+                            }else if (button_type.equals("view")){
+                                empty_IV.setVisibility(View.GONE);
+                                routine_report_RV.setVisibility(View.VISIBLE);
+                                hospitalizationReportsAdapter = new HospitalizationReportsAdapter(getContext(), getPetHospitalizationResponse.getData().getPetHospitalizationsList(), this);
+                                routine_report_RV.setAdapter(hospitalizationReportsAdapter);
+                                hospitalizationReportsAdapter.notifyDataSetChanged();
+
+                            }else if (button_type.equals("update")){
+                                empty_IV.setVisibility(View.GONE);
+                                routine_report_RV.setVisibility(View.VISIBLE);
+                                updateHospitalizationAdapter = new UpdateHospitalizationAdapter(getContext(), petHospitalizationsListsData, this);
+                                routine_report_RV.setAdapter(updateHospitalizationAdapter);
+                                updateHospitalizationAdapter.notifyDataSetChanged();
+
+                            }
+
                         }
 
-                        if (getPetHospitalizationResponse.getData().getPetHospitalizationsList().isEmpty()) {
-                            empty_IV.setVisibility(View.VISIBLE);
-                            routine_report_RV.setVisibility(View.GONE);
-                            progressBar.setVisibility(View.GONE);
-                        }else if (button_type.equals("view")){
-                            empty_IV.setVisibility(View.GONE);
-                            routine_report_RV.setVisibility(View.VISIBLE);
-                            hospitalizationReportsAdapter = new HospitalizationReportsAdapter(getContext(), getPetHospitalizationResponse.getData().getPetHospitalizationsList(), this);
-                            routine_report_RV.setAdapter(hospitalizationReportsAdapter);
-                            hospitalizationReportsAdapter.notifyDataSetChanged();
-
-                        }else if (button_type.equals("update")){
-                            empty_IV.setVisibility(View.GONE);
-                            routine_report_RV.setVisibility(View.VISIBLE);
-//                            Toast.makeText(getContext(), "Update", Toast.LENGTH_SHORT).show();
-                            updateHospitalizationAdapter = new UpdateHospitalizationAdapter(getContext(), petHospitalizationsListsData, this);
-                            routine_report_RV.setAdapter(updateHospitalizationAdapter);
-                            updateHospitalizationAdapter.notifyDataSetChanged();
-
-                        }
 
                     }
                 }
