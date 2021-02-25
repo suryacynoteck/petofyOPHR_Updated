@@ -106,6 +106,7 @@
                         android:gravity="center_vertical"
                         android:imeOptions="actionSearch"
                         android:singleLine="true"
+                        android:paddingLeft="10dp"
                         android:id="@+id/pet_parent_ACTV"
                         android:hint="Search Pet by Pet ID,Name..(if already added)"
                         android:background="@null"
@@ -184,7 +185,28 @@
                     android:text="@string/title"
                     android:textColor="@color/grey_add_pet"/>
 
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/purpose_spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/edit_text_background"
+                    android:gravity="center_vertical"
+                    android:hint="@string/title"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:paddingLeft="10dp"
+                    android:textColor="@color/grey_add_pet"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/title_TV"
+                    />
+
                 <EditText
+                    android:visibility="gone"
                     android:id="@+id/title_ET"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
@@ -196,11 +218,11 @@
                     android:hint="@string/title"
                     android:inputType="text"
                     android:maxLines="1"
-                    android:paddingLeft="25dp"
+                    android:paddingLeft="20dp"
                     android:textColor="@color/grey_add_pet"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/title_TV"
+                    app:layout_constraintTop_toBottomOf="@id/purpose_spinner"
                     />
 
 
@@ -229,7 +251,7 @@
                     android:gravity="center_vertical"
                     android:hint="dd/mm/yyyy"
                     android:layout_marginTop="10dp"
-                    android:paddingLeft="25dp"
+                    android:paddingLeft="15dp"
                     android:textSize="18dp"
                     android:textStyle="bold"
                     android:layout_marginLeft="20dp"

@@ -180,7 +180,7 @@ public class AllVisitsActivity extends AppCompatActivity implements ApiResponse,
                         all_visits_RV.setVisibility(View.GONE);
                         ApiService<GetMyVisitPetRecordResponse> service = new ApiService<>();
                         service.get(this, ApiClient.getApiInterface().getMyVisitedPetRecord(Config.token, getMyVisistPetRecordRequest), "MyVisits");
-                        Log.d("MyVisits==>", "" + getMyVisistPetRecordRequest);
+                        Log.d("MyVisits==>", "" + methods.getRequestJson(getMyVisistPetRecordRequest));
                     }else {
                         methods.DialogInternet();
                     }
@@ -226,14 +226,17 @@ public class AllVisitsActivity extends AppCompatActivity implements ApiResponse,
                     getMyVisitPetRecordResponse = (GetMyVisitPetRecordResponse) arg0.body();
                     Log.d("MyVisits", getMyVisitPetRecordResponse.toString());
                     int responseCode = Integer.parseInt(getMyVisitPetRecordResponse.getResponse().getResponseCode());
-
+                    progressBar.setVisibility(View.GONE);
                     if (responseCode == 109) {
-                        progressBar.setVisibility(View.GONE);
-                        all_visits_RV.setVisibility(View.VISIBLE);
-                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-                        all_visits_RV.setLayoutManager(linearLayoutManager);
-                        allVisitsAdapter = new AllVisitsAdapter(this, getMyVisitPetRecordResponse.getData().getPetClinicVisitList(),this);
-                        all_visits_RV.setAdapter(allVisitsAdapter);
+                        if (getMyVisitPetRecordResponse.getData().getPetClinicVisitList().isEmpty()){
+                            Toast.makeText(this, "No Data Found !", Toast.LENGTH_SHORT).show();
+                        }else {
+                            all_visits_RV.setVisibility(View.VISIBLE);
+                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+                            all_visits_RV.setLayoutManager(linearLayoutManager);
+                            allVisitsAdapter = new AllVisitsAdapter(this, getMyVisitPetRecordResponse.getData().getPetClinicVisitList(), this);
+                            all_visits_RV.setAdapter(allVisitsAdapter);
+                        }
                     } else if (responseCode == 614) {
                         Toast.makeText(this, getMyVisitPetRecordResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
                     } else {

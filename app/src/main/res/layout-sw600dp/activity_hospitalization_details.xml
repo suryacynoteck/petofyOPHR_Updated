@@ -255,7 +255,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginLeft="10dp"
                 android:layout_width="0dp"
-                android:layout_marginRight="300dp"
+                android:layout_marginRight="200dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -303,7 +303,7 @@
                 app:layout_constraintStart_toStartOf="@id/vet_name_tv"
                 app:layout_constraintTop_toBottomOf="@id/vet_name_textView"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginRight="300dp"
+                android:layout_marginRight="200dp"
                 android:textStyle="bold"
                 android:textColor="@color/black_color"
                 android:text="@string/RequestingContact"/>
@@ -346,7 +346,7 @@
                 android:textColor="@color/black_color"
                 android:textStyle="bold"
                 android:text="@string/hospital_type"
-                android:layout_marginRight="300dp"/>
+                android:layout_marginRight="200dp"/>
 
 
             <TextView
@@ -384,7 +384,7 @@
                 android:textColor="@color/black_color"
                 android:textStyle="bold"
                 android:text="@string/hospital_name"
-                android:layout_marginRight="300dp"/>
+                android:layout_marginRight="200dp"/>
 
 
             <TextView
@@ -422,7 +422,7 @@
                 android:textColor="@color/black_color"
                 android:textStyle="bold"
                 android:text="@string/admission_date"
-                android:layout_marginRight="300dp"/>
+                android:layout_marginRight="200dp"/>
 
 
             <TextView
@@ -460,7 +460,7 @@
                 android:textColor="@color/black_color"
                 android:textStyle="bold"
                 android:text="@string/labPhone"
-                android:layout_marginRight="300dp"/>
+                android:layout_marginRight="200dp"/>
 
 
             <TextView
@@ -498,7 +498,7 @@
                 android:textColor="@color/black_color"
                 android:textStyle="bold"
                 android:text="@string/testName"
-                android:layout_marginRight="300dp"/>
+                android:layout_marginRight="200dp"/>
 
 
             <TextView
@@ -535,7 +535,7 @@
                 android:textColor="@color/black_color"
                 android:textStyle="bold"
                 android:text="@string/resaonofHospitalization"
-                android:layout_marginRight="300dp"/>
+                android:layout_marginRight="200dp"/>
 
 
             <TextView
@@ -573,7 +573,7 @@
                 android:textColor="@color/black_color"
                 android:textStyle="bold"
                 android:text="@string/diagosisTreatment"
-                android:layout_marginRight="300dp"/>
+                android:layout_marginRight="200dp"/>
 
 
             <TextView
@@ -602,6 +602,19 @@
 
 
     </androidx.cardview.widget.CardView>
+    <Button
+        android:id="@+id/view_file_BT"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/card_view"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/card_view"
+        android:background="@drawable/green_background_bg"
+        android:text="View File"
+        android:textColor="@color/whiteColor"
+        android:textAllCaps="false"/>
+
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_marginTop="10dp"

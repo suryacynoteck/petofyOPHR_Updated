@@ -226,9 +226,20 @@
         android:layout_width="0dp"
         android:layout_height="8dp"
         android:background="@color/green_divider"/>
-
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view_green_line"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.cardview.widget.CardView
+        android:visibility="gone"
         android:id="@+id/card_view"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
@@ -453,6 +464,21 @@
 
 
     <Button
+        android:id="@+id/view_file_BT"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/card_view"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/card_view"
+        android:background="@drawable/green_background_bg"
+        android:text="View File"
+        android:textColor="@color/whiteColor"
+        android:textAllCaps="false"/>
+
+
+    <Button
+        android:visibility="gone"
         android:id="@+id/deleteReport_BT"
         android:text="@string/DeleteReport"
         android:textColor="@color/whiteColor"

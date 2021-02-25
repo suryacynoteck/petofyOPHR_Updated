@@ -59,7 +59,7 @@
     <string name="clinicVisits">Clinic Visit Report</string>
     <string name="emailtext">Email</string>
     <string name="appointments">Appointments</string>
-    <string name="appointments_home">ONLINE APPOINTMENTS</string>
+    <string name="appointments_home">APPOINTMENTS</string>
     <string name="staff">STAFF</string>
     <string name="allpets">ALL PETS</string>
     <string name="allStaff">ALL STAFF</string>
@@ -132,8 +132,8 @@
     <string name="hospitalphone">Hospital Phone</string>
 
 
-    <string name="sharing_text">Your sharing text goes here…</string>
-    <string name="share_title">Share Screenshot</string>
+    <string name="sharing_text">Id Card</string>
+    <string name="share_title">Petofy</string>
     <string name="screenshot_take_failed">Failed to take screenshot!!</string>
     <string name="wait">Please wait…</string>
     <string name="full_page_screenshot">Full Page Screenshot</string>

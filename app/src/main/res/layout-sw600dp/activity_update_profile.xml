@@ -37,6 +37,17 @@
                 android:textSize="20sp"
                 android:textStyle="bold"/>
 
+            <ImageView
+                android:id="@+id/logout"
+                android:layout_margin="5dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:padding="10dp"
+                android:src="@drawable/logout" />
+
 
         </RelativeLayout>
 
@@ -166,7 +177,7 @@
                 android:background="@drawable/edit_text_background"
                 android:gravity="center_vertical"
                 android:hint="@string/phoneNumber"
-                android:inputType="text"
+                android:inputType="phone"
                 android:maxLines="1"
                 android:paddingLeft="25dp"
                 android:textColor="@color/grey_add_pet"
@@ -174,13 +185,42 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/phone_TV" />
 
+
+            <TextView
+                android:id="@+id/clinic_name_TV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/first_name_TV"
+                app:layout_constraintEnd_toEndOf="@id/first_name_TV"
+                app:layout_constraintTop_toBottomOf="@id/phone_updt"
+                android:text="@string/clinicName"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/grey_add_pet"/>
+
+            <EditText
+                android:id="@+id/clinic_name_updt"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edit_text_background"
+                android:gravity="center_vertical"
+                android:hint="@string/clinicName"
+                android:inputType="text"
+                android:maxLines="1"
+                android:paddingLeft="25dp"
+                android:textColor="@color/grey_add_pet"
+                app:layout_constraintEnd_toEndOf="@id/first_name_TV"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/clinic_name_TV" />
+
             <TextView
                 android:id="@+id/clinicCode_TV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="@id/first_name_TV"
                 app:layout_constraintEnd_toEndOf="@id/first_name_TV"
-                app:layout_constraintTop_toBottomOf="@id/phone_updt"
+                app:layout_constraintTop_toBottomOf="@id/clinic_name_updt"
                 android:hint="@string/clinicCode"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/grey_add_pet"/>
@@ -202,6 +242,34 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/clinicCode_TV" />
 
+            <TextView
+                android:id="@+id/description_TV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/first_name_TV"
+                app:layout_constraintEnd_toEndOf="@id/first_name_TV"
+                app:layout_constraintTop_toBottomOf="@id/clinicCode_updt"
+                android:text="@string/description1"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/grey_add_pet"/>
+
+            <EditText
+                android:id="@+id/description_updt"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edit_text_background"
+                android:gravity="center_vertical"
+                android:hint="@string/description1"
+                android:inputType="text"
+                android:maxLines="1"
+                android:paddingLeft="25dp"
+                android:textColor="@color/grey_add_pet"
+                app:layout_constraintEnd_toEndOf="@id/first_name_TV"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/description_TV" />
+
             <LinearLayout
                 android:id="@+id/online_layout"
                 android:layout_width="0dp"
@@ -210,7 +278,7 @@
                 android:layout_marginTop="10dp"
                 app:layout_constraintStart_toStartOf="@id/first_name_TV"
                 app:layout_constraintEnd_toEndOf="@id/first_name_TV"
-                app:layout_constraintTop_toBottomOf="@id/clinicCode_updt"
+                app:layout_constraintTop_toBottomOf="@id/description_updt"
                 android:weightSum="2.5"
                 android:orientation="vertical">
 
@@ -509,6 +577,7 @@
 
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/cat_image"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -521,7 +590,7 @@
 
 
             <LinearLayout
-
+                android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/cat_image"
                 app:layout_constraintStart_toStartOf="@id/first_name_TV"
                 app:layout_constraintEnd_toEndOf="@id/first_name_TV"

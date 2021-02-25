@@ -560,6 +560,7 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
                     ImageResponse imageResponse = (ImageResponse) arg0.body();
                     int responseCode = Integer.parseInt(imageResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
+                        hospitalization_upload_documents.setVisibility(View.GONE);
                        // Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
                         strDocumentUrl=imageResponse.getData().getDocumentUrl();
                     }else if (responseCode==614){

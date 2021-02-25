@@ -241,8 +241,8 @@
                                         android:layout_width="0dp"
                                         android:layout_height="match_parent"
                                         android:layout_weight="1"
-                                        android:text=""
                                         android:textSize="12sp"
+                                        android:maxLines="1"
                                         android:textColor="@color/colorPrimary"
                                         android:gravity="center|left"/>
 
@@ -448,6 +448,7 @@
 
             <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/nature_of_visit_spinner"
+                android:paddingLeft="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginLeft="20dp"
@@ -1040,6 +1041,7 @@
 
             <androidx.appcompat.widget.AppCompatSpinner
                 android:visibility="gone"
+                android:paddingLeft="20dp"
                 android:id="@+id/next_visit_spinner"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
@@ -1131,6 +1133,7 @@
 
             <androidx.appcompat.widget.AppCompatSpinner
                 android:visibility="gone"
+                android:paddingLeft="20dp"
                 android:id="@+id/next_vaccine_type_spinner"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -1159,6 +1162,7 @@
 
             <androidx.appcompat.widget.AppCompatSpinner
                 android:visibility="gone"
+                android:paddingLeft="20dp"
                 android:id="@+id/next_dewormer_spinner"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"

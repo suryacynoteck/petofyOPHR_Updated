@@ -38,7 +38,7 @@ public class PetProfileActivity extends AppCompatActivity implements ApiResponse
     Methods methods;
     String petId="",imagerl="";
     ImageView pet_profile_image_IV, image_one,image_two,image_three,image_four,image_five,edit_image,back_arrow_IV;
-    TextView pet_name_TV, pet_sex_TV,pet_parent_TV,pet_id_TV,pet_deatils_TV,phone_one,pet_email_id_TV,phone_two,address_line_one_TV,address_line_two_TV;
+    TextView address_head,pet_name_TV, pet_sex_TV,pet_parent_TV,pet_id_TV,pet_deatils_TV,phone_one,pet_email_id_TV,phone_two,address_line_one_TV,address_line_two_TV;
     GetPetResponse getPetResponse;
     boolean reloadData=false;
     SharedPreferences sharedPreferences;
@@ -63,6 +63,7 @@ public class PetProfileActivity extends AppCompatActivity implements ApiResponse
         pet_id_TV=findViewById(R.id.pet_id_TV);
         pet_deatils_TV=findViewById(R.id.pet_deatils_TV);
         phone_one=findViewById(R.id.phone_one);
+        address_head=findViewById(R.id.address_head);
         pet_email_id_TV=findViewById(R.id.pet_email_id_TV);
         phone_two=findViewById(R.id.phone_two);
         address_line_one_TV=findViewById(R.id.address_line_one_TV);
@@ -208,7 +209,12 @@ public class PetProfileActivity extends AppCompatActivity implements ApiResponse
                         pet_id_TV.setText(getPetResponse.getData().getPetUniqueId());
                         pet_deatils_TV.setText(getPetResponse.getData().getDescription());
 //                        pet_email_id_TV.setText(getPetResponse.getData().getpetpa);
-                        address_line_one_TV.setText(getPetResponse.getData().getAddress());
+                        if (getPetResponse.getData().getAddress()==null){
+                            address_line_one_TV.setVisibility(View.GONE);
+                            address_head.setVisibility(View.GONE);
+                        }else {
+                            address_line_one_TV.setText(getPetResponse.getData().getAddress());
+                        }
                         setImages();
 
                     } else if (responseCode == 614) {

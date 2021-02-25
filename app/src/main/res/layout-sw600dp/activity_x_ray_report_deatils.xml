@@ -226,9 +226,20 @@
         android:layout_width="0dp"
         android:layout_height="8dp"
         android:background="@color/green_divider"/>
-
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view_green_line"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.cardview.widget.CardView
+        android:visibility="gone"
         android:id="@+id/card_view"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
@@ -252,7 +263,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginLeft="10dp"
                 android:layout_width="0dp"
-                android:layout_marginRight="550dp"
+                android:layout_marginRight="200dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -300,7 +311,7 @@
                 app:layout_constraintStart_toStartOf="@id/nature_of_visit_tv"
                 app:layout_constraintTop_toBottomOf="@id/nature_of_visit_textView"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginRight="550dp"
+                android:layout_marginRight="200dp"
                 android:textStyle="bold"
                 android:textColor="@color/black_color"
                 android:text="@string/testdate"/>
@@ -343,7 +354,7 @@
                 android:textColor="@color/black_color"
                 android:textStyle="bold"
                 android:text="@string/result"
-                android:layout_marginRight="550dp"/>
+                android:layout_marginRight="200dp"/>
 
 
             <TextView
@@ -380,7 +391,7 @@
                 android:textColor="@color/black_color"
                 android:textStyle="bold"
                 android:text="@string/RecommendedFollowup"
-                android:layout_marginRight="550dp"/>
+                android:layout_marginRight="200dp"/>
 
 
             <TextView
@@ -418,7 +429,7 @@
                 android:textColor="@color/black_color"
                 android:textStyle="bold"
                 android:text="@string/FollowupDate"
-                android:layout_marginRight="550dp"/>
+                android:layout_marginRight="200dp"/>
 
 
             <TextView
@@ -453,6 +464,21 @@
 
 
     <Button
+        android:id="@+id/view_file_BT"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/card_view"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/card_view"
+        android:background="@drawable/green_background_bg"
+        android:text="View File"
+        android:textColor="@color/whiteColor"
+        android:textAllCaps="false"/>
+
+
+    <Button
+        android:visibility="gone"
         android:id="@+id/deleteReport_BT"
         android:text="@string/DeleteReport"
         android:textColor="@color/whiteColor"

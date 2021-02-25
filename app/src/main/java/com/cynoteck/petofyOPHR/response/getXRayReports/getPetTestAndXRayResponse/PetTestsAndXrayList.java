@@ -48,9 +48,9 @@ public class PetTestsAndXrayList
     private String results;
 
     public String getUpdatedByUser ()
-{
-    return updatedByUser;
-}
+    {
+        return updatedByUser;
+    }
 
     public void setUpdatedByUser (String updatedByUser)
     {
@@ -58,9 +58,9 @@ public class PetTestsAndXrayList
     }
 
     public String getPetId ()
-{
-    return petId;
-}
+    {
+        return petId;
+    }
 
     public void setPetId (String petId)
     {
@@ -68,9 +68,9 @@ public class PetTestsAndXrayList
     }
 
     public String getUpdatedBy ()
-{
-    return updatedBy;
-}
+    {
+        return updatedBy;
+    }
 
     public void setUpdatedBy (String updatedBy)
     {
@@ -78,9 +78,9 @@ public class PetTestsAndXrayList
     }
 
     public String getFollowUpList ()
-{
-    return followUpList;
-}
+    {
+        return followUpList;
+    }
 
     public void setFollowUpList (String followUpList)
     {
@@ -98,9 +98,9 @@ public class PetTestsAndXrayList
     }
 
     public String getCreatedByUser ()
-{
-    return createdByUser;
-}
+    {
+        return createdByUser;
+    }
 
     public void setCreatedByUser (String createdByUser)
     {
@@ -128,9 +128,9 @@ public class PetTestsAndXrayList
     }
 
     public String getUpdatedOn ()
-{
-    return updatedOn;
-}
+    {
+        return updatedOn;
+    }
 
     public void setUpdatedOn (String updatedOn)
     {
@@ -138,9 +138,9 @@ public class PetTestsAndXrayList
     }
 
     public String getTypeOfTestList ()
-{
-    return typeOfTestList;
-}
+    {
+        return typeOfTestList;
+    }
 
     public void setTypeOfTestList (String typeOfTestList)
     {
@@ -148,9 +148,9 @@ public class PetTestsAndXrayList
     }
 
     public String getCreatedOn ()
-{
-    return createdOn;
-}
+    {
+        return createdOn;
+    }
 
     public void setCreatedOn (String createdOn)
     {
@@ -168,9 +168,9 @@ public class PetTestsAndXrayList
     }
 
     public String getPetName ()
-{
-    return petName;
-}
+    {
+        return petName;
+    }
 
     public void setPetName (String petName)
     {
@@ -198,9 +198,9 @@ public class PetTestsAndXrayList
     }
 
     public String getTypeOfTestId ()
-{
-    return typeOfTestId;
-}
+    {
+        return typeOfTestId;
+    }
 
     public void setTypeOfTestId (String typeOfTestId)
     {
@@ -208,9 +208,9 @@ public class PetTestsAndXrayList
     }
 
     public String getCreatedBy ()
-{
-    return createdBy;
-}
+    {
+        return createdBy;
+    }
 
     public void setCreatedBy (String createdBy)
     {
@@ -228,9 +228,9 @@ public class PetTestsAndXrayList
     }
 
     public String getPetDetail ()
-{
-    return petDetail;
-}
+    {
+        return petDetail;
+    }
 
     public void setPetDetail (String petDetail)
     {

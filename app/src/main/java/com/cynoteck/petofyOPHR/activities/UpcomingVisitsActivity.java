@@ -18,15 +18,7 @@ import retrofit2.Response;
 
 public class UpcomingVisitsActivity extends AppCompatActivity implements ApiResponse, View.OnClickListener {
 
-    /*RecyclerView upcomingVisits_RV;
-    UpcomingVisitsAdapter upcomingVisitsAdapter;
-    TextView lastVisitDt, nextVisitDt;
-    ImageView back_arrow_IV, search_upcoming_IV;
-    DatePickerDialog picker;
-    String lastDate, nextDate;
-    UpcommingVisitsResponse upcommingVisitsResponse;
-    ProgressBar progressBar;
-    */
+
 
     Methods methods;
     TabLayout tabLayout;

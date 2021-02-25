@@ -231,7 +231,7 @@
 
 
     <androidx.cardview.widget.CardView
-        android:visibility="gone"
+        android:visibility="visible"
         android:id="@+id/card_view"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
@@ -497,7 +497,7 @@
                 app:layout_constraintTop_toBottomOf="@id/discharge_date_textView"
                 android:textColor="@color/black_color"
                 android:textStyle="bold"
-                android:text="@string/testName"
+                android:text="@string/hospitalphone"
                 android:layout_marginRight="200dp"/>
 
 
@@ -602,6 +602,19 @@
 
 
     </androidx.cardview.widget.CardView>
+    <Button
+        android:id="@+id/view_file_BT"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/card_view"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/card_view"
+        android:background="@drawable/green_background_bg"
+        android:text="View File"
+        android:textColor="@color/whiteColor"
+        android:textAllCaps="false"/>
+
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_marginTop="10dp"

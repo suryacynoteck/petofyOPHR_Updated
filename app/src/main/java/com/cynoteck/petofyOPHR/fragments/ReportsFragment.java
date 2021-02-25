@@ -318,6 +318,7 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
                                 data.putString("pet_owner_contact",profileList.get(pos).getContactNumber());
                                 data.putString("pet_DOB",profileList.get(pos).getDateOfBirth());
                                 data.putString("pet_encrypted_id",profileList.get(pos).getEncryptedId());
+                                data.putString("pet_age",profileList.get(pos).getPetAge());
                                 selectReportsIntent.putExtras(data);
                                 startActivity(selectReportsIntent);
                                 getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
@@ -370,7 +371,7 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
             Intent selectReportsIntent = new Intent(getActivity().getApplication(), SelectPetReportsActivity.class);
             Bundle data = new Bundle();
 //        Toast.makeText(getContext(), ""+profileList.get(position).getId(), Toast.LENGTH_SHORT).show();
-            data.putString("pet_id",profileList.get(position).getId());
+            data.putString("pet_id",profileList.get(position).getId().substring(0, profileList.get(position).getId().length() - 2));
             data.putString("pet_name",profileList.get(position).getPetName());
             data.putString("pet_unique_id",profileList.get(position).getPetUniqueId());
             data.putString("pet_sex",profileList.get(position).getPetSex());

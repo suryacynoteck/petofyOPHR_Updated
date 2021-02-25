@@ -26,6 +26,7 @@ import com.cynoteck.petofyOPHR.params.addBankAccountParams.ValidateIfscRequest;
 import com.cynoteck.petofyOPHR.response.bankAccountResponse.AddBankAccountResponse;
 import com.cynoteck.petofyOPHR.response.bankAccountResponse.ValidateIfscCodeResponse;
 import com.cynoteck.petofyOPHR.utils.Config;
+import com.cynoteck.petofyOPHR.utils.Methods;
 
 import retrofit2.Response;
 
@@ -38,13 +39,14 @@ public class BankAccountDetailsActivity extends AppCompatActivity implements Api
     String name_for_bank_str, email_for_bank_str, contact_for_bank_str,account_no_str, confirm_account_no_str, ifsc_str;
     String finalIfsc="";
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-
+    Methods methods;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bank_account_details);
 
         initization();
+        methods = new Methods(this);
         ifsc_for_bank_ET.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -129,6 +131,7 @@ public class BankAccountDetailsActivity extends AppCompatActivity implements Api
 
             case "AddAccount":
                 try {
+                    methods.customProgressDismiss();
                     AddBankAccountResponse addBankAccountResponse   = (AddBankAccountResponse) arg0.body();
                     Log.d("addAccount", addBankAccountResponse.toString());
                     int responseCode = Integer.parseInt(addBankAccountResponse.getResponse().getResponseCode());
@@ -246,6 +249,7 @@ public class BankAccountDetailsActivity extends AppCompatActivity implements Api
                     confirm_account_for_bank_ET.setError(null);
                     ifsc_for_bank_ET.setError("Invalid Ifsc Code !");
                 }else {
+                    methods.showCustomProgressBarDialog(this);
                     AddBankAccountParams addBankAccountParams = new AddBankAccountParams();
                     addBankAccountParams.setName(name_for_bank_str);
                     addBankAccountParams.setEmail(email_for_bank_str);

@@ -63,11 +63,11 @@ public class GetAllBankAccountsActivity extends AppCompatActivity implements Api
         switch (key){
             case "GetAccounts":
                 try {
+                    progressBar.setVisibility(View.GONE);
                     GetBankAccoutsResponse getBankAccoutsResponse  = (GetBankAccoutsResponse) arg0.body();
                     Log.d("GetAccounts", getBankAccoutsResponse.toString());
                     int responseCode = Integer.parseInt(getBankAccoutsResponse.getResponse().getResponseCode());
                     if (responseCode == 109) {
-                        progressBar.setVisibility(View.GONE);
                         bank_accounts_RV.setVisibility(View.VISIBLE);
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
                         bank_accounts_RV.setLayoutManager(linearLayoutManager);
@@ -75,6 +75,10 @@ public class GetAllBankAccountsActivity extends AppCompatActivity implements Api
                         bank_accounts_RV.setAdapter(getBanksAccountsAdapter);
                         getBanksAccountsAdapter.notifyDataSetChanged();
                     } else if (responseCode == 614) {
+                        Toast.makeText(this, getBankAccoutsResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else if (responseCode == 112) {
+                        Intent intent = new Intent(this,BankAccountDetailsActivity.class);
+                        startActivityForResult(intent,1);
                         Toast.makeText(this, getBankAccoutsResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();

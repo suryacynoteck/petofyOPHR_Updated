@@ -545,6 +545,7 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
                     ImageResponse imageResponse = (ImageResponse) arg0.body();
                     int responseCode = Integer.parseInt(imageResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
+                        xray_test_upload_documents.setVisibility(View.GONE);
                         //Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
                         strDocumentUrl=imageResponse.getData().getDocumentUrl();
                     }else if (responseCode==614){

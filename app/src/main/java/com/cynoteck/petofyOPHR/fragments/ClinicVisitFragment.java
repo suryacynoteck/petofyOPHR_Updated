@@ -43,7 +43,7 @@ import java.util.List;
 
 import retrofit2.Response;
 
-public class ClinicVisitFragment extends Fragment implements ApiResponse,View.OnClickListener , ClinicOnlineVisitNotification {
+public class ClinicVisitFragment extends Fragment implements ApiResponse, View.OnClickListener, ClinicOnlineVisitNotification {
 
     View view;
     Methods methods;
@@ -51,8 +51,8 @@ public class ClinicVisitFragment extends Fragment implements ApiResponse,View.On
     AppCompatSpinner nature_of_visit_spinner;
     DatePickerDialog picker;
     ArrayList<String> natureOfVisitList;
-    HashMap<String,String> natureOfVisitHashMap=new HashMap<>();
-    String strNatureOfVist="2.0",natureOfVisit="",lastDate="", nextDate="";
+    HashMap<String, String> natureOfVisitHashMap = new HashMap<>();
+    String strNatureOfVist = "2.0", natureOfVisit = "", lastDate = "", nextDate = "";
     LinearLayout search_visits;
     RecyclerView all_clinic_visits_RV;
     AllClinicVisitAdopter allClinicVisitAdopter;
@@ -62,31 +62,27 @@ public class ClinicVisitFragment extends Fragment implements ApiResponse,View.On
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view=inflater.inflate(R.layout.fragment_clinic_visit, container, false);
+        view = inflater.inflate(R.layout.fragment_clinic_visit, container, false);
         init();
         return view;
     }
 
-    public void init()
-    {
+    public void init() {
         methods = new Methods(getActivity());
-        lastVisitDt =view.findViewById(R.id.lastVisitDt);
-        nextVisitDt =view.findViewById(R.id.nextVisitDt);
-        nature_of_visit_spinner =view.findViewById(R.id.nature_of_visit_spinner);
-        search_visits =view.findViewById(R.id.search_visits);
-        all_clinic_visits_RV =view.findViewById(R.id.all_clinic_visits_RV);
+        lastVisitDt = view.findViewById(R.id.lastVisitDt);
+        nextVisitDt = view.findViewById(R.id.nextVisitDt);
+        nature_of_visit_spinner = view.findViewById(R.id.nature_of_visit_spinner);
+        search_visits = view.findViewById(R.id.search_visits);
+        all_clinic_visits_RV = view.findViewById(R.id.all_clinic_visits_RV);
 
         lastVisitDt.setOnClickListener(this);
         nextVisitDt.setOnClickListener(this);
         search_visits.setOnClickListener(this);
 
-        if(methods.isInternetOn())
-        {
+        if (methods.isInternetOn()) {
             clinicVisitdata();
             getVisitTypes();
-        }
-        else
-        {
+        } else {
             methods.DialogInternet();
         }
 
@@ -132,17 +128,17 @@ public class ClinicVisitFragment extends Fragment implements ApiResponse,View.On
             case R.id.search_visits:
                 lastDate = lastVisitDt.getText().toString().trim();
                 nextDate = nextVisitDt.getText().toString().trim();
-                if (natureOfVisit.equals("Select Visit")){
+                if (natureOfVisit.equals("Select Visit")) {
                     Toast.makeText(getActivity(), "Select Visit Type", Toast.LENGTH_SHORT).show();
-                }else if (lastDate.isEmpty()){
+                } else if (lastDate.isEmpty()) {
                     Toast.makeText(getActivity(), "Select From Date", Toast.LENGTH_SHORT).show();
-                }else if (nextDate.isEmpty()){
+                } else if (nextDate.isEmpty()) {
                     Toast.makeText(getActivity(), "Select To Date", Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
 
-                    if (methods.isInternetOn()){
+                    if (methods.isInternetOn()) {
                         clinicVisitdata();
-                    }else {
+                    } else {
                         methods.DialogInternet();
                     }
 
@@ -157,40 +153,44 @@ public class ClinicVisitFragment extends Fragment implements ApiResponse,View.On
 
     }
 
-    public void clinicVisitdata()
-    {
+    public void clinicVisitdata() {
         methods.showCustomProgressBarDialog(getActivity());
         ClinicVisitParameterModel clinicVisitParameterModel = new ClinicVisitParameterModel();
         clinicVisitParameterModel.setFromDate(lastDate);
         clinicVisitParameterModel.setToDate(nextDate);
-        clinicVisitParameterModel.setNatureOfVisiteId(strNatureOfVist.substring(0,strNatureOfVist.length()-2));
+        clinicVisitParameterModel.setNatureOfVisiteId(strNatureOfVist.substring(0, strNatureOfVist.length() - 2));
         ClinicVisitRequest clinicVisitRequest = new ClinicVisitRequest();
         clinicVisitRequest.setData(clinicVisitParameterModel);
 
         ApiService<ClinicVisitResponseData> service = new ApiService<>();
         service.get(this, ApiClient.getApiInterface().getUpCommingClinicVisits(Config.token, clinicVisitRequest), "GetUpCommingClinicVisits");
-        Log.e("UpcomingClinicVisits==>", "" + clinicVisitRequest);
+        Log.e("UpcomingClinicVisits==>", "" + methods.getRequestJson(clinicVisitRequest));
     }
 
     @Override
     public void onResponse(Response arg0, String key) {
-        switch (key){
+        switch (key) {
             case "GetUpCommingClinicVisits":
                 try {
                     ClinicVisitResponseData clinicVisitResponseData = (ClinicVisitResponseData) arg0.body();
                     Log.d("CommingClinicVisits", clinicVisitResponseData.toString());
-                    Log.d("CommingClinicVisits", ""+clinicVisitResponseData.getData().getPetClinicVisitList().size());
+                    Log.d("CommingClinicVisits", "" + clinicVisitResponseData.getData().getPetClinicVisitList().size());
                     int responseCode = Integer.parseInt(clinicVisitResponseData.getResponse().getResponseCode());
-                    clinicVisitResponseDataList=new ArrayList<>();
+                    clinicVisitResponseDataList = new ArrayList<>();
                     if (responseCode == 109) {
                         methods.customProgressDismiss();
-                       Log.d("aaanana",""+clinicVisitResponseData.getData().getPetClinicVisitList().get(0).getVisitDate());
+                        Log.d("aaanana", "" + clinicVisitResponseData.getData().getPetClinicVisitList().get(0).getVisitDate());
                         all_clinic_visits_RV.setVisibility(View.VISIBLE);
-                        clinicVisitResponseDataList=clinicVisitResponseData.getData().getPetClinicVisitList();
-                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-                        all_clinic_visits_RV.setLayoutManager(linearLayoutManager);
-                        allClinicVisitAdopter = new AllClinicVisitAdopter(getActivity(), clinicVisitResponseData.getData().getPetClinicVisitList(),this);
-                        all_clinic_visits_RV.setAdapter(allClinicVisitAdopter);
+                        clinicVisitResponseDataList = clinicVisitResponseData.getData().getPetClinicVisitList();
+                        if (clinicVisitResponseDataList.isEmpty()) {
+                            Toast.makeText(getContext(), "No Data Found !", Toast.LENGTH_SHORT).show();
+
+                        } else {
+                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+                            all_clinic_visits_RV.setLayoutManager(linearLayoutManager);
+                            allClinicVisitAdopter = new AllClinicVisitAdopter(getActivity(), clinicVisitResponseData.getData().getPetClinicVisitList(), this);
+                            all_clinic_visits_RV.setAdapter(allClinicVisitAdopter);
+                        }
                     } else if (responseCode == 614) {
                         methods.customProgressDismiss();
                         Toast.makeText(getActivity(), clinicVisitResponseData.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
@@ -200,51 +200,48 @@ public class ClinicVisitFragment extends Fragment implements ApiResponse,View.On
                     }
 
                 } catch (Exception e) {
+                    methods.customProgressDismiss();
+                    Toast.makeText(getContext(), "No Data Found !", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
                 break;
 
             case "GetReportsType":
                 try {
-                    Log.d("GetPetServiceTypes",arg0.body().toString());
+                    Log.d("GetPetServiceTypes", arg0.body().toString());
                     GetReportsTypeResponse petServiceResponse = (GetReportsTypeResponse) arg0.body();
                     int responseCode = Integer.parseInt(petServiceResponse.getResponse().getResponseCode());
-                    if (responseCode== 109){
-                        natureOfVisitList=new ArrayList<>();
+                    if (responseCode == 109) {
+                        natureOfVisitList = new ArrayList<>();
                         natureOfVisitList.add("Select Visit");
-                        for(int i=0;i<petServiceResponse.getData().size();i++)
-                        {
+                        for (int i = 0; i < petServiceResponse.getData().size(); i++) {
                             natureOfVisitList.add(petServiceResponse.getData().get(i).getNature());
-                            natureOfVisitHashMap.put(petServiceResponse.getData().get(i).getNature(),petServiceResponse.getData().get(i).getId());
+                            natureOfVisitHashMap.put(petServiceResponse.getData().get(i).getNature(), petServiceResponse.getData().get(i).getId());
                         }
                         setSpinnerNatureofVisit();
                     }
-                }
-                catch(Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
             case "SendNotification":
                 try {
-                    Log.d("SendNotification",arg0.body().toString());
+                    Log.d("SendNotification", arg0.body().toString());
                     JsonObject notificationresponse = (JsonObject) arg0.body();
 
                     JsonObject response = notificationresponse.getAsJsonObject("response");
-                    Log.d("hhshshhs",""+response);
+                    Log.d("hhshshhs", "" + response);
 
                     int responseCode = Integer.parseInt(String.valueOf(response.get("responseCode")));
 
-                    if (responseCode== 109){
+                    if (responseCode == 109) {
                         methods.customProgressDismiss();
                         Toast.makeText(getActivity(), "Send Successfully..", Toast.LENGTH_SHORT).show();
-                    }
-                    else
-                    {
+                    } else {
                         methods.customProgressDismiss();
                         Toast.makeText(getActivity(), "Failed!!", Toast.LENGTH_SHORT).show();
                     }
-                }
-                catch(Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
@@ -258,7 +255,7 @@ public class ClinicVisitFragment extends Fragment implements ApiResponse,View.On
     }
 
     private void setSpinnerNatureofVisit() {
-        ArrayAdapter aa = new ArrayAdapter(getActivity(),android.R.layout.simple_spinner_item,natureOfVisitList);
+        ArrayAdapter aa = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, natureOfVisitList);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
         nature_of_visit_spinner.setAdapter(aa);
@@ -270,10 +267,11 @@ public class ClinicVisitFragment extends Fragment implements ApiResponse,View.On
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
                 // Showing selected spinner item
-                natureOfVisit=item;
-                strNatureOfVist=natureOfVisitHashMap.get(natureOfVisit);
-                Log.d("Spinner",""+item);
+                natureOfVisit = item;
+                strNatureOfVist = natureOfVisitHashMap.get(natureOfVisit);
+                Log.d("Spinner", "" + item);
             }
+
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
@@ -281,19 +279,17 @@ public class ClinicVisitFragment extends Fragment implements ApiResponse,View.On
 
     @Override
     public void ClickNotification(int position) {
-        if(methods.isInternetOn())
-        {
+        if (methods.isInternetOn()) {
             methods.showCustomProgressBarDialog(getActivity());
             NotificationParameter notificationParameter = new NotificationParameter();
-            notificationParameter.setId(clinicVisitResponseDataList.get(position).getId().substring(0,clinicVisitResponseDataList.get(position).getId().length()-2));
+            notificationParameter.setId(clinicVisitResponseDataList.get(position).getId().substring(0, clinicVisitResponseDataList.get(position).getId().length() - 2));
             SendNotificationRequest sendNotificationRequest = new SendNotificationRequest();
             sendNotificationRequest.setData(notificationParameter);
 
             ApiService<JsonObject> service = new ApiService<>();
             service.get(this, ApiClient.getApiInterface().sendNotification(Config.token, sendNotificationRequest), "SendNotification");
             Log.e("SendNotification==>", "" + sendNotificationRequest);
-        }
-        else
+        } else
             methods.DialogInternet();
 
     }

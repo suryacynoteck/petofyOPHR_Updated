@@ -577,6 +577,7 @@
 
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/cat_image"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -589,7 +590,7 @@
 
 
             <LinearLayout
-
+                android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/cat_image"
                 app:layout_constraintStart_toStartOf="@id/first_name_TV"
                 app:layout_constraintEnd_toEndOf="@id/first_name_TV"

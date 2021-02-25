@@ -1,41 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <com.google.android.material.appbar.CollapsingToolbarLayout
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/whiteColor"
-        >
+        android:background="@color/whiteColor">
+
         <TextView
             android:id="@+id/doctorPrescription_headline_TV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/doctorPrescription"
             android:layout_marginLeft="100dp"
             android:layout_marginTop="10dp"
+            android:text="@string/doctorPrescription"
             android:textColor="@color/black_color"
             android:textSize="25sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <ImageView
 
             android:id="@+id/back_arrow_IV"
-            android:padding="8dp"
-            android:visibility="visible"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/back_arrow" />
+            android:padding="8dp"
+            android:src="@drawable/back_arrow"
+            android:visibility="visible" />
 
     </com.google.android.material.appbar.CollapsingToolbarLayout>
 
     <androidx.cardview.widget.CardView
 
-        android:layout_marginTop="5dp"
         android:id="@+id/petInfo_CV"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -43,94 +41,94 @@
 
 
     <RelativeLayout
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
-        android:layout_marginLeft="15dp"
-        android:padding="5dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+
+        android:layout_marginBottom="15dp"
+        android:padding="5dp">
 
         <LinearLayout
             android:id="@+id/pet_info_LL"
-            android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <TextView
-                android:layout_marginTop="5dp"
-                android:textSize="15sp"
-                android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+
+                android:text="@string/petname"
                 android:textColor="@color/black_color"
-                android:text="@string/petname"/>
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
             <TextView
-                android:layout_marginTop="5dp"
-                android:textSize="15sp"
-                android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+
+                android:text="@string/petId"
                 android:textColor="@color/black_color"
-                android:text="@string/petId"/>
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
             <TextView
-                android:layout_marginTop="5dp"
-                android:textSize="15sp"
-                android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+
+                android:text="@string/petownwer"
                 android:textColor="@color/black_color"
-                android:text="@string/petownwer"/>
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
 
         <LinearLayout
+            android:id="@+id/double_dot_LL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:id="@+id/double_dot_LL"
             android:layout_toRightOf="@id/pet_info_LL"
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:orientation="vertical">
 
             <TextView
-                android:layout_marginTop="5dp"
-                android:textSize="15sp"
-                android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+
+                android:text="@string/double_Dot"
                 android:textColor="@color/black_color"
-                android:text="@string/double_Dot"/>
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
             <TextView
-                android:layout_marginTop="5dp"
-                android:textSize="15sp"
-                android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+
+                android:text="@string/double_Dot"
                 android:textColor="@color/black_color"
-                android:text="@string/double_Dot"/>
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
             <TextView
-                android:layout_marginTop="5dp"
-                android:textSize="15sp"
-                android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+
+                android:text="@string/double_Dot"
                 android:textColor="@color/black_color"
-                android:text="@string/double_Dot"/>
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
 
         <LinearLayout
-            android:layout_toRightOf="@id/double_dot_LL"
             android:id="@+id/pet_all_info_ll"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/double_dot_LL"
+            android:orientation="vertical">
 
 
             <RelativeLayout
@@ -139,36 +137,35 @@
 
                 <TextView
                     android:id="@+id/pet_name_TV"
-                    android:layout_marginTop="5dp"
-                    android:textSize="15sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+
+                    android:text="Rustam"
                     android:textColor="@color/grayColorCode"
-                    android:text="Rustam"/>
+                    android:textSize="15sp" />
 
                 <TextView
-                    android:layout_marginLeft="8dp"
-                    android:layout_toRightOf="@id/pet_name_TV"
                     android:id="@+id/pet_sex_TV"
-                    android:layout_marginTop="5dp"
-                    android:textSize="15sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+
+                    android:layout_toRightOf="@id/pet_name_TV"
+                    android:text="(Male)"
                     android:textColor="@color/grayColorCode"
-                    android:text="(Male)"/>
+                    android:textSize="15sp" />
 
             </RelativeLayout>
 
 
-
             <TextView
                 android:id="@+id/pet_id_TV"
-                android:layout_marginTop="5dp"
-                android:textSize="15sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+
+                android:text="PETO1883"
                 android:textColor="@color/grayColorCode"
-                android:text="PETO1883"/>
+                android:textSize="15sp" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -176,23 +173,23 @@
 
                 <TextView
                     android:id="@+id/pet_owner_name_TV"
-                    android:layout_marginTop="5dp"
-                    android:textSize="15sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+
+                    android:text="Ashish Rawat"
                     android:textColor="@color/grayColorCode"
-                    android:text="Ashish Rawat"/>
+                    android:textSize="15sp" />
 
                 <TextView
-                    android:layout_marginLeft="8dp"
-                    android:layout_toRightOf="@id/pet_owner_name_TV"
                     android:id="@+id/pet_owner_phone_no_TV"
-                    android:layout_marginTop="5dp"
-                    android:textSize="15sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+
+                    android:layout_toRightOf="@id/pet_owner_name_TV"
+                    android:text="(735-104-040-97)"
                     android:textColor="@color/grayColorCode"
-                    android:text="(735-104-040-97)"/>
+                    android:textSize="15sp" />
 
             </RelativeLayout>
 
@@ -205,46 +202,46 @@
         android:id="@+id/view_green_line"
         android:layout_width="match_parent"
         android:layout_height="8dp"
-        android:background="@color/green_divider"/>
+        android:background="@color/green_divider" />
+
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view"
-        android:visibility="visible"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:background="@color/whiteColor"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        />
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/whiteColor"
+        android:visibility="visible" />
 
     <ProgressBar
         android:id="@+id/progressBar"
-        android:layout_marginTop="10dp"
-        android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
 
         />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:orientation="vertical">
 
-        >
         <LinearLayout
+            android:id="@+id/data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginRight="15dp"
             android:layout_marginBottom="10dp"
-            android:layout_width="match_parent"
             android:orientation="vertical"
-            android:id="@+id/data"
-            android:visibility="gone"
-            android:layout_height="wrap_content">
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
                 android:orientation="horizontal">
 
 
@@ -272,164 +269,161 @@
                     android:id="@+id/vet_name_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
                     android:layout_marginLeft="5dp"
+                    android:text=""
                     android:textColor="@color/black_color"
-                    android:text=""/>
+                    android:textSize="15sp" />
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
                 android:orientation="horizontal">
+
                 <TextView
-                    android:layout_marginTop="15dp"
                     android:id="@+id/visit_date_TV"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold"
+                    android:text="@string/visit_date"
                     android:textColor="@color/black_color"
-                    android:text="@string/visit_date"/>
+                    android:textStyle="bold" />
 
 
                 <TextView
                     android:id="@+id/dot_vist_date_TV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
                     android:layout_marginLeft="80dp"
-                    android:layout_marginTop="15dp"
-                    android:textColor="@color/black_color"
                     android:text=":"
-                    android:textStyle="bold"/>
+                    android:textColor="@color/black_color"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
 
                 <TextView
                     android:id="@+id/visit_date_textView"
-                    android:layout_marginLeft="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="5dp"
+
+                    android:text=""
                     android:textColor="@color/black_color"
-                    android:text=""/>
+                    android:textSize="15sp" />
 
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
                 android:orientation="horizontal">
+
                 <TextView
-                    android:layout_marginTop="15dp"
                     android:id="@+id/nature_ofVist_TV"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold"
+                    android:text="@string/natureofvisit"
                     android:textColor="@color/black_color"
-                    android:text="@string/natureofvisit"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/dot_nature_ofVist"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:textColor="@color/black_color"
-                    android:text=":"
                     android:layout_marginLeft="80dp"
-                    android:layout_marginTop="15dp"
-                    android:textStyle="bold"/>
+                    android:text=":"
+                    android:textColor="@color/black_color"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/nature_ofVist_textView"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="15dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
+                    android:layout_marginLeft="5dp"
+                    android:text=""
                     android:textColor="@color/black_color"
-                    android:text=""/>
-
+                    android:textSize="15sp" />
 
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
                 android:orientation="horizontal">
+
                 <TextView
-                    android:layout_marginTop="15dp"
                     android:id="@+id/pet_weight_TV"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold"
+                    android:text="@string/weight"
                     android:textColor="@color/black_color"
-                    android:text="@string/weight"/>
+                    android:textStyle="bold" />
 
 
                 <TextView
                     android:id="@+id/dot_pet_weight"
-                    android:layout_marginLeft="80dp"
-                    android:layout_marginTop="15dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:textColor="@color/black_color"
+                    android:layout_marginLeft="80dp"
                     android:text=":"
-                    android:textStyle="bold"/>
+                    android:textColor="@color/black_color"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/weight_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginTop="15dp"
+                    android:text=""
                     android:textColor="@color/black_color"
-                    android:text=""/>
+                    android:textSize="15sp" />
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
                 android:orientation="horizontal">
+
                 <TextView
-                    android:layout_marginTop="15dp"
                     android:id="@+id/pet_temp_TV"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold"
+                    android:text="@string/temprature"
                     android:textColor="@color/black_color"
-                    android:text="@string/temprature"/>
+                    android:textStyle="bold" />
 
 
                 <TextView
                     android:id="@+id/dot_pet_temp"
                     android:layout_width="wrap_content"
-                    android:layout_marginLeft="80dp"
-                    android:layout_marginTop="15dp"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black_color"
+                    android:layout_marginLeft="80dp"
                     android:text=":"
-                    android:textStyle="bold"/>
+                    android:textColor="@color/black_color"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/temperature_textView"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="15dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
+                    android:layout_marginLeft="5dp"
+
+                    android:text=""
                     android:textColor="@color/black_color"
-                    android:text=""/>
+                    android:textSize="15sp" />
 
 
             </LinearLayout>
@@ -438,313 +432,300 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
-                android:visibility="gone"
-                android:orientation="horizontal">
+
+                android:orientation="horizontal"
+                android:visibility="gone">
+
                 <TextView
-                    android:layout_marginTop="15dp"
                     android:id="@+id/pet_vaccine_TV"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold"
+
+                    android:text="@string/vaccine"
                     android:textColor="@color/black_color"
-                    android:text="@string/vaccine"/>
+                    android:textStyle="bold" />
 
 
                 <TextView
                     android:id="@+id/dot_pet_vaccine"
                     android:layout_width="wrap_content"
-                    android:layout_marginLeft="80dp"
-                    android:layout_marginTop="15dp"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black_color"
+                    android:layout_marginLeft="80dp"
+
                     android:text=":"
-                    android:textStyle="bold"/>
+                    android:textColor="@color/black_color"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/vaccine_textView"
 
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="15dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
+                    android:layout_marginLeft="5dp"
+
+                    android:text=""
                     android:textColor="@color/black_color"
-                    android:text=""/>
+                    android:textSize="15sp" />
 
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+
                 android:orientation="horizontal">
+
                 <TextView
-                    android:layout_marginTop="15dp"
                     android:id="@+id/pet_desc_TV"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold"
+
+                    android:text="@string/description"
                     android:textColor="@color/black_color"
-                    android:text="@string/description"/>
+                    android:textStyle="bold" />
 
 
                 <TextView
                     android:id="@+id/dot_pet_desc"
                     android:layout_width="wrap_content"
-                    android:layout_marginLeft="80dp"
-                    android:layout_marginTop="15dp"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:textColor="@color/black_color"
+                    android:layout_marginLeft="80dp"
+
                     android:text=":"
-                    android:textStyle="bold"/>
+                    android:textColor="@color/black_color"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/symptoms_textView"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="15dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
+                    android:layout_marginLeft="5dp"
+
+                    android:text=""
                     android:textColor="@color/black_color"
-                    android:text=""/>
+                    android:textSize="15sp" />
 
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_marginTop="15dp"
                     android:id="@+id/pet_diagosis_TV"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-
-                    android:textStyle="bold"
+                    android:text="@string/diagosis"
                     android:textColor="@color/black_color"
-                    android:text="@string/diagosis"/>
+                    android:textStyle="bold" />
 
 
                 <TextView
                     android:id="@+id/dot_pet_diagosis"
                     android:layout_width="wrap_content"
-                    android:layout_marginLeft="80dp"
-                    android:layout_marginTop="15dp"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:textColor="@color/black_color"
+                    android:layout_marginLeft="80dp"
+
                     android:text=":"
-                    android:textStyle="bold"/>
+                    android:textColor="@color/black_color"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/diagnosis_textView"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="15dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
+                    android:layout_marginLeft="5dp"
+
+                    android:text=""
                     android:textColor="@color/black_color"
-                    android:text=""/>
+                    android:textSize="15sp" />
 
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+
                 android:orientation="horizontal">
+
                 <TextView
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
                     android:id="@+id/pet_remarks_TV"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold"
+                    android:text="@string/remarks"
                     android:textColor="@color/black_color"
-                    android:text="@string/remarks"/>
+                    android:textStyle="bold" />
 
 
                 <TextView
                     android:id="@+id/dot_pet_remarks"
                     android:layout_width="wrap_content"
-                    android:layout_marginLeft="80dp"
-                    android:layout_marginTop="15dp"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:textColor="@color/black_color"
+                    android:layout_marginLeft="80dp"
+
                     android:text=":"
-                    android:textStyle="bold"/>
+                    android:textColor="@color/black_color"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/remarks_textView"
                     android:layout_width="wrap_content"
-                    android:gravity="end"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginTop="15dp"
+
+                    android:gravity="end"
+                    android:text=""
                     android:textColor="@color/black_color"
-                    android:text=""/>
+                    android:textSize="15sp" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layout_dewarming_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
-                android:id="@+id/layout_dewarming_name"
+                android:layout_marginBottom="10dp"
+
                 android:orientation="horizontal">
+
                 <TextView
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
                     android:id="@+id/pet_dewarmername_TV"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold"
+                    android:text="Dewormer Name"
                     android:textColor="@color/black_color"
-                    android:text="Dewormer Name"/>
+                    android:textStyle="bold" />
 
 
                 <TextView
                     android:id="@+id/dewarmer_dot"
                     android:layout_width="wrap_content"
-                    android:layout_marginLeft="80dp"
-                    android:layout_marginTop="15dp"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:textColor="@color/black_color"
+                    android:layout_marginLeft="80dp"
+
                     android:text=":"
-                    android:textStyle="bold"/>
+                    android:textColor="@color/black_color"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/dewarmername_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginTop="15dp"
+
+                    android:text=""
                     android:textColor="@color/black_color"
-                    android:text=""/>
+                    android:textSize="15sp" />
             </LinearLayout>
+
             <LinearLayout
+                android:id="@+id/layout_dose"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
-                android:id="@+id/layout_dose"
+                android:layout_marginBottom="10dp"
                 android:orientation="horizontal">
+
                 <TextView
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
                     android:id="@+id/pet_dose_TV"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold"
+                    android:text="Dewormer Dose"
                     android:textColor="@color/black_color"
-                    android:text="Dewormer Dose"/>
+                    android:textStyle="bold" />
 
 
                 <TextView
                     android:id="@+id/dot_dose"
                     android:layout_width="wrap_content"
-                    android:layout_marginLeft="80dp"
-                    android:layout_marginTop="15dp"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:textColor="@color/black_color"
+                    android:layout_marginLeft="80dp"
+
                     android:text=":"
-                    android:textStyle="bold"/>
+                    android:textColor="@color/black_color"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/dose_textView"
                     android:layout_width="wrap_content"
-                    android:gravity="end"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginTop="15dp"
+
+                    android:gravity="end"
+                    android:text=""
                     android:textColor="@color/black_color"
-                    android:text=""/>
+                    android:textSize="15sp" />
             </LinearLayout>
+
             <LinearLayout
+                android:id="@+id/layout_next_dewarmer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:id="@+id/layout_next_dewarmer"
-                android:layout_marginTop="5dp"
+
                 android:orientation="horizontal">
+
                 <TextView
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
                     android:id="@+id/pet_next_dewarmer_TV"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold"
+                    android:text="Next Dewormer"
                     android:textColor="@color/black_color"
-                    android:text="Next Dewormer"/>
+                    android:textStyle="bold" />
 
 
                 <TextView
                     android:id="@+id/dot_next_dewarmer"
                     android:layout_width="wrap_content"
-                    android:layout_marginLeft="80dp"
-                    android:layout_marginTop="15dp"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:textColor="@color/black_color"
+                    android:layout_marginLeft="80dp"
+
                     android:text=":"
-                    android:textStyle="bold"/>
+                    android:textColor="@color/black_color"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/next_dewarmer_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginTop="15dp"
+
+                    android:text=""
                     android:textColor="@color/black_color"
-                    android:text=""/>
+                    android:textSize="15sp" />
             </LinearLayout>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         </LinearLayout>
     </ScrollView>
 
 
-
-
-
-
-
     <Button
-        android:visibility="gone"
         android:id="@+id/deleteReport_BT"
-        android:text="@string/DeleteReport"
-        android:textColor="@color/whiteColor"
-        android:textSize="20sp"
-        android:textAllCaps="false"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/deactivate_red"/>
+        android:background="@color/deactivate_red"
+        android:text="@string/DeleteReport"
+        android:textAllCaps="false"
+        android:textColor="@color/whiteColor"
+        android:textSize="20sp"
+        android:visibility="gone" />
 
 </LinearLayout>

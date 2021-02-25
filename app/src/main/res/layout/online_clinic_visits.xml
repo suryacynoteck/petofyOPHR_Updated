@@ -73,6 +73,30 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical"
+                        android:paddingRight="10dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Appointment Date"
+                            android:textColor="#000"
+                            android:textSize="15dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:maxLines="1"
+                            android:id="@+id/typeOfVisit_TV"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Health Problem" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -120,28 +144,6 @@
 
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Last Appointment"
-                            android:textColor="#000"
-                            android:textSize="15dp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/nextVisit_TV"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="08/07/2019" />
-
-
-                    </LinearLayout>
 
 
                 </LinearLayout>
@@ -178,27 +180,26 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:orientation="vertical"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="10dp">
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Appointment Date"
+                            android:text="Last Appointment"
                             android:textColor="#000"
                             android:textSize="15dp"
                             android:textStyle="bold" />
 
                         <TextView
-                            android:maxLines="1"
-                            android:id="@+id/typeOfVisit_TV"
+                            android:id="@+id/nextVisit_TV"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Health Problem" />
+                            android:text="08/07/2019" />
+
 
                     </LinearLayout>
 

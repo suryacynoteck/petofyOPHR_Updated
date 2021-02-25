@@ -111,7 +111,7 @@ public class PdfEditorActivity extends AppCompatActivity{
                 });
             }
         }));
-        webView.loadUrl("https://www.petofy.com/PetHealthRecord/DoctorsPrescription?encryptedId="+encyptId);
+        webView.loadUrl("https://www.petofy.com/PetHealthRecord/DoctorsPrescription?encryptedId="+encyptId+"&&status=1");
 
     }
 

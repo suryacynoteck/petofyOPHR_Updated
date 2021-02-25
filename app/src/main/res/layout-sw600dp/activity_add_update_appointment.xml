@@ -184,7 +184,28 @@
                     android:text="@string/title"
                     android:textColor="@color/grey_add_pet"/>
 
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/purpose_spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/spinner_background"
+                    android:gravity="center_vertical"
+                    android:hint="@string/title"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:paddingLeft="25dp"
+                    android:textColor="@color/grey_add_pet"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/title_TV"
+                    />
+
                 <EditText
+                    android:visibility="gone"
                     android:id="@+id/title_ET"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
@@ -200,7 +221,7 @@
                     android:textColor="@color/grey_add_pet"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/title_TV"
+                    app:layout_constraintTop_toBottomOf="@id/purpose_spinner"
                     />
 
 
@@ -335,6 +356,7 @@
                     app:layout_constraintTop_toBottomOf="@id/description_TV"
                     app:layout_constraintBottom_toBottomOf="parent"/>
 
+
                 <TextView
                     android:layout_marginTop="10dp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -358,12 +380,21 @@
                     android:thumb="@drawable/thumb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </com.google.android.material.card.MaterialCardView>
 
 
     </ScrollView>
+
+
+
+
+
+
+
+
 
     <Button
         android:id="@+id/create_appointment_BT"

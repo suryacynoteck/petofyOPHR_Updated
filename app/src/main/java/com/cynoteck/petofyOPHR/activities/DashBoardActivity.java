@@ -43,16 +43,17 @@ import retrofit2.Response;
 public class DashBoardActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse {
 
 
-    private RelativeLayout homeRL,profileRL,petregisterRL,appointmentRL;
+    private RelativeLayout homeRL, profileRL, petregisterRL, appointmentRL;
     public ImageView icHome, icProfile, icPetRegister, icAppointment;
     boolean doubleBackToExitPressedOnce = false;
     boolean exit = false;
     Methods methods;
-    String IsVeterinarian="";
+    String IsVeterinarian = "";
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor login_editor;
     private int USER_UPDATION_FIRST_TIME = 1;
-    String userTYpe ="",permissionId="";
+    String userTYpe = "", permissionId = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,19 +62,19 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         methods = new Methods(this);
         sharedPreferences = getSharedPreferences("userdetails", 0);
         Config.token = sharedPreferences.getString("token", "");
-        Log.e("token",Config.token);
-        Config.user_id=sharedPreferences.getString("userId", "");
-        Log.e("user_id",Config.user_id);
-        Config.user_Veterian_phone=sharedPreferences.getString("phoneNumber", "");
-        Config.user_Veterian_emial=sharedPreferences.getString("email", "");
-        Config.user_Veterian_name=sharedPreferences.getString("firstName", "")+" "+sharedPreferences.getString("lastName", "");
-        Config.user_Veterian_address=sharedPreferences.getString("address", "");
-        Config.user_Veterian_online=sharedPreferences.getString("onlineAppoint", "");
-        Config.user_Veterian_id=sharedPreferences.getString("vetid", "");
-        Config.user_Veterian_study=sharedPreferences.getString("study", "");
-        Config.two_fact_auth_status=sharedPreferences.getString("twoFactAuth", "");
-        Config.user_type=sharedPreferences.getString("user_type", "");
-        Config.user_verterian_reg_no=sharedPreferences.getString("vetid","");
+        Log.e("token", Config.token);
+        Config.user_id = sharedPreferences.getString("userId", "");
+        Log.e("user_id", Config.user_id);
+        Config.user_Veterian_phone = sharedPreferences.getString("phoneNumber", "");
+        Config.user_Veterian_emial = sharedPreferences.getString("email", "");
+        Config.user_Veterian_name = sharedPreferences.getString("firstName", "") + " " + sharedPreferences.getString("lastName", "");
+        Config.user_Veterian_address = sharedPreferences.getString("address", "");
+        Config.user_Veterian_online = sharedPreferences.getString("onlineAppoint", "");
+        Config.user_Veterian_id = sharedPreferences.getString("vetid", "");
+        Config.user_Veterian_study = sharedPreferences.getString("study", "");
+        Config.two_fact_auth_status = sharedPreferences.getString("twoFactAuth", "");
+        Config.user_type = sharedPreferences.getString("user_type", "");
+        Config.user_verterian_reg_no = sharedPreferences.getString("vetid", "");
 
 //        Gson gson = new Gson();
 //        String json = sharedPreferences.getString("userPermission", null);
@@ -103,13 +104,13 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
     private void init() {
         homeRL = findViewById(R.id.homeRL);
         profileRL = findViewById(R.id.profileRL);
-        petregisterRL=findViewById(R.id.petRegisterRL);
-        appointmentRL=findViewById(R.id.appointmentRL);
+        petregisterRL = findViewById(R.id.petRegisterRL);
+        appointmentRL = findViewById(R.id.appointmentRL);
 
-        icHome=findViewById(R.id.icHome);
+        icHome = findViewById(R.id.icHome);
         icProfile = findViewById(R.id.icProfile);
-        icPetRegister=findViewById(R.id.icPetRegister);
-        icAppointment=findViewById(R.id.icAppointment);
+        icPetRegister = findViewById(R.id.icPetRegister);
+        icAppointment = findViewById(R.id.icAppointment);
 
         homeRL.setOnClickListener(this);
         profileRL.setOnClickListener(this);
@@ -128,110 +129,106 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onResponse(Response response, String key) {
-        switch (key)
-        {
+        switch (key) {
             case "GetUserDetails":
                 try {
                     methods.customProgressDismiss();
-                    Log.d("GetUserDetails",response.body().toString());
+                    Log.d("GetUserDetails", response.body().toString());
                     UserResponse userResponse = (UserResponse) response.body();
                     int responseCode = Integer.parseInt(userResponse.getResponse().getResponseCode());
-                    if (responseCode== 109){
+                    if (responseCode == 109) {
                         login_editor = sharedPreferences.edit();
                         login_editor.putString("profilePic", userResponse.getData().getProfileImageUrl());
                         login_editor.commit();
-                        Config.user_Veterian_url=sharedPreferences.getString("profilePic", "");
+                        Config.user_Veterian_url = sharedPreferences.getString("profilePic", "");
 
                         //Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
-                        IsVeterinarian=userResponse.getData().getIsVeterinarian();
-                        Log.d("IsVeterinarian",""+userResponse.getData().getIsVeterinarian());
-                        if(IsVeterinarian.equals("false")){
-                            Intent intent=new Intent(DashBoardActivity.this,UpdateProfileActivity.class);
-                            intent.putExtra("activityName","Update");
-                            intent.putExtra("id",userResponse.getData().getId());
-                            intent.putExtra("isVeterinarian",userResponse.getData().getIsVeterinarian());
-                            intent.putExtra("isActive",userResponse.getData().getIsActive());
-                            intent.putExtra("password",userResponse.getData().getPassword());
-                            intent.putExtra("firstName",userResponse.getData().getFirstName());
-                            intent.putExtra("lastName",userResponse.getData().getLastName());
-                            intent.putExtra("email",userResponse.getData().getEmail());
-                            intent.putExtra("phone",userResponse.getData().getPhone());
-                            intent.putExtra("address",userResponse.getData().getAddress());
-                            intent.putExtra("country",userResponse.getData().getCountryName());
-                            intent.putExtra("state",userResponse.getData().getStateName());
-                            intent.putExtra("city",userResponse.getData().getCityName());
-                            intent.putExtra("pincode",userResponse.getData().getPostalCode());
-                            intent.putExtra("onlineConsultationCharges",userResponse.getData().getOnlineConsultationCharges());
-                            intent.putExtra("website",userResponse.getData().getWebsite());
-                            intent.putExtra("clinicCode",userResponse.getData().getClinicCode());
-                            intent.putExtra("socialMedia",userResponse.getData().getSocialMediaUrl());
-                            intent.putExtra("vetRegNo",userResponse.getData().getVetRegistrationNumber());
-                            intent.putExtra("vetStudy",userResponse.getData().getVetQualifications());
-                            intent.putExtra("category",userResponse.getData().getCategories());
-                            intent.putExtra("service",userResponse.getData().getServices());
-                            intent.putExtra("serviceImage1",userResponse.getData().getFirstServiceImageUrl());
-                            intent.putExtra("serviceImage2",userResponse.getData().getSecondServiceImageUrl());
-                            intent.putExtra("serviceImage3",userResponse.getData().getThirdServiceImageUrl());
-                            intent.putExtra("serviceImage4",userResponse.getData().getFourthServiceImageUrl());
-                            intent.putExtra("serviceImage5",userResponse.getData().getFirstServiceImageUrl());
-                            startActivityForResult(intent,USER_UPDATION_FIRST_TIME);
+                        IsVeterinarian = userResponse.getData().getIsVeterinarian();
+                        Log.d("IsVeterinarian", "" + userResponse.getData().getIsVeterinarian());
+                        if (IsVeterinarian.equals("false")) {
+                            Intent intent = new Intent(DashBoardActivity.this, UpdateProfileActivity.class);
+                            intent.putExtra("activityName", "Update");
+                            intent.putExtra("id", userResponse.getData().getId());
+                            intent.putExtra("isVeterinarian", userResponse.getData().getIsVeterinarian());
+                            intent.putExtra("isActive", userResponse.getData().getIsActive());
+                            intent.putExtra("password", userResponse.getData().getPassword());
+                            intent.putExtra("firstName", userResponse.getData().getFirstName());
+                            intent.putExtra("lastName", userResponse.getData().getLastName());
+                            intent.putExtra("email", userResponse.getData().getEmail());
+                            intent.putExtra("phone", userResponse.getData().getPhone());
+                            intent.putExtra("address", userResponse.getData().getAddress());
+                            intent.putExtra("country", userResponse.getData().getCountryName());
+                            intent.putExtra("state", userResponse.getData().getStateName());
+                            intent.putExtra("city", userResponse.getData().getCityName());
+                            intent.putExtra("pincode", userResponse.getData().getPostalCode());
+                            intent.putExtra("onlineConsultationCharges", userResponse.getData().getOnlineConsultationCharges());
+                            intent.putExtra("website", userResponse.getData().getWebsite());
+                            intent.putExtra("clinicCode", userResponse.getData().getClinicCode());
+                            intent.putExtra("socialMedia", userResponse.getData().getSocialMediaUrl());
+                            intent.putExtra("vetRegNo", userResponse.getData().getVetRegistrationNumber());
+                            intent.putExtra("vetStudy", userResponse.getData().getVetQualifications());
+                            intent.putExtra("category", userResponse.getData().getCategories());
+                            intent.putExtra("service", userResponse.getData().getServices());
+                            intent.putExtra("serviceImage1", userResponse.getData().getFirstServiceImageUrl());
+                            intent.putExtra("serviceImage2", userResponse.getData().getSecondServiceImageUrl());
+                            intent.putExtra("serviceImage3", userResponse.getData().getThirdServiceImageUrl());
+                            intent.putExtra("serviceImage4", userResponse.getData().getFourthServiceImageUrl());
+                            intent.putExtra("serviceImage5", userResponse.getData().getFirstServiceImageUrl());
+                            startActivityForResult(intent, USER_UPDATION_FIRST_TIME);
                             finish();
                         }
-                    }else if (responseCode==614){
+                    } else if (responseCode == 614) {
                         Toast.makeText(this, userResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
-                    }else {
+                    } else {
                         Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
                     }
-                }
-                catch(Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
                 break;
 
             case "CheckPermission":
-            try {
-                methods.customProgressDismiss();
-                CheckStaffPermissionResponse checkStaffPermissionResponse = (CheckStaffPermissionResponse) response.body();
-                Log.d("GetPetList", checkStaffPermissionResponse.toString());
-                int responseCode = Integer.parseInt(checkStaffPermissionResponse.getResponse().getResponseCode());
+                try {
+                    methods.customProgressDismiss();
+                    CheckStaffPermissionResponse checkStaffPermissionResponse = (CheckStaffPermissionResponse) response.body();
+                    Log.d("GetPetList", checkStaffPermissionResponse.toString());
+                    int responseCode = Integer.parseInt(checkStaffPermissionResponse.getResponse().getResponseCode());
 
-                if (responseCode == 109) {
-                    if (checkStaffPermissionResponse.getData().equals("true")){
-                        if (permissionId.equals("9")) {
-                            icHome.setImageResource(R.drawable.home_normal_icon);
-                            icProfile.setImageResource(R.drawable.profile_normal_icon);
-                            icPetRegister.setImageResource(R.drawable.pet_green_icon);
-                            icAppointment.setImageResource(R.drawable.appointment_normal_icon);
-                            PetRegisterFragment petRegisterFragment = new PetRegisterFragment();
-                            FragmentTransaction ftPetRegister = getSupportFragmentManager().beginTransaction();
-                            ftPetRegister.replace(R.id.content_frame, petRegisterFragment);
-                            ftPetRegister.commit();
-                        }else if (permissionId.equals("16")){
-                            icHome.setImageResource(R.drawable.home_normal_icon);
-                            icProfile.setImageResource(R.drawable.profile_normal_icon);
-                            icPetRegister.setImageResource(R.drawable.pet_normal_icon);
-                            icAppointment.setImageResource(R.drawable.appointment_green_icon);
-                            AppointementFragment appointementFragment = new AppointementFragment();
-                            FragmentTransaction ftAppointment = getSupportFragmentManager().beginTransaction();
-                            ftAppointment.replace(R.id.content_frame, appointementFragment);
-                            ftAppointment.commit();
+                    if (responseCode == 109) {
+                        if (checkStaffPermissionResponse.getData().equals("true")) {
+                            if (permissionId.equals("9")) {
+                                icHome.setImageResource(R.drawable.home_normal_icon);
+                                icProfile.setImageResource(R.drawable.profile_normal_icon);
+                                icPetRegister.setImageResource(R.drawable.pet_green_icon);
+                                icAppointment.setImageResource(R.drawable.appointment_normal_icon);
+                                PetRegisterFragment petRegisterFragment = new PetRegisterFragment();
+                                FragmentTransaction ftPetRegister = getSupportFragmentManager().beginTransaction();
+                                ftPetRegister.replace(R.id.content_frame, petRegisterFragment);
+                                ftPetRegister.commit();
+                            } else if (permissionId.equals("16")) {
+                                icHome.setImageResource(R.drawable.home_normal_icon);
+                                icProfile.setImageResource(R.drawable.profile_normal_icon);
+                                icPetRegister.setImageResource(R.drawable.pet_normal_icon);
+                                icAppointment.setImageResource(R.drawable.appointment_green_icon);
+                                AppointementFragment appointementFragment = new AppointementFragment();
+                                FragmentTransaction ftAppointment = getSupportFragmentManager().beginTransaction();
+                                ftAppointment.replace(R.id.content_frame, appointementFragment);
+                                ftAppointment.commit();
+                            }
+                        } else {
+                            Toast.makeText(this, "Permission not Granted!!", Toast.LENGTH_SHORT).show();
                         }
-                    }else {
-                        Toast.makeText(this, "Permission not Granted!!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Please Try Again!!", Toast.LENGTH_SHORT).show();
                     }
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                else
-                {
-                    Toast.makeText(this, "Please Try Again!!", Toast.LENGTH_SHORT).show();
-                }
 
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            break;
+                break;
 
         }
     }
@@ -241,7 +238,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == USER_UPDATION_FIRST_TIME) {
-            if(resultCode == RESULT_OK) {
+            if (resultCode == RESULT_OK) {
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
                 builder1.setTitle("Your Profile is under review.");
                 builder1.setMessage("You should hear back within 24 hours.\nThank You..");
@@ -251,12 +248,13 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                         "Log Out",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                SharedPreferences preferences =getSharedPreferences("userdetails",0);
+                                SharedPreferences preferences = getSharedPreferences("userdetails", 0);
                                 SharedPreferences.Editor editor = preferences.edit();
                                 editor.clear();
                                 editor.apply();
                                 startActivity(new Intent(DashBoardActivity.this, LoginActivity.class));
-                                finish();                            }
+                                finish();
+                            }
                         });
 
 
@@ -265,17 +263,19 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
             }
         }
     }
+
     @Override
     public void onError(Throwable t, String key) {
-        Log.e("error",t.getMessage());
-        Log.e("errrrr",t.getLocalizedMessage());
+        Log.e("error", t.getMessage());
+        Log.e("errrrr", t.getLocalizedMessage());
+        methods.customProgressDismiss();
 
     }
 
     @Override
     public void onClick(View v) {
 
-        switch (v.getId()){
+        switch (v.getId()) {
 
             case R.id.homeRL:
                 Config.count = 1;
@@ -305,20 +305,21 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
             case R.id.petRegisterRL:
                 Config.count = 0;
                 userTYpe = sharedPreferences.getString("user_type", "");
-                if (userTYpe.equals("Vet Staff")){
+                if (userTYpe.equals("Vet Staff")) {
                     Gson gson = new Gson();
                     String json = sharedPreferences.getString("userPermission", null);
-                    Type type = new TypeToken<ArrayList<UserPermissionMasterList>>() {}.getType();
+                    Type type = new TypeToken<ArrayList<UserPermissionMasterList>>() {
+                    }.getType();
                     ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
-                    Log.e("ArrayList",arrayList.toString());
-                    Log.d("UserType",userTYpe);
+                    Log.e("ArrayList", arrayList.toString());
+                    Log.d("UserType", userTYpe);
                     permissionId = "9";
                     methods.showCustomProgressBarDialog(this);
-                    String url  = "user/CheckStaffPermission/"+permissionId;
-                    Log.e("URL",url);
+                    String url = "user/CheckStaffPermission/" + permissionId;
+                    Log.e("URL", url);
                     ApiService<CheckStaffPermissionResponse> service = new ApiService<>();
-                    service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token,url), "CheckPermission");
-                }else if (userTYpe.equals("Veterinarian")){
+                    service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token, url), "CheckPermission");
+                } else if (userTYpe.equals("Veterinarian")) {
                     icHome.setImageResource(R.drawable.home_normal_icon);
                     icProfile.setImageResource(R.drawable.profile_normal_icon);
                     icPetRegister.setImageResource(R.drawable.pet_green_icon);
@@ -334,20 +335,21 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
             case R.id.appointmentRL:
                 Config.count = 0;
                 userTYpe = sharedPreferences.getString("user_type", "");
-                if (userTYpe.equals("Vet Staff")){
+                if (userTYpe.equals("Vet Staff")) {
                     Gson gson = new Gson();
                     String json = sharedPreferences.getString("userPermission", null);
-                    Type type = new TypeToken<ArrayList<UserPermissionMasterList>>() {}.getType();
+                    Type type = new TypeToken<ArrayList<UserPermissionMasterList>>() {
+                    }.getType();
                     ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
-                    Log.e("ArrayList",arrayList.toString());
-                    Log.d("UserType",userTYpe);
+                    Log.e("ArrayList", arrayList.toString());
+                    Log.d("UserType", userTYpe);
                     permissionId = "16";
                     methods.showCustomProgressBarDialog(this);
-                    String url  = "user/CheckStaffPermission/"+permissionId;
-                    Log.e("URL",url);
+                    String url = "user/CheckStaffPermission/" + permissionId;
+                    Log.e("URL", url);
                     ApiService<CheckStaffPermissionResponse> service = new ApiService<>();
-                    service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token,url), "CheckPermission");
-                }else if (userTYpe.equals("Veterinarian")){
+                    service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token, url), "CheckPermission");
+                } else if (userTYpe.equals("Veterinarian")) {
                     icHome.setImageResource(R.drawable.home_normal_icon);
                     icProfile.setImageResource(R.drawable.profile_normal_icon);
                     icPetRegister.setImageResource(R.drawable.pet_normal_icon);
@@ -382,21 +384,19 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                    exit =  false;
+                        exit = false;
                     }
                 }, 2000);
             }
-        }else if(Config.count == 3)
-        {
-            Config.count=0;
+        } else if (Config.count == 3) {
+            Config.count = 0;
             ReportSelectionFragment reportSelectionFragment = new ReportSelectionFragment();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.content_frame, reportSelectionFragment);
             ft.commit();
             getSupportFragmentManager().popBackStack();
-        }
-        else {
-            Config.count=1;
+        } else {
+            Config.count = 1;
             HomeFragment homeFragment = new HomeFragment();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.content_frame, homeFragment);

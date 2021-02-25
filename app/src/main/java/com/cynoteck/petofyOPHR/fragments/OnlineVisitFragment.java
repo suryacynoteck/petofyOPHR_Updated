@@ -94,7 +94,7 @@ public class OnlineVisitFragment extends Fragment implements View.OnClickListene
 
         ApiService<OnlineClinicResponse> service = new ApiService<>();
         service.get(this, ApiClient.getApiInterface().getUpCommingClinicVisits(Config.token, onlineClinicVisitsRequest), "GetUpCommingClinicVisits");
-        Log.e("GetUpCommingClinic==>", "" + onlineClinicVisitsRequest);
+        Log.e("UpcomingClinicVisits==>", "" + methods.getRequestJson(onlineClinicVisitsRequest));
     }
 
     @Override
@@ -171,10 +171,14 @@ public class OnlineVisitFragment extends Fragment implements View.OnClickListene
                         progressBar.setVisibility(View.GONE);
                         upcomingVisitsOnline_RV.setVisibility(View.VISIBLE);
                         clinicVisitResponseData=onlineClinicResponse.getData().getVetAppointmentList();
-                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-                        upcomingVisitsOnline_RV.setLayoutManager(linearLayoutManager);
-                        clinicVisitOnlineAdapter = new ClinicVisitOnlineAdapter(getActivity(), onlineClinicResponse.getData().getVetAppointmentList(),onlineClinicResponse.getData().getVetAppointmentList(),this);
-                        upcomingVisitsOnline_RV.setAdapter(clinicVisitOnlineAdapter);
+                        if (clinicVisitResponseData.isEmpty()){
+                            Toast.makeText(getContext(), "No Data Found !", Toast.LENGTH_SHORT).show();
+                        }else {
+                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+                            upcomingVisitsOnline_RV.setLayoutManager(linearLayoutManager);
+                            clinicVisitOnlineAdapter = new ClinicVisitOnlineAdapter(getActivity(), onlineClinicResponse.getData().getVetAppointmentList(), onlineClinicResponse.getData().getVetAppointmentList(), this);
+                            upcomingVisitsOnline_RV.setAdapter(clinicVisitOnlineAdapter);
+                        }
                     } else if (responseCode == 614) {
                         progressBar.setVisibility(View.GONE);
                         Toast.makeText(getActivity(), onlineClinicResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
@@ -184,6 +188,8 @@ public class OnlineVisitFragment extends Fragment implements View.OnClickListene
                     }
 
                 } catch (Exception e) {
+                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(getContext(), "No Data Found !", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
                 break;

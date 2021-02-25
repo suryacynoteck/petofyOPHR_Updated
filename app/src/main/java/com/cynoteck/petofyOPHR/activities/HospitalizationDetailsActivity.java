@@ -3,6 +3,7 @@ package com.cynoteck.petofyOPHR.activities;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -31,13 +32,14 @@ import retrofit2.Response;
 public class HospitalizationDetailsActivity extends AppCompatActivity implements ApiResponse, View.OnClickListener {
 
     TextView vet_name_textView,requesting_contact_textView,hospital_type_textView,hospital_name_textView,admission_date_textView,discharge_date_textView,hospital_phone_textView,reson_of_visit_textView,result_textView;
-    Button deleteReport_BT;
+    Button view_file_BT, deleteReport_BT;
     ImageView back_arrow_IV;
     TextView pet_name_TV,pet_sex_TV,pet_id_TV,pet_owner_name_TV,pet_owner_phone_no_TV;
     String pet_unique_id, pet_name,pet_sex, pet_owner_name,pet_owner_contact,pet_id ,report_type_id,type;
     ProgressBar progressBar;
     Methods methods;
     CardView card_view;
+    Uri localUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +63,7 @@ public class HospitalizationDetailsActivity extends AppCompatActivity implements
     }
 
     private void init() {
+        view_file_BT=findViewById(R.id.view_file_BT);
         card_view = findViewById(R.id.card_view);
         progressBar = findViewById(R.id.progressBar);
         vet_name_textView = findViewById(R.id.vet_name_textView);
@@ -83,6 +86,7 @@ public class HospitalizationDetailsActivity extends AppCompatActivity implements
         back_arrow_IV = findViewById(R.id.back_arrow_IV);
 
         back_arrow_IV.setOnClickListener(this);
+        view_file_BT.setOnClickListener(this);
         deleteReport_BT.setOnClickListener(this);
     }
 
@@ -104,6 +108,14 @@ public class HospitalizationDetailsActivity extends AppCompatActivity implements
     public void onClick(View v) {
 
         switch (v.getId()){
+            case R.id.view_file_BT:
+
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                i.setDataAndType(localUri, getContentResolver().getType(localUri));
+                startActivity(i);
+                break;
+
             case R.id.back_arrow_IV:
                 onBackPressed();
                 break;
@@ -167,13 +179,18 @@ public class HospitalizationDetailsActivity extends AppCompatActivity implements
         switch (key){
             case "GetHospitalizationDetails":
                 try {
+                    progressBar.setVisibility(View.GONE);
                     Log.d("GetHospitalization",response.body().toString());
                     GetHospitalizationDeatilsResponse getHospitalizationDeatilsResponse = (GetHospitalizationDeatilsResponse) response.body();
                     int responseCode = Integer.parseInt(getHospitalizationDeatilsResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
-                        progressBar.setVisibility(View.GONE);
                         card_view.setVisibility(View.VISIBLE);
-                        deleteReport_BT.setVisibility(View.VISIBLE);
+                        if (getHospitalizationDeatilsResponse.getData().getDocuments().equals("")){
+                            view_file_BT.setVisibility(View.GONE);
+                        }else {
+                            localUri = Uri.parse(getHospitalizationDeatilsResponse.getData().getDocuments());
+                            view_file_BT.setVisibility(View.VISIBLE);
+                        }
                         vet_name_textView.setText(getHospitalizationDeatilsResponse.getData().getRequestingVeterinarian());
                         requesting_contact_textView.setText(getHospitalizationDeatilsResponse.getData().getVeterinarianPhone());
                         hospital_type_textView.setText(getHospitalizationDeatilsResponse.getData().getHospitalizationType().getHospitalization());
@@ -183,13 +200,10 @@ public class HospitalizationDetailsActivity extends AppCompatActivity implements
                         hospital_phone_textView.setText(getHospitalizationDeatilsResponse.getData().getHospitalPhone());
                         reson_of_visit_textView.setText(getHospitalizationDeatilsResponse.getData().getReasonForHospitalization());
                         result_textView.setText(getHospitalizationDeatilsResponse.getData().getDiagnosisTreatmentProcedure());
-
-                        Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show();
-
-
                     }
                 }
                 catch(Exception e) {
+                    progressBar.setVisibility(View.GONE);
                     e.printStackTrace();
                 }
                 break;

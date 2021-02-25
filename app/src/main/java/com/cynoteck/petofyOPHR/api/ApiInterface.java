@@ -648,7 +648,7 @@ public interface ApiInterface {
 
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("immunization/SavePreviousVaccinationDetails")
-    Call<JsonObject> savePreviousVaccinationDetails(@Header("Authorization") String auth, @Body SaveRequest saveRequest);
+    Call<SaveResponseData> savePreviousVaccinationDetails(@Header("Authorization") String auth, @Body SaveRequest saveRequest);
 
     //SearchClinicVisitFieldData
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
