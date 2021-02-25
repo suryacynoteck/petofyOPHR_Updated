@@ -231,7 +231,7 @@
 
 
     <androidx.cardview.widget.CardView
-        android:visibility="visible"
+        android:visibility="gone"
         android:id="@+id/card_view"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
