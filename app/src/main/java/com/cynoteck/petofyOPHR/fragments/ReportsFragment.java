@@ -52,7 +52,7 @@ import java.util.ArrayList;
 import retrofit2.Response;
 
 
-public class ReportsFragment extends Fragment implements ApiResponse,RegisterRecyclerViewClickListener, View.OnClickListener, TextWatcher {
+public class ReportsFragment extends Fragment implements ApiResponse, RegisterRecyclerViewClickListener, View.OnClickListener, TextWatcher {
 
     View view;
     Methods methods;
@@ -63,13 +63,13 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
     private ShimmerFrameLayout mShimmerViewContainer;
     TextView reports_headline_TV;
     AutoCompleteTextView search_box;
-    ImageView search_IV, back_arrow_IV;
+    ImageView empty_IV, search_IV, back_arrow_IV;
     RelativeLayout search_boxRL;
     NestedScrollView nestedScrollView;
     ProgressBar progressBar;
-    int page=1, pagelimit=10;
+    int page = 1, pagelimit = 10;
     SharedPreferences sharedPreferences;
-    String userTYpe="",permissionId="";
+    String userTYpe = "", permissionId = "";
     int pos;
 
     public ReportsFragment() {
@@ -85,25 +85,25 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
         mShimmerViewContainer = view.findViewById(R.id.shimmer_view_container);
 
         materialCardView = view.findViewById(R.id.toolbar);
-        petList_RV=view.findViewById(R.id.petList_RV);
+        petList_RV = view.findViewById(R.id.petList_RV);
         reports_headline_TV = view.findViewById(R.id.reports_headline_TV);
         search_box = view.findViewById(R.id.search_box);
         search_IV = view.findViewById(R.id.search_IV);
         back_arrow_IV = view.findViewById(R.id.back_arrow_IV);
         search_boxRL = view.findViewById(R.id.search_boxRL);
-        nestedScrollView=view.findViewById(R.id.nested_scroll_view);
-        progressBar=view.findViewById(R.id.progressBar);
-
+        nestedScrollView = view.findViewById(R.id.nested_scroll_view);
+        progressBar = view.findViewById(R.id.progressBar);
+        empty_IV=view.findViewById(R.id.empty_IV);
         search_IV.setOnClickListener(this);
         back_arrow_IV.setOnClickListener(this);
         search_box.addTextChangedListener(this);
         methods = new Methods(getContext());
-        profileList=new ArrayList<>();
-         getPet();
-        if (methods.isInternetOn()){
-            getPetList(page,pagelimit);
+        profileList = new ArrayList<>();
+        getPet();
+        if (methods.isInternetOn()) {
+            getPetList(page, pagelimit);
 
-        }else {
+        } else {
 
             methods.DialogInternet();
         }
@@ -111,11 +111,10 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if(scrollY==v.getChildAt(0).getMeasuredHeight()-v.getMeasuredHeight())
-                {
+                if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
                     page++;
                     progressBar.setVisibility(View.VISIBLE);
-                    getPetList(page,pagelimit);
+                    getPetList(page, pagelimit);
                 }
             }
         });
@@ -123,7 +122,7 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
         return view;
     }
 
-    private void getPetList(int page,int pageLimit) {
+    private void getPetList(int page, int pageLimit) {
         PetDataParams getPetDataParams = new PetDataParams();
         getPetDataParams.setPageNumber(page);
         getPetDataParams.setPageSize(pageLimit);
@@ -132,8 +131,8 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
         getPetDataRequest.setData(getPetDataParams);
 
         ApiService<GetPetListResponse> service = new ApiService<>();
-        service.get( this, ApiClient.getApiInterface().getPetList(Config.token,getPetDataRequest), "GetPetList");
-        Log.e("DATALOG","check1=> "+methods.getRequestJson(getPetDataRequest));
+        service.get(this, ApiClient.getApiInterface().getPetList(Config.token, getPetDataRequest), "GetPetList");
+        Log.e("DATALOG", "check1=> " + methods.getRequestJson(getPetDataRequest));
 
 
     }
@@ -152,8 +151,8 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
 
             @Override
             public void afterTextChanged(Editable editable) {
-                Log.d("dataChange","afterTextChanged"+new String(editable.toString()));
-                String value=editable.toString();
+                Log.d("dataChange", "afterTextChanged" + new String(editable.toString()));
+                String value = editable.toString();
                 petSearchDependsOnPrefix(value);
             }
         });
@@ -162,7 +161,7 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
         search_box.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String value=search_box.getText().toString();
+                String value = search_box.getText().toString();
                 String[] city_array = value.split("\\(");
 
                 search_box.setText(city_array[0]);
@@ -180,65 +179,55 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
         getPetDataRequest.setData(getPetDataParams);
 
         ApiService<GetPetListResponse> service = new ApiService<>();
-        service.get( this, ApiClient.getApiInterface().getPetList(Config.token,getPetDataRequest), "GetPetListBySearch");
-        Log.e("DATALOG","check1=> "+getPetDataRequest);
+        service.get(this, ApiClient.getApiInterface().getPetList(Config.token, getPetDataRequest), "GetPetListBySearch");
+        Log.e("DATALOG", "check1=> " + getPetDataRequest);
     }
 
     @Override
     public void onResponse(Response response, String key) {
-        Log.e("DATALOG","=> "+response.body());
+        Log.e("DATALOG", "=> " + response.body());
 
-        switch (key){
+        switch (key) {
             case "GetPetList":
                 try {
+                    mShimmerViewContainer.setVisibility(View.GONE);
+                    mShimmerViewContainer.stopShimmerAnimation();
                     GetPetListResponse getPetListResponse = (GetPetListResponse) response.body();
                     Log.d("DATALOG", getPetListResponse.toString());
                     int responseCode = Integer.parseInt(getPetListResponse.getResponse().getResponseCode());
-                    if (responseCode== 109){
-                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-                        petList_RV.setLayoutManager(linearLayoutManager);
-                        if(getPetListResponse.getData().getPetList().size()>0)
-                        {
-                            Log.d("DATALOG", String.valueOf(getPetListResponse.getData().getPetList().get(0).getPetCategoryId()));
-
-                            for(int i=0; i<getPetListResponse.getData().getPetList().size();i++)
-                            {
-                                PetList petList=new PetList();
-                                petList.setPetUniqueId(getPetListResponse.getData().getPetList().get(i).getPetUniqueId());
-                                petList.setDateOfBirth(getPetListResponse.getData().getPetList().get(i).getDateOfBirth());
-                                petList.setPetName(getPetListResponse.getData().getPetList().get(i).getPetName());
-                                petList.setPetSex(getPetListResponse.getData().getPetList().get(i).getPetSex());
-                                petList.setPetParentName(getPetListResponse.getData().getPetList().get(i).getPetParentName());
-                                petList.setPetProfileImageUrl(getPetListResponse.getData().getPetList().get(i).getPetProfileImageUrl());
-                                petList.setEncryptedId(getPetListResponse.getData().getPetList().get(i).getEncryptedId());
-                                petList.setId(getPetListResponse.getData().getPetList().get(i).getId());
-                                petList.setPetAge(getPetListResponse.getData().getPetList().get(i).getPetAge());
-                                petList.setPetCategoryId(getPetListResponse.getData().getPetList().get(i).getPetCategoryId());
-                                petList.setLastVisitEncryptedId(getPetListResponse.getData().getPetList().get(i).getLastVisitEncryptedId());
-                                Log.e("LAST_VISIT",getPetListResponse.getData().getPetList().get(i).getLastVisitEncryptedId());
-
-                                profileList.add(petList);
+                    if (responseCode == 109) {
+                        if (getPetListResponse.getData().getPetList().isEmpty()){
+                            empty_IV.setVisibility(View.VISIBLE);
+                        }else {
+                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+                            petList_RV.setLayoutManager(linearLayoutManager);
+                            if (getPetListResponse.getData().getPetList().size() > 0) {
+                                for (int i = 0; i < getPetListResponse.getData().getPetList().size(); i++) {
+                                    PetList petList = new PetList();
+                                    petList.setPetUniqueId(getPetListResponse.getData().getPetList().get(i).getPetUniqueId());
+                                    petList.setDateOfBirth(getPetListResponse.getData().getPetList().get(i).getDateOfBirth());
+                                    petList.setPetName(getPetListResponse.getData().getPetList().get(i).getPetName());
+                                    petList.setPetSex(getPetListResponse.getData().getPetList().get(i).getPetSex());
+                                    petList.setPetParentName(getPetListResponse.getData().getPetList().get(i).getPetParentName());
+                                    petList.setPetProfileImageUrl(getPetListResponse.getData().getPetList().get(i).getPetProfileImageUrl());
+                                    petList.setEncryptedId(getPetListResponse.getData().getPetList().get(i).getEncryptedId());
+                                    petList.setId(getPetListResponse.getData().getPetList().get(i).getId());
+                                    petList.setPetAge(getPetListResponse.getData().getPetList().get(i).getPetAge());
+                                    petList.setPetCategoryId(getPetListResponse.getData().getPetList().get(i).getPetCategoryId());
+                                    petList.setLastVisitEncryptedId(getPetListResponse.getData().getPetList().get(i).getLastVisitEncryptedId());
+                                    profileList.add(petList);
+                                }
+                                progressBar.setVisibility(View.GONE);
+                                reportsAdapter = new ReportsAdapter(getContext(), profileList, this);
+                                petList_RV.setAdapter(reportsAdapter);
+                                reportsAdapter.notifyDataSetChanged();
+                                search_IV.setVisibility(View.VISIBLE);
                             }
-                            progressBar.setVisibility(View.GONE);
-                            reportsAdapter  = new ReportsAdapter(getContext(),profileList,this);
-                            petList_RV.setAdapter(reportsAdapter);
-                            reportsAdapter.notifyDataSetChanged();
-                            mShimmerViewContainer.stopShimmerAnimation();
-                            search_IV.setVisibility(View.VISIBLE);
-                            mShimmerViewContainer.setVisibility(View.GONE);
-                        }
-                        else
-                        {
-                            progressBar.setVisibility(View.GONE);
-                            mShimmerViewContainer.setVisibility(View.GONE);
-//                            Toast.makeText(getContext(), "Data Not found", Toast.LENGTH_SHORT).show();
                         }
 
 
                     }
-                }
-
-                catch(Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -250,15 +239,13 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
                     Log.d("GetPetListBySearch", getPetListResponse.toString());
                     int responseCode = Integer.parseInt(getPetListResponse.getResponse().getResponseCode());
 
-                    if (responseCode== 109){
+                    if (responseCode == 109) {
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
                         petList_RV.setLayoutManager(linearLayoutManager);
-                        if(getPetListResponse.getData().getPetList().size()>0)
-                        {
+                        if (getPetListResponse.getData().getPetList().size() > 0) {
                             profileList.clear();
-                            for(int i=0; i<getPetListResponse.getData().getPetList().size();i++)
-                            {
-                                PetList petList=new PetList();
+                            for (int i = 0; i < getPetListResponse.getData().getPetList().size(); i++) {
+                                PetList petList = new PetList();
                                 petList.setPetUniqueId(getPetListResponse.getData().getPetList().get(i).getPetUniqueId());
                                 petList.setDateOfBirth(getPetListResponse.getData().getPetList().get(i).getDateOfBirth());
                                 petList.setPetName(getPetListResponse.getData().getPetList().get(i).getPetName());
@@ -270,20 +257,18 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
                                 petList.setPetAge(getPetListResponse.getData().getPetList().get(i).getPetAge());
                                 petList.setPetCategoryId(getPetListResponse.getData().getPetList().get(i).getPetCategoryId());
                                 petList.setLastVisitEncryptedId(getPetListResponse.getData().getPetList().get(i).getLastVisitEncryptedId());
-                                Log.e("LAST_VISIT",getPetListResponse.getData().getPetList().get(i).getLastVisitEncryptedId());
+                                Log.e("LAST_VISIT", getPetListResponse.getData().getPetList().get(i).getLastVisitEncryptedId());
 
                                 profileList.add(petList);
                             }
                             progressBar.setVisibility(View.GONE);
                             search_IV.setVisibility(View.VISIBLE);
-                            reportsAdapter  = new ReportsAdapter(getContext(),profileList,this);
+                            reportsAdapter = new ReportsAdapter(getContext(), profileList, this);
                             petList_RV.setAdapter(reportsAdapter);
                             reportsAdapter.notifyDataSetChanged();
                             mShimmerViewContainer.setVisibility(View.GONE);
                             mShimmerViewContainer.stopShimmerAnimation();
-                        }
-                        else
-                        {
+                        } else {
                             progressBar.setVisibility(View.GONE);
                             Toast.makeText(getActivity(), "Data Not found", Toast.LENGTH_SHORT).show();
                         }
@@ -291,8 +276,7 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
 
                     }
 
-                }
-                catch(Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
@@ -305,31 +289,29 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
                     int responseCode = Integer.parseInt(checkStaffPermissionResponse.getResponse().getResponseCode());
 
                     if (responseCode == 109) {
-                        if (checkStaffPermissionResponse.getData().equals("true")){
-                            if (permissionId.equals("9")){
+                        if (checkStaffPermissionResponse.getData().equals("true")) {
+                            if (permissionId.equals("9")) {
                                 profileList.get(pos).getPetUniqueId();
                                 Intent selectReportsIntent = new Intent(getActivity().getApplication(), SelectPetReportsActivity.class);
                                 Bundle data = new Bundle();
-                                data.putString("pet_id",profileList.get(pos).getId());
-                                data.putString("pet_name",profileList.get(pos).getPetName());
-                                data.putString("pet_unique_id",profileList.get(pos).getPetUniqueId());
-                                data.putString("pet_sex",profileList.get(pos).getPetSex());
-                                data.putString("pet_owner_name",profileList.get(pos).getPetParentName());
-                                data.putString("pet_owner_contact",profileList.get(pos).getContactNumber());
-                                data.putString("pet_DOB",profileList.get(pos).getDateOfBirth());
-                                data.putString("pet_encrypted_id",profileList.get(pos).getEncryptedId());
-                                data.putString("pet_age",profileList.get(pos).getPetAge());
+                                data.putString("pet_id", profileList.get(pos).getId());
+                                data.putString("pet_name", profileList.get(pos).getPetName());
+                                data.putString("pet_unique_id", profileList.get(pos).getPetUniqueId());
+                                data.putString("pet_sex", profileList.get(pos).getPetSex());
+                                data.putString("pet_owner_name", profileList.get(pos).getPetParentName());
+                                data.putString("pet_owner_contact", profileList.get(pos).getContactNumber());
+                                data.putString("pet_DOB", profileList.get(pos).getDateOfBirth());
+                                data.putString("pet_encrypted_id", profileList.get(pos).getEncryptedId());
+                                data.putString("pet_age", profileList.get(pos).getPetAge());
                                 selectReportsIntent.putExtras(data);
                                 startActivity(selectReportsIntent);
-                                getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
+                                getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
                                 clearSearch();
                             }
-                        }else {
+                        } else {
                             Toast.makeText(getContext(), "Permission not Granted!!", Toast.LENGTH_SHORT).show();
                         }
-                    }
-                    else
-                    {
+                    } else {
                         Toast.makeText(getContext(), "Please Try Again!!", Toast.LENGTH_SHORT).show();
                     }
 
@@ -345,47 +327,47 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
     @Override
     public void onError(Throwable t, String key) {
 
-        Log.d("error",t.getLocalizedMessage());
+        Log.d("error", t.getLocalizedMessage());
 
     }
 
     @Override
     public void onProductClick(int position) {
-        pos=position;
+        pos = position;
         userTYpe = sharedPreferences.getString("user_type", "");
-        if (userTYpe.equals("Vet Staff")){
+        if (userTYpe.equals("Vet Staff")) {
             Gson gson = new Gson();
             String json = sharedPreferences.getString("userPermission", null);
-            Type type = new TypeToken<ArrayList<UserPermissionMasterList>>() {}.getType();
+            Type type = new TypeToken<ArrayList<UserPermissionMasterList>>() {
+            }.getType();
             ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
-            Log.e("ArrayList",arrayList.toString());
-            Log.d("UserType",userTYpe);
+            Log.e("ArrayList", arrayList.toString());
+            Log.d("UserType", userTYpe);
             permissionId = "9";
             methods.showCustomProgressBarDialog(getContext());
-            String url  = "user/CheckStaffPermission/"+permissionId;
-            Log.e("URL",url);
+            String url = "user/CheckStaffPermission/" + permissionId;
+            Log.e("URL", url);
             ApiService<CheckStaffPermissionResponse> service = new ApiService<>();
-            service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token,url), "CheckPermission");
-        }else if (userTYpe.equals("Veterinarian")){
+            service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token, url), "CheckPermission");
+        } else if (userTYpe.equals("Veterinarian")) {
             profileList.get(position).getPetUniqueId();
             Intent selectReportsIntent = new Intent(getActivity().getApplication(), SelectPetReportsActivity.class);
             Bundle data = new Bundle();
 //        Toast.makeText(getContext(), ""+profileList.get(position).getId(), Toast.LENGTH_SHORT).show();
-            data.putString("pet_id",profileList.get(position).getId().substring(0, profileList.get(position).getId().length() - 2));
-            data.putString("pet_name",profileList.get(position).getPetName());
-            data.putString("pet_unique_id",profileList.get(position).getPetUniqueId());
-            data.putString("pet_sex",profileList.get(position).getPetSex());
-            data.putString("pet_owner_name",profileList.get(position).getPetParentName());
-            data.putString("pet_owner_contact",profileList.get(position).getContactNumber());
-            data.putString("pet_DOB",profileList.get(position).getDateOfBirth());
-            data.putString("pet_encrypted_id",profileList.get(position).getEncryptedId());
+            data.putString("pet_id", profileList.get(position).getId().substring(0, profileList.get(position).getId().length() - 2));
+            data.putString("pet_name", profileList.get(position).getPetName());
+            data.putString("pet_unique_id", profileList.get(position).getPetUniqueId());
+            data.putString("pet_sex", profileList.get(position).getPetSex());
+            data.putString("pet_owner_name", profileList.get(position).getPetParentName());
+            data.putString("pet_owner_contact", profileList.get(position).getContactNumber());
+            data.putString("pet_DOB", profileList.get(position).getDateOfBirth());
+            data.putString("pet_encrypted_id", profileList.get(position).getEncryptedId());
 
             selectReportsIntent.putExtras(data);
             startActivity(selectReportsIntent);
-            getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
+            getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
             clearSearch();
         }
-
 
 
     }
@@ -414,7 +396,7 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.search_box:
 
                 break;
@@ -442,7 +424,7 @@ public class ReportsFragment extends Fragment implements ApiResponse,RegisterRec
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-       // reportsAdapter.getFilter().filter(s.toString());
+        // reportsAdapter.getFilter().filter(s.toString());
 
     }
 

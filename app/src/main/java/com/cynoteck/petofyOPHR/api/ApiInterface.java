@@ -1,6 +1,7 @@
 package com.cynoteck.petofyOPHR.api;
 
 import com.cynoteck.petofyOPHR.params.ClinicVisitsParameter.ClinicVisitRequest;
+import com.cynoteck.petofyOPHR.params.VaccinationTypeByVaccineName.VaccinationTypeByVaccineNameRequest;
 import com.cynoteck.petofyOPHR.params.addBankAccountParams.AddBankAccountRequest;
 import com.cynoteck.petofyOPHR.params.addBankAccountParams.CheckAccountRequest;
 import com.cynoteck.petofyOPHR.params.addBankAccountParams.ValidateIfscRequest;
@@ -59,6 +60,7 @@ import com.cynoteck.petofyOPHR.params.workingHoursParameter.WorkingHoursParamete
 import com.cynoteck.petofyOPHR.response.CheckTrueFalseStatus;
 import com.cynoteck.petofyOPHR.response.ClinicVistResponse.ClinicVisitResponseData;
 import com.cynoteck.petofyOPHR.response.InPetVeterian.InPetVeterianResponse;
+import com.cynoteck.petofyOPHR.response.VaccinationTypeByVaccineNameResponse.VaccinationTypeByVaccineNameResponse;
 import com.cynoteck.petofyOPHR.response.addEditImmunizationResponse.AddEditImmunizationResponse;
 import com.cynoteck.petofyOPHR.response.addHospitalizationResponse.AddhospitalizationResposee;
 import com.cynoteck.petofyOPHR.response.addLabWorkResponse.AddLabWorkResponse;
@@ -704,6 +706,11 @@ public interface ApiInterface {
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("pethealthrecord/GetLastPrescriptionUrl")
     Call<JsonObject> getLastPrescriptionUrl(@Header("Authorization") String auth, @Body PetClinicVisitDetailsRequest petClinicVisitDetailsRequest );
+
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("immunization/GetVaccinationTypeByVaccineName")
+    Call<VaccinationTypeByVaccineNameResponse> getVaccinationTypeByVaccineName(@Header("Authorization") String auth, @Body VaccinationTypeByVaccineNameRequest vaccinationTypeByVaccineNameRequest );
 
 }
 

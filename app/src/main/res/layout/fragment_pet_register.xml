@@ -151,6 +151,7 @@
                 tools:listitem="@layout/pet_register_list"/>
 
             <ProgressBar
+                android:visibility="gone"
                 android:id="@+id/progressBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
@@ -163,5 +164,14 @@
 
     </androidx.core.widget.NestedScrollView>
 
+    <ImageView
+        android:visibility="invisible"
+        android:id="@+id/empty_IV"
+        android:src="@drawable/empty"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"/>
 
 </RelativeLayout>
