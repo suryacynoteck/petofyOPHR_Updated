@@ -69,6 +69,7 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:maxLines="1"
                             android:id="@+id/pet_id_TV"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

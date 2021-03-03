@@ -116,6 +116,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
+                android:paddingLeft="20dp"
                 android:id="@+id/add_pet_type"
                 android:background="@drawable/spinner_background"
                 android:layout_width="match_parent"
@@ -173,6 +174,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginLeft="20dp"
+                android:paddingLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:id="@+id/add_pet_sex_dialog"
                 android:background="@drawable/spinner_background"
@@ -369,6 +371,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:id="@+id/add_pet_breed_dialog"
+                android:paddingLeft="20dp"
                 android:background="@drawable/spinner_background"
                 android:layout_width="match_parent"
                 android:layout_height="50dp" />
@@ -394,6 +397,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
+                android:paddingLeft="20dp"
                 android:id="@+id/add_pet_color_dialog"
                 android:background="@drawable/spinner_background"
                 android:layout_width="match_parent"
@@ -431,6 +435,7 @@
                     android:background="@drawable/spinner_background"
                     android:layout_width="0dp"
                     android:layout_weight=".8"
+                    android:paddingLeft="20dp"
                     android:layout_height="match_parent" />
 
                 <AutoCompleteTextView

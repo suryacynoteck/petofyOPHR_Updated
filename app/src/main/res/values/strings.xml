@@ -8,7 +8,7 @@
     <string name="firstName">First Name</string>
     <string name="lastname">Last Name</string>
     <string name="confirmPassword">Confirm Password</string>
-    <string name="phoneNumber">Contact Number</string>
+    <string name="phoneNumber">Phone</string>
     <string name="signUp">Sign Up</string>
     <string name="signIn">Sign In</string>
     <string name="forgetPass">Forget Password ?</string>
@@ -33,7 +33,7 @@
     <string name="updateProfile">Update Profile</string>
     <string name="updateProfileButton">UPDATE PROFILE</string>
     <string name="submit">Submit</string>
-    <string name="changePass">CHANGE PASSWORD</string>
+    <string name="changePass">Change Password</string>
     <string name="petId">Pet Id</string>
     <string name="dateofbirth">Date Of Birth</string>
     <string name="petGender">Pet Gender</string>
@@ -141,7 +141,7 @@
     <string name="custom_page_screenshot">Custom Page Screenshot</string>
     <string name="profile">Profile</string>
     <string name="profile_home">PROFILE</string>
-    <string name="operating_hrs">OPERATING HOURS</string>
+    <string name="operating_hrs">Operating Hours</string>
     <string name="OnlineAppointment">Online Appointment</string>
     <string name="fullProfile">Veterinarian Full Profile</string>
     <string name="Settings">Settings</string>
@@ -178,7 +178,7 @@
     <string name="VaccinationPeriod">Vaccination Period</string>
     <string name="boosterOneGap">Days gap between Primary and First Booster</string>
     <string name="boosterTwoGap">Days gap between Primary and IInd Booster</string>
-    <string name="BankAccount">Bank Accounts</string>
+    <string name="BankAccount">Bank Account</string>
     <string name="BankAccountToolbar">BANK ACCOUNTS</string>
     <string name="addAccount">Add Bank Account</string>
 
@@ -216,4 +216,9 @@
     <string name="app_icon_license">App Icon made by Freepik from www.flaticon.com</string>
     <string name="pdf_icon_license">PDF Icon made by Google from www.flaticon.com</string>
     <string name="text_create_pdf">Create PDF</string>
+    <string name="edit"><u>Edit</u></string>
+    <string name="general_deatils">General Details</string>
+    <string name="immunization_master">Immunization Master</string>
+    <string name="logout">Logout</string>
+    <string name="privacy">Privacy</string>
 </resources>

@@ -234,6 +234,7 @@ public class PetProfileActivity extends AppCompatActivity implements ApiResponse
         {
             Glide.with(this)
                     .load(getPetResponse.getData().getPetProfileImageUrl())
+                    .placeholder(R.drawable.petofy)
                     .into(pet_profile_image_IV);
         }
 //        if (getPetResponse.getData().getFirstServiceImageUrl().isEmpty()){
@@ -303,5 +304,21 @@ public class PetProfileActivity extends AppCompatActivity implements ApiResponse
     @Override
     protected void onResume() {
         super.onResume();
+        if(reloadData==false)
+        {
+            GetPetListParams getPetListParams = new GetPetListParams();
+            getPetListParams.setId(petId);
+            GetPetListRequest getPetListRequest = new GetPetListRequest();
+            getPetListRequest.setData(getPetListParams);
+            if(methods.isInternetOn())
+            {
+                getPetlistData(getPetListRequest);
+            }
+            else
+            {
+                methods.DialogInternet();
+            }
+        }
+
     }
 }

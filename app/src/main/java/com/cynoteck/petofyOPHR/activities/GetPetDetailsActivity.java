@@ -164,6 +164,7 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
            {
                Glide.with(this)
                        .load(image_url)
+                       .placeholder(R.drawable.profile_img_icon)
                        .into(pet_Details_profile_image);
            }
 
@@ -346,6 +347,14 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
                     pet_details_name.setError(null);
                     pet_details_parent_name.setError(null);
                     pet_deatils_contact_number.setError("Enter Contact Number");
+                    pet_deatils_description.setError(null);
+                    pet_details_address.setError(null);
+                    calenderTextViewDetails.setError(null);
+                }  else if(strPetContactNumber.length()<10)
+                {
+                    pet_details_name.setError(null);
+                    pet_details_parent_name.setError(null);
+                    pet_deatils_contact_number.setError("Invalid number !");
                     pet_deatils_description.setError(null);
                     pet_details_address.setError(null);
                     calenderTextViewDetails.setError(null);

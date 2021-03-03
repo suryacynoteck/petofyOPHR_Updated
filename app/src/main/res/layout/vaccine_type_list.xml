@@ -93,7 +93,7 @@
 
                 <LinearLayout
                     android:layout_marginTop="10dp"
-                    android:weightSum="3"
+                    android:weightSum="4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -104,7 +104,7 @@
                         android:gravity="start"
                         android:textColor="@color/black_color"
                         android:textSize="18sp"
-                        android:layout_weight="0.9"
+                        android:layout_weight="0.8"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Vaccine Name"/>
@@ -125,7 +125,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="0.8"
-                        android:gravity="start" />
+                        android:gravity="center" />
+
+                    <RelativeLayout
+                        android:gravity="center"
+                        android:layout_weight="1.1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    </RelativeLayout>
+
 
                 </LinearLayout>
                 <LinearLayout

@@ -338,7 +338,7 @@
                 app:layout_constraintTop_toBottomOf="@id/address_TV" />
 
             <LinearLayout
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="10dp"
@@ -348,22 +348,46 @@
                 app:layout_constraintEnd_toStartOf="@id/first_name_TV"
                 app:layout_constraintEnd_toEndOf="@id/first_name_TV"
                 android:layout_width="match_parent"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:weightSum="2">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="@id/first_name_TV"
+                    app:layout_constraintEnd_toEndOf="@id/first_name_TV"
+                    app:layout_constraintTop_toBottomOf="@id/online_layout"
+                    android:text="Country"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/grey_add_pet"/>
+
                 <androidx.appcompat.widget.AppCompatSpinner
+                    android:layout_marginTop="10dp"
                     android:background="@drawable/spinner_background"
                     android:id="@+id/country_spnr_updt"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="50dp"
+                    android:paddingLeft="20dp"
                     android:layout_marginRight="2dp"
                     android:layout_weight="1"/>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="@id/first_name_TV"
+                    app:layout_constraintEnd_toEndOf="@id/first_name_TV"
+                    app:layout_constraintTop_toBottomOf="@id/online_layout"
+                    android:text="State"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/grey_add_pet"/>
+
                 <androidx.appcompat.widget.AppCompatSpinner
+                    android:layout_marginTop="10dp"
                     android:background="@drawable/spinner_background"
                     android:id="@+id/state_spnr_updt"
                     android:layout_marginLeft="2dp"
-                    android:layout_width="0dp"
+                    android:paddingLeft="20dp"
+                    android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_weight="1"/>
 
@@ -379,20 +403,42 @@
                 app:layout_constraintEnd_toEndOf="@id/first_name_TV"
                 app:layout_constraintTop_toBottomOf="@id/country_LL"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:orientation="horizontal"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:weightSum="2">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="@id/first_name_TV"
+                    app:layout_constraintEnd_toEndOf="@id/first_name_TV"
+                    app:layout_constraintTop_toBottomOf="@id/online_layout"
+                    android:text="City"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/grey_add_pet"/>
 
                 <androidx.appcompat.widget.AppCompatSpinner
                     android:background="@drawable/spinner_background"
                     android:id="@+id/city_spnr_updt"
                     android:layout_width="match_parent"
+                    android:paddingLeft="20dp"
+                    android:layout_marginTop="10dp"
                     android:layout_height="50dp"
                     android:layout_marginRight="2dp"
                     android:layout_weight="1"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="@id/first_name_TV"
+                    app:layout_constraintEnd_toEndOf="@id/first_name_TV"
+                    app:layout_constraintTop_toBottomOf="@id/online_layout"
+                    android:text="@string/postal_code"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/grey_add_pet"/>
 
                 <EditText
-                    android:paddingLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="25dp"
                     android:hint="@string/postal_code"
                     android:id="@+id/postal_code_updt"
                     android:layout_width="match_parent"

@@ -1,0 +1,549 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/whiteColor"
+    tools:context=".fragments.ProfileFragment">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/vet_info_CL"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="17dp"
+        android:background="@drawable/background_grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/image_CV"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="14dp"
+            android:layout_marginTop="15dp"
+            app:cardCornerRadius="8dp"
+            android:layout_marginBottom="14dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/vet_profile_pic"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@drawable/doctor_dummy_image" />
+
+        </androidx.cardview.widget.CardView>
+
+        <LinearLayout
+            android:id="@+id/vet_name_edit_LL"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="18dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/image_CV"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+
+                <TextView
+                    android:id="@+id/vet_name_TV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.2"
+                    android:fontFamily="@font/nunito"
+                    android:text="Dr,Ashish Rawat"
+                    android:textColor="@color/gray_2"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+
+                <LinearLayout
+                    android:id="@+id/edit_LL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_weight="0.8"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/edit_TV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito"
+                        android:gravity="center"
+                        android:text="@string/edit"
+                        android:textColor="@color/gray_3"
+                        android:textSize="12sp" />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/vet_study_TV"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center_vertical"
+                android:text="M.B.B.S"
+                app:layout_constraintStart_toStartOf="@id/vet_name_edit_LL"
+                app:layout_constraintTop_toBottomOf="@id/vet_name_edit_LL" />
+
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/online_appointment_CL"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/background_grey"
+        app:layout_constraintEnd_toEndOf="@id/vet_info_CL"
+        app:layout_constraintStart_toStartOf="@id/vet_info_CL"
+        app:layout_constraintTop_toBottomOf="@id/vet_info_CL">
+
+        <TextView
+            android:id="@+id/onle_appoint_TV"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="10dp"
+            android:fontFamily="@font/nunito"
+            android:gravity="center_vertical"
+            android:text="Available for Online Appointment?"
+            android:textColor="@color/black_color"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toStartOf="@id/online_switch"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/online_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="15dp"
+            android:thumb="@drawable/thumb"
+            app:layout_constraintBottom_toBottomOf="@id/onle_appoint_TV"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/onle_appoint_TV"
+            app:track="@drawable/track" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        app:layout_constraintEnd_toEndOf="@id/vet_info_CL"
+        app:layout_constraintStart_toStartOf="@id/vet_info_CL"
+        app:layout_constraintTop_toBottomOf="@id/online_appointment_CL">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/general_details_CL"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/general_details_CV"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_margin="10dp"
+                    android:elevation="10dp"
+                    app:cardCornerRadius="6dp"
+                    app:cardElevation="6dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="6dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/general_details" />
+
+
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:text="@string/general_deatils"
+                    android:textColor="@color/gray_1"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@id/general_details_CV"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/general_details_CV"
+                    app:layout_constraintTop_toTopOf="@id/general_details_CV" />
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="0dp"
+                    android:padding="1dp"
+                    android:src="@drawable/forward_arrow"
+                    app:layout_constraintBottom_toBottomOf="@id/general_details_CV"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/general_details_CV" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/operating_hours_CL"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/operating_hours_CV"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_margin="10dp"
+                    android:elevation="1dp"
+                    app:cardCornerRadius="6dp"
+                    app:cardElevation="6dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="5dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/operating_hours" />
+
+
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:text="@string/operating_hrs"
+                    android:textColor="@color/gray_1"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@id/operating_hours_CV"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/operating_hours_CV"
+                    app:layout_constraintTop_toTopOf="@id/operating_hours_CV" />
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="0dp"
+                    android:padding="1dp"
+                    android:src="@drawable/forward_arrow"
+                    app:layout_constraintBottom_toBottomOf="@id/operating_hours_CV"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/operating_hours_CV" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/change_password_CL"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/change_password_CV"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_margin="10dp"
+                    android:elevation="1dp"
+                    app:cardCornerRadius="6dp"
+                    app:cardElevation="6dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="5dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/change_password" />
+
+
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:text="@string/changePass"
+                    android:textColor="@color/gray_1"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@id/change_password_CV"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/change_password_CV"
+                    app:layout_constraintTop_toTopOf="@id/change_password_CV" />
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="0dp"
+                    android:padding="1dp"
+                    android:src="@drawable/forward_arrow"
+                    app:layout_constraintBottom_toBottomOf="@id/change_password_CV"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/change_password_CV" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/immunization_master_CL"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/immunization_master_CV"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_margin="10dp"
+                    android:elevation="1dp"
+                    app:cardCornerRadius="6dp"
+                    app:cardElevation="6dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="5dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/immunization_master" />
+
+
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:text="@string/immunization_master"
+                    android:textColor="@color/gray_1"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@id/immunization_master_CV"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/immunization_master_CV"
+                    app:layout_constraintTop_toTopOf="@id/immunization_master_CV" />
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="0dp"
+                    android:padding="1dp"
+                    android:src="@drawable/forward_arrow"
+                    app:layout_constraintBottom_toBottomOf="@id/immunization_master_CV"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/immunization_master_CV" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/bank_account_CL"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/bank_account_CV"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_margin="10dp"
+                    android:elevation="1dp"
+                    app:cardCornerRadius="6dp"
+                    app:cardElevation="6dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="5dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/bank_account" />
+
+
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:text="@string/BankAccount"
+                    android:textColor="@color/gray_1"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@id/bank_account_CV"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/bank_account_CV"
+                    app:layout_constraintTop_toTopOf="@id/bank_account_CV" />
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="0dp"
+                    android:padding="1dp"
+                    android:src="@drawable/forward_arrow"
+                    app:layout_constraintBottom_toBottomOf="@id/bank_account_CV"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/bank_account_CV" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/privacy_CL"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/privacy_CV"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_margin="10dp"
+                    android:elevation="1dp"
+                    app:cardCornerRadius="6dp"
+                    app:cardElevation="6dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="5dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/privacy" />
+
+
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:text="@string/privacy"
+                    android:textColor="@color/gray_1"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@id/privacy_CV"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/privacy_CV"
+                    app:layout_constraintTop_toTopOf="@id/privacy_CV" />
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="0dp"
+                    android:padding="1dp"
+                    android:src="@drawable/forward_arrow"
+                    app:layout_constraintBottom_toBottomOf="@id/privacy_CV"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/privacy_CV" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/logout_CL"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/logout_CV"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_margin="10dp"
+                    android:elevation="1dp"
+                    app:cardCornerRadius="6dp"
+                    app:cardElevation="6dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="5dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/logout" />
+
+
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:text="@string/logout"
+                    android:textColor="@color/gray_1"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@id/logout_CV"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/logout_CV"
+                    app:layout_constraintTop_toTopOf="@id/logout_CV" />
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="0dp"
+                    android:padding="1dp"
+                    android:src="@drawable/forward_arrow"
+                    app:layout_constraintBottom_toBottomOf="@id/logout_CV"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/logout_CV" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

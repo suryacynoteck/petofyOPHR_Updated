@@ -119,6 +119,7 @@
             <androidx.appcompat.widget.AppCompatSpinner
                 android:layout_below="@id/pet_category_TV"
                 android:layout_marginTop="10dp"
+                android:paddingLeft="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:id="@+id/add_pet_type"
@@ -171,6 +172,7 @@
                 android:layout_below="@id/pet_gender_TV"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="20dp"
+                android:paddingLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:id="@+id/add_pet_sex_dialog"
                 android:background="@drawable/spinner_background"
@@ -337,6 +339,7 @@
                 android:layout_marginTop="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginLeft="20dp"
+                android:paddingLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:id="@+id/add_pet_breed_dialog"
                 android:background="@drawable/spinner_background"
@@ -360,6 +363,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
+                android:paddingLeft="20dp"
                 android:id="@+id/add_pet_color_dialog"
                 android:background="@drawable/spinner_background"
                 android:layout_width="match_parent"
@@ -393,6 +397,7 @@
                     android:id="@+id/parent_address"
                     android:background="@drawable/spinner_background"
                     android:layout_width="0dp"
+                    android:paddingLeft="20dp"
                     android:layout_weight=".8"
                     android:layout_height="match_parent" />
 
@@ -427,7 +432,7 @@
 
             <AutoCompleteTextView
                 android:layout_below="@id/pet_contact_TV"
-                android:inputType="phone"
+                android:inputType="number"
                 android:maxLines="1"
                 android:paddingLeft="25dp"
                 android:layout_width="match_parent"

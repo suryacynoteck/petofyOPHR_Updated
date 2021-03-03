@@ -204,6 +204,22 @@ public class BankAccountDetailsActivity extends AppCompatActivity implements Api
                     confirm_account_for_bank_ET.setError(null);
                     ifsc_for_bank_ET.setError(null);
 
+                }else if (account_no_str.length()<9){
+                    name_for_bank_ET.setError(null);
+                    contact_for_bank_ET.setError(null);
+                    email_for_bank_ET.setError(null);
+                    account_for_bank_ET.setError("Invalid account no. !");
+                    confirm_account_for_bank_ET.setError(null);
+                    ifsc_for_bank_ET.setError(null);
+
+                }else if (account_no_str.length()>18){
+                    name_for_bank_ET.setError(null);
+                    contact_for_bank_ET.setError(null);
+                    email_for_bank_ET.setError(null);
+                    account_for_bank_ET.setError("Invalid account no. !");
+                    confirm_account_for_bank_ET.setError(null);
+                    ifsc_for_bank_ET.setError(null);
+
                 }else if (ifsc_str.isEmpty()){
                     name_for_bank_ET.setError(null);
                     contact_for_bank_ET.setError(null);

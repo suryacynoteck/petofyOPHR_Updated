@@ -1948,8 +1948,6 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     int responseCode = Integer.parseInt(nextVaccineResponse.getResponse().getResponseCode());
                     if (responseCode == 109) {
                         next_vaccine_ET.setEnabled(false);
-                        next_dewormer_spinner.setEnabled(false);
-                        next_dewormer_spinner.setClickable(false);
                         Log.e("folloupdate", nextVaccineResponse.getData().getNextDate());
                         folow_up_dt_view.setText(nextVaccineResponse.getData().getNextDate());
                         next_vaccine_ET.setText(nextVaccineResponse.getData().getVaccineName());

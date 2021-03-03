@@ -125,7 +125,6 @@
     </com.facebook.shimmer.ShimmerFrameLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-
         android:id="@+id/all_staff_List_RV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

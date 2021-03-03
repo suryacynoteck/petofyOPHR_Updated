@@ -260,6 +260,16 @@ public class AddUpdateStaffActivity extends AppCompatActivity implements View.On
                     staff_qualification_ET.setError(null);
                     staff_reg_number_ET.setError(null);
 
+                }else if (strStaffPhone.length()>10) {
+                    staff_first_name_ET.setError(null);
+                    staff_last_name_ET.setError(null);
+                    staff_email_ET.setError(null);
+                    staff_password_ET.setError(null);
+                    staff_confirm_password_ET.setError(null);
+                    staff_phone_ET.setError("Invalid phone no.!!");
+                    staff_qualification_ET.setError(null);
+                    staff_reg_number_ET.setError(null);
+
                 }else if (strStaffQualifications.isEmpty()&&strStaffPrefix.equals("Dr.")){
                     staff_first_name_ET.setError(null);
                     staff_last_name_ET.setError(null);
@@ -369,9 +379,9 @@ public class AddUpdateStaffActivity extends AppCompatActivity implements View.On
                     Log.d("DATALOG-ADDSTAFF", getStaffDetailsResponse.toString());
                     int responseCode = Integer.parseInt(getStaffDetailsResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
+                        Toast.makeText(this, "Staff Added Successfully", Toast.LENGTH_SHORT).show();
                         setResult(RESULT_OK);
                         finish();
-                        Toast.makeText(this, "Staff Added Successfully", Toast.LENGTH_SHORT).show();
                     }else{
                         Toast.makeText(this, "Something Went Wrong !", Toast.LENGTH_SHORT).show();
                     }
@@ -428,9 +438,9 @@ public class AddUpdateStaffActivity extends AppCompatActivity implements View.On
                     Log.d("DATALOG-UPDATE", getUpdateStaffResponse.toString());
                     int responseCode = Integer.parseInt(getUpdateStaffResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
+                        Toast.makeText(this, "Staff Updated Successfully", Toast.LENGTH_SHORT).show();
                         setResult(RESULT_OK);
                         finish();
-                        Toast.makeText(this, "Staff Updated Successfully", Toast.LENGTH_SHORT).show();
                     }else{
                         Toast.makeText(this, "Something Went Wrong !", Toast.LENGTH_SHORT).show();
                     }

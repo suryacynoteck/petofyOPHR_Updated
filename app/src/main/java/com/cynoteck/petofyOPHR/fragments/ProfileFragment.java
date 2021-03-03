@@ -11,16 +11,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.cynoteck.petofyOPHR.R;
-import com.cynoteck.petofyOPHR.activities.AddNewPetActivity;
 import com.cynoteck.petofyOPHR.activities.ChangePasswordActivity;
 import com.cynoteck.petofyOPHR.activities.GetAllBankAccountsActivity;
 import com.cynoteck.petofyOPHR.activities.ImmunizationChartActivity;
@@ -33,8 +32,6 @@ import com.cynoteck.petofyOPHR.api.ApiResponse;
 import com.cynoteck.petofyOPHR.api.ApiService;
 import com.cynoteck.petofyOPHR.params.appointmentParams.AppointmentStatusParams;
 import com.cynoteck.petofyOPHR.params.appointmentParams.AppointmentsStatusRequest;
-import com.cynoteck.petofyOPHR.params.getPetListRequest.GetPetListParams;
-import com.cynoteck.petofyOPHR.params.getPetListRequest.GetPetListRequest;
 import com.cynoteck.petofyOPHR.response.loginRegisterResponse.UserPermissionMasterList;
 import com.cynoteck.petofyOPHR.response.onlineAppointmentOnOff.OnlineAppointmentResponse;
 import com.cynoteck.petofyOPHR.response.staffPermissionListResponse.CheckStaffPermissionResponse;
@@ -55,17 +52,17 @@ import retrofit2.Response;
  */
 public class ProfileFragment extends Fragment implements View.OnClickListener, ApiResponse {
 
-    TextView tv,heder,vet_name_TV,vet_email_TV,vet_study_TV,vet_id_TV;
+    TextView vet_name_TV,vet_study_TV;
     ImageView vet_profile_pic;
     SwitchCompat online_switch;
     View view;
-    RelativeLayout veterian_full_profile_layout,operating_hrs_layout,setings_layout,logout_layout,changePass_layout,immunization_master_layout,bank_accounts_layout;
     String status;
     SharedPreferences sharedPreferences;
     String userTYpe="";
     String permissionId="";
     Methods methods;
     Context context;
+    ConstraintLayout general_details_CL,operating_hours_CL,change_password_CL,immunization_master_CL,bank_account_CL,privacy_CL,logout_CL;
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -75,7 +72,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, A
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_profile, container, false);
+        view = inflater.inflate(R.layout.vet_profile_fragment, container, false);
         sharedPreferences = getActivity().getSharedPreferences("userdetails", 0);
         methods = new Methods(context);
 
@@ -90,14 +87,13 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, A
         try {
             Glide.with(this)
                     .load(new URL(Config.user_Veterian_url))
+                    .placeholder(R.drawable.doctor_dummy_image)
                     .into(vet_profile_pic);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
         vet_name_TV.setText(Config.user_Veterian_name);
-        vet_email_TV.setText(Config.user_Veterian_emial);
         vet_study_TV.setText(Config.user_Veterian_study);
-        vet_id_TV.setText(Config.user_Veterian_id);
 
 
     }
@@ -131,38 +127,39 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, A
 
     public  void initialize()
     {
-        veterian_full_profile_layout=view.findViewById(R.id.veterian_full_profile_layout);
-        operating_hrs_layout=view.findViewById(R.id.operating_hrs_layout);
-        setings_layout=view.findViewById(R.id.setings_layout);
-        logout_layout=view.findViewById(R.id.logout_layout);
-        changePass_layout=view.findViewById(R.id.changePass_layout);
-        vet_email_TV = view.findViewById(R.id.vet_email_TV);
+
+
         vet_name_TV = view.findViewById(R.id.vet_name_TV);
         vet_study_TV = view.findViewById(R.id.vet_study_TV);
-        vet_id_TV = view.findViewById(R.id.vet_id_TV);
         vet_profile_pic = view.findViewById(R.id.vet_profile_pic);
         online_switch = view.findViewById(R.id.online_switch);
-        immunization_master_layout=view.findViewById(R.id.immunization_master_layout);
-        bank_accounts_layout=view.findViewById(R.id.bank_accounts_layout);
+        general_details_CL=view.findViewById(R.id.general_details_CL);
+        operating_hours_CL=view.findViewById(R.id.operating_hours_CL);
+        immunization_master_CL=view.findViewById(R.id.immunization_master_CL);
+        bank_account_CL=view.findViewById(R.id.bank_account_CL);
+        privacy_CL=view.findViewById(R.id.privacy_CL);
+        logout_CL=view.findViewById(R.id.logout_CL);
+        change_password_CL=view.findViewById(R.id.change_password_CL);
 
-        immunization_master_layout.setOnClickListener(this);
-        veterian_full_profile_layout.setOnClickListener(this);
-        operating_hrs_layout.setOnClickListener(this);
-        setings_layout.setOnClickListener(this);
-        logout_layout.setOnClickListener(this);
-        changePass_layout.setOnClickListener(this);
-        bank_accounts_layout.setOnClickListener(this);
+
+        general_details_CL.setOnClickListener(this);
+        operating_hours_CL.setOnClickListener(this);
+        immunization_master_CL.setOnClickListener(this);
+        bank_account_CL.setOnClickListener(this);
+        logout_CL.setOnClickListener(this);
+        privacy_CL.setOnClickListener(this);
+        change_password_CL.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId())
         {
-            case R.id.bank_accounts_layout:
+            case R.id.bank_account_CL:
                 Intent  bank_accounts_intent = new Intent(getContext(), GetAllBankAccountsActivity.class);
                 startActivity(bank_accounts_intent);
                 break;
-            case R.id.immunization_master_layout:
+            case R.id.immunization_master_CL:
                 userTYpe = sharedPreferences.getString("user_type", "");
                 if (userTYpe.equals("Vet Staff")){
                     Gson gson = new Gson();
@@ -184,27 +181,27 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, A
                 }
 
                 break;
-            case R.id.changePass_layout:
+            case R.id.change_password_CL:
 
                 Intent changePass_intent = new Intent(getContext(), ChangePasswordActivity.class);
                 startActivity(changePass_intent);
                 break;
-            case R.id.veterian_full_profile_layout:
+            case R.id.general_details_CL:
                 Intent veterian_full_profile_intent = new Intent(getContext(), ViewFullProfileVetActivity.class);
                 startActivity(veterian_full_profile_intent);
                 break;
 
-            case R.id.operating_hrs_layout:
+            case R.id.operating_hours_CL:
                 startActivity(new Intent(getActivity(), OperatingHoursActivity.class));
                 break;
 
-            case R.id.setings_layout:
+            case R.id.privacy_CL:
                 Intent setting = new Intent(getContext(), SettingActivity.class);
                 startActivity(setting);
 
                 break;
 
-            case R.id.logout_layout:
+            case R.id.logout_CL:
                 SharedPreferences preferences =getActivity().getSharedPreferences("userdetails",0);
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.clear();
@@ -230,12 +227,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, A
         switch (key){
             case "OnlineAppoint":
                 try {
-                    Log.d("UploadDocument",response.body().toString());
                     OnlineAppointmentResponse onlineAppointmentResponse = (OnlineAppointmentResponse) response.body();
                     int responseCode = Integer.parseInt(onlineAppointmentResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
                         if (status.equals("1")){
-//                            Toast.makeText(getContext(), "Enable Online Appointment", Toast.LENGTH_SHORT).show();
                             SharedPreferences sharedPreferences = getActivity().getSharedPreferences("userdetails", 0);
                             SharedPreferences.Editor login_editor;
                             login_editor = sharedPreferences.edit();
@@ -269,7 +264,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, A
                 try {
                     methods.customProgressDismiss();
                     CheckStaffPermissionResponse checkStaffPermissionResponse = (CheckStaffPermissionResponse) response.body();
-                    Log.d("GetPetList", checkStaffPermissionResponse.toString());
                     int responseCode = Integer.parseInt(checkStaffPermissionResponse.getResponse().getResponseCode());
 
                     if (responseCode == 109) {

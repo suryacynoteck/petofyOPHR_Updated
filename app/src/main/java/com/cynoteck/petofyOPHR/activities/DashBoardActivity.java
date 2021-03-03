@@ -76,12 +76,6 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         Config.user_type = sharedPreferences.getString("user_type", "");
         Config.user_verterian_reg_no = sharedPreferences.getString("vetid", "");
 
-//        Gson gson = new Gson();
-//        String json = sharedPreferences.getString("userPermission", null);
-//        Type type = new TypeToken<ArrayList<UserPermissionMasterList>>() {}.getType();
-//        ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
-//        Log.e("aaa0",arrayList.toString());
-
         if (Config.user_type.equals("Veterinarian")) {
             if (methods.isInternetOn()) {
                 getUserDetails();

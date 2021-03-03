@@ -167,19 +167,6 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.xray_test:
-//                Intent staticReportsIntent = new Intent(this, ReportsCommonActivity.class);
-//                Bundle staticReportsData = new Bundle();
-//                staticReportsData.putString("pet_id",pet_id);
-//                staticReportsData.putString("pet_name",pet_name);
-//                staticReportsData.putString("pet_unique_id",pet_unique_id);
-//                staticReportsData.putString("pet_sex",pet_sex);
-//                staticReportsData.putString("pet_parent",patent_name);
-//                staticReportsData.putString("pet_owner_contact","");
-//                staticReportsData.putString("reports_id","7.0");
-//                staticReportsData.putString("button_type","update");
-//                staticReportsIntent.putExtras(staticReportsData);
-//                startActivity(staticReportsIntent);
-//                overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
                 Intent petDetailsXray = new Intent(this, NewEntrysDetailsActivity.class);
                 Bundle dataXray = new Bundle();
                 dataXray.putString("pet_id", pet_id);
@@ -309,7 +296,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
 
                 break;
             case R.id.last_prescription:
-                if (lastVisitEncryptedId.equals("")) {
+                if (lastVisitEncryptedId==null) {
                     Toast.makeText(this, "No record found!", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent lastPrescriptionIntent = new Intent(this, PdfEditorActivity.class);

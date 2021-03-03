@@ -339,8 +339,9 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
     private void setVetInfo() {
         Glide.with(this)
                 .load(Config.user_Veterian_url)
+                .placeholder(R.drawable.doctor_dummy_image)
                 .into(vet_image_CIV);
-        vet_name_TV.setText("Dr. "+Config.user_Veterian_name);
+        vet_name_TV.setText(Config.user_Veterian_name);
         vet_email_id_TV.setText(Config.user_Veterian_emial);
         vet_study_TV.setText(Config.user_Veterian_study);
         vet_id_TV.setText(Config.user_Veterian_id);

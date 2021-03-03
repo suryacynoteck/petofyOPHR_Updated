@@ -912,7 +912,6 @@
                     android:gravity="center_vertical"
                     android:hint="Find Diagnosis*"
                     android:inputType="text"
-                    android:paddingLeft="20dp"
                     android:textColor="@color/grey_add_pet"
                     />
 
@@ -972,8 +971,7 @@
                     android:layout_height="100dp"
                     android:background="@null"
                     android:hint="Find Treatment Remarks"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="20dp"/>
+                    android:gravity="center_vertical" />
 
                 <EditText
                     android:visibility="gone"
