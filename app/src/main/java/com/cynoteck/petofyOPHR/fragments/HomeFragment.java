@@ -75,15 +75,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
     RecyclerView pet_list_RV;
     Context context;
     View view;
-    ImageView reports_IV,back_arrow_IV_new_entry,new_pet_search;
-    RelativeLayout mainHome,search_boxRL;
-    LinearLayout addNewEntry;
+    TextView search_box_TV;
+    RelativeLayout addNewEntry;
     Methods methods;
     CardView reports_CV, all_staff_CV, allPets_CV,appoint_CV;
-    AutoCompleteTextView search_box_add_new;
     ArrayList<String> petUniueId=null;
     HashMap<String,String> petExistingSearch;
-    TextView staff_headline_TV,cancelOtpDialog;
+    TextView vet_name_TV, staff_headline_TV,cancelOtpDialog;
     String petId="",petParentContactNumber="",strResponseOtp="";
     Dialog otpDialog;
     TextInputLayout otp_TL;
@@ -116,95 +114,31 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
 
     private void init() {
         methods = new Methods(context);
-        search_box_add_new = view.findViewById(R.id.search_box_add_new);
-        search_boxRL = view.findViewById(R.id.search_boxRL);
+        vet_name_TV=view.findViewById(R.id.vet_name_TV);
+        search_box_TV = view.findViewById(R.id.search_box_TV);
         staff_headline_TV = view.findViewById(R.id.staff_headline_TV);
-        new_pet_search = view.findViewById(R.id.new_pet_search);
-        back_arrow_IV_new_entry = view.findViewById(R.id.back_arrow_IV_new_entry);
         addNewEntry = view.findViewById(R.id.addNewEntry);
         reports_CV=view.findViewById(R.id.reports_CV);
         all_staff_CV = view.findViewById(R.id.staff_CV);
-        mainHome=view.findViewById(R.id.mainHome);
         pet_list_RV=view.findViewById(R.id.pet_id_TV);
         allPets_CV=view.findViewById(R.id.allPets_CV);
         appoint_CV=view.findViewById(R.id.appoint_CV);
 
+        vet_name_TV.setText("Hello, Dr "+Config.vet_first_name);
         addNewEntry.setOnClickListener(this);
-        search_box_add_new.addTextChangedListener(this);
         allPets_CV.setOnClickListener(this);
         reports_CV.setOnClickListener(this);
         all_staff_CV.setOnClickListener(this);
         appoint_CV.setOnClickListener(this);
-        new_pet_search.setOnClickListener(this);
-        back_arrow_IV_new_entry.setOnClickListener(this);
+        search_box_TV.setOnClickListener(this);
 
-        search_box_add_new.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                Log.d("dataChange","afterTextChanged"+new String(editable.toString()));
-                final String value=editable.toString();
-                if (methods.isInternetOn()){
-                            getPetList(value);
-                }else {
-                    methods.DialogInternet();
-                }
-            }
-        });
-
-        search_box_add_new.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick (AdapterView<?> parent, View view, int position, long id) {
-                //... your stuff
-                Log.d("akkakaka",""+petUniueId.get(position));
-                String value=petExistingSearch.get(search_box_add_new.getText().toString());
-                Log.d("kakakka",""+value);
-                StringTokenizer st = new StringTokenizer(value, ",");
-                String PetUniqueId = st.nextToken();
-                String PetName = st.nextToken();
-                String PetParentName = st.nextToken();
-                String PetSex = st.nextToken();
-                String PetAge = st.nextToken();
-                String Id = st.nextToken();
-                String pet_DOB = st.nextToken();
-                String pet_encrypted_id = st.nextToken();
-                String pet_cat_id = st.nextToken();
-                String lastVisitEncryptedId = st.nextToken();
-
-                Log.d("ppppp",""+PetUniqueId+" "+PetName+" "+PetParentName+" "+PetSex+" "+PetAge+" "+Id+" "+pet_DOB+" "+pet_encrypted_id+" "+pet_cat_id+" "+lastVisitEncryptedId);
-                Intent petDetailsIntent = new Intent(getActivity().getApplication(), PetDetailsActivity.class);
-                Bundle data = new Bundle();
-                data.putString("pet_id",Id);
-                data.putString("pet_name",PetName);
-                data.putString("pet_parent",PetParentName);
-                data.putString("pet_sex",PetSex);
-                data.putString("pet_age",PetAge);
-                data.putString("pet_unique_id",PetUniqueId);
-                data.putString("pet_DOB",pet_DOB);
-                data.putString("pet_encrypted_id",pet_encrypted_id);
-                data.putString("pet_cat_id",pet_cat_id);
-                data.putString("lastVisitEncryptedId",lastVisitEncryptedId);
-                petDetailsIntent.putExtras(data);
-                startActivity(petDetailsIntent);
-                clearSearch();
-
-            }
-        });
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.new_pet_search:
+            case R.id.search_box_TV:
                 Intent searchPetActivity = new Intent(getContext(), SearchActivity.class);
                 startActivity(searchPetActivity);
                 break;
@@ -260,10 +194,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
                 otpDialog.dismiss();
                 break;
 
-            case R.id.back_arrow_IV_new_entry:
-                clearSearch();
-                break;
-
             case R.id.reports_CV:
                 ReportSelectionFragment reportSelectionFragment = new ReportSelectionFragment();
                 replaceFragment(reportSelectionFragment);
@@ -276,12 +206,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
                     String json = sharedPreferences.getString("userPermission", null);
                     Type type = new TypeToken<ArrayList<UserPermissionMasterList>>() {}.getType();
                     ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
-//                    for (int i=0;i<arrayList.size();i++){
-//                        if (arrayList.get(i).getPermissionCode().equals("15")){
-//                            Toast.makeText(context, "15", Toast.LENGTH_SHORT).show();
-//
-//                        }
-//                    }
                     Log.e("ArrayList",arrayList.toString());
                     Log.d("UserType",userTYpe);
                     permissionId = "15";
@@ -320,8 +244,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
                     ApiService<CheckStaffPermissionResponse> service = new ApiService<>();
                     service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token,url), "CheckPermission");
                 }else if (userTYpe.equals("Veterinarian")){
-                    AppointementFragment appointementFragment = new AppointementFragment();
-                    replaceFragment(appointementFragment);
+                    VetAppointmentsFragment VetAppointmentsFragment = new VetAppointmentsFragment();
+                    replaceFragment(VetAppointmentsFragment);
 
                 }
 
@@ -340,20 +264,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
         transaction.commit();
     }
 
-    private void getPetList(String prefix) {
-        PetDataParams getPetDataParams = new PetDataParams();
-        getPetDataParams.setPageNumber(0);
-        getPetDataParams.setPageSize(10);
-        getPetDataParams.setSearch_Data(prefix);
-        PetDataRequest getPetDataRequest = new PetDataRequest();
-        getPetDataRequest.setData(getPetDataParams);
-
-        ApiService<GetPetListResponse> service = new ApiService<>();
-        service.get( this, ApiClient.getApiInterface().getPetList(Config.token,getPetDataRequest), "GetPetList");
-        Log.e("DATALOG","check1=> "+methods.getRequestJson(getPetDataRequest));
-
-
-    }
 
     private void chkVetInregister(InPetRegisterRequest inPetRegisterRequest) {
         ApiService<InPetVeterianResponse> service = new ApiService<>();
@@ -387,8 +297,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
                     if (responseCode == 109) {
                         if (checkStaffPermissionResponse.getData().equals("true")){
                             if (permissionId.equals("16")) {
-                                AppointementFragment appointementFragment = new AppointementFragment();
-                                replaceFragment(appointementFragment);
+                                VetAppointmentsFragment VetAppointmentsFragment = new VetAppointmentsFragment();
+                                replaceFragment(VetAppointmentsFragment);
                             }else if (permissionId.equals("1")){
                                 Intent addNewPetIntent = new Intent(getContext(), AddNewPetActivity.class);
                                 addNewPetIntent.putExtra("appointment","");
@@ -413,75 +323,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
 
                 break;
 
-            case "GetPetList":
-                try {
-                    GetPetListResponse getPetListResponse = (GetPetListResponse) arg0.body();
-                    Log.d("GetPetList", getPetListResponse.toString());
-                    int responseCode = Integer.parseInt(getPetListResponse.getResponse().getResponseCode());
-
-                    if (responseCode == 109) {
-                        petUniueId = new ArrayList<>();
-                        petExistingSearch = new HashMap<>();
-                        for (int i = 0; i < getPetListResponse.getData().getPetList().size(); i++) {
-                            petUniueId.add(getPetListResponse.getData().getPetList().get(i).getPetUniqueId() + ":- "
-                                    + getPetListResponse.getData().getPetList().get(i).getPetName() + "(" + getPetListResponse.getData().getPetList().get(i).getPetSex() + "," + getPetListResponse.getData().getPetList().get(i).getPetParentName() + ")");
-
-                            petExistingSearch.put(getPetListResponse.getData().getPetList().get(i).getPetUniqueId() + ":- "
-                                            + getPetListResponse.getData().getPetList().get(i).getPetName() + "(" + getPetListResponse.getData().getPetList().get(i).getPetSex() + "," + getPetListResponse.getData().getPetList().get(i).getPetParentName() + ")",
-                                    getPetListResponse.getData().getPetList().get(i).getPetUniqueId() + ","
-                                            + getPetListResponse.getData().getPetList().get(i).getPetName() + ","
-                                            + getPetListResponse.getData().getPetList().get(i).getPetParentName() + ","
-                                            + getPetListResponse.getData().getPetList().get(i).getPetSex() + ","
-                                            + getPetListResponse.getData().getPetList().get(i).getPetAge() + ","
-                                            + getPetListResponse.getData().getPetList().get(i).getId() + ","
-                                            + getPetListResponse.getData().getPetList().get(i).getDateOfBirth() + ","
-                                            + getPetListResponse.getData().getPetList().get(i).getEncryptedId() +","
-                                            +getPetListResponse.getData().getPetList().get(i).getPetCategoryId()+","
-                                            +getPetListResponse.getData().getPetList().get(i).getLastVisitEncryptedId()
-
-                            );
-                        }
-
-                        Log.d("jajajajjaja", "" + petUniueId.size() + " \n" + petUniueId.toString());
-                        Log.d("lllllllllll", "" + petExistingSearch.size() + " \n" + petExistingSearch);
-                        ArrayAdapter<String> adapter = new ArrayAdapter<String>
-                                (getActivity(), android.R.layout.simple_list_item_1, petUniueId);
-                        search_box_add_new.setThreshold(1);//will start working from first character
-                        search_box_add_new.setAdapter(adapter);//setting the adapter data into the AutoCompleteTextView
-                        search_box_add_new.setTextColor(Color.BLACK);
-                    }
-                    else
-                    {
-                        methods.customProgressDismiss();
-                        if(getPetListResponse.getResponse().getResponseMessage().equals("Invalid token."))
-                        {
-                            AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-                            alertDialog.setTitle("Warning!!");
-                            alertDialog.setMessage("Your Session Expired. Please, Logout and Login Again.");
-                            alertDialog.setIcon(getActivity().getDrawable(R.drawable.ic_baseline_warning));
-                            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "LOGOUT",
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
-                                            SharedPreferences preferences =getActivity().getSharedPreferences("userdetails",0);
-                                            SharedPreferences.Editor editor = preferences.edit();
-                                            editor.clear();
-                                            editor.apply();
-                                            startActivity(new Intent(getActivity(), LoginActivity.class));
-                                            getActivity().finish();
-                                        }
-                                    });
-                            alertDialog.setCancelable(false);
-                            alertDialog.setCanceledOnTouchOutside(false);
-                            alertDialog.show();
-                        }
-                    }
-
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
             case "CheckPetInVetRegister":
                 try {
                     Log.d("CheckPetInVetRegister",arg0.body().toString());
@@ -557,7 +398,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
                             sexName="Female";
                         else
                             sexName="Male";
-                        //getPetList();
                         Intent petDetailsIntent = new Intent(getActivity().getApplication(), PetDetailsActivity.class);
                         Bundle data = new Bundle();
                         data.putString("pet_id",petId);
@@ -633,19 +473,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
 
     }
 
-    private void clearSearch() {
-        search_box_add_new.getText().clear();
-        search_boxRL.setVisibility(View.GONE);
-        back_arrow_IV_new_entry.setVisibility(View.GONE);
-        staff_headline_TV.setVisibility(View.VISIBLE);
-        InputMethodManager imm1 = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm1.hideSoftInputFromWindow(search_box_add_new.getWindowToken(), 0);
-    }
 
     @Override
     public void onResume() {
         super.onResume();
-        /*if(getPetListRefresh==false)
-        getPetList();*/
+
     }
 }

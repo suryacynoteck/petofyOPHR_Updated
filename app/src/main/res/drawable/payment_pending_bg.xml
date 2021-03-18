@@ -1,0 +1,18 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item><layer-list>
+        <item><shape>
+            <corners android:radius="6dp"/>
+            <stroke
+                android:width="1dp"
+                android:color="@color/colorPrimary" />
+            <padding
+                android:bottom="10dp"
+                android:left="5dp"
+                android:right="30dp" android:top="10dp" />
+        </shape>
+        </item>
+        <item ><bitmap
+            android:gravity="left|center" android:src="@drawable/payment_pending_clock" />
+        </item>
+    </layer-list></item>
+</selector>

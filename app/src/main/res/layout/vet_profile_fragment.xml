@@ -172,6 +172,7 @@
                 android:id="@+id/general_details_CL"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
+                android:layout_gravity="center"
                 android:orientation="horizontal">
 
                 <androidx.cardview.widget.CardView

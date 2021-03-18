@@ -567,6 +567,7 @@ public class AddUpdateAppointmentActivity extends AppCompatActivity implements A
     }
 
     private void getAppointmentDeatils(GetPetListRequest id) {
+        Log.e("AppointentDetails",methods.getRequestJson(id));
         methods.showCustomProgressBarDialog(this);
         ApiService<AppointmentDetailsResponse> service = new ApiService<>();
         service.get(this, ApiClient.getApiInterface().getAppointmentsDetails(Config.token, id), "GetAppointmentDetails");

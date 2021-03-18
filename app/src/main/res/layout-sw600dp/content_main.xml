@@ -33,7 +33,7 @@
                     android:id="@+id/icHome"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:srcCompat="@drawable/home_normal_icon"/>
+                    app:srcCompat="@drawable/home_inactive"/>
 
             </RelativeLayout>
             <RelativeLayout
@@ -45,7 +45,7 @@
                     android:id="@+id/icProfile"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/profile_normal_icon"/>
+                    android:src="@drawable/profile_inactive"/>
 
             </RelativeLayout>
             <RelativeLayout
@@ -57,7 +57,7 @@
                     android:id="@+id/icPetRegister"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/pet_normal_icon"/>
+                    android:src="@drawable/pet_inactive"/>
 
             </RelativeLayout>
             <RelativeLayout
@@ -69,7 +69,7 @@
                     android:id="@+id/icAppointment"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/appointment_normal_icon"/>
+                    android:src="@drawable/appointment_inactive"/>
             </RelativeLayout>
 
         </LinearLayout>

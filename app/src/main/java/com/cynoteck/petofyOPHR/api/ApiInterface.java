@@ -18,6 +18,8 @@ import com.cynoteck.petofyOPHR.params.allStaffRequest.StaffDeatilsRequest;
 import com.cynoteck.petofyOPHR.params.allStaffRequest.UpdateStaffRequest;
 import com.cynoteck.petofyOPHR.params.appointmentParams.AppointmentsStatusRequest;
 import com.cynoteck.petofyOPHR.params.appointmentParams.CreateAppointRequest;
+import com.cynoteck.petofyOPHR.params.appointmentParams.GetAppointmentFromDateParams;
+import com.cynoteck.petofyOPHR.params.appointmentParams.GetAppointmentFromDateRequest;
 import com.cynoteck.petofyOPHR.params.appointmentParams.UpdateAppointmentRequest;
 import com.cynoteck.petofyOPHR.params.assignAndRemovePermission.AssignRemovePermissionRequest;
 import com.cynoteck.petofyOPHR.params.changePassRequest.ChangePassRequest;
@@ -76,6 +78,8 @@ import com.cynoteck.petofyOPHR.response.addTestAndXRayResponse.AddTestXRayRespon
 import com.cynoteck.petofyOPHR.response.appointmentResponse.AppointmentDetailsResponse;
 import com.cynoteck.petofyOPHR.response.appointmentResponse.CreateAppointmentResponse;
 import com.cynoteck.petofyOPHR.response.appointmentResponse.GetAppointmentResponse;
+import com.cynoteck.petofyOPHR.response.appointmentResponse.requestPendingResponse.RequestPendingResponse;
+import com.cynoteck.petofyOPHR.response.appointmentResponse.upComingAppointmentResponse.UpcomingAppointmentResponse;
 import com.cynoteck.petofyOPHR.response.bankAccountResponse.AddBankAccountResponse;
 import com.cynoteck.petofyOPHR.response.bankAccountResponse.GetBankAccoutsResponse;
 import com.cynoteck.petofyOPHR.response.bankAccountResponse.ValidateIfscCodeResponse;
@@ -711,6 +715,16 @@ public interface ApiInterface {
     @Headers({ "Content-Type: application/json;charset=UTF-8"})
     @POST("immunization/GetVaccinationTypeByVaccineName")
     Call<VaccinationTypeByVaccineNameResponse> getVaccinationTypeByVaccineName(@Header("Authorization") String auth, @Body VaccinationTypeByVaccineNameRequest vaccinationTypeByVaccineNameRequest );
+
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("appointment/GetPendingAppointments")
+    Call<RequestPendingResponse> getPendingAppointments(@Header("Authorization") String auth, @Body GetAppointmentFromDateRequest getAppointmentFromDateRequest );
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @POST("appointment/GetAppointmentByDate")
+    Call<UpcomingAppointmentResponse> getAppointmentByDate(@Header("Authorization") String auth, @Body GetAppointmentFromDateRequest getAppointmentFromDateRequest );
+
 
 }
 

@@ -43,7 +43,7 @@
     <string name="color">Color</string>
     <string name="petcolor"><![CDATA[Brown & White]]></string>
     <string name="viewReports">View Reports</string>
-    <string name="viewDetails">VIEW DETAILS</string>
+    <string name="viewDetails">View details</string>
     <string name="reports">RECORDS</string>
     <string name="register_pets">Pet Register</string>
     <string name="register_pets_home">PET REGISTER</string>
@@ -60,13 +60,13 @@
     <string name="emailtext">Email</string>
     <string name="appointments">Appointments</string>
     <string name="appointments_home">APPOINTMENTS</string>
-    <string name="staff">STAFF</string>
+    <string name="staff">Your Staff</string>
     <string name="allpets">ALL PETS</string>
     <string name="allStaff">ALL STAFF</string>
     <string name="permission">PERMISSION</string>
     <string name="add_new_pet">ADD NEW PET</string>
     <string name="add_new_staff">ADD NEW STAFF</string>
-    <string name="add_clinic_data">Add Clinic Visit</string>
+    <string name="add_clinic_data">Add Clinic visit</string>
     <string name="name">Name</string>
     <string name="acitivated">Activated</string>
     <string name="add_staff">Add Staff</string>
@@ -142,7 +142,10 @@
     <string name="profile">Profile</string>
     <string name="profile_home">PROFILE</string>
     <string name="operating_hrs">Operating Hours</string>
-    <string name="OnlineAppointment">Online Appointment</string>
+    <string name="OnlineAppointment">Online Appointments</string>
+    <string name="Online">Online</string>
+    <string name="Appointment">Appointments</string>
+
     <string name="fullProfile">Veterinarian Full Profile</string>
     <string name="Settings">Settings</string>
     <string name="SettingsToolbar">SETTINGS</string>
@@ -221,4 +224,12 @@
     <string name="immunization_master">Immunization Master</string>
     <string name="logout">Logout</string>
     <string name="privacy">Privacy</string>
+    <string name="have_a_nice_day">Have a nice day at work</string>
+    <string name="Mypets">My Pets</string>
+    <string name="medical_history">Medical History</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="requestingPending">Request pending</string>
+    <string name="reSchedule">Re-schedule</string>
+    <string name="join">Join</string>
+    <string name="registerPets">Registered Pets</string>
 </resources>

@@ -5,12 +5,15 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.bumptech.glide.Glide;
 import com.cynoteck.petofyOPHR.R;
@@ -26,6 +29,7 @@ import com.cynoteck.petofyOPHR.response.loginRegisterResponse.UserPermissionMast
 import com.cynoteck.petofyOPHR.response.staffPermissionListResponse.CheckStaffPermissionResponse;
 import com.cynoteck.petofyOPHR.utils.Config;
 import com.cynoteck.petofyOPHR.utils.Methods;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -35,44 +39,27 @@ import java.util.ArrayList;
 import retrofit2.Response;
 
 public class PetProfileActivity extends AppCompatActivity implements ApiResponse, View.OnClickListener {
+    RelativeLayout back_arrow_RL,edit_profile_RL,parent_name_RL,parent_phone_RL,parent_location_RL;
     Methods methods;
     String petId="",imagerl="";
-    ImageView pet_profile_image_IV, image_one,image_two,image_three,image_four,image_five,edit_image,back_arrow_IV;
-    TextView address_head,pet_name_TV, pet_sex_TV,pet_parent_TV,pet_id_TV,pet_deatils_TV,phone_one,pet_email_id_TV,phone_two,address_line_one_TV,address_line_two_TV;
+    ImageView pet_profile_image_IV;
     GetPetResponse getPetResponse;
     boolean reloadData=false;
     SharedPreferences sharedPreferences;
     String permissionId="";
+    Button Add_Clinic_BT;
+    ShimmerFrameLayout pet_profile_shimmer;
+    ConstraintLayout pet_profile_details_CL;
+    TextView pet_name_TV,pet_dob_TV,pet_reg__id_TV,pet_breed_TV,pet_gender_TV,pet_parent_name_TV,parent_phone_TV,parent_address_TV;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pet_profile);
+        setContentView(R.layout.pet_profile_activity);
         methods = new Methods(this);
         Bundle extras = getIntent().getExtras();
         petId = extras.getString("pet_id");
 
-        pet_profile_image_IV=findViewById(R.id.pet_profile_image_IV);
-        image_one=findViewById(R.id.image_one);
-        image_two=findViewById(R.id.image_two);
-        image_three=findViewById(R.id.image_three);
-        image_four=findViewById(R.id.image_four);
-        image_five=findViewById(R.id.image_five);
-        pet_name_TV=findViewById(R.id.pet_name_TV);
-        pet_sex_TV=findViewById(R.id.pet_sex_TV);
-        pet_parent_TV=findViewById(R.id.pet_parent_TV);
-        pet_id_TV=findViewById(R.id.pet_id_TV);
-        pet_deatils_TV=findViewById(R.id.pet_deatils_TV);
-        phone_one=findViewById(R.id.phone_one);
-        address_head=findViewById(R.id.address_head);
-        pet_email_id_TV=findViewById(R.id.pet_email_id_TV);
-        phone_two=findViewById(R.id.phone_two);
-        address_line_one_TV=findViewById(R.id.address_line_one_TV);
-        address_line_two_TV=findViewById(R.id.address_line_two_TV);
-        edit_image=findViewById(R.id.edit_image);
-        back_arrow_IV=findViewById(R.id.back_arrow_IV);
-
-        edit_image.setOnClickListener(this);
-        back_arrow_IV.setOnClickListener(this);
+       init();
 
         GetPetListParams getPetListParams = new GetPetListParams();
         getPetListParams.setId(petId);
@@ -82,6 +69,9 @@ public class PetProfileActivity extends AppCompatActivity implements ApiResponse
 
         if(methods.isInternetOn())
         {
+            pet_profile_shimmer.setVisibility(View.VISIBLE);
+            pet_profile_shimmer.startShimmerAnimation();
+            pet_profile_details_CL.setVisibility(View.GONE);
             getPetlistData(getPetListRequest);
         }
         else
@@ -91,9 +81,35 @@ public class PetProfileActivity extends AppCompatActivity implements ApiResponse
 
     }
 
+    private void init() {
+        pet_profile_image_IV=findViewById(R.id.pet_profile_image_IV);
+        parent_name_RL=findViewById(R.id.parent_name_RL);
+        parent_phone_RL=findViewById(R.id.parent_phone_RL);
+        parent_location_RL=findViewById(R.id.parent_location_RL);
+        pet_name_TV=findViewById(R.id.pet_name_TV);
+        pet_dob_TV=findViewById(R.id.pet_dob_TV);
+        pet_reg__id_TV=findViewById(R.id.pet_reg__id_TV);
+        pet_breed_TV=findViewById(R.id.pet_breed_TV);
+        pet_gender_TV=findViewById(R.id.pet_gender_TV);
+        pet_parent_name_TV=findViewById(R.id.pet_parent_name_TV);
+        parent_phone_TV=findViewById(R.id.parent_phone_TV);
+        parent_address_TV=findViewById(R.id.parent_address_TV);
+        Add_Clinic_BT=findViewById(R.id.Add_Clinic_BT);
+        pet_profile_details_CL=findViewById(R.id.pet_profile_details_CL);
+        pet_profile_shimmer=findViewById(R.id.pet_profile_shimmer);
+
+
+        edit_profile_RL=findViewById(R.id.edit_profile_RL);
+        back_arrow_RL=findViewById(R.id.back_arrow_RL);
+
+        edit_profile_RL.setOnClickListener(this);
+        back_arrow_RL.setOnClickListener(this);
+        Add_Clinic_BT.setOnClickListener(this);
+    }
+
     private void getPetlistData(GetPetListRequest getPetListRequest) {
         reloadData=true;
-        methods.showCustomProgressBarDialog(this);
+//        methods.showCustomProgressBarDialog(this);
         ApiService<GetPetResponse> service = new ApiService<>();
         service.get( this, ApiClient.getApiInterface().getPetDetails(Config.token,getPetListRequest), "GetPetDetail");
         Log.e("DATALOG","check1=> "+methods.getRequestJson(getPetListRequest));
@@ -105,11 +121,11 @@ public class PetProfileActivity extends AppCompatActivity implements ApiResponse
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.back_arrow_IV:
+            case R.id.back_arrow_RL:
                 onBackPressed();
                 break;
 
-            case R.id.edit_image:
+            case R.id.edit_profile_RL:
                 String userTYpe = sharedPreferences.getString("user_type", "");
                 if (userTYpe.equals("Vet Staff")){
                     Gson gson = new Gson();
@@ -149,7 +165,8 @@ public class PetProfileActivity extends AppCompatActivity implements ApiResponse
 
     @Override
     public void onResponse(Response arg0, String key) {
-        methods.customProgressDismiss();
+
+        //        methods.customProgressDismiss();
         reloadData=false;
         switch (key) {
             case "CheckPermission":
@@ -196,24 +213,34 @@ public class PetProfileActivity extends AppCompatActivity implements ApiResponse
 
             case "GetPetDetail":
                 try {
-                    methods.customProgressDismiss();
-                    Log.d("GetPetDetail", arg0.body().toString());
+                    pet_profile_shimmer.setVisibility(View.GONE);
+                    pet_profile_shimmer.stopShimmerAnimation();
+                    pet_profile_details_CL.setVisibility(View.VISIBLE);
+                    Log.e("GetPetDetail", methods.getRequestJson(arg0.body()));
                     getPetResponse = (GetPetResponse) arg0.body();
+                    Log.e("GetPetDetail", methods.getRequestJson(getPetResponse));
+
                     int responseCode = Integer.parseInt(getPetResponse.getResponse().getResponseCode());
                     if (responseCode == 109) {
-                       // Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
-                        pet_name_TV.setText(getPetResponse.getData().getPetName().substring(0, 1).toUpperCase() + getPetResponse.getData().getPetName().substring(1));
-                        pet_parent_TV.setText(getPetResponse.getData().getPetParentName());
-                        phone_one.setText(getPetResponse.getData().getContactNumber());
-                        pet_sex_TV.setText(getPetResponse.getData().getPetSex());
-                        pet_id_TV.setText(getPetResponse.getData().getPetUniqueId());
-                        pet_deatils_TV.setText(getPetResponse.getData().getDescription());
-//                        pet_email_id_TV.setText(getPetResponse.getData().getpetpa);
+                        Log.e("PET_details",getPetResponse.getData().getPetParentName()+""+getPetResponse.getData().getContactNumber()+""+getPetResponse.getData().getPetSex()+""+getPetResponse.getData().getPetUniqueId()+""+getPetResponse.getData().getPetName());
+//                        pet_name_TV.setText(getPetResponse.getData().getPetName().substring(0, 1).toUpperCase() + getPetResponse.getData().getPetName().substring(1));
+//                        pet_parent_name_TV.setText(getPetResponse.getData().getPetParentName());
+//                        parent_phone_TV.setText(getPetResponse.getData().getContactNumber());
+//                        pet_gender_TV.setText(getPetResponse.getData().getPetSex());
+//                        pet_reg__id_TV.setText(getPetResponse.getData().getPetUniqueId());
+                        pet_name_TV.setText(getPetResponse.getData().getPetName());
+                        pet_parent_name_TV.setText(getPetResponse.getData().getPetParentName());
+                        parent_phone_TV.setText(getPetResponse.getData().getContactNumber());
+                        pet_gender_TV.setText(getPetResponse.getData().getPetSex());
+                        pet_breed_TV.setText(getPetResponse.getData().getPetBreed());
+                        pet_reg__id_TV.setText(getPetResponse.getData().getPetUniqueId());
+                        pet_dob_TV.setText(getPetResponse.getData().getDateOfBirth());
                         if (getPetResponse.getData().getAddress()==null){
-                            address_line_one_TV.setVisibility(View.GONE);
-                            address_head.setVisibility(View.GONE);
+                            parent_location_RL.setVisibility(View.GONE);
+                            parent_address_TV.setVisibility(View.GONE);
                         }else {
-                            address_line_one_TV.setText(getPetResponse.getData().getAddress());
+//                            parent_address_TV.setText(getPetResponse.getData().getAddress());
+                            parent_address_TV.setText(getPetResponse.getData().getAddress());
                         }
                         setImages();
 
@@ -230,48 +257,14 @@ public class PetProfileActivity extends AppCompatActivity implements ApiResponse
     }
 
     private void setImages() {
-        if(!getPetResponse.getData().getPetProfileImageUrl().equals(""))
+        if(!getPetResponse.getData().getPetProfileImageUrl().equals(" "))
         {
             Glide.with(this)
                     .load(getPetResponse.getData().getPetProfileImageUrl())
-                    .placeholder(R.drawable.petofy)
+                    .placeholder(R.drawable.dummy_dog_image)
                     .into(pet_profile_image_IV);
         }
-//        if (getPetResponse.getData().getFirstServiceImageUrl().isEmpty()){
-//            image_one.setVisibility(View.INVISIBLE);
-//        }else {
-//            Glide.with(this)
-//                    .load(getPetResponse.getData().getFirstServiceImageUrl())
-//                    .into(image_one);
-//        }
-//        if (getPetResponse.getData().getSecondServiceImageUrl().isEmpty()){
-//            image_two.setVisibility(View.INVISIBLE);
-//
-//        }else {
-//            Glide.with(this)
-//                    .load(getPetResponse.getData().getSecondServiceImageUrl())
-//                    .into(image_two);
-//        }if (getPetResponse.getData().getThirdServiceImageUrl().isEmpty()){
-//            image_three.setVisibility(View.INVISIBLE);
-//
-//        }else {
-//            Glide.with(this)
-//                    .load(getPetResponse.getData().getThirdServiceImageUrl())
-//                    .into(image_three);
-//        }if (getPetResponse.getData().getFourthServiceImageUrl().isEmpty()){
-//            image_four.setVisibility(View.INVISIBLE);
-//
-//        }else {
-//            Glide.with(this)
-//                    .load(getPetResponse.getData().getFourthServiceImageUrl())
-//                    .into(image_four);
-//        }if (getPetResponse.getData().getFifthServiceImageUrl().isEmpty()){
-//            image_five.setVisibility(View.INVISIBLE);
-//        }else {
-//            Glide.with(this)
-//                    .load(getPetResponse.getData().getFifthServiceImageUrl())
-//                    .into(image_five);
-//        }
+
     }
 
     @Override

@@ -22,7 +22,7 @@ import com.cynoteck.petofyOPHR.R;
 import com.cynoteck.petofyOPHR.api.ApiClient;
 import com.cynoteck.petofyOPHR.api.ApiResponse;
 import com.cynoteck.petofyOPHR.api.ApiService;
-import com.cynoteck.petofyOPHR.fragments.AppointementFragment;
+import com.cynoteck.petofyOPHR.fragments.VetAppointmentsFragment;
 import com.cynoteck.petofyOPHR.fragments.HomeFragment;
 import com.cynoteck.petofyOPHR.fragments.PetRegisterFragment;
 import com.cynoteck.petofyOPHR.fragments.ProfileFragment;
@@ -75,6 +75,8 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         Config.two_fact_auth_status = sharedPreferences.getString("twoFactAuth", "");
         Config.user_type = sharedPreferences.getString("user_type", "");
         Config.user_verterian_reg_no = sharedPreferences.getString("vetid", "");
+        Config.vet_first_name = sharedPreferences.getString("first_name", "");
+        Config.vet_last_name = sharedPreferences.getString("last_name", "");
 
         if (Config.user_type.equals("Veterinarian")) {
             if (methods.isInternetOn()) {
@@ -89,7 +91,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.add(R.id.content_frame, homeFragment);
             ft.commit();
-            icHome.setImageResource(R.drawable.home_green_icon);
+            icHome.setImageResource(R.drawable.home_active);
         }
 
     }
@@ -192,22 +194,22 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                     if (responseCode == 109) {
                         if (checkStaffPermissionResponse.getData().equals("true")) {
                             if (permissionId.equals("9")) {
-                                icHome.setImageResource(R.drawable.home_normal_icon);
-                                icProfile.setImageResource(R.drawable.profile_normal_icon);
-                                icPetRegister.setImageResource(R.drawable.pet_green_icon);
-                                icAppointment.setImageResource(R.drawable.appointment_normal_icon);
+                                icHome.setImageResource(R.drawable.home_inactive);
+                                icProfile.setImageResource(R.drawable.profile_inactive);
+                                icPetRegister.setImageResource(R.drawable.pet_active);
+                                icAppointment.setImageResource(R.drawable.appointment_inactive);
                                 PetRegisterFragment petRegisterFragment = new PetRegisterFragment();
                                 FragmentTransaction ftPetRegister = getSupportFragmentManager().beginTransaction();
                                 ftPetRegister.replace(R.id.content_frame, petRegisterFragment);
                                 ftPetRegister.commit();
                             } else if (permissionId.equals("16")) {
-                                icHome.setImageResource(R.drawable.home_normal_icon);
-                                icProfile.setImageResource(R.drawable.profile_normal_icon);
-                                icPetRegister.setImageResource(R.drawable.pet_normal_icon);
-                                icAppointment.setImageResource(R.drawable.appointment_green_icon);
-                                AppointementFragment appointementFragment = new AppointementFragment();
+                                icHome.setImageResource(R.drawable.home_inactive);
+                                icProfile.setImageResource(R.drawable.profile_inactive);
+                                icPetRegister.setImageResource(R.drawable.pet_inactive);
+                                icAppointment.setImageResource(R.drawable.appointment_active);
+                                VetAppointmentsFragment VetAppointmentsFragment = new VetAppointmentsFragment();
                                 FragmentTransaction ftAppointment = getSupportFragmentManager().beginTransaction();
-                                ftAppointment.replace(R.id.content_frame, appointementFragment);
+                                ftAppointment.replace(R.id.content_frame, VetAppointmentsFragment);
                                 ftAppointment.commit();
                             }
                         } else {
@@ -273,10 +275,10 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
 
             case R.id.homeRL:
                 Config.count = 1;
-                icHome.setImageResource(R.drawable.home_green_icon);
-                icProfile.setImageResource(R.drawable.profile_normal_icon);
-                icPetRegister.setImageResource(R.drawable.pet_normal_icon);
-                icAppointment.setImageResource(R.drawable.appointment_normal_icon);
+                icHome.setImageResource(R.drawable.home_active);
+                icProfile.setImageResource(R.drawable.profile_inactive);
+                icPetRegister.setImageResource(R.drawable.pet_inactive);
+                icAppointment.setImageResource(R.drawable.appointment_inactive);
                 HomeFragment homeFragment = new HomeFragment();
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.content_frame, homeFragment);
@@ -286,10 +288,10 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
 
             case R.id.profileRL:
                 Config.count = 0;
-                icHome.setImageResource(R.drawable.home_normal_icon);
-                icProfile.setImageResource(R.drawable.profile_green_icon);
-                icPetRegister.setImageResource(R.drawable.pet_normal_icon);
-                icAppointment.setImageResource(R.drawable.appointment_normal_icon);
+                icHome.setImageResource(R.drawable.home_inactive);
+                icProfile.setImageResource(R.drawable.profile_active);
+                icPetRegister.setImageResource(R.drawable.pet_inactive);
+                icAppointment.setImageResource(R.drawable.appointment_inactive);
                 ProfileFragment profileFragment = new ProfileFragment();
                 FragmentTransaction ftProfile = getSupportFragmentManager().beginTransaction();
                 ftProfile.replace(R.id.content_frame, profileFragment);
@@ -314,10 +316,10 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                     ApiService<CheckStaffPermissionResponse> service = new ApiService<>();
                     service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token, url), "CheckPermission");
                 } else if (userTYpe.equals("Veterinarian")) {
-                    icHome.setImageResource(R.drawable.home_normal_icon);
-                    icProfile.setImageResource(R.drawable.profile_normal_icon);
-                    icPetRegister.setImageResource(R.drawable.pet_green_icon);
-                    icAppointment.setImageResource(R.drawable.appointment_normal_icon);
+                    icHome.setImageResource(R.drawable.home_inactive);
+                    icProfile.setImageResource(R.drawable.profile_inactive);
+                    icPetRegister.setImageResource(R.drawable.pet_active);
+                    icAppointment.setImageResource(R.drawable.appointment_inactive);
                     PetRegisterFragment petRegisterFragment = new PetRegisterFragment();
                     FragmentTransaction ftPetRegister = getSupportFragmentManager().beginTransaction();
                     ftPetRegister.replace(R.id.content_frame, petRegisterFragment);
@@ -344,13 +346,13 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                     ApiService<CheckStaffPermissionResponse> service = new ApiService<>();
                     service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token, url), "CheckPermission");
                 } else if (userTYpe.equals("Veterinarian")) {
-                    icHome.setImageResource(R.drawable.home_normal_icon);
-                    icProfile.setImageResource(R.drawable.profile_normal_icon);
-                    icPetRegister.setImageResource(R.drawable.pet_normal_icon);
-                    icAppointment.setImageResource(R.drawable.appointment_green_icon);
-                    AppointementFragment appointementFragment = new AppointementFragment();
+                    icHome.setImageResource(R.drawable.home_inactive);
+                    icProfile.setImageResource(R.drawable.profile_inactive);
+                    icPetRegister.setImageResource(R.drawable.pet_inactive);
+                    icAppointment.setImageResource(R.drawable.appointment_active);
+                    VetAppointmentsFragment VetAppointmentsFragment = new VetAppointmentsFragment();
                     FragmentTransaction ftAppointment = getSupportFragmentManager().beginTransaction();
-                    ftAppointment.replace(R.id.content_frame, appointementFragment);
+                    ftAppointment.replace(R.id.content_frame, VetAppointmentsFragment);
                     ftAppointment.commit();
                 }
 
@@ -396,10 +398,10 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
             ft.replace(R.id.content_frame, homeFragment);
             ft.commit();
             getSupportFragmentManager().popBackStack();
-            icHome.setImageResource(R.drawable.home_green_icon);
-            icProfile.setImageResource(R.drawable.profile_normal_icon);
-            icPetRegister.setImageResource(R.drawable.pet_normal_icon);
-            icAppointment.setImageResource(R.drawable.appointment_normal_icon);
+            icHome.setImageResource(R.drawable.home_active);
+            icProfile.setImageResource(R.drawable.profile_inactive);
+            icPetRegister.setImageResource(R.drawable.pet_inactive);
+            icAppointment.setImageResource(R.drawable.appointment_inactive);
         }
     }
 

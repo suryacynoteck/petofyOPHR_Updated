@@ -180,7 +180,7 @@
                     android:layout_height="30dp"
                     android:layout_weight="1"
                     android:layout_marginBottom="10dp"
-                    android:background="@drawable/green_border_button"
+                    android:background="@drawable/blue_border_button"
                     android:text="@string/viewDetails"
                     android:textColor="@color/colorPrimary" />
 
@@ -203,7 +203,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_marginBottom="10dp"
-                    android:background="@drawable/green_border_button"
+                    android:background="@drawable/blue_border_button"
                     android:text="ADD CLINIC"
                     android:textColor="@color/colorPrimary" />
 

@@ -14,6 +14,8 @@ public class Config {
     public  static  int count =1;
     public static String token="";
     public static String user_id="";
+    public static String vet_first_name="";
+    public static String vet_last_name="";
     public static String user_Veterian_name="";
     public static String user_Veterian_phone="";
     public static String user_Veterian_emial="";

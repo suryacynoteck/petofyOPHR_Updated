@@ -66,9 +66,9 @@ public class PetRegisterFragment extends Fragment implements ApiResponse, ViewDe
     ImageView empty_IV, search_register_pet, back_arrow_IV;
     RegisterPetAdapter registerPetAdapter;
     private ShimmerFrameLayout mShimmerViewContainer;
-    RelativeLayout search_boxRL;
+    RelativeLayout search_boxRL,addNewEntry;
     AutoCompleteTextView search_box;
-    TextView regiter_pet_headline_TV, register_add_TV;
+    TextView regiter_pet_headline_TV;
     NestedScrollView nestedScrollView;
     ProgressBar progressBar;
     int page = 1, pagelimit = 10;
@@ -140,20 +140,19 @@ public class PetRegisterFragment extends Fragment implements ApiResponse, ViewDe
         empty_IV = view.findViewById(R.id.empty_IV);
         materialCardView = view.findViewById(R.id.toolbar);
         register_pet_RV = view.findViewById(R.id.register_pet_RV);
-        register_add_TV = view.findViewById(R.id.register_add_TV);
-        search_register_pet = view.findViewById(R.id.search_register_pet);
-        back_arrow_IV = view.findViewById(R.id.back_arrow_IV);
+        addNewEntry = view.findViewById(R.id.addNewEntry);
+//        search_register_pet = view.findViewById(R.id.search_register_pet);
         search_boxRL = view.findViewById(R.id.search_boxRL);
-        search_box = view.findViewById(R.id.search_box);
+        search_box = view.findViewById(R.id.search_box_TV);
         regiter_pet_headline_TV = view.findViewById(R.id.regiter_pet_headline_TV);
 
         nestedScrollView = view.findViewById(R.id.nested_scroll_view);
         progressBar = view.findViewById(R.id.progressBar);
 
+        mShimmerViewContainer.setVisibility(View.VISIBLE);
+        mShimmerViewContainer.startShimmerAnimation();
         methods = new Methods(getContext());
-        register_add_TV.setOnClickListener(this);
-        search_register_pet.setOnClickListener(this);
-        back_arrow_IV.setOnClickListener(this);
+        addNewEntry.setOnClickListener(this);
         search_box.addTextChangedListener(this);
 
         profileList = new ArrayList<>();
@@ -210,7 +209,7 @@ public class PetRegisterFragment extends Fragment implements ApiResponse, ViewDe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.register_add_TV:
+            case R.id.addNewEntry:
                 userTYpe = sharedPreferences.getString("user_type", "");
                 if (userTYpe.equals("Vet Staff")) {
                     Gson gson = new Gson();
@@ -232,20 +231,8 @@ public class PetRegisterFragment extends Fragment implements ApiResponse, ViewDe
                 }
 
                 break;
-            case R.id.search_register_pet:
 
-                search_boxRL.setVisibility(View.VISIBLE);
-                search_box.requestFocus();
-                search_register_pet.setVisibility(View.GONE);
-                back_arrow_IV.setVisibility(View.VISIBLE);
-                regiter_pet_headline_TV.setVisibility(View.GONE);
-                register_add_TV.setVisibility(View.GONE);
-                break;
 
-            case R.id.back_arrow_IV:
-                search_register_pet.setVisibility(View.VISIBLE);
-                clearSearch();
-                break;
         }
 
     }
@@ -500,7 +487,7 @@ public class PetRegisterFragment extends Fragment implements ApiResponse, ViewDe
         search_boxRL.setVisibility(View.GONE);
         back_arrow_IV.setVisibility(View.GONE);
         regiter_pet_headline_TV.setVisibility(View.VISIBLE);
-        register_add_TV.setVisibility(View.VISIBLE);
+        addNewEntry.setVisibility(View.VISIBLE);
         InputMethodManager imm1 = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm1.hideSoftInputFromWindow(search_box.getWindowToken(), 0);
     }

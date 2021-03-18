@@ -208,8 +208,8 @@ public class AppointementFragment extends Fragment implements ApiResponse ,View.
                                 Log.d("Add Anotheer Veterian","vet");
                                 AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                                 alertDialog.setTitle("");
-                                alertDialog.setMessage("Do you want to approve this appointment?");
-                                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Approve",
+                                alertDialog.setMessage("Do you want to confirm this appointment ?");
+                                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Confirm",
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int which) {
                                                 status = "true";

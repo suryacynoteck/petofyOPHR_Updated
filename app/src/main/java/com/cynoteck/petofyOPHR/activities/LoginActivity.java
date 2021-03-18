@@ -444,6 +444,8 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
         password_TIET.getText().clear();
         sharedPreferences = LoginActivity.this.getSharedPreferences("userdetails", 0);
         login_editor = sharedPreferences.edit();
+        login_editor.putString("first_name", responseLogin.getData().getFirstName());
+        login_editor.putString("last_name", responseLogin.getData().getLastName());
         login_editor.putString("email", responseLogin.getData().getEmail());
         login_editor.putString("user_type", responseLogin.getData().getUserRole());
         login_editor.putString("userId", responseLogin.getData().getUserId());
