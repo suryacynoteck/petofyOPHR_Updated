@@ -21,15 +21,18 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.cynoteck.petofyOPHR.R;
 import com.cynoteck.petofyOPHR.adapters.ImmunizationHistoryAdopter;
 import com.cynoteck.petofyOPHR.adapters.VaccineTypeAdapter;
@@ -67,13 +70,10 @@ import java.util.HashMap;
 import retrofit2.Response;
 
 public class PetDetailsActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse, ImmunizationOnclickListener {
-    String pet_id, pet_name, patent_name, pet_bread, pet_unique_id = "", pet_sex = "", pet_age = "", pet_DOB = "", pet_encrypted_id = "", lastVisitEncryptedId = "", pet_cat_id = "";
-    TextView pet_nameTV, pet_parentNameTV, pet_id_TV;
-    ImageView back_arrow_IV, view_clinicVisits_arrow, view_xrayReport_arrow, view_labTestReport_arrow, view_Hospitalization_arrow, last_prescription_arrow, recent_visits_arrow, print_id_card_arrow, view_history_arrow;
-    CardView clinic_test, xray_test, lab_test_report, hospitalization_sugeries, last_prescription, print_id_card, view_history, immunization_CV;
+    String pet_image_url, pet_id, pet_name, patent_name, pet_bread, pet_unique_id = "", pet_sex = "", pet_age = "", pet_DOB = "", pet_encrypted_id = "", lastVisitEncryptedId = "", pet_cat_id = "";
     Methods methods;
     WebView webview;
-
+    RelativeLayout back_arrow_RL;
     ArrayList<String> nextVisitList = new ArrayList<>();
     private ArrayList<ImmunizationHistorymodel> getImmunizationHistory;
     private ArrayList<GetVaccineResponseModel> getVaccineResponseModels;
@@ -90,6 +90,10 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
     String permissionId = "";
     Dialog vaccineDetailsDialog;
 
+    ImageView petRegImage_IV;
+    TextView pet_reg_name_TV, pet_reg_date_of_birth_TV, parent_name_TV, pet_reg__id_TV;
+    ConstraintLayout add_record_CL, last_visit_CL, immunization_chart_CL, print_id_card_CL, view_history_CL;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +102,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
         methods = new Methods(this);
         Bundle extras = getIntent().getExtras();
         pet_id = extras.getString("pet_id");
+        pet_image_url = extras.getString("pet_image_url");
         pet_name = extras.getString("pet_name");
         patent_name = extras.getString("pet_parent");
         pet_unique_id = extras.getString("pet_unique_id");
@@ -109,44 +114,28 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
         lastVisitEncryptedId = extras.getString("lastVisitEncryptedId");
         Log.d("PET_DETAILS", "" + pet_DOB + " " + pet_id + " " + " " + pet_encrypted_id + " " + pet_cat_id + " " + lastVisitEncryptedId);
 
-        pet_nameTV = findViewById(R.id.pet_name_TV);
-        pet_parentNameTV = findViewById(R.id.pet_owner_name_TV);
-        back_arrow_IV = findViewById(R.id.back_arrow_IV);
-        pet_id_TV = findViewById(R.id.pet_id_TV);
-        view_Hospitalization_arrow = findViewById(R.id.view_Hospitalization_arrow);
-        hospitalization_sugeries = findViewById(R.id.hospitalization_sugeries);
-        clinic_test = findViewById(R.id.clinic_test);
-        recent_visits_arrow = findViewById(R.id.recent_visits_arrow);
-        print_id_card_arrow = findViewById(R.id.print_id_card_arrow);
-        print_id_card = findViewById(R.id.print_id_card);
-        view_clinicVisits_arrow = findViewById(R.id.view_clinicVisits_arrow);
-        last_prescription = findViewById(R.id.last_prescription);
-        view_history_arrow = findViewById(R.id.view_history_arrow);
-        view_history = findViewById(R.id.view_history);
-        immunization_CV = findViewById(R.id.immunization_CV);
-        view_xrayReport_arrow = findViewById(R.id.view_xrayReport_arrow);
-        xray_test = findViewById(R.id.xray_test);
-        view_labTestReport_arrow = findViewById(R.id.view_labTestReport_arrow);
-        lab_test_report = findViewById(R.id.lab_test_report);
-        last_prescription_arrow = findViewById(R.id.last_prescription_arrow);
+        back_arrow_RL = findViewById(R.id.back_arrow_RL);
+        petRegImage_IV = findViewById(R.id.petRegImage_IV);
+        pet_reg_name_TV = findViewById(R.id.pet_reg_name_TV);
+        pet_reg_date_of_birth_TV = findViewById(R.id.pet_reg_date_of_birth_TV);
+        parent_name_TV = findViewById(R.id.parent_name_TV);
+        pet_reg__id_TV = findViewById(R.id.pet_reg__id_TV);
+        add_record_CL = findViewById(R.id.add_record_CL);
+        last_visit_CL = findViewById(R.id.last_visit_CL);
+        immunization_chart_CL = findViewById(R.id.immunization_chart_CL);
+        print_id_card_CL = findViewById(R.id.print_id_card_CL);
+        view_history_CL = findViewById(R.id.view_history_CL);
+
+
         webview = findViewById(R.id.webview);
 
-        view_clinicVisits_arrow.setOnClickListener(this);
-        view_labTestReport_arrow.setOnClickListener(this);
-        lab_test_report.setOnClickListener(this);
-        view_Hospitalization_arrow.setOnClickListener(this);
-        hospitalization_sugeries.setOnClickListener(this);
-        clinic_test.setOnClickListener(this);
-        recent_visits_arrow.setOnClickListener(this);
-        print_id_card_arrow.setOnClickListener(this);
-        print_id_card.setOnClickListener(this);
-        view_history_arrow.setOnClickListener(this);
-        view_history.setOnClickListener(this);
-        immunization_CV.setOnClickListener(this);
-        back_arrow_IV.setOnClickListener(this);
-        last_prescription.setOnClickListener(this);
-        view_xrayReport_arrow.setOnClickListener(this);
-        xray_test.setOnClickListener(this);
+        back_arrow_RL.setOnClickListener(this);
+        add_record_CL.setOnClickListener(this);
+        last_visit_CL.setOnClickListener(this);
+        immunization_chart_CL.setOnClickListener(this);
+        print_id_card_CL.setOnClickListener(this);
+        view_history_CL.setOnClickListener(this);
+
         sharedPreferences = getSharedPreferences("userdetails", 0);
 
         if (methods.isInternetOn()) {
@@ -157,110 +146,50 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
             methods.DialogInternet();
         }
 
-        pet_nameTV.setText(pet_name.substring(0, 1).toUpperCase() + pet_name.substring(1) + "(" + pet_sex + ")");
-        pet_parentNameTV.setText(patent_name);
-        pet_id_TV.setText(pet_unique_id);
+        pet_reg_name_TV.setText(pet_name.substring(0, 1).toUpperCase() + pet_name.substring(1) + " (" + pet_sex + ")");
+        parent_name_TV.setText(patent_name);
+        pet_reg__id_TV.setText(pet_unique_id);
+        pet_reg_date_of_birth_TV.setText(pet_DOB);
+        Glide.with(this)
+                .load(pet_image_url)
+                .placeholder(R.drawable.dummy_dog_image)
+                .into(petRegImage_IV);
+
     }
 
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.xray_test:
-                Intent petDetailsXray = new Intent(this, NewEntrysDetailsActivity.class);
-                Bundle dataXray = new Bundle();
-                dataXray.putString("pet_id", pet_id);
-                dataXray.putString("pet_name", pet_name);
-                dataXray.putString("pet_parent", patent_name);
-                dataXray.putString("pet_unique_id", pet_unique_id);
-                dataXray.putString("reports_id", "7.0");
-                dataXray.putString("pet_sex", pet_sex);
-                dataXray.putString("pet_age", pet_age);
-                dataXray.putString("pet_DOB", pet_DOB);
-                dataXray.putString("pet_encrypted_id", pet_encrypted_id);
-                dataXray.putString("add_button_text", "Test/X-rays");
-                dataXray.putString("button_type", "update");
-                petDetailsXray.putExtras(dataXray);
-                startActivity(petDetailsXray);
-                break;
-            case R.id.lab_test_report:
-                Intent petDetailsLabWork = new Intent(this, NewEntrysDetailsActivity.class);
-                Bundle dataLabwork = new Bundle();
-                dataLabwork.putString("pet_id", pet_id);
-                dataLabwork.putString("pet_name", pet_name);
-                dataLabwork.putString("pet_parent", patent_name);
-                dataLabwork.putString("pet_unique_id", pet_unique_id);
-                dataLabwork.putString("reports_id", "8.0");
-                dataLabwork.putString("pet_sex", pet_sex);
-                dataLabwork.putString("pet_age", pet_age);
-                dataLabwork.putString("pet_DOB", pet_DOB);
-                dataLabwork.putString("pet_encrypted_id", pet_encrypted_id);
-                dataLabwork.putString("button_type", "update");
-                dataLabwork.putString("add_button_text", "Lab Work");
-                petDetailsLabWork.putExtras(dataLabwork);
-                startActivity(petDetailsLabWork);
-                break;
-            case R.id.hospitalization_sugeries:
-                Intent petDetailsHospitalization = new Intent(this, NewEntrysDetailsActivity.class);
-                Bundle dataLabworkHospitalization = new Bundle();
-                dataLabworkHospitalization.putString("pet_id", pet_id);
-                dataLabworkHospitalization.putString("pet_name", pet_name);
-                dataLabworkHospitalization.putString("pet_parent", patent_name);
-                dataLabworkHospitalization.putString("pet_unique_id", pet_unique_id);
-                dataLabworkHospitalization.putString("reports_id", "9.0");
-                dataLabworkHospitalization.putString("pet_sex", pet_sex);
-                dataLabworkHospitalization.putString("pet_age", pet_age);
-                dataLabworkHospitalization.putString("pet_DOB", pet_DOB);
-                dataLabworkHospitalization.putString("pet_encrypted_id", pet_encrypted_id);
-                dataLabworkHospitalization.putString("button_type", "update");
-                dataLabworkHospitalization.putString("add_button_text", "Hospitalization");
-                petDetailsHospitalization.putExtras(dataLabworkHospitalization);
-                startActivity(petDetailsHospitalization);
-                break;
-            case R.id.view_history:
+            case R.id.view_history_CL:
                 Intent petHistory = new Intent(this, SelectPetReportsActivity.class);
                 Bundle dataHistry = new Bundle();
-//        Toast.makeText(getContext(), ""+profileList.get(position).getId(), Toast.LENGTH_SHORT).show();
                 dataHistry.putString("pet_id", pet_id.substring(0, pet_id.length() - 2));
-                dataHistry.putString("pet_name",pet_name);
-                dataHistry.putString("pet_unique_id",pet_unique_id);
-                dataHistry.putString("pet_sex",pet_sex);
-                dataHistry.putString("pet_owner_name",patent_name);
-                dataHistry.putString("pet_owner_contact","");
-                dataHistry.putString("pet_DOB",pet_DOB);
-                dataHistry.putString("pet_encrypted_id",pet_encrypted_id);
+                dataHistry.putString("pet_name", pet_name);
+                dataHistry.putString("pet_unique_id", pet_unique_id);
+                dataHistry.putString("pet_sex", pet_sex);
+                dataHistry.putString("pet_owner_name", patent_name);
+                dataHistry.putString("pet_owner_contact", "");
+                dataHistry.putString("pet_DOB", pet_DOB);
+                dataHistry.putString("pet_encrypted_id", pet_encrypted_id);
                 petHistory.putExtras(dataHistry);
                 startActivity(petHistory);
-                overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
 
                 break;
-            case R.id.immunization_CV:
+            case R.id.immunization_chart_CL:
                 vaccineDetailsDialog();
                 break;
-            case R.id.recent_visits_arrow:
-                Intent petDetailsLabVisits = new Intent(this, NewEntrysDetailsActivity.class);
-                Bundle dataLabworkVisits = new Bundle();
-                dataLabworkVisits.putString("pet_id", pet_id);
-                dataLabworkVisits.putString("pet_name", pet_name);
-                dataLabworkVisits.putString("pet_parent", patent_name);
-                dataLabworkVisits.putString("pet_unique_id", pet_unique_id);
-                dataLabworkVisits.putString("reports_id", "11.0");
-                dataLabworkVisits.putString("pet_sex", pet_sex);
-                dataLabworkVisits.putString("pet_age", pet_age);
-                dataLabworkVisits.putString("pet_DOB", pet_DOB);
-                dataLabworkVisits.putString("pet_encrypted_id", pet_encrypted_id);
-                dataLabworkVisits.putString("add_button_text", "RecentVisit");
-                petDetailsLabVisits.putExtras(dataLabworkVisits);
-                startActivity(petDetailsLabVisits);
-                break;
-            case R.id.print_id_card:
+
+            case R.id.print_id_card_CL:
                 Intent intent = new Intent(this, PetIdCardActivity.class);
                 Bundle dataLabworkIdCard = new Bundle();
                 dataLabworkIdCard.putString("id", pet_id);
                 intent.putExtras(dataLabworkIdCard);
                 startActivity(intent);
                 break;
-            case R.id.clinic_test:
+
+            case R.id.add_record_CL:
                 String userTYpe = sharedPreferences.getString("user_type", "");
                 if (userTYpe.equals("Vet Staff")) {
                     Gson gson = new Gson();
@@ -290,13 +219,18 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                     dataClinicVisits.putString("pet_DOB", pet_DOB);
                     dataClinicVisits.putString("pet_encrypted_id", pet_encrypted_id);
                     dataClinicVisits.putString("pet_cat_id", pet_cat_id);
+                    dataClinicVisits.putString("pet_DOB", pet_DOB);
+                    dataClinicVisits.putString("pet_encrypted_id", pet_encrypted_id);
+                    dataClinicVisits.putString("pet_cat_id", pet_cat_id);
+                    dataClinicVisits.putString("pet_image_url", pet_image_url);
                     petDetailsClinicVisits.putExtras(dataClinicVisits);
                     startActivity(petDetailsClinicVisits);
                 }
 
                 break;
-            case R.id.last_prescription:
-                if (lastVisitEncryptedId==null) {
+
+            case R.id.last_visit_CL:
+                if (lastVisitEncryptedId == null) {
                     Toast.makeText(this, "No record found!", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent lastPrescriptionIntent = new Intent(this, PdfEditorActivity.class);
@@ -304,7 +238,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                     startActivity(lastPrescriptionIntent);
                 }
                 break;
-            case R.id.back_arrow_IV:
+            case R.id.back_arrow_RL:
                 onBackPressed();
                 Config.backCall = "hitUnique";
                 break;
@@ -519,7 +453,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                             Log.e("aaaaaa", vaccineClass.toString());
                             Log.e("aaaaaa", vaccine.toString());
                             methods.customProgressDismiss();
-                            String immunizationSet = methods.immunizationPdfGenarator(pet_name, pet_age, pet_sex, pet_parentNameTV.getText().toString(), Config.user_verterian_reg_no, vType, vaccine, nextDate, vTypePending, vaccinePending, nextDatePending);
+                            String immunizationSet = methods.immunizationPdfGenarator(pet_name, pet_age, pet_sex, parent_name_TV.getText().toString(), Config.user_verterian_reg_no, vType, vaccine, nextDate, vTypePending, vaccinePending, nextDatePending);
                             WebSettings webSettings = webview.getSettings();
                             webSettings.setJavaScriptEnabled(true);
                             webview.loadDataWithBaseURL(null, immunizationSet, "text/html", "utf-8", null);

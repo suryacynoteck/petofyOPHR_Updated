@@ -140,15 +140,40 @@
 
 
 
-            <View
-                android:id="@+id/view_reg_pet_details_BT"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="0.5"
-                android:background="@color/placeholder_bg"
-                android:text="@string/viewDetails"
-                android:textColor="@color/whiteColor" />
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal">
+
+                <View
+                    android:id="@+id/view_reg_pet_details_BT"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="0.5"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/placeholder_bg"
+                    android:text="@string/viewDetails"
+                    android:textColor="@color/whiteColor" />
+
+                <View
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:id="@+id/view_reg_pet_details_B_2T"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="0.5"
+                    android:background="@color/placeholder_bg"
+                    android:text="@string/viewDetails"
+                    android:textColor="@color/whiteColor" />
+
+            </LinearLayout>
+
+
         </LinearLayout>
 
 

@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:shimmer="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/whiteColor">
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/back_arrow_CV"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:elevation="5dp"
+        app:cardElevation="10dp"
+        android:background="@color/whiteColor"
+        android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+        app:cardCornerRadius="10dp"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/toolbar">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"
+            android:background="@drawable/background_grey"
+            android:scaleType="fitXY"
+            android:visibility="visible" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:src="@drawable/black_back_arrow"
+            android:visibility="visible" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="15dp"
+        android:elevation="1dp"
+        android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:fontFamily="@font/nunito"
+            android:gravity="center"
+            android:text="STAFF"
+            android:textColor="@color/gray_2"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="320dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="15dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/staff_groups"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/materialCardView"
+        style="@style/CustomCardViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="240dp"
+        android:background="@color/whiteColor"
+        android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+        app:cardElevation="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible">
+
+            <TextView
+                android:id="@+id/total_no_of_staff_TV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/nunito_bold"
+                android:text="You have total 8 staff registered"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
+                android:visibility="invisible"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/search_and_bar_ll"
+                android:layout_width="0dp"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="20dp"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/total_no_of_staff_TV"
+                app:layout_constraintTop_toBottomOf="@id/total_no_of_staff_TV">
+
+                <RelativeLayout
+                    android:id="@+id/search_boxRL"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_centerVertical="true"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/vet_info_bg"
+                    android:visibility="visible">
+
+                    <ImageView
+                        android:id="@+id/search_IV"
+                        android:layout_width="25dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="18dp"
+                        android:src="@drawable/search_icon" />
+
+
+                    <EditText
+                        android:id="@+id/search_box_ET"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/search_IV"
+                        android:background="@null"
+                        android:gravity="center_vertical"
+                        android:hint="Search by typing staff name.."
+                        android:imeOptions="actionSearch"
+                        android:inputType="text"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="8dp"
+                        android:singleLine="true"
+                        android:textAllCaps="false"
+                        android:textSize="11.09sp" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/add_satff_RL"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1.5"
+                    android:background="@drawable/vet_info_bg"
+                    android:padding="9dp"
+                    android:visibility="visible">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/reactangle_white" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/add_pet" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/all_staff_List_RV"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="10dp"
+                android:elevation="10dp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/search_and_bar_ll"
+                tools:listitem="@layout/all_staff_list" />
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer_view_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@+id/search_and_bar_ll"
+                shimmer:duration="800">
+
+                <!-- Adding 3 rows of placeholders -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <include layout="@layout/satff_list_shimmer_list" />
+
+                    <include layout="@layout/satff_list_shimmer_list" />
+
+                    <include layout="@layout/satff_list_shimmer_list" />
+
+                    <include layout="@layout/satff_list_shimmer_list" />
+
+                    <include layout="@layout/satff_list_shimmer_list" />
+
+                    <include layout="@layout/satff_list_shimmer_list" />
+
+                    <include layout="@layout/satff_list_shimmer_list" />
+
+                    <include layout="@layout/satff_list_shimmer_list" />
+
+
+                    <include layout="@layout/satff_list_shimmer_list" />
+
+                </LinearLayout>
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+    <!--    <com.facebook.shimmer.ShimmerFrameLayout-->
+    <!--        android:layout_below="@+id/toolbar"-->
+    <!--        android:id="@+id/shimmer_view_container"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_gravity="center"-->
+    <!--        android:orientation="vertical"-->
+    <!--        shimmer:duration="800">-->
+
+    <!--        &lt;!&ndash; Adding 3 rows of placeholders &ndash;&gt;-->
+    <!--        <LinearLayout-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:orientation="vertical">-->
+
+    <!--            <include layout="@layout/list_loading_style" />-->
+
+    <!--            <include layout="@layout/list_loading_style" />-->
+
+    <!--            <include layout="@layout/list_loading_style" />-->
+
+    <!--            <include layout="@layout/list_loading_style" />-->
+    <!--            <include layout="@layout/list_loading_style" />-->
+    <!--            <include layout="@layout/list_loading_style" />-->
+    <!--            <include layout="@layout/list_loading_style" />-->
+    <!--            <include layout="@layout/list_loading_style" />-->
+
+
+    <!--            <include layout="@layout/list_loading_style" />-->
+
+    <!--        </LinearLayout>-->
+
+    <!--    </com.facebook.shimmer.ShimmerFrameLayout>-->
+
+    <!--    <androidx.recyclerview.widget.RecyclerView-->
+    <!--        android:id="@+id/all_staff_List_RV"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_below="@+id/toolbar"/>-->
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

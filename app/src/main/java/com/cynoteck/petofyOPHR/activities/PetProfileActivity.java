@@ -20,8 +20,6 @@ import com.cynoteck.petofyOPHR.R;
 import com.cynoteck.petofyOPHR.api.ApiClient;
 import com.cynoteck.petofyOPHR.api.ApiResponse;
 import com.cynoteck.petofyOPHR.api.ApiService;
-import com.cynoteck.petofyOPHR.fragments.AllStaffFragment;
-import com.cynoteck.petofyOPHR.fragments.AppointementFragment;
 import com.cynoteck.petofyOPHR.params.getPetListRequest.GetPetListParams;
 import com.cynoteck.petofyOPHR.params.getPetListRequest.GetPetListRequest;
 import com.cynoteck.petofyOPHR.response.getPetDetailsResponse.GetPetResponse;

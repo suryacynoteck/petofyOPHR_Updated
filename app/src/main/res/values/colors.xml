@@ -30,4 +30,10 @@
 
     <color name="myColorTransparent" alpha="0.10">#ff853d</color>
 
+    <color name="light_yellow">#ff853d</color>
+
+    <color name="edit_text_border">#e0e0e0</color>
+
+    <color name="dark_green">#04E762</color>
+
 </resources>

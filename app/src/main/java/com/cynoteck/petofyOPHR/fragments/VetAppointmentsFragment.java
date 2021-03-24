@@ -155,7 +155,28 @@ public class VetAppointmentsFragment extends Fragment implements HorizontalCalen
         switch (v.getId()) {
 
             case R.id.add_appointment_RL:
-                Toast.makeText(getContext(), "ADD", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), "ADD", Toast.LENGTH_SHORT).show();
+                String userTYpe = sharedPreferences.getString("user_type", "");
+                if (userTYpe.equals("Vet Staff")){
+                    Gson gson = new Gson();
+                    String json = sharedPreferences.getString("userPermission", null);
+                    Type type = new TypeToken<ArrayList<UserPermissionMasterList>>() {}.getType();
+                    ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
+                    Log.e("ArrayList",arrayList.toString());
+                    Log.d("UserType",userTYpe);
+                    permissionId = "11";
+                    methods.showCustomProgressBarDialog(getContext());
+                    String url  = "user/CheckStaffPermission/"+permissionId;
+                    Log.e("URL",url);
+                    ApiService<CheckStaffPermissionResponse> service = new ApiService<>();
+                    service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token,url), "CheckPermission");
+                }else if (userTYpe.equals("Veterinarian")){
+                    Intent intent = new Intent(getContext(), AddUpdateAppointmentActivity.class);
+                    intent.putExtra("type","add");
+                    intent.putExtra("id","");
+                    intent.putExtra("pet_id","");
+                    startActivity(intent);
+                }
                 break;
 
             case R.id.edit_appointment_charge_RL:

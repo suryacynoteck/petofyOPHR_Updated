@@ -1,14 +1,10 @@
 package com.cynoteck.petofyOPHR.fragments;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -17,13 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,27 +25,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cynoteck.petofyOPHR.R;
 import com.cynoteck.petofyOPHR.activities.AddNewPetActivity;
-import com.cynoteck.petofyOPHR.activities.LoginActivity;
 import com.cynoteck.petofyOPHR.activities.PetDetailsActivity;
 import com.cynoteck.petofyOPHR.activities.SearchActivity;
+import com.cynoteck.petofyOPHR.activities.StaffListActivity;
 import com.cynoteck.petofyOPHR.api.ApiClient;
 import com.cynoteck.petofyOPHR.api.ApiResponse;
 import com.cynoteck.petofyOPHR.api.ApiService;
 import com.cynoteck.petofyOPHR.params.checkpetInVetRegister.InPetRegisterRequest;
-import com.cynoteck.petofyOPHR.params.checkpetInVetRegister.InPetregisterParams;
 import com.cynoteck.petofyOPHR.params.newPetEntryParams.NewPetParams;
 import com.cynoteck.petofyOPHR.params.newPetEntryParams.NewPetRequest;
 import com.cynoteck.petofyOPHR.params.otpRequest.SendOtpParameter;
 import com.cynoteck.petofyOPHR.params.otpRequest.SendOtpRequest;
-import com.cynoteck.petofyOPHR.params.petReportsRequest.PetDataParams;
-import com.cynoteck.petofyOPHR.params.petReportsRequest.PetDataRequest;
 import com.cynoteck.petofyOPHR.response.InPetVeterian.InPetVeterianResponse;
-import com.cynoteck.petofyOPHR.response.getPetReportsResponse.getPetListResponse.GetPetListResponse;
 import com.cynoteck.petofyOPHR.response.loginRegisterResponse.UserPermissionMasterList;
 import com.cynoteck.petofyOPHR.response.newPetResponse.NewPetRegisterResponse;
 import com.cynoteck.petofyOPHR.response.otpResponse.OtpResponse;
 import com.cynoteck.petofyOPHR.response.staffPermissionListResponse.CheckStaffPermissionResponse;
-import com.cynoteck.petofyOPHR.response.updateProfileResponse.CityResponse;
 import com.cynoteck.petofyOPHR.utils.Config;
 import com.cynoteck.petofyOPHR.utils.Methods;
 import com.google.android.material.textfield.TextInputEditText;
@@ -66,7 +51,6 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.StringTokenizer;
 
 import retrofit2.Response;
 
@@ -215,8 +199,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
                     ApiService<CheckStaffPermissionResponse> service = new ApiService<>();
                     service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token,url), "CheckPermission");
                 }else if (userTYpe.equals("Veterinarian")){
-                    AllStaffFragment allStaffFragment = new AllStaffFragment();
-                    replaceFragment(allStaffFragment);
+                   Intent staffIntent = new Intent(getContext(), StaffListActivity.class);
+                   startActivity(staffIntent);
 
                 }
 
@@ -304,8 +288,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
                                 addNewPetIntent.putExtra("appointment","");
                                 startActivity(addNewPetIntent);
                             }else if (permissionId.equals("15")){
-                                AllStaffFragment allStaffFragment = new AllStaffFragment();
-                                replaceFragment(allStaffFragment);
+                                Intent staffIntent = new Intent(getContext(), StaffListActivity.class);
+                                startActivity(staffIntent);
                             }
                         }else {
                             Toast.makeText(context, "Permission not Granted!!", Toast.LENGTH_SHORT).show();

@@ -476,6 +476,7 @@ public class PetRegisterFragment extends Fragment implements ApiResponse, ViewDe
         data.putString("pet_encrypted_id", profileList.get(position).getEncryptedId());
         data.putString("pet_cat_id", profileList.get(position).getPetCategoryId());
         data.putString("lastVisitEncryptedId", profileList.get(position).getLastVisitEncryptedId());
+        data.putString("pet_image_url", profileList.get(position).getPetProfileImageUrl());
 
         petDetailsIntent.putExtras(data);
         startActivity(petDetailsIntent);

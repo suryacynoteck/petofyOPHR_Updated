@@ -91,7 +91,7 @@ import java.util.StringTokenizer;
 
 import retrofit2.Response;
 
-public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnClickListener, StaffListClickListener, NewEntryListClickListener, TextWatcher {
+public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnClickListener, NewEntryListClickListener, TextWatcher {
     Methods methods;
     RecyclerView all_new_entry_list;
     ShimmerFrameLayout shimmer_view_new_entry;
@@ -746,16 +746,6 @@ public class AddNewPetFragment extends Fragment implements ApiResponse,View.OnCl
     public void onError(Throwable t, String key) {
 
         Log.d("error",t.getLocalizedMessage());
-    }
-
-    @Override
-    public void onViewDetailsClick(int position) {
-
-    }
-
-    @Override
-    public void onStausClick(int position, Button button) {
-
     }
 
     @Override

@@ -36,7 +36,7 @@
     <string name="changePass">Change Password</string>
     <string name="petId">Pet Id</string>
     <string name="dateofbirth">Date Of Birth</string>
-    <string name="petGender">Pet Gender</string>
+    <string name="petGender">Gender</string>
     <string name="petParent">Pet Parent</string>
     <string name="petname">Pet Name</string>
     <string name="nature_of_visits">Nature Of Visit*</string>
@@ -169,7 +169,7 @@
     <string name="createNew">CREATE NEW</string>
     <string name="primaryVaccineName">Primary Vaccine Name</string>
     <string name="ageGroup">Age Group</string>
-    <string name="immunizationChart">Immunization Schedule</string>
+    <string name="immunizationChart">Immunization Chart</string>
     <string name="createImmue">Create Immunization</string>
     <string name="serialNumber">Serial Number</string>
     <string name="age_unit">Age Unit</string>
@@ -232,4 +232,6 @@
     <string name="reSchedule">Re-schedule</string>
     <string name="join">Join</string>
     <string name="registerPets">Registered Pets</string>
+    <string name="clinicVisit">Clinic Visit</string>
+    <string name="clinicVisitHeadline">Choose the type of visit</string>
 </resources>
