@@ -34,6 +34,9 @@ public class Config {
     public static String backCall="";
     public static String IpAddress="";
 
+    public static boolean isUpdated = false;
+    public static boolean logoutFromAccount = false;
+
 
     public static RequestBody toRequestBody (String value) {
         RequestBody body = RequestBody.create(MediaType.parse("text/plain"), value);

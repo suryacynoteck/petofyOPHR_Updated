@@ -206,6 +206,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, A
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.clear();
                 editor.apply();
+                Config.logoutFromAccount = true;
                 startActivity(new Intent(getActivity(), LoginActivity.class));
                 getActivity().finish();
                 break;

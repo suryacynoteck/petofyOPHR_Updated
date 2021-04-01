@@ -87,8 +87,10 @@
     <ImageView
         android:id="@+id/staff_image_TV"
         android:layout_width="match_parent"
-        android:layout_height="320dp"
+        android:layout_height="280dp"
         android:scaleType="fitXY"
+        android:background="#D6E0FF"
+        android:src="@drawable/empty_vet_image"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.card.MaterialCardView
@@ -96,7 +98,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginTop="240dp"
+        android:layout_marginTop="250dp"
         android:background="@color/whiteColor"
         android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
         app:cardElevation="60dp"

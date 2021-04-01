@@ -9,6 +9,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +25,7 @@ import com.cynoteck.petofyOPHR.params.registerRequest.RegisterRequest;
 import com.cynoteck.petofyOPHR.params.registerRequest.Registerparams;
 import com.cynoteck.petofyOPHR.response.loginRegisterResponse.LoginRegisterResponse;
 import com.cynoteck.petofyOPHR.utils.Methods;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -34,12 +36,12 @@ import retrofit2.Response;
 
 public class RegisterActivity extends FragmentActivity implements ApiResponse, View.OnClickListener {
     Methods methods;
-    private TextInputLayout firstname_TIL, lastName_TIL, email_TIL, phoneNumber_TIL, password_TIL, confirmPassword_TIL;
-    private TextInputEditText firstname_TIET, lastName_TIET, email_TIET, phoneNumber_TIET, password_TIET, confirmPassword_TIET;
-    private Button signUp_BT,login_bt_dialog;
-    private String firstName="", lastName="", email="", phoneNumber="",password="",confirmPassword="", dctrAddresingStr="";
+    private EditText vet_first_name_ET, vet_last_name_ET, vet_email_ET, vet_phone_ET, vet_password_ET, vet_confirm_password_ET;
+    private Button vet_signUp_BT, login_bt_dialog;
+    private String firstName = "", lastName = "", email = "", phoneNumber = "", password = "", confirmPassword = "", dctrAddresingStr = "";
     private TextView signIN_TV;
-    AppCompatSpinner parent_address;
+    MaterialCardView vet_back_arrow_CV;
+    //    AppCompatSpinner parent_address;
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     ArrayList<String> parentAddresingList;
     Dialog email_verify_dialog;
@@ -47,7 +49,7 @@ public class RegisterActivity extends FragmentActivity implements ApiResponse, V
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activityregister);
+        setContentView(R.layout.activity_vet_register);
         methods = new Methods(this);
 
         init();
@@ -55,87 +57,74 @@ public class RegisterActivity extends FragmentActivity implements ApiResponse, V
     }
 
     private void init() {
-        firstname_TIL = findViewById(R.id.firstName_TIL);
-        lastName_TIL = findViewById(R.id.lastName_TIL);
-        email_TIL = findViewById(R.id.email_TIL);
-        phoneNumber_TIL = findViewById(R.id.number_TIL);
-        password_TIL = findViewById(R.id.password_TIL);
-        confirmPassword_TIL = findViewById(R.id.cPassword_TIL);
-        parent_address = findViewById(R.id.parent_address);
+        vet_first_name_ET = findViewById(R.id.vet_first_name_ET);
+        vet_last_name_ET = findViewById(R.id.vet_last_name_ET);
+        vet_email_ET = findViewById(R.id.vet_email_ET);
+        vet_phone_ET = findViewById(R.id.vet_phone_ET);
+        vet_password_ET = findViewById(R.id.vet_password_ET);
+        vet_confirm_password_ET = findViewById(R.id.vet_confirm_password_ET);
 
+        vet_back_arrow_CV = findViewById(R.id.vet_back_arrow_CV);
 
-        firstname_TIET = findViewById(R.id.firstName_TIET);
-        lastName_TIET = findViewById(R.id.lastName_TIET);
-        email_TIET = findViewById(R.id.email_TIET);
-        phoneNumber_TIET = findViewById(R.id.number_TIET);
-        password_TIET = findViewById(R.id.password_TIET);
-        confirmPassword_TIET = findViewById(R.id.cPassword_TIET);
-
-        signIN_TV = findViewById(R.id.cancel_TV);
-
-        signUp_BT=findViewById(R.id.signUp_BT);
-
-        signUp_BT.setOnClickListener(this);
-        signIN_TV.setOnClickListener(this);
-
-        parentAddresingList=new ArrayList<>();
+        vet_signUp_BT = findViewById(R.id.vet_signUp_BT);
+        vet_back_arrow_CV.setOnClickListener(this);
+        vet_signUp_BT.setOnClickListener(this);
+        parentAddresingList = new ArrayList<>();
         parentAddresingList.add("Dr.");
         parentAddresingList.add("Mrs.");
         parentAddresingList.add("Mr.");
 
-        setSpinnerDrNameAdrressing();
+//        setSpinnerDrNameAdrressing();
 
     }
 
-    private void setSpinnerDrNameAdrressing() {
-        ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,parentAddresingList);
-        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //Setting the ArrayAdapter data on the Spinner
-        parent_address.setAdapter(aa);
-        parent_address.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String item = parent.getItemAtPosition(position).toString();
-                // Showing selected spinner item
-                Log.d("spnerType","doctorAddress"+item);
-                dctrAddresingStr=item;
-            }
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-    }
+//    private void setSpinnerDrNameAdrressing() {
+//        ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,parentAddresingList);
+//        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        //Setting the ArrayAdapter data on the Spinner
+//        parent_address.setAdapter(aa);
+//        parent_address.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                String item = parent.getItemAtPosition(position).toString();
+//                // Showing selected spinner item
+//                Log.d("spnerType","doctorAddress"+item);
+//                dctrAddresingStr=item;
+//            }
+//            public void onNothingSelected(AdapterView<?> parent) {
+//            }
+//        });
+//    }
 
     private void registerUser(Registerparams registerparams) {
         methods.showCustomProgressBarDialog(this);
         ApiService<LoginRegisterResponse> service = new ApiService<>();
-        service.get( this, ApiClient.getApiInterface().registerApi(registerparams), "Register");
-        Log.d("DATALOG","check1=> "+registerparams);
+        service.get(this, ApiClient.getApiInterface().registerApi(registerparams), "Register");
+        Log.d("DATALOG", "check1=> " + registerparams);
     }
 
     @Override
     public void onResponse(Response response, String key) {
         methods.customProgressDismiss();
-        switch (key)
-        {
+        switch (key) {
             case "Register":
                 try {
-                    Log.d("DATALOG",""+response.body().toString());
+                    Log.d("DATALOG", "" + response.body().toString());
                     LoginRegisterResponse registerResponse = (LoginRegisterResponse) response.body();
                     int responseCode = Integer.parseInt(registerResponse.getResponseLogin().getResponseCode());
-                    if (responseCode==109){
+                    if (responseCode == 109) {
 //                        showEmailVerifyDialog();
                         setResult(RESULT_OK);
                         finish();
                         Toast.makeText(this, registerResponse.getResponseLogin().getResponseMessage(), Toast.LENGTH_SHORT).show();
-                    }else if(responseCode==615) {
+                    } else if (responseCode == 615) {
                         Toast.makeText(this, registerResponse.getResponseLogin().getResponseMessage(), Toast.LENGTH_SHORT).show();
-                    }else {
+                    } else {
                         Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
                     }
 
-                }
-                catch(Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
-                    Log.e("eeeeeee",e.getLocalizedMessage());
+                    Log.e("eeeeeee", e.getLocalizedMessage());
                 }
                 break;
         }
@@ -170,95 +159,92 @@ public class RegisterActivity extends FragmentActivity implements ApiResponse, V
     @Override
     public void onClick(View v) {
 
-        switch (v.getId()){
+        switch (v.getId()) {
 
-            case R.id.signUp_BT:
-                firstName = firstname_TIET.getText().toString().trim();
-                lastName = lastName_TIET.getText().toString().trim();
-                email = email_TIET.getText().toString().trim();
-                password = password_TIET.getText().toString().trim();
-                confirmPassword = confirmPassword_TIET.getText().toString().trim();
-                phoneNumber = phoneNumber_TIET.getText().toString().trim();
+            case R.id.vet_signUp_BT:
+                firstName = vet_first_name_ET.getText().toString().trim();
+                lastName = vet_last_name_ET.getText().toString().trim();
+                email = vet_email_ET.getText().toString().trim();
+                password = vet_password_ET.getText().toString().trim();
+                confirmPassword = vet_confirm_password_ET.getText().toString().trim();
+                phoneNumber = vet_phone_ET.getText().toString().trim();
 
-                if (firstName.isEmpty()){
-                    firstname_TIL.setError("Name is empty");
-                    lastName_TIL.setError(null);
-                    email_TIL.setError(null);
-                    phoneNumber_TIL.setError(null);
-                    password_TIL.setError(null);
-                    confirmPassword_TIL.setError(null);
-                }else if (lastName.isEmpty()){
-                    lastName_TIL.setError("Last Name is empty");
-                    firstname_TIL.setError(null);
-                    email_TIL.setError(null);
-                    phoneNumber_TIL.setError(null);
-                    password_TIL.setError(null);
-                    confirmPassword_TIL.setError(null);
-                }else if (email.isEmpty()){
-                    email_TIL.setError("Email is empty");
-                    firstname_TIL.setError(null);
-                    lastName_TIL.setError(null);
-                    phoneNumber_TIL.setError(null);
-                    password_TIL.setError(null);
-                    confirmPassword_TIL.setError(null);
-                }else if (!email.matches(emailPattern)) {
-                    email_TIL.setError("Invalid Email");
-                    firstname_TIL.setError(null);
-                    lastName_TIL.setError(null);
-                    phoneNumber_TIL.setError(null);
-                    password_TIL.setError(null);
-                    confirmPassword_TIL.setError(null);
-                }else if (phoneNumber.isEmpty()){
-                    phoneNumber_TIL.setError("Phone Number is empty");
-                    firstname_TIL.setError(null);
-                    lastName_TIL.setError(null);
-                    email_TIL.setError(null);
-                    password_TIL.setError(null);
-                    confirmPassword_TIL.setError(null);
-                }else if (password.isEmpty()){
-                    password_TIL.setError("Password is empty");
-                    firstname_TIL.setError(null);
-                    lastName_TIL.setError(null);
-                    email_TIL.setError(null);
-                    phoneNumber_TIL.setError(null);
-                    confirmPassword_TIL.setError(null);
-                }else if (confirmPassword.isEmpty()){
-                    confirmPassword_TIL.setError("Password is empty");
-                    firstname_TIL.setError(null);
-                    lastName_TIL.setError(null);
-                    email_TIL.setError(null);
-                    phoneNumber_TIL.setError(null);
-                    password_TIL.setError(null);
-                }else if (!password_TIET.getText().toString().equals(confirmPassword_TIET.getText().toString())){
-                    confirmPassword_TIL.setError("Password is not matched ");
-                    firstname_TIL.setError(null);
-                    lastName_TIL.setError(null);
-                    email_TIL.setError(null);
-                    phoneNumber_TIL.setError(null);
-                    password_TIL.setError(null);
-                }else {
-                    firstname_TIL.setError(null);
-                    lastName_TIL.setError(null);
-                    email_TIL.setError(null);
-                    phoneNumber_TIL.setError(null);
-                    password_TIL.setError(null);
-                    confirmPassword_TIL.setError(null);
+                if (firstName.isEmpty()) {
+                    vet_first_name_ET.setError("Name is empty");
+                    vet_last_name_ET.setError(null);
+                    vet_email_ET.setError(null);
+                    vet_phone_ET.setError(null);
+                    vet_password_ET.setError(null);
+                    vet_confirm_password_ET.setError(null);
+                } else if (lastName.isEmpty()) {
+                    vet_last_name_ET.setError("Last Name is empty");
+                    vet_first_name_ET.setError(null);
+                    vet_email_ET.setError(null);
+                    vet_phone_ET.setError(null);
+                    vet_password_ET.setError(null);
+                    vet_confirm_password_ET.setError(null);
+                } else if (email.isEmpty()) {
+                    vet_email_ET.setError("Email is empty");
+                    vet_first_name_ET.setError(null);
+                    vet_last_name_ET.setError(null);
+                    vet_phone_ET.setError(null);
+                    vet_password_ET.setError(null);
+                    vet_confirm_password_ET.setError(null);
+                } else if (!email.matches(emailPattern)) {
+                    vet_email_ET.setError("Invalid Email");
+                    vet_first_name_ET.setError(null);
+                    vet_last_name_ET.setError(null);
+                    vet_phone_ET.setError(null);
+                    vet_password_ET.setError(null);
+                    vet_confirm_password_ET.setError(null);
+                } else if (phoneNumber.isEmpty()) {
+                    vet_phone_ET.setError("Phone Number is empty");
+                    vet_first_name_ET.setError(null);
+                    vet_last_name_ET.setError(null);
+                    vet_email_ET.setError(null);
+                    vet_password_ET.setError(null);
+                    vet_confirm_password_ET.setError(null);
+                } else if (password.isEmpty()) {
+                    vet_password_ET.setError("Password is empty");
+                    vet_first_name_ET.setError(null);
+                    vet_last_name_ET.setError(null);
+                    vet_email_ET.setError(null);
+                    vet_phone_ET.setError(null);
+                    vet_confirm_password_ET.setError(null);
+                } else if (confirmPassword.isEmpty()) {
+                    vet_confirm_password_ET.setError("Password is empty");
+                    vet_first_name_ET.setError(null);
+                    vet_last_name_ET.setError(null);
+                    vet_email_ET.setError(null);
+                    vet_phone_ET.setError(null);
+                    vet_password_ET.setError(null);
+                } else if (!vet_password_ET.getText().toString().equals(vet_confirm_password_ET.getText().toString())) {
+                    vet_confirm_password_ET.setError("Password is not matched ");
+                    vet_first_name_ET.setError(null);
+                    vet_last_name_ET.setError(null);
+                    vet_email_ET.setError(null);
+                    vet_phone_ET.setError(null);
+                    vet_password_ET.setError(null);
+                } else {
+                    vet_first_name_ET.setError(null);
+                    vet_last_name_ET.setError(null);
+                    vet_email_ET.setError(null);
+                    vet_phone_ET.setError(null);
+                    vet_password_ET.setError(null);
+                    vet_confirm_password_ET.setError(null);
                     Registerparams registerparams = new Registerparams();
                     RegisterRequest data = new RegisterRequest();
                     data.setEmail(email);
                     data.setPassword(password);
                     data.setConfirmPassword(confirmPassword);
-                    data.setFirstName(dctrAddresingStr+" "+firstName);
+                    data.setFirstName(firstName);
                     data.setLastName(lastName);
                     data.setPhoneNumber(phoneNumber);
                     data.setRoleName("Veterinarian");
                     registerparams.setData(data);
-                    if(methods.isInternetOn())
-                    {
+                    if (methods.isInternetOn()) {
                         registerUser(registerparams);
-                    }
-                    else
-                    {
+                    } else {
                         methods.DialogInternet();
                     }
 
@@ -267,17 +253,11 @@ public class RegisterActivity extends FragmentActivity implements ApiResponse, V
 
                 break;
 
-            case R.id.cancel_TV:
+            case R.id.vet_back_arrow_CV:
 
                 onBackPressed();
 
                 break;
-
-
-            case R.id.login_button:
-                onBackPressed();
-                break;
-
 
 
         }

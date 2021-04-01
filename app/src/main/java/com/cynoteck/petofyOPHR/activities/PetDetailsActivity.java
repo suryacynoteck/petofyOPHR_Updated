@@ -57,6 +57,7 @@ import com.cynoteck.petofyOPHR.response.staffPermissionListResponse.CheckStaffPe
 import com.cynoteck.petofyOPHR.utils.Config;
 import com.cynoteck.petofyOPHR.utils.ImmunizationOnclickListener;
 import com.cynoteck.petofyOPHR.utils.Methods;
+import com.google.android.material.card.MaterialCardView;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
@@ -579,20 +580,20 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
     private void vaccineDetailsDialog() {
         vaccineDetailsDialog = new Dialog(this);
         vaccineDetailsDialog.setContentView(R.layout.vaccine_deatils_dilog);
-        CardView age_group_CV = vaccineDetailsDialog.findViewById(R.id.age_group_CV);
-        CardView periodic_vaccine_CV = vaccineDetailsDialog.findViewById(R.id.periodic_vaccine_CV);
-        CardView history_CV = vaccineDetailsDialog.findViewById(R.id.history_CV);
-        final LinearLayout immunization_history_layout = vaccineDetailsDialog.findViewById(R.id.immunization_history_layout);
-        final TextView age_group_TV = vaccineDetailsDialog.findViewById(R.id.age_group_TV);
-        final TextView periodic_vaccine_TV = vaccineDetailsDialog.findViewById(R.id.periodic_vaccine_TV);
-        final TextView history_TV = vaccineDetailsDialog.findViewById(R.id.history_TV);
+//        CardView age_group_CV = vaccineDetailsDialog.findViewById(R.id.age_group_CV);
+//        CardView periodic_vaccine_CV = vaccineDetailsDialog.findViewById(R.id.periodic_vaccine_CV);
+//        CardView history_CV = vaccineDetailsDialog.findViewById(R.id.history_CV);
+//        final LinearLayout immunization_history_layout = vaccineDetailsDialog.findViewById(R.id.immunization_history_layout);
+//        final TextView age_group_TV = vaccineDetailsDialog.findViewById(R.id.age_group_TV);
+//        final TextView periodic_vaccine_TV = vaccineDetailsDialog.findViewById(R.id.periodic_vaccine_TV);
+//        final TextView history_TV = vaccineDetailsDialog.findViewById(R.id.history_TV);
 
-        ImageView clinic_back_arrow_IV = vaccineDetailsDialog.findViewById(R.id.clinic_back_arrow_IV);
+        MaterialCardView back_arrow_CV = vaccineDetailsDialog.findViewById(R.id.back_arrow_CV);
         final RecyclerView vaccine_type_name_list = vaccineDetailsDialog.findViewById(R.id.vaccine_type_name_list);
-        final RecyclerView pereodic_list = vaccineDetailsDialog.findViewById(R.id.pereodic_list);
-        final RecyclerView immunization_history_list = vaccineDetailsDialog.findViewById(R.id.immunization_history_list);
+//        final RecyclerView pereodic_list = vaccineDetailsDialog.findViewById(R.id.pereodic_list);
+//        final RecyclerView immunization_history_list = vaccineDetailsDialog.findViewById(R.id.immunization_history_list);
 
-        pereodic_list.setVisibility(View.GONE);
+//        pereodic_list.setVisibility(View.GONE);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(PetDetailsActivity.this);
         vaccine_type_name_list.setLayoutManager(linearLayoutManager);
         vaccine_type_name_list.setNestedScrollingEnabled(false);
@@ -607,65 +608,65 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
         //////Set Immunization History List
 
         LinearLayoutManager linearLayoutManagerone = new LinearLayoutManager(PetDetailsActivity.this);
-        immunization_history_list.setLayoutManager(linearLayoutManagerone);
-        immunization_history_list.setNestedScrollingEnabled(false);
+//        immunization_history_list.setLayoutManager(linearLayoutManagerone);
+//        immunization_history_list.setNestedScrollingEnabled(false);
 
-        if (nextVisitDateList != null) {
-            if ((nextVisitDateList.size() > 0)) {
-                immunizationHistoryAdopter = new ImmunizationHistoryAdopter(PetDetailsActivity.this, nextVisitDateList, vaccineClassList, vaccineList, immunizationDateList);
-                immunization_history_list.setAdapter(immunizationHistoryAdopter);
-                immunizationHistoryAdopter.notifyDataSetChanged();
-            }
-        }
+//        if (nextVisitDateList != null) {
+//            if ((nextVisitDateList.size() > 0)) {
+//                immunizationHistoryAdopter = new ImmunizationHistoryAdopter(PetDetailsActivity.this, nextVisitDateList, vaccineClassList, vaccineList, immunizationDateList);
+//                immunization_history_list.setAdapter(immunizationHistoryAdopter);
+//                immunizationHistoryAdopter.notifyDataSetChanged();
+//            }
+//        }
 
-        clinic_back_arrow_IV.setOnClickListener(new View.OnClickListener() {
+        back_arrow_CV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 vaccineDetailsDialog.dismiss();
             }
         });
 
-        age_group_CV.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("ResourceAsColor")
-            @Override
-            public void onClick(View v) {
-                age_group_TV.setTextColor(R.color.black_color);
-                periodic_vaccine_TV.setTextColor(R.color.grayColorCode);
-                history_TV.setTextColor(R.color.grayColorCode);
-                vaccine_type_name_list.setVisibility(View.VISIBLE);
-                pereodic_list.setVisibility(View.GONE);
-                immunization_history_list.setVisibility(View.GONE);
-                immunization_history_layout.setVisibility(View.GONE);
-            }
-        });
-
-        periodic_vaccine_CV.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("ResourceAsColor")
-            @Override
-            public void onClick(View v) {
-                age_group_TV.setTextColor(R.color.grayColorCode);
-                periodic_vaccine_TV.setTextColor(R.color.black_color);
-                history_TV.setTextColor(R.color.grayColorCode);
-                vaccine_type_name_list.setVisibility(View.GONE);
-                pereodic_list.setVisibility(View.VISIBLE);
-                immunization_history_list.setVisibility(View.GONE);
-                immunization_history_layout.setVisibility(View.GONE);
-            }
-        });
-
-        history_CV.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("ResourceAsColor")
-            @Override
-            public void onClick(View v) {
-                age_group_TV.setTextColor(R.color.grayColorCode);
-                periodic_vaccine_TV.setTextColor(R.color.grayColorCode);
-                history_TV.setTextColor(R.color.black_color);
-                vaccine_type_name_list.setVisibility(View.GONE);
-                pereodic_list.setVisibility(View.GONE);
-                immunization_history_list.setVisibility(View.VISIBLE);
-                immunization_history_layout.setVisibility(View.VISIBLE);
-            }
-        });
+//        age_group_CV.setOnClickListener(new View.OnClickListener() {
+//            @SuppressLint("ResourceAsColor")
+//            @Override
+//            public void onClick(View v) {
+//                age_group_TV.setTextColor(R.color.black_color);
+//                periodic_vaccine_TV.setTextColor(R.color.grayColorCode);
+//                history_TV.setTextColor(R.color.grayColorCode);
+//                vaccine_type_name_list.setVisibility(View.VISIBLE);
+//                pereodic_list.setVisibility(View.GONE);
+//                immunization_history_list.setVisibility(View.GONE);
+//                immunization_history_layout.setVisibility(View.GONE);
+//            }
+//        });
+//
+//        periodic_vaccine_CV.setOnClickListener(new View.OnClickListener() {
+//            @SuppressLint("ResourceAsColor")
+//            @Override
+//            public void onClick(View v) {
+//                age_group_TV.setTextColor(R.color.grayColorCode);
+//                periodic_vaccine_TV.setTextColor(R.color.black_color);
+//                history_TV.setTextColor(R.color.grayColorCode);
+//                vaccine_type_name_list.setVisibility(View.GONE);
+//                pereodic_list.setVisibility(View.VISIBLE);
+//                immunization_history_list.setVisibility(View.GONE);
+//                immunization_history_layout.setVisibility(View.GONE);
+//            }
+//        });
+//
+//        history_CV.setOnClickListener(new View.OnClickListener() {
+//            @SuppressLint("ResourceAsColor")
+//            @Override
+//            public void onClick(View v) {
+//                age_group_TV.setTextColor(R.color.grayColorCode);
+//                periodic_vaccine_TV.setTextColor(R.color.grayColorCode);
+//                history_TV.setTextColor(R.color.black_color);
+//                vaccine_type_name_list.setVisibility(View.GONE);
+//                pereodic_list.setVisibility(View.GONE);
+//                immunization_history_list.setVisibility(View.VISIBLE);
+//                immunization_history_layout.setVisibility(View.VISIBLE);
+//            }
+//        });
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         Window window = vaccineDetailsDialog.getWindow();
         lp.copyFrom(window.getAttributes());

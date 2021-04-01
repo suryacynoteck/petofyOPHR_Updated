@@ -158,21 +158,13 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/pet_reg_date_of_birth_TV">
 
-            <RelativeLayout
-                android:id="@+id/pet_id_inner_RL"
+            <ImageView
+                android:id="@+id/pet_id_inner_IV"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
-                android:layout_margin="6dp"
-                android:background="@drawable/pet_id_organge_bg">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="3dp"
-                    android:src="@drawable/pet_id_icon" />
-
-            </RelativeLayout>
+                android:layout_margin="5dp"
+                android:background="@drawable/pet_id"/>
 
 
             <TextView
@@ -180,7 +172,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginRight="5dp"
-                android:layout_toRightOf="@id/pet_id_inner_RL"
+                android:layout_toRightOf="@id/pet_id_inner_IV"
                 android:fontFamily="@font/nunito"
                 android:gravity="center"
                 android:text="PETO-789545"

@@ -127,7 +127,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 if (loggedIn.equals("loggedIn")){
                      intent = new Intent(SplashScreenActivity.this,DashBoardActivity.class);
                 }else {
-                    intent = new Intent(SplashScreenActivity.this, LoginActivity.class);
+                    intent = new Intent(SplashScreenActivity.this, InstructionActivity.class);
                 }
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);

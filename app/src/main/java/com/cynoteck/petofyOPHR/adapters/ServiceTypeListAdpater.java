@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -34,6 +35,22 @@ public class ServiceTypeListAdpater extends RecyclerView.Adapter<ServiceTypeList
     @Override
     public void onBindViewHolder(@NonNull ServiceTypeListAdpater.MyViewHolder holder, int position) {
         holder.service_type_TV.setText(serviceTypeLists.get(position).getText());
+        if (serviceTypeLists.get(position).getText().equals("Consultation")){
+            holder.image_service_IV.setImageResource(R.drawable.consultation_icon);
+        }
+        if (serviceTypeLists.get(position).getText().equals("Training")){
+            holder.image_service_IV.setImageResource(R.drawable.training_icon);
+
+        }if (serviceTypeLists.get(position).getText().equals("Hostels")){
+            holder.image_service_IV.setImageResource(R.drawable.hostel_icon);
+
+        }if (serviceTypeLists.get(position).getText().equals("Grooming")){
+            holder.image_service_IV.setImageResource(R.drawable.gromming_icon);
+
+        }if (serviceTypeLists.get(position).getText().equals("Pet Shops")){
+            holder.image_service_IV.setImageResource(R.drawable.pet_shopes_icon);
+
+        }
     }
 
     @Override
@@ -43,8 +60,10 @@ public class ServiceTypeListAdpater extends RecyclerView.Adapter<ServiceTypeList
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView service_type_TV;
+        ImageView image_service_IV;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            image_service_IV=itemView.findViewById(R.id.image_service_IV);
             service_type_TV=itemView.findViewById(R.id.service_data);
         }
     }

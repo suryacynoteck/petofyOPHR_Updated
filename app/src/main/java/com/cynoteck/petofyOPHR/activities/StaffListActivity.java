@@ -64,7 +64,7 @@ public class StaffListActivity extends AppCompatActivity implements ApiResponse,
     String permissionId;
     private int ADD_STAFF_DEATILS = 1;
     SharedPreferences sharedPreferences;
-    RelativeLayout  add_satff_RL;
+    RelativeLayout add_satff_RL;
     MaterialCardView back_arrow_CV;
     EditText search_box_ET;
     int staffPostion;
@@ -93,6 +93,18 @@ public class StaffListActivity extends AppCompatActivity implements ApiResponse,
 
         back_arrow_CV.setOnClickListener(this);
         add_satff_RL.setOnClickListener(this);
+
+        searchStaffList();
+
+        mShimmerViewContainer.startShimmerAnimation();
+        if (methods.isInternetOn()) {
+            getAllStaff();
+        } else {
+            methods.DialogInternet();
+        }
+    }
+
+    private void searchStaffList() {
         search_box_ET.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -110,11 +122,6 @@ public class StaffListActivity extends AppCompatActivity implements ApiResponse,
             }
         });
 
-        if (methods.isInternetOn()) {
-            getAllStaff();
-        } else {
-            methods.DialogInternet();
-        }
     }
 
     @Override
@@ -143,11 +150,11 @@ public class StaffListActivity extends AppCompatActivity implements ApiResponse,
 //            updateStaffIntent.putExtra("activityType", "Update");
             updateStaffIntent.putExtra("staffId", encrypt_id);
             updateStaffIntent.putExtra("staffUserId", getAllStaffData.get(position).getUserId());
-            updateStaffIntent.putExtra("staff_name", getAllStaffData.get(position).getFirstName()+" "+getAllStaffData.get(position).getLastName());
+            updateStaffIntent.putExtra("staff_name", getAllStaffData.get(position).getFirstName() + " " + getAllStaffData.get(position).getLastName());
             updateStaffIntent.putExtra("staff_email", getAllStaffData.get(position).getEmail());
             updateStaffIntent.putExtra("staff_phone", getAllStaffData.get(position).getPhoneNumber());
-            updateStaffIntent.putExtra("staff_degree", "");
-            updateStaffIntent.putExtra("staff_reg_no", "");
+            updateStaffIntent.putExtra("staff_degree", getAllStaffData.get(position).getVetQualification());
+            updateStaffIntent.putExtra("staff_reg_no", getAllStaffData.get(position).getVetRegistrationNumber());
             updateStaffIntent.putExtra("staff_image_url", getAllStaffData.get(position).getProfileImageUrl());
             startActivityForResult(updateStaffIntent, ADD_STAFF_DEATILS);
         }
@@ -164,12 +171,10 @@ public class StaffListActivity extends AppCompatActivity implements ApiResponse,
         String encrtpty_id = getAllStaffData.get(position).getEncryptedId();
         if (status.equals("true")) {
             getAllStaffData.get(position).setIsActive("false");
-//            textView.setTextColor(R.color.deactivate_red);
             textView.setText("Deactivate");
             post_status = "false";
         } else {
             getAllStaffData.get(position).setIsActive("true");
-//            textView.setTextColor(R.color.dark_green);
             textView.setText("Active");
             post_status = "true";
         }
@@ -214,16 +219,16 @@ public class StaffListActivity extends AppCompatActivity implements ApiResponse,
                     ApiService<CheckStaffPermissionResponse> service = new ApiService<>();
                     service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token, url), "CheckPermission");
                 } else if (userTYpe.equals("Veterinarian")) {
-                    Intent updateStaffIntent = new Intent(this, StaffDetailsActivity.class);
-//            updateStaffIntent.putExtra("activityType", "Update");
+                    Intent updateStaffIntent = new Intent(this, AddUpdateStaffActivity.class);
+                    updateStaffIntent.putExtra("activityType", "Add");
                     updateStaffIntent.putExtra("staffId", encrypt_id);
-                    updateStaffIntent.putExtra("staffUserId", getAllStaffData.get(staffPostion).getUserId());
-                    updateStaffIntent.putExtra("staff_name", getAllStaffData.get(staffPostion).getFirstName()+" "+getAllStaffData.get(staffPostion).getLastName());
-                    updateStaffIntent.putExtra("staff_email", getAllStaffData.get(staffPostion).getEmail());
-                    updateStaffIntent.putExtra("staff_phone", getAllStaffData.get(staffPostion).getPhoneNumber());
-                    updateStaffIntent.putExtra("staff_degree", "");
-                    updateStaffIntent.putExtra("staff_reg_no", "");
-                    updateStaffIntent.putExtra("staff_image_url", getAllStaffData.get(staffPostion).getProfileImageUrl());
+//                    updateStaffIntent.putExtra("staffUserId", getAllStaffData.get(staffPostion).getUserId());
+//                    updateStaffIntent.putExtra("staff_name", getAllStaffData.get(staffPostion).getFirstName() + " " + getAllStaffData.get(staffPostion).getLastName());
+//                    updateStaffIntent.putExtra("staff_email", getAllStaffData.get(staffPostion).getEmail());
+//                    updateStaffIntent.putExtra("staff_phone", getAllStaffData.get(staffPostion).getPhoneNumber());
+//                    updateStaffIntent.putExtra("staff_degree", "");
+//                    updateStaffIntent.putExtra("staff_reg_no", "");
+//                    updateStaffIntent.putExtra("staff_image_url", getAllStaffData.get(staffPostion).getProfileImageUrl());
                     startActivityForResult(updateStaffIntent, ADD_STAFF_DEATILS);
 
                 }
@@ -312,8 +317,8 @@ public class StaffListActivity extends AppCompatActivity implements ApiResponse,
 
             case "GetAllStaff":
                 try {
+                    Log.d("DATALOG", methods.getRequestJson(response.body().toString()));
                     GetAllStaffResponse getAllStaffResponse = (GetAllStaffResponse) response.body();
-                    Log.d("DATALOG", getAllStaffResponse.toString());
                     int responseCode = Integer.parseInt(getAllStaffResponse.getResponse().getResponseCode());
 
                     if (responseCode == 109) {
@@ -424,12 +429,15 @@ public class StaffListActivity extends AppCompatActivity implements ApiResponse,
     @Override
     public void onResume() {
         super.onResume();
-        mShimmerViewContainer.startShimmerAnimation();
+        if (Config.isUpdated=true){
+            getAllStaff();
+            Config.isUpdated = false;
+        }
     }
 
     @Override
     public void onPause() {
-        mShimmerViewContainer.stopShimmerAnimation();
+//        mShimmerViewContainer.stopShimmerAnimation();
         super.onPause();
     }
 }

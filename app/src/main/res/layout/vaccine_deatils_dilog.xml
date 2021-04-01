@@ -7,71 +7,64 @@
     android:id="@+id/main"
     android:background="@color/whiteColor">
 
-    <com.google.android.material.card.MaterialCardView
-        android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/toolbar"
-        android:layout_width="0dp"
-        android:elevation="30dp"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/whiteColor"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
 
-            <TextView
-                android:text="Vaccination Chart"
-                app:layout_constraintStart_toEndOf="@+id/clinic_back_arrow_IV"
-                app:layout_constraintEnd_toStartOf="@+id/join_BT"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:gravity="center_vertical"
-                android:id="@+id/clinic_head_line"
-                android:layout_width="0dp"
-                android:layout_marginLeft="10dp"
-                android:padding="10dp"
-                android:layout_height="0dp"
-                android:textColor="@color/black_color"
-                android:textSize="20dp"
-                android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/add_staff_headline_TV"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:fontFamily="@font/nunito"
+            android:gravity="center"
+            android:text="VACCINATION CHART"
+            android:textColor="@color/gray_2"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/back_arrow_CV"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/back_arrow_CV" />
 
 
+        <com.google.android.material.card.MaterialCardView
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+            android:id="@+id/back_arrow_CV"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:id="@+id/clinic_back_arrow_IV"
-                android:padding="8dp"
-                android:visibility="visible"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/back_arrow" />
-            <Button
-                android:visibility="gone"
-                style="?android:attr/borderlessButtonStyle"
-                android:background="@drawable/join_bt_bg"
-                android:layout_marginTop="8dp"
-                android:layout_marginRight="10dp"
-                android:text="Join"
-                android:textColor="@color/colorPrimary"
-                android:id="@+id/join_BT"
-                android:layout_width="0dp"
-                android:layout_height="35dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/light_grey_bg"
+                android:visibility="visible" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="5dp"
+                android:src="@drawable/back_arrow"
+                android:visibility="visible" />
 
-    </com.google.android.material.card.MaterialCardView>
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <LinearLayout
         android:orientation="vertical"
-        android:background="@color/list_background"
+        android:background="@color/whiteColor"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/save_clinic_data"

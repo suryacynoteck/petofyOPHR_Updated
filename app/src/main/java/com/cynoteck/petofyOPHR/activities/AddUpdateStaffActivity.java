@@ -1,3 +1,4 @@
+
 package com.cynoteck.petofyOPHR.activities;
 
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +40,7 @@ import retrofit2.Response;
 
 public class AddUpdateStaffActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse {
 
-    ImageView back_arrow_IV;
+    RelativeLayout back_arrow_RL;
     TextView add_staff_headline_TV, staff_password_TV,staff__confirm_password_TV,staff_permission_TV;
     EditText staff_first_name_ET, staff_last_name_ET, staff_email_ET, staff_password_ET, staff_confirm_password_ET, staff_phone_ET, staff_qualification_ET, staff_reg_number_ET;
     AppCompatSpinner staff_prefix_ACP;
@@ -67,7 +69,7 @@ public class AddUpdateStaffActivity extends AppCompatActivity implements View.On
             add_staff_headline_TV.setText("UPDATE STAFF");
             add_staff_BT.setText("Update");
             staff_password_CL.setVisibility(View.GONE);
-            staff_permission_TV.setVisibility(View.VISIBLE);
+            staff_permission_TV.setVisibility(View.GONE);
 
             getStaffDetails();
         }
@@ -110,7 +112,7 @@ public class AddUpdateStaffActivity extends AppCompatActivity implements View.On
     }
 
     private void initization() {
-        back_arrow_IV =findViewById(R.id.back_arrow_IV);
+        back_arrow_RL =findViewById(R.id.back_arrow_RL);
         add_staff_headline_TV =findViewById(R.id.add_staff_headline_TV);
         staff_first_name_ET =findViewById(R.id.staff_first_name_ET);
         staff_last_name_ET =findViewById(R.id.staff_last_name_ET);
@@ -131,7 +133,7 @@ public class AddUpdateStaffActivity extends AppCompatActivity implements View.On
 
         add_staff_BT.setOnClickListener(this);
         show_name_prec_CB.setOnClickListener(this);
-        back_arrow_IV.setOnClickListener(this);
+        back_arrow_RL.setOnClickListener(this);
         staff_permission_TV.setOnClickListener(this);
 
     }
@@ -140,7 +142,7 @@ public class AddUpdateStaffActivity extends AppCompatActivity implements View.On
     public void onClick(View v) {
         switch (v.getId()){
 
-            case R.id.back_arrow_IV:
+            case R.id.back_arrow_RL:
                 onBackPressed();
                 break;
 
@@ -304,7 +306,7 @@ public class AddUpdateStaffActivity extends AppCompatActivity implements View.On
 
                         AddStaffRequest addStaffRequest = new AddStaffRequest();
                         addStaffRequest.setData(addStaffParams);
-
+                        Log.e("Add_staff",methods.getRequestJson(addStaffRequest));
                         if (methods.isInternetOn()){
                             addStaffDetails(addStaffRequest);
                         }else {
@@ -324,9 +326,13 @@ public class AddUpdateStaffActivity extends AppCompatActivity implements View.On
                         updateStaffParams.setVetRegistrationNumber(strStaffRegNumber);
                         updateStaffParams.setDisplayInPrescription(StrDisplayNameInprec);
 
+
+
+
                         UpdateStaffRequest updateStaffRequest = new UpdateStaffRequest();
                         updateStaffRequest.setData(updateStaffParams);
                         updateStaffDetails(updateStaffRequest);
+                        Log.e("Update_staff",methods.getRequestJson(updateStaffRequest));
                     }
 
                 }
@@ -434,12 +440,23 @@ public class AddUpdateStaffActivity extends AppCompatActivity implements View.On
 
             case "UpdateStaff":
                 try {
+                    Config.isUpdated = true;
                     GetUpdateStaffResponse getUpdateStaffResponse = (GetUpdateStaffResponse) response.body();
                     Log.d("DATALOG-UPDATE", getUpdateStaffResponse.toString());
                     int responseCode = Integer.parseInt(getUpdateStaffResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
                         Toast.makeText(this, "Staff Updated Successfully", Toast.LENGTH_SHORT).show();
-                        setResult(RESULT_OK);
+                        Intent updateStaffIntent = new Intent();
+                        updateStaffIntent.putExtra("staffId", getUpdateStaffResponse.getData().getEncryptedId());
+                        updateStaffIntent.putExtra("staffUserId", getUpdateStaffResponse.getData().getUserId());
+                        updateStaffIntent.putExtra("staff_name", getUpdateStaffResponse.getData().getFirstName() + " " + getUpdateStaffResponse.getData().getLastName());
+                        updateStaffIntent.putExtra("staff_email", getUpdateStaffResponse.getData().getEmail());
+                        updateStaffIntent.putExtra("staff_phone", getUpdateStaffResponse.getData().getPhoneNumber());
+                        updateStaffIntent.putExtra("staff_degree", getUpdateStaffResponse.getData().getVetQualification());
+                        updateStaffIntent.putExtra("staff_reg_no", getUpdateStaffResponse.getData().getVetRegistrationNumber());
+                        updateStaffIntent.putExtra("staff_image_url", getUpdateStaffResponse.getData().getProfileImageUrl());
+
+                        setResult(RESULT_OK,updateStaffIntent);
                         finish();
                     }else{
                         Toast.makeText(this, "Something Went Wrong !", Toast.LENGTH_SHORT).show();

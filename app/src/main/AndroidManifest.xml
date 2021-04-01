@@ -32,7 +32,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.StaffDetailsActivity"></activity>
+        <activity android:name=".activities.InstructionActivity"></activity>
+        <activity android:name=".activities.StaffDetailsActivity" />
         <activity android:name=".activities.AddUpdateStaffActivity" />
         <activity
             android:name=".activities.PdfViewerActivity"

@@ -11,7 +11,7 @@
     <string name="phoneNumber">Phone</string>
     <string name="signUp">Sign Up</string>
     <string name="signIn">Sign In</string>
-    <string name="forgetPass">Forget Password ?</string>
+    <string name="forgetPass"><u>Forget Password</u></string>
     <string name="alreadyHaveAccount">Already Have Account ?</string>
     <string name="createAnAccount">Create An Account</string>
     <string name="dontHaveAccount">Don\'t Have An Account ?</string>
@@ -31,7 +31,7 @@
     <string name="vet_registration_number">Vet Registration Number</string>
     <string name="vet_qualification">Vet Qualification</string>
     <string name="updateProfile">Update Profile</string>
-    <string name="updateProfileButton">UPDATE PROFILE</string>
+    <string name="updateProfileButton">Update Profile</string>
     <string name="submit">Submit</string>
     <string name="changePass">Change Password</string>
     <string name="petId">Pet Id</string>

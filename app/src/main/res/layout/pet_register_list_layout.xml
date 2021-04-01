@@ -43,7 +43,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="fitXY"
-                        android:src="@drawable/doctor_dummy_image" />
+                        android:src="@drawable/dummy_dog_image" />
 
 
                 </androidx.cardview.widget.CardView>
@@ -147,21 +147,16 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/pet_reg_name_TV">
 
-                <RelativeLayout
+                <ImageView
                     android:id="@+id/pet_id_inner_RL"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_centerVertical="true"
                     android:layout_margin="6dp"
-                    android:background="@drawable/pet_id_organge_bg">
+                    android:background="@drawable/pet_id">
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:padding="3dp"
-                        android:src="@drawable/pet_id_icon" />
 
-                </RelativeLayout>
+                </ImageView>
 
 
                 <TextView

@@ -226,8 +226,9 @@ public class PetRegisterFragment extends Fragment implements ApiResponse, ViewDe
                     ApiService<CheckStaffPermissionResponse> service = new ApiService<>();
                     service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token, url), "CheckPermission");
                 } else if (userTYpe.equals("Veterinarian")) {
-                    startActivity(new Intent(getActivity(), AddPetRegister.class));
-
+                    Intent addNewPetIntent = new Intent(getContext(), AddNewPetActivity.class);
+                    addNewPetIntent.putExtra("appointment","");
+                    startActivity(addNewPetIntent);
                 }
 
                 break;
@@ -268,7 +269,9 @@ public class PetRegisterFragment extends Fragment implements ApiResponse, ViewDe
                     if (responseCode == 109) {
                         if (checkStaffPermissionResponse.getData().equals("true")) {
                             if (permissionId.equals("1")) {
-                                startActivity(new Intent(getActivity(), AddPetRegister.class));
+                                Intent addNewPetIntent = new Intent(getContext(), AddNewPetActivity.class);
+                                addNewPetIntent.putExtra("appointment","");
+                                startActivity(addNewPetIntent);
                             }
                         } else {
                             Toast.makeText(context, "Permission not Granted!!", Toast.LENGTH_SHORT).show();

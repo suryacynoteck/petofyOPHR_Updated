@@ -53,7 +53,13 @@ public class StaffDetailsActivity extends AppCompatActivity implements View.OnCl
         image_edit_CV.setOnClickListener(this);
         edit_profile_RL.setOnClickListener(this);
 
+        setStaffInfo();
 
+
+
+    }
+
+    private void setStaffInfo() {
         staff_name_TV.setText(staff_name);
         staff_email_TV.setText(staff_email);
         staff_phone_TV.setText(staff_phone);
@@ -65,8 +71,6 @@ public class StaffDetailsActivity extends AppCompatActivity implements View.OnCl
                 .placeholder(R.drawable.staff_groups)
                 .into(staff_image_TV);
 
-
-
     }
 
     @Override
@@ -74,7 +78,7 @@ public class StaffDetailsActivity extends AppCompatActivity implements View.OnCl
         switch (v.getId()){
 
             case R.id.edit_profile_RL:
-                Intent updateStaffIntent = new Intent(this, StaffDetailsActivity.class);
+                Intent updateStaffIntent = new Intent(this, AddUpdateStaffActivity.class);
                 updateStaffIntent.putExtra("activityType", "Update");
                 updateStaffIntent.putExtra("staffId", staffId);
                 startActivityForResult(updateStaffIntent, ADD_STAFF_DEATILS);
@@ -106,8 +110,15 @@ public class StaffDetailsActivity extends AppCompatActivity implements View.OnCl
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ADD_STAFF_DEATILS) {
             if (resultCode == RESULT_OK) {
-
-
+                staffId=data.getStringExtra("staffId");
+                staffUserId= data.getStringExtra("staffUserId");
+                staff_name=data.getStringExtra("staff_name");
+                staff_email=data.getStringExtra("staff_email");
+                staff_phone=data.getStringExtra("staff_phone");
+                staff_degree=data.getStringExtra("staff_degree");
+                staff_reg_no=data.getStringExtra("staff_reg_no");
+                staff_image_url=data.getStringExtra("staff_image_url");
+                setStaffInfo();
             }
         }
         return;

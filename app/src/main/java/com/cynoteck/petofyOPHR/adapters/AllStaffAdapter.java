@@ -62,13 +62,14 @@ public class AllStaffAdapter extends RecyclerView.Adapter<AllStaffAdapter.MyView
             holder.staff_status_TV.setText("Active");
 
         }
+        holder.staff_qualification_TV.setText(getAllStaffData.get(position).getVetQualification());
         holder.staff_name_TV.setText(getAllStaffData.get(position).getFirstName()+" "+getAllStaffData.get(position).getLastName());
         holder.staff_post_TV.setText(getAllStaffData.get(position).getEmail());
         holder.staff_phone_TV.setText(getAllStaffData.get(position).getPhoneNumber());
 
         Glide.with(context)
                 .load(getAllStaffData.get(position).getProfileImageUrl())
-                .placeholder(R.drawable.empty_profile)
+                .placeholder(R.drawable.empty_vet_image)
                 .into(holder.staff_image_CIV);
 
     }

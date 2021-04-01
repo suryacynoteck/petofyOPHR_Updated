@@ -1,14 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="15dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:src="@drawable/gromming_icon"
+        android:id="@+id/image_service_IV"
+        android:layout_width="32dp"
+        android:layout_height="32dp"/>
 
     <TextView
+        android:gravity="center_vertical"
         android:id="@+id/service_data"
-        android:textColor="#808080"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Dog"/>
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="15dp"
+        android:fontFamily="@font/roboto"
+        android:text="Dog"
+        android:textColor="@color/gray_1"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@id/image_service_IV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/image_service_IV"
+        app:layout_constraintTop_toTopOf="@id/image_service_IV" />
 
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

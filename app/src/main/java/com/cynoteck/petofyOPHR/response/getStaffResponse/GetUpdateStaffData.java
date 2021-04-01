@@ -1,148 +1,156 @@
 package com.cynoteck.petofyOPHR.response.getStaffResponse;
 
 public class GetUpdateStaffData {
-    private String[] forumSubTopic;
+    private String vetRegistrationNumber;
 
-    private String lastLogin;
+    private String vetQualification;
 
-    private String[] petHospitalizationsSurgeriesUpdatedByNavigation;
+    private String zipCode;
+
+    private String providerPhoneNumber;
 
     private String cityId;
 
     private String isActive;
 
-    private String[] cart;
-
-    private String[] petTestsAndXreyVeterinarianUser;
-
     private String password;
+
+    private String identityProof;
 
     private String latLong;
 
-    private String[] petLabworkUpdatedByNavigation;
+    private String customerEmail;
 
-    private String[] productRating;
+    private String profileImageUrl;
 
-    private String[] requestToNgo;
+    private String isRegisteredPetParent;
 
-    private String[] petDonation;
+    private String onlineAppointmentStatus;
 
-    private String inverseUser;
+    private String petParentConfirmPassword;
 
-    private String[] eventCreatedByNavigation;
+    private String enableTwoStepVerification;
 
-    private String[] veterinaryStaffVeterinary;
+    private String displayInPrescription;
 
-    private String[] veterinaryStaffStaff;
+    private String initials;
+
+    private String otp;
+
+    private String areYouProvider;
+
+    private String guestEmail;
+
+    private String isPrivacyPolicyCheck;
 
     private String firstName;
 
-    private String[] petClinicVisitVeterinarianUser;
+    private String qualification;
 
     private String phoneNumber;
 
-    private String[] petDetail;
+    private String providerPassword;
 
-    private String[] veterinarianAppointmentUser;
+    private String status;
+
+    private String clinicName;
 
     private String lastName;
 
-    private String userNavigation;
+    private String notificationStatus;
 
-    private String[] notificationNotifiedByNavigation;
+    private String petId;
 
-    private String[] petTestsAndXreyCreatedByNavigation;
+    private String providerLastName;
 
-    private String city;
-
-    private String[] veterinarianPetRegister;
-
-    private String[] forumTopic;
-
-    private String[] petLabworkVeterinarianUser;
+    private String isProfileCreated;
 
     private String isEmailVerified;
 
-    private String[] forumComment;
+    private String isLogin;
+
+    private String cityName;
 
     private String locationId;
 
-    private String[] petLabworkCreatedByNavigation;
+    private String confirmPassword;
 
-    private String[] forumDiscussion;
-
-    private String[] veterinarianAppointmentVeterinarianUser;
+    private String userSalt;
 
     private String email;
 
-    private String[] eventNgoUser;
-
-    private String isProvider;
-
     private String address;
 
-    private String[] petHospitalizationsSurgeriesVeterinarianUser;
+    private String roleId;
 
-    private String[] petTestsAndXreyUpdatedByNavigation;
-
-    private String[] userProfileDetail;
-
-    private String[] forumSubject;
-
-    private String privacyPolicy;
-
-    private String[] petAdoption;
-
-    private String[] rescueInjuredAnimalNgo;
-
-    private String[] rescueInjuredAnimalUser;
-
-    private String[] providerRating;
+    private String fullName;
 
     private String userId;
 
-    private String[] notificationNotifiedToNavigation;
+    private String petParentPassword;
 
-    private String[] petClinicVisitCreatedByNavigation;
+    private String forgotPasswordEmail;
 
-    private String[] petClinicVisitUpdatedByNavigation;
+    private String locationList;
+
+    private String providerConfirmPassword;
 
     private String isMobileNumberVerified;
 
-    private String[] petHospitalizationsSurgeriesCreatedByNavigation;
+    private String encryptedId;
 
-    private String location;
+    private String customerPassword;
 
-    private String user;
+    private String providerFirstName;
 
-    public String[] getForumSubTopic ()
+    private String rememberMe;
+
+    private String[] userPermissionMasterList;
+
+    private String userRole;
+
+    private String providerEmail;
+
+    private String isAllowPrescriptionAccess;
+
+    public String getVetRegistrationNumber ()
     {
-        return forumSubTopic;
+        return vetRegistrationNumber;
     }
 
-    public void setForumSubTopic (String[] forumSubTopic)
+    public void setVetRegistrationNumber (String vetRegistrationNumber)
     {
-        this.forumSubTopic = forumSubTopic;
+        this.vetRegistrationNumber = vetRegistrationNumber;
     }
 
-    public String getLastLogin ()
+    public String getVetQualification ()
     {
-        return lastLogin;
+        return vetQualification;
     }
 
-    public void setLastLogin (String lastLogin)
+    public void setVetQualification (String vetQualification)
     {
-        this.lastLogin = lastLogin;
+        this.vetQualification = vetQualification;
     }
 
-    public String[] getPetHospitalizationsSurgeriesUpdatedByNavigation ()
+    public String getZipCode ()
     {
-        return petHospitalizationsSurgeriesUpdatedByNavigation;
+        return zipCode;
     }
 
-    public void setPetHospitalizationsSurgeriesUpdatedByNavigation (String[] petHospitalizationsSurgeriesUpdatedByNavigation)
+    public void setZipCode (String zipCode)
     {
-        this.petHospitalizationsSurgeriesUpdatedByNavigation = petHospitalizationsSurgeriesUpdatedByNavigation;
+        this.zipCode = zipCode;
+    }
+
+    public String getProviderPhoneNumber ()
+    {
+        return providerPhoneNumber;
+    }
+
+    public void setProviderPhoneNumber (String providerPhoneNumber)
+    {
+        this.providerPhoneNumber = providerPhoneNumber;
     }
 
     public String getCityId ()
@@ -165,26 +173,6 @@ public class GetUpdateStaffData {
         this.isActive = isActive;
     }
 
-    public String[] getCart ()
-    {
-        return cart;
-    }
-
-    public void setCart (String[] cart)
-    {
-        this.cart = cart;
-    }
-
-    public String[] getPetTestsAndXreyVeterinarianUser ()
-    {
-        return petTestsAndXreyVeterinarianUser;
-    }
-
-    public void setPetTestsAndXreyVeterinarianUser (String[] petTestsAndXreyVeterinarianUser)
-    {
-        this.petTestsAndXreyVeterinarianUser = petTestsAndXreyVeterinarianUser;
-    }
-
     public String getPassword ()
     {
         return password;
@@ -193,6 +181,16 @@ public class GetUpdateStaffData {
     public void setPassword (String password)
     {
         this.password = password;
+    }
+
+    public String getIdentityProof ()
+    {
+        return identityProof;
+    }
+
+    public void setIdentityProof (String identityProof)
+    {
+        this.identityProof = identityProof;
     }
 
     public String getLatLong ()
@@ -205,84 +203,124 @@ public class GetUpdateStaffData {
         this.latLong = latLong;
     }
 
-    public String[] getPetLabworkUpdatedByNavigation ()
+    public String getCustomerEmail ()
     {
-        return petLabworkUpdatedByNavigation;
+        return customerEmail;
     }
 
-    public void setPetLabworkUpdatedByNavigation (String[] petLabworkUpdatedByNavigation)
+    public void setCustomerEmail (String customerEmail)
     {
-        this.petLabworkUpdatedByNavigation = petLabworkUpdatedByNavigation;
+        this.customerEmail = customerEmail;
     }
 
-    public String[] getProductRating ()
+    public String getProfileImageUrl ()
     {
-        return productRating;
+        return profileImageUrl;
     }
 
-    public void setProductRating (String[] productRating)
+    public void setProfileImageUrl (String profileImageUrl)
     {
-        this.productRating = productRating;
+        this.profileImageUrl = profileImageUrl;
     }
 
-    public String[] getRequestToNgo ()
+    public String getIsRegisteredPetParent ()
     {
-        return requestToNgo;
+        return isRegisteredPetParent;
     }
 
-    public void setRequestToNgo (String[] requestToNgo)
+    public void setIsRegisteredPetParent (String isRegisteredPetParent)
     {
-        this.requestToNgo = requestToNgo;
+        this.isRegisteredPetParent = isRegisteredPetParent;
     }
 
-    public String[] getPetDonation ()
+    public String getOnlineAppointmentStatus ()
     {
-        return petDonation;
+        return onlineAppointmentStatus;
     }
 
-    public void setPetDonation (String[] petDonation)
+    public void setOnlineAppointmentStatus (String onlineAppointmentStatus)
     {
-        this.petDonation = petDonation;
+        this.onlineAppointmentStatus = onlineAppointmentStatus;
     }
 
-    public String getInverseUser ()
+    public String getPetParentConfirmPassword ()
     {
-        return inverseUser;
+        return petParentConfirmPassword;
     }
 
-    public void setInverseUser (String inverseUser)
+    public void setPetParentConfirmPassword (String petParentConfirmPassword)
     {
-        this.inverseUser = inverseUser;
+        this.petParentConfirmPassword = petParentConfirmPassword;
     }
 
-    public String[] getEventCreatedByNavigation ()
+    public String getEnableTwoStepVerification ()
     {
-        return eventCreatedByNavigation;
+        return enableTwoStepVerification;
     }
 
-    public void setEventCreatedByNavigation (String[] eventCreatedByNavigation)
+    public void setEnableTwoStepVerification (String enableTwoStepVerification)
     {
-        this.eventCreatedByNavigation = eventCreatedByNavigation;
+        this.enableTwoStepVerification = enableTwoStepVerification;
     }
 
-    public String[] getVeterinaryStaffVeterinary ()
+    public String getDisplayInPrescription ()
     {
-        return veterinaryStaffVeterinary;
+        return displayInPrescription;
     }
 
-    public void setVeterinaryStaffVeterinary (String[] veterinaryStaffVeterinary)
+    public void setDisplayInPrescription (String displayInPrescription)
     {
-        this.veterinaryStaffVeterinary = veterinaryStaffVeterinary;
+        this.displayInPrescription = displayInPrescription;
     }
 
-    public String[] getVeterinaryStaffStaff ()
+    public String getInitials ()
     {
-        return veterinaryStaffStaff;
+        return initials;
     }
 
-    public void setVeterinaryStaffStaff (String[] veterinaryStaffStaff)
+    public void setInitials (String initials)
     {
-        this.veterinaryStaffStaff = veterinaryStaffStaff;
+        this.initials = initials;
+    }
+
+    public String getOtp ()
+    {
+        return otp;
+    }
+
+    public void setOtp (String otp)
+    {
+        this.otp = otp;
+    }
+
+    public String getAreYouProvider ()
+    {
+        return areYouProvider;
+    }
+
+    public void setAreYouProvider (String areYouProvider)
+    {
+        this.areYouProvider = areYouProvider;
+    }
+
+    public String getGuestEmail ()
+    {
+        return guestEmail;
+    }
+
+    public void setGuestEmail (String guestEmail)
+    {
+        this.guestEmail = guestEmail;
+    }
+
+    public String getIsPrivacyPolicyCheck ()
+    {
+        return isPrivacyPolicyCheck;
+    }
+
+    public void setIsPrivacyPolicyCheck (String isPrivacyPolicyCheck)
+    {
+        this.isPrivacyPolicyCheck = isPrivacyPolicyCheck;
     }
 
     public String getFirstName ()
@@ -295,14 +333,14 @@ public class GetUpdateStaffData {
         this.firstName = firstName;
     }
 
-    public String[] getPetClinicVisitVeterinarianUser ()
+    public String getQualification ()
     {
-        return petClinicVisitVeterinarianUser;
+        return qualification;
     }
 
-    public void setPetClinicVisitVeterinarianUser (String[] petClinicVisitVeterinarianUser)
+    public void setQualification (String qualification)
     {
-        this.petClinicVisitVeterinarianUser = petClinicVisitVeterinarianUser;
+        this.qualification = qualification;
     }
 
     public String getPhoneNumber ()
@@ -315,24 +353,34 @@ public class GetUpdateStaffData {
         this.phoneNumber = phoneNumber;
     }
 
-    public String[] getPetDetail ()
+    public String getProviderPassword ()
     {
-        return petDetail;
+        return providerPassword;
     }
 
-    public void setPetDetail (String[] petDetail)
+    public void setProviderPassword (String providerPassword)
     {
-        this.petDetail = petDetail;
+        this.providerPassword = providerPassword;
     }
 
-    public String[] getVeterinarianAppointmentUser ()
+    public String getStatus ()
     {
-        return veterinarianAppointmentUser;
+        return status;
     }
 
-    public void setVeterinarianAppointmentUser (String[] veterinarianAppointmentUser)
+    public void setStatus (String status)
     {
-        this.veterinarianAppointmentUser = veterinarianAppointmentUser;
+        this.status = status;
+    }
+
+    public String getClinicName ()
+    {
+        return clinicName;
+    }
+
+    public void setClinicName (String clinicName)
+    {
+        this.clinicName = clinicName;
     }
 
     public String getLastName ()
@@ -345,74 +393,44 @@ public class GetUpdateStaffData {
         this.lastName = lastName;
     }
 
-    public String getUserNavigation ()
+    public String getNotificationStatus ()
     {
-        return userNavigation;
+        return notificationStatus;
     }
 
-    public void setUserNavigation (String userNavigation)
+    public void setNotificationStatus (String notificationStatus)
     {
-        this.userNavigation = userNavigation;
+        this.notificationStatus = notificationStatus;
     }
 
-    public String[] getNotificationNotifiedByNavigation ()
+    public String getPetId ()
     {
-        return notificationNotifiedByNavigation;
+        return petId;
     }
 
-    public void setNotificationNotifiedByNavigation (String[] notificationNotifiedByNavigation)
+    public void setPetId (String petId)
     {
-        this.notificationNotifiedByNavigation = notificationNotifiedByNavigation;
+        this.petId = petId;
     }
 
-    public String[] getPetTestsAndXreyCreatedByNavigation ()
+    public String getProviderLastName ()
     {
-        return petTestsAndXreyCreatedByNavigation;
+        return providerLastName;
     }
 
-    public void setPetTestsAndXreyCreatedByNavigation (String[] petTestsAndXreyCreatedByNavigation)
+    public void setProviderLastName (String providerLastName)
     {
-        this.petTestsAndXreyCreatedByNavigation = petTestsAndXreyCreatedByNavigation;
+        this.providerLastName = providerLastName;
     }
 
-    public String getCity ()
+    public String getIsProfileCreated ()
     {
-        return city;
+        return isProfileCreated;
     }
 
-    public void setCity (String city)
+    public void setIsProfileCreated (String isProfileCreated)
     {
-        this.city = city;
-    }
-
-    public String[] getVeterinarianPetRegister ()
-    {
-        return veterinarianPetRegister;
-    }
-
-    public void setVeterinarianPetRegister (String[] veterinarianPetRegister)
-    {
-        this.veterinarianPetRegister = veterinarianPetRegister;
-    }
-
-    public String[] getForumTopic ()
-    {
-        return forumTopic;
-    }
-
-    public void setForumTopic (String[] forumTopic)
-    {
-        this.forumTopic = forumTopic;
-    }
-
-    public String[] getPetLabworkVeterinarianUser ()
-    {
-        return petLabworkVeterinarianUser;
-    }
-
-    public void setPetLabworkVeterinarianUser (String[] petLabworkVeterinarianUser)
-    {
-        this.petLabworkVeterinarianUser = petLabworkVeterinarianUser;
+        this.isProfileCreated = isProfileCreated;
     }
 
     public String getIsEmailVerified ()
@@ -425,14 +443,24 @@ public class GetUpdateStaffData {
         this.isEmailVerified = isEmailVerified;
     }
 
-    public String[] getForumComment ()
+    public String getIsLogin ()
     {
-        return forumComment;
+        return isLogin;
     }
 
-    public void setForumComment (String[] forumComment)
+    public void setIsLogin (String isLogin)
     {
-        this.forumComment = forumComment;
+        this.isLogin = isLogin;
+    }
+
+    public String getCityName ()
+    {
+        return cityName;
+    }
+
+    public void setCityName (String cityName)
+    {
+        this.cityName = cityName;
     }
 
     public String getLocationId ()
@@ -445,34 +473,24 @@ public class GetUpdateStaffData {
         this.locationId = locationId;
     }
 
-    public String[] getPetLabworkCreatedByNavigation ()
+    public String getConfirmPassword ()
     {
-        return petLabworkCreatedByNavigation;
+        return confirmPassword;
     }
 
-    public void setPetLabworkCreatedByNavigation (String[] petLabworkCreatedByNavigation)
+    public void setConfirmPassword (String confirmPassword)
     {
-        this.petLabworkCreatedByNavigation = petLabworkCreatedByNavigation;
+        this.confirmPassword = confirmPassword;
     }
 
-    public String[] getForumDiscussion ()
+    public String getUserSalt ()
     {
-        return forumDiscussion;
+        return userSalt;
     }
 
-    public void setForumDiscussion (String[] forumDiscussion)
+    public void setUserSalt (String userSalt)
     {
-        this.forumDiscussion = forumDiscussion;
-    }
-
-    public String[] getVeterinarianAppointmentVeterinarianUser ()
-    {
-        return veterinarianAppointmentVeterinarianUser;
-    }
-
-    public void setVeterinarianAppointmentVeterinarianUser (String[] veterinarianAppointmentVeterinarianUser)
-    {
-        this.veterinarianAppointmentVeterinarianUser = veterinarianAppointmentVeterinarianUser;
+        this.userSalt = userSalt;
     }
 
     public String getEmail ()
@@ -485,26 +503,6 @@ public class GetUpdateStaffData {
         this.email = email;
     }
 
-    public String[] getEventNgoUser ()
-    {
-        return eventNgoUser;
-    }
-
-    public void setEventNgoUser (String[] eventNgoUser)
-    {
-        this.eventNgoUser = eventNgoUser;
-    }
-
-    public String getIsProvider ()
-    {
-        return isProvider;
-    }
-
-    public void setIsProvider (String isProvider)
-    {
-        this.isProvider = isProvider;
-    }
-
     public String getAddress ()
     {
         return address;
@@ -515,94 +513,24 @@ public class GetUpdateStaffData {
         this.address = address;
     }
 
-    public String[] getPetHospitalizationsSurgeriesVeterinarianUser ()
+    public String getRoleId ()
     {
-        return petHospitalizationsSurgeriesVeterinarianUser;
+        return roleId;
     }
 
-    public void setPetHospitalizationsSurgeriesVeterinarianUser (String[] petHospitalizationsSurgeriesVeterinarianUser)
+    public void setRoleId (String roleId)
     {
-        this.petHospitalizationsSurgeriesVeterinarianUser = petHospitalizationsSurgeriesVeterinarianUser;
+        this.roleId = roleId;
     }
 
-    public String[] getPetTestsAndXreyUpdatedByNavigation ()
+    public String getFullName ()
     {
-        return petTestsAndXreyUpdatedByNavigation;
+        return fullName;
     }
 
-    public void setPetTestsAndXreyUpdatedByNavigation (String[] petTestsAndXreyUpdatedByNavigation)
+    public void setFullName (String fullName)
     {
-        this.petTestsAndXreyUpdatedByNavigation = petTestsAndXreyUpdatedByNavigation;
-    }
-
-    public String[] getUserProfileDetail ()
-    {
-        return userProfileDetail;
-    }
-
-    public void setUserProfileDetail (String[] userProfileDetail)
-    {
-        this.userProfileDetail = userProfileDetail;
-    }
-
-    public String[] getForumSubject ()
-    {
-        return forumSubject;
-    }
-
-    public void setForumSubject (String[] forumSubject)
-    {
-        this.forumSubject = forumSubject;
-    }
-
-    public String getPrivacyPolicy ()
-    {
-        return privacyPolicy;
-    }
-
-    public void setPrivacyPolicy (String privacyPolicy)
-    {
-        this.privacyPolicy = privacyPolicy;
-    }
-
-    public String[] getPetAdoption ()
-    {
-        return petAdoption;
-    }
-
-    public void setPetAdoption (String[] petAdoption)
-    {
-        this.petAdoption = petAdoption;
-    }
-
-    public String[] getRescueInjuredAnimalNgo ()
-    {
-        return rescueInjuredAnimalNgo;
-    }
-
-    public void setRescueInjuredAnimalNgo (String[] rescueInjuredAnimalNgo)
-    {
-        this.rescueInjuredAnimalNgo = rescueInjuredAnimalNgo;
-    }
-
-    public String[] getRescueInjuredAnimalUser ()
-    {
-        return rescueInjuredAnimalUser;
-    }
-
-    public void setRescueInjuredAnimalUser (String[] rescueInjuredAnimalUser)
-    {
-        this.rescueInjuredAnimalUser = rescueInjuredAnimalUser;
-    }
-
-    public String[] getProviderRating ()
-    {
-        return providerRating;
-    }
-
-    public void setProviderRating (String[] providerRating)
-    {
-        this.providerRating = providerRating;
+        this.fullName = fullName;
     }
 
     public String getUserId ()
@@ -615,34 +543,44 @@ public class GetUpdateStaffData {
         this.userId = userId;
     }
 
-    public String[] getNotificationNotifiedToNavigation ()
+    public String getPetParentPassword ()
     {
-        return notificationNotifiedToNavigation;
+        return petParentPassword;
     }
 
-    public void setNotificationNotifiedToNavigation (String[] notificationNotifiedToNavigation)
+    public void setPetParentPassword (String petParentPassword)
     {
-        this.notificationNotifiedToNavigation = notificationNotifiedToNavigation;
+        this.petParentPassword = petParentPassword;
     }
 
-    public String[] getPetClinicVisitCreatedByNavigation ()
+    public String getForgotPasswordEmail ()
     {
-        return petClinicVisitCreatedByNavigation;
+        return forgotPasswordEmail;
     }
 
-    public void setPetClinicVisitCreatedByNavigation (String[] petClinicVisitCreatedByNavigation)
+    public void setForgotPasswordEmail (String forgotPasswordEmail)
     {
-        this.petClinicVisitCreatedByNavigation = petClinicVisitCreatedByNavigation;
+        this.forgotPasswordEmail = forgotPasswordEmail;
     }
 
-    public String[] getPetClinicVisitUpdatedByNavigation ()
+    public String getLocationList ()
     {
-        return petClinicVisitUpdatedByNavigation;
+        return locationList;
     }
 
-    public void setPetClinicVisitUpdatedByNavigation (String[] petClinicVisitUpdatedByNavigation)
+    public void setLocationList (String locationList)
     {
-        this.petClinicVisitUpdatedByNavigation = petClinicVisitUpdatedByNavigation;
+        this.locationList = locationList;
+    }
+
+    public String getProviderConfirmPassword ()
+    {
+        return providerConfirmPassword;
+    }
+
+    public void setProviderConfirmPassword (String providerConfirmPassword)
+    {
+        this.providerConfirmPassword = providerConfirmPassword;
     }
 
     public String getIsMobileNumberVerified ()
@@ -655,39 +593,89 @@ public class GetUpdateStaffData {
         this.isMobileNumberVerified = isMobileNumberVerified;
     }
 
-    public String[] getPetHospitalizationsSurgeriesCreatedByNavigation ()
+    public String getEncryptedId ()
     {
-        return petHospitalizationsSurgeriesCreatedByNavigation;
+        return encryptedId;
     }
 
-    public void setPetHospitalizationsSurgeriesCreatedByNavigation (String[] petHospitalizationsSurgeriesCreatedByNavigation)
+    public void setEncryptedId (String encryptedId)
     {
-        this.petHospitalizationsSurgeriesCreatedByNavigation = petHospitalizationsSurgeriesCreatedByNavigation;
+        this.encryptedId = encryptedId;
     }
 
-    public String getLocation ()
+    public String getCustomerPassword ()
     {
-        return location;
+        return customerPassword;
     }
 
-    public void setLocation (String location)
+    public void setCustomerPassword (String customerPassword)
     {
-        this.location = location;
+        this.customerPassword = customerPassword;
     }
 
-    public String getUser ()
+    public String getProviderFirstName ()
     {
-        return user;
+        return providerFirstName;
     }
 
-    public void setUser (String user)
+    public void setProviderFirstName (String providerFirstName)
     {
-        this.user = user;
+        this.providerFirstName = providerFirstName;
+    }
+
+    public String getRememberMe ()
+    {
+        return rememberMe;
+    }
+
+    public void setRememberMe (String rememberMe)
+    {
+        this.rememberMe = rememberMe;
+    }
+
+    public String[] getUserPermissionMasterList ()
+    {
+        return userPermissionMasterList;
+    }
+
+    public void setUserPermissionMasterList (String[] userPermissionMasterList)
+    {
+        this.userPermissionMasterList = userPermissionMasterList;
+    }
+
+    public String getUserRole ()
+    {
+        return userRole;
+    }
+
+    public void setUserRole (String userRole)
+    {
+        this.userRole = userRole;
+    }
+
+    public String getProviderEmail ()
+    {
+        return providerEmail;
+    }
+
+    public void setProviderEmail (String providerEmail)
+    {
+        this.providerEmail = providerEmail;
+    }
+
+    public String getIsAllowPrescriptionAccess ()
+    {
+        return isAllowPrescriptionAccess;
+    }
+
+    public void setIsAllowPrescriptionAccess (String isAllowPrescriptionAccess)
+    {
+        this.isAllowPrescriptionAccess = isAllowPrescriptionAccess;
     }
 
     @Override
     public String toString()
     {
-        return "ClassPojo [forumSubTopic = "+forumSubTopic+", lastLogin = "+lastLogin+", petHospitalizationsSurgeriesUpdatedByNavigation = "+petHospitalizationsSurgeriesUpdatedByNavigation+", cityId = "+cityId+", isActive = "+isActive+", cart = "+cart+", petTestsAndXreyVeterinarianUser = "+petTestsAndXreyVeterinarianUser+", password = "+password+", latLong = "+latLong+", petLabworkUpdatedByNavigation = "+petLabworkUpdatedByNavigation+", productRating = "+productRating+", requestToNgo = "+requestToNgo+", petDonation = "+petDonation+", inverseUser = "+inverseUser+", eventCreatedByNavigation = "+eventCreatedByNavigation+", veterinaryStaffVeterinary = "+veterinaryStaffVeterinary+", veterinaryStaffStaff = "+veterinaryStaffStaff+", firstName = "+firstName+", petClinicVisitVeterinarianUser = "+petClinicVisitVeterinarianUser+", phoneNumber = "+phoneNumber+", petDetail = "+petDetail+", veterinarianAppointmentUser = "+veterinarianAppointmentUser+", lastName = "+lastName+", userNavigation = "+userNavigation+", notificationNotifiedByNavigation = "+notificationNotifiedByNavigation+", petTestsAndXreyCreatedByNavigation = "+petTestsAndXreyCreatedByNavigation+", city = "+city+", veterinarianPetRegister = "+veterinarianPetRegister+", forumTopic = "+forumTopic+", petLabworkVeterinarianUser = "+petLabworkVeterinarianUser+", isEmailVerified = "+isEmailVerified+", forumComment = "+forumComment+", locationId = "+locationId+", petLabworkCreatedByNavigation = "+petLabworkCreatedByNavigation+", forumDiscussion = "+forumDiscussion+", veterinarianAppointmentVeterinarianUser = "+veterinarianAppointmentVeterinarianUser+", email = "+email+", eventNgoUser = "+eventNgoUser+", isProvider = "+isProvider+", address = "+address+", petHospitalizationsSurgeriesVeterinarianUser = "+petHospitalizationsSurgeriesVeterinarianUser+", petTestsAndXreyUpdatedByNavigation = "+petTestsAndXreyUpdatedByNavigation+", userProfileDetail = "+userProfileDetail+", forumSubject = "+forumSubject+", privacyPolicy = "+privacyPolicy+", petAdoption = "+petAdoption+", rescueInjuredAnimalNgo = "+rescueInjuredAnimalNgo+", rescueInjuredAnimalUser = "+rescueInjuredAnimalUser+", providerRating = "+providerRating+", userId = "+userId+", notificationNotifiedToNavigation = "+notificationNotifiedToNavigation+", petClinicVisitCreatedByNavigation = "+petClinicVisitCreatedByNavigation+", petClinicVisitUpdatedByNavigation = "+petClinicVisitUpdatedByNavigation+", isMobileNumberVerified = "+isMobileNumberVerified+", petHospitalizationsSurgeriesCreatedByNavigation = "+petHospitalizationsSurgeriesCreatedByNavigation+", location = "+location+", user = "+user+"]";
+        return "ClassPojo [vetRegistrationNumber = "+vetRegistrationNumber+", vetQualification = "+vetQualification+", zipCode = "+zipCode+", providerPhoneNumber = "+providerPhoneNumber+", cityId = "+cityId+", isActive = "+isActive+", password = "+password+", identityProof = "+identityProof+", latLong = "+latLong+", customerEmail = "+customerEmail+", profileImageUrl = "+profileImageUrl+", isRegisteredPetParent = "+isRegisteredPetParent+", onlineAppointmentStatus = "+onlineAppointmentStatus+", petParentConfirmPassword = "+petParentConfirmPassword+", enableTwoStepVerification = "+enableTwoStepVerification+", displayInPrescription = "+displayInPrescription+", initials = "+initials+", otp = "+otp+", areYouProvider = "+areYouProvider+", guestEmail = "+guestEmail+", isPrivacyPolicyCheck = "+isPrivacyPolicyCheck+", firstName = "+firstName+", qualification = "+qualification+", phoneNumber = "+phoneNumber+", providerPassword = "+providerPassword+", status = "+status+", clinicName = "+clinicName+", lastName = "+lastName+", notificationStatus = "+notificationStatus+", petId = "+petId+", providerLastName = "+providerLastName+", isProfileCreated = "+isProfileCreated+", isEmailVerified = "+isEmailVerified+", isLogin = "+isLogin+", cityName = "+cityName+", locationId = "+locationId+", confirmPassword = "+confirmPassword+", userSalt = "+userSalt+", email = "+email+", address = "+address+", roleId = "+roleId+", fullName = "+fullName+", userId = "+userId+", petParentPassword = "+petParentPassword+", forgotPasswordEmail = "+forgotPasswordEmail+", locationList = "+locationList+", providerConfirmPassword = "+providerConfirmPassword+", isMobileNumberVerified = "+isMobileNumberVerified+", encryptedId = "+encryptedId+", customerPassword = "+customerPassword+", providerFirstName = "+providerFirstName+", rememberMe = "+rememberMe+", userPermissionMasterList = "+userPermissionMasterList+", userRole = "+userRole+", providerEmail = "+providerEmail+", isAllowPrescriptionAccess = "+isAllowPrescriptionAccess+"]";
     }
 }

@@ -50,6 +50,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.cynoteck.petofyOPHR.R;
 import com.cynoteck.petofyOPHR.adapters.ImmunazationVaccineAdopter;
 import com.cynoteck.petofyOPHR.adapters.ImmunizationHistoryAdopter;
@@ -209,8 +210,8 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
     int lastStaus = 0, natureStaus = 50;
     //pet_profile_dialog
 
-    ImageView cross_IV,pet_profile_image_IV;
-    TextView pet_name_TV,pet_breed_TV ,pet_age_TV,pet_gender_TV,pet_id_TV,pet_parent_name_TV,parent_phone_TV,parent_address_TV;
+    ImageView dialog_cross_IV,dialog_pet_profile_image_IV;
+    TextView dialog_pet_name_TV,dialog_pet_breed_TV ,dialog_pet_age_TV,dialog_pet_gender_TV,dialog_pet_id_TV,dialog_pet_parent_name_TV,dialog_parent_phone_TV,dialog_parent_address_TV;
 
 
     @Override
@@ -453,18 +454,18 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         pet_profile_dialog = new Dialog(this);
         pet_profile_dialog.setContentView(R.layout.pet_deatils_dialog);
 
-        pet_profile_image_IV =  pet_profile_dialog.findViewById(R.id.pet_profile_image_IV);
-        pet_name_TV =  pet_profile_dialog.findViewById(R.id.pet_name_TV);
-        cross_IV =  pet_profile_dialog.findViewById(R.id.cross_IV);
-        pet_id_TV =  pet_profile_dialog.findViewById(R.id.pet_id_TV);
-        pet_age_TV =  pet_profile_dialog.findViewById(R.id.pet_age_TV);
-        pet_gender_TV =  pet_profile_dialog.findViewById(R.id.pet_gender_TV);
-        pet_parent_name_TV =  pet_profile_dialog.findViewById(R.id.pet_parent_name_TV);
-        parent_phone_TV =  pet_profile_dialog.findViewById(R.id.parent_phone_TV);
-        parent_address_TV =  pet_profile_dialog.findViewById(R.id.parent_address_TV);
-        pet_breed_TV =  pet_profile_dialog.findViewById(R.id.pet_breed_TV);
+        dialog_pet_profile_image_IV =  pet_profile_dialog.findViewById(R.id.dialog_pet_profile_image_IV);
+        dialog_pet_name_TV =  pet_profile_dialog.findViewById(R.id.dialog_pet_name_TV);
+        dialog_cross_IV =  pet_profile_dialog.findViewById(R.id.dialog_cross_IV);
+        dialog_pet_id_TV =  pet_profile_dialog.findViewById(R.id.dialog_pet_reg__id_TV);
+        dialog_pet_age_TV =  pet_profile_dialog.findViewById(R.id.dialog_pet_age_TV);
+        dialog_pet_gender_TV =  pet_profile_dialog.findViewById(R.id.dialog_pet_gender_TV);
+        dialog_pet_parent_name_TV =  pet_profile_dialog.findViewById(R.id.dialog_pet_parent_name_TV);
+        dialog_parent_phone_TV =  pet_profile_dialog.findViewById(R.id.dialog_parent_phone_TV);
+        dialog_parent_address_TV =  pet_profile_dialog.findViewById(R.id.dialog_parent_address_TV);
+        dialog_pet_breed_TV =  pet_profile_dialog.findViewById(R.id.dialog_pet_breed_TV);
 
-        cross_IV.setOnClickListener(this);
+        dialog_cross_IV.setOnClickListener(this);
     }
 
     private void textWatcher() {
@@ -690,7 +691,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
 
                 break;
 
-            case R.id.cross_IV:
+            case R.id.dialog_cross_IV:
                 pet_profile_dialog.dismiss();
                 break;
 
@@ -928,6 +929,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = WindowManager.LayoutParams.MATCH_PARENT;
         window.setAttributes(lp);
+        pet_profile_dialog.setCancelable(true);
         pet_profile_dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         pet_profile_dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         pet_profile_dialog.show();
@@ -1651,14 +1653,19 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     if (responseCode == 109) {
                         view_profile_RL.setOnClickListener(this);
                         pet_name = getPetResponse.getData().getPetName();
-                        pet_id_TV.setText(getPetResponse.getData().getPetUniqueId());
-                        pet_gender_TV.setText(getPetResponse.getData().getPetSex());
-                        pet_age_TV.setText(getPetResponse.getData().getPetAge().substring(6));
-                        pet_breed_TV.setText(getPetResponse.getData().getPetBreed());
+                        dialog_pet_id_TV.setText(getPetResponse.getData().getPetUniqueId());
+                        dialog_pet_gender_TV.setText(getPetResponse.getData().getPetSex());
+                        dialog_pet_age_TV.setText(getPetResponse.getData().getPetAge().substring(6));
+                        dialog_pet_breed_TV.setText(getPetResponse.getData().getPetBreed());
 //                        pet_typeTV.setText(getPetResponse.getData().getPetCategory());
-                        pet_parent_name_TV.setText(getPetResponse.getData().getPetParentName());
-                        parent_phone_TV.setText(getPetResponse.getData().getContactNumber());
-                        parent_address_TV.setText(getPetResponse.getData().getAddress());
+                        dialog_pet_parent_name_TV.setText(getPetResponse.getData().getPetParentName());
+                        dialog_parent_phone_TV.setText(getPetResponse.getData().getContactNumber());
+                        dialog_parent_address_TV.setText(getPetResponse.getData().getAddress());
+
+                        Glide.with(this)
+                                .load(getPetResponse.getData().getPetProfileImageUrl())
+                                .placeholder(R.drawable.dummy_dog_image)
+                                .into(dialog_pet_profile_image_IV);
 
                     } else if (responseCode == 614) {
                         Toast.makeText(this, getPetResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();

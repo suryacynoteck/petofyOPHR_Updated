@@ -1,142 +1,224 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/whiteColor"
     tools:context=".activities.UpdateProfileActivity">
 
-    <com.google.android.material.card.MaterialCardView
-        android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
-        app:cardElevation="20dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/whiteColor"
+        android:layout_height="0dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="15dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/add_staff_headline_TV"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:fontFamily="@font/nunito"
+            android:gravity="center"
+            android:text="@string/Editprofile"
+            android:textColor="@color/gray_2"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/back_arrow_CV"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/back_arrow_CV" />
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+            android:id="@+id/back_arrow_CV"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="10dp"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:padding="5dp"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/back_arrow"
-                android:id="@+id/back_arrow"/>
-
-            <TextView
-                android:textColor="#000"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/EditprofileToolbar"
-                android:gravity="center"
-                android:textSize="20sp"
-                android:textStyle="bold"/>
+                android:src="@drawable/light_grey_bg"
+                android:visibility="visible" />
 
             <ImageView
-                android:id="@+id/logout"
-                android:layout_margin="5dp"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
-                android:padding="10dp"
-                android:src="@drawable/logout" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="5dp"
+                android:src="@drawable/back_arrow"
+                android:visibility="visible" />
+
+        </com.google.android.material.card.MaterialCardView>
 
 
-        </RelativeLayout>
+        <com.google.android.material.card.MaterialCardView
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+            android:id="@+id/logout_CV"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="10dp"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/light_grey_bg"
+                android:visibility="visible" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="5dp"
+                android:src="@drawable/logout"
+                android:visibility="visible" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+    <ProgressBar
+        android:id="@+id/horizontal_progress_bar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:indeterminate="false"
+        android:max="100"
+        android:progress="2"
+        android:progressBackgroundTint="@color/colorPrimaryDark"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
-    </com.google.android.material.card.MaterialCardView>
 
     <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toTopOf="@+id/update_profile"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="0dp"
-        android:layout_height="0dp">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_progress_bar">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/first_name_TV"
+
+            <LinearLayout
+                android:id="@+id/first_last_name_TV_LL"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/firstName"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
-                android:textColor="@color/grey_add_pet"
-                app:layout_constraintTop_toTopOf="parent"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
-
-            <EditText
-                android:id="@+id/first_name_updt"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/edit_text_background"
-                android:gravity="center_vertical"
-                android:hint="First Name"
-                android:inputType="text"
-                android:maxLines="1"
-                android:paddingLeft="25dp"
-                android:textColor="@color/grey_add_pet"
-                app:layout_constraintEnd_toEndOf="@id/first_name_TV"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/first_name_TV" />
+                app:layout_constraintTop_toTopOf="parent">
 
 
-            <TextView
-                android:id="@+id/last_name_TV"
+                <TextView
+                    android:id="@+id/first_name_TV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/nunito"
+                    android:text="@string/firstName"
+                    android:textColor="@color/gray_1"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/last_name_TV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/nunito"
+                    android:text="@string/lastname"
+                    android:textColor="@color/gray_1"
+                    android:textSize="18sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/first_last_name_ET_LL"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/first_name_TV"
-                app:layout_constraintEnd_toEndOf="@id/first_name_TV"
-                app:layout_constraintTop_toBottomOf="@id/first_name_updt"
-                android:text="@string/lastname"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/grey_add_pet"/>
+                android:orientation="horizontal"
+                android:weightSum="2"
+                app:layout_constraintEnd_toEndOf="@id/first_last_name_TV_LL"
+                app:layout_constraintStart_toStartOf="@+id/first_last_name_TV_LL"
+                app:layout_constraintTop_toBottomOf="@+id/first_last_name_TV_LL">
 
-            <EditText
-                android:id="@+id/last_name_updt"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/edit_text_background"
-                android:gravity="center_vertical"
-                android:hint="@string/lastname"
-                android:inputType="text"
-                android:maxLines="1"
-                android:paddingLeft="25dp"
-                android:textColor="@color/grey_add_pet"
-                app:layout_constraintEnd_toEndOf="@id/first_name_TV"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/last_name_TV" />
+                <EditText
+                    android:id="@+id/first_name_updt"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_text_background"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:hint="First Name"
+                    android:inputType="textCapWords"
+                    android:maxLines="1"
+                    android:paddingLeft="25dp"
+                    android:textColor="@color/gray_1"
+                    android:textSize="18sp" />
 
+
+                <EditText
+                    android:id="@+id/last_name_updt"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_text_background"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:hint="@string/lastname"
+                    android:inputType="textCapWords"
+                    android:maxLines="1"
+                    android:paddingLeft="25dp"
+                    android:textColor="@color/gray_1"
+                    android:textSize="18sp" />
+
+
+            </LinearLayout>
 
 
             <TextView
                 android:id="@+id/email_TV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/first_name_TV"
-                app:layout_constraintEnd_toEndOf="@id/first_name_TV"
-                app:layout_constraintTop_toBottomOf="@id/last_name_updt"
-                android:text="@string/emailtext"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/grey_add_pet"/>
+                android:fontFamily="@font/nunito"
+                android:text="@string/emailtext"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@id/first_last_name_TV_LL"
+                app:layout_constraintStart_toStartOf="@id/first_last_name_TV_LL"
+                app:layout_constraintTop_toBottomOf="@id/first_last_name_ET_LL" />
 
 
             <EditText
@@ -146,13 +228,15 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edit_text_background"
+                android:fontFamily="@font/nunito"
                 android:gravity="center_vertical"
                 android:hint="@string/emailtext"
-                android:inputType="text"
+                android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:paddingLeft="25dp"
-                android:textColor="@color/grey_add_pet"
-                app:layout_constraintEnd_toEndOf="@id/first_name_TV"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@id/first_last_name_TV_LL"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/email_TV" />
 
@@ -161,12 +245,14 @@
                 android:id="@+id/phone_TV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/first_name_TV"
-                app:layout_constraintEnd_toEndOf="@id/first_name_TV"
-                app:layout_constraintTop_toBottomOf="@id/email_updt"
-                android:text="@string/phoneNumber"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/grey_add_pet"/>
+                android:fontFamily="@font/nunito"
+                android:text="@string/phoneNumber"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@id/first_last_name_TV_LL"
+                app:layout_constraintStart_toStartOf="@id/first_last_name_TV_LL"
+                app:layout_constraintTop_toBottomOf="@id/email_updt" />
 
             <EditText
                 android:id="@+id/phone_updt"
@@ -175,13 +261,15 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edit_text_background"
+                android:fontFamily="@font/nunito"
                 android:gravity="center_vertical"
                 android:hint="@string/phoneNumber"
                 android:inputType="phone"
                 android:maxLines="1"
                 android:paddingLeft="25dp"
-                android:textColor="@color/grey_add_pet"
-                app:layout_constraintEnd_toEndOf="@id/first_name_TV"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@id/first_last_name_TV_LL"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/phone_TV" />
 
@@ -190,12 +278,14 @@
                 android:id="@+id/clinic_name_TV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/first_name_TV"
-                app:layout_constraintEnd_toEndOf="@id/first_name_TV"
-                app:layout_constraintTop_toBottomOf="@id/phone_updt"
-                android:text="@string/clinicName"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/grey_add_pet"/>
+                android:fontFamily="@font/nunito"
+                android:text="@string/clinicName"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@id/first_last_name_TV_LL"
+                app:layout_constraintStart_toStartOf="@id/first_last_name_TV_LL"
+                app:layout_constraintTop_toBottomOf="@id/phone_updt" />
 
             <EditText
                 android:id="@+id/clinic_name_updt"
@@ -204,13 +294,15 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edit_text_background"
+                android:fontFamily="@font/nunito"
                 android:gravity="center_vertical"
                 android:hint="@string/clinicName"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:paddingLeft="25dp"
-                android:textColor="@color/grey_add_pet"
-                app:layout_constraintEnd_toEndOf="@id/first_name_TV"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@id/first_last_name_TV_LL"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/clinic_name_TV" />
 
@@ -218,12 +310,14 @@
                 android:id="@+id/clinicCode_TV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/first_name_TV"
-                app:layout_constraintEnd_toEndOf="@id/first_name_TV"
-                app:layout_constraintTop_toBottomOf="@id/clinic_name_updt"
-                android:hint="@string/clinicCode"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/grey_add_pet"/>
+                android:fontFamily="@font/nunito"
+                android:hint="@string/clinicCode"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@id/first_last_name_TV_LL"
+                app:layout_constraintStart_toStartOf="@id/first_last_name_TV_LL"
+                app:layout_constraintTop_toBottomOf="@id/clinic_name_updt" />
 
             <EditText
                 android:id="@+id/clinicCode_updt"
@@ -232,13 +326,15 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edit_text_background"
+                android:fontFamily="@font/nunito"
                 android:gravity="center_vertical"
                 android:hint="@string/clinicCode"
-                android:inputType="text"
+                android:inputType="textCapSentences"
                 android:maxLines="1"
                 android:paddingLeft="25dp"
-                android:textColor="@color/grey_add_pet"
-                app:layout_constraintEnd_toEndOf="@id/first_name_TV"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@id/first_last_name_TV_LL"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/clinicCode_TV" />
 
@@ -246,12 +342,14 @@
                 android:id="@+id/description_TV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/first_name_TV"
-                app:layout_constraintEnd_toEndOf="@id/first_name_TV"
-                app:layout_constraintTop_toBottomOf="@id/clinicCode_updt"
-                android:text="@string/description1"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/grey_add_pet"/>
+                android:fontFamily="@font/nunito"
+                android:text="@string/description1"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@id/first_last_name_TV_LL"
+                app:layout_constraintStart_toStartOf="@id/first_last_name_TV_LL"
+                app:layout_constraintTop_toBottomOf="@id/clinicCode_updt" />
 
             <EditText
                 android:id="@+id/description_updt"
@@ -260,65 +358,68 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edit_text_background"
+                android:fontFamily="@font/nunito"
                 android:gravity="center_vertical"
                 android:hint="@string/description1"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:paddingLeft="25dp"
-                android:textColor="@color/grey_add_pet"
-                app:layout_constraintEnd_toEndOf="@id/first_name_TV"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@id/first_last_name_TV_LL"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/description_TV" />
 
-          <LinearLayout
-              android:id="@+id/online_layout"
-              android:layout_width="0dp"
-              android:layout_height="90dp"
-              android:layout_marginLeft="5dp"
-              android:layout_marginTop="10dp"
-              app:layout_constraintStart_toStartOf="@id/first_name_TV"
-              app:layout_constraintEnd_toEndOf="@id/first_name_TV"
-              app:layout_constraintTop_toBottomOf="@id/description_updt"
-              android:weightSum="2.5"
-              android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/online_layout"
+                android:layout_width="0dp"
+                android:layout_height="90dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:weightSum="2.5"
+                app:layout_constraintEnd_toEndOf="@id/first_last_name_TV_LL"
+                app:layout_constraintStart_toStartOf="@id/first_last_name_TV_LL"
+                app:layout_constraintTop_toBottomOf="@id/description_updt">
 
-              <CheckBox
-                  android:id="@+id/online_CB"
-                  android:layout_width="match_parent"
-                  android:layout_height="0dp"
-                  android:layout_weight="1"
-                  android:text="Enable Online Appointment"
-                  android:gravity="center_vertical"/>
+                <CheckBox
+                    android:id="@+id/online_CB"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="Enable Online Appointment" />
 
-              <EditText
-                  android:visibility="gone"
-                  android:id="@+id/online_charges_ET"
-                  android:layout_width="match_parent"
-                  android:layout_height="0dp"
-                  android:layout_weight="1.5"
-                  android:background="@drawable/edit_text_background"
-                  android:hint="Online Consultant Charges(INR)"
-                  android:gravity="center_vertical"
-                  android:paddingLeft="25dp"
-                  android:inputType="number"
-                  android:textSize="14sp"
-                  android:layout_marginTop="10dp"/>
+                <EditText
+                    android:id="@+id/online_charges_ET"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1.5"
+                    android:background="@drawable/edit_text_background"
+                    android:gravity="center_vertical"
+                    android:hint="Online Consultant Charges(INR)"
+                    android:inputType="number"
+                    android:paddingLeft="25dp"
+                    android:textSize="14sp"
+                    android:visibility="gone" />
 
 
-          </LinearLayout>
-
+            </LinearLayout>
 
 
             <TextView
                 android:id="@+id/address_TV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/first_name_TV"
-                app:layout_constraintEnd_toEndOf="@id/first_name_TV"
-                app:layout_constraintTop_toBottomOf="@id/online_layout"
-                android:text="@string/address"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/grey_add_pet"/>
+                android:fontFamily="@font/nunito"
+                android:text="@string/address"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@id/first_last_name_TV_LL"
+                app:layout_constraintStart_toStartOf="@id/first_last_name_TV_LL"
+                app:layout_constraintTop_toBottomOf="@id/online_layout" />
 
             <EditText
                 android:id="@+id/address_updt"
@@ -327,126 +428,137 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edit_text_background"
+                android:fontFamily="@font/nunito"
                 android:gravity="center_vertical"
                 android:hint="@string/address"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:paddingLeft="25dp"
-                android:textColor="@color/grey_add_pet"
-                app:layout_constraintEnd_toEndOf="@id/first_name_TV"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@id/first_last_name_TV_LL"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/address_TV" />
 
             <LinearLayout
+                android:id="@+id/country_LL"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
                 android:layout_marginTop="10dp"
-                android:id="@+id/country_LL"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/address_updt"
-                app:layout_constraintEnd_toStartOf="@id/first_name_TV"
-                app:layout_constraintEnd_toEndOf="@id/first_name_TV"
-                android:layout_width="match_parent"
+                android:layout_marginRight="20dp"
                 android:orientation="vertical"
-                android:weightSum="2">
+                android:weightSum="2"
+                app:layout_constraintEnd_toEndOf="@id/first_last_name_TV_LL"
+                app:layout_constraintEnd_toStartOf="@id/first_last_name_TV_LL"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/address_updt">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="@id/first_name_TV"
-                    app:layout_constraintEnd_toEndOf="@id/first_name_TV"
-                    app:layout_constraintTop_toBottomOf="@id/online_layout"
-                    android:text="Country"
                     android:layout_marginTop="10dp"
-                    android:textColor="@color/grey_add_pet"/>
+                    android:fontFamily="@font/nunito"
+                    android:text="Country"
+                    android:textColor="@color/gray_1"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="@id/first_name_TV"
+                    app:layout_constraintStart_toStartOf="@id/first_name_TV"
+                    app:layout_constraintTop_toBottomOf="@id/online_layout" />
 
                 <androidx.appcompat.widget.AppCompatSpinner
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/spinner_background"
                     android:id="@+id/country_spnr_updt"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:paddingLeft="20dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginRight="2dp"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:background="@drawable/spinner_background"
+                    android:paddingLeft="20dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="@id/first_name_TV"
-                    app:layout_constraintEnd_toEndOf="@id/first_name_TV"
-                    app:layout_constraintTop_toBottomOf="@id/online_layout"
-                    android:text="State"
                     android:layout_marginTop="10dp"
-                    android:textColor="@color/grey_add_pet"/>
+                    android:fontFamily="@font/nunito"
+                    android:text="State"
+                    android:textColor="@color/gray_1"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="@id/first_last_name_TV_LL"
+                    app:layout_constraintStart_toStartOf="@id/first_last_name_TV_LL"
+                    app:layout_constraintTop_toBottomOf="@id/online_layout" />
 
                 <androidx.appcompat.widget.AppCompatSpinner
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/spinner_background"
                     android:id="@+id/state_spnr_updt"
-                    android:layout_marginLeft="2dp"
-                    android:paddingLeft="20dp"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_weight="1"/>
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/spinner_background"
+                    android:paddingLeft="20dp" />
 
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp"
                 android:id="@+id/pincode_LL"
-                app:layout_constraintStart_toStartOf="@id/first_name_TV"
-                app:layout_constraintEnd_toEndOf="@id/first_name_TV"
-                app:layout_constraintTop_toBottomOf="@id/country_LL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
                 android:orientation="vertical"
-                android:weightSum="2">
+                android:weightSum="2"
+                app:layout_constraintEnd_toEndOf="@id/first_last_name_TV_LL"
+                app:layout_constraintStart_toStartOf="@id/first_last_name_TV_LL"
+                app:layout_constraintTop_toBottomOf="@id/country_LL">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="@id/first_name_TV"
-                    app:layout_constraintEnd_toEndOf="@id/first_name_TV"
-                    app:layout_constraintTop_toBottomOf="@id/online_layout"
-                    android:text="City"
                     android:layout_marginTop="10dp"
-                    android:textColor="@color/grey_add_pet"/>
+                    android:fontFamily="@font/nunito"
+                    android:text="City"
+                    android:textColor="@color/gray_1"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="@id/first_last_name_TV_LL"
+                    app:layout_constraintStart_toStartOf="@id/first_last_name_TV_LL"
+                    app:layout_constraintTop_toBottomOf="@id/online_layout" />
 
                 <androidx.appcompat.widget.AppCompatSpinner
-                    android:background="@drawable/spinner_background"
                     android:id="@+id/city_spnr_updt"
                     android:layout_width="match_parent"
-                    android:paddingLeft="20dp"
-                    android:layout_marginTop="10dp"
                     android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginRight="2dp"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:background="@drawable/spinner_background"
+                    android:paddingLeft="20dp" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="@id/first_name_TV"
-                    app:layout_constraintEnd_toEndOf="@id/first_name_TV"
-                    app:layout_constraintTop_toBottomOf="@id/online_layout"
-                    android:text="@string/postal_code"
                     android:layout_marginTop="10dp"
-                    android:textColor="@color/grey_add_pet"/>
+                    android:fontFamily="@font/nunito"
+                    android:text="@string/postal_code"
+                    android:textColor="@color/gray_1"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="@id/first_last_name_TV_LL"
+                    app:layout_constraintStart_toStartOf="@id/first_last_name_TV_LL"
+                    app:layout_constraintTop_toBottomOf="@id/online_layout" />
 
                 <EditText
-                    android:layout_marginTop="10dp"
-                    android:paddingLeft="25dp"
-                    android:hint="@string/postal_code"
                     android:id="@+id/postal_code_updt"
                     android:layout_width="match_parent"
-                    android:inputType="number"
-                    android:layout_marginLeft="2dp"
                     android:layout_height="50dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
                     android:background="@drawable/edit_text_background"
-                    android:layout_weight="1"/>
+                    android:hint="@string/postal_code"
+                    android:inputType="number"
+                    android:paddingLeft="25dp" />
 
             </LinearLayout>
 
@@ -454,12 +566,14 @@
                 android:id="@+id/website_TV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/first_name_TV"
-                app:layout_constraintEnd_toEndOf="@id/first_name_TV"
-                app:layout_constraintTop_toBottomOf="@id/pincode_LL"
-                android:text="@string/website"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/grey_add_pet"/>
+                android:fontFamily="@font/nunito"
+                android:text="@string/website"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@id/first_last_name_TV_LL"
+                app:layout_constraintStart_toStartOf="@id/first_last_name_TV_LL"
+                app:layout_constraintTop_toBottomOf="@id/pincode_LL" />
 
             <EditText
                 android:id="@+id/website_updt"
@@ -468,13 +582,15 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edit_text_background"
+                android:fontFamily="@font/nunito"
                 android:gravity="center_vertical"
                 android:hint="@string/website"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:paddingLeft="25dp"
-                android:textColor="@color/grey_add_pet"
-                app:layout_constraintEnd_toEndOf="@id/first_name_TV"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@id/first_last_name_TV_LL"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/website_TV" />
 
@@ -482,12 +598,14 @@
                 android:id="@+id/social_media_url"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/first_name_TV"
-                app:layout_constraintEnd_toEndOf="@id/first_name_TV"
-                app:layout_constraintTop_toBottomOf="@id/website_updt"
-                android:text="@string/social_media_url"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/grey_add_pet"/>
+                android:fontFamily="@font/nunito"
+                android:text="@string/social_media_url"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@id/first_last_name_TV_LL"
+                app:layout_constraintStart_toStartOf="@id/first_last_name_TV_LL"
+                app:layout_constraintTop_toBottomOf="@id/website_updt" />
 
             <EditText
                 android:id="@+id/social_media_url_updt"
@@ -496,13 +614,15 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edit_text_background"
+                android:fontFamily="@font/nunito"
                 android:gravity="center_vertical"
                 android:hint="@string/social_media_url"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:paddingLeft="25dp"
-                android:textColor="@color/grey_add_pet"
-                app:layout_constraintEnd_toEndOf="@id/first_name_TV"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@id/first_last_name_TV_LL"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/social_media_url" />
 
@@ -510,12 +630,14 @@
                 android:id="@+id/vet_no"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/first_name_TV"
-                app:layout_constraintEnd_toEndOf="@id/first_name_TV"
-                app:layout_constraintTop_toBottomOf="@id/social_media_url_updt"
-                android:text="@string/vet_registration_number"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/grey_add_pet"/>
+                android:fontFamily="@font/nunito"
+                android:text="@string/vet_registration_number"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@id/first_last_name_TV_LL"
+                app:layout_constraintStart_toStartOf="@id/first_last_name_TV_LL"
+                app:layout_constraintTop_toBottomOf="@id/social_media_url_updt" />
 
             <EditText
                 android:id="@+id/registration_num_updt"
@@ -524,13 +646,15 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edit_text_background"
+                android:fontFamily="@font/nunito"
                 android:gravity="center_vertical"
                 android:hint="@string/vet_registration_number"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:paddingLeft="25dp"
-                android:textColor="@color/grey_add_pet"
-                app:layout_constraintEnd_toEndOf="@id/first_name_TV"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@id/first_last_name_TV_LL"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/vet_no" />
 
@@ -539,12 +663,14 @@
                 android:id="@+id/vet_study_TV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/first_name_TV"
-                app:layout_constraintEnd_toEndOf="@id/first_name_TV"
-                app:layout_constraintTop_toBottomOf="@id/registration_num_updt"
-                android:text="@string/vet_qualification"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/grey_add_pet"/>
+                android:fontFamily="@font/nunito"
+                android:text="@string/vet_qualification"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@id/first_last_name_TV_LL"
+                app:layout_constraintStart_toStartOf="@id/first_last_name_TV_LL"
+                app:layout_constraintTop_toBottomOf="@id/registration_num_updt" />
 
             <EditText
                 android:id="@+id/vet_qualification_updt"
@@ -553,13 +679,15 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edit_text_background"
+                android:fontFamily="@font/nunito"
                 android:gravity="center_vertical"
                 android:hint="@string/vet_qualification"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:paddingLeft="25dp"
-                android:textColor="@color/grey_add_pet"
-                app:layout_constraintEnd_toEndOf="@id/first_name_TV"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@id/first_last_name_TV_LL"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/vet_study_TV" />
 
@@ -567,12 +695,14 @@
                 android:id="@+id/select_catTV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/first_name_TV"
-                app:layout_constraintEnd_toEndOf="@id/first_name_TV"
-                app:layout_constraintTop_toBottomOf="@id/vet_qualification_updt"
-                android:text="Select Category"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/grey_add_pet"/>
+                android:fontFamily="@font/nunito"
+                android:text="Select Category"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@id/first_last_name_TV_LL"
+                app:layout_constraintStart_toStartOf="@id/first_last_name_TV_LL"
+                app:layout_constraintTop_toBottomOf="@id/vet_qualification_updt" />
 
             <TextView
                 android:id="@+id/select_Category"
@@ -581,28 +711,31 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edit_text_background"
+                android:fontFamily="@font/nunito"
                 android:gravity="center_vertical"
-                android:text="Select Category"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:paddingLeft="25dp"
-                android:textColor="@color/grey_add_pet"
-                app:layout_constraintEnd_toEndOf="@id/first_name_TV"
+                android:text="Select Category"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@id/first_last_name_TV_LL"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/select_catTV" />
-
 
 
             <TextView
                 android:id="@+id/select_serviceTV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/first_name_TV"
-                app:layout_constraintEnd_toEndOf="@id/first_name_TV"
-                app:layout_constraintTop_toBottomOf="@id/select_Category"
-                android:text="Select Services"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/grey_add_pet"/>
+                android:fontFamily="@font/nunito"
+                android:text="Select Services"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@id/first_last_name_TV_LL"
+                app:layout_constraintStart_toStartOf="@id/first_last_name_TV_LL"
+                app:layout_constraintTop_toBottomOf="@id/select_Category" />
 
             <TextView
                 android:id="@+id/select_service_Category"
@@ -610,148 +743,45 @@
                 android:layout_height="50dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="15dp"
                 android:background="@drawable/edit_text_background"
+                android:fontFamily="@font/nunito"
                 android:gravity="center_vertical"
-                android:text="Select Services"
-                android:inputType="text"
+                android:inputType="textCapWords"
                 android:maxLines="1"
                 android:paddingLeft="25dp"
-                android:textColor="@color/grey_add_pet"
-                app:layout_constraintEnd_toEndOf="@id/first_name_TV"
+                android:text="Select Services"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/first_last_name_TV_LL"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/select_serviceTV" />
 
 
-            <TextView
-                android:visibility="gone"
-                android:id="@+id/cat_image"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/first_name_TV"
-                app:layout_constraintEnd_toEndOf="@id/first_name_TV"
-                app:layout_constraintTop_toBottomOf="@id/select_service_Category"
-                android:text="Category Images"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/grey_add_pet"/>
-
-
-            <LinearLayout
-                android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@id/cat_image"
-                app:layout_constraintStart_toStartOf="@id/first_name_TV"
-                app:layout_constraintEnd_toEndOf="@id/first_name_TV"
-                android:id="@+id/cat_images_LL"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginLeft="20dp"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp">
-
-                <ImageView
-                    android:id="@+id/category_img_one"
-                    android:layout_marginRight="5dp"
-                    android:layout_width="80dp"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/add_img_icon" />
-
-                <ImageView
-                    android:layout_marginLeft="5dp"
-                    android:id="@+id/category_img_two"
-                    android:layout_width="80dp"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/add_img_icon"/>
-
-
-            </LinearLayout>
-
-            <TextView
-                android:visibility="gone"
-                android:id="@+id/service_cat_img_TV"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/first_name_TV"
-                app:layout_constraintEnd_toEndOf="@id/first_name_TV"
-                app:layout_constraintTop_toBottomOf="@id/cat_images_LL"
-                android:text="Service Images"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/grey_add_pet"/>
-
-            <LinearLayout
-                android:visibility="gone"
-                android:id="@+id/image_section"
-                android:weightSum="5"
-                android:layout_marginTop="5dp"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@id/service_cat_img_TV"
-                app:layout_constraintStart_toStartOf="@id/first_name_TV"
-                app:layout_constraintEnd_toEndOf="parent">
-
-                <ImageView
-                    android:layout_marginRight="5dp"
-                    android:scaleType="fitXY"
-                    android:id="@+id/service_cat_img_one"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/add_img_icon"
-                    android:layout_weight="1"/>
-
-                <ImageView
-                    android:layout_marginRight="5dp"
-                    android:scaleType="fitXY"
-                    android:id="@+id/service_cat_img_two"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/add_img_icon"
-                    android:layout_weight="1"/>
-                <ImageView
-                    android:layout_marginRight="5dp"
-                    android:scaleType="fitXY"
-                    android:id="@+id/service_cat_img_three"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/add_img_icon"
-                    android:layout_weight="1"/>
-
-
-                <ImageView
-                    android:layout_marginRight="5dp"
-                    android:scaleType="fitXY"
-                    android:id="@+id/service_cat_img_four"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/add_img_icon"
-                    android:layout_weight="1"/>
-
-                <ImageView
-                    android:scaleType="fitXY"
-                    android:id="@+id/service_cat_img_five"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/add_img_icon"
-                    android:layout_weight="1"/>
-
-            </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
 
     <Button
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:textSize="25dp"
-        android:textColor="@color/whiteColor"
-        android:background="@color/colorPrimary"
-        android:layout_alignParentBottom="true"
-        android:theme="@style/MatButton"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:id="@+id/update_profile"
-        android:text="@string/updateProfileButton"
-        android:layout_centerInParent="true"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/blue_background_bg"
+        android:fontFamily="@font/nunito"
+        android:text="@string/updateProfileButton"
+        android:textAllCaps="false"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/whiteColor"
+        android:textSize="20sp"
+        android:theme="@style/MatButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

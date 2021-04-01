@@ -13,6 +13,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -23,6 +25,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +50,7 @@ import com.cynoteck.petofyOPHR.response.updateProfileResponse.UserResponse;
 import com.cynoteck.petofyOPHR.response.updateVetDetailsresponse.UpdateVetResponse;
 import com.cynoteck.petofyOPHR.utils.Config;
 import com.cynoteck.petofyOPHR.utils.Methods;
+import com.google.android.material.card.MaterialCardView;
 import com.google.gson.Gson;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
@@ -70,70 +74,66 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Response;
 
-public class UpdateProfileActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse {
-    EditText first_name_updt,last_name_updt,email_updt,phone_updt,address_updt,online_charges_ET,
-            postal_code_updt,website_updt,social_media_url_updt,registration_num_updt,clinicCode_updt,
-            vet_qualification_updt,description_updt,clinic_name_updt;
-    AppCompatSpinner country_spnr_updt,state_spnr_updt,city_spnr_updt;
+public class UpdateProfileActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse, TextWatcher {
+    ProgressBar horizontal_progress_bar;
+    EditText first_name_updt, last_name_updt, email_updt, phone_updt, address_updt, online_charges_ET,
+            postal_code_updt, website_updt, social_media_url_updt, registration_num_updt, clinicCode_updt,
+            vet_qualification_updt, description_updt, clinic_name_updt;
+    AppCompatSpinner country_spnr_updt, state_spnr_updt, city_spnr_updt;
     Button update_profile;
-    TextView select_Category,select_service_Category;
-    ImageView back_arrow, category_img_one,category_img_two,service_cat_img_one,service_cat_img_two,logout,
-            service_cat_img_three,service_cat_img_four,service_cat_img_five ;
+    TextView select_Category, select_service_Category;
+    MaterialCardView back_arrow_CV, logout_CV;
     CheckBox online_CB;
-    Dialog dialog;
-    String slctCatOneImage="",slctCatTwoImage="",slctServcOneImage="",slctServcTwoImage="",slctServcThreeImage="",
-            slctServcfourImage="",slctServcFiveImage="",id="",password="",activityType="",strVetDese="",strClinicName="",strIsVet="",strIsActive="";
-    int spnrCountry=0,spnrState=0,spnrCity=0;
     CountryResponse stateResponse;
-    Uri fileUri;
     Methods methods;
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-    View view;
-
-    private static final String IMAGE_DIRECTORY = "/Picture";
-    private int GALLERY = 1, CAMERA = 2;
-    File catfile1 = null;
-    File catfile2 = null;
-    File srvcfile1 = null;
-    File srvcfile2 = null;
-    File srvcfile3 = null;
-    File srvcfile4 = null;
-    File srvcfile5 = null;
-    Bitmap bitmap, thumbnail;
-    String capImage;
-    boolean doubleBackToExitPressedOnce = false;
-
+    String id = "", password = "", activityType = "", strVetDese = "", strClinicName = "", strIsVet = "", strIsActive = "";
     ArrayList<String> state;
-    ArrayList<String>countery;
-    ArrayList<String>city;
-
-
+    ArrayList<String> countryList;
+    ArrayList<String> city;
     String[] petCategory;
-    //String[] serviceCategory = new String[]{"Consultaion", "Grooming","Hostel","Training","Products"};
     String[] serviceCategory;
-
     //String[] listItems;
     boolean[] chkItems;
-    ArrayList<Integer> muserItem=new ArrayList<>();
+    ArrayList<Integer> muserItem = new ArrayList<>();
 
     boolean[] chkItemsSevice;
-    ArrayList<Integer> muserItemService=new ArrayList<>();
+    ArrayList<Integer> muserItemService = new ArrayList<>();
 
-    HashMap<String,String>cityHasmap=new HashMap<>();
-    HashMap<String,String>stateHasmap=new HashMap<>();
-    HashMap<String,String>countryHasmap=new HashMap<>();
-    HashMap<String,String>categoryHasmap=new HashMap<>();
-    HashMap<String,String>servcCatHasmap=new HashMap<>();
+    HashMap<String, String> cityHasmap = new HashMap<>();
+    HashMap<String, String> stateHasmap = new HashMap<>();
+    HashMap<String, String> countryHasmap = new HashMap<>();
+    HashMap<String, String> categoryHasmap = new HashMap<>();
+    HashMap<String, String> servcCatHasmap = new HashMap<>();
 
-    ArrayList<String>listCategoryId=new ArrayList<>();
-    ArrayList<String>listServiceCatId=new ArrayList<>();
+    ArrayList<String> listCategoryId = new ArrayList<>();
+    ArrayList<String> listServiceCatId = new ArrayList<>();
 
-    String imagename="",strFirstNm="",strLstNm="",strEmlUpdt="",strPhUpdt="",strAddrsUpdt="",strPostlUpdt="",
-            strWbUpdt="",strSoclMdUelUpdt="",strRegistNumUpdt="",strVetQulafctnUpdt="",strPetCatUpdt="",
-            strSrvcCatUpdt="",strContrySpnr="",strStateSpnr="",strCitySpnr="",strCountryId="",strStringCityId="",
-            strStateId="",strCatId="",strSrvsCatId="",strCatUrl1="",strCatUrl2="",strSrvsUrl1="",strSrvsUrl2="",
-            strSrvsUrl3="",strSrvsUrl4="",strSrvsUrl5="",strClinicCode="",intentService="",intentType="",strOnlineCharges="10";
+    String imagename = "", strFirstNm = "", strLstNm = "", strEmlUpdt = "", strPhUpdt = "", strAddrsUpdt = "", strPostlUpdt = "",
+            strWbUpdt = "", strSoclMdUelUpdt = "", strRegistNumUpdt = "", strVetQulafctnUpdt = "", strPetCatUpdt = "",
+            strSrvcCatUpdt = "", strContrySpnr = "", strStateSpnr = "", strCitySpnr = "", strCountryId = "", strStringCityId = "",
+            strStateId = "", strCatId = "", strSrvsCatId = "", strCatUrl1 = "", strCatUrl2 = "", strSrvsUrl1 = "", strSrvsUrl2 = "",
+            strSrvsUrl3 = "", strSrvsUrl4 = "", strSrvsUrl5 = "", strClinicCode = "", intentService = "", intentType = "", strOnlineCharges = "10";
 
+    //    ImageView category_img_one, category_img_two, service_cat_img_one, service_cat_img_two,
+//            service_cat_img_three, service_cat_img_four, service_cat_img_five;
+//    String slctCatOneImage = "", slctCatTwoImage = "", slctServcOneImage = "", slctServcTwoImage = "", slctServcThreeImage = "",
+//            slctServcfourImage = "", slctServcFiveImage = "";
+//    private static final String IMAGE_DIRECTORY = "/Picture";
+//    File catfile1 = null;
+//    File catfile2 = null;
+//    File srvcfile1 = null;
+//    File srvcfile2 = null;
+//    File srvcfile3 = null;
+//    File srvcfile4 = null;
+//    File srvcfile5 = null;
+//    Bitmap bitmap, thumbnail;
+//    String capImage;
+//    Uri fileUri;
+//    Dialog dialog;
+//    int spnrCountry = 0, spnrState = 0, spnrCity = 0;
+//    private int GALLERY = 1, CAMERA = 2;
+//    boolean doubleBackToExitPressedOnce = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -143,8 +143,8 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
         Intent intent = getIntent();
         activityType = intent.getStringExtra("activityName");
         id = intent.getStringExtra("id");
-        strIsActive=intent.getStringExtra("isActive");
-        strIsVet=intent.getStringExtra("isVeterinarian");
+        strIsActive = intent.getStringExtra("isActive");
+        strIsVet = intent.getStringExtra("isVeterinarian");
         password = intent.getStringExtra("password");
         strFirstNm = intent.getStringExtra("firstName");
         strLstNm = intent.getStringExtra("lastName");
@@ -159,13 +159,13 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
         strPetCatUpdt = intent.getStringExtra("category");
         strSrvcCatUpdt = intent.getStringExtra("service");
         strVetDese = intent.getStringExtra("description");
-        strClinicName=intent.getStringExtra("clinicName");
+        strClinicName = intent.getStringExtra("clinicName");
 
-        if(intent.getStringExtra("country")!=null)
+        if (intent.getStringExtra("country") != null)
             strContrySpnr = intent.getStringExtra("country");
-        if(intent.getStringExtra("state")!=null)
+        if (intent.getStringExtra("state") != null)
             strStateSpnr = intent.getStringExtra("state");
-        if(intent.getStringExtra("city")!=null)
+        if (intent.getStringExtra("city") != null)
             strCitySpnr = intent.getStringExtra("city");
 
         strSrvsUrl1 = intent.getStringExtra("serviceImage1");
@@ -183,77 +183,70 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
 
         init();
 
-        if(activityType.equals("Edit"))
-        {
-            logout.setVisibility(View.GONE);
+        if (activityType.equals("Edit")) {
+            logout_CV.setVisibility(View.GONE);
         }
 
-        if((strOnlineCharges!=null))
-        {
-            if((strOnlineCharges!=null)||(!strOnlineCharges.equals("")||(!strOnlineCharges.equals("0"))))
-            {
+        if ((strOnlineCharges != null)) {
+            if ((strOnlineCharges != null) || (!strOnlineCharges.equals("") || (!strOnlineCharges.equals("0")))) {
                 online_CB.setChecked(true);
                 online_charges_ET.setVisibility(View.VISIBLE);
                 online_charges_ET.setText(strOnlineCharges);
             }
         }
 
-        if((strClinicCode!=null))
-        {
-            if((!strClinicCode.equals("")))
+        if ((strClinicCode != null)) {
+            if ((!strClinicCode.equals("")))
                 clinicCode_updt.setText(strClinicCode);
         }
 
 
         //setImages();
         setValueFromSharePref();
-        requestMultiplePermissions();
-        if(methods.isInternetOn())
-        {
+//        requestMultiplePermissions();
+        if (methods.isInternetOn()) {
             getState();
             getCountry();
             petType();
             petServiceType();
 
-        }
-        else
-        {
+        } else {
             methods.DialogInternet();
         }
 
     }
-    private void setImages() {
-        if (strSrvsUrl1.isEmpty()){
-        }else {
-            Glide.with(this)
-                    .load(strSrvsUrl1)
-                    .into(service_cat_img_one);
-        }
-        if (strSrvsUrl2.isEmpty()){
-
-        }else {
-            Glide.with(this)
-                    .load(strSrvsUrl2)
-                    .into(service_cat_img_two);
-        }if (strSrvsUrl3.isEmpty()){
-
-        }else {
-            Glide.with(this)
-                    .load(strSrvsUrl3)
-                    .into(service_cat_img_three);
-        }if (strSrvsUrl4.isEmpty()){
-
-        }else {
-            Glide.with(this)
-                    .load(strSrvsUrl4)
-                    .into(service_cat_img_four);
-        }if (strSrvsUrl5.isEmpty()){
-        }else {
-            Glide.with(this)
-                    .load(strSrvsUrl5)
-                    .into(service_cat_img_five);
-        }
-    }
+//    private void setImages() {
+//        if (strSrvsUrl1.isEmpty()){
+//        }else {
+//            Glide.with(this)
+//                    .load(strSrvsUrl1)
+//                    .into(service_cat_img_one);
+//        }
+//        if (strSrvsUrl2.isEmpty()){
+//
+//        }else {
+//            Glide.with(this)
+//                    .load(strSrvsUrl2)
+//                    .into(service_cat_img_two);
+//        }if (strSrvsUrl3.isEmpty()){
+//
+//        }else {
+//            Glide.with(this)
+//                    .load(strSrvsUrl3)
+//                    .into(service_cat_img_three);
+//        }if (strSrvsUrl4.isEmpty()){
+//
+//        }else {
+//            Glide.with(this)
+//                    .load(strSrvsUrl4)
+//                    .into(service_cat_img_four);
+//        }if (strSrvsUrl5.isEmpty()){
+//        }else {
+//            Glide.with(this)
+//                    .load(strSrvsUrl5)
+//                    .into(service_cat_img_five);
+//        }
+//    }
 
     private void getState() {
         methods.showCustomProgressBarDialog(this);
@@ -268,10 +261,11 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
 
     }
 
-    private void getCity(String stateId){
+    private void getCity(String stateId) {
         ApiService<CityResponse> service = new ApiService<>();
         service.get(this, ApiClient.getApiInterface().getCityApi(stateId), "GetCity");
     }
+
     private void petType() {
         ApiService<PetTypeResponse> service = new ApiService<>();
         service.get(this, ApiClient.getApiInterface().petTypeApi(), "GetPetTypes");
@@ -285,60 +279,74 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
 
     private void init() {
         //TextInputEditText
-        first_name_updt=findViewById(R.id.first_name_updt);
-        last_name_updt=findViewById(R.id.last_name_updt);
-        email_updt=findViewById(R.id.email_updt);
-        phone_updt=findViewById(R.id.phone_updt);
-        address_updt=findViewById(R.id.address_updt);
-        postal_code_updt=findViewById(R.id.postal_code_updt);
-        website_updt=findViewById(R.id.website_updt);
-        social_media_url_updt=findViewById(R.id.social_media_url_updt);
-        registration_num_updt=findViewById(R.id.registration_num_updt);
-        vet_qualification_updt=findViewById(R.id.vet_qualification_updt);
-        clinicCode_updt=findViewById(R.id.clinicCode_updt);
-        online_charges_ET=findViewById(R.id.online_charges_ET);
-        description_updt=findViewById(R.id.description_updt);
-        clinic_name_updt=findViewById(R.id.clinic_name_updt);
+        horizontal_progress_bar = findViewById(R.id.horizontal_progress_bar);
+        first_name_updt = findViewById(R.id.first_name_updt);
+        last_name_updt = findViewById(R.id.last_name_updt);
+        email_updt = findViewById(R.id.email_updt);
+        phone_updt = findViewById(R.id.phone_updt);
+        address_updt = findViewById(R.id.address_updt);
+        postal_code_updt = findViewById(R.id.postal_code_updt);
+        website_updt = findViewById(R.id.website_updt);
+        social_media_url_updt = findViewById(R.id.social_media_url_updt);
+        registration_num_updt = findViewById(R.id.registration_num_updt);
+        vet_qualification_updt = findViewById(R.id.vet_qualification_updt);
+        clinicCode_updt = findViewById(R.id.clinicCode_updt);
+        online_charges_ET = findViewById(R.id.online_charges_ET);
+        description_updt = findViewById(R.id.description_updt);
+        clinic_name_updt = findViewById(R.id.clinic_name_updt);
 
 
         //Spinner
-        country_spnr_updt=findViewById(R.id.country_spnr_updt);
-        state_spnr_updt=findViewById(R.id.state_spnr_updt);
-        city_spnr_updt=findViewById(R.id.city_spnr_updt);
+        country_spnr_updt = findViewById(R.id.country_spnr_updt);
+        state_spnr_updt = findViewById(R.id.state_spnr_updt);
+        city_spnr_updt = findViewById(R.id.city_spnr_updt);
 
         //Image View
-        logout=findViewById(R.id.logout);
-        category_img_one=findViewById(R.id.category_img_one);
-        category_img_two=findViewById(R.id.category_img_two);
-        service_cat_img_one=findViewById(R.id.service_cat_img_one);
-        service_cat_img_two=findViewById(R.id.service_cat_img_two);
-        service_cat_img_three=findViewById(R.id.service_cat_img_three);
-        service_cat_img_four=findViewById(R.id.service_cat_img_four);
-        service_cat_img_five=findViewById(R.id.service_cat_img_five);
-        back_arrow = findViewById(R.id.back_arrow);
+        logout_CV = findViewById(R.id.logout_CV);
+//        category_img_one=findViewById(R.id.category_img_one);
+//        category_img_two=findViewById(R.id.category_img_two);
+//        service_cat_img_one=findViewById(R.id.service_cat_img_one);
+//        service_cat_img_two=findViewById(R.id.service_cat_img_two);
+//        service_cat_img_three=findViewById(R.id.service_cat_img_three);
+//        service_cat_img_four=findViewById(R.id.service_cat_img_four);
+//        service_cat_img_five=findViewById(R.id.service_cat_img_five);
+        back_arrow_CV = findViewById(R.id.back_arrow_CV);
 
         //Check Box
-        online_CB=findViewById(R.id.online_CB);
+        online_CB = findViewById(R.id.online_CB);
 
-        logout.setOnClickListener(this);
-        category_img_one.setOnClickListener(this);
-        category_img_two.setOnClickListener(this);
-        service_cat_img_one.setOnClickListener(this);
-        service_cat_img_two.setOnClickListener(this);
-        service_cat_img_three.setOnClickListener(this);
-        service_cat_img_four.setOnClickListener(this);
-        service_cat_img_five.setOnClickListener(this);
-        back_arrow.setOnClickListener(this);
+        logout_CV.setOnClickListener(this);
+//        category_img_one.setOnClickListener(this);
+//        category_img_two.setOnClickListener(this);
+//        service_cat_img_one.setOnClickListener(this);
+//        service_cat_img_two.setOnClickListener(this);
+//        service_cat_img_three.setOnClickListener(this);
+//        service_cat_img_four.setOnClickListener(this);
+//        service_cat_img_five.setOnClickListener(this);
+        back_arrow_CV.setOnClickListener(this);
         online_CB.setOnClickListener(this);
 
         //Button
-        update_profile=findViewById(R.id.update_profile);
-        select_Category=findViewById(R.id.select_Category);
-        select_service_Category=findViewById(R.id.select_service_Category);
+        update_profile = findViewById(R.id.update_profile);
+        select_Category = findViewById(R.id.select_Category);
+        select_service_Category = findViewById(R.id.select_service_Category);
 
         update_profile.setOnClickListener(this);
         select_Category.setOnClickListener(this);
         select_service_Category.setOnClickListener(this);
+
+        first_name_updt.addTextChangedListener(this);
+        last_name_updt.addTextChangedListener(this);
+        email_updt.addTextChangedListener(this);
+        phone_updt.addTextChangedListener(this);
+        clinic_name_updt.addTextChangedListener(this);
+        clinicCode_updt.addTextChangedListener(this);
+        description_updt.addTextChangedListener(this);
+        online_charges_ET.addTextChangedListener(this);
+        address_updt.addTextChangedListener(this);
+        vet_qualification_updt.addTextChangedListener(this);
+        registration_num_updt.addTextChangedListener(this);
+
 
         select_service_Category.setText(intentService);
         select_Category.setText(intentType);
@@ -363,19 +371,19 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.back_arrow:
+        switch (view.getId()) {
+            case R.id.back_arrow_CV:
                 onBackPressed();
                 break;
             case R.id.online_CB:
-                if(((CompoundButton) view).isChecked()){
+                if (((CompoundButton) view).isChecked()) {
                     online_charges_ET.setVisibility(View.VISIBLE);
                 } else {
                     online_charges_ET.setVisibility(View.GONE);
                 }
                 break;
             case R.id.update_profile:
-                strFirstNm= first_name_updt.getText().toString().trim();
+                strFirstNm = first_name_updt.getText().toString().trim();
                 strLstNm = last_name_updt.getText().toString().trim();
                 strEmlUpdt = email_updt.getText().toString().trim();
                 strPhUpdt = phone_updt.getText().toString().trim();
@@ -388,16 +396,15 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                 strPetCatUpdt = select_Category.getText().toString().trim();
                 strSrvcCatUpdt = select_service_Category.getText().toString().trim();
                 strClinicCode = clinicCode_updt.getText().toString().trim();
-                strVetDese=description_updt.getText().toString();
-                strClinicName=clinic_name_updt.getText().toString();
+                strVetDese = description_updt.getText().toString();
+                strClinicName = clinic_name_updt.getText().toString();
 
-                if(online_CB.isChecked()==true)
-                strOnlineCharges=online_charges_ET.getText().toString();
+                if (online_CB.isChecked() == true)
+                    strOnlineCharges = online_charges_ET.getText().toString();
                 else
-                strOnlineCharges="10";
+                    strOnlineCharges = "10";
 
-                if(strFirstNm.isEmpty())
-                {
+                if (strFirstNm.isEmpty()) {
                     select_Category.setError(null);
                     select_service_Category.setError(null);
                     first_name_updt.setError("Name is empty");
@@ -414,9 +421,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     clinicCode_updt.setError(null);
                     description_updt.setError(null);
                     clinic_name_updt.setError(null);
-                }
-                else if(strLstNm.isEmpty())
-                {
+                } else if (strLstNm.isEmpty()) {
                     select_Category.setError(null);
                     select_service_Category.setError(null);
                     first_name_updt.setError(null);
@@ -433,9 +438,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     clinicCode_updt.setError(null);
                     description_updt.setError(null);
                     clinic_name_updt.setError(null);
-                }
-                else if(strEmlUpdt.isEmpty())
-                {
+                } else if (strEmlUpdt.isEmpty()) {
                     select_Category.setError(null);
                     select_service_Category.setError(null);
                     first_name_updt.setError(null);
@@ -452,9 +455,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     clinicCode_updt.setError(null);
                     description_updt.setError(null);
                     clinic_name_updt.setError(null);
-                }
-                else if (!strEmlUpdt.matches(emailPattern))
-                {
+                } else if (!strEmlUpdt.matches(emailPattern)) {
                     select_Category.setError(null);
                     select_service_Category.setError(null);
                     email_updt.setError("Invalid Email");
@@ -473,9 +474,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     clinicCode_updt.setError(null);
                     description_updt.setError(null);
                     clinic_name_updt.setError(null);
-                }
-                else if(strPhUpdt.isEmpty())
-                {
+                } else if (strPhUpdt.isEmpty()) {
                     select_Category.setError(null);
                     select_service_Category.setError(null);
                     first_name_updt.setError(null);
@@ -492,9 +491,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     clinicCode_updt.setError(null);
                     description_updt.setError(null);
                     clinic_name_updt.setError(null);
-                }
-                else if(strAddrsUpdt.isEmpty())
-                {
+                } else if (strAddrsUpdt.isEmpty()) {
                     select_Category.setError(null);
                     select_service_Category.setError(null);
                     first_name_updt.setError(null);
@@ -511,9 +508,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     clinicCode_updt.setError(null);
                     description_updt.setError(null);
                     clinic_name_updt.setError(null);
-                }
-                else if(strPostlUpdt.isEmpty())
-                {
+                } else if (strPostlUpdt.isEmpty()) {
                     select_Category.setError(null);
                     select_service_Category.setError(null);
                     first_name_updt.setError(null);
@@ -530,9 +525,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     clinicCode_updt.setError(null);
                     description_updt.setError(null);
                     clinic_name_updt.setError(null);
-                }
-                else if(strRegistNumUpdt.isEmpty())
-                {
+                } else if (strRegistNumUpdt.isEmpty()) {
                     select_Category.setError(null);
                     select_service_Category.setError(null);
                     first_name_updt.setError(null);
@@ -549,9 +542,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     clinicCode_updt.setError(null);
                     description_updt.setError(null);
                     clinic_name_updt.setError(null);
-                }
-                else if(strVetQulafctnUpdt.isEmpty())
-                {
+                } else if (strVetQulafctnUpdt.isEmpty()) {
                     select_Category.setError(null);
                     select_service_Category.setError(null);
                     first_name_updt.setError(null);
@@ -568,9 +559,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     vet_qualification_updt.setError("Qualification empty");
                     description_updt.setError(null);
                     clinic_name_updt.setError(null);
-                }
-                else if(strClinicCode.isEmpty())
-                {
+                } else if (strClinicCode.isEmpty()) {
                     select_Category.setError(null);
                     select_service_Category.setError(null);
                     first_name_updt.setError(null);
@@ -609,8 +598,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
 //                    clinic_name_updt.setError(null);
 //                }
 
-                else if(strClinicName.isEmpty())
-                {
+                else if (strClinicName.isEmpty()) {
                     select_Category.setError(null);
                     select_service_Category.setError(null);
                     first_name_updt.setError(null);
@@ -627,9 +615,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     clinicCode_updt.setError(null);
                     description_updt.setError(null);
                     clinic_name_updt.setError("Enter Clinic Name");
-                }
-                else if(strPetCatUpdt.isEmpty()||(strPetCatUpdt.equals("Set Category")))
-                {
+                } else if (strPetCatUpdt.isEmpty() || (strPetCatUpdt.equals("Set Category"))) {
                     select_Category.setError("Set Category");
                     select_service_Category.setError(null);
                     first_name_updt.setError(null);
@@ -646,9 +632,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     clinicCode_updt.setError(null);
                     description_updt.setError(null);
                     clinic_name_updt.setError(null);
-                }
-                else if(strSrvcCatUpdt.isEmpty()||(strSrvcCatUpdt.equals("Set Services")))
-                {
+                } else if (strSrvcCatUpdt.isEmpty() || (strSrvcCatUpdt.equals("Set Services"))) {
                     select_service_Category.setError("Set Services");
                     select_Category.setError(null);
                     first_name_updt.setError(null);
@@ -665,47 +649,35 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     clinicCode_updt.setError(null);
                     description_updt.setError(null);
                     clinic_name_updt.setError(null);
-                }
-                else if((strCitySpnr.equals("Select City")))
-                {
+                } else if ((strCitySpnr.equals("Select City"))) {
                     Toast.makeText(this, "Select City!!", Toast.LENGTH_SHORT).show();
-                }
-                else if((strStateSpnr.equals("Select State")))
-                {
+                } else if ((strStateSpnr.equals("Select State"))) {
                     Toast.makeText(this, "Select State!!", Toast.LENGTH_SHORT).show();
-                }
-                else if((strContrySpnr.equals("Select Country")))
-                {
+                } else if ((strContrySpnr.equals("Select Country"))) {
                     Toast.makeText(this, "Select Country!!", Toast.LENGTH_SHORT).show();
-                }
-                else if (strCatId.isEmpty()){
+                } else if (strCatId.isEmpty()) {
                     Toast.makeText(this, "Select Pet Type !", Toast.LENGTH_SHORT).show();
-                }
-                else if (strSrvsCatId.isEmpty()){
+                } else if (strSrvsCatId.isEmpty()) {
                     Toast.makeText(this, "Select Service Type !", Toast.LENGTH_SHORT).show();
-                }
-                else if((online_CB.isChecked()==true)&&(strOnlineCharges.isEmpty()))
-                {
-                        Toast.makeText(this, "Enter Consultant Charges", Toast.LENGTH_SHORT).show();
-                        select_service_Category.setError(null);
-                        select_Category.setError(null);
-                        first_name_updt.setError(null);
-                        last_name_updt.setError(null);
-                        email_updt.setError(null);
-                        phone_updt.setError(null);
-                        address_updt.setError(null);
-                        postal_code_updt.setError(null);
-                        website_updt.setError(null);
-                        social_media_url_updt.setError(null);
-                        registration_num_updt.setError(null);
-                        vet_qualification_updt.setError(null);
-                        clinicCode_updt.setError(null);
-                        online_charges_ET.setError("Enter Charges");
-                        description_updt.setError(null);
-                        clinic_name_updt.setError(null);
-                }
-                else
-                {
+                } else if ((online_CB.isChecked() == true) && (strOnlineCharges.isEmpty())) {
+                    Toast.makeText(this, "Enter Consultant Charges", Toast.LENGTH_SHORT).show();
+                    select_service_Category.setError(null);
+                    select_Category.setError(null);
+                    first_name_updt.setError(null);
+                    last_name_updt.setError(null);
+                    email_updt.setError(null);
+                    phone_updt.setError(null);
+                    address_updt.setError(null);
+                    postal_code_updt.setError(null);
+                    website_updt.setError(null);
+                    social_media_url_updt.setError(null);
+                    registration_num_updt.setError(null);
+                    vet_qualification_updt.setError(null);
+                    clinicCode_updt.setError(null);
+                    online_charges_ET.setError("Enter Charges");
+                    description_updt.setError(null);
+                    clinic_name_updt.setError(null);
+                } else {
                     //All data update api call from here.
                     select_service_Category.setError(null);
                     select_Category.setError(null);
@@ -728,7 +700,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     data.setId(id);
                     data.setFirstName(strFirstNm.trim());
                     data.setLastName(strLstNm.trim());
-                    data.setName(strFirstNm+" "+strLstNm);
+                    data.setName(strFirstNm + " " + strLstNm);
                     data.setPassword("password");
                     data.setConfirmPassword("password");
                     data.setCompany(strClinicName);
@@ -759,9 +731,9 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     data.setVetRegistrationNumber(strRegistNumUpdt);
                     data.setOnlineConsultationCharges(strOnlineCharges);
                     data.setClinicCode(strClinicCode);
-                    if (strIsActive.equals("true")){
+                    if (strIsActive.equals("true")) {
                         data.setIsActive("true");
-                    }else {
+                    } else {
                         data.setIsActive("false");
                     }
 
@@ -800,8 +772,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
 
                     final UpdateRequest updateRequest = new UpdateRequest();
                     updateRequest.setData(data);
-                    if(methods.isInternetOn())
-                    {
+                    if (methods.isInternetOn()) {
 
                         androidx.appcompat.app.AlertDialog.Builder confirmationDialog = new androidx.appcompat.app.AlertDialog.Builder(this);
                         confirmationDialog.setTitle("Confirmation!!");
@@ -825,27 +796,25 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
 
                         androidx.appcompat.app.AlertDialog alert11 = confirmationDialog.create();
                         alert11.show();
-                    }
-                    else
-                    {
+                    } else {
                         methods.DialogInternet();
                     }
                 }
                 break;
 
             case R.id.select_Category:
-                AlertDialog.Builder mBuilder=new AlertDialog.Builder(this);
+                strCatId = "";
+                select_Category.setText("Set Category");
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
                 mBuilder.setTitle("Items available in a shop");
                 mBuilder.setMultiChoiceItems(petCategory, chkItems, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
-                        if(isChecked)
-                        {
-                            if(!muserItem.contains(position)){
+                        if (isChecked) {
+                            if (!muserItem.contains(position)) {
                                 muserItem.add(position);
                             }
-                        }
-                        else if(muserItem.contains(position)){
+                        } else if (muserItem.contains(position)) {
                             muserItem.remove(position);
                         }
                     }
@@ -855,24 +824,32 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                 mBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
-                        String item="";
-                        for(int i = 0;i<muserItem.size();i++){
-                            item=item + petCategory[muserItem.get(i)];
-                            strCatId=strCatId + categoryHasmap.get(petCategory[muserItem.get(i)]);
-                            if(i != muserItem.size()-1);{
-                                item=item+", ";
-                                strCatId=strCatId+",";
+                        String item = "";
+                        for (int i = 0; i < muserItem.size(); i++) {
+                            item = item + petCategory[muserItem.get(i)];
+                            strCatId = strCatId + categoryHasmap.get(petCategory[muserItem.get(i)]);
+                            if (i != muserItem.size() - 1) ;
+                            {
+                                item = item + ", ";
+                                strCatId = strCatId + ",";
                             }
-                        }strCatId =methods.removeLastElement(strCatId);
-                    Log.e("hhhhhh",strCatId);
+                        }
+                        strCatId = methods.removeLastElement(strCatId);
+                        Log.e("hhhhhh", strCatId);
                         //Log.d("Selected_item_category",""+item);
-                        if(item.equals(""))
-                        {
+                        if (item.equals("")) {
                             select_Category.setText("Set Category");
-                        }
-                        else {
+                            int progress = horizontal_progress_bar.getProgress();
+                            progress = progress - 7;
+                            setProgressStatus(progress);
+                        } else {
                             select_Category.setText(item);
+                            int progress = horizontal_progress_bar.getProgress();
+                            progress = progress + 7;
+                            setProgressStatus(progress);
+
                         }
+
                     }
                 });
 
@@ -886,8 +863,8 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                 mBuilder.setNeutralButton("Clear All", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
-                        for(int i=0;i<chkItems.length;i++){
-                            chkItems[i]=false;
+                        for (int i = 0; i < chkItems.length; i++) {
+                            chkItems[i] = false;
                             muserItem.clear();
                             listCategoryId.clear();
                             select_Category.setText("Set Category");
@@ -895,23 +872,23 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     }
                 });
 
-                AlertDialog mDialog=mBuilder.create();
+                AlertDialog mDialog = mBuilder.create();
                 mDialog.show();
                 break;
 
             case R.id.select_service_Category:
-                AlertDialog.Builder mBuilderr=new AlertDialog.Builder(this);
+                strSrvsCatId = "";
+                select_service_Category.setText("Set Services");
+                AlertDialog.Builder mBuilderr = new AlertDialog.Builder(this);
                 mBuilderr.setTitle("Items available in a shop");
                 mBuilderr.setMultiChoiceItems(serviceCategory, chkItemsSevice, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
-                        if(isChecked)
-                        {
-                            if(!muserItemService.contains(position)){
+                        if (isChecked) {
+                            if (!muserItemService.contains(position)) {
                                 muserItemService.add(position);
                             }
-                        }
-                        else if(muserItemService.contains(position)){
+                        } else if (muserItemService.contains(position)) {
                             muserItemService.remove(position);
                         }
                     }
@@ -921,21 +898,28 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                 mBuilderr.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
-                        String item="";
-                        for(int i = 0;i<muserItemService.size();i++){
-                            item=item + serviceCategory[muserItemService.get(i)];
-                            strSrvsCatId=strSrvsCatId + servcCatHasmap.get(serviceCategory[muserItemService.get(i)]);
-                            if(i != muserItemService.size()-1);{
-                                item=item+", ";
-                                strSrvsCatId=strSrvsCatId+",";
+                        String item = "";
+                        for (int i = 0; i < muserItemService.size(); i++) {
+                            item = item + serviceCategory[muserItemService.get(i)];
+                            strSrvsCatId = strSrvsCatId + servcCatHasmap.get(serviceCategory[muserItemService.get(i)]);
+                            if (i != muserItemService.size() - 1) ;
+                            {
+                                item = item + ", ";
+                                strSrvsCatId = strSrvsCatId + ",";
                             }
-                        }strSrvsCatId =methods.removeLastElement(strSrvsCatId);
-                        Log.d("Selected_item_category",""+item);
-                        if(item.equals("")){
-                            select_service_Category.setText("Set Services");
                         }
-                        else {
+                        strSrvsCatId = methods.removeLastElement(strSrvsCatId);
+                        Log.d("Selected_item_category", "" + item);
+                        if (item.equals("")) {
+                            select_service_Category.setText("Set Services");
+                            int progress = horizontal_progress_bar.getProgress();
+                            progress = progress - 7;
+                            setProgressStatus(progress);
+                        } else {
                             select_service_Category.setText(item);
+                            int progress = horizontal_progress_bar.getProgress();
+                            progress = progress + 7;
+                            setProgressStatus(progress);
                         }
                     }
                 });
@@ -950,8 +934,8 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                 mBuilderr.setNeutralButton("Clear All", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
-                        for(int i=0;i<chkItemsSevice.length;i++){
-                            chkItemsSevice[i]=false;
+                        for (int i = 0; i < chkItemsSevice.length; i++) {
+                            chkItemsSevice[i] = false;
                             muserItemService.clear();
                             listServiceCatId.clear();
                             select_service_Category.setText("Set Sevices");
@@ -959,40 +943,40 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     }
                 });
 
-                AlertDialog mDialogg=mBuilderr.create();
+                AlertDialog mDialogg = mBuilderr.create();
                 mDialogg.show();
                 break;
 
-            case R.id.category_img_one:
-                slctCatOneImage="1";
-                showPictureDialog();
-                break;
-            case R.id.category_img_two:
-                slctCatTwoImage="1";
-                showPictureDialog();
-                break;
-            case R.id.service_cat_img_one:
-                slctServcOneImage="1";
-                showPictureDialog();
-                break;
-            case R.id.service_cat_img_two:
-                slctServcTwoImage="1";
-                showPictureDialog();
-                break;
-            case R.id.service_cat_img_three:
-                slctServcThreeImage="1";
-                showPictureDialog();
-                break;
-            case R.id.service_cat_img_four:
-                slctServcfourImage="1";
-                showPictureDialog();
-                break;
-            case R.id.service_cat_img_five:
-                slctServcFiveImage="1";
-                showPictureDialog();
-                break;
-            case R.id.logout:
-                SharedPreferences preferences =this.getSharedPreferences("userdetails",0);
+//            case R.id.category_img_one:
+//                slctCatOneImage="1";
+//                showPictureDialog();
+//                break;
+//            case R.id.category_img_two:
+//                slctCatTwoImage="1";
+//                showPictureDialog();
+//                break;
+//            case R.id.service_cat_img_one:
+//                slctServcOneImage="1";
+//                showPictureDialog();
+//                break;
+//            case R.id.service_cat_img_two:
+//                slctServcTwoImage="1";
+//                showPictureDialog();
+//                break;
+//            case R.id.service_cat_img_three:
+//                slctServcThreeImage="1";
+//                showPictureDialog();
+//                break;
+//            case R.id.service_cat_img_four:
+//                slctServcfourImage="1";
+//                showPictureDialog();
+//                break;
+//            case R.id.service_cat_img_five:
+//                slctServcFiveImage="1";
+//                showPictureDialog();
+//                break;
+            case R.id.logout_CV:
+                SharedPreferences preferences = this.getSharedPreferences("userdetails", 0);
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.clear();
                 editor.apply();
@@ -1006,441 +990,434 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
     private void updateUser(UpdateRequest updateRequest) {
         methods.showCustomProgressBarDialog(this);
         ApiService<UpdateVetResponse> service = new ApiService<>();
-        service.get( this, ApiClient.getApiInterface().updateUser(Config.token,updateRequest), "UpdateVeterinarian");
-        Log.e("DATALOG","checkUpdate=> "+updateRequest);
-
-        Gson gson = new Gson();
-        String update = gson.toJson(updateRequest);
-        Log.e("DATALOGJSON","checkUpdate=> "+update);
+        service.get(this, ApiClient.getApiInterface().updateUser(Config.token, updateRequest), "UpdateVeterinarian");
+        Log.e("DATALOG", "checkUpdate=> " + methods.getRequestJson(updateRequest));
 
     }
 
-    private void showPictureDialog() {
-        dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCancelable(false);
-        dialog.setContentView(R.layout.dialog_layout);
+//    private void showPictureDialog() {
+//        dialog = new Dialog(this);
+//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        dialog.setCancelable(false);
+//        dialog.setContentView(R.layout.dialog_layout);
+//
+//        TextView select_camera = (TextView) dialog.findViewById(R.id.select_camera);
+//        TextView select_gallery = (TextView) dialog.findViewById(R.id.select_gallery);
+//        TextView cancel_dialog = (TextView) dialog.findViewById(R.id.cancel_dialog);
+//
+//        select_camera.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                takePhotoFromCamera();
+//            }
+//        });
+//
+//        select_gallery.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                choosePhotoFromGallary();
+//            }
+//        });
+//
+//        cancel_dialog.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(slctCatOneImage.equals("1")){
+//                    slctCatOneImage="0";
+//                }
+//                if(slctCatTwoImage.equals("1")){
+//                    slctCatTwoImage="0";
+//                }
+//                if(slctServcOneImage.equals("1")){
+//                    slctServcOneImage="0";
+//                }
+//                if(slctServcTwoImage.equals("1")){
+//                    slctServcTwoImage="0";
+//                }
+//                if(slctServcThreeImage.equals("1")){
+//                    slctServcThreeImage="0";
+//                }
+//                if(slctServcfourImage.equals("1")){
+//                    slctServcfourImage="0";
+//                }
+//                if(slctServcFiveImage.equals("1")){
+//                    slctServcFiveImage="0";
+//                }
+//                dialog.dismiss();
+//            }
+//        });
+//
+//        dialog.show();
+//    }
+//    private void choosePhotoFromGallary() {
+//
+//
+//        Intent galleryIntent = new Intent(Intent.ACTION_PICK,
+//                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//
+//        startActivityForResult(galleryIntent, GALLERY);
+//    }
+//    private void takePhotoFromCamera() {
+//
+//        Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+//
+//        startActivityForResult(intent, CAMERA);
+//
+//    }
 
-        TextView select_camera = (TextView) dialog.findViewById(R.id.select_camera);
-        TextView select_gallery = (TextView) dialog.findViewById(R.id.select_gallery);
-        TextView cancel_dialog = (TextView) dialog.findViewById(R.id.cancel_dialog);
+//    @RequiresApi(api = Build.VERSION_CODES.FROYO)
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        dialog.dismiss();
+//        if (resultCode == RESULT_CANCELED) {
+//            return;
+//        }
+//        if (requestCode == GALLERY) {
+//            if (data != null) {
+//
+//                Uri contentURI = data.getData();
+//                try {
+//                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), contentURI);
+//                    if(slctCatOneImage.equals("1")){
+//                        category_img_one.setImageBitmap(bitmap);
+//                        saveImage(bitmap);
+//                    }
+//                    if(slctCatTwoImage.equals("1")){
+//                        category_img_two.setImageBitmap(bitmap);
+//                        saveImage(bitmap);
+//                    }
+//                    if(slctServcOneImage.equals("1")){
+//                        service_cat_img_one.setImageBitmap(bitmap);
+//                        saveImage(bitmap);
+//                    }
+//                    if(slctServcTwoImage.equals("1")){
+//                        service_cat_img_two.setImageBitmap(bitmap);
+//                        saveImage(bitmap);
+//                    }
+//                    if(slctServcThreeImage.equals("1")){
+//                        service_cat_img_three.setImageBitmap(bitmap);
+//                        saveImage(bitmap);
+//                    }
+//                    if(slctServcfourImage.equals("1")){
+//                        service_cat_img_four.setImageBitmap(bitmap);
+//                        saveImage(bitmap);
+//                    }
+//                    if(slctServcFiveImage.equals("1")){
+//                        service_cat_img_five.setImageBitmap(bitmap);
+//                        saveImage(bitmap);
+//                    }
+//
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                    if(slctCatOneImage.equals("1")){
+//                        slctCatOneImage="0";
+//                    }
+//                    if(slctCatTwoImage.equals("1")){
+//                        slctCatTwoImage="0";
+//                    }
+//                    if(slctServcOneImage.equals("1")){
+//                        slctServcOneImage="0";
+//                    }
+//                    if(slctServcTwoImage.equals("1")){
+//                        slctServcTwoImage="0";
+//                    }
+//                    if(slctServcThreeImage.equals("1")){
+//                        slctServcThreeImage="0";
+//                    }
+//                    if(slctServcfourImage.equals("1")){
+//                        slctServcfourImage="0";
+//                    }
+//                    if(slctServcFiveImage.equals("1")){
+//                        slctServcFiveImage="0";
+//                    }
+//                    Toast.makeText(UpdateProfileActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//        }
+//        else if (requestCode == CAMERA) {
+//
+//            if (data.getData() == null)
+//            {
+//                thumbnail = (Bitmap) data.getExtras().get("data");
+//                Log.e("jghl",""+thumbnail);
+//                if(slctCatOneImage.equals("1")){
+//                    category_img_one.setImageBitmap(thumbnail);
+//                    saveImage(thumbnail);
+//                }
+//                if(slctCatTwoImage.equals("1")){
+//                    category_img_two.setImageBitmap(thumbnail);
+//                    saveImage(thumbnail);
+//                }
+//                if(slctServcOneImage.equals("1")){
+//                    service_cat_img_one.setImageBitmap(thumbnail);
+//                    saveImage(thumbnail);
+//                }
+//                if(slctServcTwoImage.equals("1")){
+//                    service_cat_img_two.setImageBitmap(thumbnail);
+//                    saveImage(thumbnail);
+//                }
+//                if(slctServcThreeImage.equals("1")){
+//                    service_cat_img_three.setImageBitmap(thumbnail);
+//                    saveImage(thumbnail);
+//                }
+//                if(slctServcfourImage.equals("1")){
+//                    service_cat_img_four.setImageBitmap(thumbnail);
+//                    saveImage(thumbnail);
+//                }
+//                if(slctServcFiveImage.equals("1")){
+//                    service_cat_img_five.setImageBitmap(thumbnail);
+//                    saveImage(thumbnail);
+//                }
+//            }
+//
+//            else{
+//                try {
+//                    bitmap = MediaStore.Images.Media.getBitmap(UpdateProfileActivity.this.getContentResolver(), data.getData());
+//
+//                    if(slctCatOneImage.equals("1")){
+//                        category_img_one.setImageBitmap(bitmap);
+//                        saveImage(bitmap);
+//                    }
+//                    if(slctCatTwoImage.equals("1")){
+//                        category_img_two.setImageBitmap(bitmap);
+//                        saveImage(bitmap);
+//                    }
+//                    if(slctServcOneImage.equals("1")){
+//                        service_cat_img_one.setImageBitmap(bitmap);
+//                        saveImage(bitmap);
+//                    }
+//                    if(slctServcTwoImage.equals("1")){
+//                        service_cat_img_two.setImageBitmap(bitmap);
+//                        saveImage(bitmap);
+//                    }
+//                    if(slctServcThreeImage.equals("1")){
+//                        service_cat_img_three.setImageBitmap(bitmap);
+//                        saveImage(bitmap);
+//                    }
+//                    if(slctServcfourImage.equals("1")){
+//                        service_cat_img_four.setImageBitmap(bitmap);
+//                        saveImage(bitmap);
+//                    }
+//                    if(slctServcFiveImage.equals("1")){
+//                        service_cat_img_five.setImageBitmap(bitmap);
+//                        saveImage(bitmap);
+//                    }
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                    if(slctCatOneImage.equals("1")){
+//                        slctCatOneImage="0";
+//                    }
+//                    if(slctCatTwoImage.equals("1")){
+//                        slctCatTwoImage="0";
+//                    }
+//                    if(slctServcOneImage.equals("1")){
+//                        slctServcOneImage="0";
+//                    }
+//                    if(slctServcTwoImage.equals("1")){
+//                        slctServcTwoImage="0";
+//                    }
+//                    if(slctServcThreeImage.equals("1")){
+//                        slctServcThreeImage="0";
+//                    }
+//                    if(slctServcfourImage.equals("1")){
+//                        slctServcfourImage="0";
+//                    }
+//                    if(slctServcFiveImage.equals("1")){
+//                        slctServcFiveImage="0";
+//                    }
+//                    Toast.makeText(UpdateProfileActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//            Toast.makeText(UpdateProfileActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
+//        }
+//
+//        return;
+//    }
 
-        select_camera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                takePhotoFromCamera();
-            }
-        });
+//    @RequiresApi(api = Build.VERSION_CODES.FROYO)
+//    public String saveImage(Bitmap myBitmap) {
+//        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+//        myBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+//        File wallpaperDirectory = new File(
+//                Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
+//        // have the object build the directory structure, if needed.
+//        if (!wallpaperDirectory.exists()) {
+//            wallpaperDirectory.mkdirs();
+//        }
+//
+//        try {
+//            if(slctCatOneImage.equals("1")){
+//                catfile1 = new File(wallpaperDirectory, Calendar.getInstance()
+//                        .getTimeInMillis() + ".jpg");
+//                catfile1.createNewFile();
+//                FileOutputStream fo = new FileOutputStream(catfile1);
+//                fo.write(bytes.toByteArray());
+//                MediaScannerConnection.scanFile(this,
+//                        new String[]{catfile1.getPath()},
+//                        new String[]{"image/jpeg"}, null);
+//                fo.close();
+//                Log.d("TAG", "File Saved::---&gt;" + catfile1.getAbsolutePath());
+//                UploadImages(catfile1);
+//                return catfile1.getAbsolutePath();
+//            }
+//            if(slctCatTwoImage.equals("1")){
+//                catfile2 = new File(wallpaperDirectory, Calendar.getInstance()
+//                        .getTimeInMillis() + ".jpg");
+//                catfile2.createNewFile();
+//                FileOutputStream fo = new FileOutputStream(catfile2);
+//                fo.write(bytes.toByteArray());
+//                MediaScannerConnection.scanFile(this,
+//                        new String[]{catfile2.getPath()},
+//                        new String[]{"image/jpeg"}, null);
+//                fo.close();
+//                Log.d("TAG", "File Saved::---&gt;" + catfile2.getAbsolutePath());
+//                UploadImages(catfile2);
+//                return catfile2.getAbsolutePath();
+//            }
+//            if(slctServcOneImage.equals("1")){
+//                srvcfile1 = new File(wallpaperDirectory, Calendar.getInstance()
+//                        .getTimeInMillis() + ".jpg");
+//                srvcfile1.createNewFile();
+//                FileOutputStream fo = new FileOutputStream(srvcfile1);
+//                fo.write(bytes.toByteArray());
+//                MediaScannerConnection.scanFile(this,
+//                        new String[]{srvcfile1.getPath()},
+//                        new String[]{"image/jpeg"}, null);
+//                fo.close();
+//                Log.d("TAG", "File Saved::---&gt;" + srvcfile1.getAbsolutePath());
+//                UploadImages(srvcfile1);
+//                return srvcfile1.getAbsolutePath();
+//            }
+//            if(slctServcTwoImage.equals("1")){
+//                srvcfile2 = new File(wallpaperDirectory, Calendar.getInstance()
+//                        .getTimeInMillis() + ".jpg");
+//                srvcfile2.createNewFile();
+//                FileOutputStream fo = new FileOutputStream(srvcfile2);
+//                fo.write(bytes.toByteArray());
+//                MediaScannerConnection.scanFile(this,
+//                        new String[]{srvcfile2.getPath()},
+//                        new String[]{"image/jpeg"}, null);
+//                fo.close();
+//                Log.d("TAG", "File Saved::---&gt;" + srvcfile2.getAbsolutePath());
+//                UploadImages(srvcfile2);
+//                return srvcfile2.getAbsolutePath();
+//            }
+//            if(slctServcThreeImage.equals("1")){
+//                srvcfile3 = new File(wallpaperDirectory, Calendar.getInstance()
+//                        .getTimeInMillis() + ".jpg");
+//                srvcfile3.createNewFile();
+//                FileOutputStream fo = new FileOutputStream(srvcfile3);
+//                fo.write(bytes.toByteArray());
+//                MediaScannerConnection.scanFile(this,
+//                        new String[]{srvcfile3.getPath()},
+//                        new String[]{"image/jpeg"}, null);
+//                fo.close();
+//                Log.d("TAG", "File Saved::---&gt;" + srvcfile3.getAbsolutePath());
+//                UploadImages(srvcfile3);
+//                return srvcfile3.getAbsolutePath();
+//            }
+//            if(slctServcfourImage.equals("1")){
+//                srvcfile4 = new File(wallpaperDirectory, Calendar.getInstance()
+//                        .getTimeInMillis() + ".jpg");
+//                srvcfile4.createNewFile();
+//                FileOutputStream fo = new FileOutputStream(srvcfile4);
+//                fo.write(bytes.toByteArray());
+//                MediaScannerConnection.scanFile(this,
+//                        new String[]{srvcfile4.getPath()},
+//                        new String[]{"image/jpeg"}, null);
+//                fo.close();
+//                Log.d("TAG", "File Saved::---&gt;" + srvcfile4.getAbsolutePath());
+//                UploadImages(srvcfile4);
+//                return srvcfile4.getAbsolutePath();
+//            }
+//            if(slctServcFiveImage.equals("1")){
+//                srvcfile5 = new File(wallpaperDirectory, Calendar.getInstance()
+//                        .getTimeInMillis() + ".jpg");
+//                srvcfile5.createNewFile();
+//                FileOutputStream fo = new FileOutputStream(srvcfile5);
+//                fo.write(bytes.toByteArray());
+//                MediaScannerConnection.scanFile(this,
+//                        new String[]{srvcfile5.getPath()},
+//                        new String[]{"image/jpeg"}, null);
+//                fo.close();
+//                Log.d("TAG", "File Saved::---&gt;" + srvcfile5.getAbsolutePath());
+//                UploadImages(srvcfile5);
+//                return srvcfile5.getAbsolutePath();
+//            }
+//
+//        } catch (IOException e1) {
+//            e1.printStackTrace();
+//        }
+//        return "";
+//    }
 
-        select_gallery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                choosePhotoFromGallary();
-            }
-        });
+//    private void UploadImages(File absolutePath) {
+//        methods.showCustomProgressBarDialog(this);
+//        MultipartBody.Part userDpFilePart = null;
+//        if (absolutePath != null) {
+//            RequestBody userDpFile = RequestBody.create(MediaType.parse("image/*"), absolutePath);
+//            userDpFilePart = MultipartBody.Part.createFormData("file", absolutePath.getName(), userDpFile);
+//        }
+//
+//        ApiService<ImageResponse> service = new ApiService<>();
+//        service.get( this, ApiClient.getApiInterface().uploadImages(Config.token,userDpFilePart), "UploadDocument");
+//        Log.e("DATALOG","check1=> "+service);
+//
+//    }
 
-        cancel_dialog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(slctCatOneImage.equals("1")){
-                    slctCatOneImage="0";
-                }
-                if(slctCatTwoImage.equals("1")){
-                    slctCatTwoImage="0";
-                }
-                if(slctServcOneImage.equals("1")){
-                    slctServcOneImage="0";
-                }
-                if(slctServcTwoImage.equals("1")){
-                    slctServcTwoImage="0";
-                }
-                if(slctServcThreeImage.equals("1")){
-                    slctServcThreeImage="0";
-                }
-                if(slctServcfourImage.equals("1")){
-                    slctServcfourImage="0";
-                }
-                if(slctServcFiveImage.equals("1")){
-                    slctServcFiveImage="0";
-                }
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
-    }
-
-    private void choosePhotoFromGallary() {
-
-
-        Intent galleryIntent = new Intent(Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-        startActivityForResult(galleryIntent, GALLERY);
-    }
-
-    private void takePhotoFromCamera() {
-
-        Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-
-        startActivityForResult(intent, CAMERA);
-
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.FROYO)
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        dialog.dismiss();
-        if (resultCode == RESULT_CANCELED) {
-            return;
-        }
-        if (requestCode == GALLERY) {
-            if (data != null) {
-
-                Uri contentURI = data.getData();
-                try {
-                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), contentURI);
-                    if(slctCatOneImage.equals("1")){
-                        category_img_one.setImageBitmap(bitmap);
-                        saveImage(bitmap);
-                    }
-                    if(slctCatTwoImage.equals("1")){
-                        category_img_two.setImageBitmap(bitmap);
-                        saveImage(bitmap);
-                    }
-                    if(slctServcOneImage.equals("1")){
-                        service_cat_img_one.setImageBitmap(bitmap);
-                        saveImage(bitmap);
-                    }
-                    if(slctServcTwoImage.equals("1")){
-                        service_cat_img_two.setImageBitmap(bitmap);
-                        saveImage(bitmap);
-                    }
-                    if(slctServcThreeImage.equals("1")){
-                        service_cat_img_three.setImageBitmap(bitmap);
-                        saveImage(bitmap);
-                    }
-                    if(slctServcfourImage.equals("1")){
-                        service_cat_img_four.setImageBitmap(bitmap);
-                        saveImage(bitmap);
-                    }
-                    if(slctServcFiveImage.equals("1")){
-                        service_cat_img_five.setImageBitmap(bitmap);
-                        saveImage(bitmap);
-                    }
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    if(slctCatOneImage.equals("1")){
-                        slctCatOneImage="0";
-                    }
-                    if(slctCatTwoImage.equals("1")){
-                        slctCatTwoImage="0";
-                    }
-                    if(slctServcOneImage.equals("1")){
-                        slctServcOneImage="0";
-                    }
-                    if(slctServcTwoImage.equals("1")){
-                        slctServcTwoImage="0";
-                    }
-                    if(slctServcThreeImage.equals("1")){
-                        slctServcThreeImage="0";
-                    }
-                    if(slctServcfourImage.equals("1")){
-                        slctServcfourImage="0";
-                    }
-                    if(slctServcFiveImage.equals("1")){
-                        slctServcFiveImage="0";
-                    }
-                    Toast.makeText(UpdateProfileActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-        }
-        else if (requestCode == CAMERA) {
-
-            if (data.getData() == null)
-            {
-                thumbnail = (Bitmap) data.getExtras().get("data");
-                Log.e("jghl",""+thumbnail);
-                if(slctCatOneImage.equals("1")){
-                    category_img_one.setImageBitmap(thumbnail);
-                    saveImage(thumbnail);
-                }
-                if(slctCatTwoImage.equals("1")){
-                    category_img_two.setImageBitmap(thumbnail);
-                    saveImage(thumbnail);
-                }
-                if(slctServcOneImage.equals("1")){
-                    service_cat_img_one.setImageBitmap(thumbnail);
-                    saveImage(thumbnail);
-                }
-                if(slctServcTwoImage.equals("1")){
-                    service_cat_img_two.setImageBitmap(thumbnail);
-                    saveImage(thumbnail);
-                }
-                if(slctServcThreeImage.equals("1")){
-                    service_cat_img_three.setImageBitmap(thumbnail);
-                    saveImage(thumbnail);
-                }
-                if(slctServcfourImage.equals("1")){
-                    service_cat_img_four.setImageBitmap(thumbnail);
-                    saveImage(thumbnail);
-                }
-                if(slctServcFiveImage.equals("1")){
-                    service_cat_img_five.setImageBitmap(thumbnail);
-                    saveImage(thumbnail);
-                }
-            }
-
-            else{
-                try {
-                    bitmap = MediaStore.Images.Media.getBitmap(UpdateProfileActivity.this.getContentResolver(), data.getData());
-
-                    if(slctCatOneImage.equals("1")){
-                        category_img_one.setImageBitmap(bitmap);
-                        saveImage(bitmap);
-                    }
-                    if(slctCatTwoImage.equals("1")){
-                        category_img_two.setImageBitmap(bitmap);
-                        saveImage(bitmap);
-                    }
-                    if(slctServcOneImage.equals("1")){
-                        service_cat_img_one.setImageBitmap(bitmap);
-                        saveImage(bitmap);
-                    }
-                    if(slctServcTwoImage.equals("1")){
-                        service_cat_img_two.setImageBitmap(bitmap);
-                        saveImage(bitmap);
-                    }
-                    if(slctServcThreeImage.equals("1")){
-                        service_cat_img_three.setImageBitmap(bitmap);
-                        saveImage(bitmap);
-                    }
-                    if(slctServcfourImage.equals("1")){
-                        service_cat_img_four.setImageBitmap(bitmap);
-                        saveImage(bitmap);
-                    }
-                    if(slctServcFiveImage.equals("1")){
-                        service_cat_img_five.setImageBitmap(bitmap);
-                        saveImage(bitmap);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    if(slctCatOneImage.equals("1")){
-                        slctCatOneImage="0";
-                    }
-                    if(slctCatTwoImage.equals("1")){
-                        slctCatTwoImage="0";
-                    }
-                    if(slctServcOneImage.equals("1")){
-                        slctServcOneImage="0";
-                    }
-                    if(slctServcTwoImage.equals("1")){
-                        slctServcTwoImage="0";
-                    }
-                    if(slctServcThreeImage.equals("1")){
-                        slctServcThreeImage="0";
-                    }
-                    if(slctServcfourImage.equals("1")){
-                        slctServcfourImage="0";
-                    }
-                    if(slctServcFiveImage.equals("1")){
-                        slctServcFiveImage="0";
-                    }
-                    Toast.makeText(UpdateProfileActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
-                }
-            }
-            Toast.makeText(UpdateProfileActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
-        }
-
-        return;
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.FROYO)
-    public String saveImage(Bitmap myBitmap) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        myBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-        File wallpaperDirectory = new File(
-                Environment.getExternalStorageDirectory() + IMAGE_DIRECTORY);
-        // have the object build the directory structure, if needed.
-        if (!wallpaperDirectory.exists()) {
-            wallpaperDirectory.mkdirs();
-        }
-
-        try {
-            if(slctCatOneImage.equals("1")){
-                catfile1 = new File(wallpaperDirectory, Calendar.getInstance()
-                        .getTimeInMillis() + ".jpg");
-                catfile1.createNewFile();
-                FileOutputStream fo = new FileOutputStream(catfile1);
-                fo.write(bytes.toByteArray());
-                MediaScannerConnection.scanFile(this,
-                        new String[]{catfile1.getPath()},
-                        new String[]{"image/jpeg"}, null);
-                fo.close();
-                Log.d("TAG", "File Saved::---&gt;" + catfile1.getAbsolutePath());
-                UploadImages(catfile1);
-                return catfile1.getAbsolutePath();
-            }
-            if(slctCatTwoImage.equals("1")){
-                catfile2 = new File(wallpaperDirectory, Calendar.getInstance()
-                        .getTimeInMillis() + ".jpg");
-                catfile2.createNewFile();
-                FileOutputStream fo = new FileOutputStream(catfile2);
-                fo.write(bytes.toByteArray());
-                MediaScannerConnection.scanFile(this,
-                        new String[]{catfile2.getPath()},
-                        new String[]{"image/jpeg"}, null);
-                fo.close();
-                Log.d("TAG", "File Saved::---&gt;" + catfile2.getAbsolutePath());
-                UploadImages(catfile2);
-                return catfile2.getAbsolutePath();
-            }
-            if(slctServcOneImage.equals("1")){
-                srvcfile1 = new File(wallpaperDirectory, Calendar.getInstance()
-                        .getTimeInMillis() + ".jpg");
-                srvcfile1.createNewFile();
-                FileOutputStream fo = new FileOutputStream(srvcfile1);
-                fo.write(bytes.toByteArray());
-                MediaScannerConnection.scanFile(this,
-                        new String[]{srvcfile1.getPath()},
-                        new String[]{"image/jpeg"}, null);
-                fo.close();
-                Log.d("TAG", "File Saved::---&gt;" + srvcfile1.getAbsolutePath());
-                UploadImages(srvcfile1);
-                return srvcfile1.getAbsolutePath();
-            }
-            if(slctServcTwoImage.equals("1")){
-                srvcfile2 = new File(wallpaperDirectory, Calendar.getInstance()
-                        .getTimeInMillis() + ".jpg");
-                srvcfile2.createNewFile();
-                FileOutputStream fo = new FileOutputStream(srvcfile2);
-                fo.write(bytes.toByteArray());
-                MediaScannerConnection.scanFile(this,
-                        new String[]{srvcfile2.getPath()},
-                        new String[]{"image/jpeg"}, null);
-                fo.close();
-                Log.d("TAG", "File Saved::---&gt;" + srvcfile2.getAbsolutePath());
-                UploadImages(srvcfile2);
-                return srvcfile2.getAbsolutePath();
-            }
-            if(slctServcThreeImage.equals("1")){
-                srvcfile3 = new File(wallpaperDirectory, Calendar.getInstance()
-                        .getTimeInMillis() + ".jpg");
-                srvcfile3.createNewFile();
-                FileOutputStream fo = new FileOutputStream(srvcfile3);
-                fo.write(bytes.toByteArray());
-                MediaScannerConnection.scanFile(this,
-                        new String[]{srvcfile3.getPath()},
-                        new String[]{"image/jpeg"}, null);
-                fo.close();
-                Log.d("TAG", "File Saved::---&gt;" + srvcfile3.getAbsolutePath());
-                UploadImages(srvcfile3);
-                return srvcfile3.getAbsolutePath();
-            }
-            if(slctServcfourImage.equals("1")){
-                srvcfile4 = new File(wallpaperDirectory, Calendar.getInstance()
-                        .getTimeInMillis() + ".jpg");
-                srvcfile4.createNewFile();
-                FileOutputStream fo = new FileOutputStream(srvcfile4);
-                fo.write(bytes.toByteArray());
-                MediaScannerConnection.scanFile(this,
-                        new String[]{srvcfile4.getPath()},
-                        new String[]{"image/jpeg"}, null);
-                fo.close();
-                Log.d("TAG", "File Saved::---&gt;" + srvcfile4.getAbsolutePath());
-                UploadImages(srvcfile4);
-                return srvcfile4.getAbsolutePath();
-            }
-            if(slctServcFiveImage.equals("1")){
-                srvcfile5 = new File(wallpaperDirectory, Calendar.getInstance()
-                        .getTimeInMillis() + ".jpg");
-                srvcfile5.createNewFile();
-                FileOutputStream fo = new FileOutputStream(srvcfile5);
-                fo.write(bytes.toByteArray());
-                MediaScannerConnection.scanFile(this,
-                        new String[]{srvcfile5.getPath()},
-                        new String[]{"image/jpeg"}, null);
-                fo.close();
-                Log.d("TAG", "File Saved::---&gt;" + srvcfile5.getAbsolutePath());
-                UploadImages(srvcfile5);
-                return srvcfile5.getAbsolutePath();
-            }
-
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-        return "";
-    }
-
-    private void UploadImages(File absolutePath) {
-        methods.showCustomProgressBarDialog(this);
-        MultipartBody.Part userDpFilePart = null;
-        if (absolutePath != null) {
-            RequestBody userDpFile = RequestBody.create(MediaType.parse("image/*"), absolutePath);
-            userDpFilePart = MultipartBody.Part.createFormData("file", absolutePath.getName(), userDpFile);
-        }
-
-        ApiService<ImageResponse> service = new ApiService<>();
-        service.get( this, ApiClient.getApiInterface().uploadImages(Config.token,userDpFilePart), "UploadDocument");
-        Log.e("DATALOG","check1=> "+service);
-
-    }
-
-    private void requestMultiplePermissions() {
-        Dexter.withActivity(this)
-                .withPermissions(
-                        android.Manifest.permission.CAMERA,
-                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.READ_EXTERNAL_STORAGE)
-                .withListener(new MultiplePermissionsListener() {
-                    @Override
-                    public void onPermissionsChecked(MultiplePermissionsReport report) {
-                        // check if all permissions are granted
-                        if (report.areAllPermissionsGranted()) {
-                        }
-
-                        // check for permanent denial of any permission
-                        if (report.isAnyPermissionPermanentlyDenied()) {
-                            // show alert dialog navigating to Settings
-                            //openSettingsDialog();
-                        }
-                    }
-
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-                        token.continuePermissionRequest();
-                    }
-
-
-                }).
-                withErrorListener(new PermissionRequestErrorListener() {
-                    @Override
-                    public void onError(DexterError error) {
-                        Toast.makeText(UpdateProfileActivity.this, "Some Error! ", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .onSameThread()
-                .check();
-    }
+//    private void requestMultiplePermissions() {
+//        Dexter.withActivity(this)
+//                .withPermissions(
+//                        android.Manifest.permission.CAMERA,
+//                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//                        Manifest.permission.READ_EXTERNAL_STORAGE)
+//                .withListener(new MultiplePermissionsListener() {
+//                    @Override
+//                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+//                        // check if all permissions are granted
+//                        if (report.areAllPermissionsGranted()) {
+//                        }
+//
+//                        // check for permanent denial of any permission
+//                        if (report.isAnyPermissionPermanentlyDenied()) {
+//                            // show alert dialog navigating to Settings
+//                            //openSettingsDialog();
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+//                        token.continuePermissionRequest();
+//                    }
+//
+//
+//                }).
+//                withErrorListener(new PermissionRequestErrorListener() {
+//                    @Override
+//                    public void onError(DexterError error) {
+//                        Toast.makeText(UpdateProfileActivity.this, "Some Error! ", Toast.LENGTH_SHORT).show();
+//                    }
+//                })
+//                .onSameThread()
+//                .check();
+//    }
 
 
     @Override
     public void onResponse(Response response, String key) {
         methods.customProgressDismiss();
-        Log.d("kkdkkd",""+key);
-        switch (key)
-        {
+        Log.d("kkdkkd", "" + key);
+        switch (key) {
 
             case "GetUserDetails":
                 try {
-                    Log.d("GetUserDetails",response.body().toString());
+                    Log.d("GetUserDetails", response.body().toString());
                     UserResponse userResponse = (UserResponse) response.body();
                     int responseCode = Integer.parseInt(userResponse.getResponse().getResponseCode());
-                    if (responseCode== 109){
-                       // Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                    if (responseCode == 109) {
+                        // Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
 
                         last_name_updt.setText(userResponse.getData().getLastName());
                         email_updt.setText(userResponse.getData().getEmail());
@@ -1451,146 +1428,140 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                         description_updt.setText(userResponse.getData().getDescription());
 
 
-                    }else if (responseCode==614){
+                    } else if (responseCode == 614) {
                         Toast.makeText(this, userResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
-                    }else {
+                    } else {
                         Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
                     }
-                }
-                catch(Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             case "GetState":
                 try {
-                    Log.d("getState",response.body().toString());
+                    Log.d("getState", response.body().toString());
                     StateResponse stateResponse = (StateResponse) response.body();
                     int responseCode = Integer.parseInt(stateResponse.getResponse().getResponseCode());
-                    if (responseCode== 109){
-                        state=new ArrayList<>();
+                    if (responseCode == 109) {
+                        state = new ArrayList<>();
                         state.add("Select State");
-                        stateHasmap.put("Select State","0.0");
-                        for(int i=0; i<stateResponse.getData().size(); i++){
-                            Log.d("kakakka",""+stateResponse.getData().get(i).getStateName());
+                        stateHasmap.put("Select State", "0.0");
+                        for (int i = 0; i < stateResponse.getData().size(); i++) {
+                            Log.d("kakakka", "" + stateResponse.getData().get(i).getStateName());
                             state.add(stateResponse.getData().get(i).getStateName());
-                            stateHasmap.put(stateResponse.getData().get(i).getStateName(),stateResponse.getData().get(i).getId());
+                            stateHasmap.put(stateResponse.getData().get(i).getStateName(), stateResponse.getData().get(i).getId());
                         }
                         setStateSpinner();
 
-                    }else if (responseCode==614){
+                    } else if (responseCode == 614) {
                         Toast.makeText(UpdateProfileActivity.this, stateResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
-                    }else {
+                    } else {
                         Toast.makeText(UpdateProfileActivity.this, "Please Try Again !", Toast.LENGTH_SHORT).show();
                     }
-                }
-                catch(Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
 
             case "GetCountry":
                 try {
-                    Log.d("GetCountry",response.body().toString());
+                    Log.d("GetCountry", response.body().toString());
                     stateResponse = (CountryResponse) response.body();
                     int responseCode = Integer.parseInt(stateResponse.getResponse().getResponseCode());
-                    if (responseCode== 109){
-                        countery=new ArrayList<>();
-                        countery.add("Select Country");
-                        for(int i=0; i<stateResponse.getData().size(); i++){
-                            Log.d("kakakka",""+stateResponse.getData().get(i).getCountryName());
-                            countery.add(stateResponse.getData().get(i).getCountryName());
-                            countryHasmap.put(stateResponse.getData().get(i).getCountryName(),stateResponse.getData().get(i).getId());
+                    if (responseCode == 109) {
+                        countryList = new ArrayList<>();
+                        countryList.add("Select Country");
+                        for (int i = 0; i < stateResponse.getData().size(); i++) {
+                            Log.d("kakakka", "" + stateResponse.getData().get(i).getCountryName());
+                            countryList.add(stateResponse.getData().get(i).getCountryName());
+                            countryHasmap.put(stateResponse.getData().get(i).getCountryName(), stateResponse.getData().get(i).getId());
                         }
                         setCountrySpinner();
 
-                    }else if (responseCode==614){
+                    } else if (responseCode == 614) {
                         Toast.makeText(UpdateProfileActivity.this, stateResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
-                    }else {
+                    } else {
                         Toast.makeText(UpdateProfileActivity.this, "Please Try Again !", Toast.LENGTH_SHORT).show();
                     }
-                }
-                catch(Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
             case "GetCity":
                 try {
-                    Log.d("GetCity",response.body().toString());
+                    Log.d("GetCity", response.body().toString());
                     CityResponse cityResponse = (CityResponse) response.body();
                     int responseCode = Integer.parseInt(cityResponse.getResponse().getResponseCode());
-                    if (responseCode== 109){
-                        city=new ArrayList<>();
+                    if (responseCode == 109) {
+                        city = new ArrayList<>();
                         city.add("Select City");
-                        Log.d("lalal",""+cityResponse.getData().size());
-                        for(int i=0; i<cityResponse.getData().size(); i++){
-                            Log.d("kakakkajj",""+cityResponse.getData().get(i).getCity1());
+                        Log.d("lalal", "" + cityResponse.getData().size());
+                        for (int i = 0; i < cityResponse.getData().size(); i++) {
+                            Log.d("kakakkajj", "" + cityResponse.getData().get(i).getCity1());
                             city.add(cityResponse.getData().get(i).getCity1());
-                            cityHasmap.put(cityResponse.getData().get(i).getCity1(),cityResponse.getData().get(i).getId());
+                            cityHasmap.put(cityResponse.getData().get(i).getCity1(), cityResponse.getData().get(i).getId());
                         }
                         setCitySpinner();
 
-                    }else if (responseCode==614){
+                    } else if (responseCode == 614) {
                         Toast.makeText(UpdateProfileActivity.this, cityResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
-                    }else {
+                    } else {
                         Toast.makeText(UpdateProfileActivity.this, "Please Try Again !", Toast.LENGTH_SHORT).show();
                     }
-                }
-                catch(Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
             case "GetPetTypes":
                 try {
-                    Log.d("GetPetTypes",response.body().toString());
+                    Log.d("GetPetTypes", response.body().toString());
                     PetTypeResponse petTypeResponse = (PetTypeResponse) response.body();
                     int responseCode = Integer.parseInt(petTypeResponse.getResponse().getResponseCode());
-                    if (responseCode== 109){
-                        petCategory=new String[petTypeResponse.getData().size()];
-                        Log.d("lalal",""+petTypeResponse.getData().size());
-                        for(int i=0; i<petTypeResponse.getData().size(); i++){
-                            Log.d("petttt",""+petTypeResponse.getData().get(i).getPetType1());
+                    if (responseCode == 109) {
+                        petCategory = new String[petTypeResponse.getData().size()];
+                        Log.d("lalal", "" + petTypeResponse.getData().size());
+                        for (int i = 0; i < petTypeResponse.getData().size(); i++) {
+                            Log.d("petttt", "" + petTypeResponse.getData().get(i).getPetType1());
                             petCategory[i] = petTypeResponse.getData().get(i).getPetType1();
-                            categoryHasmap.put(petTypeResponse.getData().get(i).getPetType1(),petTypeResponse.getData().get(i).getId());
+                            categoryHasmap.put(petTypeResponse.getData().get(i).getPetType1(), petTypeResponse.getData().get(i).getId());
                         }
-                        chkItems=new boolean[petCategory.length];
-                        Log.d("CheckBox chkItems",chkItems.toString());
-                        Log.d("CheckBox petCategory ",petCategory.toString());
-                        Log.d("CheckBox Hasmap",categoryHasmap.toString());
+                        chkItems = new boolean[petCategory.length];
+                        Log.d("CheckBox chkItems", chkItems.toString());
+                        Log.d("CheckBox petCategory ", petCategory.toString());
+                        Log.d("CheckBox Hasmap", categoryHasmap.toString());
 
 
-                    }else if (responseCode==614){
+                    } else if (responseCode == 614) {
                         Toast.makeText(UpdateProfileActivity.this, petTypeResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
-                    }else {
+                    } else {
                         Toast.makeText(UpdateProfileActivity.this, "Please Try Again !", Toast.LENGTH_SHORT).show();
                     }
-                }
-                catch(Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
 
             case "GetServiceTypes":
                 try {
-                    Log.d("GetPetServiceTypes",response.body().toString());
+                    Log.d("GetPetServiceTypes", response.body().toString());
                     PetServiceResponse petServiceResponse = (PetServiceResponse) response.body();
                     int responseCode = Integer.parseInt(petServiceResponse.getResponse().getResponseCode());
-                    if (responseCode== 109){
+                    if (responseCode == 109) {
 //                        Toast.makeText(UpdateProfileActivity.this, "Success", Toast.LENGTH_SHORT).show();
-                        serviceCategory=new String[petServiceResponse.getData().size()];
-                        Log.d("lalal",""+petServiceResponse.getData().size());
-                        for(int i=0; i<petServiceResponse.getData().size(); i++){
-                            Log.d("petttt",""+petServiceResponse.getData().get(i).getServiceType1());
+                        serviceCategory = new String[petServiceResponse.getData().size()];
+                        Log.d("lalal", "" + petServiceResponse.getData().size());
+                        for (int i = 0; i < petServiceResponse.getData().size(); i++) {
+                            Log.d("petttt", "" + petServiceResponse.getData().get(i).getServiceType1());
                             serviceCategory[i] = petServiceResponse.getData().get(i).getServiceType1();
-                            servcCatHasmap.put(petServiceResponse.getData().get(i).getServiceType1(),petServiceResponse.getData().get(i).getId());
+                            servcCatHasmap.put(petServiceResponse.getData().get(i).getServiceType1(), petServiceResponse.getData().get(i).getId());
                         }
-                        chkItemsSevice=new boolean[serviceCategory.length];
+                        chkItemsSevice = new boolean[serviceCategory.length];
 
-                    }else if (responseCode==614){
+                    } else if (responseCode == 614) {
                         Toast.makeText(UpdateProfileActivity.this, petServiceResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
-                    }else {
+                    } else {
                         Toast.makeText(UpdateProfileActivity.this, "Please Try Again !", Toast.LENGTH_SHORT).show();
                     }
-                }
-                catch(Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
@@ -1601,88 +1572,87 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
                     Log.e("ttttt", response.body().toString());
                     UpdateVetResponse userResponse = (UpdateVetResponse) response.body();
                     int responseCode = Integer.parseInt(userResponse.getResponse().getResponseCode());
-                    if (responseCode== 109){
+                    if (responseCode == 109) {
                         Toast.makeText(UpdateProfileActivity.this, "Updated", Toast.LENGTH_SHORT).show();
-                        if (activityType.equals("Update")){
+                        if (activityType.equals("Update")) {
                             setResult(RESULT_OK);
                             finish();
-                        }else if (activityType.equals("Edit")){
+                        } else if (activityType.equals("Edit")) {
                             setResult(RESULT_OK);
                             finish();
                         }
-                    }else if (responseCode==614){
+                    } else if (responseCode == 614) {
                         Toast.makeText(UpdateProfileActivity.this, userResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
-                    }else {
+                    } else {
                         Toast.makeText(UpdateProfileActivity.this, "Please Try Again !", Toast.LENGTH_SHORT).show();
                     }
-                }
-                catch(Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
-                    Log.e("error",e.getMessage());
-                    Log.e("error",e.getLocalizedMessage());
+                    Log.e("error", e.getMessage());
+                    Log.e("error", e.getLocalizedMessage());
 
                 }
                 break;
 
-            case "UploadDocument":
-                try {
-                    methods.customProgressDismiss();
-                    Log.d("UploadDocument",response.body().toString());
-                    ImageResponse imageResponse = (ImageResponse) response.body();
-                    int responseCode = Integer.parseInt(imageResponse.getResponse().getResponseCode());
-                    if (responseCode== 109){
-                        //Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
-                        if(slctCatOneImage.equals("1")){
-                            strCatUrl1=imageResponse.getData().getDocumentUrl();
-                            slctCatOneImage="0";
-                        }
-                        if(slctCatTwoImage.equals("1")){
-                            strCatUrl2=imageResponse.getData().getDocumentUrl();
-                            slctCatTwoImage="0";
-                        }
-                        if(slctServcOneImage.equals("1")){
-                            strSrvsUrl1=imageResponse.getData().getDocumentUrl();
-                            slctServcOneImage="0";
-                        }
-                        if(slctServcTwoImage.equals("1")){
-                            strSrvsUrl2=imageResponse.getData().getDocumentUrl();
-                            slctServcTwoImage="0";
-                        }
-                        if(slctServcThreeImage.equals("1")){
-                            strSrvsUrl3=imageResponse.getData().getDocumentUrl();
-                            slctServcThreeImage="0";
-                        }
-                        if(slctServcfourImage.equals("1")){
-                            strSrvsUrl4=imageResponse.getData().getDocumentUrl();
-                            slctServcfourImage="0";
-                        }
-                        if(slctServcFiveImage.equals("1")){
-                            strSrvsUrl5=imageResponse.getData().getDocumentUrl();
-                            slctServcFiveImage="0";
-                        }
-
-                    }else if (responseCode==614){
-                        Toast.makeText(this, imageResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
-                    }else {
-                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                catch(Exception e) {
-                    e.printStackTrace();
-                }
-                break;
+//            case "UploadDocument":
+//                try {
+//                    methods.customProgressDismiss();
+//                    Log.d("UploadDocument",response.body().toString());
+//                    ImageResponse imageResponse = (ImageResponse) response.body();
+//                    int responseCode = Integer.parseInt(imageResponse.getResponse().getResponseCode());
+//                    if (responseCode== 109){
+//                        //Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+//                        if(slctCatOneImage.equals("1")){
+//                            strCatUrl1=imageResponse.getData().getDocumentUrl();
+//                            slctCatOneImage="0";
+//                        }
+//                        if(slctCatTwoImage.equals("1")){
+//                            strCatUrl2=imageResponse.getData().getDocumentUrl();
+//                            slctCatTwoImage="0";
+//                        }
+//                        if(slctServcOneImage.equals("1")){
+//                            strSrvsUrl1=imageResponse.getData().getDocumentUrl();
+//                            slctServcOneImage="0";
+//                        }
+//                        if(slctServcTwoImage.equals("1")){
+//                            strSrvsUrl2=imageResponse.getData().getDocumentUrl();
+//                            slctServcTwoImage="0";
+//                        }
+//                        if(slctServcThreeImage.equals("1")){
+//                            strSrvsUrl3=imageResponse.getData().getDocumentUrl();
+//                            slctServcThreeImage="0";
+//                        }
+//                        if(slctServcfourImage.equals("1")){
+//                            strSrvsUrl4=imageResponse.getData().getDocumentUrl();
+//                            slctServcfourImage="0";
+//                        }
+//                        if(slctServcFiveImage.equals("1")){
+//                            strSrvsUrl5=imageResponse.getData().getDocumentUrl();
+//                            slctServcFiveImage="0";
+//                        }
+//
+//                    }else if (responseCode==614){
+//                        Toast.makeText(this, imageResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+//                    }else {
+//                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//                catch(Exception e) {
+//                    e.printStackTrace();
+//                }
+//                break;
         }
     }
 
     @Override
     public void onError(Throwable t, String key) {
         methods.customProgressDismiss();
-        Log.e("error",t.getLocalizedMessage());
+        Log.e("error", t.getLocalizedMessage());
         Toast.makeText(this, "Please try again!", Toast.LENGTH_SHORT).show();
     }
 
     private void setCountrySpinner() {
-        ArrayAdapter aa = new ArrayAdapter(UpdateProfileActivity.this,android.R.layout.simple_spinner_item,countery);
+        ArrayAdapter aa = new ArrayAdapter(UpdateProfileActivity.this, android.R.layout.simple_spinner_item, countryList);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
         country_spnr_updt.setAdapter(aa);
@@ -1694,17 +1664,26 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
                 // Showing selected spinner item
-                strContrySpnr=item;
-                Log.d("spnrCountry",""+strContrySpnr);
-                strCountryId=countryHasmap.get(strContrySpnr);
+                strContrySpnr = item;
+                strCountryId = countryHasmap.get(strContrySpnr);
+                if (strContrySpnr.equals("Select Country")) {
+                    int progress = horizontal_progress_bar.getProgress();
+                    progress = progress - 7;
+                    setProgressStatus(progress);
+                } else {
+                    int progress = horizontal_progress_bar.getProgress();
+                    progress = progress + 7;
+                    setProgressStatus(progress);
+                }
             }
+
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
     }
 
     private void setStateSpinner() {
-        ArrayAdapter aa = new ArrayAdapter(UpdateProfileActivity.this,android.R.layout.simple_spinner_item,state);
+        ArrayAdapter aa = new ArrayAdapter(UpdateProfileActivity.this, android.R.layout.simple_spinner_item, state);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
         state_spnr_updt.setAdapter(aa);
@@ -1716,29 +1695,37 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
                 // Showing selected spinner item
-                strStateSpnr=item;
-                strStateId=stateHasmap.get(strStateSpnr);
-//                Log.d("spnrState",""+strStateSpnr+"ID=>>>"+strStateId);
+                strStateSpnr = item;
+                strStateId = stateHasmap.get(strStateSpnr);
 
-                if (strStateId.equals(null)){
+                if (strStateSpnr.equals("Select State")) {
+                    int progress = horizontal_progress_bar.getProgress();
+                    progress = progress - 7;
+                    setProgressStatus(progress);
+                } else {
+                    int progress = horizontal_progress_bar.getProgress();
+                    progress = progress + 7;
+                    setProgressStatus(progress);
+                }
 
-                }else {
-                    Log.d("spnrState",""+strStateSpnr+" ID=>>>"+strStateId);
-                    Log.d("spnrState",""+strStateSpnr+  " ID=>>>"+strStateId.substring(0,strStateId.length()-1));
-                    String stateId= strStateId.substring(0,strStateId.length()-2);
-                    String url  = "common/GetCity/"+stateId;
-                    Log.e("URL",url);
+                if (strStateId.equals(null)) {
+
+                } else {
+                    String stateId = strStateId.substring(0, strStateId.length() - 2);
+                    String url = "common/GetCity/" + stateId;
+                    Log.e("URL", url);
                     getCity(url);
                 }
 
             }
+
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
     }
 
     private void setCitySpinner() {
-        ArrayAdapter aa = new ArrayAdapter(UpdateProfileActivity.this,android.R.layout.simple_spinner_item,city);
+        ArrayAdapter aa = new ArrayAdapter(UpdateProfileActivity.this, android.R.layout.simple_spinner_item, city);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
 
@@ -1751,11 +1738,22 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
                 // Showing selected spinner item
-                strCitySpnr=item;
-                Log.d("spnrCity",""+strCitySpnr);
-                strStringCityId=cityHasmap.get(strCitySpnr);
+                strCitySpnr = item;
+                Log.d("spnrCity", "" + strCitySpnr);
+                strStringCityId = cityHasmap.get(strCitySpnr);
+
+                if (strCitySpnr.equals("Select City")) {
+                    int progress = horizontal_progress_bar.getProgress();
+                    progress = progress - 7;
+                    setProgressStatus(progress);
+                } else {
+                    int progress = horizontal_progress_bar.getProgress();
+                    progress = progress + 7;
+                    setProgressStatus(progress);
+                }
 
             }
+
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
@@ -1764,5 +1762,208 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+
+        if (charSequence.hashCode() == first_name_updt.getText().hashCode()) {
+            Log.e("COUNT", String.valueOf(count));
+            Log.e("START", String.valueOf(start));
+            Log.e("BEFORE", String.valueOf(before));
+
+            if (start == 0 && count == 1 && before == 0) {
+                int progress = horizontal_progress_bar.getProgress();
+                progress = progress + 3;
+                setProgressStatus(progress);
+            } else if (count == 0 && start == 0) {
+                int progress = horizontal_progress_bar.getProgress();
+                progress = progress - 3;
+                setProgressStatus(progress);
+            }
+        }
+
+
+        if (charSequence.hashCode() == last_name_updt.getText().hashCode()) {
+            Log.e("COUNT", String.valueOf(count));
+            Log.e("START", String.valueOf(start));
+            Log.e("BEFORE", String.valueOf(before));
+
+            if (start == 0 && count == 1 && before == 0) {
+                int progress = horizontal_progress_bar.getProgress();
+                progress = progress + 3;
+                setProgressStatus(progress);
+            } else if (count == 0 && start == 0) {
+                int progress = horizontal_progress_bar.getProgress();
+                progress = progress - 3;
+                setProgressStatus(progress);
+            }
+        }
+
+        if (charSequence.hashCode() == email_updt.getText().hashCode()) {
+            Log.e("COUNT", String.valueOf(count));
+            Log.e("START", String.valueOf(start));
+            Log.e("BEFORE", String.valueOf(before));
+
+            if (start == 0 && count == 1 && before == 0) {
+                int progress = horizontal_progress_bar.getProgress();
+                progress = progress + 7;
+                setProgressStatus(progress);
+            } else if (count == 0 && start == 0) {
+                int progress = horizontal_progress_bar.getProgress();
+                progress = progress - 7;
+                setProgressStatus(progress);
+            }
+        }
+        if (charSequence.hashCode() == phone_updt.getText().hashCode()) {
+            Log.e("COUNT", String.valueOf(count));
+            Log.e("START", String.valueOf(start));
+            Log.e("BEFORE", String.valueOf(before));
+
+            if (start == 0 && count == 1 && before == 0) {
+                int progress = horizontal_progress_bar.getProgress();
+                progress = progress + 7;
+                setProgressStatus(progress);
+            } else if (count == 0 && start == 0) {
+                int progress = horizontal_progress_bar.getProgress();
+                progress = progress - 7;
+                setProgressStatus(progress);
+            }
+        }
+        if (charSequence.hashCode() == clinic_name_updt.getText().hashCode()) {
+            Log.e("COUNT", String.valueOf(count));
+            Log.e("START", String.valueOf(start));
+            Log.e("BEFORE", String.valueOf(before));
+
+            if (start == 0 && count == 1 && before == 0) {
+                int progress = horizontal_progress_bar.getProgress();
+                progress = progress + 7;
+                setProgressStatus(progress);
+            } else if (count == 0 && start == 0) {
+                int progress = horizontal_progress_bar.getProgress();
+                progress = progress - 7;
+                setProgressStatus(progress);
+            }
+        }
+        if (charSequence.hashCode() == clinicCode_updt.getText().hashCode()) {
+            Log.e("COUNT", String.valueOf(count));
+            Log.e("START", String.valueOf(start));
+            Log.e("BEFORE", String.valueOf(before));
+
+            if (start == 0 && count == 1 && before == 0) {
+                int progress = horizontal_progress_bar.getProgress();
+                progress = progress + 7;
+                setProgressStatus(progress);
+            } else if (count == 0 && start == 0) {
+                int progress = horizontal_progress_bar.getProgress();
+                progress = progress - 7;
+                setProgressStatus(progress);
+            }
+        }
+        if (charSequence.hashCode() == description_updt.getText().hashCode()) {
+            Log.e("COUNT", String.valueOf(count));
+            Log.e("START", String.valueOf(start));
+            Log.e("BEFORE", String.valueOf(before));
+
+            if (start == 0 && count == 1 && before == 0) {
+                int progress = horizontal_progress_bar.getProgress();
+                progress = progress + 7;
+                setProgressStatus(progress);
+            } else if (count == 0 && start == 0) {
+                int progress = horizontal_progress_bar.getProgress();
+                progress = progress - 7;
+                setProgressStatus(progress);
+            }
+        }
+        if (charSequence.hashCode() == address_updt.getText().hashCode()) {
+            Log.e("COUNT", String.valueOf(count));
+            Log.e("START", String.valueOf(start));
+            Log.e("BEFORE", String.valueOf(before));
+
+            if (start == 0 && count == 1 && before == 0) {
+                int progress = horizontal_progress_bar.getProgress();
+                progress = progress + 7;
+                setProgressStatus(progress);
+            } else if (count == 0 && start == 0) {
+                int progress = horizontal_progress_bar.getProgress();
+                progress = progress - 7;
+                setProgressStatus(progress);
+            }
+        }
+        if (charSequence.hashCode() == postal_code_updt.getText().hashCode()) {
+            Log.e("COUNT", String.valueOf(count));
+            Log.e("START", String.valueOf(start));
+            Log.e("BEFORE", String.valueOf(before));
+
+            if (start == 0 && count == 1 && before == 0) {
+                int progress = horizontal_progress_bar.getProgress();
+                progress = progress + 7;
+                setProgressStatus(progress);
+            } else if (count == 0 && start == 0) {
+                int progress = horizontal_progress_bar.getProgress();
+                progress = progress - 7;
+                setProgressStatus(progress);
+            }
+        }
+        if (charSequence.hashCode() == registration_num_updt.getText().hashCode()) {
+            Log.e("COUNT", String.valueOf(count));
+            Log.e("START", String.valueOf(start));
+            Log.e("BEFORE", String.valueOf(before));
+
+            if (start == 0 && count == 1 && before == 0) {
+                int progress = horizontal_progress_bar.getProgress();
+                progress = progress + 7;
+                setProgressStatus(progress);
+            } else if (count == 0 && start == 0) {
+                int progress = horizontal_progress_bar.getProgress();
+                progress = progress - 7;
+                setProgressStatus(progress);
+            }
+        }
+        if (charSequence.hashCode() == vet_qualification_updt.getText().hashCode()) {
+            Log.e("COUNT", String.valueOf(count));
+            Log.e("START", String.valueOf(start));
+            Log.e("BEFORE", String.valueOf(before));
+
+            if (start == 0 && count == 1 && before == 0) {
+                int progress = horizontal_progress_bar.getProgress();
+                progress = progress + 7;
+                setProgressStatus(progress);
+            } else if (count == 0 && start == 0) {
+                int progress = horizontal_progress_bar.getProgress();
+                progress = progress - 7;
+                setProgressStatus(progress);
+            }
+        }
+        if (charSequence.hashCode() == online_charges_ET.getText().hashCode()) {
+            Log.e("COUNT", String.valueOf(count));
+            Log.e("START", String.valueOf(start));
+            Log.e("BEFORE", String.valueOf(before));
+
+            if (start == 0 && count == 1 && before == 0) {
+                int progress = horizontal_progress_bar.getProgress();
+                progress = progress + 7;
+                setProgressStatus(progress);
+            } else if (count == 0 && start == 0) {
+                int progress = horizontal_progress_bar.getProgress();
+                progress = progress - 7;
+                setProgressStatus(progress);
+            }
+        }
+    }
+
+    private void setProgressStatus(int progress) {
+        horizontal_progress_bar.setProgress(progress);
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
     }
 }

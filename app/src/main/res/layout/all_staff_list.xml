@@ -37,7 +37,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:padding="5dp"
-                    android:src="@drawable/dummy_dog_image"/>
+                    android:src="@drawable/empty_vet_image"/>
 
 
             </RelativeLayout>

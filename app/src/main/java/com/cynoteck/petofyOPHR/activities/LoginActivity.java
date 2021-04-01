@@ -47,6 +47,7 @@ import com.cynoteck.petofyOPHR.utils.Config;
 import com.cynoteck.petofyOPHR.utils.Methods;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -66,6 +67,7 @@ import static android.Manifest.permission.READ_PHONE_STATE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public class LoginActivity extends FragmentActivity implements View.OnClickListener, ApiResponse {
+    MaterialCardView login_back_arrow_CV;
     private static final int PERMISSION_REQUEST_CODE = 200;
     LoginRegisterResponse responseLogin;
     TextInputLayout mobile_numberTL, otp_TL;
@@ -76,7 +78,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
     TextView cancelOtpDialog, otpHeading;
     boolean doubleBackToExitPressedOnce = false;
     private TextInputLayout email_TIL, password_TIL;
-    private EditText email_TIET, password_TIET;
+    private TextInputEditText email_TIET, password_TIET;
     private Button login_BT, submit_parent_otp,login_bt_dialog;
     private String emailString = "", passwordString = "";
     private TextView signUp_TV, forgetPass_TV;
@@ -94,7 +96,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
         methods = new Methods(this);
         init();
         if (checkPermission()) {
@@ -153,7 +155,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
     }
 
     private void init() {
-
+        login_back_arrow_CV = findViewById(R.id.login_back_arrow_CV);
         logoVet = findViewById(R.id.logoVet);
         email_TIET = findViewById(R.id.email_TIET);
         password_TIET = findViewById(R.id.password_TIET);
@@ -166,6 +168,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
         signUp_TV.setOnClickListener(this);
         forgetPass_TV.setOnClickListener(this);
         login_BT.setOnClickListener(this);
+        login_back_arrow_CV.setOnClickListener(this);
 
     }
 
@@ -173,20 +176,29 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
 
+            case R.id.login_back_arrow_CV:
+                if (Config.logoutFromAccount==false){
+                onBackPressed();
+                }else {
+                    finishAffinity();
+                    System.exit(0);
+                }
+                break;
+
             case R.id.login_BT:
                 getDeviceId();
                 emailString = email_TIET.getText().toString().trim();
                 passwordString = password_TIET.getText().toString().trim();
 //                Toast.makeText(this, ""+imeiNumber, Toast.LENGTH_LONG).show();
                 if (emailString.isEmpty()) {
-                    email_TIET.setError("Email is empty");
-                    password_TIET.setError(null);
+                    email_TIL.setError("Email is empty");
+                    password_TIL.setError(null);
                 } else if (!emailString.matches(emailPattern)) {
-                    email_TIET.setError("Invalid Email");
-                    password_TIET.setError(null);
+                    email_TIL.setError("Invalid Email");
+                    password_TIL.setError(null);
                 } else if (passwordString.isEmpty()) {
-                    email_TIET.setError("Password is empty");
-                    password_TIET.setError(null);
+                    email_TIL.setError(null);
+                    password_TIL.setError("Password is empty");
                 }
                 /*else if (imeiNumber.isEmpty()) {
                     if (checkPermission()) {
@@ -200,8 +212,8 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                     }
                 }*/
                 else {
-                    email_TIET.setError(null);
-                    password_TIET.setError(null);
+                    email_TIL.setError(null);
+                    password_TIL.setError(null);
                     Loginparams loginparams = new Loginparams();
                     LoginRequest data = new LoginRequest();
                     data.setEmail(emailString);
@@ -517,25 +529,6 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
         methods.customProgressDismiss();
         Log.e("error", t.getMessage());
         Log.e("errrrr", t.getLocalizedMessage());
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
-            finishAffinity();
-            System.exit(0);
-            return;
-        }
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please click back again to exit", Toast.LENGTH_SHORT).show();
-        new Handler().postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce = false;
-            }
-        }, 2000);
     }
 
     @Override
