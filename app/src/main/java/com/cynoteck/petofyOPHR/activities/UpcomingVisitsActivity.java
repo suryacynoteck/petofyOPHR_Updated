@@ -12,6 +12,7 @@ import com.cynoteck.petofyOPHR.R;
 import com.cynoteck.petofyOPHR.adapters.MyAdapter;
 import com.cynoteck.petofyOPHR.api.ApiResponse;
 import com.cynoteck.petofyOPHR.utils.Methods;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.tabs.TabLayout;
 
 import retrofit2.Response;
@@ -23,7 +24,7 @@ public class UpcomingVisitsActivity extends AppCompatActivity implements ApiResp
     Methods methods;
     TabLayout tabLayout;
     ViewPager viewPager;
-    ImageView back_arrow_IV;
+    MaterialCardView back_arrow_CV;
     private int[] tabIcons = {
             R.drawable.update_prof_logo,
             R.drawable.calendar,
@@ -44,29 +45,29 @@ public class UpcomingVisitsActivity extends AppCompatActivity implements ApiResp
         upcomingVisits_RV = findViewById(R.id.upcomingVisits_RV);
         lastVisitDt = findViewById(R.id.lastVisitDt);
         nextVisitDt = findViewById(R.id.nextVisitDt);
-        back_arrow_IV = findViewById(R.id.back_arrow_IV);
+        back_arrow_CV = findViewById(R.id.back_arrow_CV);
         search_upcoming_IV = findViewById(R.id.search_upcoming_IV);
         
-        back_arrow_IV.setOnClickListener(this);
+        back_arrow_CV.setOnClickListener(this);
         lastVisitDt.setOnClickListener(this);
         nextVisitDt.setOnClickListener(this);
         search_upcoming_IV.setOnClickListener(this);*/
 
         tabLayout=(TabLayout)findViewById(R.id.tabLayout);
         viewPager=(ViewPager)findViewById(R.id.viewPager);
-        back_arrow_IV = findViewById(R.id.back_arrow_IV);
+        back_arrow_CV = findViewById(R.id.back_arrow_CV);
 
-        back_arrow_IV.setOnClickListener(this);
+        back_arrow_CV.setOnClickListener(this);
 
         tabLayout.addTab(tabLayout.newTab().setText("Clinic Visit"));
         tabLayout.addTab(tabLayout.newTab().setText("Online Appointment"));
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
 
-        tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#FA43B3F4"));
+        tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#FFFFFF"));
         tabLayout.setSelectedTabIndicatorHeight((int) (5 * getResources().getDisplayMetrics().density));
-        tabLayout.setTabTextColors(Color.parseColor("#727272"), Color.parseColor("#FA43B3F4"));
+        tabLayout.setTabTextColors(Color.parseColor("#FFFFFF"), Color.parseColor("#FFFFFF"));
 
-        setupTabIcons();
+//        setupTabIcons();
         
         final MyAdapter adapter = new MyAdapter(this,getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
@@ -99,7 +100,7 @@ public class UpcomingVisitsActivity extends AppCompatActivity implements ApiResp
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.back_arrow_IV:
+            case R.id.back_arrow_CV:
                 onBackPressed();
                 break;
 

@@ -27,15 +27,14 @@ import com.cynoteck.petofyOPHR.utils.Config;
 import com.cynoteck.petofyOPHR.utils.Methods;
 import com.cynoteck.petofyOPHR.utils.OperatingHoursClickListener;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.android.material.card.MaterialCardView;
 
 import java.util.List;
 
 public class StaffPermissionActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse, OperatingHoursClickListener {
-
-
     ShimmerFrameLayout shimmer_view_container;
     RecyclerView staff_permissionList;
-    ImageView back_arrow_IV;
+    MaterialCardView back_arrow_CV;
     int pos;
     Methods methods;
     private String staffId = "";
@@ -55,8 +54,8 @@ public class StaffPermissionActivity extends AppCompatActivity implements View.O
 
         shimmer_view_container = findViewById(R.id.shimmer_view_container);
         staff_permissionList = findViewById(R.id.staff_permissionList);
-        back_arrow_IV = findViewById(R.id.back_arrow_IV);
-        back_arrow_IV.setOnClickListener(this);
+        back_arrow_CV = findViewById(R.id.back_arrow_CV);
+        back_arrow_CV.setOnClickListener(this);
         methods = new Methods(this);
 
         if (extras != null) {
@@ -85,7 +84,7 @@ public class StaffPermissionActivity extends AppCompatActivity implements View.O
     public void onClick(View view) {
 
         switch (view.getId()) {
-            case R.id.back_arrow_IV:
+            case R.id.back_arrow_CV:
                 onBackPressed();
                 break;
         }

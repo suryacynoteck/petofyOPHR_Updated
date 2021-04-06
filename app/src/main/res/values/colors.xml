@@ -3,7 +3,7 @@
     <color name="colorPrimary">#3366FF</color>
     <color name="colorPrimaryDark">#3366FF</color>
     <color name="colorAccent">#3366FF</color>
-    <color name="whiteColor">#ffff</color>
+    <color name="whiteColor">#FFFFFF</color>
     <color name="white_1">#F2F2F2</color>
 
 
@@ -27,6 +27,8 @@
     <color name="gray_2">#4F4F4F</color>
     <color name="gray_3">#828282</color>
     <color name="gray_4">#BDBDBD</color>
+    <color name="gray_5">#E0E0E0</color>
+
 
     <color name="gray_shimmer">#dddddd</color>
 

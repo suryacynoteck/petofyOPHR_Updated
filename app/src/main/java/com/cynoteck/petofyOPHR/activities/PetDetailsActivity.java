@@ -173,6 +173,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 dataHistry.putString("pet_owner_contact", "");
                 dataHistry.putString("pet_DOB", pet_DOB);
                 dataHistry.putString("pet_encrypted_id", pet_encrypted_id);
+                dataHistry.putString("pet_image_url", pet_image_url);
                 petHistory.putExtras(dataHistry);
                 startActivity(petHistory);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);

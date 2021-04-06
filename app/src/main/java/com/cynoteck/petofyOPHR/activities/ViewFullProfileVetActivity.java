@@ -129,9 +129,9 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.dialog_layout);
 
-        TextView select_camera = (TextView) dialog.findViewById(R.id.select_camera);
-        TextView select_gallery = (TextView) dialog.findViewById(R.id.select_gallery);
-        TextView cancel_dialog = (TextView) dialog.findViewById(R.id.cancel_dialog);
+        RelativeLayout select_camera = (RelativeLayout) dialog.findViewById(R.id.select_camera);
+        RelativeLayout select_gallery = (RelativeLayout) dialog.findViewById(R.id.select_gallery);
+        RelativeLayout cancel_dialog = (RelativeLayout) dialog.findViewById(R.id.cancel_dialog);
 
         select_camera.setOnClickListener(new View.OnClickListener() {
             @Override

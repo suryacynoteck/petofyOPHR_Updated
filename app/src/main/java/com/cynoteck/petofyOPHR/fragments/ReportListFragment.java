@@ -66,7 +66,7 @@ import retrofit2.Response;
 
 public class ReportListFragment extends Fragment implements ApiResponse, ViewAndUpdateClickListener {
 
-    String pet_unique_id, pet_name, pet_sex, pet_owner_name, pet_owner_contact, pet_id, report_type_id, type, button_type;
+    String pet_DOB,pet_image_url,pet_unique_id, pet_name, pet_sex, pet_owner_name, pet_owner_contact, pet_id, report_type_id, type, button_type;
 
     RecyclerView routine_report_RV;
     View view;
@@ -113,6 +113,8 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
         pet_unique_id = extras.getString("pet_unique_id");
         type = extras.getString("type");
         button_type = extras.getString("button_type");
+        pet_image_url = extras.getString("pet_image_url");
+        pet_DOB = extras.getString("pet_DOB");
         routine_report_RV = view.findViewById(R.id.routine_report_RV);
         empty_IV = view.findViewById(R.id.empty_IV);
         progressBar = view.findViewById(R.id.progressBar);
@@ -387,10 +389,13 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
         labIntent.putExtra("nature", petTestsAndXrayLists.get(position).getTypeOfTest().getTestType());
         labIntent.putExtra("date_of_test", petTestsAndXrayLists.get(position).getDateTested());
         labIntent.putExtra("result", petTestsAndXrayLists.get(position).getResults());
-
         labIntent.putExtra("follow_up", petTestsAndXrayLists.get(position).getFollowUp().getFollowUpTitle());
         labIntent.putExtra("follow_up_date", petTestsAndXrayLists.get(position).getFollowUpDate());
         labIntent.putExtra("id", petTestsAndXrayLists.get(position).getId());
+        labIntent.putExtra("pet_image_url", pet_image_url);
+        labIntent.putExtra("pet_DOB", pet_DOB);
+
+
         labIntent.putExtras(labIntent);
         startActivity(labIntent);
         getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
@@ -447,6 +452,8 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
         labIntent.putExtra("pet_owner_name",pet_owner_name);
         labIntent.putExtra("pet_owner_contact",pet_owner_contact);
         labIntent.putExtra("report_id",petHospitalizationsLists.get(position).getId());
+        labIntent.putExtra("pet_image_url", pet_image_url);
+        labIntent.putExtra("pet_DOB", pet_DOB);
         labIntent.putExtras(labIntent);
         startActivity(labIntent);
         getActivity().overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_right);
@@ -525,6 +532,9 @@ public class ReportListFragment extends Fragment implements ApiResponse, ViewAnd
         viewReportsDeatilsActivityIntent.putExtra("pet_sex", pet_sex);
         viewReportsDeatilsActivityIntent.putExtra("pet_owner_name", pet_owner_name);
         viewReportsDeatilsActivityIntent.putExtra("pet_owner_contact", pet_owner_contact);
+        viewReportsDeatilsActivityIntent.putExtra("pet_image_url", pet_image_url);
+        viewReportsDeatilsActivityIntent.putExtra("pet_DOB", pet_DOB);
+        viewReportsDeatilsActivityIntent.putExtra("id", petClinicVisitListArrayList.get(position).getNatureOfVisitId());
         viewReportsDeatilsActivityIntent.putExtras(viewReportsDeatilsActivityIntent);
         startActivity(viewReportsDeatilsActivityIntent);
         getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);

@@ -73,6 +73,7 @@
 
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:id="@+id/edit_LL"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -146,11 +147,11 @@
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="15dp"
-            android:thumb="@drawable/thumb"
+            android:thumb="@drawable/operating_hours_radio_thumb"
             app:layout_constraintBottom_toBottomOf="@id/onle_appoint_TV"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/onle_appoint_TV"
-            app:track="@drawable/track" />
+            app:track="@drawable/operating_hours_radio_track" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

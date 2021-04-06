@@ -8,105 +8,136 @@
     android:background="@color/grey_transparent"
     android:gravity="center">
 
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/whiteColor">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Select Vaccine Type &amp; Vaccine Name"
-            android:gravity="center"
-            android:textSize="16sp"
-            android:textColor="@color/colorPrimary"
-            android:textStyle="bold"
-            android:layout_marginTop="5dp"/>
-
-        <androidx.appcompat.widget.AppCompatSpinner
-            android:id="@+id/vaccine_name"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"/>
-
-        <androidx.appcompat.widget.AppCompatSpinner
-            android:visibility="gone"
-            android:id="@+id/vaccine_type"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Immunization Date"
-            android:textSize="15sp"
-            android:paddingLeft="20dp"
-            android:textColor="@color/black_color"
-            android:layout_marginTop="10dp"/>
-
-        <TextView
-            android:id="@+id/nextImmunizationDate"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@drawable/cal_background"
-            android:gravity="center_vertical"
-            android:hint="12/05/2020"
-            android:paddingLeft="25dp"
-            android:textSize="18dp"
-            android:textStyle="bold"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/visit_dt_TV"/>
-
+        app:cardCornerRadius="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="2"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp">
+            android:orientation="vertical"
+            android:background="@color/whiteColor">
 
-            <Button
-                android:id="@+id/add_vaccine_data"
-                android:layout_width="0dp"
-                android:layout_weight="1"
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SELECT VACCINE TYPE AND "
+                android:gravity="center"
+                android:fontFamily="@font/nunito"
+                android:textSize="18sp"
+                android:textColor="@color/gray_1"
+                android:textStyle="bold"
+                android:layout_marginTop="15dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="VACCINE NAME"
+                android:gravity="center"
+                android:fontFamily="@font/nunito"
+                android:textSize="18sp"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/gray_1"
+                android:textStyle="bold"
+                android:layout_marginTop="5dp"/>
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/spinner_background"
+                android:id="@+id/vaccine_name"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/colorPrimary"
-                android:text="ADD"
-                android:textColor="@color/whiteColor"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"/>
 
-
-            <Button
-                android:id="@+id/add_vaccine_cancel"
-                android:layout_width="0dp"
-                android:layout_weight="1"
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:visibility="gone"
+                android:id="@+id/vaccine_type"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/spinner_background"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/colorPrimary"
-                android:text="CANCEL"
-                android:textColor="@color/whiteColor"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"/>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Immunization Date"
+                android:textSize="18sp"
+                android:fontFamily="@font/nunito"
+                android:paddingLeft="20dp"
+                android:textColor="@color/black_color"
+                android:layout_marginTop="10dp"/>
 
+            <TextView
+                android:id="@+id/nextImmunizationDate"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/cal_background"
+                android:gravity="center_vertical"
+                android:hint="12/05/2020"
+                android:paddingLeft="25dp"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/visit_dt_TV"/>
+
+
+            <LinearLayout
+                android:layout_marginBottom="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
+
+
+                <Button
+                    android:id="@+id/add_vaccine_cancel"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="50dp"
+                    android:background="@drawable/blue_border_button"
+                    android:text="CANCEL"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/nunito"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"/>
+
+
+
+                <Button
+                    android:textSize="18sp"
+                    android:fontFamily="@font/nunito"
+                    android:id="@+id/add_vaccine_data"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="50dp"
+                    android:background="@drawable/blue_background_bg"
+                    android:text="ADD"
+                    android:textColor="@color/whiteColor"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"/>
+
+
+
+            </LinearLayout>
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@color/list_background"
-            tools:ignore="MissingConstraints"
-            android:layout_marginTop="10dp"/>
 
-    </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
 
 
 

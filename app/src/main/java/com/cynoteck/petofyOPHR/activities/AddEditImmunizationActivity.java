@@ -32,6 +32,7 @@ import com.cynoteck.petofyOPHR.response.immunizationListResponse.ImmunizationMod
 import com.cynoteck.petofyOPHR.response.updateProfileResponse.PetTypeResponse;
 import com.cynoteck.petofyOPHR.utils.Config;
 import com.cynoteck.petofyOPHR.utils.Methods;
+import com.google.android.material.card.MaterialCardView;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -47,7 +48,7 @@ public class AddEditImmunizationActivity extends AppCompatActivity implements Ap
     Button create_Edit_immui_BT;
     Methods methods;
     TextView is_periodic_TV,days_gap_booster_one_TV,days_gap_booster_two_TV,create_headline_TV;
-    ImageView back_arrow_IV;
+    MaterialCardView back_arrow_CV;
     //spinner Strings
     String vaacineID="",getStrSpnerItemIsPeriodicVaccineValue="0.0",strSpnerItemIsPeriodicVaccineNm="",strSpnerItemPetNm="Dog",getStrSpnerItemPetNmId="",strSpnerItemPetAgeUnitNm="",getStrSpnerItemPetAgeUnitValue="";
 // page String
@@ -146,7 +147,7 @@ public class AddEditImmunizationActivity extends AppCompatActivity implements Ap
         is_periodic_TV= findViewById(R.id.is_periodic_TV);
         Is_Periodic_Vaccine_CB = findViewById(R.id.Is_Periodic_Vaccine_CB);
         create_Edit_immui_BT = findViewById(R.id.create_Edit_immui_BT);
-        back_arrow_IV=findViewById(R.id.back_arrow_IV);
+        back_arrow_CV=findViewById(R.id.back_arrow_CV);
         days_gap_booster_one_TV=findViewById(R.id.days_gap_booster_one_TV);
         days_gap_booster_two_TV=findViewById(R.id.days_gap_booster_two_TV);
 
@@ -154,7 +155,7 @@ public class AddEditImmunizationActivity extends AppCompatActivity implements Ap
         booster_two_CB.setOnClickListener(this);
         booster_one_CB.setOnClickListener(this);
         Is_Periodic_Vaccine_CB.setOnClickListener(this);
-        back_arrow_IV.setOnClickListener(this);
+        back_arrow_CV.setOnClickListener(this);
         booster_one_ET.setInputType(Configuration.KEYBOARD_12KEY);
         booster_one_ET.setKeyListener(new DigitsKeyListener());
         booster_one_ET.setInputType(InputType.TYPE_NUMBER_VARIATION_NORMAL|InputType.TYPE_CLASS_NUMBER);
@@ -200,7 +201,7 @@ public class AddEditImmunizationActivity extends AppCompatActivity implements Ap
 
         switch (v.getId()){
 
-            case R.id.back_arrow_IV:
+            case R.id.back_arrow_CV:
                 onBackPressed();
                 break;
 

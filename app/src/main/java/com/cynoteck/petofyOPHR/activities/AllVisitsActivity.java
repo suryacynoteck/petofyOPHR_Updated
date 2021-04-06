@@ -47,6 +47,7 @@ import com.cynoteck.petofyOPHR.response.getPetReportsResponse.getClinicVisitDeta
 import com.cynoteck.petofyOPHR.utils.AllVisitsDateWieseOnClick;
 import com.cynoteck.petofyOPHR.utils.Config;
 import com.cynoteck.petofyOPHR.utils.Methods;
+import com.google.android.material.card.MaterialCardView;
 
 import org.json.JSONArray;
 
@@ -58,10 +59,10 @@ import retrofit2.Response;
 
 public class AllVisitsActivity extends AppCompatActivity implements ApiResponse, View.OnClickListener, AllVisitsDateWieseOnClick {
     AllVisitsAdapter allVisitsAdapter;
-    LinearLayout search_visits;
+    ImageView search_visits_IV;
     TextView lastVisitDt, nextVisitDt;
     AppCompatSpinner nature_of_visit_spinner;
-    ImageView back_arrow_IV;
+    MaterialCardView back_arrow_CV;
     Methods methods;
     ArrayList<String> natureOfVisitList;
     HashMap<String,String> natureOfVisitHashMap=new HashMap<>();
@@ -91,9 +92,9 @@ public class AllVisitsActivity extends AppCompatActivity implements ApiResponse,
 
     private void initization() {
         nature_of_visit_spinner = findViewById(R.id.nature_of_visit_spinner);
-        back_arrow_IV = findViewById(R.id.back_arrow_IV);
+        back_arrow_CV = findViewById(R.id.back_arrow_CV);
         all_visits_RV = findViewById(R.id.all_visits_RV);
-        search_visits = findViewById(R.id.search_visits);
+        search_visits_IV = findViewById(R.id.search_visits_IV);
         lastVisitDt = findViewById(R.id.lastVisitDt);
         nextVisitDt = findViewById(R.id.nextVisitDt);
         progressBar = findViewById(R.id.progressBar);
@@ -101,8 +102,8 @@ public class AllVisitsActivity extends AppCompatActivity implements ApiResponse,
         WebSettings webSettings = webview.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
-        back_arrow_IV.setOnClickListener(this);
-        search_visits.setOnClickListener(this);
+        back_arrow_CV.setOnClickListener(this);
+        search_visits_IV.setOnClickListener(this);
         lastVisitDt.setOnClickListener(this);
         nextVisitDt.setOnClickListener(this);
 
@@ -155,7 +156,7 @@ public class AllVisitsActivity extends AppCompatActivity implements ApiResponse,
                 break;
 
 
-            case R.id.search_visits:
+            case R.id.search_visits_IV:
                 lastDate = lastVisitDt.getText().toString().trim();
                 nextDate = nextVisitDt.getText().toString().trim();
                 if (natureOfVisit.equals("Select Visit")){
@@ -190,7 +191,7 @@ public class AllVisitsActivity extends AppCompatActivity implements ApiResponse,
                 break;
 
 
-            case R.id.back_arrow_IV:
+            case R.id.back_arrow_CV:
                 onBackPressed();
                 break;
         }

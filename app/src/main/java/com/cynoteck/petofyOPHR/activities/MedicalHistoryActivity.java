@@ -1,5 +1,6 @@
-package com.cynoteck.petofyOPHR.fragments;
+package com.cynoteck.petofyOPHR.activities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,16 +20,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.cardview.widget.CardView;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.NestedScrollView;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cynoteck.petofyOPHR.R;
-import com.cynoteck.petofyOPHR.activities.NewEntrysDetailsActivity;
-import com.cynoteck.petofyOPHR.activities.SelectPetReportsActivity;
-import com.cynoteck.petofyOPHR.adapters.RegisterPetAdapter;
 import com.cynoteck.petofyOPHR.adapters.ReportsAdapter;
 import com.cynoteck.petofyOPHR.api.ApiClient;
 import com.cynoteck.petofyOPHR.api.ApiResponse;
@@ -43,6 +40,7 @@ import com.cynoteck.petofyOPHR.utils.Config;
 import com.cynoteck.petofyOPHR.utils.Methods;
 import com.cynoteck.petofyOPHR.utils.RegisterRecyclerViewClickListener;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.android.material.card.MaterialCardView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -52,18 +50,18 @@ import java.util.ArrayList;
 import retrofit2.Response;
 
 
-public class ReportsFragment extends Fragment implements ApiResponse, RegisterRecyclerViewClickListener, View.OnClickListener, TextWatcher {
+public class MedicalHistoryActivity extends AppCompatActivity implements ApiResponse, RegisterRecyclerViewClickListener, View.OnClickListener, TextWatcher {
 
     View view;
     Methods methods;
-    CardView materialCardView;
     RecyclerView petList_RV;
     ReportsAdapter reportsAdapter;
     ArrayList<PetList> profileList;
     private ShimmerFrameLayout mShimmerViewContainer;
     TextView reports_headline_TV;
     AutoCompleteTextView search_box;
-    ImageView empty_IV, search_IV, back_arrow_IV;
+    ImageView empty_IV, search_IV,cancel_IV;
+    MaterialCardView back_arrow_CV;
     RelativeLayout search_boxRL;
     NestedScrollView nestedScrollView;
     ProgressBar progressBar;
@@ -71,33 +69,38 @@ public class ReportsFragment extends Fragment implements ApiResponse, RegisterRe
     SharedPreferences sharedPreferences;
     String userTYpe = "", permissionId = "";
     int pos;
+    RelativeLayout visit_register_RL, upcoming_visits_RL;
 
-    public ReportsFragment() {
+    public MedicalHistoryActivity() {
         // Required empty public constructor
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_reports, container, false);
-        sharedPreferences = getActivity().getSharedPreferences("userdetails", 0);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_reports);
+        sharedPreferences = getSharedPreferences("userdetails", 0);
 
-        mShimmerViewContainer = view.findViewById(R.id.shimmer_view_container);
-
-        materialCardView = view.findViewById(R.id.toolbar);
-        petList_RV = view.findViewById(R.id.petList_RV);
-        reports_headline_TV = view.findViewById(R.id.reports_headline_TV);
-        search_box = view.findViewById(R.id.search_box);
-        search_IV = view.findViewById(R.id.search_IV);
-        back_arrow_IV = view.findViewById(R.id.back_arrow_IV);
-        search_boxRL = view.findViewById(R.id.search_boxRL);
-        nestedScrollView = view.findViewById(R.id.nested_scroll_view);
-        progressBar = view.findViewById(R.id.progressBar);
-        empty_IV=view.findViewById(R.id.empty_IV);
+        mShimmerViewContainer = findViewById(R.id.shimmer_view_container);
+        upcoming_visits_RL = findViewById(R.id.upcoming_visits_RL);
+        visit_register_RL = findViewById(R.id.visit_register_RL);
+        petList_RV = findViewById(R.id.petList_RV);
+        reports_headline_TV = findViewById(R.id.reports_headline_TV);
+        search_box = findViewById(R.id.search_box);
+        search_IV = findViewById(R.id.search_IV);
+        cancel_IV=findViewById(R.id.cancel_IV);
+        back_arrow_CV = findViewById(R.id.back_arrow_CV);
+        search_boxRL = findViewById(R.id.search_boxRL);
+        nestedScrollView = findViewById(R.id.nested_scroll_view);
+        progressBar = findViewById(R.id.progressBar);
+        empty_IV=findViewById(R.id.empty_IV);
         search_IV.setOnClickListener(this);
-        back_arrow_IV.setOnClickListener(this);
+        back_arrow_CV.setOnClickListener(this);
+        upcoming_visits_RL.setOnClickListener(this);
+        visit_register_RL.setOnClickListener(this);
         search_box.addTextChangedListener(this);
-        methods = new Methods(getContext());
+        cancel_IV.setOnClickListener(this);
+        methods = new Methods(this);
         profileList = new ArrayList<>();
         getPet();
         if (methods.isInternetOn()) {
@@ -119,7 +122,6 @@ public class ReportsFragment extends Fragment implements ApiResponse, RegisterRe
             }
         });
 
-        return view;
     }
 
     private void getPetList(int page, int pageLimit) {
@@ -199,7 +201,7 @@ public class ReportsFragment extends Fragment implements ApiResponse, RegisterRe
                         if (getPetListResponse.getData().getPetList().isEmpty()){
                             empty_IV.setVisibility(View.VISIBLE);
                         }else {
-                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
                             petList_RV.setLayoutManager(linearLayoutManager);
                             if (getPetListResponse.getData().getPetList().size() > 0) {
                                 for (int i = 0; i < getPetListResponse.getData().getPetList().size(); i++) {
@@ -218,7 +220,7 @@ public class ReportsFragment extends Fragment implements ApiResponse, RegisterRe
                                     profileList.add(petList);
                                 }
                                 progressBar.setVisibility(View.GONE);
-                                reportsAdapter = new ReportsAdapter(getContext(), profileList, this);
+                                reportsAdapter = new ReportsAdapter(this, profileList, this);
                                 petList_RV.setAdapter(reportsAdapter);
                                 reportsAdapter.notifyDataSetChanged();
                                 search_IV.setVisibility(View.VISIBLE);
@@ -240,7 +242,7 @@ public class ReportsFragment extends Fragment implements ApiResponse, RegisterRe
                     int responseCode = Integer.parseInt(getPetListResponse.getResponse().getResponseCode());
 
                     if (responseCode == 109) {
-                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
                         petList_RV.setLayoutManager(linearLayoutManager);
                         if (getPetListResponse.getData().getPetList().size() > 0) {
                             profileList.clear();
@@ -262,15 +264,14 @@ public class ReportsFragment extends Fragment implements ApiResponse, RegisterRe
                                 profileList.add(petList);
                             }
                             progressBar.setVisibility(View.GONE);
-                            search_IV.setVisibility(View.VISIBLE);
-                            reportsAdapter = new ReportsAdapter(getContext(), profileList, this);
+                            reportsAdapter = new ReportsAdapter(this, profileList, this);
                             petList_RV.setAdapter(reportsAdapter);
                             reportsAdapter.notifyDataSetChanged();
                             mShimmerViewContainer.setVisibility(View.GONE);
                             mShimmerViewContainer.stopShimmerAnimation();
                         } else {
                             progressBar.setVisibility(View.GONE);
-                            Toast.makeText(getActivity(), "Data Not found", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(this, "Data Not found", Toast.LENGTH_SHORT).show();
                         }
 
 
@@ -292,7 +293,7 @@ public class ReportsFragment extends Fragment implements ApiResponse, RegisterRe
                         if (checkStaffPermissionResponse.getData().equals("true")) {
                             if (permissionId.equals("9")) {
                                 profileList.get(pos).getPetUniqueId();
-                                Intent selectReportsIntent = new Intent(getActivity().getApplication(), SelectPetReportsActivity.class);
+                                Intent selectReportsIntent = new Intent(this.getApplication(), SelectPetReportsActivity.class);
                                 Bundle data = new Bundle();
                                 data.putString("pet_id", profileList.get(pos).getId());
                                 data.putString("pet_name", profileList.get(pos).getPetName());
@@ -303,16 +304,17 @@ public class ReportsFragment extends Fragment implements ApiResponse, RegisterRe
                                 data.putString("pet_DOB", profileList.get(pos).getDateOfBirth());
                                 data.putString("pet_encrypted_id", profileList.get(pos).getEncryptedId());
                                 data.putString("pet_age", profileList.get(pos).getPetAge());
+                                data.putString("pet_image_url", profileList.get(pos).getPetProfileImageUrl());
                                 selectReportsIntent.putExtras(data);
                                 startActivity(selectReportsIntent);
-                                getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+                                this.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
                                 clearSearch();
                             }
                         } else {
-                            Toast.makeText(getContext(), "Permission not Granted!!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, "Permission not Granted!!", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(getContext(), "Please Try Again!!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Please Try Again!!", Toast.LENGTH_SHORT).show();
                     }
 
 
@@ -344,16 +346,16 @@ public class ReportsFragment extends Fragment implements ApiResponse, RegisterRe
             Log.e("ArrayList", arrayList.toString());
             Log.d("UserType", userTYpe);
             permissionId = "9";
-            methods.showCustomProgressBarDialog(getContext());
+            methods.showCustomProgressBarDialog(this);
             String url = "user/CheckStaffPermission/" + permissionId;
             Log.e("URL", url);
             ApiService<CheckStaffPermissionResponse> service = new ApiService<>();
             service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token, url), "CheckPermission");
         } else if (userTYpe.equals("Veterinarian")) {
             profileList.get(position).getPetUniqueId();
-            Intent selectReportsIntent = new Intent(getActivity().getApplication(), SelectPetReportsActivity.class);
+            Intent selectReportsIntent = new Intent(this.getApplication(), SelectPetReportsActivity.class);
             Bundle data = new Bundle();
-//        Toast.makeText(getContext(), ""+profileList.get(position).getId(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, ""+profileList.get(position).getId(), Toast.LENGTH_SHORT).show();
             data.putString("pet_id", profileList.get(position).getId().substring(0, profileList.get(position).getId().length() - 2));
             data.putString("pet_name", profileList.get(position).getPetName());
             data.putString("pet_unique_id", profileList.get(position).getPetUniqueId());
@@ -362,10 +364,11 @@ public class ReportsFragment extends Fragment implements ApiResponse, RegisterRe
             data.putString("pet_owner_contact", profileList.get(position).getContactNumber());
             data.putString("pet_DOB", profileList.get(position).getDateOfBirth());
             data.putString("pet_encrypted_id", profileList.get(position).getEncryptedId());
+            data.putString("pet_image_url", profileList.get(position).getPetProfileImageUrl());
 
             selectReportsIntent.putExtras(data);
             startActivity(selectReportsIntent);
-            getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+            this.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
             clearSearch();
         }
 
@@ -375,9 +378,8 @@ public class ReportsFragment extends Fragment implements ApiResponse, RegisterRe
     private void clearSearch() {
         search_box.getText().clear();
         search_boxRL.setVisibility(View.GONE);
-        back_arrow_IV.setVisibility(View.GONE);
         reports_headline_TV.setVisibility(View.VISIBLE);
-        InputMethodManager imm1 = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm1 = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm1.hideSoftInputFromWindow(search_box.getWindowToken(), 0);
     }
 
@@ -401,17 +403,37 @@ public class ReportsFragment extends Fragment implements ApiResponse, RegisterRe
 
                 break;
 
-            case R.id.back_arrow_IV:
-                clearSearch();
+            case R.id.upcoming_visits_RL:
+                startActivity(new Intent(this, UpcomingVisitsActivity.class));
+                break;
+
+            case R.id.visit_register_RL:
+                startActivity(new Intent(this, AllVisitsActivity.class));
+                break;
+
+            case R.id.back_arrow_CV:
+                onBackPressed();
                 break;
 
             case R.id.search_IV:
+                search_IV.setVisibility(View.GONE);
                 search_boxRL.setVisibility(View.VISIBLE);
+                cancel_IV.setVisibility(View.VISIBLE);
                 search_box.requestFocus();
-                InputMethodManager imm1 = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm1 = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm1.showSoftInput(search_box, InputMethodManager.SHOW_FORCED);
-                back_arrow_IV.setVisibility(View.VISIBLE);
                 reports_headline_TV.setVisibility(View.GONE);
+                break;
+
+            case R.id.cancel_IV:
+                search_box.getText().clear();
+                search_boxRL.setVisibility(View.GONE);
+                cancel_IV.setVisibility(View.GONE);
+                reports_headline_TV.setVisibility(View.VISIBLE);
+                search_IV.setVisibility(View.VISIBLE);
+                search_box.clearFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0); // hide
                 break;
         }
     }

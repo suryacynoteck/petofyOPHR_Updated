@@ -11,12 +11,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import com.bumptech.glide.Glide;
 import com.cynoteck.petofyOPHR.R;
 import com.cynoteck.petofyOPHR.api.ApiClient;
 import com.cynoteck.petofyOPHR.api.ApiResponse;
@@ -27,6 +29,7 @@ import com.cynoteck.petofyOPHR.response.getPetReportsResponse.AddUpdateDeleteCli
 import com.cynoteck.petofyOPHR.response.getXRayReports.getXRayReportDetailsResponse.GetXRayReportDeatilsResponse;
 import com.cynoteck.petofyOPHR.utils.Config;
 import com.cynoteck.petofyOPHR.utils.Methods;
+import com.google.android.material.card.MaterialCardView;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,11 +40,12 @@ public class XRayReportDeatilsActivity extends AppCompatActivity implements ApiR
 
     TextView nature_of_visit_textView, test_date_textView, Result_textView, recommended_follow_up_textView, recommended_follow_up_date_textView;
     Button deleteReport_BT,view_file_BT;
-    ImageView back_arrow_IV;
-    TextView recommended_follow_up_date_TV,dot_recommended_follow_up_date_TV,dot_recommended_follow_up_TV,recommended_follow_up_TV, pet_name_TV, pet_sex_TV, pet_id_TV, pet_owner_name_TV, pet_owner_phone_no_TV;
-    String nature = "", date_of_test = "", follow_up = "", result = "", pet_unique_id, pet_name, pet_sex, pet_owner_name, pet_owner_contact, pet_id, report_type_id, type, follow_up_date;
+    ImageView petRegImage_IV;
+    MaterialCardView back_arrow_CV;
+    TextView recommended_follow_up_date_TV,dot_recommended_follow_up_date_TV,dot_recommended_follow_up_TV,recommended_follow_up_TV, pet_reg_name_TV, pet_reg__id_TV, parent_name_TV, pet_reg_date_of_birth_TV;
+    String pet_DOB, pet_image_url,nature = "", date_of_test = "", follow_up = "", result = "", pet_unique_id, pet_name, pet_sex, pet_owner_name, pet_owner_contact, pet_id, report_type_id, type, follow_up_date;
     Uri localUri;
-    CardView card_view;
+    RelativeLayout card_view;
     ProgressBar progressBar;
     Methods methods;
 
@@ -62,13 +66,15 @@ public class XRayReportDeatilsActivity extends AppCompatActivity implements ApiR
     }
 
     private void setdataInFields() {
-        pet_name_TV.setText(pet_name);
-        pet_sex_TV.setText(pet_sex);
-        pet_id_TV.setText(pet_unique_id);
-        pet_owner_name_TV.setText(pet_owner_name);
-        pet_owner_phone_no_TV.setText(pet_owner_contact);
+        pet_reg_name_TV.setText(pet_name+" ("+pet_sex+")");
+        pet_reg__id_TV.setText(pet_unique_id);
+        parent_name_TV.setText(pet_owner_name);
+        pet_reg_date_of_birth_TV.setText(pet_DOB);
 
-
+        Glide.with(this)
+                .load(pet_image_url)
+                .placeholder(R.drawable.dummy_dog_image)
+                .into(petRegImage_IV);
     }
 
     private void init() {
@@ -80,16 +86,16 @@ public class XRayReportDeatilsActivity extends AppCompatActivity implements ApiR
         recommended_follow_up_textView = findViewById(R.id.recommended_follow_up_textView);
         recommended_follow_up_date_textView = findViewById(R.id.recommended_follow_up_date_textView);
         progressBar=findViewById(R.id.progressBar);
-        pet_name_TV = findViewById(R.id.pet_name_TV);
-        pet_sex_TV = findViewById(R.id.pet_sex_TV);
-        pet_id_TV = findViewById(R.id.pet_id_TV);
-        pet_owner_name_TV = findViewById(R.id.pet_owner_name_TV);
-        pet_owner_phone_no_TV = findViewById(R.id.pet_owner_phone_no_TV);
+        pet_reg_name_TV = findViewById(R.id.pet_reg_name_TV);
+        pet_reg__id_TV = findViewById(R.id.pet_reg__id_TV);
+        parent_name_TV = findViewById(R.id.parent_name_TV);
+        pet_reg_date_of_birth_TV = findViewById(R.id.pet_reg_date_of_birth_TV);
         deleteReport_BT = findViewById(R.id.deleteReport_BT);
-        back_arrow_IV = findViewById(R.id.back_arrow_IV);
+        back_arrow_CV = findViewById(R.id.back_arrow_CV);
+        petRegImage_IV=findViewById(R.id.petRegImage_IV);
 
         view_file_BT.setOnClickListener(this);
-        back_arrow_IV.setOnClickListener(this);
+        back_arrow_CV.setOnClickListener(this);
         deleteReport_BT.setOnClickListener(this);
     }
 
@@ -107,6 +113,8 @@ public class XRayReportDeatilsActivity extends AppCompatActivity implements ApiR
         nature = extras.getExtras().getString("nature");
         date_of_test = extras.getExtras().getString("date_of_test");
         result = extras.getExtras().getString("result");
+        pet_image_url=extras.getExtras().getString("pet_image_url");
+        pet_DOB = extras.getExtras().getString("pet_DOB");
     }
 
     @Override
@@ -121,7 +129,7 @@ public class XRayReportDeatilsActivity extends AppCompatActivity implements ApiR
                 i.setDataAndType(localUri, getContentResolver().getType(localUri));
                 startActivity(i);
                 break;
-            case R.id.back_arrow_IV:
+            case R.id.back_arrow_CV:
                 onBackPressed();
                 break;
 
@@ -202,7 +210,7 @@ public class XRayReportDeatilsActivity extends AppCompatActivity implements ApiR
                             localUri = Uri.parse(getXRayReportDeatilsResponse.getData().getDocuments());
                             view_file_BT.setVisibility(View.VISIBLE);
                         }
-                        if (getXRayReportDeatilsResponse.getData().getFollowUpDate() == null) {
+                        if (getXRayReportDeatilsResponse.getData().getFollowUpDate().equals("")) {
                             recommended_follow_up_TV.setVisibility(View.GONE);
                             recommended_follow_up_date_textView.setVisibility(View.GONE);
                             dot_recommended_follow_up_TV.setVisibility(View.GONE);

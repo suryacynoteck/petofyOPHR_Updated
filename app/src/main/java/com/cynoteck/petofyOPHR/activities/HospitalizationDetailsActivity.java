@@ -10,12 +10,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import com.bumptech.glide.Glide;
 import com.cynoteck.petofyOPHR.R;
 import com.cynoteck.petofyOPHR.api.ApiClient;
 import com.cynoteck.petofyOPHR.api.ApiResponse;
@@ -26,6 +28,7 @@ import com.cynoteck.petofyOPHR.response.getPetHospitalizationResponse.getHospita
 import com.cynoteck.petofyOPHR.response.getPetReportsResponse.AddUpdateDeleteClinicVisitResponse;
 import com.cynoteck.petofyOPHR.utils.Config;
 import com.cynoteck.petofyOPHR.utils.Methods;
+import com.google.android.material.card.MaterialCardView;
 
 import retrofit2.Response;
 
@@ -33,12 +36,13 @@ public class HospitalizationDetailsActivity extends AppCompatActivity implements
 
     TextView vet_name_textView,requesting_contact_textView,hospital_type_textView,hospital_name_textView,admission_date_textView,discharge_date_textView,hospital_phone_textView,reson_of_visit_textView,result_textView;
     Button view_file_BT, deleteReport_BT;
-    ImageView back_arrow_IV;
-    TextView pet_name_TV,pet_sex_TV,pet_id_TV,pet_owner_name_TV,pet_owner_phone_no_TV;
-    String pet_unique_id, pet_name,pet_sex, pet_owner_name,pet_owner_contact,pet_id ,report_type_id,type;
+    ImageView petRegImage_IV;
+    MaterialCardView back_arrow_CV;
+    TextView pet_reg_name_TV,pet_reg_date_of_birth_TV,pet_reg__id_TV,parent_name_TV,pet_owner_phone_no_TV;
+    String pet_DOB, pet_image_url, pet_unique_id, pet_name,pet_sex, pet_owner_name,pet_owner_contact,pet_id ,report_type_id,type;
     ProgressBar progressBar;
     Methods methods;
-    CardView card_view;
+    RelativeLayout card_view;
     Uri localUri;
 
     @Override
@@ -54,11 +58,16 @@ public class HospitalizationDetailsActivity extends AppCompatActivity implements
     }
 
     private void setdataInFields() {
-        pet_name_TV.setText(pet_name);
-        pet_sex_TV.setText(pet_sex);
-        pet_id_TV.setText(pet_unique_id);
-        pet_owner_name_TV.setText(pet_owner_name);
-        pet_owner_phone_no_TV.setText(pet_owner_contact);
+        pet_reg_name_TV.setText(pet_name+" ("+pet_sex+")");
+        pet_reg__id_TV.setText(pet_unique_id);
+        parent_name_TV.setText(pet_owner_name);
+        pet_reg_date_of_birth_TV.setText(pet_DOB);
+
+
+        Glide.with(this)
+                .load(pet_image_url)
+                .placeholder(R.drawable.dummy_dog_image)
+                .into(petRegImage_IV);
 
     }
 
@@ -75,17 +84,18 @@ public class HospitalizationDetailsActivity extends AppCompatActivity implements
         hospital_phone_textView = findViewById(R.id.hospital_phone_textView);
         reson_of_visit_textView = findViewById(R.id.reson_of_visit_textView);
         result_textView = findViewById(R.id.result_textView);
+        petRegImage_IV=findViewById(R.id.petRegImage_IV);
 
 
-        pet_name_TV = findViewById(R.id.pet_name_TV);
-        pet_sex_TV = findViewById(R.id.pet_sex_TV);
-        pet_id_TV = findViewById(R.id.pet_id_TV);
-        pet_owner_name_TV = findViewById(R.id.pet_owner_name_TV);
+        pet_reg_name_TV = findViewById(R.id.pet_reg_name_TV);
+        pet_reg_date_of_birth_TV = findViewById(R.id.pet_reg_date_of_birth_TV);
+        pet_reg__id_TV = findViewById(R.id.pet_reg__id_TV);
+        parent_name_TV = findViewById(R.id.parent_name_TV);
         pet_owner_phone_no_TV = findViewById(R.id.pet_owner_phone_no_TV);
         deleteReport_BT = findViewById(R.id.deleteReport_BT);
-        back_arrow_IV = findViewById(R.id.back_arrow_IV);
+        back_arrow_CV = findViewById(R.id.back_arrow_CV);
 
-        back_arrow_IV.setOnClickListener(this);
+        back_arrow_CV.setOnClickListener(this);
         view_file_BT.setOnClickListener(this);
         deleteReport_BT.setOnClickListener(this);
     }
@@ -100,6 +110,8 @@ public class HospitalizationDetailsActivity extends AppCompatActivity implements
         pet_name = extras.getExtras().getString("pet_name");
         pet_unique_id = extras.getExtras().getString("pet_unique_id");
         report_type_id=extras.getExtras().getString("report_id");
+        pet_image_url=extras.getExtras().getString("pet_image_url");
+        pet_DOB = extras.getExtras().getString("pet_DOB");
 
 
     }
@@ -116,7 +128,7 @@ public class HospitalizationDetailsActivity extends AppCompatActivity implements
                 startActivity(i);
                 break;
 
-            case R.id.back_arrow_IV:
+            case R.id.back_arrow_CV:
                 onBackPressed();
                 break;
 

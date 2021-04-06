@@ -39,6 +39,7 @@
             android:src="@drawable/hello_wave" />
 
         <ImageView
+            android:visibility="gone"
             android:layout_width="25dp"
 
             android:layout_height="match_parent"

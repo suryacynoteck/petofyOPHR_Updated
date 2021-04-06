@@ -42,11 +42,11 @@ public class ImmunazationVaccineAdopter extends RecyclerView.Adapter<Immunazatio
     public void onBindViewHolder(@NonNull ImmunazationVaccineAdopter.MyViewHolder holder, int position) {
         StringTokenizer st = new StringTokenizer(petHospitalizationsLists.get(position), ",");
         String brandType = st.nextToken();
-        String vaccine_name = st.nextToken();
+        String vaccine_name_TV = st.nextToken();
         String immunization_date = st.nextToken();
 
         holder.vaccine_brand_type.setText(brandType);
-        holder.vaccine_name.setText(vaccine_name);
+        holder.vaccine_name_TV.setText(vaccine_name_TV);
         holder.vaccine_date.setText(immunization_date);
 
     }
@@ -57,14 +57,14 @@ public class ImmunazationVaccineAdopter extends RecyclerView.Adapter<Immunazatio
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView vaccine_brand_type,vaccine_name,vaccine_date;
+        TextView vaccine_brand_type,vaccine_name_TV,vaccine_date;
         ImageView vaccine_delete;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             vaccine_brand_type = itemView.findViewById(R.id.vaccine_brand_type);
-            vaccine_name = itemView.findViewById(R.id.vaccine_name);
+            vaccine_name_TV = itemView.findViewById(R.id.vaccine_name_TV);
             vaccine_date = itemView.findViewById(R.id.vaccine_date);
             vaccine_delete = itemView.findViewById(R.id.vaccine_delete);
 

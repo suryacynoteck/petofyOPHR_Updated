@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +42,7 @@ import com.cynoteck.petofyOPHR.response.clinicVisist.ClinicVisitResponse;
 import com.cynoteck.petofyOPHR.response.testResponse.XrayTestResponse;
 import com.cynoteck.petofyOPHR.utils.Config;
 import com.cynoteck.petofyOPHR.utils.Methods;
+import com.google.android.material.card.MaterialCardView;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -64,12 +66,12 @@ import okhttp3.RequestBody;
 import retrofit2.Response;
 
 public class AddXRayDeatilsActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse {
-    TextView peto_edit_reg_number_dialog,calenderTextViewtestdate,folow_up_dt_view,xray_test_upload_documents,xray_peto_edit_reg_number_dialog,doctorPrescription_headline_TV;
+    TextView peto_edit_reg_number_dialog,calenderTextViewtestdate,folow_up_dt_view,xray_peto_edit_reg_number_dialog,doctorPrescription_headline_TV;
     AppCompatSpinner nature_of_visit_spinner,clinicNext_visit_spinner;
     EditText description_ET;
     Button save_BT;
-    ImageView xray_document,x_ray_back_arrow_IV;
-
+    ImageView xray_document,xray_test_upload_documents;
+    MaterialCardView back_arrow_CV;
     Methods methods;
 
     ArrayList<String> testTypeList;
@@ -111,12 +113,12 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
         xray_test_upload_documents=findViewById(R.id.xray_test_upload_documents);
         xray_document=findViewById(R.id.xray_document);
         save_BT=findViewById(R.id.save_BT);
-        x_ray_back_arrow_IV=findViewById(R.id.x_ray_back_arrow_IV);
+        back_arrow_CV=findViewById(R.id.back_arrow_CV);
         save_BT.setOnClickListener(this);
         calenderTextViewtestdate.setOnClickListener(this);
         folow_up_dt_view.setOnClickListener(this);
         xray_test_upload_documents.setOnClickListener(this);
-        x_ray_back_arrow_IV.setOnClickListener(this);
+        back_arrow_CV.setOnClickListener(this);
 
         if (extras != null) {
             report_id = extras.getString("report_id");
@@ -266,7 +268,7 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
                 }
                 break;
 
-            case R.id.x_ray_back_arrow_IV:
+            case R.id.back_arrow_CV:
                 onBackPressed();
                 break;
 
@@ -282,10 +284,9 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.dialog_layout);
 
-        TextView select_camera = (TextView) dialog.findViewById(R.id.select_camera);
-        TextView select_gallery = (TextView) dialog.findViewById(R.id.select_gallery);
-        TextView cancel_dialog = (TextView) dialog.findViewById(R.id.cancel_dialog);
-
+        RelativeLayout select_camera = (RelativeLayout) dialog.findViewById(R.id.select_camera);
+        RelativeLayout select_gallery = (RelativeLayout) dialog.findViewById(R.id.select_gallery);
+        RelativeLayout cancel_dialog = (RelativeLayout) dialog.findViewById(R.id.cancel_dialog);
         select_camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

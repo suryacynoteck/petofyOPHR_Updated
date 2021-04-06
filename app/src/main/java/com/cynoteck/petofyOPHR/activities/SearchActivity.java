@@ -26,6 +26,7 @@ import com.cynoteck.petofyOPHR.response.getPetReportsResponse.getPetListResponse
 import com.cynoteck.petofyOPHR.response.getPetReportsResponse.getPetListResponse.PetList;
 import com.cynoteck.petofyOPHR.utils.Config;
 import com.cynoteck.petofyOPHR.utils.SearchInterface;
+import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
 
@@ -33,22 +34,20 @@ import retrofit2.Response;
 
 public class SearchActivity extends AppCompatActivity implements TextWatcher, ApiResponse, SearchInterface {
     EditText searchpet;
-    ImageView back_arrow;
+    MaterialCardView back_arrow_CV;
     ArrayList<PetList> profileList = new ArrayList<>();
     RecyclerView register_pet_RV;
     com.cynoteck.petofyOPHR.adapters.SearchAdapter SearchAdapter;
-    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        searchpet = (EditText) findViewById(R.id.search_pet);
-        back_arrow = (ImageView) findViewById(R.id.back_arrow);
-        register_pet_RV = (RecyclerView) findViewById(R.id.register_pet_RV);
-        progressBar = findViewById(R.id.progressBar);
-        back_arrow.setOnClickListener(new View.OnClickListener() {
+        searchpet =  findViewById(R.id.search_pet);
+        back_arrow_CV =  findViewById(R.id.back_arrow_CV);
+        register_pet_RV = findViewById(R.id.register_pet_RV);
+        back_arrow_CV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
@@ -90,7 +89,6 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher, Ap
     }
 
     private void petSearchDependsOnPrefix(String prefix) {
-        progressBar.setVisibility(View.VISIBLE);
         PetDataParams getPetDataParams = new PetDataParams();
         getPetDataParams.setPageNumber(0);//0
         getPetDataParams.setPageSize(10);//0
@@ -108,7 +106,6 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher, Ap
         switch (key) {
             case "GetPetListBySearch":
                 try {
-                    progressBar.setVisibility(View.INVISIBLE);
                     GetPetListResponse getPetListResponse = (GetPetListResponse) arg0.body();
                     int responseCode = Integer.parseInt(getPetListResponse.getResponse().getResponseCode());
                     profileList.clear();

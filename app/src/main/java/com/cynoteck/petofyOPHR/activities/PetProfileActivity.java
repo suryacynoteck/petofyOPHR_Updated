@@ -224,9 +224,7 @@ public class PetProfileActivity extends AppCompatActivity implements ApiResponse
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
                 break;
-
 
             case "GetPetDetail":
                 try {
@@ -235,7 +233,7 @@ public class PetProfileActivity extends AppCompatActivity implements ApiResponse
                     pet_full_details_SV.setVisibility(View.VISIBLE);
                     pet_profile_shimmer.stopShimmerAnimation();
                     edit_profile_RL.setVisibility(View.VISIBLE);
-                    image_edit_CV.setVisibility(View.VISIBLE);
+//                    image_edit_CV.setVisibility(View.VISIBLE);
                     getPetResponse = (GetPetResponse) arg0.body();
                     int responseCode = Integer.parseInt(getPetResponse.getResponse().getResponseCode());
                     if (responseCode == 109) {
@@ -246,7 +244,6 @@ public class PetProfileActivity extends AppCompatActivity implements ApiResponse
                         pet_breed_TV.setText(getPetResponse.getData().getPetBreed());
                         pet_reg__id_TV.setText(getPetResponse.getData().getPetUniqueId());
                         pet_age_TV.setText(getPetResponse.getData().getPetAge().substring(6));
-
                         if (getPetResponse.getData().getAddress() == null) {
                             parent_location_CV.setVisibility(View.GONE);
                             parent_address_TV.setVisibility(View.GONE);

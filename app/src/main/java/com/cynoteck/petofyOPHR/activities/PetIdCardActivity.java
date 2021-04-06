@@ -36,11 +36,13 @@ import java.util.Calendar;
 import retrofit2.Response;
 
 public class PetIdCardActivity extends AppCompatActivity implements ApiResponse {
+
     TextView printID_TV,pet_name_TV,pet_sex_TV,dob_TV,breed_TV,parent_TV,contact_TV,pet_id_TV;
     ImageView imageView,bar_code_IV,pet_image;
     CardView card_view;
     String id;
     Methods methods;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,10 +52,7 @@ public class PetIdCardActivity extends AppCompatActivity implements ApiResponse 
         methods=new Methods(this);
         Bundle extras = getIntent().getExtras();
         id = extras.getString("id");
-
-
         getIdCardResposne(id);
-
         printID_TV= findViewById(R.id.printID_TV);
         imageView = findViewById(R.id.image_view);
         card_view=findViewById(R.id.card_view);
@@ -75,10 +74,8 @@ public class PetIdCardActivity extends AppCompatActivity implements ApiResponse 
                 printID_TV.setVisibility(View.INVISIBLE);
                 takeScreenshot();
 
-
             }
         });
-
 
     }
 
@@ -100,7 +97,7 @@ public class PetIdCardActivity extends AppCompatActivity implements ApiResponse 
         view1.setDrawingCacheEnabled(true);
 
 
-        Bitmap  bitmap = Bitmap.createBitmap(view1.getDrawingCache());
+        Bitmap bitmap = Bitmap.createBitmap(view1.getDrawingCache());
         view1.setDrawingCacheEnabled(false);
 
         String filepath = Environment.getExternalStorageDirectory()+"/Download/"+ Calendar.getInstance().getTime().toString()+".jpg";
@@ -179,9 +176,7 @@ public class PetIdCardActivity extends AppCompatActivity implements ApiResponse 
         intent.setAction(Intent.ACTION_SEND);
         intent.setType("image/*");
         intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "");
-        intent.putExtra(android.content.Intent.EXTRA_TEXT, getString(R.string.sharing_text));
         intent.putExtra(Intent.EXTRA_STREAM, uri);//pass uri here
-        startActivity(Intent.createChooser(intent, getString(R.string.share_title)));
     }
 
     @Override

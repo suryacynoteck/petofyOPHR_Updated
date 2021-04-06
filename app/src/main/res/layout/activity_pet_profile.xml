@@ -44,6 +44,7 @@
         android:layout_marginRight="20dp"
         android:background="@color/whiteColor"
         android:elevation="5dp"
+        android:visibility="gone"
         android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
         app:cardCornerRadius="10dp"
         app:cardElevation="10dp"
@@ -59,6 +60,7 @@
             android:visibility="visible" />
 
         <ImageView
+
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/camera_icon"

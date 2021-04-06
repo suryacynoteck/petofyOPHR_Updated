@@ -1,102 +1,220 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:shimmer="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:shimmer="http://schemas.android.com/apk/res-auto">
+    android:background="@color/whiteColor">
 
 
-
-
-
-    <androidx.cardview.widget.CardView
-        app:cardElevation="10dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/whiteColor"
-        tools:ignore="MissingConstraints">
+        android:layout_height="0dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+
+        <TextView
+            android:id="@+id/create_headline_TV"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:fontFamily="@font/nunito_bold"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:text="RECORDS"
+            android:textColor="@color/gray_2"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/back_arrow_CV"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/back_arrow_CV" />
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/back_arrow_CV"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="10dp"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:visibility="gone"
-                android:id="@+id/back_arrow_IV"
-                android:layout_marginRight="5dp"
-                android:padding="7dp"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_alignParentStart="true"
-                android:src="@drawable/back_arrow" />
-
-            <RelativeLayout
-                android:visibility="gone"
-                android:layout_toRightOf="@id/back_arrow_IV"
-                android:layout_marginBottom="7dp"
-                android:layout_marginRight="7dp"
-                android:layout_marginTop="7dp"
-                android:id="@+id/search_boxRL"
-                android:layout_height="?attr/actionBarSize"
-                android:layout_width="wrap_content"
-                android:background="@drawable/searchbox"
-                android:layout_centerVertical="true">
-
-                <AutoCompleteTextView
-                    android:imeOptions="actionSearch"
-                    android:singleLine="true"
-                    android:id="@+id/search_box"
-                    android:paddingRight="8dp"
-                    android:paddingLeft="8dp"
-                    android:layout_centerVertical="true"
-                    android:textSize="20sp"
-                    android:hint="Search pet...."
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    />
-            </RelativeLayout>
-
-
-
-            <TextView
-                android:visibility="visible"
-                android:id="@+id/reports_headline_TV"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:gravity="center"
-                android:text="@string/reports"
-                android:textColor="#000"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:src="@drawable/light_grey_bg"
+                android:visibility="visible" />
 
             <ImageView
-                android:visibility="invisible"
-                android:id="@+id/search_IV"
-                android:layout_margin="5dp"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
-                android:padding="10dp"
-                android:src="@drawable/searchicon" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="5dp"
+                android:src="@drawable/back_arrow"
+                android:visibility="visible" />
 
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <RelativeLayout
+        android:id="@+id/visit_register_RL"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/background_grey"
+        app:layout_constraintEnd_toEndOf="@id/toolbar"
+        app:layout_constraintStart_toStartOf="@id/toolbar"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:fontFamily="@font/nunito"
+            android:gravity="center_vertical"
+            android:text="Visit Register"
+            android:textColor="@color/gray_1"
+            android:textSize="18sp" />
+
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="10dp"
+            android:padding="8dp"
+            android:src="@drawable/staff_details_arrow"
+            android:visibility="visible" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/upcoming_visits_RL"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/background_grey"
+        app:layout_constraintEnd_toEndOf="@id/toolbar"
+        app:layout_constraintStart_toStartOf="@id/toolbar"
+        app:layout_constraintTop_toBottomOf="@id/visit_register_RL">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:fontFamily="@font/nunito"
+            android:gravity="center_vertical"
+            android:text="Upcoming visits"
+            android:textColor="@color/gray_1"
+            android:textSize="18sp" />
+
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="10dp"
+            android:padding="8dp"
+            android:src="@drawable/staff_details_arrow"
+            android:visibility="visible" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/record_RL"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@id/toolbar"
+        app:layout_constraintStart_toStartOf="@id/toolbar"
+        app:layout_constraintTop_toBottomOf="@id/upcoming_visits_RL">
+
+        <RelativeLayout
+            android:id="@+id/search_boxRL"
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="7dp"
+            android:background="@drawable/searchbox"
+            android:visibility="gone">
+
+            <AutoCompleteTextView
+                android:id="@+id/search_box"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@null"
+                android:fontFamily="@font/nunito"
+                android:hint="Search pet...."
+                android:imeOptions="actionSearch"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:singleLine="true"
+                android:textSize="20sp" />
         </RelativeLayout>
 
-    </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/reports_headline_TV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/nunito"
+            android:gravity="start"
+            android:text="All Patience Report"
+            android:textColor="#000"
+            android:textSize="22sp"
+            android:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/search_IV"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="5dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/search_with_grey_bg"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/cancel_IV"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="5dp"
+            android:layout_marginRight="10dp"
+            android:padding="15dp"
+            android:src="@drawable/cancel_cross"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+
     <com.facebook.shimmer.ShimmerFrameLayout
-        android:layout_below="@+id/toolbar"
         android:id="@+id/shimmer_view_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:orientation="vertical"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@id/toolbar"
+        app:layout_constraintStart_toStartOf="@+id/toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/record_RL"
         shimmer:duration="800">
 
         <!-- Adding 3 rows of placeholders -->
@@ -112,9 +230,13 @@
             <include layout="@layout/list_loading_style" />
 
             <include layout="@layout/list_loading_style" />
+
             <include layout="@layout/list_loading_style" />
+
             <include layout="@layout/list_loading_style" />
+
             <include layout="@layout/list_loading_style" />
+
             <include layout="@layout/list_loading_style" />
 
 
@@ -126,9 +248,13 @@
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nested_scroll_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar">
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/record_RL">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -137,23 +263,21 @@
             android:padding="4dp">
 
             <androidx.recyclerview.widget.RecyclerView
-
                 android:id="@+id/petList_RV"
-                android:background="@color/list_background"
+                tools:listitem="@layout/reports_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/toolbar"/>
+                android:layout_below="@+id/toolbar"
+                android:background="@color/whiteColor" />
 
             <ProgressBar
-                android:visibility="gone"
                 android:id="@+id/progressBar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
 
 
         </LinearLayout>
-
-
 
 
     </androidx.core.widget.NestedScrollView>
@@ -161,12 +285,16 @@
     <ImageView
         android:id="@+id/empty_IV"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="0dp"
         android:layout_centerInParent="true"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:paddingBottom="10dp"
+        android:elevation="1dp"
+        android:padding="120dp"
         android:src="@drawable/empty"
         android:visibility="invisible"
-        android:elevation="1dp"/>
-</RelativeLayout>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/record_RL" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

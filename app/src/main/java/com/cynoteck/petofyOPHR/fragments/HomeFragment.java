@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cynoteck.petofyOPHR.R;
 import com.cynoteck.petofyOPHR.activities.AddNewPetActivity;
+import com.cynoteck.petofyOPHR.activities.MedicalHistoryActivity;
 import com.cynoteck.petofyOPHR.activities.PetDetailsActivity;
 import com.cynoteck.petofyOPHR.activities.SearchActivity;
 import com.cynoteck.petofyOPHR.activities.StaffListActivity;
@@ -59,7 +61,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
     RecyclerView pet_list_RV;
     Context context;
     View view;
-    TextView search_box_TV;
+    RelativeLayout search_boxRL;
     RelativeLayout addNewEntry;
     Methods methods;
     CardView reports_CV, all_staff_CV, allPets_CV,appoint_CV;
@@ -74,6 +76,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
     SharedPreferences sharedPreferences;
     String userTYpe="";
     String permissionId="";
+    TextView search_box_TV;
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -179,8 +182,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
                 break;
 
             case R.id.reports_CV:
-                ReportSelectionFragment reportSelectionFragment = new ReportSelectionFragment();
-                replaceFragment(reportSelectionFragment);
+//                ReportSelectionFragment reportSelectionFragment = new ReportSelectionFragment();
+//                replaceFragment(reportSelectionFragment);
+                Intent medicalHisroryIntent = new Intent(getContext(), MedicalHistoryActivity.class);
+                startActivity(medicalHisroryIntent);
                 break;
 
             case R.id.staff_CV:

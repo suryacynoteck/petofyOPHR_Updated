@@ -18,16 +18,21 @@ import com.cynoteck.petofyOPHR.params.forgetPassRequest.ForgetPassDataParams;
 import com.cynoteck.petofyOPHR.params.forgetPassRequest.ForgetPassRequest;
 import com.cynoteck.petofyOPHR.response.forgetAndChangePassResponse.PasswordResponse;
 import com.cynoteck.petofyOPHR.utils.Methods;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import retrofit2.Response;
 
 public class ForgetPasswordActivity extends AppCompatActivity implements ApiResponse, View.OnClickListener {
 
-    EditText email_TIET;
+    TextInputEditText email_TIET;
+    TextInputLayout email_TIL;
     Button submit_BT;
     String mailString;
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     Methods methods;
+    MaterialCardView back_arrow_CV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,18 +41,25 @@ public class ForgetPasswordActivity extends AppCompatActivity implements ApiResp
         methods = new Methods(this);
         email_TIET = findViewById(R.id.email_TIET);
         submit_BT= findViewById(R.id.submitMailBT);
+        back_arrow_CV=findViewById(R.id.back_arrow_CV);
+        email_TIL=findViewById(R.id.email_TIL);
+        back_arrow_CV.setOnClickListener(this);
         submit_BT.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.back_arrow_CV:
+                onBackPressed();
+                break;
+
             case R.id.submitMailBT:
                 mailString = email_TIET.getText().toString().trim();
                 if ( mailString.isEmpty()){
-                    email_TIET.setError("Email is empty");
+                    email_TIL.setError("Email is empty");
                 }else if (!mailString.matches(emailPattern)) {
-                    email_TIET.setError("Invalid Email");
+                    email_TIL.setError("Invalid Email");
                 }else{
                     email_TIET.setError(null);
                     ForgetPassDataParams forgetPassDataParams = new ForgetPassDataParams();

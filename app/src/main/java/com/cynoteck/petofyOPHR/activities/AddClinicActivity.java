@@ -47,6 +47,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -147,6 +148,7 @@ import retrofit2.Response;
 
 public class AddClinicActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse, ImmunizationOnclickListener, TextWatcher {
     boolean nextDewormerSelected = false;
+    ConstraintLayout vaccine_layout;
     ProgressBar horizontal_progress_bar;
     RelativeLayout view_profile_RL;
     JsonArray myCustomArray;
@@ -159,12 +161,12 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
     TextView folow_up_dt_view, ilness_onset, next_visit, Dewormer_name_ET, Dewormer_name_TV, Dewormer_ET, Dewormer_TV, clinic_head_line, add_immunization_data_added,
             clinicCalenderTextViewVisitDt, clinicIlness_onset, date_of_illness_TV, follow_up_dt, nextImmunizationDate,
             clinic_peto_edit_reg_number_dialog, next_vaccine_TV, next_vaccine_type_TV, history_TV,
-            next_dewormer_TV, add_immunization_data, pet_nameTV, pet_idTV, pet_genderTV, pet_ageTV, pet_breadTV, pet_typeTV;
+            next_dewormer_TV, pet_nameTV, pet_idTV, pet_genderTV, pet_ageTV, pet_breadTV, pet_typeTV;
     ImageView document_name, back_arrow_IV;
-    LinearLayout addPrescriptionButton, vaccine_layout, diagnosis_Layout, deworming_name_Layout, deworming_dose_Layout, imaunizatioHeader;
+    LinearLayout add_immunization_data_LL, addPrescriptionButton, diagnosis_Layout, deworming_name_Layout, deworming_dose_Layout/*, imaunizatioHeader*/;
     EditText clinicVeterian_name_ET, clinicCescription_ET, remaks_ET, next_vaccine_ET, history_ET, diagnosis_result, remarks_ET,
             weight_ET, clinicTemparature_ET;
-    View immunizationView;
+//    View immunizationView;
     MultiAutoCompleteTextView clinicTreatment_remarks_MT, clinicDiagnosis_ET, deworming_AC, deworming_dose_AC;
     AppCompatSpinner clinicNature_of_visit_spinner, clinicNext_visit_spinner, vaccine_type, vaccine_name,
             next_vaccine_type_spinner, next_dewormer_spinner;
@@ -270,7 +272,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         diagnosis_Layout = findViewById(R.id.diagnosis_Layout);
         deworming_name_Layout = findViewById(R.id.deworming_name_Layout);
         deworming_dose_Layout = findViewById(R.id.deworming_dose_Layout);
-        add_immunization_data = findViewById(R.id.add_immunization_data);
+        add_immunization_data_LL = findViewById(R.id.add_immunization_data_LL);
         immunization_data = findViewById(R.id.immunization_data);
         description_TV = findViewById(R.id.description_TV);
         temparature_TV = findViewById(R.id.temparature_TV);
@@ -285,8 +287,8 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         next_vaccine_type_spinner = findViewById(R.id.next_vaccine_type_spinner);
         webview = findViewById(R.id.webview);
         add_immunization_data_added = findViewById(R.id.add_immunization_data_added);
-        imaunizatioHeader = findViewById(R.id.imaunizatioHeader);
-        immunizationView = findViewById(R.id.immunizationView);
+//        imaunizatioHeader = findViewById(R.id.imaunizatioHeader);
+//        immunizationView = findViewById(R.id.immunizationView);
         view_profile_RL=findViewById(R.id.view_profile_RL);
 
 
@@ -295,7 +297,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         folow_up_dt_view.setOnClickListener(this);
         clinicSave_clinic_data.setOnClickListener(this);
         back_arrow_IV.setOnClickListener(this);
-        add_immunization_data.setOnClickListener(this);
+        add_immunization_data_LL.setOnClickListener(this);
 
         clinicCescription_ET.addTextChangedListener(this);
         clinicDiagnosis_ET.addTextChangedListener(this);
@@ -479,11 +481,11 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 Log.e("count", "" + count);
                 if (natureOfVisit.equals("Routine/Health Problem")||natureOfVisit.equals("Other")) {
-                    if (count == 1) {
+                    if (start == 0 && count == 1 && before == 0) {
                         int progress = horizontal_progress_bar.getProgress();
                         progress = progress + 19;
                         setProgressStatus(progress);
-                    } else if (count == 0) {
+                    } else if (count == 0 && start == 0) {
                         int progress = horizontal_progress_bar.getProgress();
                         progress = progress - 19;
                         setProgressStatus(progress);
@@ -508,11 +510,11 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 Log.e("count", "" + count);
                 if (natureOfVisit.equals("Routine/Health Problem")||natureOfVisit.equals("Other")) {
-                    if (count == 1) {
+                    if (start == 0 && count == 1 && before == 0) {
                         int progress = horizontal_progress_bar.getProgress();
                         progress = progress + 19;
                         setProgressStatus(progress);
-                    } else if (count == 0) {
+                    } else if (count == 0 && start == 0) {
                         int progress = horizontal_progress_bar.getProgress();
                         progress = progress - 19;
                         setProgressStatus(progress);
@@ -537,11 +539,11 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 Log.e("count", "" + count);
                 if (natureOfVisit.equals("Routine/Health Problem")||natureOfVisit.equals("Other")) {
-                    if (count == 1) {
+                    if (start == 0 && count == 1 && before == 0) {
                         int progress = horizontal_progress_bar.getProgress();
                         progress = progress + 19;
                         setProgressStatus(progress);
-                    } else if (count == 0) {
+                    } else if (count == 0 && start == 0) {
                         int progress = horizontal_progress_bar.getProgress();
                         progress = progress - 19;
                         setProgressStatus(progress);
@@ -566,11 +568,11 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 Log.e("count", "" + count);
                 if (natureOfVisit.equals("Deworming")) {
-                    if (count == 1) {
+                    if (start == 0 && count == 1 && before == 0) {
                         int progress = horizontal_progress_bar.getProgress();
                         progress = progress + 19;
                         setProgressStatus(progress);
-                    } else if (count == 0) {
+                    } else if (count == 0 && start == 0) {
                         int progress = horizontal_progress_bar.getProgress();
                         progress = progress - 19;
                         setProgressStatus(progress);
@@ -595,11 +597,11 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 Log.e("count", "" + count);
                 if (natureOfVisit.equals("Deworming")) {
-                    if (count == 1) {
+                    if (start == 0 && count == 1 && before == 0) {
                         int progress = horizontal_progress_bar.getProgress();
                         progress = progress + 19;
                         setProgressStatus(progress);
-                    } else if (count == 0) {
+                    } else if (count == 0 && start == 0) {
                         int progress = horizontal_progress_bar.getProgress();
                         progress = progress - 19;
                         setProgressStatus(progress);
@@ -858,7 +860,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
             case R.id.back_arrow_IV:
                 onBackPressed();
                 break;
-            case R.id.add_immunization_data:
+            case R.id.add_immunization_data_LL:
                 showVaccineDialog();
                 break;
 
@@ -983,6 +985,15 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     immunization_data.setLayoutManager(linearLayoutManager);
                     immunization_data.setNestedScrollingEnabled(false);
                     if (VaccineList.size() > 0) {
+                        if (VaccineList.size()>0){
+                                int progress = horizontal_progress_bar.getProgress();
+                                progress = progress + 50;
+                                setProgressStatus(progress);
+                            } else{
+                                int progress = horizontal_progress_bar.getProgress();
+                                progress = progress - 50;
+                                setProgressStatus(progress);
+                            }
                         hospitalizationReportsAdapter = new ImmunazationVaccineAdopter(AddClinicActivity.this, AddClinicActivity.this, VaccineList);
                         immunization_data.setAdapter(hospitalizationReportsAdapter);
                         hospitalizationReportsAdapter.notifyDataSetChanged();
@@ -1205,10 +1216,9 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.dialog_layout);
 
-        TextView select_camera = (TextView) dialog.findViewById(R.id.select_camera);
-        TextView select_gallery = (TextView) dialog.findViewById(R.id.select_gallery);
-        TextView cancel_dialog = (TextView) dialog.findViewById(R.id.cancel_dialog);
-
+        RelativeLayout select_camera = (RelativeLayout) dialog.findViewById(R.id.select_camera);
+        RelativeLayout select_gallery = (RelativeLayout) dialog.findViewById(R.id.select_gallery);
+        RelativeLayout cancel_dialog = (RelativeLayout) dialog.findViewById(R.id.cancel_dialog);
         select_camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -2127,15 +2137,15 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
 
                         if ((getStrVaccineName == null) || (getStrVaccineType == null)) {
                             add_immunization_data_added.setVisibility(View.VISIBLE);
-                            add_immunization_data.setVisibility(View.GONE);
-                            imaunizatioHeader.setVisibility(View.GONE);
-                            immunizationView.setVisibility(View.GONE);
+                            add_immunization_data_LL.setVisibility(View.GONE);
+//                            imaunizatioHeader.setVisibility(View.GONE);
+//                            immunizationView.setVisibility(View.GONE);
                             immunization_data.setVisibility(View.GONE);
                         } else {
                             add_immunization_data_added.setVisibility(View.GONE);
-                            add_immunization_data.setVisibility(View.VISIBLE);
-                            imaunizatioHeader.setVisibility(View.VISIBLE);
-                            immunizationView.setVisibility(View.VISIBLE);
+                            add_immunization_data_LL.setVisibility(View.VISIBLE);
+//                            imaunizatioHeader.setVisibility(View.VISIBLE);
+//                            immunizationView.setVisibility(View.VISIBLE);
                             immunization_data.setVisibility(View.VISIBLE);
                             next_vaccine_ET.setText(getStrVaccineName);
                         }

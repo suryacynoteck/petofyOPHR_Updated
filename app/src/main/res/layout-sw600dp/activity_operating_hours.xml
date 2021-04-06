@@ -272,11 +272,6 @@
                     android:orientation="horizontal"
                     android:weightSum="3">
 
-                    <TextView
-                        android:visibility="gone"
-                        android:id="@+id/wed_day_id"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
 
                     <TextView
                         android:visibility="gone"

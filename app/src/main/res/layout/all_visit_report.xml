@@ -2,17 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:background="@color/whiteColor"
     android:layout_height="wrap_content">
 
-    <androidx.cardview.widget.CardView
-        android:layout_marginBottom="10dp"
-        android:elevation="10dp"
+    <RelativeLayout
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:background="@color/whiteColor"
-        app:cardElevation="5dp">
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/background_grey">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,21 +27,21 @@
                 android:padding="10dp"
                 android:weightSum="2">
 
-<!--                <LinearLayout-->
-<!--                    android:id="@+id/petRegImage_LL"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="50dp"-->
-<!--                    android:layout_weight="1.2"-->
-<!--                    android:padding="5dp">-->
+                <!--                <LinearLayout-->
+                <!--                    android:id="@+id/petRegImage_LL"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="50dp"-->
+                <!--                    android:layout_weight="1.2"-->
+                <!--                    android:padding="5dp">-->
 
-<!--                    <ImageView-->
-<!--                        android:id="@+id/petRegImage_IV"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="match_parent"-->
-<!--                        android:scaleType="fitXY"-->
-<!--                        android:src="@drawable/pet_image" />-->
+                <!--                    <ImageView-->
+                <!--                        android:id="@+id/petRegImage_IV"-->
+                <!--                        android:layout_width="match_parent"-->
+                <!--                        android:layout_height="match_parent"-->
+                <!--                        android:scaleType="fitXY"-->
+                <!--                        android:src="@drawable/pet_image" />-->
 
-<!--                </LinearLayout>-->
+                <!--                </LinearLayout>-->
 
                 <LinearLayout
                     android:id="@+id/petRegMiddle_LL"
@@ -60,8 +60,9 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/nunito"
                             android:text="@string/petname"
-                            android:textColor="#000"
+                            android:textColor="@color/gray_1"
                             android:textSize="15dp"
                             android:textStyle="bold" />
 
@@ -70,12 +71,16 @@
                             android:id="@+id/pet_reg_name_TV"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/gray_2"
+                            android:fontFamily="@font/nunito"
                             android:text="Rustam" />
 
                         <TextView
                             android:id="@+id/pet_reg__id_TV"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/gray_2"
+                            android:fontFamily="@font/nunito"
                             android:text="PETO-1883" />
 
 
@@ -90,8 +95,9 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/nunito"
                             android:text="@string/natureofvisit"
-                            android:textColor="#000"
+                            android:textColor="@color/gray_1"
                             android:textSize="15dp"
                             android:textStyle="bold" />
 
@@ -99,6 +105,8 @@
                             android:id="@+id/pet_nature_of_visit_TV"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/gray_2"
+                            android:fontFamily="@font/nunito"
                             android:text="Parent Name" />
 
 
@@ -113,8 +121,10 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/nunito"
                             android:text="@string/visit_date"
-                            android:textColor="#000"
+                            android:textColor="@color/gray_1"
+
                             android:textSize="15dp"
                             android:textStyle="bold" />
 
@@ -122,6 +132,8 @@
                             android:id="@+id/VisitDate_TV"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/gray_2"
+                            android:fontFamily="@font/nunito"
                             android:text="08/07/2019" />
 
 
@@ -147,8 +159,10 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/nunito"
                             android:text="@string/petParent"
-                            android:textColor="#000"
+                            android:textColor="@color/gray_1"
+
                             android:textSize="15dp"
                             android:textStyle="bold" />
 
@@ -156,11 +170,15 @@
                             android:id="@+id/pet_parent_name_TV"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/gray_2"
+                            android:fontFamily="@font/nunito"
                             android:text="Rustam " />
 
                         <TextView
                             android:id="@+id/pet_phone_TV"
                             android:layout_width="match_parent"
+                            android:textColor="@color/gray_2"
+                            android:fontFamily="@font/nunito"
                             android:layout_height="wrap_content"
                             android:text="8979797852" />
 
@@ -178,31 +196,34 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/nunito"
                             android:text="@string/remarks"
-                            android:textColor="#000"
+                            android:textColor="@color/gray_1"
                             android:textSize="15dp"
                             android:textStyle="bold" />
 
                         <TextView
-                            android:maxLines="1"
                             android:id="@+id/pet_remakrs_TV"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:maxLines="1" />
 
                     </LinearLayout>
 
                     <LinearLayout
-                        android:paddingLeft="5dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:paddingLeft="5dp">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/nunito"
                             android:text="@string/FollowupDate"
-                            android:textColor="#000"
+                            android:textColor="@color/gray_1"
+
                             android:textSize="15dp"
                             android:textStyle="bold" />
 
@@ -210,6 +231,8 @@
                             android:id="@+id/follow_up_date_TV"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/gray_2"
+                            android:fontFamily="@font/nunito"
                             android:text="08/07/2019" />
 
 
@@ -221,21 +244,20 @@
             </LinearLayout>
 
 
-
             <LinearLayout
-                android:visibility="gone"
-                android:layout_marginBottom="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
+                android:layout_marginBottom="10dp"
                 android:layout_weight=".8"
-                android:weightSum="2"
+                android:background="#67C162"
                 android:orientation="horizontal"
-                android:background="#67C162">
+                android:visibility="gone"
+                android:weightSum="2">
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight=".1"/>
+                    android:layout_weight=".1" />
 
 
                 <TextView
@@ -244,17 +266,16 @@
                     android:layout_height="match_parent"
                     android:layout_weight=".9"
                     android:drawableLeft="@drawable/prescription_icon"
+                    android:gravity="center"
                     android:text="Prescription"
                     android:textColor="#fff"
-                    android:textSize="12sp"
-                    android:gravity="center"/>
+                    android:textSize="12sp" />
 
                 <LinearLayout
 
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight=".1"/>
-
+                    android:layout_weight=".1" />
 
 
                 <TextView
@@ -263,20 +284,19 @@
                     android:layout_height="match_parent"
                     android:layout_weight=".9"
                     android:drawableLeft="@drawable/prescription_icon"
+                    android:gravity="center"
                     android:text="Immunization"
                     android:textColor="#fff"
-                    android:textSize="12sp"
-                    android:gravity="center"/>
+                    android:textSize="12sp" />
 
 
             </LinearLayout>
 
 
-
         </LinearLayout>
 
 
-    </androidx.cardview.widget.CardView>
+    </RelativeLayout>
 
 
 </LinearLayout>

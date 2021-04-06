@@ -32,7 +32,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.InstructionActivity"></activity>
+        <activity android:name=".activities.VetOperatingHoursActivity"></activity>
+        <activity android:name=".activities.InstructionActivity" />
         <activity android:name=".activities.StaffDetailsActivity" />
         <activity android:name=".activities.AddUpdateStaffActivity" />
         <activity
@@ -50,7 +51,8 @@
         <activity android:name=".activities.PetProfileActivity" />
         <activity android:name=".activities.SettingActivity" />
         <activity android:name=".activities.StaffPermissionActivity" />
-        <activity android:name=".activities.OperatingHoursActivity" />
+<!--        <activity android:name=".activities.OperatingHoursActivity" />-->
+        <activity android:name=".activities.MedicalHistoryActivity" />
         <activity android:name=".activities.AddUpdateAppointmentActivity" />
         <activity android:name=".activities.ViewFullProfileVetActivity" />
         <activity android:name=".activities.StaffListActivity" />

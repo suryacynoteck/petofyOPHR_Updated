@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,6 +50,7 @@ import com.cynoteck.petofyOPHR.response.getPetDetailsResponse.GetPetResponse;
 import com.cynoteck.petofyOPHR.response.updateProfileResponse.PetTypeResponse;
 import com.cynoteck.petofyOPHR.utils.Config;
 import com.cynoteck.petofyOPHR.utils.Methods;
+import com.google.android.material.card.MaterialCardView;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -85,7 +87,8 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
     TextView calenderTextViewDetails;
     CircleImageView pet_Details_profile_image;
     ImageView service_details_cat_img_one,service_details_cat_img_two,service_details_cat_img_three,
-            service_details_cat_img_four,service_detils_cat_img_five,id_card,back_arrow_IV;
+            service_details_cat_img_four,service_detils_cat_img_five,id_card;
+    MaterialCardView back_arrow_CV;
     Button pet_update;
     DatePickerDialog picker;
 
@@ -211,11 +214,11 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
         service_details_cat_img_three=findViewById(R.id.service_details_cat_img_three);
         service_details_cat_img_four=findViewById(R.id.service_details_cat_img_four);
         service_detils_cat_img_five=findViewById(R.id.service_detils_cat_img_five);
-        back_arrow_IV=findViewById(R.id.back_arrow_IV);
+        back_arrow_CV=findViewById(R.id.back_arrow_CV);
         pet_update=findViewById(R.id.pet_submit);
         //id_card=findViewById(R.id.id_card);
 
-        back_arrow_IV.setOnClickListener(this);
+        back_arrow_CV.setOnClickListener(this);
         pet_update.setOnClickListener(this);
         calenderTextViewDetails.setOnClickListener(this);
         pet_Details_profile_image.setOnClickListener(this);
@@ -488,7 +491,7 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
                 showPictureDialog();
                 break;
 
-            case R.id.back_arrow_IV:
+            case R.id.back_arrow_CV:
                 onBackPressed();
                 break;
 //            case R.id.id_card:
@@ -878,9 +881,9 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.dialog_layout);
 
-        TextView select_camera = (TextView) dialog.findViewById(R.id.select_camera);
-        TextView select_gallery = (TextView) dialog.findViewById(R.id.select_gallery);
-        TextView cancel_dialog = (TextView) dialog.findViewById(R.id.cancel_dialog);
+        RelativeLayout select_camera = (RelativeLayout) dialog.findViewById(R.id.select_camera);
+        RelativeLayout select_gallery = (RelativeLayout) dialog.findViewById(R.id.select_gallery);
+        RelativeLayout cancel_dialog = (RelativeLayout) dialog.findViewById(R.id.cancel_dialog);
 
         select_camera.setOnClickListener(new View.OnClickListener() {
             @Override

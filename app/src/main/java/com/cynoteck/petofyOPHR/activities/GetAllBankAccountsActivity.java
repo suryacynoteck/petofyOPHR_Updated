@@ -22,6 +22,7 @@ import com.cynoteck.petofyOPHR.api.ApiService;
 import com.cynoteck.petofyOPHR.response.bankAccountResponse.GetBankAccoutsResponse;
 import com.cynoteck.petofyOPHR.utils.Config;
 import com.cynoteck.petofyOPHR.utils.Methods;
+import com.google.android.material.card.MaterialCardView;
 
 import retrofit2.Response;
 
@@ -31,14 +32,14 @@ public class GetAllBankAccountsActivity extends AppCompatActivity implements Api
     GetBanksAccountsAdapter getBanksAccountsAdapter;
     ProgressBar progressBar;
     Button add_account_BT;
-    ImageView back_arrow_IV;
+    MaterialCardView back_arrow_CV;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_all_bank_accounts);
         methods = new Methods(this);
         add_account_BT = findViewById(R.id.add_account_BT);
-        back_arrow_IV=findViewById(R.id.back_arrow_IV);
+        back_arrow_CV=findViewById(R.id.back_arrow_CV);
         bank_accounts_RV = findViewById(R.id.bank_accounts_RV);
         progressBar = findViewById(R.id.progressBar);
         if (methods.isInternetOn()){
@@ -47,7 +48,7 @@ public class GetAllBankAccountsActivity extends AppCompatActivity implements Api
             methods.DialogInternet();
         }
         add_account_BT.setOnClickListener(this);
-        back_arrow_IV.setOnClickListener(this);
+        back_arrow_CV.setOnClickListener(this);
 
     }
 
@@ -115,7 +116,7 @@ public class GetAllBankAccountsActivity extends AppCompatActivity implements Api
                 startActivityForResult(intent,1);
                 break;
 
-            case R.id.back_arrow_IV:
+            case R.id.back_arrow_CV:
                 onBackPressed();
                 break;
         }

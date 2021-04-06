@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -46,16 +47,16 @@ public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.MyViewHo
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.setIsRecyclable(false);
-        holder.pet_id_TV.setText(profileList.get(position).getPetUniqueId());
-        holder.date_of_birth_TV.setText(profileList.get(position).getDateOfBirth());
-        holder.pet_name_TV.setText(profileList.get(position).getPetName().substring(0, 1).toUpperCase() + profileList.get(position).getPetName().substring(1));
-        holder.pet_reg_gender_TV.setText(profileList.get(position).getPetSex());
+        holder.pet_reg__id_TV.setText(profileList.get(position).getPetUniqueId());
+        holder.pet_reg_date_of_birth_TV.setText(profileList.get(position).getDateOfBirth());
+        holder.pet_reg_name_TV.setText(profileList.get(position).getPetName().substring(0, 1).toUpperCase() + profileList.get(position).getPetName().substring(1));
+        holder.parent_name_TV.setText(profileList.get(position).getPetParentName());
 
         try {
             Glide.with(context)
                     .load(new URL(profileList.get(position).getPetProfileImageUrl()))
                     .placeholder(R.drawable.pet_image)
-                    .into(holder.pet_profile_IV);
+                    .into(holder.petRegImage_IV);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -69,19 +70,19 @@ public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.MyViewHo
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView pet_id_TV,date_of_birth_TV,pet_name_TV,pet_reg_gender_TV;
-        Button view_pet_details_BT;
-        ImageView pet_profile_IV;
+        TextView pet_reg__id_TV,pet_reg_date_of_birth_TV,pet_reg_name_TV,parent_name_TV;
+        LinearLayout view_report_LL;
+        ImageView petRegImage_IV;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            pet_id_TV = itemView.findViewById(R.id.pet_id_TV);
-            date_of_birth_TV = itemView.findViewById(R.id.date_of_birth_TV);
-            pet_name_TV = itemView.findViewById(R.id.pet_name_TV);
-            pet_reg_gender_TV = itemView.findViewById(R.id.pet_reg_gender_TV);
-            view_pet_details_BT=itemView.findViewById(R.id.view_pet_details_BT);
-            pet_profile_IV=itemView.findViewById(R.id.petImage_IV);
-            view_pet_details_BT.setOnClickListener(new View.OnClickListener() {
+            pet_reg__id_TV = itemView.findViewById(R.id.pet_reg__id_TV);
+            parent_name_TV = itemView.findViewById(R.id.parent_name_TV);
+            pet_reg_date_of_birth_TV = itemView.findViewById(R.id.pet_reg_date_of_birth_TV);
+            pet_reg_name_TV = itemView.findViewById(R.id.pet_reg_name_TV);
+            view_report_LL=itemView.findViewById(R.id.view_report_LL);
+            petRegImage_IV=itemView.findViewById(R.id.petRegImage_IV);
+            view_report_LL.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (onProductItemClickListner!=null){

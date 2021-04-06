@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -57,7 +58,7 @@ public class AllClinicVisitAdopter extends RecyclerView.Adapter<AllClinicVisitAd
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView pet_id_TV, pet_name_TV, petParent_TV,typeOfVisit_TV,lastVisit_TV,nextVisit_TV;
-        Button notification;
+        LinearLayout send_reminder_LL;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -67,9 +68,9 @@ public class AllClinicVisitAdopter extends RecyclerView.Adapter<AllClinicVisitAd
             petParent_TV = itemView.findViewById(R.id.petParent_TV);
             typeOfVisit_TV = itemView.findViewById(R.id.typeOfVisit_TV);
             lastVisit_TV = itemView.findViewById(R.id.lastVisit_TV);
-            notification = itemView.findViewById(R.id.notification);
+            send_reminder_LL = itemView.findViewById(R.id.send_reminder_LL);
 
-            notification.setOnClickListener(new View.OnClickListener() {
+            send_reminder_LL.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     clinicOnlineVisitNotification.ClickNotification(getAdapterPosition());

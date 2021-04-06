@@ -1,185 +1,190 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/whiteColor">
 
-    <androidx.cardview.widget.CardView
-        android:layout_margin="12dp"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:background="@drawable/background_grey">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:layout_height="wrap_content">
-
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
 
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:padding="8dp"
-                    android:weightSum="3"
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="8dp"
+                    android:weightSum="3">
 
                     <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="15sp"
-                        android:textColor="@color/black_color"
+                        android:fontFamily="@font/nunito"
                         android:text="@string/name"
-                        android:textStyle="bold"/>
+                        android:textColor="@color/gray_1"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
 
 
                     <TextView
-                        android:layout_weight="1.4"
-                        android:gravity="start"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"
-                        android:textColor="@color/black_color"
+                        android:layout_weight="1.4"
+                        android:fontFamily="@font/nunito"
+                        android:gravity="start"
                         android:text=":"
-                        android:textStyle="bold"/>
+                        android:textColor="@color/gray_1"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
 
                     <TextView
                         android:id="@+id/name_TV"
-                        android:layout_weight="0.7"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="15sp"
+                        android:layout_weight="0.7"
+                        android:text="Ashish Rawat"
                         android:textColor="@color/grayColorCode"
-                        android:text="Ashish Rawat" />
-
+                        android:textSize="15sp" />
 
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:padding="8dp"
-                    android:weightSum="3"
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="8dp"
+                    android:weightSum="3">
 
                     <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="15sp"
-                        android:textColor="@color/black_color"
+                        android:fontFamily="@font/nunito"
                         android:text="@string/ifsc"
-                        android:textStyle="bold"/>
+                        android:textColor="@color/gray_1"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
 
 
                     <TextView
-                        android:layout_weight="1.4"
-                        android:gravity="start"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"
-                        android:textColor="@color/black_color"
+                        android:layout_weight="1.4"
+                        android:fontFamily="@font/nunito"
+                        android:gravity="start"
                         android:text=":"
-                        android:textStyle="bold"/>
+                        android:textColor="@color/gray_1"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
 
                     <TextView
                         android:id="@+id/ifsc_TV"
-                        android:layout_weight="0.7"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="15sp"
+                        android:layout_weight="0.7"
+                        android:text="@string/email"
                         android:textColor="@color/grayColorCode"
-                        android:text="@string/email"  />
-
+                        android:textSize="15sp" />
 
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:padding="8dp"
-                    android:weightSum="3"
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="8dp"
+                    android:weightSum="3">
 
                     <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="15sp"
-                        android:textColor="@color/black_color"
+                        android:fontFamily="@font/nunito"
                         android:text="@string/accountNumber"
-                        android:textStyle="bold"/>
+                        android:textColor="@color/gray_1"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
 
 
                     <TextView
-                        android:layout_weight="1.4"
-                        android:gravity="start"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"
-                        android:textColor="@color/black_color"
+                        android:layout_weight="1.4"
+                        android:fontFamily="@font/nunito"
+                        android:gravity="start"
                         android:text=":"
-                        android:textStyle="bold"/>
+                        android:textColor="@color/gray_1"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
 
                     <TextView
                         android:id="@+id/account_number_TV"
-                        android:layout_weight="0.7"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="15sp"
+                        android:layout_weight="0.7"
+                        android:text="@string/email"
                         android:textColor="@color/grayColorCode"
-                        android:text="@string/email"  />
-
+                        android:textSize="15sp" />
 
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:padding="8dp"
-                    android:weightSum="3"
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="8dp"
+                    android:weightSum="3">
 
                     <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="15sp"
-                        android:textColor="@color/black_color"
+                        android:fontFamily="@font/nunito"
                         android:text="@string/accountType"
-                        android:textStyle="bold"/>
+                        android:textColor="@color/gray_1"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
 
 
                     <TextView
-                        android:layout_weight="1.4"
-                        android:gravity="start"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"
-                        android:textColor="@color/black_color"
+                        android:layout_weight="1.4"
+                        android:fontFamily="@font/nunito"
+                        android:gravity="start"
                         android:text=":"
-                        android:textStyle="bold"/>
+                        android:textColor="@color/gray_1"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
 
                     <TextView
                         android:id="@+id/account_type_TV"
-                        android:layout_weight="0.7"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="15sp"
-                        android:textColor="@color/grayColorCode" />
-
+                        android:layout_weight="0.7"
+                        android:textColor="@color/grayColorCode"
+                        android:textSize="15sp" />
 
 
                 </LinearLayout>
@@ -191,13 +196,7 @@
         </RelativeLayout>
 
 
-
-
-    </androidx.cardview.widget.CardView>
-
-
-
-
+    </RelativeLayout>
 
 
 </LinearLayout>

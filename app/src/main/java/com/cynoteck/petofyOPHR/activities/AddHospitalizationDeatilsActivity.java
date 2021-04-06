@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +41,7 @@ import com.cynoteck.petofyOPHR.response.addPet.imageUpload.ImageResponse;
 import com.cynoteck.petofyOPHR.response.hospitalTypeListResponse.HospitalAddmissionTypeResp;
 import com.cynoteck.petofyOPHR.utils.Config;
 import com.cynoteck.petofyOPHR.utils.Methods;
+import com.google.android.material.card.MaterialCardView;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -66,10 +68,10 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
     EditText veterian_name_ET,veterian_phone_ET,hospital_name_ET,hospital_phone_ET,reson_of_hospitalization_ET,result_ET;
     Spinner hospital_type_spinner;
     TextView calenderTextView_admission_date,hospitalization_peto_edit_reg_number_dialog,
-            calenderTextView_discharge_date_TV,hospitalization_upload_documents,doctorPrescription_headline_TV;
+            calenderTextView_discharge_date_TV,doctorPrescription_headline_TV;
     Button save_BT;
-    ImageView hospitalization_document_name,hospitalization_back_arrow_IV;
-
+    ImageView hospitalization_document_name,hospitalization_upload_documents;
+    MaterialCardView back_arrow_CV;
     Methods methods;
 
     ArrayList<String> hospitalTypeArrayList;
@@ -109,13 +111,13 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
         calenderTextView_admission_date=findViewById(R.id.calenderTextView_admission_date);
         calenderTextView_discharge_date_TV=findViewById(R.id.calenderTextView_discharge_date_TV);
         save_BT=findViewById(R.id.save_BT);
-        hospitalization_back_arrow_IV=findViewById(R.id.hospitalization_back_arrow_IV);
+        back_arrow_CV=findViewById(R.id.back_arrow_CV);
         doctorPrescription_headline_TV=findViewById(R.id.doctorPrescription_headline_TV);
         calenderTextView_admission_date.setOnClickListener(this);
         calenderTextView_discharge_date_TV.setOnClickListener(this);
         save_BT.setOnClickListener(this);
         hospitalization_upload_documents.setOnClickListener(this);
-        hospitalization_back_arrow_IV.setOnClickListener(this);
+        back_arrow_CV.setOnClickListener(this);
 
         if (extras != null) {
             report_id = extras.getString("report_id");
@@ -314,7 +316,7 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
 
                 }
                 break;
-            case R.id.hospitalization_back_arrow_IV:
+            case R.id.back_arrow_CV:
                 onBackPressed();
                 break;
 
@@ -335,9 +337,9 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.dialog_layout);
 
-        TextView select_camera = (TextView) dialog.findViewById(R.id.select_camera);
-        TextView select_gallery = (TextView) dialog.findViewById(R.id.select_gallery);
-        TextView cancel_dialog = (TextView) dialog.findViewById(R.id.cancel_dialog);
+        RelativeLayout select_camera = (RelativeLayout) dialog.findViewById(R.id.select_camera);
+        RelativeLayout select_gallery = (RelativeLayout) dialog.findViewById(R.id.select_gallery);
+        RelativeLayout cancel_dialog = (RelativeLayout) dialog.findViewById(R.id.cancel_dialog);
 
         select_camera.setOnClickListener(new View.OnClickListener() {
             @Override

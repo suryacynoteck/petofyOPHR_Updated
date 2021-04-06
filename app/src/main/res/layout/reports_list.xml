@@ -1,190 +1,189 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="7dp"
-        android:elevation="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@color/whiteColor"
-        app:cardElevation="5dp">
+        android:layout_margin="15dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:weightSum="2">
+            android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:id="@+id/pet_deatils_LL"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1.5"
-                android:orientation="horizontal"
-                android:padding="10dp"
-                android:weightSum="3">
+            <RelativeLayout
+                android:id="@+id/appoint_image_RL"
+                android:layout_width="65dp"
+                android:layout_height="0dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/appointment_image_bg"
+                app:layout_constraintBottom_toBottomOf="@id/parent_name_TV"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <LinearLayout
-                    android:id="@+id/petImage_LL"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/appointment_iamge_CV"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:padding="5dp">
+                    android:layout_margin="9dp"
+                    app:cardCornerRadius="6dp">
 
                     <ImageView
-                        android:id="@+id/petImage_IV"
+                        android:id="@+id/petRegImage_IV"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/pet_image" />
+                        android:scaleType="fitXY"
+                        android:src="@drawable/dummy_dog_image" />
 
-                </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/pet_reg_name_TV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="10dp"
+                android:fontFamily="@font/nunito_bold"
+                android:maxLines="1"
+                android:text="Boxer"
+                android:textColor="@color/gray_2"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toStartOf="@id/pet_id_RL"
+                app:layout_constraintStart_toEndOf="@id/appoint_image_RL"
+                app:layout_constraintTop_toTopOf="@id/appoint_image_RL" />
+
+            <TextView
+                android:id="@+id/pet_reg_date_of_birth_TV"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginTop="2dp"
+                android:fontFamily="@font/nunito"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:text="DOB- 01/09/2020"
+                android:textColor="@color/gray_2"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/pet_id_RL"
+                app:layout_constraintStart_toStartOf="@id/pet_reg_name_TV"
+                app:layout_constraintTop_toBottomOf="@id/pet_reg_name_TV" />
+
+
+            <TextView
+                android:id="@+id/parent_name_TV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:fontFamily="@font/nunito"
+                android:text="Ajay Bisht"
+                android:textColor="@color/gray_1"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@id/pet_id_RL"
+                app:layout_constraintStart_toStartOf="@id/pet_reg_date_of_birth_TV"
+                app:layout_constraintTop_toBottomOf="@id/pet_reg_date_of_birth_TV" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/appoint_image_RL">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/gray_5"/>
+
 
                 <LinearLayout
-                    android:id="@+id/middle_LL"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:padding="5dp">
+                    android:layout_gravity="end"
+                    android:id="@+id/view_report_LL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:paddingRight="10dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="View Report"
+                        android:fontFamily="@font/nunito"
+                        android:textColor="@color/colorPrimary"/>
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/petId"
-                            android:textColor="#000"
-                            android:textSize="15dp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:maxLines="1"
-                            android:id="@+id/pet_id_TV"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="PETO-1883" />
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/dateofbirth"
-                            android:textColor="#000"
-                            android:textSize="15dp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/date_of_birth_TV"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="08/072019" />
-
-
-                    </LinearLayout>
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_gravity="center_vertical"
+                        android:padding="2dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/blue_forward_arrow"/>
 
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:padding="5dp">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="10dp">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/petname"
-                            android:textColor="#000"
-                            android:textSize="15dp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/pet_name_TV"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Rustam (Male)" />
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:orientation="vertical"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="10dp">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/petGender"
-                            android:textColor="#000"
-                            android:textSize="15dp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:maxLines="1"
-                            android:id="@+id/pet_reg_gender_TV"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Gender" />
-
-
-                    </LinearLayout>
-
-                </LinearLayout>
 
 
             </LinearLayout>
 
+            <RelativeLayout
+                android:id="@+id/pet_id_RL"
+                android:layout_width="110dp"
+                android:layout_height="38dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/pet_id_bg"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/pet_reg_name_TV">
+
+                <ImageView
+                    android:id="@+id/pet_id_inner_RL"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="6dp"
+                    android:background="@drawable/pet_id">
 
 
-            <Button
-                android:layout_gravity="end"
-                android:id="@+id/view_pet_details_BT"
-                android:layout_width="150dp"
-                android:layout_marginRight="20dp"
-                android:layout_height="30dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="0.5"
-                android:textAllCaps="false"
-                android:background="@color/colorPrimary"
-                android:text="@string/viewReports"
-                android:textColor="@color/whiteColor" />
+                </ImageView>
 
-        </LinearLayout>
+
+                <TextView
+                    android:id="@+id/pet_reg__id_TV"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toRightOf="@id/pet_id_inner_RL"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:maxLength="11"
+                    android:maxLines="1"
+                    android:text="PETO- 1235"
+                    android:textColor="@color/gray_1"
+                    android:textSize="10sp" />
+
+
+            </RelativeLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </androidx.cardview.widget.CardView>
 
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

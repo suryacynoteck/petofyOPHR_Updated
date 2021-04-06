@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -35,6 +36,7 @@ import com.cynoteck.petofyOPHR.response.updateProfileResponse.PetTypeResponse;
 import com.cynoteck.petofyOPHR.utils.Config;
 import com.cynoteck.petofyOPHR.utils.ImmunizationOnclick;
 import com.cynoteck.petofyOPHR.utils.Methods;
+import com.google.android.material.card.MaterialCardView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -48,7 +50,7 @@ public class ImmunizationChartActivity extends AppCompatActivity implements View
     LinearLayout create_new_immu;
     AppCompatSpinner pet_type_ACS;
     RecyclerView immue_list_RV;
-    ImageView back_arrow_IV;
+    MaterialCardView back_arrow_CV;
     Methods methods;
     ImmunizationChartAdapter immunizationChartAdapter;
     ImmunizationResponse immunizationResponse;
@@ -56,11 +58,11 @@ public class ImmunizationChartActivity extends AppCompatActivity implements View
     ArrayList<String> petType = new ArrayList<>();
     HashMap<String,String> petTypeHashMap=new HashMap<>();
     String strSpnerItemPetNm="Dog",getStrSpnerItemPetNmId="",strChartSize="";
-    CardView createNew_card,immue_list_card;
     String userTYpe="";
     String permissionId="";
     SharedPreferences sharedPreferences;
     int immunizationPostion;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +90,8 @@ public class ImmunizationChartActivity extends AppCompatActivity implements View
     }
 
     private void getImmunizationList(String getStrSpnerItemPetNmId) {
-        methods.showCustomProgressBarDialog(this);
+        progressBar.setVisibility(View.VISIBLE);
+        immue_list_RV.setVisibility(View.GONE);
         ImmunizationParams immunizationParams = new ImmunizationParams();
         immunizationParams.setEncryptedId(getStrSpnerItemPetNmId);
         ImmunizationRequest immunizationRequest = new ImmunizationRequest();
@@ -99,15 +102,14 @@ public class ImmunizationChartActivity extends AppCompatActivity implements View
     }
 
     private void initization() {
+        progressBar=findViewById(R.id.progressBar);
         create_new_immu = findViewById(R.id.create_new_immu);
         pet_type_ACS = findViewById(R.id.pet_type);
         immue_list_RV = findViewById(R.id.immue_list_RV);
-        back_arrow_IV = findViewById(R.id.back_arrow_IV);
-        immue_list_card=findViewById(R.id.immue_list_card);
-        createNew_card=findViewById(R.id.createNew_card);
+        back_arrow_CV = findViewById(R.id.back_arrow_CV);
 
         create_new_immu.setOnClickListener(this);
-        back_arrow_IV.setOnClickListener(this);
+        back_arrow_CV.setOnClickListener(this);
 
     }
 
@@ -154,7 +156,7 @@ public class ImmunizationChartActivity extends AppCompatActivity implements View
 
                 break;
 
-            case R.id.back_arrow_IV:
+            case R.id.back_arrow_CV:
                 onBackPressed();
                 break;
 
@@ -167,14 +169,14 @@ public class ImmunizationChartActivity extends AppCompatActivity implements View
         switch (key) {
             case "ImmunizationList":
                 try {
-                    methods.customProgressDismiss();
                     immunizationResponse = (ImmunizationResponse) arg0.body();
                     Log.d("ImmunizationList", immunizationResponse.toString());
                     int responseCode = Integer.parseInt(immunizationResponse.getResponse().getResponseCode());
 
                     if (responseCode == 109) {
-                        createNew_card.setVisibility(View.VISIBLE);
-                        immue_list_card.setVisibility(View.VISIBLE);
+                        create_new_immu.setVisibility(View.VISIBLE);
+                        progressBar.setVisibility(View.GONE);
+                        immue_list_RV.setVisibility(View.VISIBLE);
                         strChartSize = String.valueOf(immunizationResponse.getData().getImmunizationScheduleScheduleList().size()+1);
                         Log.e("SIZE",strChartSize);
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);

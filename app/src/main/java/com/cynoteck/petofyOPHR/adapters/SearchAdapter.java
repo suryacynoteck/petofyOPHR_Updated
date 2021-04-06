@@ -11,22 +11,27 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.cynoteck.petofyOPHR.R;
 import com.cynoteck.petofyOPHR.response.getPetReportsResponse.getPetListResponse.PetList;
 import com.cynoteck.petofyOPHR.utils.SearchInterface;
 
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHolder> {
     Context context;
     ArrayList<PetList> profileList;
     private SearchInterface onProductItemClickListner;
+
     public SearchAdapter(Context context, ArrayList<PetList> profileList, SearchInterface onProductItemClickListner) {
         this.context = context;
         this.profileList = profileList;
-        this.onProductItemClickListner=onProductItemClickListner;
+        this.onProductItemClickListner = onProductItemClickListner;
         //filterProfileList = new ArrayList<>(profileList);
     }
+
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -37,10 +42,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-   holder.search_text.setText(profileList.get(position).getPetUniqueId() + ":- "
-           + profileList.get(position).getPetName() +
-           "(" + profileList.get(position).getPetSex() + ","
-           + profileList.get(position).getPetParentName() + ")");
+        holder.pet_name_TV.setText(profileList.get(position).getPetName() + " (" + profileList.get(position).getPetSex() + ")");
+        holder.pet_reg__id_TV.setText(profileList.get(position).getPetUniqueId());
+        Glide.with(context)
+                .load(profileList.get(position).getPetProfileImageUrl())
+                .placeholder(R.drawable.dummy_dog_image)
+                .into(holder.pet_image_CIV);
     }
 
     @Override
@@ -49,17 +56,19 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView search_text;
+        TextView pet_name_TV,pet_reg__id_TV;
+        CircleImageView pet_image_CIV;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            search_text = itemView.findViewById(R.id.search_text);
+            pet_name_TV = itemView.findViewById(R.id.pet_name_TV);
+            pet_image_CIV = itemView.findViewById(R.id.pet_image_CIV);
+            pet_reg__id_TV=itemView.findViewById(R.id.pet_reg__id_TV);
 
-
-            search_text.setOnClickListener(new View.OnClickListener() {
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (onProductItemClickListner!=null){
+                    if (onProductItemClickListner != null) {
                         onProductItemClickListner.onViewDetailsClick(getAdapterPosition());
                     }
                 }

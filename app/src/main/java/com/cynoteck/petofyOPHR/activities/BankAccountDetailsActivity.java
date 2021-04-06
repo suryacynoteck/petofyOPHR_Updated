@@ -27,6 +27,7 @@ import com.cynoteck.petofyOPHR.response.bankAccountResponse.AddBankAccountRespon
 import com.cynoteck.petofyOPHR.response.bankAccountResponse.ValidateIfscCodeResponse;
 import com.cynoteck.petofyOPHR.utils.Config;
 import com.cynoteck.petofyOPHR.utils.Methods;
+import com.google.android.material.card.MaterialCardView;
 
 import retrofit2.Response;
 
@@ -34,7 +35,7 @@ public class BankAccountDetailsActivity extends AppCompatActivity implements Api
     EditText name_for_bank_ET, email_for_bank_ET, contact_for_bank_ET, ifsc_for_bank_ET, account_for_bank_ET,confirm_account_for_bank_ET;
     TextView ifsc_for_bank_details_TV;
     Button add_account_BT;
-    ImageView back_arrow_IV;
+    MaterialCardView back_arrow_CV;
     ProgressBar progressBar;
     String name_for_bank_str, email_for_bank_str, contact_for_bank_str,account_no_str, confirm_account_no_str, ifsc_str;
     String finalIfsc="";
@@ -89,10 +90,10 @@ public class BankAccountDetailsActivity extends AppCompatActivity implements Api
         confirm_account_for_bank_ET = findViewById(R.id.confirm_account_for_bank_ET);
         ifsc_for_bank_details_TV = findViewById(R.id.ifsc_for_bank_details_TV);
         add_account_BT = findViewById(R.id.add_account_BT);
-        back_arrow_IV = findViewById(R.id.back_arrow_IV);
+        back_arrow_CV = findViewById(R.id.back_arrow_CV);
         progressBar=findViewById(R.id.progressBar);
 
-        back_arrow_IV.setOnClickListener(this);
+        back_arrow_CV.setOnClickListener(this);
         add_account_BT.setOnClickListener(this);
 
     }
@@ -160,7 +161,7 @@ public class BankAccountDetailsActivity extends AppCompatActivity implements Api
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.back_arrow_IV:
+            case R.id.back_arrow_CV:
                 onBackPressed();
                 break;
 

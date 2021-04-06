@@ -2,57 +2,76 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/main"
     android:background="@color/whiteColor">
 
-    <com.google.android.material.appbar.CollapsingToolbarLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/toolbar"
-        android:layout_width="0dp"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/whiteColor"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-    </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-
-    <TextView
-        android:gravity="center_vertical"
-        android:layout_marginLeft="10dp"
-        android:id="@+id/doctorPrescription_headline_TV"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="@id/toolbar"
-        android:text="@string/addhospitalization"
-        app:layout_constraintStart_toEndOf="@id/hospitalization_back_arrow_IV"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="15dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/toolbar"
-        android:textColor="@color/black_color"
-        android:textSize="20dp"
-        android:textStyle="bold"/>
+        app:layout_constraintTop_toTopOf="parent">
 
-    <ImageView
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:id="@+id/hospitalization_back_arrow_IV"
-        android:padding="10dp"
-        android:visibility="visible"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/back_arrow" />
+
+        <TextView
+            android:id="@+id/doctorPrescription_headline_TV"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:fontFamily="@font/nunito"
+            android:gravity="center"
+            android:text="@string/addhospitalization"
+            android:textColor="@color/gray_2"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/back_arrow_CV"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/back_arrow_CV" />
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/back_arrow_CV"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="10dp"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/light_grey_bg"
+                android:visibility="visible" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="5dp"
+                android:src="@drawable/back_arrow"
+                android:visibility="visible" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <ScrollView
+        android:id="@+id/scrollView4"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toTopOf="@id/save_BT"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintTop_toBottomOf="@id/hospitalization_back_arrow_IV">
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -64,7 +83,6 @@
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
                 android:gravity="center_vertical"
                 android:text="PETO-1138"
                 android:textColor="@color/colorPrimary"
@@ -92,7 +110,9 @@
                 android:layout_marginRight="20dp"
                 android:gravity="center_vertical"
                 android:text="@string/requestingVet"
-                android:textColor="@color/grey_add_pet"
+                android:fontFamily="@font/nunito"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="@id/top_edit_view_line"
                 app:layout_constraintStart_toStartOf="@id/top_edit_view_line"
                 app:layout_constraintTop_toBottomOf="@id/top_edit_view_line" />
@@ -110,7 +130,9 @@
                 android:inputType="text"
                 android:maxLines="1"
                 android:paddingLeft="25dp"
-                android:textColor="@color/grey_add_pet"
+                android:fontFamily="@font/nunito"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="@id/veterian_name_TV"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/veterian_name_TV" />
@@ -125,7 +147,9 @@
                 android:layout_marginRight="20dp"
                 android:gravity="center_vertical"
                 android:text="@string/RequestingContact"
-                android:textColor="@color/grey_add_pet"
+                android:fontFamily="@font/nunito"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="@id/veterian_name_ET"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/veterian_name_ET" />
@@ -143,7 +167,9 @@
                 android:inputType="phone"
                 android:maxLines="1"
                 android:paddingLeft="25dp"
-                android:textColor="@color/grey_add_pet"
+                android:fontFamily="@font/nunito"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="@id/veterian_name_ET"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/veterian_phone_TV" />
@@ -157,7 +183,9 @@
                 android:layout_marginRight="20dp"
                 android:gravity="center_vertical"
                 android:text="@string/hospital_type"
-                android:textColor="@color/grey_add_pet"
+                android:fontFamily="@font/nunito"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/veterian_phone_ET" />
@@ -167,10 +195,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginLeft="20dp"
-                android:paddingLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
                 android:background="@drawable/spinner_background"
+                android:paddingLeft="20dp"
+                android:fontFamily="@font/nunito"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/hospital_type_TV" />
@@ -185,7 +216,9 @@
                 android:layout_marginRight="20dp"
                 android:gravity="center_vertical"
                 android:text="@string/admission_date"
-                android:textColor="@color/grey_add_pet"
+                android:fontFamily="@font/nunito"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/hospital_type_spinner" />
@@ -201,10 +234,11 @@
                 android:gravity="center_vertical"
                 android:hint="12/05/2020"
                 android:paddingLeft="25dp"
-                android:textSize="18dp"
                 android:textStyle="bold"
+                android:fontFamily="@font/nunito"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
                 app:layout_constraintTop_toBottomOf="@id/admission_date_TV" />
-
 
 
             <TextView
@@ -216,7 +250,9 @@
                 android:layout_marginRight="20dp"
                 android:gravity="center_vertical"
                 android:text="@string/dischargeDate"
-                android:textColor="@color/grey_add_pet"
+                android:fontFamily="@font/nunito"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/calenderTextView_admission_date" />
@@ -232,8 +268,10 @@
                 android:gravity="center_vertical"
                 android:hint="12/05/2020"
                 android:paddingLeft="25dp"
-                android:textSize="18dp"
                 android:textStyle="bold"
+                android:fontFamily="@font/nunito"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
                 app:layout_constraintTop_toBottomOf="@id/discharge_date_TV" />
 
 
@@ -245,24 +283,29 @@
                 android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
                 android:text="@string/hospitalname"
-                android:textColor="@color/grey_add_pet"
+                android:fontFamily="@font/nunito"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/calenderTextView_discharge_date_TV" />
 
             <EditText
                 android:id="@+id/hospital_name_ET"
-                android:hint="@string/hospitalname"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
+                android:background="@drawable/edit_text_background"
                 android:gravity="center_vertical"
+                android:hint="@string/hospitalname"
                 android:inputType="text"
                 android:maxLines="1"
                 android:paddingLeft="25dp"
-                android:background="@drawable/edit_text_background"
+                android:fontFamily="@font/nunito"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/hospital_name_TV" />
@@ -276,7 +319,9 @@
                 android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
                 android:text="@string/hospitalphone"
-                android:textColor="@color/grey_add_pet"
+                android:fontFamily="@font/nunito"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/hospital_name_ET" />
@@ -288,12 +333,15 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
+                android:background="@drawable/edit_text_background"
                 android:gravity="center_vertical"
+                android:hint="@string/hospitalphone"
                 android:inputType="phone"
                 android:maxLines="1"
                 android:paddingLeft="25dp"
-                android:background="@drawable/edit_text_background"
-                android:hint="@string/hospitalphone"
+                android:fontFamily="@font/nunito"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/hospital_phone_TV" />
@@ -307,7 +355,9 @@
                 android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
                 android:text="@string/resaonofHospitalization"
-                android:textColor="@color/grey_add_pet"
+                android:fontFamily="@font/nunito"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/hospital_phone_ET" />
@@ -319,17 +369,17 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
-                android:gravity="center_vertical"
-                android:inputType="text"
-                android:maxLines="1"
-                android:paddingLeft="25dp"
                 android:background="@drawable/edit_text_background"
+                android:gravity="center_vertical"
                 android:hint="@string/resaonofHospitalization"
+                android:inputType="text"
+                android:paddingLeft="25dp"
+                android:fontFamily="@font/nunito"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/reson_of_hospitalization_TV" />
-
-
 
 
             <TextView
@@ -340,7 +390,9 @@
                 android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
                 android:text="@string/result"
-                android:textColor="@color/grey_add_pet"
+                android:fontFamily="@font/nunito"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="@id/veterian_name_ET"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/reson_of_hospitalization_ET" />
@@ -349,16 +401,17 @@
             <EditText
                 android:id="@+id/result_ET"
                 android:layout_width="0dp"
-                android:layout_height="120dp"
+                android:layout_height="100dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edit_text_background"
                 android:gravity="center_vertical"
                 android:hint="@string/result"
                 android:inputType="text"
-                android:maxLines="1"
                 android:paddingLeft="25dp"
-                android:textColor="@color/grey_add_pet"
+                android:fontFamily="@font/nunito"
+                android:textColor="@color/gray_1"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="@id/veterian_name_TV"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/result_TV" />
@@ -373,44 +426,36 @@
                 android:gravity="center_vertical"
                 android:text="Document"
                 android:textColor="@color/grey_add_pet"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/veterian_name_TV"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/result_ET" />
-
 
 
             <LinearLayout
                 android:id="@+id/document_layout"
                 android:layout_width="0dp"
-                android:layout_height="100dp"
+                android:layout_height="60dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:textColor="@color/grey_add_pet"
-                android:background="@drawable/edit_text_background"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/veterian_name_ET"
-                app:layout_constraintTop_toBottomOf="@id/document_tv"
                 android:orientation="vertical"
-                >
-
-                <TextView
-                    android:id="@+id/hospitalization_upload_documents"
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/save_changes_back"
-                    android:text="Upload Documents"
-                    android:textColor="#6fac00"/>
-
+                android:textColor="@color/grey_add_pet"
+                app:layout_constraintEnd_toEndOf="@id/veterian_name_ET"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/document_tv">
                 <ImageView
+                    android:visibility="gone"
                     android:id="@+id/hospitalization_document_name"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
+                <ImageView
+                    android:src="@drawable/upload_photo_icon"
+                    android:id="@+id/hospitalization_upload_documents"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
-
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -420,18 +465,18 @@
 
     <Button
         android:id="@+id/save_BT"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+        android:text="@string/save"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/whiteColor"
         android:textSize="25dp"
         android:theme="@style/MatButton"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:text="@string/save"
-        android:layout_width="0dp"
-        android:textColor="@color/whiteColor"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -24,8 +24,8 @@ import com.cynoteck.petofyOPHR.activities.ChangePasswordActivity;
 import com.cynoteck.petofyOPHR.activities.GetAllBankAccountsActivity;
 import com.cynoteck.petofyOPHR.activities.ImmunizationChartActivity;
 import com.cynoteck.petofyOPHR.activities.LoginActivity;
-import com.cynoteck.petofyOPHR.activities.OperatingHoursActivity;
 import com.cynoteck.petofyOPHR.activities.SettingActivity;
+import com.cynoteck.petofyOPHR.activities.VetOperatingHoursActivity;
 import com.cynoteck.petofyOPHR.activities.ViewFullProfileVetActivity;
 import com.cynoteck.petofyOPHR.api.ApiClient;
 import com.cynoteck.petofyOPHR.api.ApiResponse;
@@ -192,7 +192,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, A
                 break;
 
             case R.id.operating_hours_CL:
-                startActivity(new Intent(getActivity(), OperatingHoursActivity.class));
+                startActivity(new Intent(getActivity(), VetOperatingHoursActivity.class));
                 break;
 
             case R.id.privacy_CL:

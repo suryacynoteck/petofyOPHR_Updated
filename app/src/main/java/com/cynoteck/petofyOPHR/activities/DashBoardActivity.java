@@ -26,7 +26,6 @@ import com.cynoteck.petofyOPHR.fragments.VetAppointmentsFragment;
 import com.cynoteck.petofyOPHR.fragments.HomeFragment;
 import com.cynoteck.petofyOPHR.fragments.PetRegisterFragment;
 import com.cynoteck.petofyOPHR.fragments.ProfileFragment;
-import com.cynoteck.petofyOPHR.fragments.ReportSelectionFragment;
 import com.cynoteck.petofyOPHR.response.loginRegisterResponse.UserPermissionMasterList;
 import com.cynoteck.petofyOPHR.response.staffPermissionListResponse.CheckStaffPermissionResponse;
 import com.cynoteck.petofyOPHR.response.updateProfileResponse.UserResponse;
@@ -384,13 +383,6 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                     }
                 }, 2000);
             }
-        } else if (Config.count == 3) {
-            Config.count = 0;
-            ReportSelectionFragment reportSelectionFragment = new ReportSelectionFragment();
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.content_frame, reportSelectionFragment);
-            ft.commit();
-            getSupportFragmentManager().popBackStack();
         } else {
             Config.count = 1;
             HomeFragment homeFragment = new HomeFragment();

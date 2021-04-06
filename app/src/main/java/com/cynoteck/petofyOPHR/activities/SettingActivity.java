@@ -21,11 +21,12 @@ import com.cynoteck.petofyOPHR.params.getPetListRequest.GetPetListParams;
 import com.cynoteck.petofyOPHR.params.getPetListRequest.GetPetListRequest;
 import com.cynoteck.petofyOPHR.response.onlineAppointmentOnOff.OnlineAppointmentResponse;
 import com.cynoteck.petofyOPHR.utils.Config;
+import com.google.android.material.card.MaterialCardView;
 
 import retrofit2.Response;
 
 public class SettingActivity extends AppCompatActivity implements ApiResponse, View.OnClickListener {
-    ImageView back_arrow_IV;
+    MaterialCardView back_arrow_CV;
     TextView two_fact_auth_TV,immunization_chart_TV,bank_account_details_TV;
     SwitchCompat two_fact_auth_SC;
     String status="";
@@ -34,14 +35,14 @@ public class SettingActivity extends AppCompatActivity implements ApiResponse, V
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
-        back_arrow_IV = findViewById(R.id.back_arrow_IV);
+        back_arrow_CV = findViewById(R.id.back_arrow_CV);
         two_fact_auth_SC =findViewById(R.id.two_fact_auth_SC);
         two_fact_auth_TV=findViewById(R.id.two_fact_auth_TV);
         immunization_chart_TV = findViewById(R.id.immunization_chart_TV);
         bank_account_details_TV=findViewById(R.id.bank_account_details_TV);
         immunization_chart_TV.setOnClickListener(this);
         bank_account_details_TV.setOnClickListener(this);
-        back_arrow_IV.setOnClickListener(this);
+        back_arrow_CV.setOnClickListener(this);
         setTwoFactData();
         switchOnline();
 
@@ -140,7 +141,7 @@ public class SettingActivity extends AppCompatActivity implements ApiResponse, V
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.back_arrow_IV:
+            case R.id.back_arrow_CV:
             onBackPressed();
 
             break;

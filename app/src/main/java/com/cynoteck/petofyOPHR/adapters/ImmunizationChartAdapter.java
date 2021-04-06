@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -44,7 +45,7 @@ public class ImmunizationChartAdapter extends RecyclerView.Adapter<ImmunizationC
         holder.age_group_TV.setText(min_age+"-"+max_age+"Days");
         if (immunizationScheduleScheduleLists.get(position).getRecommendedVaccinations().equals("PUPPY DP")){
             holder.delete_vaccine_IV.setVisibility(View.INVISIBLE);
-            holder.edit_vaccine_IV.setVisibility(View.INVISIBLE);
+            holder.edit_vaccine_LL.setVisibility(View.INVISIBLE);
         }
         holder.vaccine_name_TV.setText(immunizationScheduleScheduleLists.get(position).getRecommendedVaccinations());
 
@@ -57,13 +58,14 @@ public class ImmunizationChartAdapter extends RecyclerView.Adapter<ImmunizationC
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView age_group_TV,vaccine_name_TV;
-        ImageView delete_vaccine_IV,edit_vaccine_IV;
+        ImageView delete_vaccine_IV;
+        LinearLayout edit_vaccine_LL;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             age_group_TV = itemView.findViewById(R.id.age_group_TV);
             vaccine_name_TV = itemView.findViewById(R.id.vaccine_name_TV);
             delete_vaccine_IV = itemView.findViewById(R.id.delete_vaccine_IV);
-            edit_vaccine_IV = itemView.findViewById(R.id.edit_vaccine_IV);
+            edit_vaccine_LL = itemView.findViewById(R.id.edit_vaccine_LL);
 
             delete_vaccine_IV.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -73,7 +75,7 @@ public class ImmunizationChartAdapter extends RecyclerView.Adapter<ImmunizationC
                     }
                 }
             });
-            edit_vaccine_IV.setOnClickListener(new View.OnClickListener() {
+            edit_vaccine_LL.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (immunizationOnclick!=null){

@@ -99,7 +99,7 @@
     <string name="weight">Weight (Kg)</string>
     <string name="temprature">Temperature(F)</string>
     <string name="vaccine">Vaccine</string>
-    <string name="description">Symptoms*</string>
+    <string name="description">Symptoms</string>
     <string name="description1">Description</string>
     <string name="diagosis">Diagnosis</string>
     <string name="remarks">Treatment Remarks</string>
