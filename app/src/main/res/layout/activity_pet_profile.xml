@@ -148,6 +148,7 @@
                 app:layout_constraintBottom_toTopOf="@id/add_Clinic_BT"
                 android:layout_marginTop="15dp"
                 android:visibility="visible"
+                android:layout_marginBottom="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/pet_name_TV"
                 app:layout_constraintTop_toBottomOf="@id/pet_name_TV">
@@ -389,13 +390,12 @@
                     <TextView
                         android:id="@+id/pet_parent_name_TV"
                         android:layout_width="0dp"
-                        android:layout_height="0dp"
+                        android:layout_height="wrap_content"
                         android:fontFamily="@font/nunito"
                         android:gravity="center_vertical"
                         android:paddingLeft="15dp"
                         android:textColor="@color/gray_1"
                         android:textSize="15sp"
-                        app:layout_constraintBottom_toBottomOf="@id/parent_name_RL"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/parent_name_RL"
                         app:layout_constraintTop_toTopOf="@id/parent_name_RL" />
@@ -404,11 +404,11 @@
                         android:id="@+id/parent_phone_RL"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="18dp"
                         android:elevation="16dp"
                         app:cardCornerRadius="6dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/parent_name_RL">
+                        app:layout_constraintTop_toBottomOf="@id/pet_parent_name_TV">
 
 
                         <ImageView
@@ -428,6 +428,7 @@
                         android:paddingLeft="15dp"
                         android:textColor="@color/gray_1"
                         android:textSize="15sp"
+                        android:maxLines="1"
                         app:layout_constraintBottom_toBottomOf="@id/parent_phone_RL"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
@@ -445,7 +446,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         android:layout_marginBottom="15dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/parent_phone_RL">
+                        app:layout_constraintTop_toBottomOf="@id/parent_phone_TV">
 
 
                         <ImageView

@@ -163,6 +163,6 @@ public class InstructionActivity extends AppCompatActivity implements View.OnCli
     public void onBackPressed() {
         super.onBackPressed();
         finishAffinity();
-        System.exit(0);
+//        System.exit(0);
     }
 }

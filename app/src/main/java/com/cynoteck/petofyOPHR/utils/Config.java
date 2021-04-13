@@ -12,6 +12,10 @@ import okhttp3.RequestBody;
 public class Config {
 
     public  static  int count =1;
+    public  static  int tabPosition =1;
+    public static String total_pets="";
+    public static String total_staff="";
+    public static String total_appointment="";
     public static String token="";
     public static String user_id="";
     public static String vet_first_name="";
@@ -24,6 +28,7 @@ public class Config {
     public static String user_Veterian_id="";
     public static String user_Veterian_online="";
     public static String user_Veterian_url="";
+    public static String onlineConsultationCharges="";
     public static String user_Veterian_details="";
     public static String two_fact_auth_status="";
     public static String pet_type_for_immue="";
@@ -36,6 +41,7 @@ public class Config {
 
     public static boolean isUpdated = false;
     public static boolean logoutFromAccount = false;
+    public static boolean new_pet_add = false;
 
 
     public static RequestBody toRequestBody (String value) {
@@ -49,8 +55,8 @@ public class Config {
    }
 
    public static String changeDateFormat(String currentDate){
-       SimpleDateFormat formatter = new SimpleDateFormat("dd/mm/yyyy");
-       DateFormat df = new SimpleDateFormat("dd/mm/yyyy");
+       SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+       DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
        Date date = null;
 
        try {

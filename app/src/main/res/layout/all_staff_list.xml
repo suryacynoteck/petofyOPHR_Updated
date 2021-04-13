@@ -49,12 +49,11 @@
                 android:layout_width="0dp"
                 android:layout_marginRight="10dp"
                 android:layout_height="wrap_content"
-                android:text="Ashish Rawat"
-                android:maxLines="1"
                 android:fontFamily="@font/nunito_bold"
                 android:textColor="@color/gray_1"
                 android:layout_marginLeft="15dp"
                 android:textSize="18sp"
+                app:layout_constraintEnd_toStartOf="@+id/staff_status_LL"
                 app:layout_constraintStart_toEndOf="@id/staff_image_RL"
                 app:layout_constraintTop_toTopOf="@id/staff_image_RL" />
 
@@ -74,20 +73,21 @@
                     android:id="@+id/staff_status_TV"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="Active"
+                    android:text="Deactivate"
                     android:gravity="center"
                     android:fontFamily="@font/nunito"
                     android:textColor="@color/dark_green"
                     android:textSize="12sp"/>
 
                 <ImageView
+                    android:id="@+id/arrow_Staff_IV"
                     android:paddingTop="5dp"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
                     android:paddingBottom="3dp"
                     android:layout_width="20dp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/green_down_arrow"/>
+                    android:src="@drawable/green_down_arrow" />
 
 
             </LinearLayout>
@@ -110,12 +110,12 @@
             <TextView
                 android:id="@+id/staff_post_TV"
                 android:layout_marginTop="2dp"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Clinic Assistant"
                 android:fontFamily="@font/nunito"
                 android:textColor="@color/gray_1"
                 android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@+id/staff_status_LL"
                 app:layout_constraintStart_toStartOf="@id/staff_qualification_TV"
                 app:layout_constraintTop_toBottomOf="@id/staff_qualification_TV" />
 

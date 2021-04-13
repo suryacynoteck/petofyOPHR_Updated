@@ -158,7 +158,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
             strVacine = "", strDewormerName = "", strDewormerDose = "", strToolbarName = "", PetCategoryId = "", cocatVal = null, nextVaccineName = null, nextVaccineType = null,
             valueConcat = null, dewormerName = null, dewormerDose = null, strVaccineType = "", strVaccineName = "", strNextDewormer = "", pet_cat_id = "";
     Bundle data = new Bundle();
-    TextView folow_up_dt_view, ilness_onset, next_visit, Dewormer_name_ET, Dewormer_name_TV, Dewormer_ET, Dewormer_TV, clinic_head_line, add_immunization_data_added,
+    TextView add_immunization_data, folow_up_dt_view, ilness_onset, next_visit, Dewormer_name_ET, Dewormer_name_TV, Dewormer_ET, Dewormer_TV, clinic_head_line, add_immunization_data_added,
             clinicCalenderTextViewVisitDt, clinicIlness_onset, date_of_illness_TV, follow_up_dt, nextImmunizationDate,
             clinic_peto_edit_reg_number_dialog, next_vaccine_TV, next_vaccine_type_TV, history_TV,
             next_dewormer_TV, pet_nameTV, pet_idTV, pet_genderTV, pet_ageTV, pet_breadTV, pet_typeTV;
@@ -249,6 +249,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         weight_TV = findViewById(R.id.weight_TV);
         weight_ET = findViewById(R.id.weight_ET);
         folow_up_dt_view = findViewById(R.id.folow_up_dt_view);
+        add_immunization_data=findViewById(R.id.add_immunization_data);
         Dewormer_TV = findViewById(R.id.Dewormer_TV);
         Dewormer_ET = findViewById(R.id.Dewormer_ET);
         diagnosis_TV = findViewById(R.id.diagnosis_TV);
@@ -432,9 +433,9 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
 
 
         if (methods.isInternetOn()) {
+//            getImmunizationData();
             getClientVisit();
             getImmunizationHistory();
-            getImmunizationData();
             getVaccinationDetails();
             getVisitTypes();
             petDetails(pet_id);
@@ -722,7 +723,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                ilness_onset.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                                clinicIlness_onset.setText(Config.changeDateFormat(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year));
                             }
                         }, yearIll, monthIll, dayIll);
                 picker.show();
@@ -1390,6 +1391,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void getImmunizationData() {
+        methods.showCustomProgressBarDialog(this);
         ImmunizationParameter immunizationParameter = new ImmunizationParameter();
         immunizationParameter.setCategoryId(pet_cat_id);
         immunizationParameter.setPetDOB(pet_DOB);
@@ -1528,6 +1530,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
         switch (key) {
             case "GetRecommendedVaccine":
                 try {
+                    methods.customProgressDismiss();
                     Log.d("GetRecommendedVaccine", arg0.body().toString());
                     ImmunizationVaccineResponse immunizationVaccineResponse = (ImmunizationVaccineResponse) arg0.body();
                     int responseCode = Integer.parseInt(immunizationVaccineResponse.getResponse().getResponseCode());
@@ -1562,9 +1565,8 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
 
                         }
 
-                    } else {
-
                     }
+                    showVaccineDialog();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -2137,12 +2139,14 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
 
                         if ((getStrVaccineName == null) || (getStrVaccineType == null)) {
                             add_immunization_data_added.setVisibility(View.VISIBLE);
-                            add_immunization_data_LL.setVisibility(View.GONE);
+                            add_immunization_data.setVisibility(View.INVISIBLE);
+                            add_immunization_data_LL.setVisibility(View.INVISIBLE);
 //                            imaunizatioHeader.setVisibility(View.GONE);
 //                            immunizationView.setVisibility(View.GONE);
                             immunization_data.setVisibility(View.GONE);
                         } else {
                             add_immunization_data_added.setVisibility(View.GONE);
+                            add_immunization_data.setVisibility(View.VISIBLE);
                             add_immunization_data_LL.setVisibility(View.VISIBLE);
 //                            imaunizatioHeader.setVisibility(View.VISIBLE);
 //                            immunizationView.setVisibility(View.VISIBLE);
@@ -2354,6 +2358,8 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                 }
 
                 if (natureOfVisit.equals("Immunization")) {
+                    getImmunizationData();
+//                    showVaccineDialog();
                     getFirstVaccine();
                     folow_up_dt_view.setEnabled(false);
                     next_vaccine_type_spinner.setEnabled(false);
@@ -2382,12 +2388,12 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
                     clinicTemparature_ET.setVisibility(View.VISIBLE);
 //                    pet_age_TV.setVisibility(View.VISIBLE);
                     vaccine_layout.setVisibility(View.VISIBLE);
-                    next_vaccine_TV.setVisibility(View.VISIBLE);
-                    next_vaccine_type_TV.setVisibility(View.VISIBLE);
-                    next_vaccine_ET.setVisibility(View.VISIBLE);
-                    next_vaccine_type_spinner.setVisibility(View.VISIBLE);
-                    follow_up_dt.setVisibility(View.VISIBLE);
-                    folow_up_dt_view.setVisibility(View.VISIBLE);
+                    next_vaccine_TV.setVisibility(View.GONE);
+                    next_vaccine_type_TV.setVisibility(View.GONE);
+                    next_vaccine_ET.setVisibility(View.GONE);
+                    next_vaccine_type_spinner.setVisibility(View.GONE);
+                    follow_up_dt.setVisibility(View.GONE);
+                    folow_up_dt_view.setVisibility(View.GONE);
                     if (strToolbarName.equals("Update Clinic")) {
                         methods.showCustomProgressBarDialog(AddClinicActivity.this);
                         new Handler().postDelayed(new Runnable() {

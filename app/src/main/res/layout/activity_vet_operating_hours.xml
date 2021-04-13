@@ -62,1155 +62,1176 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/mon_to_sat_TV"
+    <ScrollView
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:fontFamily="@font/nunito"
-        android:text="Monday to Saturday"
-        android:textColor="@color/gray_1"
-        android:textSize="22sp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="@id/toolbar"
         app:layout_constraintEnd_toEndOf="@id/toolbar"
-        app:layout_constraintStart_toStartOf="@id/toolbar"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toTopOf="@+id/save_working_BT">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/mon_sat_CL"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/background_grey"
-        app:layout_constraintEnd_toEndOf="@id/toolbar"
-        app:layout_constraintStart_toStartOf="@id/toolbar"
-        app:layout_constraintTop_toBottomOf="@id/mon_to_sat_TV">
-
-        <TextView
-            android:id="@+id/start_time_mon_to_sat_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center_vertical"
-            android:text="9:30 AM"
-            android:textColor="@color/gray_1"
-            android:textSize="22sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center_vertical"
-            android:text="To"
-            android:textColor="@color/gray_3"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <TextView
-            android:id="@+id/end_time_mon_to_sat_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginRight="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center_vertical"
-            android:text="6:30 PM"
-            android:textColor="@color/gray_1"
-            android:textSize="22sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <View
-            android:id="@+id/mon_sat_divider"
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:background="@color/gray_4"
-            app:layout_constraintEnd_toEndOf="@id/end_time_mon_to_sat_TV"
-            app:layout_constraintStart_toStartOf="@id/start_time_mon_to_sat_TV"
-            app:layout_constraintTop_toBottomOf="@id/start_time_mon_to_sat_TV" />
-
-
-        <TextView
-            android:id="@+id/twenty_four_hr_mon_to_sat_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center_vertical"
-            android:text="24 Hours"
-            android:textColor="@color/gray_1"
-            android:textSize="22sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/mon_sat_divider" />
-
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/mon_sat_twenty_four_hr_SC"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:checked="false"
-            android:thumb="@drawable/operating_hours_radio_thumb"
-            app:layout_constraintBottom_toBottomOf="@id/twenty_four_hr_mon_to_sat_TV"
-            app:layout_constraintEnd_toEndOf="@id/mon_sat_divider"
-            app:layout_constraintTop_toBottomOf="@id/mon_sat_divider"
-            app:layout_constraintTop_toTopOf="@id/twenty_four_hr_mon_to_sat_TV"
-            app:track="@drawable/operating_hours_radio_track" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/sunday_CL"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/background_grey"
-        app:layout_constraintEnd_toEndOf="@id/toolbar"
-        app:layout_constraintStart_toStartOf="@id/toolbar"
-        app:layout_constraintTop_toBottomOf="@+id/mon_sat_CL">
-
-
-        <TextView
-            android:id="@+id/sunday_closed_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center_vertical"
-            android:text="Sunday Closed"
-            android:textColor="@color/gray_1"
-            android:textSize="22sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/sunday_closed_hr_SC"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginRight="10dp"
-            android:checked="false"
-            android:thumb="@drawable/operating_hours_radio_thumb"
-            app:layout_constraintBottom_toBottomOf="@id/sunday_closed_TV"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/sunday_closed_TV"
-            app:track="@drawable/operating_hours_radio_track" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    <TextView
-        android:id="@+id/days_TV"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="8dp"
-        android:fontFamily="@font/nunito"
-        android:gravity="center_vertical"
-        android:text="DAYS"
-        android:textColor="@color/gray_1"
-        android:textSize="22sp"
-        app:layout_constraintStart_toStartOf="@id/toolbar"
-        app:layout_constraintTop_toBottomOf="@+id/sunday_CL" />
-
-
-    <LinearLayout
-        android:id="@+id/days_LL"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:orientation="horizontal"
-        android:weightSum="7"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/toolbar"
-        app:layout_constraintTop_toBottomOf="@id/days_TV">
-
-        <RelativeLayout
-            android:id="@+id/mon_RL"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginRight="8dp"
-            android:layout_weight="1"
-            android:background="@drawable/days_blue_bg">
+            android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/monday_TV"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:id="@+id/mon_to_sat_TV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:fontFamily="@font/nunito"
-                android:gravity="center"
-                android:text="M"
-                android:textColor="@color/whiteColor"
-                android:textSize="24sp" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/tue_RL"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginRight="8dp"
-            android:layout_weight="1"
-            android:background="@drawable/days_white_bg">
-
-            <TextView
-                android:id="@+id/tuesday_TV"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fontFamily="@font/nunito"
-                android:gravity="center"
-                android:text="T"
+                android:text="Monday to Saturday"
                 android:textColor="@color/gray_1"
-                android:textSize="24sp" />
+                android:textSize="22sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        </RelativeLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/mon_sat_CL"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/background_grey"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/mon_to_sat_TV">
 
-        <RelativeLayout
-            android:id="@+id/wed_RL"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginRight="8dp"
-            android:layout_weight="1"
-            android:background="@drawable/days_white_bg">
+                <TextView
+                    android:id="@+id/start_time_mon_to_sat_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:text="9:30 AM"
+                    android:textColor="@color/gray_1"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:text="To"
+                    android:textColor="@color/gray_3"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/end_time_mon_to_sat_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="10dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:text="6:30 PM"
+                    android:textColor="@color/gray_1"
+                    android:textSize="22sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/mon_sat_divider"
+                    android:layout_width="0dp"
+                    android:layout_height="2dp"
+                    android:background="@color/gray_4"
+                    app:layout_constraintEnd_toEndOf="@id/end_time_mon_to_sat_TV"
+                    app:layout_constraintStart_toStartOf="@id/start_time_mon_to_sat_TV"
+                    app:layout_constraintTop_toBottomOf="@id/start_time_mon_to_sat_TV" />
+
+
+                <TextView
+                    android:id="@+id/twenty_four_hr_mon_to_sat_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:text="24 Hours"
+                    android:textColor="@color/gray_1"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/mon_sat_divider" />
+
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/mon_sat_twenty_four_hr_SC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:checked="false"
+                    android:thumb="@drawable/operating_hours_radio_thumb"
+                    app:layout_constraintBottom_toBottomOf="@id/twenty_four_hr_mon_to_sat_TV"
+                    app:layout_constraintEnd_toEndOf="@id/mon_sat_divider"
+                    app:layout_constraintTop_toBottomOf="@id/mon_sat_divider"
+                    app:layout_constraintTop_toTopOf="@id/twenty_four_hr_mon_to_sat_TV"
+                    app:track="@drawable/operating_hours_radio_track" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/sunday_CL"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/background_grey"
+                app:layout_constraintEnd_toEndOf="@id/mon_to_sat_TV"
+                app:layout_constraintStart_toStartOf="@id/mon_to_sat_TV"
+                app:layout_constraintTop_toBottomOf="@+id/mon_sat_CL">
+
+
+                <TextView
+                    android:id="@+id/sunday_closed_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:text="Sunday Closed"
+                    android:textColor="@color/gray_1"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/sunday_closed_hr_SC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginRight="10dp"
+                    android:checked="false"
+                    android:thumb="@drawable/operating_hours_radio_thumb"
+                    app:layout_constraintBottom_toBottomOf="@id/sunday_closed_TV"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/sunday_closed_TV"
+                    app:track="@drawable/operating_hours_radio_track" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <TextView
-                android:id="@+id/wednessday_TV"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:id="@+id/days_TV"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="8dp"
                 android:fontFamily="@font/nunito"
-                android:gravity="center"
-                android:text="W"
+                android:gravity="center_vertical"
+                android:text="DAYS"
                 android:textColor="@color/gray_1"
-                android:textSize="24sp" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/thu_RL"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginRight="8dp"
-            android:layout_weight="1"
-            android:background="@drawable/days_white_bg">
-
-            <TextView
-                android:id="@+id/thursday_TV"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fontFamily="@font/nunito"
-                android:gravity="center"
-                android:text="T"
-                android:textColor="@color/gray_1"
-                android:textSize="24sp" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/fri_RL"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginRight="8dp"
-            android:layout_weight="1"
-            android:background="@drawable/days_white_bg">
-
-            <TextView
-                android:id="@+id/friday_TV"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fontFamily="@font/nunito"
-                android:gravity="center"
-                android:text="F"
-                android:textColor="@color/gray_1"
-                android:textSize="24sp" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/sat_RL"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginRight="8dp"
-            android:layout_weight="1"
-            android:background="@drawable/days_white_bg">
-
-            <TextView
-                android:id="@+id/saturday_TV"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fontFamily="@font/nunito"
-                android:gravity="center"
-                android:text="S"
-                android:textColor="@color/gray_1"
-                android:textSize="24sp" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/sun_RL"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginRight="8dp"
-            android:layout_weight="1"
-            android:background="@drawable/days_white_bg">
-
-            <TextView
-                android:id="@+id/sunday_TV"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fontFamily="@font/nunito"
-                android:gravity="center"
-                android:text="S"
-                android:textColor="@color/gray_1"
-                android:textSize="24sp" />
-
-        </RelativeLayout>
-    </LinearLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/mon_CL"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/background_grey"
-        app:layout_constraintEnd_toEndOf="@id/toolbar"
-        app:layout_constraintStart_toStartOf="@id/toolbar"
-        app:layout_constraintTop_toBottomOf="@id/days_LL">
-
-        <TextView
-            android:id="@+id/start_time_mon_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center_vertical"
-            android:text="07:00 AM"
-            android:textColor="@color/gray_1"
-            android:textSize="22sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center_vertical"
-            android:text="To"
-            android:textColor="@color/gray_3"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/end_time_mon_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginRight="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center_vertical"
-            android:text="08:00 PM"
-            android:textColor="@color/gray_1"
-            android:textSize="22sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <TextView
-            android:id="@+id/twenty_four_hr_mon_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center_vertical"
-            android:text="24 Hours"
-            android:textColor="@color/gray_1"
-            android:textSize="22sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/start_time_mon_TV" />
-
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/mon_twenty_four_hr_SC"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginRight="10dp"
-            android:checked="false"
-            android:thumb="@drawable/operating_hours_radio_thumb"
-            app:layout_constraintBottom_toBottomOf="@id/twenty_four_hr_mon_TV"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/start_time_mon_TV"
-            app:layout_constraintTop_toTopOf="@id/twenty_four_hr_mon_TV"
-            app:track="@drawable/operating_hours_radio_track" />
-
-
-        <View
-            android:id="@+id/mon_divider"
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:background="@color/gray_4"
-            app:layout_constraintEnd_toEndOf="@id/mon_twenty_four_hr_SC"
-            app:layout_constraintStart_toStartOf="@id/twenty_four_hr_mon_TV"
-            app:layout_constraintTop_toBottomOf="@id/twenty_four_hr_mon_TV" />
-
-
-        <TextView
-            android:id="@+id/mon_closed_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center_vertical"
-            android:text="Closed"
-            android:textColor="@color/gray_1"
-            android:textSize="22sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/mon_divider" />
-
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/mon_closed_SC"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginRight="10dp"
-            android:checked="false"
-            android:thumb="@drawable/operating_hours_radio_thumb"
-            app:layout_constraintBottom_toBottomOf="@id/mon_closed_TV"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/mon_divider"
-            app:layout_constraintTop_toTopOf="@id/mon_closed_TV"
-            app:track="@drawable/operating_hours_radio_track" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/tue_CL"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/background_grey"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@id/toolbar"
-        app:layout_constraintStart_toStartOf="@id/toolbar"
-        app:layout_constraintTop_toBottomOf="@id/days_LL">
-
-        <TextView
-            android:id="@+id/start_time_tue_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center_vertical"
-            android:text="07:00 AM"
-            android:textColor="@color/gray_1"
-            android:textSize="22sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center_vertical"
-            android:text="To"
-            android:textColor="@color/gray_3"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/end_time_tue_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginRight="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center_vertical"
-            android:text="08:00 PM"
-            android:textColor="@color/gray_1"
-            android:textSize="22sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <TextView
-            android:id="@+id/twenty_four_hr_tue_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center_vertical"
-            android:text="24 Hours"
-            android:textColor="@color/gray_1"
-            android:textSize="22sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/start_time_tue_TV" />
-
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/tue_twenty_four_hr_SC"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginRight="10dp"
-            android:checked="false"
-            android:thumb="@drawable/operating_hours_radio_thumb"
-            app:layout_constraintBottom_toBottomOf="@id/twenty_four_hr_tue_TV"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/start_time_tue_TV"
-            app:layout_constraintTop_toTopOf="@id/twenty_four_hr_tue_TV"
-            app:track="@drawable/operating_hours_radio_track" />
-
-
-        <View
-            android:id="@+id/tue_divider"
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:background="@color/gray_4"
-            app:layout_constraintEnd_toEndOf="@id/tue_twenty_four_hr_SC"
-            app:layout_constraintStart_toStartOf="@id/twenty_four_hr_tue_TV"
-            app:layout_constraintTop_toBottomOf="@id/twenty_four_hr_tue_TV" />
-
-
-        <TextView
-            android:id="@+id/tue_closed_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center_vertical"
-            android:text="Closed"
-            android:textColor="@color/gray_1"
-            android:textSize="22sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tue_divider" />
-
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/tue_closed_SC"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginRight="10dp"
-            android:checked="false"
-            android:thumb="@drawable/operating_hours_radio_thumb"
-            app:layout_constraintBottom_toBottomOf="@id/tue_closed_TV"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tue_divider"
-            app:layout_constraintTop_toTopOf="@id/tue_closed_TV"
-            app:track="@drawable/operating_hours_radio_track" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/wed_CL"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/background_grey"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@id/toolbar"
-        app:layout_constraintStart_toStartOf="@id/toolbar"
-        app:layout_constraintTop_toBottomOf="@id/days_LL">
-
-        <TextView
-            android:id="@+id/start_time_wed_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center_vertical"
-            android:text="07:00 AM"
-            android:textColor="@color/gray_1"
-            android:textSize="22sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center_vertical"
-            android:text="To"
-            android:textColor="@color/gray_3"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/end_time_wed_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginRight="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center_vertical"
-            android:text="08:00 PM"
-            android:textColor="@color/gray_1"
-            android:textSize="22sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <TextView
-            android:id="@+id/twenty_four_hr_wed_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center_vertical"
-            android:text="24 Hours"
-            android:textColor="@color/gray_1"
-            android:textSize="22sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/start_time_wed_TV" />
-
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/wed_twenty_four_hr_SC"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginRight="10dp"
-            android:checked="false"
-            android:thumb="@drawable/operating_hours_radio_thumb"
-            app:layout_constraintBottom_toBottomOf="@id/twenty_four_hr_wed_TV"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/start_time_wed_TV"
-            app:layout_constraintTop_toTopOf="@id/twenty_four_hr_wed_TV"
-            app:track="@drawable/operating_hours_radio_track" />
-
-
-        <View
-            android:id="@+id/wed_divider"
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:background="@color/gray_4"
-            app:layout_constraintEnd_toEndOf="@id/wed_twenty_four_hr_SC"
-            app:layout_constraintStart_toStartOf="@id/twenty_four_hr_wed_TV"
-            app:layout_constraintTop_toBottomOf="@id/twenty_four_hr_wed_TV" />
-
-
-        <TextView
-            android:id="@+id/wed_closed_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center_vertical"
-            android:text="Closed"
-            android:textColor="@color/gray_1"
-            android:textSize="22sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/wed_divider" />
-
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/wed_closed_SC"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginRight="10dp"
-            android:checked="false"
-            android:thumb="@drawable/operating_hours_radio_thumb"
-            app:layout_constraintBottom_toBottomOf="@id/wed_closed_TV"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/wed_divider"
-            app:layout_constraintTop_toTopOf="@id/wed_closed_TV"
-            app:track="@drawable/operating_hours_radio_track" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/thu_CL"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/background_grey"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@id/toolbar"
-        app:layout_constraintStart_toStartOf="@id/toolbar"
-        app:layout_constraintTop_toBottomOf="@id/days_LL">
-
-        <TextView
-            android:id="@+id/start_time_thu_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center_vertical"
-            android:text="07:00 AM"
-            android:textColor="@color/gray_1"
-            android:textSize="22sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center_vertical"
-            android:text="To"
-            android:textColor="@color/gray_3"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/end_time_thu_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginRight="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center_vertical"
-            android:text="08:00 PM"
-            android:textColor="@color/gray_1"
-            android:textSize="22sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <TextView
-            android:id="@+id/twenty_four_hr_thu_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center_vertical"
-            android:text="24 Hours"
-            android:textColor="@color/gray_1"
-            android:textSize="22sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/start_time_thu_TV" />
-
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/thu_twenty_four_hr_SC"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginRight="10dp"
-            android:checked="false"
-            android:thumb="@drawable/operating_hours_radio_thumb"
-            app:layout_constraintBottom_toBottomOf="@id/twenty_four_hr_thu_TV"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/start_time_thu_TV"
-            app:layout_constraintTop_toTopOf="@id/twenty_four_hr_thu_TV"
-            app:track="@drawable/operating_hours_radio_track" />
-
-
-        <View
-            android:id="@+id/thu_divider"
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:background="@color/gray_4"
-            app:layout_constraintEnd_toEndOf="@id/thu_twenty_four_hr_SC"
-            app:layout_constraintStart_toStartOf="@id/twenty_four_hr_thu_TV"
-            app:layout_constraintTop_toBottomOf="@id/twenty_four_hr_thu_TV" />
-
-
-        <TextView
-            android:id="@+id/thu_closed_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center_vertical"
-            android:text="Closed"
-            android:textColor="@color/gray_1"
-            android:textSize="22sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/thu_divider" />
-
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/thu_closed_SC"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginRight="10dp"
-            android:checked="false"
-            android:thumb="@drawable/operating_hours_radio_thumb"
-            app:layout_constraintBottom_toBottomOf="@id/thu_closed_TV"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/thu_divider"
-            app:layout_constraintTop_toTopOf="@id/thu_closed_TV"
-            app:track="@drawable/operating_hours_radio_track" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/fri_CL"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/background_grey"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@id/toolbar"
-        app:layout_constraintStart_toStartOf="@id/toolbar"
-        app:layout_constraintTop_toBottomOf="@id/days_LL">
-
-        <TextView
-            android:id="@+id/start_time_fri_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center_vertical"
-            android:text="07:00 AM"
-            android:textColor="@color/gray_1"
-            android:textSize="22sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center_vertical"
-            android:text="To"
-            android:textColor="@color/gray_3"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/end_time_fri_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginRight="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center_vertical"
-            android:text="08:00 PM"
-            android:textColor="@color/gray_1"
-            android:textSize="22sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <TextView
-            android:id="@+id/twenty_four_hr_fri_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center_vertical"
-            android:text="24 Hours"
-            android:textColor="@color/gray_1"
-            android:textSize="22sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/start_time_fri_TV" />
-
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/fri_twenty_four_hr_SC"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginRight="10dp"
-            android:checked="false"
-            android:thumb="@drawable/operating_hours_radio_thumb"
-            app:layout_constraintBottom_toBottomOf="@id/twenty_four_hr_fri_TV"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/start_time_fri_TV"
-            app:layout_constraintTop_toTopOf="@id/twenty_four_hr_fri_TV"
-            app:track="@drawable/operating_hours_radio_track" />
-
-
-        <View
-            android:id="@+id/fri_divider"
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:background="@color/gray_4"
-            app:layout_constraintEnd_toEndOf="@id/fri_twenty_four_hr_SC"
-            app:layout_constraintStart_toStartOf="@id/twenty_four_hr_fri_TV"
-            app:layout_constraintTop_toBottomOf="@id/twenty_four_hr_fri_TV" />
-
-
-        <TextView
-            android:id="@+id/fri_closed_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center_vertical"
-            android:text="Closed"
-            android:textColor="@color/gray_1"
-            android:textSize="22sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fri_divider" />
-
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/fri_closed_SC"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginRight="10dp"
-            android:checked="false"
-            android:thumb="@drawable/operating_hours_radio_thumb"
-            app:layout_constraintBottom_toBottomOf="@id/fri_closed_TV"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fri_divider"
-            app:layout_constraintTop_toTopOf="@id/fri_closed_TV"
-            app:track="@drawable/operating_hours_radio_track" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/sat_CL"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/background_grey"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@id/toolbar"
-        app:layout_constraintStart_toStartOf="@id/toolbar"
-        app:layout_constraintTop_toBottomOf="@id/days_LL">
-
-        <TextView
-            android:id="@+id/start_time_sat_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center_vertical"
-            android:text="07:00 AM"
-            android:textColor="@color/gray_1"
-            android:textSize="22sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center_vertical"
-            android:text="To"
-            android:textColor="@color/gray_3"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/end_time_sat_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginRight="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center_vertical"
-            android:text="08:00 PM"
-            android:textColor="@color/gray_1"
-            android:textSize="22sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <TextView
-            android:id="@+id/twenty_four_hr_sat_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center_vertical"
-            android:text="24 Hours"
-            android:textColor="@color/gray_1"
-            android:textSize="22sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/start_time_sat_TV" />
-
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/sat_twenty_four_hr_SC"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginRight="10dp"
-            android:checked="false"
-            android:thumb="@drawable/operating_hours_radio_thumb"
-            app:layout_constraintBottom_toBottomOf="@id/twenty_four_hr_sat_TV"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/start_time_sat_TV"
-            app:layout_constraintTop_toTopOf="@id/twenty_four_hr_sat_TV"
-            app:track="@drawable/operating_hours_radio_track" />
-
-
-        <View
-            android:id="@+id/sat_divider"
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:background="@color/gray_4"
-            app:layout_constraintEnd_toEndOf="@id/sat_twenty_four_hr_SC"
-            app:layout_constraintStart_toStartOf="@id/twenty_four_hr_sat_TV"
-            app:layout_constraintTop_toBottomOf="@id/twenty_four_hr_sat_TV" />
-
-
-        <TextView
-            android:id="@+id/sat_closed_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center_vertical"
-            android:text="Closed"
-            android:textColor="@color/gray_1"
-            android:textSize="22sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/sat_divider" />
-
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/sat_closed_SC"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginRight="10dp"
-            android:checked="false"
-            android:thumb="@drawable/operating_hours_radio_thumb"
-            app:layout_constraintBottom_toBottomOf="@id/sat_closed_TV"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/sat_divider"
-            app:layout_constraintTop_toTopOf="@id/sat_closed_TV"
-            app:track="@drawable/operating_hours_radio_track" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/sun_CL"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/background_grey"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@id/toolbar"
-        app:layout_constraintStart_toStartOf="@id/toolbar"
-        app:layout_constraintTop_toBottomOf="@id/days_LL">
-
-        <TextView
-            android:id="@+id/start_time_sun_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center_vertical"
-            android:text="07:00 AM"
-            android:textColor="@color/gray_1"
-            android:textSize="22sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center_vertical"
-            android:text="To"
-            android:textColor="@color/gray_3"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/end_time_sun_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginRight="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center_vertical"
-            android:text="08:00 PM"
-            android:textColor="@color/gray_1"
-            android:textSize="22sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <TextView
-            android:id="@+id/twenty_four_hr_sun_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center_vertical"
-            android:text="24 Hours"
-            android:textColor="@color/gray_1"
-            android:textSize="22sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/start_time_sun_TV" />
-
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/sun_twenty_four_hr_SC"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginRight="10dp"
-            android:checked="false"
-            android:thumb="@drawable/operating_hours_radio_thumb"
-            app:layout_constraintBottom_toBottomOf="@id/twenty_four_hr_sun_TV"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/start_time_sun_TV"
-            app:layout_constraintTop_toTopOf="@id/twenty_four_hr_sun_TV"
-            app:track="@drawable/operating_hours_radio_track" />
-
-
-        <View
-            android:id="@+id/sun_divider"
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:background="@color/gray_4"
-            app:layout_constraintEnd_toEndOf="@id/sun_twenty_four_hr_SC"
-            app:layout_constraintStart_toStartOf="@id/twenty_four_hr_sun_TV"
-            app:layout_constraintTop_toBottomOf="@id/twenty_four_hr_sun_TV" />
-
-
-        <TextView
-            android:id="@+id/sun_closed_TV"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:fontFamily="@font/nunito"
-            android:gravity="center_vertical"
-            android:text="Closed"
-            android:textColor="@color/gray_1"
-            android:textSize="22sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/sun_divider" />
-
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/sun_closed_SC"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginRight="10dp"
-            android:checked="false"
-            android:thumb="@drawable/operating_hours_radio_thumb"
-            app:layout_constraintBottom_toBottomOf="@id/sun_closed_TV"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/sun_divider"
-            app:layout_constraintTop_toTopOf="@id/sun_closed_TV"
-            app:track="@drawable/operating_hours_radio_track" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                android:textSize="22sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sunday_CL" />
+
+
+            <LinearLayout
+                android:id="@+id/days_LL"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal"
+                android:weightSum="7"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/mon_to_sat_TV"
+                app:layout_constraintTop_toBottomOf="@id/days_TV">
+
+                <RelativeLayout
+                    android:id="@+id/mon_RL"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/days_blue_bg">
+
+                    <TextView
+                        android:id="@+id/monday_TV"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/nunito"
+                        android:gravity="center"
+                        android:text="M"
+                        android:textColor="@color/whiteColor"
+                        android:textSize="24sp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/tue_RL"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/days_white_bg">
+
+                    <TextView
+                        android:id="@+id/tuesday_TV"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/nunito"
+                        android:gravity="center"
+                        android:text="T"
+                        android:textColor="@color/gray_1"
+                        android:textSize="24sp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/wed_RL"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/days_white_bg">
+
+                    <TextView
+                        android:id="@+id/wednessday_TV"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/nunito"
+                        android:gravity="center"
+                        android:text="W"
+                        android:textColor="@color/gray_1"
+                        android:textSize="24sp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/thu_RL"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/days_white_bg">
+
+                    <TextView
+                        android:id="@+id/thursday_TV"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/nunito"
+                        android:gravity="center"
+                        android:text="T"
+                        android:textColor="@color/gray_1"
+                        android:textSize="24sp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/fri_RL"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/days_white_bg">
+
+                    <TextView
+                        android:id="@+id/friday_TV"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/nunito"
+                        android:gravity="center"
+                        android:text="F"
+                        android:textColor="@color/gray_1"
+                        android:textSize="24sp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/sat_RL"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/days_white_bg">
+
+                    <TextView
+                        android:id="@+id/saturday_TV"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/nunito"
+                        android:gravity="center"
+                        android:text="S"
+                        android:textColor="@color/gray_1"
+                        android:textSize="24sp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/sun_RL"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/days_white_bg">
+
+                    <TextView
+                        android:id="@+id/sunday_TV"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/nunito"
+                        android:gravity="center"
+                        android:text="S"
+                        android:textColor="@color/gray_1"
+                        android:textSize="24sp" />
+
+                </RelativeLayout>
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/mon_CL"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/background_grey"
+                app:layout_constraintEnd_toEndOf="@id/mon_to_sat_TV"
+                app:layout_constraintStart_toStartOf="@id/mon_to_sat_TV"
+                app:layout_constraintTop_toBottomOf="@id/days_LL">
+
+                <TextView
+                    android:id="@+id/start_time_mon_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:text="07:00 AM"
+                    android:textColor="@color/gray_1"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:text="To"
+                    android:textColor="@color/gray_3"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/end_time_mon_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="10dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:text="08:00 PM"
+                    android:textColor="@color/gray_1"
+                    android:textSize="22sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/twenty_four_hr_mon_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:text="24 Hours"
+                    android:textColor="@color/gray_1"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/start_time_mon_TV" />
+
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/mon_twenty_four_hr_SC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginRight="10dp"
+                    android:checked="false"
+                    android:thumb="@drawable/operating_hours_radio_thumb"
+                    app:layout_constraintBottom_toBottomOf="@id/twenty_four_hr_mon_TV"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/start_time_mon_TV"
+                    app:layout_constraintTop_toTopOf="@id/twenty_four_hr_mon_TV"
+                    app:track="@drawable/operating_hours_radio_track" />
+
+
+                <View
+                    android:id="@+id/mon_divider"
+                    android:layout_width="0dp"
+                    android:layout_height="2dp"
+                    android:background="@color/gray_4"
+                    app:layout_constraintEnd_toEndOf="@id/mon_twenty_four_hr_SC"
+                    app:layout_constraintStart_toStartOf="@id/twenty_four_hr_mon_TV"
+                    app:layout_constraintTop_toBottomOf="@id/twenty_four_hr_mon_TV" />
+
+
+                <TextView
+                    android:id="@+id/mon_closed_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:text="Closed"
+                    android:textColor="@color/gray_1"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/mon_divider" />
+
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/mon_closed_SC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginRight="10dp"
+                    android:checked="false"
+                    android:thumb="@drawable/operating_hours_radio_thumb"
+                    app:layout_constraintBottom_toBottomOf="@id/mon_closed_TV"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/mon_divider"
+                    app:layout_constraintTop_toTopOf="@id/mon_closed_TV"
+                    app:track="@drawable/operating_hours_radio_track" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/tue_CL"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/background_grey"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@id/mon_to_sat_TV"
+                app:layout_constraintStart_toStartOf="@id/mon_to_sat_TV"
+                app:layout_constraintTop_toBottomOf="@id/days_LL">
+
+                <TextView
+                    android:id="@+id/start_time_tue_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:text="07:00 AM"
+                    android:textColor="@color/gray_1"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:text="To"
+                    android:textColor="@color/gray_3"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/end_time_tue_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="10dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:text="08:00 PM"
+                    android:textColor="@color/gray_1"
+                    android:textSize="22sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/twenty_four_hr_tue_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:text="24 Hours"
+                    android:textColor="@color/gray_1"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/start_time_tue_TV" />
+
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/tue_twenty_four_hr_SC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginRight="10dp"
+                    android:checked="false"
+                    android:thumb="@drawable/operating_hours_radio_thumb"
+                    app:layout_constraintBottom_toBottomOf="@id/twenty_four_hr_tue_TV"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/start_time_tue_TV"
+                    app:layout_constraintTop_toTopOf="@id/twenty_four_hr_tue_TV"
+                    app:track="@drawable/operating_hours_radio_track" />
+
+
+                <View
+                    android:id="@+id/tue_divider"
+                    android:layout_width="0dp"
+                    android:layout_height="2dp"
+                    android:background="@color/gray_4"
+                    app:layout_constraintEnd_toEndOf="@id/tue_twenty_four_hr_SC"
+                    app:layout_constraintStart_toStartOf="@id/twenty_four_hr_tue_TV"
+                    app:layout_constraintTop_toBottomOf="@id/twenty_four_hr_tue_TV" />
+
+
+                <TextView
+                    android:id="@+id/tue_closed_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:text="Closed"
+                    android:textColor="@color/gray_1"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tue_divider" />
+
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/tue_closed_SC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginRight="10dp"
+                    android:checked="false"
+                    android:thumb="@drawable/operating_hours_radio_thumb"
+                    app:layout_constraintBottom_toBottomOf="@id/tue_closed_TV"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tue_divider"
+                    app:layout_constraintTop_toTopOf="@id/tue_closed_TV"
+                    app:track="@drawable/operating_hours_radio_track" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/wed_CL"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/background_grey"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@id/mon_to_sat_TV"
+                app:layout_constraintStart_toStartOf="@id/mon_to_sat_TV"
+                app:layout_constraintTop_toBottomOf="@id/days_LL">
+
+                <TextView
+                    android:id="@+id/start_time_wed_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:text="07:00 AM"
+                    android:textColor="@color/gray_1"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:text="To"
+                    android:textColor="@color/gray_3"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/end_time_wed_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="10dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:text="08:00 PM"
+                    android:textColor="@color/gray_1"
+                    android:textSize="22sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/twenty_four_hr_wed_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:text="24 Hours"
+                    android:textColor="@color/gray_1"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/start_time_wed_TV" />
+
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/wed_twenty_four_hr_SC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginRight="10dp"
+                    android:checked="false"
+                    android:thumb="@drawable/operating_hours_radio_thumb"
+                    app:layout_constraintBottom_toBottomOf="@id/twenty_four_hr_wed_TV"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/start_time_wed_TV"
+                    app:layout_constraintTop_toTopOf="@id/twenty_four_hr_wed_TV"
+                    app:track="@drawable/operating_hours_radio_track" />
+
+
+                <View
+                    android:id="@+id/wed_divider"
+                    android:layout_width="0dp"
+                    android:layout_height="2dp"
+                    android:background="@color/gray_4"
+                    app:layout_constraintEnd_toEndOf="@id/wed_twenty_four_hr_SC"
+                    app:layout_constraintStart_toStartOf="@id/twenty_four_hr_wed_TV"
+                    app:layout_constraintTop_toBottomOf="@id/twenty_four_hr_wed_TV" />
+
+
+                <TextView
+                    android:id="@+id/wed_closed_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:text="Closed"
+                    android:textColor="@color/gray_1"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/wed_divider" />
+
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/wed_closed_SC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginRight="10dp"
+                    android:checked="false"
+                    android:thumb="@drawable/operating_hours_radio_thumb"
+                    app:layout_constraintBottom_toBottomOf="@id/wed_closed_TV"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/wed_divider"
+                    app:layout_constraintTop_toTopOf="@id/wed_closed_TV"
+                    app:track="@drawable/operating_hours_radio_track" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/thu_CL"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/background_grey"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@id/mon_to_sat_TV"
+                app:layout_constraintStart_toStartOf="@id/mon_to_sat_TV"
+                app:layout_constraintTop_toBottomOf="@id/days_LL">
+
+                <TextView
+                    android:id="@+id/start_time_thu_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:text="07:00 AM"
+                    android:textColor="@color/gray_1"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:text="To"
+                    android:textColor="@color/gray_3"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/end_time_thu_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="10dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:text="08:00 PM"
+                    android:textColor="@color/gray_1"
+                    android:textSize="22sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/twenty_four_hr_thu_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:text="24 Hours"
+                    android:textColor="@color/gray_1"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/start_time_thu_TV" />
+
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/thu_twenty_four_hr_SC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginRight="10dp"
+                    android:checked="false"
+                    android:thumb="@drawable/operating_hours_radio_thumb"
+                    app:layout_constraintBottom_toBottomOf="@id/twenty_four_hr_thu_TV"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/start_time_thu_TV"
+                    app:layout_constraintTop_toTopOf="@id/twenty_four_hr_thu_TV"
+                    app:track="@drawable/operating_hours_radio_track" />
+
+
+                <View
+                    android:id="@+id/thu_divider"
+                    android:layout_width="0dp"
+                    android:layout_height="2dp"
+                    android:background="@color/gray_4"
+                    app:layout_constraintEnd_toEndOf="@id/thu_twenty_four_hr_SC"
+                    app:layout_constraintStart_toStartOf="@id/twenty_four_hr_thu_TV"
+                    app:layout_constraintTop_toBottomOf="@id/twenty_four_hr_thu_TV" />
+
+
+                <TextView
+                    android:id="@+id/thu_closed_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:text="Closed"
+                    android:textColor="@color/gray_1"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/thu_divider" />
+
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/thu_closed_SC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginRight="10dp"
+                    android:checked="false"
+                    android:thumb="@drawable/operating_hours_radio_thumb"
+                    app:layout_constraintBottom_toBottomOf="@id/thu_closed_TV"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/thu_divider"
+                    app:layout_constraintTop_toTopOf="@id/thu_closed_TV"
+                    app:track="@drawable/operating_hours_radio_track" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/fri_CL"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/background_grey"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@id/mon_to_sat_TV"
+                app:layout_constraintStart_toStartOf="@id/mon_to_sat_TV"
+                app:layout_constraintTop_toBottomOf="@id/days_LL">
+
+                <TextView
+                    android:id="@+id/start_time_fri_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:text="07:00 AM"
+                    android:textColor="@color/gray_1"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:text="To"
+                    android:textColor="@color/gray_3"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/end_time_fri_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="10dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:text="08:00 PM"
+                    android:textColor="@color/gray_1"
+                    android:textSize="22sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/twenty_four_hr_fri_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:text="24 Hours"
+                    android:textColor="@color/gray_1"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/start_time_fri_TV" />
+
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/fri_twenty_four_hr_SC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginRight="10dp"
+                    android:checked="false"
+                    android:thumb="@drawable/operating_hours_radio_thumb"
+                    app:layout_constraintBottom_toBottomOf="@id/twenty_four_hr_fri_TV"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/start_time_fri_TV"
+                    app:layout_constraintTop_toTopOf="@id/twenty_four_hr_fri_TV"
+                    app:track="@drawable/operating_hours_radio_track" />
+
+
+                <View
+                    android:id="@+id/fri_divider"
+                    android:layout_width="0dp"
+                    android:layout_height="2dp"
+                    android:background="@color/gray_4"
+                    app:layout_constraintEnd_toEndOf="@id/fri_twenty_four_hr_SC"
+                    app:layout_constraintStart_toStartOf="@id/twenty_four_hr_fri_TV"
+                    app:layout_constraintTop_toBottomOf="@id/twenty_four_hr_fri_TV" />
+
+
+                <TextView
+                    android:id="@+id/fri_closed_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:text="Closed"
+                    android:textColor="@color/gray_1"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/fri_divider" />
+
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/fri_closed_SC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginRight="10dp"
+                    android:checked="false"
+                    android:thumb="@drawable/operating_hours_radio_thumb"
+                    app:layout_constraintBottom_toBottomOf="@id/fri_closed_TV"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/fri_divider"
+                    app:layout_constraintTop_toTopOf="@id/fri_closed_TV"
+                    app:track="@drawable/operating_hours_radio_track" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/sat_CL"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/background_grey"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@id/mon_to_sat_TV"
+                app:layout_constraintStart_toStartOf="@id/mon_to_sat_TV"
+                app:layout_constraintTop_toBottomOf="@id/days_LL">
+
+                <TextView
+                    android:id="@+id/start_time_sat_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:text="07:00 AM"
+                    android:textColor="@color/gray_1"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:text="To"
+                    android:textColor="@color/gray_3"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/end_time_sat_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="10dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:text="08:00 PM"
+                    android:textColor="@color/gray_1"
+                    android:textSize="22sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/twenty_four_hr_sat_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:text="24 Hours"
+                    android:textColor="@color/gray_1"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/start_time_sat_TV" />
+
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/sat_twenty_four_hr_SC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginRight="10dp"
+                    android:checked="false"
+                    android:thumb="@drawable/operating_hours_radio_thumb"
+                    app:layout_constraintBottom_toBottomOf="@id/twenty_four_hr_sat_TV"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/start_time_sat_TV"
+                    app:layout_constraintTop_toTopOf="@id/twenty_four_hr_sat_TV"
+                    app:track="@drawable/operating_hours_radio_track" />
+
+
+                <View
+                    android:id="@+id/sat_divider"
+                    android:layout_width="0dp"
+                    android:layout_height="2dp"
+                    android:background="@color/gray_4"
+                    app:layout_constraintEnd_toEndOf="@id/sat_twenty_four_hr_SC"
+                    app:layout_constraintStart_toStartOf="@id/twenty_four_hr_sat_TV"
+                    app:layout_constraintTop_toBottomOf="@id/twenty_four_hr_sat_TV" />
+
+
+                <TextView
+                    android:id="@+id/sat_closed_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:text="Closed"
+                    android:textColor="@color/gray_1"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/sat_divider" />
+
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/sat_closed_SC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginRight="10dp"
+                    android:checked="false"
+                    android:thumb="@drawable/operating_hours_radio_thumb"
+                    app:layout_constraintBottom_toBottomOf="@id/sat_closed_TV"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/sat_divider"
+                    app:layout_constraintTop_toTopOf="@id/sat_closed_TV"
+                    app:track="@drawable/operating_hours_radio_track" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/sun_CL"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/background_grey"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@id/mon_to_sat_TV"
+                app:layout_constraintStart_toStartOf="@id/mon_to_sat_TV"
+                app:layout_constraintTop_toBottomOf="@id/days_LL">
+
+                <TextView
+                    android:id="@+id/start_time_sun_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:text="07:00 AM"
+                    android:textColor="@color/gray_1"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:text="To"
+                    android:textColor="@color/gray_3"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/end_time_sun_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="10dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:text="08:00 PM"
+                    android:textColor="@color/gray_1"
+                    android:textSize="22sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/twenty_four_hr_sun_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:text="24 Hours"
+                    android:textColor="@color/gray_1"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/start_time_sun_TV" />
+
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/sun_twenty_four_hr_SC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginRight="10dp"
+                    android:checked="false"
+                    android:thumb="@drawable/operating_hours_radio_thumb"
+                    app:layout_constraintBottom_toBottomOf="@id/twenty_four_hr_sun_TV"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/start_time_sun_TV"
+                    app:layout_constraintTop_toTopOf="@id/twenty_four_hr_sun_TV"
+                    app:track="@drawable/operating_hours_radio_track" />
+
+
+                <View
+                    android:id="@+id/sun_divider"
+                    android:layout_width="0dp"
+                    android:layout_height="2dp"
+                    android:background="@color/gray_4"
+                    app:layout_constraintEnd_toEndOf="@id/sun_twenty_four_hr_SC"
+                    app:layout_constraintStart_toStartOf="@id/twenty_four_hr_sun_TV"
+                    app:layout_constraintTop_toBottomOf="@id/twenty_four_hr_sun_TV" />
+
+
+                <TextView
+                    android:id="@+id/sun_closed_TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center_vertical"
+                    android:text="Closed"
+                    android:textColor="@color/gray_1"
+                    android:textSize="22sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/sun_divider" />
+
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/sun_closed_SC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginRight="10dp"
+                    android:checked="false"
+                    android:thumb="@drawable/operating_hours_radio_thumb"
+                    app:layout_constraintBottom_toBottomOf="@id/sun_closed_TV"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/sun_divider"
+                    app:layout_constraintTop_toTopOf="@id/sun_closed_TV"
+                    app:track="@drawable/operating_hours_radio_track" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    </ScrollView>
+
 
 
     <Button

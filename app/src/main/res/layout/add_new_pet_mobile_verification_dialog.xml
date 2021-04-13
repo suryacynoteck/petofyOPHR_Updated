@@ -25,7 +25,6 @@
             android:layout_width="match_parent"
             android:maxLines="1"
             android:inputType="number"
-            android:maxLength="10"
             android:paddingRight="45dp"
             android:hint="Enter valid Mob Number*"
             android:textSize="16sp"

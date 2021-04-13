@@ -425,37 +425,90 @@
                 android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
                 android:text="Document"
-                android:textColor="@color/grey_add_pet"
+                android:textSize="18sp"
+                android:textColor="@color/gray_1"
+                android:fontFamily="@font/nunito"
                 app:layout_constraintEnd_toEndOf="@id/veterian_name_TV"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/result_ET" />
 
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/document_layout"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
-                android:gravity="center"
                 android:orientation="vertical"
+                android:layout_marginBottom="10dp"
                 android:textColor="@color/grey_add_pet"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/veterian_name_ET"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/document_tv">
+
+
                 <ImageView
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@drawable/upload_image_bg"
+                    android:id="@+id/hospitalization_upload_documents"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <ImageView
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     android:visibility="gone"
                     android:id="@+id/hospitalization_document_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
-                <ImageView
-                    android:src="@drawable/upload_photo_icon"
-                    android:id="@+id/hospitalization_upload_documents"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                <RelativeLayout
+                    android:id="@+id/upload_RL"
+                    android:layout_marginLeft="10dp"
+                    android:elevation="1dp"
+                    android:src="@drawable/upload_up_icon"
+                    android:layout_width="50dp"
+                    android:scaleType="fitXY"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_height="match_parent">
 
-            </LinearLayout>
+                    <ImageView
+                        android:visibility="visible"
+                        android:layout_width="50dp"
+                        android:src="@drawable/white_circle_bg"
+                        android:layout_height="match_parent" />
+                    <ImageView
+                        android:visibility="visible"
+                        android:layout_width="50dp"
+                        android:padding="8dp"
+                        android:src="@drawable/upload_up_icon"
+                        android:layout_height="match_parent" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:id="@+id/document_headline_TV"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintStart_toEndOf="@+id/upload_RL"
+                    android:text="Upload Document"
+                    android:fontFamily="@font/nunito"
+                    android:textColor="@color/gray_1"
+                    android:textSize="20dp"
+                    android:gravity="center"/>
+
+
+
+
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -467,12 +520,16 @@
         android:id="@+id/save_BT"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/blue_background_bg"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
         android:orientation="horizontal"
         android:text="@string/save"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@color/whiteColor"
         android:textSize="25dp"
+        android:fontFamily="@font/nunito"
         android:theme="@style/MatButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

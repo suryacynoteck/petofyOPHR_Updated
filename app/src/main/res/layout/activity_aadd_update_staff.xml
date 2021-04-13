@@ -212,7 +212,7 @@
               android:background="@drawable/edit_text_background"
               android:gravity="center_vertical"
               android:hint="@string/email"
-              android:inputType="textCapWords"
+              android:inputType="textEmailAddress"
               android:maxLines="1"
               android:paddingLeft="25dp"
               android:textColor="@color/gray_1"

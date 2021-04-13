@@ -188,7 +188,7 @@
             android:layout_margin="5dp"
             android:layout_marginRight="10dp"
             android:src="@drawable/search_with_grey_bg"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
         <ImageView
             android:id="@+id/cancel_IV"

@@ -1,13 +1,17 @@
 package com.cynoteck.petofyOPHR.activities;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -74,7 +78,7 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
     CheckBox convert_yr_to_age;
     AutoCompleteTextView pet_parent_name_ET, pet_contact_number_ET;
     LinearLayout day_and_age_layout;
-    String petUniqueId = "", getStrSpnerItemPetNmId = "", strSpnrBreedId = "", strSpnrAgeId = "", strSpnrColorId = "", strAgeCount = "",
+    String from = "", petUniqueId = "", getStrSpnerItemPetNmId = "", strSpnrBreedId = "", strSpnrAgeId = "", strSpnrColorId = "", strAgeCount = "",
             strSpneSizeId = "", strSpnrSexId = "", strSpnerItemPetType = "", strSpnrBreed = "", strSpnrAge = "", strSpnrSex = "",
             currentDateandTime = "", strSexType = "", strResponseOtp = "", petId = "", petParentContactNumber = "", type = "";
     RelativeLayout back_arrow_RL;
@@ -108,6 +112,7 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
         methods = new Methods(this);
         Intent intent = getIntent();
         type = intent.getStringExtra("appointment");
+        from = intent.getStringExtra("from");
         intlization();
         petSex = new ArrayList<>();
         petSex.add("Pet Sex");
@@ -138,6 +143,7 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
     }
 
 
+    @SuppressLint("WrongConstant")
     private void intlization() {
         scrollView = findViewById(R.id.scrollView);
         maleRB = findViewById(R.id.maleRB);
@@ -167,6 +173,9 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
         back_arrow_RL.setOnClickListener(this);
         calenderTextView_dialog.setOnClickListener(this);
         convert_yr_to_age.setOnClickListener(this);
+//        pet_contact_number_ET.setInputMethodMode(InputType.TYPE_CLASS_NUMBER);
+//        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//        imm.showSoftInput((pet_contact_number_ET), InputMethodManager.SHOW_IMPLICIT);
         age_neumeric.addTextChangedListener(this);
         age_neumeric.addTextChangedListener(new TextWatcher() {
             @Override
@@ -351,9 +360,9 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
                     pet_parent_name_ET.setError(null);
                     pet_contact_number_ET.setError(null);
                     calenderTextView_dialog.setError("Pet DOB");
-                }else if (strSpnrColorId.isEmpty()){
+                } else if (strSpnrColorId.isEmpty()) {
                     Toast.makeText(this, "Select pet color !", Toast.LENGTH_SHORT).show();
-                }else if (strPetParentName.isEmpty()) {
+                } else if (strPetParentName.isEmpty()) {
                     Toast.makeText(this, "Enter Parent Name", Toast.LENGTH_SHORT).show();
                     pet_name_ET.setError(null);
                     pet_parent_name_ET.setError("Enter Parent Name");
@@ -385,7 +394,6 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
                     data.setPetParentName(strPetParentName);
                     data.setContactNumber(strPetContactNumber);
                     data.setDateOfBirth(strPetBirthDay);
-
                     data.setPetProfileImageUrl("");
                     data.setFirstServiceImageUrl("");
                     data.setSecondServiceImageUrl("");
@@ -751,9 +759,13 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
                 try {
                     methods.customProgressDismiss();
                     Log.d("AddPet", arg0.body().toString());
+                    if (from.equals("Home")||from.equals("Appointment")) {
+                        Config.isUpdated = false;
 
+                    } else {
+                        Config.isUpdated = true;
+                    }
                     AddPetValueResponse addPetValueResponse = (AddPetValueResponse) arg0.body();
-
                     int responseCode = Integer.parseInt(addPetValueResponse.getResponse().getResponseCode());
                     if (responseCode == 109) {
                         if (type.equals("appointment")) {

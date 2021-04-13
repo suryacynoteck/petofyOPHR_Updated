@@ -63,46 +63,57 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/pet_Details_profile_image"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/profile_img_icon"
-        app:civ_border_color="#cccc"
-        app:layout_constraintBottom_toTopOf="@id/top_view_line"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
-
-    <TextView
-        android:id="@+id/peto_details_reg_number"
+    <LinearLayout
+        android:id="@+id/image_CV_LL"
+        android:orientation="vertical"
         android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="10dp"
-        android:text=""
-        android:textColor="@color/colorPrimary"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@id/top_view_line"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        tools:ignore="NotSibling" />
+        app:layout_constraintEnd_toEndOf="@id/toolbar"
+        app:layout_constraintStart_toStartOf="@id/toolbar"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/pet_Details_profile_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:src="@drawable/empty_pet_image"
+            app:civ_border_color="#cccc"/>
+
+        <TextView
+            android:id="@+id/peto_details_reg_number"
+            android:layout_width="wrap_content"
+            android:fontFamily="@font/nunito"
+            android:layout_marginTop="5dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:text="PETO-XYZ"
+            android:textStyle="bold"
+            tools:ignore="NotSibling" />
+
+    </LinearLayout>
+
+
+
+
+
 
     <View
         android:id="@+id/top_view_line"
         android:layout_width="0dp"
         android:layout_height="2dp"
         android:background="#cccc"
+        android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/pet_Details_profile_image" />
+        app:layout_constraintTop_toBottomOf="@id/image_CV_LL" />
 
     <ScrollView
+        android:id="@+id/scrollView6"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="10dp"
@@ -395,7 +406,6 @@
                 android:gravity="center_vertical"
                 android:hint="@string/phoneNumber"
                 android:inputType="number"
-                android:maxLength="10"
                 android:maxLines="1"
                 android:paddingLeft="25dp"
                 android:textColor="@color/gray_1"

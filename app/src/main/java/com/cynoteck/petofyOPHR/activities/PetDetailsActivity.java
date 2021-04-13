@@ -140,9 +140,9 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
         sharedPreferences = getSharedPreferences("userdetails", 0);
 
         if (methods.isInternetOn()) {
-            methods.showCustomProgressBarDialog(this);
-            getImmunizationHistory();
-            getVaccinationDetails();
+//            methods.showCustomProgressBarDialog(this);
+//            getImmunizationHistory();
+//            getVaccinationDetails();
         } else {
             methods.DialogInternet();
         }
@@ -180,7 +180,8 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
 
                 break;
             case R.id.immunization_chart_CL:
-                vaccineDetailsDialog();
+                getVaccinationDetails();
+//                vaccineDetailsDialog();
                 break;
 
             case R.id.print_id_card_CL:
@@ -232,9 +233,10 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                 break;
 
             case R.id.last_visit_CL:
-                if (lastVisitEncryptedId == null) {
+                if (lastVisitEncryptedId.equals("")) {
                     Toast.makeText(this, "No record found!", Toast.LENGTH_SHORT).show();
                 } else {
+                    Log.e("idddd",lastVisitEncryptedId);
                     Intent lastPrescriptionIntent = new Intent(this, PdfEditorActivity.class);
                     lastPrescriptionIntent.putExtra("encryptId", lastVisitEncryptedId);
                     startActivity(lastPrescriptionIntent);
@@ -261,6 +263,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void getVaccinationDetails() {
+        methods.showCustomProgressBarDialog(this);
         GetVaccinationModelParameter getVaccinationModelParameter = new GetVaccinationModelParameter();
         getVaccinationModelParameter.setEncryptedId(pet_encrypted_id);
         GetVaccinationRequest getVaccinationRequest = new GetVaccinationRequest();
@@ -528,6 +531,7 @@ public class PetDetailsActivity extends AppCompatActivity implements View.OnClic
                         Log.e("amamamammamamam", "Vaccine Detailsss" + getVaccineResponse.getData().size());
                         getVaccineResponseModels = getVaccineResponse.getData();
                         Log.e("VaccineResponseModels", methods.getRequestJson(arg0.body()));
+                        vaccineDetailsDialog();
                     } else {
 
                     }

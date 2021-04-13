@@ -73,6 +73,7 @@
         android:textColor="@color/gray_1"
         android:textSize="18sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/two_fact_auth_SC"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
@@ -82,12 +83,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
-        android:layout_marginLeft="10dp"
         android:layout_marginRight="20dp"
         android:thumb="@drawable/operating_hours_radio_thumb"
         app:layout_constraintBottom_toBottomOf="@id/two_fact_auth_TV"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/two_fact_auth_TV"
         app:layout_constraintTop_toTopOf="@id/two_fact_auth_TV"
         app:track="@drawable/operating_hours_radio_track" />
 

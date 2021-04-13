@@ -467,7 +467,7 @@
                 android:background="@drawable/edit_text_background"
                 android:gravity="center_vertical"
                 android:hint="@string/phoneNumber"
-                android:inputType="textCapWords"
+                android:inputType="number"
                 android:maxLines="1"
                 android:paddingLeft="25dp"
                 android:textColor="@color/gray_1"

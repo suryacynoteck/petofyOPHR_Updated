@@ -10,8 +10,8 @@ android {
         applicationId "com.cynoteck.petofyvet"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 3
-        versionName "1.0.1"
+        versionCode 4
+        versionName "1.0.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -70,6 +70,10 @@ dependencies {
 
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
     implementation 'com.github.tejpratap46:PDFCreatorAndroid:1.3'
+
+
+    implementation 'org.jsoup:jsoup:1.10.2'
+
 
 }
 android { useLibrary 'org.apache.http.legacy' }

@@ -17,7 +17,7 @@ public class StaffDetailsActivity extends AppCompatActivity implements View.OnCl
 
     TextView staff_name_TV,staff_email_TV,staff_phone_TV,staff_degree_TV,staff_reg_no_TV;
     RelativeLayout edit_permission_RL,edit_profile_RL;
-    MaterialCardView back_arrow_CV,image_edit_CV;
+    MaterialCardView back_arrow_CV,image_edit_CV,staff_degree_RL,staff_reg_no_RL;
     String staffId="",staff_name="",staff_email="",staff_phone="",staff_degree="",staff_reg_no="",staff_image_url="",staffUserId="";
     ImageView staff_image_TV;
     private int ADD_STAFF_DEATILS = 1;
@@ -47,6 +47,8 @@ public class StaffDetailsActivity extends AppCompatActivity implements View.OnCl
         back_arrow_CV=findViewById(R.id.back_arrow_CV);
         image_edit_CV=findViewById(R.id.image_edit_CV);
         edit_profile_RL=findViewById(R.id.edit_profile_RL);
+        staff_reg_no_RL=findViewById(R.id.staff_reg_no_RL);
+        staff_degree_RL=findViewById(R.id.staff_degree_RL);
 
         back_arrow_CV.setOnClickListener(this);
         edit_permission_RL.setOnClickListener(this);
@@ -63,6 +65,12 @@ public class StaffDetailsActivity extends AppCompatActivity implements View.OnCl
         staff_name_TV.setText(staff_name);
         staff_email_TV.setText(staff_email);
         staff_phone_TV.setText(staff_phone);
+        if (staff_degree.equals("")){
+            staff_degree_RL.setVisibility(View.INVISIBLE);
+        }
+        if (staff_reg_no.equals("")){
+            staff_reg_no_RL.setVisibility(View.INVISIBLE);
+        }
         staff_degree_TV.setText(staff_degree);
         staff_reg_no_TV.setText(staff_reg_no);
 

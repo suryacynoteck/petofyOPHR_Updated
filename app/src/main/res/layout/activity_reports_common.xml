@@ -74,11 +74,10 @@
         <RelativeLayout
             android:id="@+id/appoint_image_RL"
             android:layout_width="75dp"
-            android:layout_height="0dp"
+            android:layout_height="75dp"
             android:layout_marginLeft="9dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/white_image_bg"
-            app:layout_constraintBottom_toBottomOf="@id/parent_name_TV"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -137,6 +136,7 @@
             android:id="@+id/parent_name_TV"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:maxLines="2"
             android:layout_marginTop="2dp"
             android:fontFamily="@font/nunito"
             android:gravity="center_vertical"

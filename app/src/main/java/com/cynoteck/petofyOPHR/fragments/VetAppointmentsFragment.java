@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -51,15 +52,21 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import retrofit2.Response;
 
-public class VetAppointmentsFragment extends Fragment implements HorizontalCalendarListener, View.OnClickListener, ApiResponse , AppointmentsClickListener {
+import static android.app.Activity.RESULT_OK;
 
-    TextView cal_date_TV, month_TV, appointment_charge_TV, total_appointment_headline_TV,pending_visit_empty_TV,upcoming_visit_empty_TV;
-    ShimmerFrameLayout pending_visit_SFL,upcoming_visit_SFL;
+public class VetAppointmentsFragment extends Fragment implements HorizontalCalendarListener, View.OnClickListener, ApiResponse, AppointmentsClickListener {
+
+    TextView cal_date_TV, month_TV, appointment_charge_TV, total_appointment_headline_TV, pending_visit_empty_TV, upcoming_visit_empty_TV;
+    ShimmerFrameLayout pending_visit_SFL, upcoming_visit_SFL;
     HorizontalCalendarView horizontalCalendarView;
     View view;
     RecyclerView upcoming_visit_RV, pending_request_RV;
@@ -67,11 +74,11 @@ public class VetAppointmentsFragment extends Fragment implements HorizontalCalen
     Methods methods;
     UpcomingAppointmentsAdapter upcomingAppointmentsAdapter;
     RequestPendingAdapter requestPendingAdapter;
-    String permissionId="";
+    String permissionId = "";
     SharedPreferences sharedPreferences;
     int joinPostion;
     ArrayList<UpcomingAppointmentData> appointmentListsJoin;
-    String mettingId="", approve_reject="";
+    String mettingId = "", approve_reject = "";
 
     public VetAppointmentsFragment() {
         // Required empty public constructor
@@ -86,10 +93,29 @@ public class VetAppointmentsFragment extends Fragment implements HorizontalCalen
 
         initialization();
 
+        pendingAppointment();
 
 
         return view;
 
+    }
+
+    private void pendingAppointment() {
+        pending_visit_empty_TV.setVisibility(View.GONE);
+        pending_request_RV.setVisibility(View.GONE);
+        pending_visit_SFL.setVisibility(View.VISIBLE);
+        pending_visit_SFL.startShimmerAnimation();
+        try {
+            Date c = Calendar.getInstance().getTime();
+            System.out.println("Current time => " + c);
+            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            String formattedDate = df.format(c);
+            Log.e("current Date",formattedDate);
+            Log.e("date", methods.addMonths(formattedDate, 1));
+            getRequestPendingAppointments(formattedDate, methods.addMonths(formattedDate, 1));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     private void initialization() {
@@ -101,10 +127,10 @@ public class VetAppointmentsFragment extends Fragment implements HorizontalCalen
         upcoming_visit_RV = view.findViewById(R.id.upcoming_visit_RV);
         pending_request_RV = view.findViewById(R.id.pending_request_RV);
         month_TV = view.findViewById(R.id.month_TV);
-        upcoming_visit_empty_TV=view.findViewById(R.id.upcoming_visit_empty_TV);
-        pending_visit_empty_TV=view.findViewById(R.id.pending_visit_empty_TV);
-        upcoming_visit_SFL=view.findViewById(R.id.upcoming_visit_SFL);
-        pending_visit_SFL=view.findViewById(R.id.pending_visit_SFL);
+        upcoming_visit_empty_TV = view.findViewById(R.id.upcoming_visit_empty_TV);
+        pending_visit_empty_TV = view.findViewById(R.id.pending_visit_empty_TV);
+        upcoming_visit_SFL = view.findViewById(R.id.upcoming_visit_SFL);
+        pending_visit_SFL = view.findViewById(R.id.pending_visit_SFL);
 
         horizontalCalendarView = view.findViewById(R.id.horizontalCalendarView);
 
@@ -115,81 +141,70 @@ public class VetAppointmentsFragment extends Fragment implements HorizontalCalen
         add_appointment_RL.setOnClickListener(this);
         edit_appointment_charge_RL.setOnClickListener(this);
 
+        appointment_charge_TV.setText("₹ " + Config.onlineConsultationCharges);
+
 
     }
 
     @Override
     public void updateMonthOnScroll(DayDateMonthYearModel selectedDate) {
-        String month = "" + selectedDate.month;
+        String month = "" + selectedDate.month + " " + selectedDate.year;
         month_TV.setText("<" + month + ">");
     }
 
     @Override
     public void newDateSelected(DayDateMonthYearModel selectedDate) {
-        String month = "" + (selectedDate.day) + ". " + selectedDate.month + "" + selectedDate.date;
+        String month = "" + (selectedDate.day) + ". " + selectedDate.date + " " + selectedDate.month + " " + selectedDate.year;
         cal_date_TV.setText(month);
-        String dateString = selectedDate.date+"/"+selectedDate.monthNumeric+"/"+selectedDate.year;
-
+        String dateString = selectedDate.date + "/" + selectedDate.monthNumeric + "/" + selectedDate.year;
         upcoming_visit_empty_TV.setVisibility(View.GONE);
-        pending_visit_empty_TV.setVisibility(View.GONE);
-
         upcoming_visit_RV.setVisibility(View.INVISIBLE);
-        pending_request_RV.setVisibility(View.INVISIBLE);
-
-        pending_visit_SFL.setVisibility(View.VISIBLE);
         upcoming_visit_SFL.setVisibility(View.VISIBLE);
-
-        pending_visit_SFL.startShimmerAnimation();
         upcoming_visit_SFL.startShimmerAnimation();
-
         getUpcomingAppointments(dateString);
-        getRequestPendingAppointments(dateString);
-
-
-
     }
 
     @Override
     public void onClick(View v) {
-
         switch (v.getId()) {
-
             case R.id.add_appointment_RL:
 //                Toast.makeText(getContext(), "ADD", Toast.LENGTH_SHORT).show();
                 String userTYpe = sharedPreferences.getString("user_type", "");
-                if (userTYpe.equals("Vet Staff")){
+                if (userTYpe.equals("Vet Staff")) {
                     Gson gson = new Gson();
                     String json = sharedPreferences.getString("userPermission", null);
-                    Type type = new TypeToken<ArrayList<UserPermissionMasterList>>() {}.getType();
+                    Type type = new TypeToken<ArrayList<UserPermissionMasterList>>() {
+                    }.getType();
                     ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
-                    Log.e("ArrayList",arrayList.toString());
-                    Log.d("UserType",userTYpe);
+                    Log.e("ArrayList", arrayList.toString());
+                    Log.d("UserType", userTYpe);
                     permissionId = "11";
                     methods.showCustomProgressBarDialog(getContext());
-                    String url  = "user/CheckStaffPermission/"+permissionId;
-                    Log.e("URL",url);
+                    String url = "user/CheckStaffPermission/" + permissionId;
+                    Log.e("URL", url);
                     ApiService<CheckStaffPermissionResponse> service = new ApiService<>();
-                    service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token,url), "CheckPermission");
-                }else if (userTYpe.equals("Veterinarian")){
+                    service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token, url), "CheckPermission");
+                } else if (userTYpe.equals("Veterinarian")) {
                     Intent intent = new Intent(getContext(), AddUpdateAppointmentActivity.class);
-                    intent.putExtra("type","add");
-                    intent.putExtra("id","");
-                    intent.putExtra("pet_id","");
-                    startActivity(intent);
+                    intent.putExtra("type", "add");
+                    intent.putExtra("id", "");
+                    intent.putExtra("purpose", "");
+                    intent.putExtra("pet_id", "");
+                    startActivityForResult(intent, 100);
                 }
                 break;
 
             case R.id.edit_appointment_charge_RL:
-                Toast.makeText(getContext(), "EDIT", Toast.LENGTH_SHORT).show();
+
                 break;
 
         }
-
     }
 
-    private void getRequestPendingAppointments(String dateString) {
+    private void getRequestPendingAppointments(String dateString, String toDate) {
         GetAppointmentFromDateParams getAppointmentFromDateParams = new GetAppointmentFromDateParams();
         getAppointmentFromDateParams.setFromDate(dateString);
+        getAppointmentFromDateParams.setToDate(toDate);
         GetAppointmentFromDateRequest getAppointmentFromDateRequest = new GetAppointmentFromDateRequest();
         getAppointmentFromDateRequest.setData(getAppointmentFromDateParams);
 
@@ -208,30 +223,32 @@ public class VetAppointmentsFragment extends Fragment implements HorizontalCalen
         service.get(this, ApiClient.getApiInterface().getAppointmentByDate(Config.token, getAppointmentFromDateRequest), "GetAppointmentByDate");
         Log.e("DATALOG", "check1=> " + methods.getRequestJson(getAppointmentFromDateRequest));
     }
+
     private void checkPermission(String url) {
         ApiService<CheckStaffPermissionResponse> service = new ApiService<>();
-        service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token,url), "CheckPermission");
+        service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token, url), "CheckPermission");
     }
+
     @Override
     public void onResponse(Response response, String key) {
 
-        switch (key){
+        switch (key) {
 
             case "GetAppointmentByDate":
                 try {
-                    UpcomingAppointmentResponse  upcomingAppointmentResponse = (UpcomingAppointmentResponse) response.body();
-                    Log.e("UpcomingResponse",methods.getRequestJson(upcomingAppointmentResponse));
+                    UpcomingAppointmentResponse upcomingAppointmentResponse = (UpcomingAppointmentResponse) response.body();
+                    Log.e("UpcomingResponse", methods.getRequestJson(upcomingAppointmentResponse));
                     int responseCode = Integer.parseInt(upcomingAppointmentResponse.getResponse().getResponseCode());
-                    if (responseCode==109){
-                        if (upcomingAppointmentResponse.getData().isEmpty()){
+                    if (responseCode == 109) {
+                        if (upcomingAppointmentResponse.getData().isEmpty()) {
                             upcoming_visit_empty_TV.setVisibility(View.VISIBLE);
                             upcoming_visit_SFL.setVisibility(View.INVISIBLE);
                             upcoming_visit_SFL.stopShimmerAnimation();
                             upcoming_visit_RV.setVisibility(View.INVISIBLE);
-                        }else {
+                        } else {
                             String totalAppointments = String.valueOf(upcomingAppointmentResponse.getData().size());
-                            total_appointment_headline_TV.setText("You have " +totalAppointments+" appointments for today");
-                            upcomingAppointmentsAdapter=new UpcomingAppointmentsAdapter(upcomingAppointmentResponse.getData(),getContext(),this);
+                            total_appointment_headline_TV.setText("You have " + totalAppointments + " appointments");
+                            upcomingAppointmentsAdapter = new UpcomingAppointmentsAdapter(upcomingAppointmentResponse.getData(), getContext(), this);
                             LinearLayoutManager horizontalLayoutManagaer = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
                             upcoming_visit_RV.setLayoutManager(horizontalLayoutManagaer);
                             upcoming_visit_RV.setAdapter(upcomingAppointmentsAdapter);
@@ -245,7 +262,7 @@ public class VetAppointmentsFragment extends Fragment implements HorizontalCalen
                     }
 
 
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -254,21 +271,22 @@ public class VetAppointmentsFragment extends Fragment implements HorizontalCalen
 
             case "GetPendingAppointments":
                 try {
-                    RequestPendingResponse  requestPendingResponse = (RequestPendingResponse) response.body();
-                    Log.e("PendingAppointments",methods.getRequestJson(requestPendingResponse));
+                    RequestPendingResponse requestPendingResponse = (RequestPendingResponse) response.body();
+                    Log.e("PendingAppointments", methods.getRequestJson(requestPendingResponse));
                     int responseCode = Integer.parseInt(requestPendingResponse.getResponse().getResponseCode());
-                    if (responseCode==109){
-                        if (requestPendingResponse.getData().isEmpty()){
+                    if (responseCode == 109) {
+                        if (requestPendingResponse.getData().isEmpty()) {
                             pending_visit_empty_TV.setVisibility(View.VISIBLE);
                             pending_visit_SFL.setVisibility(View.INVISIBLE);
                             pending_request_RV.setVisibility(View.GONE);
                             pending_visit_SFL.stopShimmerAnimation();
-                        }else {
-                            requestPendingAdapter=new RequestPendingAdapter(requestPendingResponse.getData(),getContext(),this);
+                        } else {
+                            requestPendingAdapter = new RequestPendingAdapter(requestPendingResponse.getData(), getContext(), this);
                             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
                             pending_request_RV.setLayoutManager(linearLayoutManager);
                             pending_request_RV.setAdapter(requestPendingAdapter);
-
+                            pending_request_RV.setNestedScrollingEnabled(false);
+                            pending_request_RV.setLayoutFrozen(true);
                             pending_visit_empty_TV.setVisibility(View.GONE);
                             pending_visit_SFL.setVisibility(View.INVISIBLE);
                             pending_request_RV.setVisibility(View.VISIBLE);
@@ -279,7 +297,7 @@ public class VetAppointmentsFragment extends Fragment implements HorizontalCalen
                     }
 
 
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
@@ -291,54 +309,54 @@ public class VetAppointmentsFragment extends Fragment implements HorizontalCalen
                     Log.d("GetPetList", checkStaffPermissionResponse.toString());
                     int responseCode = Integer.parseInt(checkStaffPermissionResponse.getResponse().getResponseCode());
                     if (responseCode == 109) {
-                        if (checkStaffPermissionResponse.getData().equals("true")){
+                        if (checkStaffPermissionResponse.getData().equals("true")) {
                             if (permissionId.equals("11")) {
                                 Intent intent = new Intent(getContext(), AddUpdateAppointmentActivity.class);
-                                intent.putExtra("type","add");
-                                intent.putExtra("id","");
-                                intent.putExtra("pet_id","");
+                                intent.putExtra("type", "add");
+                                intent.putExtra("purpose", "");
+                                intent.putExtra("id", "");
+                                intent.putExtra("pet_id", "");
                                 startActivity(intent);
-                            }else if (permissionId.equals("13")){
+                            } else if (permissionId.equals("13")) {
                                 Intent petDetailsIntent = new Intent(getContext(), AddClinicActivity.class);
                                 Bundle data = new Bundle();
-                                data.putString("pet_id",appointmentListsJoin.get(joinPostion).getPetId()+".0");
-                                data.putString("pet_parent",appointmentListsJoin.get(joinPostion).getPetParentName());
-                                data.putString("pet_sex",appointmentListsJoin.get(joinPostion).getPetSex());
-                                data.putString("pet_age",appointmentListsJoin.get(joinPostion).getPetAge());
-                                data.putString("pet_unique_id",appointmentListsJoin.get(joinPostion).getPetUniqueId());
-                                data.putString("appointment_ID",appointmentListsJoin.get(joinPostion).getId());
-                                data.putString("pet_DOB",appointmentListsJoin.get(joinPostion).getPetDOB());
-                                data.putString("pet_encrypted_id",appointmentListsJoin.get(joinPostion).getEncrptedId());
-                                data.putString("nature_of_visit","");
-                                data.putString("visit_dt","");
-                                data.putString("visit_description","");
-                                data.putString("remarks","");
-                                data.putString("visit_weight","");
-                                data.putString("visit_temparature","");
-                                data.putString("dt_of_illness","");
-                                data.putString("pet_diognosis","");
-                                data.putString("next_dt","");
-                                data.putString("appointment","join");
+                                data.putString("pet_id", appointmentListsJoin.get(joinPostion).getPetId() + ".0");
+                                data.putString("pet_parent", appointmentListsJoin.get(joinPostion).getPetParentName());
+                                data.putString("pet_sex", appointmentListsJoin.get(joinPostion).getPetSex());
+                                data.putString("pet_age", appointmentListsJoin.get(joinPostion).getPetAge());
+                                data.putString("pet_unique_id", appointmentListsJoin.get(joinPostion).getPetUniqueId());
+                                data.putString("appointment_ID", appointmentListsJoin.get(joinPostion).getId());
+                                data.putString("pet_DOB", appointmentListsJoin.get(joinPostion).getPetDOB());
+                                data.putString("pet_encrypted_id", appointmentListsJoin.get(joinPostion).getEncrptedId());
+                                data.putString("nature_of_visit", "");
+                                data.putString("visit_dt", "");
+                                data.putString("visit_description", "");
+                                data.putString("remarks", "");
+                                data.putString("visit_weight", "");
+                                data.putString("visit_temparature", "");
+                                data.putString("dt_of_illness", "");
+                                data.putString("pet_diognosis", "");
+                                data.putString("next_dt", "");
+                                data.putString("appointment", "join");
                                 data.putString("appoint_link", String.valueOf((Uri.parse(appointmentListsJoin.get(joinPostion).getMeetingUrl()))));
-                                data.putString("toolbar_name","ADD CLINIC");
+                                data.putString("toolbar_name", "ADD CLINIC");
                                 petDetailsIntent.putExtras(data);
                                 startActivity(petDetailsIntent);
-                            }else if (permissionId.equals("12")){
-                                Intent intent = new Intent(getContext(),AddUpdateAppointmentActivity.class);
-                                intent.putExtra("type","update");
-                                intent.putExtra("id",appointmentListsJoin.get(joinPostion).getId());
-                                intent.putExtra("pet_id",appointmentListsJoin.get(joinPostion).getPetId());
-                                intent.putExtra("petParent",appointmentListsJoin.get(joinPostion).getPetUniqueId());
-                                if(appointmentListsJoin.get(joinPostion).getPaymentStatus().equals("false")) {
-                                    startActivity(intent);
+                            } else if (permissionId.equals("12")) {
+                                Intent intent = new Intent(getContext(), AddUpdateAppointmentActivity.class);
+                                intent.putExtra("type", "update");
+                                intent.putExtra("purpose", appointmentListsJoin.get(joinPostion).getSubject());
+                                intent.putExtra("id", appointmentListsJoin.get(joinPostion).getId());
+                                intent.putExtra("pet_id", appointmentListsJoin.get(joinPostion).getPetId());
+                                intent.putExtra("petParent", appointmentListsJoin.get(joinPostion).getPetUniqueId());
+                                if (appointmentListsJoin.get(joinPostion).getPaymentStatus().equals("false")) {
+                                    startActivityForResult(intent, 100);
                                 }
                             }
-                        }else {
+                        } else {
                             Toast.makeText(getContext(), "Permission not Granted!!", Toast.LENGTH_SHORT).show();
                         }
-                    }
-                    else
-                    {
+                    } else {
                         Toast.makeText(getContext(), "Please Try Again!!", Toast.LENGTH_SHORT).show();
                     }
 
@@ -352,18 +370,18 @@ public class VetAppointmentsFragment extends Fragment implements HorizontalCalen
 
             case "Status":
                 try {
-                    Log.d("appointmentstaus",response.body().toString());
+                    Log.d("appointmentstaus", response.body().toString());
                     JsonObject appointmentstaus = (JsonObject) response.body();
                     Log.d("appointmentstaus", appointmentstaus.toString());
                     JsonObject responseStaus = appointmentstaus.getAsJsonObject("response");
-                    Log.d("hhshshhs",""+response);
+                    Log.d("hhshshhs", "" + response);
                     int responseCode = Integer.parseInt(String.valueOf(responseStaus.get("responseCode")));
-                    if (responseCode==109) {
+                    if (responseCode == 109) {
                         Toast.makeText(getContext(), "Status Changes Successfully", Toast.LENGTH_SHORT).show();
 
                     }
 
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
@@ -378,44 +396,45 @@ public class VetAppointmentsFragment extends Fragment implements HorizontalCalen
 
     @Override
     public void onJoinClick(int position, ArrayList<UpcomingAppointmentData> appointmentLists) {
-        joinPostion =position;
+        joinPostion = position;
         appointmentListsJoin = appointmentLists;
         String userTYpe = sharedPreferences.getString("user_type", "");
-        if (userTYpe.equals("Vet Staff")){
+        if (userTYpe.equals("Vet Staff")) {
             Gson gson = new Gson();
             String json = sharedPreferences.getString("userPermission", null);
-            Type type = new TypeToken<ArrayList<UserPermissionMasterList>>() {}.getType();
+            Type type = new TypeToken<ArrayList<UserPermissionMasterList>>() {
+            }.getType();
             ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
-            Log.e("ArrayList",arrayList.toString());
-            Log.d("UserType",userTYpe);
+            Log.e("ArrayList", arrayList.toString());
+            Log.d("UserType", userTYpe);
             permissionId = "13";
             methods.showCustomProgressBarDialog(getContext());
-            String url  = "user/CheckStaffPermission/"+permissionId;
-            Log.e("URL",url);
+            String url = "user/CheckStaffPermission/" + permissionId;
+            Log.e("URL", url);
             checkPermission(url);
-        }else if (userTYpe.equals("Veterinarian")){
+        } else if (userTYpe.equals("Veterinarian")) {
             Intent petDetailsIntent = new Intent(getContext(), AddClinicActivity.class);
             Bundle data = new Bundle();
-            data.putString("pet_id",appointmentLists.get(position).getPetId()+".0");
-            data.putString("pet_parent",appointmentLists.get(position).getPetParentName());
-            data.putString("pet_sex",appointmentLists.get(position).getPetSex());
-            data.putString("pet_age",appointmentLists.get(position).getPetAge());
-            data.putString("pet_unique_id",appointmentLists.get(position).getPetUniqueId());
-            data.putString("appointment_ID",appointmentLists.get(position).getId());
-            data.putString("pet_DOB",appointmentLists.get(position).getPetDOB());
-            data.putString("pet_encrypted_id",appointmentLists.get(position).getEncrptedId());
-            data.putString("nature_of_visit","");
-            data.putString("visit_dt","");
-            data.putString("visit_description","");
-            data.putString("remarks","");
-            data.putString("visit_weight","");
-            data.putString("visit_temparature","");
-            data.putString("dt_of_illness","");
-            data.putString("pet_diognosis","");
-            data.putString("next_dt","");
-            data.putString("appointment","join");
+            data.putString("pet_id", appointmentLists.get(position).getPetId() + ".0");
+            data.putString("pet_parent", appointmentLists.get(position).getPetParentName());
+            data.putString("pet_sex", appointmentLists.get(position).getPetSex());
+            data.putString("pet_age", appointmentLists.get(position).getPetAge());
+            data.putString("pet_unique_id", appointmentLists.get(position).getPetUniqueId());
+            data.putString("appointment_ID", appointmentLists.get(position).getId());
+            data.putString("pet_DOB", appointmentLists.get(position).getPetDOB());
+            data.putString("pet_encrypted_id", appointmentLists.get(position).getEncrptedId());
+            data.putString("nature_of_visit", "");
+            data.putString("visit_dt", "");
+            data.putString("visit_description", "");
+            data.putString("remarks", "");
+            data.putString("visit_weight", "");
+            data.putString("visit_temparature", "");
+            data.putString("dt_of_illness", "");
+            data.putString("pet_diognosis", "");
+            data.putString("next_dt", "");
+            data.putString("appointment", "join");
             data.putString("appoint_link", String.valueOf((Uri.parse(appointmentLists.get(position).getMeetingUrl()))));
-            data.putString("toolbar_name","ADD CLINIC");
+            data.putString("toolbar_name", "ADD CLINIC");
             petDetailsIntent.putExtras(data);
             startActivity(petDetailsIntent);
         }
@@ -424,34 +443,36 @@ public class VetAppointmentsFragment extends Fragment implements HorizontalCalen
     @Override
     public void onReScheduleClickFromUpcoming(int position, ArrayList<UpcomingAppointmentData> appointmentLists) {
         String userTYpe = sharedPreferences.getString("user_type", "");
-        Log.e("USERTYPE",userTYpe);
-        if (userTYpe.equals("Vet Staff")){
+        Log.e("USERTYPE", userTYpe);
+        if (userTYpe.equals("Vet Staff")) {
             Gson gson = new Gson();
             String json = sharedPreferences.getString("userPermission", null);
-            Type type = new TypeToken<ArrayList<UserPermissionMasterList>>() {}.getType();
+            Type type = new TypeToken<ArrayList<UserPermissionMasterList>>() {
+            }.getType();
             ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
-            Log.e("ArrayList",arrayList.toString());
-            Log.d("UserType",userTYpe);
+            Log.e("ArrayList", arrayList.toString());
+            Log.d("UserType", userTYpe);
             permissionId = "12";
             methods.showCustomProgressBarDialog(getContext());
-            String url  = "user/CheckStaffPermission/"+permissionId;
-            Log.e("URL",url);
+            String url = "user/CheckStaffPermission/" + permissionId;
+            Log.e("URL", url);
             checkPermission(url);
 
-        }else if (userTYpe.equals("Veterinarian")){
-            Intent intent = new Intent(getContext(),AddUpdateAppointmentActivity.class);
-            intent.putExtra("type","update");
-            intent.putExtra("id",appointmentLists.get(position).getId());
-            intent.putExtra("pet_id",appointmentLists.get(position).getPetId());
-            intent.putExtra("petParent",appointmentLists.get(position).getPetUniqueId());
-            startActivity(intent);
+        } else if (userTYpe.equals("Veterinarian")) {
+            Intent intent = new Intent(getContext(), AddUpdateAppointmentActivity.class);
+            intent.putExtra("type", "update");
+            intent.putExtra("purpose", appointmentLists.get(position).getSubject());
+            intent.putExtra("id", appointmentLists.get(position).getId());
+            intent.putExtra("pet_id", appointmentLists.get(position).getPetId());
+            intent.putExtra("petParent", appointmentLists.get(position).getPetUniqueId());
+            startActivityForResult(intent, 100);
 
         }
     }
 
     @Override
     public void onConfirmClick(final int position, final ArrayList<RequestPendingData> requestPendingData) {
-        Log.e("request",requestPendingData.toString());
+        Log.e("request", requestPendingData.toString());
         mettingId = requestPendingData.get(position).getId();
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
         alertDialog.setMessage("Do you want to approve this appointment?");
@@ -488,64 +509,78 @@ public class VetAppointmentsFragment extends Fragment implements HorizontalCalen
         appointmentStatusParams.setStatus(status);
         AppointmentsStatusRequest appointmentsStatusRequest = new AppointmentsStatusRequest();
         appointmentsStatusRequest.setData(appointmentStatusParams);
-        Log.d("Statusrequest",methods.getRequestJson(appointmentsStatusRequest));
+        Log.d("Statusrequest", methods.getRequestJson(appointmentsStatusRequest));
         ApiService<JsonObject> service = new ApiService<>();
-        service.get( this, ApiClient.getApiInterface().appointmentApproveReject(Config.token,appointmentsStatusRequest), "Status");
+        service.get(this, ApiClient.getApiInterface().appointmentApproveReject(Config.token, appointmentsStatusRequest), "Status");
 
     }
 
     @Override
-    public void onCancelClick(final  int position, final  ArrayList<RequestPendingData> requestPendingData) {
-            mettingId = requestPendingData.get(position).getId();
-            AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-            alertDialog.setMessage("Do you want to reject this appointment?");
-            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Yes",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            requestPendingData.remove(position);
-                            requestPendingAdapter.notifyItemChanged(position);
-                            requestPendingAdapter.notifyDataSetChanged();
-                            approve_reject = "reject";
-                            approveAndReject("false");
-                            dialog.dismiss();
+    public void onCancelClick(final int position, final ArrayList<RequestPendingData> requestPendingData) {
+        mettingId = requestPendingData.get(position).getId();
+        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+        alertDialog.setMessage("Do you want to reject this appointment?");
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Yes",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        requestPendingData.remove(position);
+                        requestPendingAdapter.notifyItemChanged(position);
+                        requestPendingAdapter.notifyDataSetChanged();
+                        approve_reject = "reject";
+                        approveAndReject("false");
+                        dialog.dismiss();
 
-                        }
-                    });
-            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No",
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
 
-                        }
+                    }
 
-                    });
-            alertDialog.show();
+                });
+        alertDialog.show();
 
     }
 
     @Override
     public void onReScheduleClickFromPending(int position, ArrayList<RequestPendingData> appointmentLists) {
         String userTYpe = sharedPreferences.getString("user_type", "");
-        if (userTYpe.equals("Vet Staff")){
+        if (userTYpe.equals("Vet Staff")) {
             Gson gson = new Gson();
             String json = sharedPreferences.getString("userPermission", null);
-            Type type = new TypeToken<ArrayList<UserPermissionMasterList>>() {}.getType();
+            Type type = new TypeToken<ArrayList<UserPermissionMasterList>>() {
+            }.getType();
             ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
-            Log.e("ArrayList",arrayList.toString());
-            Log.d("UserType",userTYpe);
+            Log.e("ArrayList", arrayList.toString());
+            Log.d("UserType", userTYpe);
             permissionId = "12";
             methods.showCustomProgressBarDialog(getContext());
-            String url  = "user/CheckStaffPermission/"+permissionId;
-            Log.e("URL",url);
+            String url = "user/CheckStaffPermission/" + permissionId;
+            Log.e("URL", url);
             checkPermission(url);
-        }else if (userTYpe.equals("Veterinarian")){
-            Intent intent = new Intent(getContext(),AddUpdateAppointmentActivity.class);
-            intent.putExtra("type","update");
-            intent.putExtra("id",appointmentLists.get(position).getId());
-            intent.putExtra("pet_id",appointmentLists.get(position).getPetId());
-            intent.putExtra("petParent",appointmentLists.get(position).getPetUniqueId());
-            startActivity(intent);
+        } else if (userTYpe.equals("Veterinarian")) {
+            Intent intent = new Intent(getContext(), AddUpdateAppointmentActivity.class);
+            intent.putExtra("type", "update");
+            intent.putExtra("purpose", appointmentLists.get(position).getSubject());
+            intent.putExtra("id", appointmentLists.get(position).getId());
+            intent.putExtra("pet_id", appointmentLists.get(position).getPetId());
+            intent.putExtra("petParent", appointmentLists.get(position).getPetUniqueId());
+            startActivityForResult(intent, 100);
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100) {
+            if (resultCode == RESULT_OK) {
+                pendingAppointment();
+            }
+
+        }
+
     }
 }

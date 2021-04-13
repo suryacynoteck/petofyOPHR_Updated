@@ -181,7 +181,7 @@ public class LoginActivity extends FragmentActivity implements View.OnClickListe
                 onBackPressed();
                 }else {
                     finishAffinity();
-                    System.exit(0);
+//                    System.exit(0);
                 }
                 break;
 

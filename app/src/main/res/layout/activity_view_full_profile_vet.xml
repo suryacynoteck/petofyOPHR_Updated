@@ -59,6 +59,7 @@
             android:background="@drawable/background_grey"/>
 
         <ImageView
+            android:padding="6dp"
             android:id="@+id/edit_profile_image_IV"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -140,9 +141,10 @@
                 android:layout_marginTop="15dp"
                 android:layout_width="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/vet_name_TV"
                 app:layout_constraintStart_toStartOf="@id/vet_name_TV"
-                android:layout_height="wrap_content">
+                android:layout_height="0dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"

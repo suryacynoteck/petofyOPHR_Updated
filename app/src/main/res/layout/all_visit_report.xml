@@ -172,7 +172,8 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/gray_2"
                             android:fontFamily="@font/nunito"
-                            android:text="Rustam " />
+                            android:maxLines="1"
+                            android:text="Rustamsdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd " />
 
                         <TextView
                             android:id="@+id/pet_phone_TV"
@@ -206,6 +207,7 @@
                             android:id="@+id/pet_remakrs_TV"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:text="No remark"
                             android:maxLines="1" />
 
                     </LinearLayout>

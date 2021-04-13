@@ -13,20 +13,65 @@
         app:layout_constraintTop_toTopOf="parent"
         android:background="@drawable/background_grey"
         app:layout_constraintStart_toStartOf="parent">
-        
+
         <TextView
-            android:layout_marginTop="15dp"
+            android:visibility="invisible"
+            android:id="@+id/reason_TV"
+            android:layout_marginLeft="10dp"
+            android:text="Reason of Visit "
+            android:layout_width="0dp"
+            android:fontFamily="@font/nunito"
+            android:textSize="14sp"
+            android:textColor="@color/gray_1"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text=":"
+            android:visibility="invisible"
+            android:id="@+id/reason_visit_dot_TV"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:fontFamily="@font/nunito"
+            android:textSize="14sp"
+            android:textColor="@color/gray_1"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/reason_TV"
+            app:layout_constraintTop_toTopOf="@id/reason_TV"
+            app:layout_constraintBottom_toBottomOf="@id/reason_TV"/>
+
+
+        <TextView
             android:layout_marginLeft="20dp"
+            android:id="@+id/reason_of_visit_TV"
+            android:layout_width="0dp"
+            android:visibility="invisible"
+            android:layout_marginRight="10dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:fontFamily="@font/nunito"
+            android:textSize="14sp"
+            android:textColor="@color/gray_1"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/reason_visit_dot_TV"
+            app:layout_constraintTop_toTopOf="@id/reason_TV"/>
+
+
+        <TextView
             android:fontFamily="@font/nunito"
             android:textSize="14sp"
             android:textColor="@color/gray_1"
             android:id="@+id/vet_name_TV"
+            android:layout_marginTop="6dp"
             android:text="Vet Name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="@id/reason_TV"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintStart_toStartOf="@id/reason_TV"
+            app:layout_constraintTop_toBottomOf="@+id/reason_of_visit_TV"/>
 
 
         <TextView
@@ -48,7 +93,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginLeft="20dp"
             android:id="@+id/vetName_TV"
-            android:text="Monika Rawsdf"
+            android:text="Monika Rasdkj"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/nunito"
@@ -92,7 +137,7 @@
         <TextView
             android:layout_marginLeft="20dp"
             android:id="@+id/vet_visit_date_TV"
-            android:text="Monika Rawat"
+            android:text="Monika Rasdk"
             android:layout_width="0dp"
             android:layout_marginRight="10dp"
             android:fontFamily="@font/nunito"
@@ -104,48 +149,7 @@
             app:layout_constraintStart_toEndOf="@+id/visit_date_dot_TV"
             app:layout_constraintTop_toTopOf="@id/visit_date_TV"/>
 
-        <TextView
-            android:id="@+id/reason_TV"
-            android:text="Reason of Visit "
-            android:layout_width="0dp"
-            android:layout_marginTop="6dp"
-            android:fontFamily="@font/nunito"
-            android:textSize="14sp"
-            android:textColor="@color/gray_1"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@+id/vet_name_TV"
-            app:layout_constraintTop_toBottomOf="@id/vet_visit_date_TV"/>
 
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:text=":"
-            android:id="@+id/reason_visit_dot_TV"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:fontFamily="@font/nunito"
-            android:textSize="14sp"
-            android:textColor="@color/gray_1"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/reason_TV"
-            app:layout_constraintTop_toTopOf="@id/reason_TV"
-            app:layout_constraintBottom_toBottomOf="@id/reason_TV"/>
-
-
-        <TextView
-            android:layout_marginLeft="20dp"
-            android:id="@+id/reason_of_visit_TV"
-            android:text="Monika Rawat"
-            android:layout_width="0dp"
-            android:layout_marginRight="10dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:fontFamily="@font/nunito"
-            android:textSize="14sp"
-            android:textColor="@color/gray_1"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/reason_visit_dot_TV"
-            app:layout_constraintTop_toTopOf="@id/reason_TV"/>
 
 
         <View
@@ -153,11 +157,11 @@
             android:layout_width="0dp"
             android:layout_height="2dp"
             android:background="@color/gray_5"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="18sp"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/reason_of_visit_TV"
+            app:layout_constraintTop_toBottomOf="@+id/vet_visit_date_TV"
             app:layout_constraintStart_toStartOf="parent"/>
 
 

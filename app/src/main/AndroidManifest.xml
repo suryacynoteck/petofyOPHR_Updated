@@ -51,7 +51,7 @@
         <activity android:name=".activities.PetProfileActivity" />
         <activity android:name=".activities.SettingActivity" />
         <activity android:name=".activities.StaffPermissionActivity" />
-<!--        <activity android:name=".activities.OperatingHoursActivity" />-->
+        <!--        <activity android:name=".activities.OperatingHoursActivity" />-->
         <activity android:name=".activities.MedicalHistoryActivity" />
         <activity android:name=".activities.AddUpdateAppointmentActivity" />
         <activity android:name=".activities.ViewFullProfileVetActivity" />

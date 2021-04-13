@@ -72,7 +72,6 @@ public class PetProfileActivity extends AppCompatActivity implements ApiResponse
         sharedPreferences = getSharedPreferences("userdetails", 0);
 
         if (methods.isInternetOn()) {
-
             getPetlistData(getPetListRequest);
         } else {
             methods.DialogInternet();
@@ -83,6 +82,7 @@ public class PetProfileActivity extends AppCompatActivity implements ApiResponse
     private void init() {
         pet_full_details_SV=findViewById(R.id.pet_full_details_SV);
         image_edit_CV=findViewById(R.id.image_edit_CV);
+        parent_location_CV=findViewById(R.id.parent_location_RL);
         pet_profile_image_IV = findViewById(R.id.pet_profile_image_IV);
         pet_name_TV = findViewById(R.id.pet_name_TV);
         pet_age_TV = findViewById(R.id.pet_age_TV);
@@ -123,7 +123,8 @@ public class PetProfileActivity extends AppCompatActivity implements ApiResponse
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.back_arrow_CV:
-                onBackPressed();
+                setResult(RESULT_OK);
+                finish();
                 break;
 
             case R.id.edit_profile_RL :
@@ -235,6 +236,7 @@ public class PetProfileActivity extends AppCompatActivity implements ApiResponse
                     edit_profile_RL.setVisibility(View.VISIBLE);
 //                    image_edit_CV.setVisibility(View.VISIBLE);
                     getPetResponse = (GetPetResponse) arg0.body();
+                    Log.e("GetPetDetail",methods.getRequestJson(getPetResponse));
                     int responseCode = Integer.parseInt(getPetResponse.getResponse().getResponseCode());
                     if (responseCode == 109) {
                         pet_name_TV.setText(getPetResponse.getData().getPetName());
@@ -243,11 +245,14 @@ public class PetProfileActivity extends AppCompatActivity implements ApiResponse
                         pet_gender_TV.setText(getPetResponse.getData().getPetSex());
                         pet_breed_TV.setText(getPetResponse.getData().getPetBreed());
                         pet_reg__id_TV.setText(getPetResponse.getData().getPetUniqueId());
-                        pet_age_TV.setText(getPetResponse.getData().getPetAge().substring(6));
+                        pet_age_TV.setText(getPetResponse.getData().getPetAge());
+//                        Log.e("AGGRESSS",getPetResponse.getData().getAddress());
                         if (getPetResponse.getData().getAddress() == null) {
                             parent_location_CV.setVisibility(View.GONE);
                             parent_address_TV.setVisibility(View.GONE);
                         } else {
+                            parent_location_CV.setVisibility(View.VISIBLE);
+                            parent_address_TV.setVisibility(View.VISIBLE);
                             parent_address_TV.setText(getPetResponse.getData().getAddress());
                         }
                         setImages();

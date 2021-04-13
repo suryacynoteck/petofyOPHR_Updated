@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -54,12 +55,14 @@ public class AllStaffAdapter extends RecyclerView.Adapter<AllStaffAdapter.MyView
     public void onBindViewHolder(@NonNull AllStaffAdapter.MyViewHolder holder, int position) {
 
         if (getAllStaffData.get(position).getIsActive().equals("false")){
-//            holder.staff_status_TV.setTextColor(R.color.deactivate_red);
-            holder.staff_status_TV.setText("Deactive");
+            holder.staff_status_TV.setTextColor(context.getResources().getColor(R.color.deactivate_red));
+            holder.staff_status_TV.setText("Deactivate");
+            holder.arrow_Staff_IV.setColorFilter(context.getResources().getColor(R.color.deactivate_red));
 
         }else {
-//            holder.staff_status_TV.setTextColor(R.color.dark_green);
+            holder.staff_status_TV.setTextColor(context.getResources().getColor(R.color.dark_green));
             holder.staff_status_TV.setText("Active");
+            holder.arrow_Staff_IV.setColorFilter(context.getResources().getColor(R.color.dark_green));
 
         }
         holder.staff_qualification_TV.setText(getAllStaffData.get(position).getVetQualification());
@@ -117,6 +120,7 @@ public class AllStaffAdapter extends RecyclerView.Adapter<AllStaffAdapter.MyView
         TextView staff_name_TV, staff_qualification_TV,staff_post_TV,staff_phone_TV,staff_status_TV;
         LinearLayout staff_status_LL,view_details_LL;
         CircleImageView staff_image_CIV;
+        ImageView arrow_Staff_IV;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -128,6 +132,7 @@ public class AllStaffAdapter extends RecyclerView.Adapter<AllStaffAdapter.MyView
             staff_phone_TV = itemView.findViewById(R.id.staff_phone_TV);
             staff_status_TV=itemView.findViewById(R.id.staff_status_TV);
             staff_image_CIV=itemView.findViewById(R.id.staff_image_CIV);
+            arrow_Staff_IV = itemView.findViewById(R.id.arrow_Staff_IV);
 
             view_details_LL.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -141,7 +146,7 @@ public class AllStaffAdapter extends RecyclerView.Adapter<AllStaffAdapter.MyView
                 @Override
                 public void onClick(View v) {
                     if (onProductItemClickListner!=null){
-                        onProductItemClickListner.onStausClick(getAdapterPosition(),staff_status_TV);
+                        onProductItemClickListner.onStausClick(getAdapterPosition(),staff_status_TV,arrow_Staff_IV);
                     }
                 }
             });

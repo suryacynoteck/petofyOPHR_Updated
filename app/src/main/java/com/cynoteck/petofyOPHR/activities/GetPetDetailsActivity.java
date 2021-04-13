@@ -167,7 +167,7 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
            {
                Glide.with(this)
                        .load(image_url)
-                       .placeholder(R.drawable.profile_img_icon)
+                       .placeholder(R.drawable.empty_pet_image)
                        .into(pet_Details_profile_image);
            }
 
@@ -428,11 +428,14 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
                     data.setPetName(strPetName);
                     data.setPetParentName(strPetParentName);
                     data.setContactNumber(strPetContactNumber);
-                    data.setAddress(strPetAdress);
+                    if (strPetAdress.equals("")){
+                        data.setAddress(null);
+                    }else {
+                        data.setAddress(strPetAdress);
+                    }
                     data.setDescription("Description");
                     data.setCreateDate(currentDateandTime);
                     data.setDateOfBirth(strPetBirthDay);
-
                     data.setPetProfileImageUrl(strProfileImgUrl);
                     data.setFirstServiceImageUrl(strFirstImgUrl);
                     data.setSecondServiceImageUrl(strSecondImgUrl);
@@ -461,7 +464,7 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                calenderTextViewDetails.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                                calenderTextViewDetails.setText(Config.changeDateFormat(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year));
                             }
                         }, year, month, day);
                 picker.show();
@@ -503,16 +506,16 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public void onResponse(Response arg0, String key) {
-        methods.customProgressDismiss();
         switch (key) {
             case "GetPetDetail":
                 try {
+                    methods.customProgressDismiss();
                     Log.d("GetPetDetail", arg0.body().toString());
                     GetPetResponse getPetResponse = (GetPetResponse) arg0.body();
                     int responseCode = Integer.parseInt(getPetResponse.getResponse().getResponseCode());
                     if (responseCode == 109) {
                         //Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
-
+                        strProfileImgUrl = getPetResponse.getData().getPetProfileImageUrl();
                         pet_details_name.setText(getPetResponse.getData().getPetName());
                         pet_details_parent_name.setText(getPetResponse.getData().getPetParentName());
                         pet_deatils_contact_number.setText(getPetResponse.getData().getContactNumber());
@@ -662,13 +665,16 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
 
             case "UpdatePetDetails":
                 try {
+                    methods.customProgressDismiss();
+                    Config.isUpdated = true;
+                    Config.new_pet_add=true;
                     Log.d("UpdatePetDetails",arg0.body().toString());
                     AddPetValueResponse addPetValueResponse = (AddPetValueResponse) arg0.body();
                     int responseCode = Integer.parseInt(addPetValueResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
-                        Config.backCall = "hit";
-                        onBackPressed();
+                        setResult(RESULT_OK);
                         Toast.makeText(this, "Update Succesfully ", Toast.LENGTH_SHORT).show();
+                        finish();
                     }else if (responseCode==614){
                         Toast.makeText(this, addPetValueResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
                     }else {
@@ -687,6 +693,10 @@ public class GetPetDetailsActivity extends AppCompatActivity implements View.OnC
                     int responseCode = Integer.parseInt(imageResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
                         //Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                        Glide.with(this)
+                                .load(imageResponse.getData().getDocumentUrl())
+                                .placeholder(R.drawable.empty_pet_image)
+                                .into(pet_Details_profile_image);
                         if(selctProflImage.equals("1")){
                             strProfileImgUrl=imageResponse.getData().getDocumentUrl();
                             selctProflImage="0";

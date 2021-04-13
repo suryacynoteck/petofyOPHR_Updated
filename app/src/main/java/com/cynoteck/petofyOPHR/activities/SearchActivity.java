@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -25,6 +26,7 @@ import com.cynoteck.petofyOPHR.params.petReportsRequest.PetDataRequest;
 import com.cynoteck.petofyOPHR.response.getPetReportsResponse.getPetListResponse.GetPetListResponse;
 import com.cynoteck.petofyOPHR.response.getPetReportsResponse.getPetListResponse.PetList;
 import com.cynoteck.petofyOPHR.utils.Config;
+import com.cynoteck.petofyOPHR.utils.Methods;
 import com.cynoteck.petofyOPHR.utils.SearchInterface;
 import com.google.android.material.card.MaterialCardView;
 
@@ -38,12 +40,13 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher, Ap
     ArrayList<PetList> profileList = new ArrayList<>();
     RecyclerView register_pet_RV;
     com.cynoteck.petofyOPHR.adapters.SearchAdapter SearchAdapter;
+    Methods methods;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-
+        methods = new Methods(this);
         searchpet =  findViewById(R.id.search_pet);
         back_arrow_CV =  findViewById(R.id.back_arrow_CV);
         register_pet_RV = findViewById(R.id.register_pet_RV);
@@ -55,20 +58,39 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher, Ap
         });
         searchpet.requestFocus();
         searchpet.addTextChangedListener(new TextWatcher() {
+            long lastChange = 0;
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                if (charSequence.length() > 1) {
+                    new Handler().postDelayed(new Runnable() {
+                        public void run() {
+                            if (System.currentTimeMillis() - lastChange >= 300) {
+                                //send request
+                                if (methods.isInternetOn()) {
+                                    register_pet_RV.setVisibility(View.GONE);
+                                    if (!searchpet.getText().toString().equals("")) {
+                                        petSearchDependsOnPrefix(searchpet.getText().toString());
+                                    }
+                                } else {
+                                    methods.DialogInternet();
+                                }
+                            }
+                        }
+                    }, 300);
+                    lastChange = System.currentTimeMillis();
 
+                }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
                 String value = s.toString();
-                petSearchDependsOnPrefix(value);
+//                petSearchDependsOnPrefix(value);
             }
         });
     }
@@ -132,7 +154,7 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher, Ap
 
                                 profileList.add(petList);
                             }
-
+                            register_pet_RV.setVisibility(View.VISIBLE);
                             SearchAdapter = new SearchAdapter(SearchActivity.this, profileList, this);
                             register_pet_RV.setAdapter(SearchAdapter);
                             SearchAdapter.notifyDataSetChanged();

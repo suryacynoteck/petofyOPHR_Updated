@@ -384,11 +384,17 @@ public class AddUpdateStaffActivity extends AppCompatActivity implements View.On
                     GetStaffDetailsResponse getStaffDetailsResponse = (GetStaffDetailsResponse) response.body();
                     Log.d("DATALOG-ADDSTAFF", getStaffDetailsResponse.toString());
                     int responseCode = Integer.parseInt(getStaffDetailsResponse.getResponse().getResponseCode());
+                    Log.e("code",getStaffDetailsResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
                         Toast.makeText(this, "Staff Added Successfully", Toast.LENGTH_SHORT).show();
                         setResult(RESULT_OK);
                         finish();
-                    }else{
+                    }else if (responseCode==615){
+                        Toast.makeText(this, getStaffDetailsResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else if (responseCode==625){
+                        Toast.makeText(this, getStaffDetailsResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                    else {
                         Toast.makeText(this, "Something Went Wrong !", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -409,6 +415,7 @@ public class AddUpdateStaffActivity extends AppCompatActivity implements View.On
                         staff_last_name_ET.setText(getStaffDetails.getData().getLastName());
                         staff_phone_ET.setText(getStaffDetails.getData().getPhoneNumber());
                         staff_email_ET.setText(getStaffDetails.getData().getEmail());
+                        staff_email_ET.setEnabled(false);
                         staffUserId=getStaffDetails.getData().getUserId();
 //                        staff_password_ET.setText(getStaffDetails.getData().getPassword());
 //                        staff_confirm_password_ET.setText(getStaffDetails.getData().getConfirmPassword());
@@ -443,6 +450,7 @@ public class AddUpdateStaffActivity extends AppCompatActivity implements View.On
                     Config.isUpdated = true;
                     GetUpdateStaffResponse getUpdateStaffResponse = (GetUpdateStaffResponse) response.body();
                     Log.d("DATALOG-UPDATE", getUpdateStaffResponse.toString());
+                    Log.e("code",getUpdateStaffResponse.getResponse().getResponseCode());
                     int responseCode = Integer.parseInt(getUpdateStaffResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
                         Toast.makeText(this, "Staff Updated Successfully", Toast.LENGTH_SHORT).show();
@@ -455,10 +463,13 @@ public class AddUpdateStaffActivity extends AppCompatActivity implements View.On
                         updateStaffIntent.putExtra("staff_degree", getUpdateStaffResponse.getData().getVetQualification());
                         updateStaffIntent.putExtra("staff_reg_no", getUpdateStaffResponse.getData().getVetRegistrationNumber());
                         updateStaffIntent.putExtra("staff_image_url", getUpdateStaffResponse.getData().getProfileImageUrl());
-
                         setResult(RESULT_OK,updateStaffIntent);
                         finish();
-                    }else{
+                    }else if (responseCode==615){
+                        Toast.makeText(this, getUpdateStaffResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else if (responseCode==625){
+                        Toast.makeText(this, getUpdateStaffResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                    }else {
                         Toast.makeText(this, "Something Went Wrong !", Toast.LENGTH_SHORT).show();
                     }
                 }

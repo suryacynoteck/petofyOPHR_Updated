@@ -20,6 +20,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Methods {
@@ -32,7 +33,17 @@ public class Methods {
 
 
 
-
+    public String  addMonths(String dateAsString, int nbMonths) throws ParseException {
+        String format = "dd/MM/yyyy" ;
+        SimpleDateFormat sdf = new SimpleDateFormat(format) ;
+        Date dateAsObj = sdf.parse(dateAsString) ;
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(dateAsObj);
+        cal.add(Calendar.MONTH, nbMonths);
+        Date dateAsObjAfterAMonth = cal.getTime() ;
+        System.out.println(sdf.format(dateAsObjAfterAMonth));
+        return sdf.format(dateAsObjAfterAMonth);
+    }
     public Methods(Context c) {
         this.c = c;
     }

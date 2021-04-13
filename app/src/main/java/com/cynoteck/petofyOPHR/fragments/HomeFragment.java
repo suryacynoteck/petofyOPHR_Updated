@@ -43,6 +43,7 @@ import com.cynoteck.petofyOPHR.response.loginRegisterResponse.UserPermissionMast
 import com.cynoteck.petofyOPHR.response.newPetResponse.NewPetRegisterResponse;
 import com.cynoteck.petofyOPHR.response.otpResponse.OtpResponse;
 import com.cynoteck.petofyOPHR.response.staffPermissionListResponse.CheckStaffPermissionResponse;
+import com.cynoteck.petofyOPHR.response.totalStaffPetsAppointment.GetDashboardCountsResponse;
 import com.cynoteck.petofyOPHR.utils.Config;
 import com.cynoteck.petofyOPHR.utils.Methods;
 import com.google.android.material.textfield.TextInputEditText;
@@ -64,24 +65,26 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
     RelativeLayout search_boxRL;
     RelativeLayout addNewEntry;
     Methods methods;
-    CardView reports_CV, all_staff_CV, allPets_CV,appoint_CV;
-    ArrayList<String> petUniueId=null;
-    HashMap<String,String> petExistingSearch;
-    TextView vet_name_TV, staff_headline_TV,cancelOtpDialog;
-    String petId="",petParentContactNumber="",strResponseOtp="";
+    CardView reports_CV, all_staff_CV, allPets_CV, appoint_CV;
+    ArrayList<String> petUniueId = null;
+    HashMap<String, String> petExistingSearch;
+    TextView vet_name_TV, staff_headline_TV, cancelOtpDialog;
+    String petId = "", petParentContactNumber = "", strResponseOtp = "";
     Dialog otpDialog;
     TextInputLayout otp_TL;
     TextInputEditText pet_parent_otp;
     Button submit_parent_otp;
     SharedPreferences sharedPreferences;
-    String userTYpe="";
-    String permissionId="";
-    TextView search_box_TV;
+    String userTYpe = "";
+    String permissionId = "";
+    TextView search_box_TV, total_my_pets_TV, total_appointment_TV, total_staff_TV;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         this.context = context;
     }
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -94,24 +97,30 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
         sharedPreferences = getActivity().getSharedPreferences("userdetails", 0);
 
         init();
+        ApiService<GetDashboardCountsResponse> service = new ApiService<>();
+        service.get(this, ApiClient.getApiInterface().getDashboardCounts(Config.token), "GetDashboardCounts");
+        setTotalDashboardNumber();
         return view;
     }
 
 
-
     private void init() {
         methods = new Methods(context);
-        vet_name_TV=view.findViewById(R.id.vet_name_TV);
+        vet_name_TV = view.findViewById(R.id.vet_name_TV);
         search_box_TV = view.findViewById(R.id.search_box_TV);
         staff_headline_TV = view.findViewById(R.id.staff_headline_TV);
         addNewEntry = view.findViewById(R.id.addNewEntry);
-        reports_CV=view.findViewById(R.id.reports_CV);
+        reports_CV = view.findViewById(R.id.reports_CV);
         all_staff_CV = view.findViewById(R.id.staff_CV);
-        pet_list_RV=view.findViewById(R.id.pet_id_TV);
-        allPets_CV=view.findViewById(R.id.allPets_CV);
-        appoint_CV=view.findViewById(R.id.appoint_CV);
+        pet_list_RV = view.findViewById(R.id.pet_id_TV);
+        allPets_CV = view.findViewById(R.id.allPets_CV);
+        appoint_CV = view.findViewById(R.id.appoint_CV);
+        total_staff_TV = view.findViewById(R.id.total_staff_TV);
+        total_my_pets_TV = view.findViewById(R.id.total_my_pets_TV);
+        total_appointment_TV = view.findViewById(R.id.total_appointment_TV);
 
-        vet_name_TV.setText("Hello, Dr "+Config.vet_first_name);
+        vet_name_TV.setText("Hello, Dr " + Config.vet_first_name);
+
         addNewEntry.setOnClickListener(this);
         allPets_CV.setOnClickListener(this);
         reports_CV.setOnClickListener(this);
@@ -124,23 +133,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.search_box_TV:
                 Intent searchPetActivity = new Intent(getContext(), SearchActivity.class);
                 startActivity(searchPetActivity);
                 break;
             case R.id.submit_parent_otp:
-                String otp=pet_parent_otp.getText().toString();
-                if(otp.isEmpty())
-                {
+                String otp = pet_parent_otp.getText().toString();
+                if (otp.isEmpty()) {
                     pet_parent_otp.setError("Enter Correct OTP");
-                }
-                else if(!otp.equals(strResponseOtp))
-                {
+                } else if (!otp.equals(strResponseOtp)) {
                     pet_parent_otp.setError("Enter Wrong OTP");
-                }
-                else
-                {
+                } else {
                     pet_parent_otp.setError(null);
                     NewPetRequest newPetRequest = new NewPetRequest();
                     NewPetParams data = new NewPetParams();
@@ -156,22 +160,24 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
 
             case R.id.addNewEntry:
                 userTYpe = sharedPreferences.getString("user_type", "");
-                if (userTYpe.equals("Vet Staff")){
+                if (userTYpe.equals("Vet Staff")) {
                     Gson gson = new Gson();
                     String json = sharedPreferences.getString("userPermission", null);
-                    Type type = new TypeToken<ArrayList<UserPermissionMasterList>>() {}.getType();
+                    Type type = new TypeToken<ArrayList<UserPermissionMasterList>>() {
+                    }.getType();
                     ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
-                    Log.e("ArrayList",arrayList.toString());
-                    Log.d("UserType",userTYpe);
+                    Log.e("ArrayList", arrayList.toString());
+                    Log.d("UserType", userTYpe);
                     permissionId = "1";
                     methods.showCustomProgressBarDialog(getContext());
-                    String url  = "user/CheckStaffPermission/"+permissionId;
-                    Log.e("URL",url);
+                    String url = "user/CheckStaffPermission/" + permissionId;
+                    Log.e("URL", url);
                     ApiService<CheckStaffPermissionResponse> service = new ApiService<>();
-                    service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token,url), "CheckPermission");
-                }else if (userTYpe.equals("Veterinarian")){
+                    service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token, url), "CheckPermission");
+                } else if (userTYpe.equals("Veterinarian")) {
                     Intent addNewPetIntent = new Intent(getContext(), AddNewPetActivity.class);
-                    addNewPetIntent.putExtra("appointment","");
+                    addNewPetIntent.putExtra("from", "Home");
+                    addNewPetIntent.putExtra("appointment", "");
                     startActivity(addNewPetIntent);
                 }
 
@@ -190,22 +196,23 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
 
             case R.id.staff_CV:
                 userTYpe = sharedPreferences.getString("user_type", "");
-                if (userTYpe.equals("Vet Staff")){
+                if (userTYpe.equals("Vet Staff")) {
                     Gson gson = new Gson();
                     String json = sharedPreferences.getString("userPermission", null);
-                    Type type = new TypeToken<ArrayList<UserPermissionMasterList>>() {}.getType();
+                    Type type = new TypeToken<ArrayList<UserPermissionMasterList>>() {
+                    }.getType();
                     ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
-                    Log.e("ArrayList",arrayList.toString());
-                    Log.d("UserType",userTYpe);
+                    Log.e("ArrayList", arrayList.toString());
+                    Log.d("UserType", userTYpe);
                     permissionId = "15";
                     methods.showCustomProgressBarDialog(getContext());
-                    String url  = "user/CheckStaffPermission/"+permissionId;
-                    Log.e("URL",url);
+                    String url = "user/CheckStaffPermission/" + permissionId;
+                    Log.e("URL", url);
                     ApiService<CheckStaffPermissionResponse> service = new ApiService<>();
-                    service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token,url), "CheckPermission");
-                }else if (userTYpe.equals("Veterinarian")){
-                   Intent staffIntent = new Intent(getContext(), StaffListActivity.class);
-                   startActivity(staffIntent);
+                    service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token, url), "CheckPermission");
+                } else if (userTYpe.equals("Veterinarian")) {
+                    Intent staffIntent = new Intent(getContext(), StaffListActivity.class);
+                    startActivity(staffIntent);
 
                 }
 
@@ -219,20 +226,21 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
 
             case R.id.appoint_CV:
                 userTYpe = sharedPreferences.getString("user_type", "");
-                if (userTYpe.equals("Vet Staff")){
+                if (userTYpe.equals("Vet Staff")) {
                     Gson gson = new Gson();
                     String json = sharedPreferences.getString("userPermission", null);
-                    Type type = new TypeToken<ArrayList<UserPermissionMasterList>>() {}.getType();
+                    Type type = new TypeToken<ArrayList<UserPermissionMasterList>>() {
+                    }.getType();
                     ArrayList<UserPermissionMasterList> arrayList = gson.fromJson(json, type);
-                    Log.e("ArrayList",arrayList.toString());
-                    Log.d("UserType",userTYpe);
+                    Log.e("ArrayList", arrayList.toString());
+                    Log.d("UserType", userTYpe);
                     permissionId = "16";
                     methods.showCustomProgressBarDialog(getContext());
-                    String url  = "user/CheckStaffPermission/"+permissionId;
-                    Log.e("URL",url);
+                    String url = "user/CheckStaffPermission/" + permissionId;
+                    Log.e("URL", url);
                     ApiService<CheckStaffPermissionResponse> service = new ApiService<>();
-                    service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token,url), "CheckPermission");
-                }else if (userTYpe.equals("Veterinarian")){
+                    service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token, url), "CheckPermission");
+                } else if (userTYpe.equals("Veterinarian")) {
                     VetAppointmentsFragment VetAppointmentsFragment = new VetAppointmentsFragment();
                     replaceFragment(VetAppointmentsFragment);
 
@@ -256,20 +264,20 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
 
     private void chkVetInregister(InPetRegisterRequest inPetRegisterRequest) {
         ApiService<InPetVeterianResponse> service = new ApiService<>();
-        service.get( this, ApiClient.getApiInterface().checkPetInVetRegister(Config.token,inPetRegisterRequest), "CheckPetInVetRegister");
-        Log.e("DATALOG","check1=> "+inPetRegisterRequest);
+        service.get(this, ApiClient.getApiInterface().checkPetInVetRegister(Config.token, inPetRegisterRequest), "CheckPetInVetRegister");
+        Log.e("DATALOG", "check1=> " + inPetRegisterRequest);
     }
 
     private void sendotpUsingMobileNumber(SendOtpRequest sendOtpRequest) {
         ApiService<OtpResponse> service = new ApiService<>();
-        service.get( this, ApiClient.getApiInterface().senOtp(Config.token,sendOtpRequest), "SendOtp");
-        Log.e("DATALOG","check1=> "+sendOtpRequest);
+        service.get(this, ApiClient.getApiInterface().senOtp(Config.token, sendOtpRequest), "SendOtp");
+        Log.e("DATALOG", "check1=> " + sendOtpRequest);
     }
 
     private void addNewRegisterPet(NewPetRequest newPetRequest) {
         ApiService<NewPetRegisterResponse> service = new ApiService<>();
-        service.get( this, ApiClient.getApiInterface().addPetToRegister(Config.token,newPetRequest), "AddPetToRegister");
-        Log.e("DATALOG","check1=> "+newPetRequest);
+        service.get(this, ApiClient.getApiInterface().addPetToRegister(Config.token, newPetRequest), "AddPetToRegister");
+        Log.e("DATALOG", "check1=> " + newPetRequest);
     }
 
     @Override
@@ -284,24 +292,23 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
                     int responseCode = Integer.parseInt(checkStaffPermissionResponse.getResponse().getResponseCode());
 
                     if (responseCode == 109) {
-                        if (checkStaffPermissionResponse.getData().equals("true")){
+                        if (checkStaffPermissionResponse.getData().equals("true")) {
                             if (permissionId.equals("16")) {
                                 VetAppointmentsFragment VetAppointmentsFragment = new VetAppointmentsFragment();
                                 replaceFragment(VetAppointmentsFragment);
-                            }else if (permissionId.equals("1")){
+                            } else if (permissionId.equals("1")) {
                                 Intent addNewPetIntent = new Intent(getContext(), AddNewPetActivity.class);
-                                addNewPetIntent.putExtra("appointment","");
+                                addNewPetIntent.putExtra("from", "Home");
+                                addNewPetIntent.putExtra("appointment", "");
                                 startActivity(addNewPetIntent);
-                            }else if (permissionId.equals("15")){
+                            } else if (permissionId.equals("15")) {
                                 Intent staffIntent = new Intent(getContext(), StaffListActivity.class);
                                 startActivity(staffIntent);
                             }
-                        }else {
+                        } else {
                             Toast.makeText(context, "Permission not Granted!!", Toast.LENGTH_SHORT).show();
                         }
-                    }
-                    else
-                    {
+                    } else {
                         Toast.makeText(context, "Please Try Again!!", Toast.LENGTH_SHORT).show();
                     }
 
@@ -314,15 +321,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
 
             case "CheckPetInVetRegister":
                 try {
-                    Log.d("CheckPetInVetRegister",arg0.body().toString());
+                    Log.d("CheckPetInVetRegister", arg0.body().toString());
                     InPetVeterianResponse inPetVeterianResponse = (InPetVeterianResponse) arg0.body();
                     int responseCode = Integer.parseInt(inPetVeterianResponse.getResponse().getResponseCode());
-                    if (responseCode== 109){
-                        if(!inPetVeterianResponse.getData().getPetId().equals("0"))
-                        {
-                            petId=inPetVeterianResponse.getData().getPetId();
-                            petParentContactNumber=inPetVeterianResponse.getData().getPetParentContactNumber();
-                            String actualNumber=petParentContactNumber.replaceAll("-", "");
+                    if (responseCode == 109) {
+                        if (!inPetVeterianResponse.getData().getPetId().equals("0")) {
+                            petId = inPetVeterianResponse.getData().getPetId();
+                            petParentContactNumber = inPetVeterianResponse.getData().getPetParentContactNumber();
+                            String actualNumber = petParentContactNumber.replaceAll("-", "");
                             SendOtpRequest sendOtpRequest = new SendOtpRequest();
                             SendOtpParameter data = new SendOtpParameter();
                             data.setPhoneNumber(actualNumber);
@@ -333,86 +339,104 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
                             } else {
                                 methods.DialogInternet();
                             }
-                        }
-                        else
-                        {
+                        } else {
                             Toast.makeText(getActivity(), "Invalid pet unique Id", Toast.LENGTH_SHORT).show();
                         }
 
-                    }else if (responseCode==614){
+                    } else if (responseCode == 614) {
                         Toast.makeText(getActivity(), inPetVeterianResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
-                    }else {
+                    } else {
                         Toast.makeText(getActivity(), "Please Try Again !", Toast.LENGTH_SHORT).show();
                     }
-                }
-                catch(Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
             case "SendOtp":
                 try {
-                    Log.d("SendOtp",arg0.body().toString());
+                    Log.d("SendOtp", arg0.body().toString());
                     OtpResponse otpResponse = (OtpResponse) arg0.body();
                     int responseCode = Integer.parseInt(otpResponse.getResponse().getResponseCode());
-                    if (responseCode== 109){
-                        if(otpResponse.getData().getSuccess().equals("true"))
-                        {
-                            strResponseOtp=otpResponse.getData().getOtp();
+                    if (responseCode == 109) {
+                        if (otpResponse.getData().getSuccess().equals("true")) {
+                            strResponseOtp = otpResponse.getData().getOtp();
                             otpDialog();
-                        }
-                        else
-                        {
+                        } else {
                             Toast.makeText(getActivity(), "Invalid Mobile Number", Toast.LENGTH_SHORT).show();
                         }
-                    }else if (responseCode==614){
+                    } else if (responseCode == 614) {
                         Toast.makeText(getActivity(), otpResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
-                    }else {
+                    } else {
                         Toast.makeText(getActivity(), "Please Try Again !", Toast.LENGTH_SHORT).show();
                     }
-                }
-                catch(Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
             case "AddPetToRegister":
                 try {
-                    Log.d("AddPetToRegister",arg0.body().toString());
+                    Log.d("AddPetToRegister", arg0.body().toString());
                     NewPetRegisterResponse newPetRegisterResponse = (NewPetRegisterResponse) arg0.body();
                     int responseCode = Integer.parseInt(newPetRegisterResponse.getResponse().getResponseCode());
-                    if (responseCode== 109){
+                    if (responseCode == 109) {
                         otpDialog.dismiss();
                         Toast.makeText(getActivity(), "success", Toast.LENGTH_SHORT).show();
-                        String sexName="";
-                        if(newPetRegisterResponse.getData().getSexId().equals("2.0"))
-                            sexName="Female";
+                        String sexName = "";
+                        if (newPetRegisterResponse.getData().getSexId().equals("2.0"))
+                            sexName = "Female";
                         else
-                            sexName="Male";
+                            sexName = "Male";
                         Intent petDetailsIntent = new Intent(getActivity().getApplication(), PetDetailsActivity.class);
                         Bundle data = new Bundle();
-                        data.putString("pet_id",petId);
-                        data.putString("pet_name",newPetRegisterResponse.getData().getPetName());
-                        data.putString("pet_sex",sexName);
-                        data.putString("pet_parent",newPetRegisterResponse.getData().getPetParentName());
-                        data.putString("pet_age","puppy");
-                        data.putString("pet_unique_id",newPetRegisterResponse.getData().getPetUniqueId());
-                        data.putString("pet_DOB",newPetRegisterResponse.getData().getDateOfBirth());
-                        data.putString("pet_encrypted_id","");
-                        data.putString("pet_cat_id",newPetRegisterResponse.getData().getPetCategoryId());
-                        data.putString("lastVisitEncryptedId","");
+                        data.putString("pet_id", petId);
+                        data.putString("pet_name", newPetRegisterResponse.getData().getPetName());
+                        data.putString("pet_sex", sexName);
+                        data.putString("pet_parent", newPetRegisterResponse.getData().getPetParentName());
+                        data.putString("pet_age", "puppy");
+                        data.putString("pet_unique_id", newPetRegisterResponse.getData().getPetUniqueId());
+                        data.putString("pet_DOB", newPetRegisterResponse.getData().getDateOfBirth());
+                        data.putString("pet_encrypted_id", "");
+                        data.putString("pet_cat_id", newPetRegisterResponse.getData().getPetCategoryId());
+                        data.putString("lastVisitEncryptedId", "");
                         petDetailsIntent.putExtras(data);
                         startActivity(petDetailsIntent);
-                    }else if (responseCode==614){
+                    } else if (responseCode == 614) {
                         Toast.makeText(getActivity(), newPetRegisterResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
-                    }else {
+                    } else {
                         Toast.makeText(getActivity(), "Please Try Again !", Toast.LENGTH_SHORT).show();
                     }
-                }
-                catch(Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
+
+            case "GetDashboardCounts":
+                try {
+                    Log.d("SendOtp", arg0.body().toString());
+                    GetDashboardCountsResponse getDashboardCountsResponse = (GetDashboardCountsResponse) arg0.body();
+                    int responseCode = Integer.parseInt(getDashboardCountsResponse.getResponse().getResponseCode());
+                    if (responseCode == 109) {
+                        Config.total_appointment = getDashboardCountsResponse.getData().getNumberOfAppointments();
+                        Config.total_pets = getDashboardCountsResponse.getData().getNumberOfPets();
+                        Config.total_staff = getDashboardCountsResponse.getData().getNumberOfStaffs();
+                        setTotalDashboardNumber();
+
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
+                break;
         }
 
+    }
+
+    private void setTotalDashboardNumber() {
+        total_appointment_TV.setText(Config.total_appointment);
+        total_staff_TV.setText(Config.total_staff);
+        total_my_pets_TV.setText(Config.total_pets);
     }
 
     @Override
@@ -435,19 +459,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener, ApiR
 
     }
 
-    public void otpDialog()
-    {
-        otpDialog=new Dialog(getContext());
+    public void otpDialog() {
+        otpDialog = new Dialog(getContext());
         otpDialog.setContentView(R.layout.otp_layout);
 
-        otp_TL=otpDialog.findViewById(R.id.otp_TL);
-        pet_parent_otp=otpDialog.findViewById(R.id.pet_parent_otp);
-        submit_parent_otp=otpDialog.findViewById(R.id.submit_parent_otp);
-        cancelOtpDialog=otpDialog.findViewById(R.id.cancelOtpDialog);
+        otp_TL = otpDialog.findViewById(R.id.otp_TL);
+        pet_parent_otp = otpDialog.findViewById(R.id.pet_parent_otp);
+        submit_parent_otp = otpDialog.findViewById(R.id.submit_parent_otp);
+        cancelOtpDialog = otpDialog.findViewById(R.id.cancelOtpDialog);
 
         submit_parent_otp.setOnClickListener(this);
         cancelOtpDialog.setOnClickListener(this);
-
 
 
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();

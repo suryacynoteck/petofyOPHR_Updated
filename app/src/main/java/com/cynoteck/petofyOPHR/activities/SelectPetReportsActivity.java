@@ -14,6 +14,7 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,6 +60,7 @@ public class SelectPetReportsActivity extends AppCompatActivity implements ApiRe
     Methods methods;
     WebView webview;
     ImageView petRegImage_IV;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +107,7 @@ public class SelectPetReportsActivity extends AppCompatActivity implements ApiRe
         xray_layout = findViewById(R.id.xray_layout);
         petRegImage_IV = findViewById(R.id.petRegImage_IV);
         hospitalization_layout = findViewById(R.id.hospitalization_layout);
+        progressBar=findViewById(R.id.progressBar);
         webview = findViewById(R.id.webview);
         WebSettings webSettings = webview.getSettings();
         webSettings.setJavaScriptEnabled(true);
@@ -164,6 +167,7 @@ public class SelectPetReportsActivity extends AppCompatActivity implements ApiRe
         switch (key) {
             case "GetReportsType":
                 try {
+                    progressBar.setVisibility(View.GONE);
                     Log.d("GetPetServiceTypes", response.body().toString());
                     GetReportsTypeResponse petServiceResponse = (GetReportsTypeResponse) response.body();
                     int responseCode = Integer.parseInt(petServiceResponse.getResponse().getResponseCode());

@@ -137,6 +137,7 @@ import com.cynoteck.petofyOPHR.response.searchRemaks.SearchRemaksResponse;
 import com.cynoteck.petofyOPHR.response.staffPermissionListResponse.CheckStaffPermissionResponse;
 import com.cynoteck.petofyOPHR.response.staffPermissionListResponse.StaffPermissionResponse;
 import com.cynoteck.petofyOPHR.response.testResponse.XrayTestResponse;
+import com.cynoteck.petofyOPHR.response.totalStaffPetsAppointment.GetDashboardCountsResponse;
 import com.cynoteck.petofyOPHR.response.upcommingVisitsResponse.UpcommingVisitsResponse;
 import com.cynoteck.petofyOPHR.response.updateProfileResponse.CityResponse;
 import com.cynoteck.petofyOPHR.response.updateProfileResponse.CountryResponse;
@@ -725,6 +726,10 @@ public interface ApiInterface {
     @POST("appointment/GetAppointmentByDate")
     Call<UpcomingAppointmentResponse> getAppointmentByDate(@Header("Authorization") String auth, @Body GetAppointmentFromDateRequest getAppointmentFromDateRequest );
 
+
+    @Headers({ "Content-Type: application/json;charset=UTF-8"})
+    @GET("user/GetDashboardCounts")
+    Call<GetDashboardCountsResponse> getDashboardCounts(@Header("Authorization") String auth);
 
 }
 

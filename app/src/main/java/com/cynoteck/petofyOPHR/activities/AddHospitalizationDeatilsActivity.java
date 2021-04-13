@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
@@ -40,6 +41,7 @@ import com.cynoteck.petofyOPHR.response.addHospitalizationResponse.Addhospitaliz
 import com.cynoteck.petofyOPHR.response.addPet.imageUpload.ImageResponse;
 import com.cynoteck.petofyOPHR.response.hospitalTypeListResponse.HospitalAddmissionTypeResp;
 import com.cynoteck.petofyOPHR.utils.Config;
+import com.cynoteck.petofyOPHR.utils.FilePath;
 import com.cynoteck.petofyOPHR.utils.Methods;
 import com.google.android.material.card.MaterialCardView;
 import com.karumi.dexter.Dexter;
@@ -67,7 +69,7 @@ import retrofit2.Response;
 public class AddHospitalizationDeatilsActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse {
     EditText veterian_name_ET,veterian_phone_ET,hospital_name_ET,hospital_phone_ET,reson_of_hospitalization_ET,result_ET;
     Spinner hospital_type_spinner;
-    TextView calenderTextView_admission_date,hospitalization_peto_edit_reg_number_dialog,
+    TextView document_headline_TV,  calenderTextView_admission_date,hospitalization_peto_edit_reg_number_dialog,
             calenderTextView_discharge_date_TV,doctorPrescription_headline_TV;
     Button save_BT;
     ImageView hospitalization_document_name,hospitalization_upload_documents;
@@ -113,6 +115,7 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
         save_BT=findViewById(R.id.save_BT);
         back_arrow_CV=findViewById(R.id.back_arrow_CV);
         doctorPrescription_headline_TV=findViewById(R.id.doctorPrescription_headline_TV);
+        document_headline_TV=findViewById(R.id.document_headline_TV);
         calenderTextView_admission_date.setOnClickListener(this);
         calenderTextView_discharge_date_TV.setOnClickListener(this);
         save_BT.setOnClickListener(this);
@@ -199,6 +202,10 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
                 break;
             case R.id.hospitalization_upload_documents:
                 showPictureDialog();
+//                Intent intent = new Intent();
+//                intent.setType("application/pdf");
+//                intent.setAction(Intent.ACTION_GET_CONTENT);
+//                startActivityForResult(Intent.createChooser(intent, "Select PDF"), 1);
                 break;
             case R.id.save_BT:
                 String strRequstVeterian=veterian_name_ET.getText().toString();
@@ -380,18 +387,34 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
         startActivityForResult(intent, CAMERA);
 
     }
-
+    public String getPath(Uri uri)
+    {
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+        if (cursor == null) return null;
+        int column_index =             cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        String s=cursor.getString(column_index);
+        cursor.close();
+        return s;
+    }
     @RequiresApi(api = Build.VERSION_CODES.FROYO)
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        dialog.dismiss();
+//        dialog.dismiss();
         if (resultCode == RESULT_CANCELED) {
             return;
         }
+/*        if (requestCode == 1) {
+            Uri contentURI = data.getData();
+            String path = FilePath.getPath(this, contentURI);
+//            File file = new File(contentURI.getPath());
+            UploadImages(file);
+        }else*/
         if (requestCode == GALLERY) {
+            dialog.dismiss();
             if (data != null) {
-
                 Uri contentURI = data.getData();
                 try {
                     bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), contentURI);
@@ -406,7 +429,7 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
 
         }
         else if (requestCode == CAMERA) {
-
+            dialog.dismiss();
             if (data.getData() == null)
             {
                 thumbnail = (Bitmap) data.getExtras().get("data");
@@ -464,6 +487,7 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
     }
 
     private void UploadImages(File absolutePath) {
+        methods.showCustomProgressBarDialog(this);
         MultipartBody.Part userDpFilePart = null;
         if (absolutePath != null) {
             RequestBody userDpFile = RequestBody.create(MediaType.parse("image/*"), absolutePath);
@@ -558,11 +582,13 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
                 break;
             case "UploadDocument":
                 try {
+                    methods.customProgressDismiss();
                     Log.d("UploadDocument",arg0.body().toString());
                     ImageResponse imageResponse = (ImageResponse) arg0.body();
                     int responseCode = Integer.parseInt(imageResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
-                        hospitalization_upload_documents.setVisibility(View.GONE);
+                        document_headline_TV.setText("Document Uploaded");
+//                        hospitalization_upload_documents.setVisibility(View.GONE);
                        // Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
                         strDocumentUrl=imageResponse.getData().getDocumentUrl();
                     }else if (responseCode==614){
@@ -651,6 +677,6 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
 
     @Override
     public void onError(Throwable t, String key) {
-
+        Log.e("Error",t.getLocalizedMessage());
     }
 }

@@ -8,7 +8,8 @@
             <padding
                 android:bottom="3dp"
                 android:left="3dp"
-                android:right="30dp" android:top="3dp" />
+                android:right="10dp"
+                android:top="3dp" />
             <solid android:color="@color/background_grey"/>
         </shape>
         </item>

@@ -59,8 +59,9 @@
             <TextView
                 android:id="@+id/parent_name_TV"
                 android:layout_marginTop="2dp"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@+id/cancel_appointment_RL"
                 android:text="Ashish Rawat"
                 android:fontFamily="@font/nunito"
                 android:textColor="@color/gray_2"

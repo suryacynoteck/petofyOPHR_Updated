@@ -66,7 +66,7 @@ import okhttp3.RequestBody;
 import retrofit2.Response;
 
 public class AddXRayDeatilsActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse {
-    TextView peto_edit_reg_number_dialog,calenderTextViewtestdate,folow_up_dt_view,xray_peto_edit_reg_number_dialog,doctorPrescription_headline_TV;
+    TextView document_headline_TV, peto_edit_reg_number_dialog,calenderTextViewtestdate,folow_up_dt_view,xray_peto_edit_reg_number_dialog,doctorPrescription_headline_TV;
     AppCompatSpinner nature_of_visit_spinner,clinicNext_visit_spinner;
     EditText description_ET;
     Button save_BT;
@@ -114,6 +114,7 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
         xray_document=findViewById(R.id.xray_document);
         save_BT=findViewById(R.id.save_BT);
         back_arrow_CV=findViewById(R.id.back_arrow_CV);
+        document_headline_TV=findViewById(R.id.document_headline_TV);
         save_BT.setOnClickListener(this);
         calenderTextViewtestdate.setOnClickListener(this);
         folow_up_dt_view.setOnClickListener(this);
@@ -546,7 +547,8 @@ public class AddXRayDeatilsActivity extends AppCompatActivity implements View.On
                     ImageResponse imageResponse = (ImageResponse) arg0.body();
                     int responseCode = Integer.parseInt(imageResponse.getResponse().getResponseCode());
                     if (responseCode== 109){
-                        xray_test_upload_documents.setVisibility(View.GONE);
+                        xray_test_upload_documents.setVisibility(View.VISIBLE);
+                        document_headline_TV.setText("Document Uploaded");
                         //Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
                         strDocumentUrl=imageResponse.getData().getDocumentUrl();
                     }else if (responseCode==614){

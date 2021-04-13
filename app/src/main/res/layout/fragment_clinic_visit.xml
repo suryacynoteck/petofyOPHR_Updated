@@ -110,7 +110,7 @@
 
             </LinearLayout>
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginLeft="5dp"
@@ -122,21 +122,25 @@
                 android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatSpinner
-                    android:layout_weight=".5"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     android:id="@+id/nature_of_visit_spinner"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="40dp"
+                    app:layout_constraintEnd_toStartOf="@+id/search_visits"
+                    android:layout_marginRight="20dp"
                     android:background="@drawable/spinner_background"/>
 
                 <LinearLayout
-                    android:layout_weight="1.5"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/nature_of_visit_spinner"
+                    android:layout_marginRight="15dp"
+                    app:layout_constraintTop_toTopOf="parent"
                     android:layout_below="@+id/toolbar"
                     android:id="@+id/search_visits"
-                    android:layout_width="match_parent"
+                    android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_marginRight="10dp"
-                    android:orientation="horizontal"
-                    android:layout_marginLeft="10dp">
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="match_parent"
@@ -148,7 +152,7 @@
 
                 </LinearLayout>
 
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
 

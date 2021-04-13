@@ -45,6 +45,7 @@ import com.cynoteck.petofyOPHR.utils.Config;
 import com.cynoteck.petofyOPHR.utils.Methods;
 import com.cynoteck.petofyOPHR.utils.ViewDeatilsAndIdCardClick;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -53,6 +54,8 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 import retrofit2.Response;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -66,7 +69,7 @@ public class PetRegisterFragment extends Fragment implements ApiResponse, ViewDe
     ImageView empty_IV, search_register_pet, back_arrow_IV;
     RegisterPetAdapter registerPetAdapter;
     private ShimmerFrameLayout mShimmerViewContainer;
-    RelativeLayout search_boxRL,addNewEntry;
+    RelativeLayout search_boxRL, addNewEntry;
     AutoCompleteTextView search_box;
     TextView regiter_pet_headline_TV;
     NestedScrollView nestedScrollView;
@@ -227,7 +230,8 @@ public class PetRegisterFragment extends Fragment implements ApiResponse, ViewDe
                     service.get(this, ApiClient.getApiInterface().getCheckStaffPermission(Config.token, url), "CheckPermission");
                 } else if (userTYpe.equals("Veterinarian")) {
                     Intent addNewPetIntent = new Intent(getContext(), AddNewPetActivity.class);
-                    addNewPetIntent.putExtra("appointment","");
+                    addNewPetIntent.putExtra("from", "Register");
+                    addNewPetIntent.putExtra("appointment", "");
                     startActivity(addNewPetIntent);
                 }
 
@@ -270,7 +274,8 @@ public class PetRegisterFragment extends Fragment implements ApiResponse, ViewDe
                         if (checkStaffPermissionResponse.getData().equals("true")) {
                             if (permissionId.equals("1")) {
                                 Intent addNewPetIntent = new Intent(getContext(), AddNewPetActivity.class);
-                                addNewPetIntent.putExtra("appointment","");
+                                addNewPetIntent.putExtra("from", "Register");
+                                addNewPetIntent.putExtra("appointment", "");
                                 startActivity(addNewPetIntent);
                             }
                         } else {
@@ -419,14 +424,13 @@ public class PetRegisterFragment extends Fragment implements ApiResponse, ViewDe
     @Override
     public void onResume() {
         super.onResume();
-        mShimmerViewContainer.startShimmerAnimation();
-        if (Config.backCall.equals("Added")) {
+        if (Config.isUpdated==true) {
+            mShimmerViewContainer.setVisibility(View.VISIBLE);
+            mShimmerViewContainer.startShimmerAnimation();
             Config.backCall = "";
-            getPetList(page, pagelimit);
-        }
-        if (Config.backCall.equals("hit")) {
-            Config.backCall = "";
-            getPetList(page, pagelimit);
+            profileList.clear();
+            getPetList(1, 10);
+            Config.isUpdated=false;
         }
     }
 
@@ -443,11 +447,29 @@ public class PetRegisterFragment extends Fragment implements ApiResponse, ViewDe
 
         StringTokenizer tokens = new StringTokenizer(profileList.get(position).getId(), ".");
         String first = tokens.nextToken();
-
         Intent intent = new Intent(getActivity(), PetProfileActivity.class);
         intent.putExtra("pet_id", first);
-        startActivity(intent);
+        startActivityForResult(intent, 1);
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                if (Config.isUpdated == true) {
+                    profileList.clear();
+                    mShimmerViewContainer.setVisibility(View.VISIBLE);
+                    mShimmerViewContainer.startShimmerAnimation();
+                    Snackbar snackbar = Snackbar.make(view, "Please wait....", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                    getPetList(1, 10);
+                    Config.isUpdated = false;
+                }
+            }
+        }
+        return;
     }
 
     @Override

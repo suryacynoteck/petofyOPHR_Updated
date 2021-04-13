@@ -80,11 +80,10 @@
         <RelativeLayout
             android:id="@+id/appoint_image_RL"
             android:layout_width="75dp"
-            android:layout_height="0dp"
+            android:layout_height="75dp"
             android:layout_marginLeft="9dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/white_image_bg"
-            app:layout_constraintBottom_toBottomOf="@id/parent_name_TV"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -147,7 +146,7 @@
             android:fontFamily="@font/nunito"
             android:gravity="center_vertical"
             android:paddingBottom="5dp"
-            android:text="Ajay Bisht"
+            android:maxLines="2"
             android:textColor="@color/gray_1"
             android:textSize="14sp"
             app:layout_constraintEnd_toStartOf="@id/pet_id_RL"
@@ -207,17 +206,26 @@
         app:layout_constraintStart_toStartOf="@id/toolbar"
         app:layout_constraintTop_toBottomOf="@+id/pet_details_CL" />
 
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/progressBar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/clinic_visit_headline_TV"/>
+
+
 
 
     <androidx.core.widget.NestedScrollView
         android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/clinic_visit_headline_TV"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp">
 
         <RelativeLayout
             android:id="@+id/reports_list_RL"
-            android:visibility="visible"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

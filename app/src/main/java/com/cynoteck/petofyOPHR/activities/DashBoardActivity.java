@@ -1,8 +1,14 @@
 package com.cynoteck.petofyOPHR.activities;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -34,6 +40,10 @@ import com.cynoteck.petofyOPHR.utils.Methods;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
@@ -41,7 +51,8 @@ import retrofit2.Response;
 
 public class DashBoardActivity extends AppCompatActivity implements View.OnClickListener, ApiResponse {
 
-
+    String currentVersion, latestVersion;
+    Dialog dialog;
     private RelativeLayout homeRL, profileRL, petregisterRL, appointmentRL;
     public ImageView icHome, icProfile, icPetRegister, icAppointment;
     boolean doubleBackToExitPressedOnce = false;
@@ -59,6 +70,9 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_dash_board);
         init();
         methods = new Methods(this);
+        getCurrentVersion();
+
+        Config.tabPosition = 1;
         sharedPreferences = getSharedPreferences("userdetails", 0);
         Config.token = sharedPreferences.getString("token", "");
         Log.e("token", Config.token);
@@ -76,6 +90,8 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         Config.user_verterian_reg_no = sharedPreferences.getString("vetid", "");
         Config.vet_first_name = sharedPreferences.getString("first_name", "");
         Config.vet_last_name = sharedPreferences.getString("last_name", "");
+        Config.onlineConsultationCharges = sharedPreferences.getString("vet_charges", "");
+
 
         if (Config.user_type.equals("Veterinarian")) {
             if (methods.isInternetOn()) {
@@ -91,6 +107,100 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
             ft.add(R.id.content_frame, homeFragment);
             ft.commit();
             icHome.setImageResource(R.drawable.home_active);
+        }
+
+    }
+
+    private void getCurrentVersion() {
+        PackageManager pm = this.getPackageManager();
+        PackageInfo pInfo = null;
+
+        try {
+            pInfo = pm.getPackageInfo(this.getPackageName(), 0);
+
+        } catch (PackageManager.NameNotFoundException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+        currentVersion = pInfo.versionName;
+
+        //currentVersion="1.0.2";
+        Log.d("currentVersion", currentVersion);
+
+        new GetLatestVersion().execute();
+
+    }
+
+    private class GetLatestVersion extends AsyncTask<String, String, JSONObject> {
+
+        private ProgressDialog progressDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected JSONObject doInBackground(String... params) {
+            try {
+//It retrieves the latest version by scraping the content of current version from play store at runtime
+
+                Document doc = Jsoup.connect("https://play.google.com/store/apps/details?id=com.cynoteck.petofyvet").get();
+                latestVersion = doc.getElementsByClass("htlgb").get(6).text();
+
+                //latestVersion = "1.0.1";
+                Log.d("latestVersion", latestVersion);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+
+            return new JSONObject();
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject jsonObject) {
+            if (latestVersion != null) {
+                if (!currentVersion.equalsIgnoreCase(latestVersion)) {
+                    if (!isFinishing()) { //This would help to prevent Error : BinderProxy@45d459c0 is not valid; is your activity running? error
+                        showUpdateDialog();
+                    }
+                }
+            } else {
+                //background.start();
+                // super.onPostExecute(jsonObject);
+            }
+        }
+
+        private void showUpdateDialog() {
+            final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(DashBoardActivity.this);
+            builder.setTitle("A New Update is Available");
+            builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    try {
+                        Intent intent;
+                        intent = new Intent(Intent.ACTION_VIEW);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.setData(Uri.parse("market://details?id=" + "com.cynoteck.petofyvet"));
+                        startActivity(intent);
+                    } catch (android.content.ActivityNotFoundException anfe) {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + "com.cynoteck.petofyvet")));
+                    }
+                    dialog.dismiss();
+                }
+            });
+
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //background.start();
+                }
+            });
+
+            builder.setCancelable(false);
+            dialog = builder.show();
         }
 
     }
@@ -134,8 +244,10 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                     if (responseCode == 109) {
                         login_editor = sharedPreferences.edit();
                         login_editor.putString("profilePic", userResponse.getData().getProfileImageUrl());
+                        login_editor.putString("vet_charges", userResponse.getData().getOnlineConsultationCharges());
                         login_editor.commit();
                         Config.user_Veterian_url = sharedPreferences.getString("profilePic", "");
+                        Config.onlineConsultationCharges = sharedPreferences.getString("vet_charges", "");
 
                         //Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
                         IsVeterinarian = userResponse.getData().getIsVeterinarian();
@@ -268,12 +380,39 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (Config.tabPosition == 1) {
+            icHome.setImageResource(R.drawable.home_active);
+            icProfile.setImageResource(R.drawable.profile_inactive);
+            icPetRegister.setImageResource(R.drawable.pet_inactive);
+            icAppointment.setImageResource(R.drawable.appointment_inactive);
+        } else if (Config.tabPosition == 2) {
+            icHome.setImageResource(R.drawable.home_inactive);
+            icProfile.setImageResource(R.drawable.profile_inactive);
+            icPetRegister.setImageResource(R.drawable.pet_active);
+            icAppointment.setImageResource(R.drawable.appointment_inactive);
+        } else if (Config.tabPosition == 3) {
+            icHome.setImageResource(R.drawable.home_inactive);
+            icProfile.setImageResource(R.drawable.profile_inactive);
+            icPetRegister.setImageResource(R.drawable.pet_inactive);
+            icAppointment.setImageResource(R.drawable.appointment_active);
+        } else if (Config.tabPosition == 4) {
+            icHome.setImageResource(R.drawable.home_inactive);
+            icProfile.setImageResource(R.drawable.profile_active);
+            icPetRegister.setImageResource(R.drawable.pet_inactive);
+            icAppointment.setImageResource(R.drawable.appointment_inactive);
+        }
+    }
+
+    @Override
     public void onClick(View v) {
 
         switch (v.getId()) {
 
             case R.id.homeRL:
                 Config.count = 1;
+                Config.tabPosition = 1;
                 icHome.setImageResource(R.drawable.home_active);
                 icProfile.setImageResource(R.drawable.profile_inactive);
                 icPetRegister.setImageResource(R.drawable.pet_inactive);
@@ -287,6 +426,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
 
             case R.id.profileRL:
                 Config.count = 0;
+                Config.tabPosition = 4;
                 icHome.setImageResource(R.drawable.home_inactive);
                 icProfile.setImageResource(R.drawable.profile_active);
                 icPetRegister.setImageResource(R.drawable.pet_inactive);
@@ -299,6 +439,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
 
             case R.id.petRegisterRL:
                 Config.count = 0;
+                Config.tabPosition = 2;
                 userTYpe = sharedPreferences.getString("user_type", "");
                 if (userTYpe.equals("Vet Staff")) {
                     Gson gson = new Gson();
@@ -329,6 +470,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
 
             case R.id.appointmentRL:
                 Config.count = 0;
+                Config.tabPosition = 3;
                 userTYpe = sharedPreferences.getString("user_type", "");
                 if (userTYpe.equals("Vet Staff")) {
                     Gson gson = new Gson();
@@ -371,7 +513,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
             if (exit) {
                 super.onBackPressed();
                 finishAffinity();
-                System.exit(0);
+//                System.exit(0);
                 return;
             } else {
                 Toast.makeText(this, "Press Back again to Exit.", Toast.LENGTH_SHORT).show();
@@ -385,6 +527,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
             }
         } else {
             Config.count = 1;
+            Config.tabPosition = 1;
             HomeFragment homeFragment = new HomeFragment();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.content_frame, homeFragment);

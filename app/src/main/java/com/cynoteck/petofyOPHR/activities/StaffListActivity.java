@@ -13,6 +13,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -45,6 +46,7 @@ import com.cynoteck.petofyOPHR.utils.Methods;
 import com.cynoteck.petofyOPHR.utils.StaffListClickListener;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -68,8 +70,10 @@ public class StaffListActivity extends AppCompatActivity implements ApiResponse,
     MaterialCardView back_arrow_CV;
     EditText search_box_ET;
     int staffPostion;
+    View coordinatorLayout;
 
     public StaffListActivity() {
+
     }
 
 
@@ -77,12 +81,14 @@ public class StaffListActivity extends AppCompatActivity implements ApiResponse,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.staff_list_activity);
+
         init();
         sharedPreferences = getSharedPreferences("userdetails", 0);
     }
 
     private void init() {
         methods = new Methods(this);
+        coordinatorLayout = findViewById(R.id.content_view);
         all_staff_List_RV = findViewById(R.id.all_staff_List_RV);
         mShimmerViewContainer = findViewById(R.id.shimmer_view_container);
         add_satff_RL = findViewById(R.id.add_satff_RL);
@@ -165,17 +171,21 @@ public class StaffListActivity extends AppCompatActivity implements ApiResponse,
 
     @SuppressLint("ResourceAsColor")
     @Override
-    public void onStausClick(int position, TextView textView) {
+    public void onStausClick(int position, TextView textView, ImageView staff_staus_IV) {
         String status = getAllStaffData.get(position).getIsActive();
         String post_status = "";
         String encrtpty_id = getAllStaffData.get(position).getEncryptedId();
         if (status.equals("true")) {
             getAllStaffData.get(position).setIsActive("false");
             textView.setText("Deactivate");
+            textView.setTextColor(this.getResources().getColor(R.color.deactivate_red));
+            staff_staus_IV.setColorFilter(this.getResources().getColor(R.color.deactivate_red));
             post_status = "false";
         } else {
             getAllStaffData.get(position).setIsActive("true");
             textView.setText("Active");
+            textView.setTextColor(this.getResources().getColor(R.color.dark_green));
+            staff_staus_IV.setColorFilter(this.getResources().getColor(R.color.dark_green));
             post_status = "true";
         }
 
@@ -430,6 +440,8 @@ public class StaffListActivity extends AppCompatActivity implements ApiResponse,
     public void onResume() {
         super.onResume();
         if (Config.isUpdated=true){
+            Snackbar snackbar = Snackbar.make(coordinatorLayout, "Loading......", Snackbar.LENGTH_LONG);
+            snackbar.show();
             getAllStaff();
             Config.isUpdated = false;
         }

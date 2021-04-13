@@ -26,10 +26,11 @@
                 android:layout_height="match_parent"
                 android:fontFamily="@font/nunito_bold"
                 android:gravity="center"
-                android:text="Sun. December31"
+                android:text="Sun. 31 December 2020"
                 android:textColor="@color/gray_2"
                 android:textSize="20sp"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -53,7 +54,7 @@
                     android:layout_weight="0.5"
                     android:background="@drawable/vet_info_bg"
                     android:padding="9dp"
-                    android:visibility="visible">
+                    android:visibility="invisible">
 
 
                     <TextView
@@ -63,7 +64,6 @@
                         android:fontFamily="@font/nunito_bold"
                         android:gravity="center"
                         android:src="@drawable/create_appointment"
-                        android:text="₹ 800"
                         android:textColor="@color/gray_1"
                         android:textSize="15sp"
                         android:textStyle="bold" />
@@ -97,7 +97,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/nunito"
             android:gravity="center"
-            android:text="You have 2 appointments for today"
+            android:text="You have no appointment for today"
             android:textColor="@color/gray_3"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="@id/month_date_CL"

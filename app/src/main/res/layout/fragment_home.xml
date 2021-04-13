@@ -32,19 +32,19 @@
             android:textStyle="bold" />
 
         <ImageView
-            android:layout_marginLeft="10dp"
             android:layout_width="26dp"
             android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/vet_name_TV"
             android:src="@drawable/hello_wave" />
 
         <ImageView
-            android:visibility="gone"
             android:layout_width="25dp"
-
             android:layout_height="match_parent"
+
             android:layout_alignParentEnd="true"
-            android:src="@drawable/qr_code_image" />
+            android:src="@drawable/qr_code_image"
+            android:visibility="gone" />
 
     </RelativeLayout>
 
@@ -147,8 +147,10 @@
         app:layout_constraintTop_toBottomOf="@id/search_and_bar_ll" />
 
     <ScrollView
+        android:id="@+id/scrollView5"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/select_cat_TV">
 
         <LinearLayout
@@ -206,11 +208,12 @@
                             android:src="@drawable/line" />
 
                         <TextView
+                            android:id="@+id/total_my_pets_TV"
                             android:layout_width="70dp"
                             android:layout_height="match_parent"
                             android:fontFamily="@font/nunito"
                             android:gravity="center"
-                            android:text="75"
+                            android:text="111"
                             android:textColor="@color/gray_2"
                             android:textSize="30sp"
                             android:textStyle="bold" />
@@ -228,80 +231,6 @@
 
 
             </com.google.android.material.card.MaterialCardView>
-
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/reports_CV"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_marginLeft="25dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginRight="25dp"
-                android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
-                app:cardCornerRadius="6dp"
-                app:cardElevation="16dp">
-
-                <LinearLayout
-
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:weightSum="3">
-
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1.1"
-                        android:padding="15dp"
-                        android:src="@drawable/medical_history" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/nunito"
-                        android:gravity="center"
-                        android:text="@string/medical_history"
-                        android:textSize="15sp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_weight="0.9"
-                        android:gravity="end">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/line" />
-
-                        <TextView
-                            android:layout_width="70dp"
-                            android:layout_height="match_parent"
-                            android:fontFamily="@font/nunito"
-                            android:gravity="center"
-                            android:text="65"
-                            android:textColor="@color/gray_2"
-                            android:textSize="30sp"
-                            android:textStyle="bold" />
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:padding="18dp"
-                            android:src="@drawable/forward_arrow" />
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
-
-
-            </com.google.android.material.card.MaterialCardView>
-
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/appoint_CV"
@@ -332,16 +261,14 @@
                         android:src="@drawable/appointments" />
 
 
-
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/nunito"
-                            android:gravity="center"
-                            android:text="@string/OnlineAppointment"
-                            android:textSize="15sp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/nunito"
+                        android:gravity="center"
+                        android:text="@string/OnlineAppointment"
+                        android:textSize="15sp" />
 
 
                     <LinearLayout
@@ -356,6 +283,7 @@
                             android:src="@drawable/line" />
 
                         <TextView
+                            android:id="@+id/total_appointment_TV"
                             android:layout_width="70dp"
                             android:layout_height="match_parent"
                             android:fontFamily="@font/nunito"
@@ -379,7 +307,6 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/staff_CV"
                 android:layout_width="match_parent"
@@ -387,7 +314,6 @@
                 android:layout_marginLeft="25dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginRight="25dp"
-                android:layout_marginBottom="50dp"
                 android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
                 app:cardCornerRadius="6dp"
                 app:cardElevation="16dp">
@@ -405,14 +331,14 @@
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="1.1"
                         android:padding="15dp"
                         android:src="@drawable/your_staff" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1.1"
+                        android:layout_weight="1"
                         android:fontFamily="@font/nunito"
                         android:gravity="center"
                         android:text="@string/staff"
@@ -430,6 +356,7 @@
                             android:src="@drawable/line" />
 
                         <TextView
+                            android:id="@+id/total_staff_TV"
                             android:layout_width="70dp"
                             android:layout_height="match_parent"
                             android:fontFamily="@font/nunito"
@@ -453,6 +380,80 @@
 
             </com.google.android.material.card.MaterialCardView>
 
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/reports_CV"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginBottom="50dp"
+                android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+                app:cardCornerRadius="6dp"
+                app:cardElevation="16dp">
+
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.1"
+                        android:padding="15dp"
+                        android:src="@drawable/medical_history" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.9"
+                        android:fontFamily="@font/nunito"
+                        android:gravity="center"
+                        android:text="@string/medical_history"
+                        android:textSize="15sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:gravity="end">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/line"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:layout_width="70dp"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/nunito"
+                            android:gravity="center"
+                            android:text="65"
+                            android:textColor="@color/gray_2"
+                            android:textSize="30sp"
+                            android:textStyle="bold"
+                            android:visibility="gone" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:padding="18dp"
+                            android:src="@drawable/forward_arrow" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+            </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
 

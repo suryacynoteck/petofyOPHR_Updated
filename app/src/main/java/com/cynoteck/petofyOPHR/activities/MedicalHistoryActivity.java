@@ -101,6 +101,7 @@ public class MedicalHistoryActivity extends AppCompatActivity implements ApiResp
         search_box.addTextChangedListener(this);
         cancel_IV.setOnClickListener(this);
         methods = new Methods(this);
+        search_IV.setEnabled(false);
         profileList = new ArrayList<>();
         getPet();
         if (methods.isInternetOn()) {
@@ -223,7 +224,7 @@ public class MedicalHistoryActivity extends AppCompatActivity implements ApiResp
                                 reportsAdapter = new ReportsAdapter(this, profileList, this);
                                 petList_RV.setAdapter(reportsAdapter);
                                 reportsAdapter.notifyDataSetChanged();
-                                search_IV.setVisibility(View.VISIBLE);
+                                search_IV.setEnabled(true);
                             }
                         }
 

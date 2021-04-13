@@ -238,48 +238,19 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+
+
+
+
     </com.google.android.material.card.MaterialCardView>
 
 
-    <!--    <com.facebook.shimmer.ShimmerFrameLayout-->
-    <!--        android:layout_below="@+id/toolbar"-->
-    <!--        android:id="@+id/shimmer_view_container"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_gravity="center"-->
-    <!--        android:orientation="vertical"-->
-    <!--        shimmer:duration="800">-->
-
-    <!--        &lt;!&ndash; Adding 3 rows of placeholders &ndash;&gt;-->
-    <!--        <LinearLayout-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:orientation="vertical">-->
-
-    <!--            <include layout="@layout/list_loading_style" />-->
-
-    <!--            <include layout="@layout/list_loading_style" />-->
-
-    <!--            <include layout="@layout/list_loading_style" />-->
-
-    <!--            <include layout="@layout/list_loading_style" />-->
-    <!--            <include layout="@layout/list_loading_style" />-->
-    <!--            <include layout="@layout/list_loading_style" />-->
-    <!--            <include layout="@layout/list_loading_style" />-->
-    <!--            <include layout="@layout/list_loading_style" />-->
-
-
-    <!--            <include layout="@layout/list_loading_style" />-->
-
-    <!--        </LinearLayout>-->
-
-    <!--    </com.facebook.shimmer.ShimmerFrameLayout>-->
-
-    <!--    <androidx.recyclerview.widget.RecyclerView-->
-    <!--        android:id="@+id/all_staff_List_RV"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_below="@+id/toolbar"/>-->
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/content_view"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

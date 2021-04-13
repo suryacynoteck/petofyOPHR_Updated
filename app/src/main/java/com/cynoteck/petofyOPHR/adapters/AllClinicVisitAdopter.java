@@ -43,7 +43,7 @@ public class AllClinicVisitAdopter extends RecyclerView.Adapter<AllClinicVisitAd
 
         holder.pet_id_TV.setText(clinicVisitResponseData.get(position).getPetUniqueId());
         holder.pet_name_TV.setText(clinicVisitResponseData.get(position).getPetName());
-        holder.petParent_TV.setText(clinicVisitResponseData.get(position).getPetParentName()+"\n"+clinicVisitResponseData.get(position).getContactNumber());
+        holder.petParent_TV.setText(clinicVisitResponseData.get(position).getPetParentName());
         holder.typeOfVisit_TV.setText(clinicVisitResponseData.get(position).getNatureOfVisit().getNature());
         holder.lastVisit_TV.setText(clinicVisitResponseData.get(position).getVisitDate());
         holder.nextVisit_TV.setText(clinicVisitResponseData.get(position).getFollowUpDate());
