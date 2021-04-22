@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.drawable.ColorDrawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
@@ -343,6 +344,7 @@ public class AddHospitalizationDeatilsActivity extends AppCompatActivity impleme
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.dialog_layout);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
         RelativeLayout select_camera = (RelativeLayout) dialog.findViewById(R.id.select_camera);
         RelativeLayout select_gallery = (RelativeLayout) dialog.findViewById(R.id.select_gallery);

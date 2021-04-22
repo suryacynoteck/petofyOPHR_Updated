@@ -75,9 +75,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         Config.tabPosition = 1;
         sharedPreferences = getSharedPreferences("userdetails", 0);
         Config.token = sharedPreferences.getString("token", "");
-        Log.e("token", Config.token);
         Config.user_id = sharedPreferences.getString("userId", "");
-        Log.e("user_id", Config.user_id);
         Config.user_Veterian_phone = sharedPreferences.getString("phoneNumber", "");
         Config.user_Veterian_emial = sharedPreferences.getString("email", "");
         Config.user_Veterian_name = sharedPreferences.getString("firstName", "") + " " + sharedPreferences.getString("lastName", "");

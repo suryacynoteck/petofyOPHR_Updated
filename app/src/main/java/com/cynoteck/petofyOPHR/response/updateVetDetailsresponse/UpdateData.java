@@ -27,7 +27,7 @@ public class UpdateData {
 
     private String isActive;
 
-    private ProviderServiceType[] providerServiceType;
+    private ArrayList<ProviderServiceType> providerServiceType;
 
     private String company;
 
@@ -201,12 +201,12 @@ public class UpdateData {
         this.isActive = isActive;
     }
 
-    public ProviderServiceType[] getProviderServiceType ()
+    public ArrayList<ProviderServiceType> getProviderServiceType ()
     {
         return providerServiceType;
     }
 
-    public void setProviderServiceType (ProviderServiceType[] providerServiceType)
+    public void setProviderServiceType (ArrayList<ProviderServiceType> providerServiceType)
     {
         this.providerServiceType = providerServiceType;
     }

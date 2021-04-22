@@ -211,10 +211,8 @@
                 android:hint="@string/ifsc"
                 android:maxLines="1"
                 android:paddingLeft="25dp"
-                android:textAllCaps="true"
                 android:textColor="@color/gray_1"
                 android:textSize="18sp"
-
                 app:layout_constraintEnd_toEndOf="@id/ifsc_for_bank_TV"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ifsc_for_bank_TV" />

@@ -49,18 +49,7 @@ public class BankAccountDetailsActivity extends AppCompatActivity implements Api
         setContentView(R.layout.activity_bank_account_details);
         initization();
         methods = new Methods(this);
-//        ifsc_for_bank_ET.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View v, boolean hasFocus) {
-//                if (ifsc_for_bank_ET.getText().toString().trim().length()==11){
-//                    progressBar.setVisibility(View.VISIBLE);
-//                    validateIfscCode(ifsc_for_bank_ET.getText().toString().trim());
-//                }else {
-//                    progressBar.setVisibility(View.GONE);
-//                    ifsc_for_bank_details_TV.setVisibility(View.INVISIBLE);
-//                }
-//            }
-//        });
+
         ifsc_for_bank_ET.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -73,7 +62,6 @@ public class BankAccountDetailsActivity extends AppCompatActivity implements Api
                     progressBar.setVisibility(View.VISIBLE);
                     validateIfscCode(ifsc_for_bank_ET.getText().toString().trim());
                 }else {
-
                     progressBar.setVisibility(View.GONE);
                     ifsc_for_bank_details_TV.setVisibility(View.INVISIBLE);
                 }
@@ -84,12 +72,13 @@ public class BankAccountDetailsActivity extends AppCompatActivity implements Api
 
             }
         });
-        account_for_bank_ET.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-               account_for_bank_ET.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            }
-        });
+
+//        account_for_bank_ET.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//               account_for_bank_ET.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+//            }
+//        });
     }
 
     private void validateIfscCode(String ifscCode) {

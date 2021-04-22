@@ -6,6 +6,15 @@ public class PetTypeList {
     private String selected;
     private String text;
     private String value;
+    private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public String getDisabled() {
         return disabled;
@@ -50,7 +59,7 @@ public class PetTypeList {
     @Override
     public String toString()
     {
-        return "ClassPojo [disabled = "+disabled+", group = "+group+", selected= "+selected+", text= "+text+", value= "+value+"]";
+        return "ClassPojo [disabled = "+disabled+", group = "+group+", selected= "+selected+", text= "+text+", value= "+value+", status= "+status+"]";
     }
 
 }

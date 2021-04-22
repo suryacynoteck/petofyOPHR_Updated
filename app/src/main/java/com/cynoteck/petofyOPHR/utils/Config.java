@@ -1,8 +1,11 @@
 package com.cynoteck.petofyOPHR.utils;
 
+import com.cynoteck.petofyOPHR.response.getPetReportsResponse.getPetListResponse.PetList;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 

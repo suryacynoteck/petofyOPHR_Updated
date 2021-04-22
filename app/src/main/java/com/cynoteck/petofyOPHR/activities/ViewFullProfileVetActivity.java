@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.drawable.ColorDrawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
@@ -92,8 +93,8 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
     Bitmap bitmap, thumbnail;
     private static final String IMAGE_DIRECTORY = "/Picture";
     File catfile1 = null;
-    ArrayList<ServiceTypeList> petService = new ArrayList<>();
-    ArrayList<PetTypeList> petType = new ArrayList<>();
+    ArrayList<ServiceTypeList> petService;
+    ArrayList<PetTypeList> petType;
     ShimmerFrameLayout vet_profile_shimmer;
     ScrollView vet_full_details_SV;
     List<String> petServiceText;
@@ -128,7 +129,7 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.dialog_layout);
-
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         RelativeLayout select_camera = (RelativeLayout) dialog.findViewById(R.id.select_camera);
         RelativeLayout select_gallery = (RelativeLayout) dialog.findViewById(R.id.select_gallery);
         RelativeLayout cancel_dialog = (RelativeLayout) dialog.findViewById(R.id.cancel_dialog);
@@ -367,52 +368,81 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
                     image_edit_CV.setVisibility(View.VISIBLE);
                     vet_profile_shimmer.setVisibility(View.GONE);
                     vet_profile_shimmer.stopShimmerAnimation();
-                    Log.d("GetUserDetails", response.body().toString());
                     userResponse = (UserResponse) response.body();
                     int responseCode = Integer.parseInt(userResponse.getResponse().getResponseCode());
                     if (responseCode == 109) {
+                        Log.e("stydy",userResponse.getData().getVetQualifications());
+                        petService = new ArrayList<>();
                         petServiceText = new ArrayList<>();
                         petServiceValue = new ArrayList<>();
+                        petType = new ArrayList<>();
                         petTypeText = new ArrayList<>();
                         petTypeValue = new ArrayList<>();
                         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
                         login_editor = sharedPreferences.edit();
+                        login_editor.putString("first_name", userResponse.getData().getFirstName());
+                        login_editor.putString("last_name", userResponse.getData().getLastName());
+                        login_editor.putString("email", userResponse.getData().getEmail());
+                        login_editor.putString("firstName", userResponse.getData().getFirstName());
+                        login_editor.putString("lastName", userResponse.getData().getLastName());
+                        login_editor.putString("address", userResponse.getData().getAddress());
                         login_editor.putString("profilePic", userResponse.getData().getProfileImageUrl());
+                        login_editor.putString("vetid", userResponse.getData().getVetRegistrationNumber());
+                        login_editor.putString("twoFactAuth", userResponse.getData().getEnableTwoStepVerification());
+                        login_editor.putString("study", userResponse.getData().getVetQualifications());
+
                         login_editor.commit();
-                        Config.user_Veterian_url = sharedPreferences.getString("profilePic", "");
+                        Config.user_id = sharedPreferences.getString("userId", "");
+                        Config.user_Veterian_phone = sharedPreferences.getString("phoneNumber", "");
+                        Config.user_Veterian_emial = sharedPreferences.getString("email", "");
+                        Config.user_Veterian_name = sharedPreferences.getString("firstName", "") + " " + sharedPreferences.getString("lastName", "");
+                        Config.user_Veterian_address = sharedPreferences.getString("address", "");
+                        Config.user_Veterian_online = sharedPreferences.getString("onlineAppoint", "");
+                        Config.user_Veterian_id = sharedPreferences.getString("vetid", "");
+                        Config.user_Veterian_study = sharedPreferences.getString("study", "");
+                        Config.two_fact_auth_status = sharedPreferences.getString("twoFactAuth", "");
+                        Config.user_type = sharedPreferences.getString("user_type", "");
+                        Config.user_verterian_reg_no = sharedPreferences.getString("vetid", "");
+                        Config.vet_first_name = sharedPreferences.getString("first_name", "");
+                        Config.vet_last_name = sharedPreferences.getString("last_name", "");
+                        Config.onlineConsultationCharges = sharedPreferences.getString("vet_charges", "");
                         edit_profile_IV.setVisibility(View.VISIBLE);
-                        petType = userResponse.getData().getPetTypeList();
                         StringBuilder stringBuilder = new StringBuilder();
+                        for (int i = 0; i < userResponse.getData().getPetTypeList().size(); i++) {
+                            PetTypeList petTypeList = new PetTypeList();
+                            if (userResponse.getData().getPetTypeList().get(i).getStatus().equals("1")) {
+                                petTypeList.setStatus(userResponse.getData().getPetTypeList().get(i).getStatus());
+                                petTypeList.setText(userResponse.getData().getPetTypeList().get(i).getText());
+                                petTypeList.setValue(userResponse.getData().getPetTypeList().get(i).getValue());
+                                petType.add(petTypeList);
+
+                            }
+                        }
                         for (int i = 0; i < petType.size(); i++) {
-                            petTypeText.add(petType.get(i).getText());
-                            petTypeValue.add(petType.get(i).getValue());
-                            stringBuilder.append(petTypeText.get(i)).append(", ");
+                                petTypeText.add(petType.get(i).getText());
+                                petTypeValue.add(petType.get(i).getValue());
+                                stringBuilder.append(petTypeText.get(i)).append(", ");
                         }
                         String petCategoryStr = stringBuilder.toString();
                         if (petCategoryStr.length() > 0)
                             petCategoryStr = petCategoryStr.substring(0, petCategoryStr.length() - 2);
                         vet_category_TV.setText(petCategoryStr);
-
-                        Log.e("petTypeText", petTypeText.stream().collect(Collectors.joining(",")));
-                        Log.e("petTypeValue", petTypeValue.stream().collect(Collectors.joining(",")));
                         setVetInfo();
                         setServiceType();
                         petService = userResponse.getData().getServiceTypeList();
                         for (int i = 0; i < petService.size(); i++) {
-                            petServiceText.add(petService.get(i).getText());
-                            petServiceValue.add(petService.get(i).getValue());
+                            if (petService.get(i).getStatus().equals("1")) {
+                                petServiceText.add(petService.get(i).getText());
+                                petServiceValue.add(petService.get(i).getValue());
+                            }
                         }
-                        Log.e("petServiceText", petServiceText.stream().collect(Collectors.joining(",")));
-                        Log.e("petServiceValue", petServiceValue.stream().collect(Collectors.joining(",")));
                         setInfo();
-
                         if (!userResponse.getData().getProfileImageUrl().equals(null)) {
                             Log.e("url", userResponse.getData().getProfileImageUrl());
                             Glide.with(this)
                                     .load(new URL(userResponse.getData().getProfileImageUrl()))
                                     .into(vet_image_TV);
                         }
-
                     } else if (responseCode == 614) {
                         Toast.makeText(this, userResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
                     } else {
@@ -484,8 +514,22 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
     private void setServiceType() {
         vet_service_type_RV.setLayoutFrozen(true);
         vet_service_type_RV.setNestedScrollingEnabled(false);
+        ArrayList<ServiceTypeList> serviceTypeLists = new ArrayList<>();
+        for (int i= 0; i < userResponse.getData().getServiceTypeList().size(); i++){
+            ServiceTypeList serviceTypeList = new ServiceTypeList();
+            if (userResponse.getData().getServiceTypeList().get(i).getStatus().equals("1")){
+                serviceTypeList.setStatus(userResponse.getData().getServiceTypeList().get(i).getStatus());
+                serviceTypeList.setText(userResponse.getData().getServiceTypeList().get(i).getText());
+                serviceTypeList.setValue(userResponse.getData().getServiceTypeList().get(i).getValue());
+                serviceTypeLists.add(serviceTypeList);
+            }
+
+        }
+        Log.e("SERVICE",methods.getRequestJson(userResponse.getData().getServiceTypeList()));
+        Log.e("SERVICE",methods.getRequestJson(serviceTypeLists));
+
         vet_service_type_RV.setLayoutManager(new GridLayoutManager(this, 2));
-        serviceTypeListAdpater = new ServiceTypeListAdpater(this, userResponse.getData().getServiceTypeList());
+        serviceTypeListAdpater = new ServiceTypeListAdpater(this, serviceTypeLists);
         vet_service_type_RV.setAdapter(serviceTypeListAdpater);
         serviceTypeListAdpater.notifyDataSetChanged();
     }
