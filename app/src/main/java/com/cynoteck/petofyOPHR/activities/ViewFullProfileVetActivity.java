@@ -170,7 +170,6 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
     private void takePhotoFromCamera() {
 
         Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-
         startActivityForResult(intent, CAMERA);
 
     }
@@ -189,14 +188,12 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
                 Uri contentURI = data.getData();
                 try {
                     bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), contentURI);
-
                     vet_image_TV.setImageBitmap(bitmap);
                     saveImage(bitmap);
 
 
                 } catch (IOException e) {
                     e.printStackTrace();
-
                     Toast.makeText(ViewFullProfileVetActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -330,6 +327,8 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
         vet_profile_shimmer.startShimmerAnimation();
         ApiService<UserResponse> service = new ApiService<>();
         service.get(this, ApiClient.getApiInterface().getUserDetailsApi(Config.token), "GetUserDetails");
+//        vet_profile_shimmer.setVisibility(View.VISIBLE);
+//        vet_profile_shimmer.startShimmerAnimation();
         Log.d("request", "getDeatisl");
     }
 
@@ -438,10 +437,12 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
                         }
                         setInfo();
                         if (!userResponse.getData().getProfileImageUrl().equals(null)) {
+
                             Log.e("url", userResponse.getData().getProfileImageUrl());
                             Glide.with(this)
                                     .load(new URL(userResponse.getData().getProfileImageUrl()))
                                     .into(vet_image_TV);
+
                         }
                     } else if (responseCode == 614) {
                         Toast.makeText(this, userResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
@@ -469,6 +470,9 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
                         ApiService<JsonObject> service = new ApiService<>();
                         service.get(this, ApiClient.getApiInterface().updateProfileImage(Config.token, uploadVetProfileImageData), "UpdateProfileImage");
                         Log.d("UpdateProfileImage", uploadVetProfileImageData.toString());
+                        Log.d("UpdateProfileImage ","upload document");
+
+                        Toast.makeText(this, "Success in uploading", Toast.LENGTH_SHORT).show();
 
                     } else if (responseCode == 614) {
                         Toast.makeText(this, imageResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
@@ -489,11 +493,12 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
                     jsonObject = (JsonObject) response.body();
                     int responseCode = Integer.parseInt(String.valueOf(jsonObject.getAsJsonObject("response").get("responseCode")));
                     if (responseCode == 109) {
+                        Log.d("UploadDocument ","Update prfile img");
+//                        getUserDetails();
 
-                        getUserDetails();
-                        Toast.makeText(this, jsonObject.getAsJsonObject("response").get("responseMessage").toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this," Updte profile image response code 109 "+ jsonObject.getAsJsonObject("response").get("responseMessage").toString(), Toast.LENGTH_SHORT).show();
                     } else if (responseCode == 614) {
-                        Toast.makeText(this, jsonObject.getAsJsonObject("response").get("responseMessage").toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this,"response code 614"+ jsonObject.getAsJsonObject("response").get("responseMessage").toString(), Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
                     }

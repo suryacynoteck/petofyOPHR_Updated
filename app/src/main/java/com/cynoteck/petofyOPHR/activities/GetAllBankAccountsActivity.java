@@ -1,6 +1,7 @@
 package com.cynoteck.petofyOPHR.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -60,14 +61,21 @@ public class GetAllBankAccountsActivity extends AppCompatActivity implements Api
 
     @Override
     public void onResponse(Response arg0, String key) {
-
         switch (key){
             case "GetAccounts":
                 try {
                     progressBar.setVisibility(View.GONE);
                     GetBankAccoutsResponse getBankAccoutsResponse  = (GetBankAccoutsResponse) arg0.body();
-                    Log.d("GetAccounts", getBankAccoutsResponse.toString());
+//                    Log.d("GetAccounts", getBankAccoutsResponse.toString());
                     int responseCode = Integer.parseInt(getBankAccoutsResponse.getResponse().getResponseCode());
+//                    for backbutton
+                    SharedPreferences sharedPreferences = getSharedPreferences("responseCode", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putInt("responseCode", responseCode);
+                    editor.apply();
+
+
+
                     if (responseCode == 109) {
                         bank_accounts_RV.setVisibility(View.VISIBLE);
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);

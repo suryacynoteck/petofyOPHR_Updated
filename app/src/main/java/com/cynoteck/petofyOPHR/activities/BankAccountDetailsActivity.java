@@ -1,7 +1,10 @@
 package com.cynoteck.petofyOPHR.activities;
 
 import android.annotation.SuppressLint;
+import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -16,20 +19,28 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cynoteck.petofyOPHR.R;
+import com.cynoteck.petofyOPHR.adapters.GetBanksAccountsAdapter;
 import com.cynoteck.petofyOPHR.api.ApiClient;
 import com.cynoteck.petofyOPHR.api.ApiResponse;
 import com.cynoteck.petofyOPHR.api.ApiService;
+import com.cynoteck.petofyOPHR.fragments.HomeFragment;
+import com.cynoteck.petofyOPHR.fragments.ProfileFragment;
 import com.cynoteck.petofyOPHR.params.addBankAccountParams.AddBankAccountParams;
 import com.cynoteck.petofyOPHR.params.addBankAccountParams.AddBankAccountRequest;
 import com.cynoteck.petofyOPHR.params.addBankAccountParams.ValidateIfscParams;
 import com.cynoteck.petofyOPHR.params.addBankAccountParams.ValidateIfscRequest;
 import com.cynoteck.petofyOPHR.response.bankAccountResponse.AddBankAccountResponse;
+import com.cynoteck.petofyOPHR.response.bankAccountResponse.GetBankAccoutsResponse;
 import com.cynoteck.petofyOPHR.response.bankAccountResponse.ValidateIfscCodeResponse;
 import com.cynoteck.petofyOPHR.utils.Config;
 import com.cynoteck.petofyOPHR.utils.Methods;
 import com.google.android.material.card.MaterialCardView;
+
+import java.util.List;
 
 import retrofit2.Response;
 
@@ -37,12 +48,16 @@ public class BankAccountDetailsActivity extends AppCompatActivity implements Api
     EditText name_for_bank_ET, email_for_bank_ET, contact_for_bank_ET, ifsc_for_bank_ET, account_for_bank_ET,confirm_account_for_bank_ET;
     TextView ifsc_for_bank_details_TV;
     Button add_account_BT;
+
+    GetAllBankAccountsActivity getAllBankAccountsActivity;
     MaterialCardView back_arrow_CV;
     ProgressBar progressBar;
     String name_for_bank_str, email_for_bank_str, contact_for_bank_str,account_no_str, confirm_account_no_str, ifsc_str;
     String finalIfsc="";
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     Methods methods;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,7 +149,7 @@ public class BankAccountDetailsActivity extends AppCompatActivity implements Api
                     } else if (responseCode == 614) {
                         Toast.makeText(this, validateIfscCodeResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Please Try Again ! Bank account ativity", Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (Exception e) {
@@ -149,6 +164,7 @@ public class BankAccountDetailsActivity extends AppCompatActivity implements Api
                     AddBankAccountResponse addBankAccountResponse   = (AddBankAccountResponse) arg0.body();
                     Log.d("addAccount", addBankAccountResponse.toString());
                     int responseCode = Integer.parseInt(addBankAccountResponse.getResponse().getResponseCode());
+
                     if (responseCode == 109) {
                         Intent intent = new Intent();
                         setResult(RESULT_OK, intent);
@@ -162,6 +178,11 @@ public class BankAccountDetailsActivity extends AppCompatActivity implements Api
                     e.printStackTrace();
                 }
                 break;
+
+
+
+
+
         }
 
     }
@@ -171,11 +192,33 @@ public class BankAccountDetailsActivity extends AppCompatActivity implements Api
 
     }
 
+
+    public void checkGetAllBankAccountsisEmpty()
+    {
+        SharedPreferences sharedPreferences = getSharedPreferences("responseCode", MODE_PRIVATE);
+        int resCode=sharedPreferences.getInt("responseCode",0);
+        if(resCode==109){
+            onBackPressed();
+        }
+        else{
+
+            Intent intent= new Intent(BankAccountDetailsActivity.this,ProfileFragment.class);
+            startActivity(intent);
+
+
+//            Log.d("Cynotech", "checkGetAllBankAccounts: ");
+//            Toast.makeText(this,"back button is pressed",Toast.LENGTH_LONG).show();
+        }
+
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.back_arrow_CV:
-                onBackPressed();
+
+//                onBackPressed();
+                checkGetAllBankAccountsisEmpty();
                 break;
 
             case R.id.add_account_BT:
@@ -297,6 +340,9 @@ public class BankAccountDetailsActivity extends AppCompatActivity implements Api
 
                 break;
         }
+
+
+
 
 
     }
