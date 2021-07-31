@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -149,7 +150,7 @@ public class BankAccountDetailsActivity extends AppCompatActivity implements Api
                     } else if (responseCode == 614) {
                         Toast.makeText(this, validateIfscCodeResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(this, "Please Try Again ! Bank account ativity", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (Exception e) {
@@ -160,18 +161,22 @@ public class BankAccountDetailsActivity extends AppCompatActivity implements Api
 
             case "AddAccount":
                 try {
+
                     methods.customProgressDismiss();
                     AddBankAccountResponse addBankAccountResponse   = (AddBankAccountResponse) arg0.body();
                     Log.d("addAccount", addBankAccountResponse.toString());
                     int responseCode = Integer.parseInt(addBankAccountResponse.getResponse().getResponseCode());
+                    Log.d("AAddAccount", "onResponse: "+responseCode);
 
                     if (responseCode == 109) {
                         Intent intent = new Intent();
                         setResult(RESULT_OK, intent);
                         finish();
                         Toast.makeText(this, "Account Added Succesfully ", Toast.LENGTH_SHORT).show();
+
                     } else {
                         Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+//                        Log.d("ADD account", "onResponse: "+responseCode);
                     }
 
                 } catch (Exception e) {
@@ -201,9 +206,20 @@ public class BankAccountDetailsActivity extends AppCompatActivity implements Api
             onBackPressed();
         }
         else{
+//            onBackPressed();
+            finish();
+//            Toast.makeText(this,"",Toast.LENGTH_LONG).show();
 
-            Intent intent= new Intent(BankAccountDetailsActivity.this,ProfileFragment.class);
-            startActivity(intent);
+//            Intent intent= new Intent(BankAccountDetailsActivity.this,ProfileFragment.class);
+//            startActivity(intent);
+
+//            ProfileFragment profileFragment = new ProfileFragment();
+//            FragmentTransaction ftProfile = getSupportFragmentManager().beginTransaction();
+//            ftProfile.replace(R.id.content_frame, profileFragment);
+//            ftProfile.commit();
+//            FragmentManager fm = getSupportFragmentManager();
+//            ProfileFragment fragment = new ProfileFragment();
+//            fm.beginTransaction().add(R.id.content_frame,fragment).commit();
 
 
 //            Log.d("Cynotech", "checkGetAllBankAccounts: ");
@@ -216,9 +232,14 @@ public class BankAccountDetailsActivity extends AppCompatActivity implements Api
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.back_arrow_CV:
+//                ProfileFragment profileFragment = new ProfileFragment();
+//                FragmentTransaction ftProfile = getSupportFragmentManager().beginTransaction();
+//                ftProfile.replace(R.id.content_frame, profileFragment);
+//                ftProfile.commit();
 
-//                onBackPressed();
-                checkGetAllBankAccountsisEmpty();
+                onBackPressed();
+//                finish();
+//                checkGetAllBankAccountsisEmpty();
                 break;
 
             case R.id.add_account_BT:
@@ -334,7 +355,7 @@ public class BankAccountDetailsActivity extends AppCompatActivity implements Api
 
                     ApiService<AddBankAccountResponse> service = new ApiService<>();
                     service.get(this, ApiClient.getApiInterface().addBankAccount(Config.token, addBankAccountRequest), "AddAccount");
-                    Log.d("AddAccount", "parameter" + addBankAccountRequest);
+                    Log.d("AddAccount", "parameter " + addBankAccountRequest);
 
                 }
 

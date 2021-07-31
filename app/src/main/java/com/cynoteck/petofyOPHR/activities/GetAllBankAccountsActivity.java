@@ -89,6 +89,7 @@ public class GetAllBankAccountsActivity extends AppCompatActivity implements Api
                         Intent intent = new Intent(this,BankAccountDetailsActivity.class);
                         startActivityForResult(intent,1);
                         Toast.makeText(this, getBankAccoutsResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
+                        finish();
                     } else {
                         Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
                     }

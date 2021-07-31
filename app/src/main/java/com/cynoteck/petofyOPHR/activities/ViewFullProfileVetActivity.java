@@ -327,8 +327,6 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
         vet_profile_shimmer.startShimmerAnimation();
         ApiService<UserResponse> service = new ApiService<>();
         service.get(this, ApiClient.getApiInterface().getUserDetailsApi(Config.token), "GetUserDetails");
-//        vet_profile_shimmer.setVisibility(View.VISIBLE);
-//        vet_profile_shimmer.startShimmerAnimation();
         Log.d("request", "getDeatisl");
     }
 
@@ -359,6 +357,7 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
     @SuppressLint("NewApi")
     @Override
     public void onResponse(Response response, String key) {
+        Log.d("ND", "onResponse: "+key);
         switch (key) {
             case "GetUserDetails":
                 try {
@@ -447,7 +446,7 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
                     } else if (responseCode == 614) {
                         Toast.makeText(this, userResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Please Try Again GetUserDetails !", Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -477,7 +476,7 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
                     } else if (responseCode == 614) {
                         Toast.makeText(this, imageResponse.getResponse().getResponseMessage(), Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Please Try Again UploadDocument !", Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -488,19 +487,19 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
             case "UpdateProfileImage":
                 try {
                     methods.customProgressDismiss();
-                    Log.d("UploadDocument", response.body().toString());
+//                    Log.d("UploadDocument", response.body().toString());
                     JsonObject jsonObject = new JsonObject();
                     jsonObject = (JsonObject) response.body();
                     int responseCode = Integer.parseInt(String.valueOf(jsonObject.getAsJsonObject("response").get("responseCode")));
                     if (responseCode == 109) {
-                        Log.d("UploadDocument ","Update prfile img");
+//                        Log.d("UploadDocument ","Update prfile img");
 //                        getUserDetails();
 
                         Toast.makeText(this," Updte profile image response code 109 "+ jsonObject.getAsJsonObject("response").get("responseMessage").toString(), Toast.LENGTH_SHORT).show();
                     } else if (responseCode == 614) {
                         Toast.makeText(this,"response code 614"+ jsonObject.getAsJsonObject("response").get("responseMessage").toString(), Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(this, "Please Try Again !", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Please Try Again UpdateProfileImage!", Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
