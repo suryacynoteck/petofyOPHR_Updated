@@ -327,7 +327,7 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
         vet_profile_shimmer.startShimmerAnimation();
         ApiService<UserResponse> service = new ApiService<>();
         service.get(this, ApiClient.getApiInterface().getUserDetailsApi(Config.token), "GetUserDetails");
-        Log.d("request", "getDeatisl");
+        Log.d("request", "getdetails");
     }
 
     private void inilization() {
@@ -495,7 +495,7 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
 //                        Log.d("UploadDocument ","Update prfile img");
 //                        getUserDetails();
 
-                        Toast.makeText(this," Updte profile image response code 109 "+ jsonObject.getAsJsonObject("response").get("responseMessage").toString(), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(this," Update profile image response code 109 "+ jsonObject.getAsJsonObject("response").get("responseMessage").toString(), Toast.LENGTH_SHORT).show();
                     } else if (responseCode == 614) {
                         Toast.makeText(this,"response code 614"+ jsonObject.getAsJsonObject("response").get("responseMessage").toString(), Toast.LENGTH_SHORT).show();
                     } else {

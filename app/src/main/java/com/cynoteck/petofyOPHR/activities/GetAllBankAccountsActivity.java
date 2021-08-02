@@ -66,7 +66,7 @@ public class GetAllBankAccountsActivity extends AppCompatActivity implements Api
                 try {
                     progressBar.setVisibility(View.GONE);
                     GetBankAccoutsResponse getBankAccoutsResponse  = (GetBankAccoutsResponse) arg0.body();
-//                    Log.d("GetAccounts", getBankAccoutsResponse.toString());
+                    Log.d("GetAccounts", getBankAccoutsResponse.toString());
                     int responseCode = Integer.parseInt(getBankAccoutsResponse.getResponse().getResponseCode());
 //                    for backbutton
                     SharedPreferences sharedPreferences = getSharedPreferences("responseCode", MODE_PRIVATE);
