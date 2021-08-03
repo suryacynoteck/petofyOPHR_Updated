@@ -121,6 +121,7 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
         } else {
             methods.DialogInternet();
         }
+        Log.d("TAG", "onCreate: ");
 
     }
 
