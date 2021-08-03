@@ -49,6 +49,7 @@ public class BankAccountDetailsActivity extends AppCompatActivity implements Api
         setContentView(R.layout.activity_bank_account_details);
         initization();
         methods = new Methods(this);
+        Log.d("TAG", "onCreate: ");
 
         ifsc_for_bank_ET.addTextChangedListener(new TextWatcher() {
             @Override
