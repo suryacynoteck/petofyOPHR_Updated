@@ -89,6 +89,7 @@ public class BankAccountDetailsActivity extends AppCompatActivity implements Api
 
         ApiService<ValidateIfscCodeResponse> service = new ApiService<>();
         service.get(this, ApiClient.getApiInterface().validateIfscCode(Config.token, validateIfscRequest), "ValidateIfsc");
+        Log.d( "validateIfscCode: ","teting");
 
 
     }
