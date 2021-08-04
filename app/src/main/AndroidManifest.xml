@@ -47,6 +47,7 @@
         <activity android:name=".activities.GetAllBankAccountsActivity"
             android:screenOrientation="sensor"
             android:configChanges="orientation|screenSize"
+
             />
         <activity android:name=".activities.BankAccountDetailsActivity" />
         <activity android:name=".activities.AddEditImmunizationActivity" />
