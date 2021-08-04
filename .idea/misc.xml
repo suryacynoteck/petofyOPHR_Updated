@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/petofy_ophr/app/src/main/res/layout/account_list.xml" value="0.1" />
         <entry key="..\:/petofy_ophr/app/src/main/res/layout/activity_bank_account_details.xml" value="0.18070652173913043" />
+        <entry key="..\:/petofy_ophr/app/src/main/res/layout/activity_get_all_bank_accounts.xml" value="0.1" />
         <entry key="..\:/petofy_ophr/app/src/main/res/layout/vet_profile_fragment.xml" value="0.1" />
       </map>
     </option>
