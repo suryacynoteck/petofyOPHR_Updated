@@ -166,7 +166,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
     LinearLayout add_immunization_data_LL, addPrescriptionButton, diagnosis_Layout, deworming_name_Layout, deworming_dose_Layout/*, imaunizatioHeader*/;
     EditText clinicVeterian_name_ET, clinicCescription_ET, remaks_ET, next_vaccine_ET, history_ET, diagnosis_result, remarks_ET,
             weight_ET, clinicTemparature_ET;
-//    View immunizationView;
+
     MultiAutoCompleteTextView clinicTreatment_remarks_MT, clinicDiagnosis_ET, deworming_AC, deworming_dose_AC;
     AppCompatSpinner clinicNature_of_visit_spinner, clinicNext_visit_spinner, vaccine_type, vaccine_name,
             next_vaccine_type_spinner, next_dewormer_spinner;
