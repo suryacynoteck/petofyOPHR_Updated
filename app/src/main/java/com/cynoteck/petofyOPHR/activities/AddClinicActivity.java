@@ -166,7 +166,7 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
     LinearLayout add_immunization_data_LL, addPrescriptionButton, diagnosis_Layout, deworming_name_Layout, deworming_dose_Layout/*, imaunizatioHeader*/;
     EditText clinicVeterian_name_ET, clinicCescription_ET, remaks_ET, next_vaccine_ET, history_ET, diagnosis_result, remarks_ET,
             weight_ET, clinicTemparature_ET;
-//    View immunizationView;
+
     MultiAutoCompleteTextView clinicTreatment_remarks_MT, clinicDiagnosis_ET, deworming_AC, deworming_dose_AC;
     AppCompatSpinner clinicNature_of_visit_spinner, clinicNext_visit_spinner, vaccine_type, vaccine_name,
             next_vaccine_type_spinner, next_dewormer_spinner;
@@ -207,11 +207,6 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
     private ArrayList<String> vaccineClassList;
     private ArrayList<String> vaccineList;
     private ArrayList<String> immunizationDateList;
-    String value;
-
-    int lastStaus = 0, natureStaus = 50;
-    //pet_profile_dialog
-
     ImageView dialog_cross_IV,dialog_pet_profile_image_IV;
     TextView dialog_pet_name_TV,dialog_pet_breed_TV ,dialog_pet_age_TV,dialog_pet_gender_TV,dialog_pet_id_TV,dialog_pet_parent_name_TV,dialog_parent_phone_TV,dialog_parent_address_TV;
 
