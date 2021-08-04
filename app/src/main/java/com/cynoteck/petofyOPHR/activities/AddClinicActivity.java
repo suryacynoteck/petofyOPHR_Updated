@@ -207,9 +207,6 @@ public class AddClinicActivity extends AppCompatActivity implements View.OnClick
     private ArrayList<String> vaccineClassList;
     private ArrayList<String> vaccineList;
     private ArrayList<String> immunizationDateList;
-    String value;
-
-
     ImageView dialog_cross_IV,dialog_pet_profile_image_IV;
     TextView dialog_pet_name_TV,dialog_pet_breed_TV ,dialog_pet_age_TV,dialog_pet_gender_TV,dialog_pet_id_TV,dialog_pet_parent_name_TV,dialog_parent_phone_TV,dialog_parent_address_TV;
 
