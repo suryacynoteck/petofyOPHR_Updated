@@ -209,6 +209,8 @@
             <EditText
                 android:id="@+id/ifsc_for_bank_ET"
                 android:layout_width="0dp"
+                android:inputType="textCapCharacters"
+
                 android:layout_height="50dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"

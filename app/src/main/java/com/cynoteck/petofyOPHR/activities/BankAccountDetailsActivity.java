@@ -65,6 +65,7 @@ public class BankAccountDetailsActivity extends AppCompatActivity implements Api
         setContentView(R.layout.activity_bank_account_details);
         initization();
         methods = new Methods(this);
+//        ifsc_for_bank_ET.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
 
 
         ifsc_for_bank_ET.addTextChangedListener(new TextWatcher() {
@@ -173,6 +174,7 @@ public class BankAccountDetailsActivity extends AppCompatActivity implements Api
                         Intent intent = new Intent();
                         setResult(RESULT_OK, intent);
                         finish();
+
                         Toast.makeText(this, "Account Added Succesfully ", Toast.LENGTH_SHORT).show();
 
                     } else {
@@ -207,24 +209,9 @@ public class BankAccountDetailsActivity extends AppCompatActivity implements Api
             onBackPressed();
         }
         else{
-//            onBackPressed();
+
             finish();
-//            Toast.makeText(this,"",Toast.LENGTH_LONG).show();
 
-//            Intent intent= new Intent(BankAccountDetailsActivity.this,ProfileFragment.class);
-//            startActivity(intent);
-
-//            ProfileFragment profileFragment = new ProfileFragment();
-//            FragmentTransaction ftProfile = getSupportFragmentManager().beginTransaction();
-//            ftProfile.replace(R.id.content_frame, profileFragment);
-//            ftProfile.commit();
-//            FragmentManager fm = getSupportFragmentManager();
-//            ProfileFragment fragment = new ProfileFragment();
-//            fm.beginTransaction().add(R.id.content_frame,fragment).commit();
-
-
-//            Log.d("Cynotech", "checkGetAllBankAccounts: ");
-//            Toast.makeText(this,"back button is pressed",Toast.LENGTH_LONG).show();
         }
 
     }
