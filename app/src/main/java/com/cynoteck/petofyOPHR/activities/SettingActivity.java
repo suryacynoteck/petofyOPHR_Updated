@@ -92,6 +92,7 @@ public class SettingActivity extends AppCompatActivity implements ApiResponse, V
 
     @Override
     public void onResponse(Response response, String key) {
+        Log.d("KeyValue", "onResponse: "+response.body().toString());
         switch (key){
             case "EnableDisable":
                 try {
