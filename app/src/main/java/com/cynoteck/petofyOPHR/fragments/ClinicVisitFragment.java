@@ -97,6 +97,8 @@ public class ClinicVisitFragment extends Fragment implements ApiResponse, View.O
                 int month = cldr.get(Calendar.MONTH);
                 int year = cldr.get(Calendar.YEAR);
                 // date picker dialog
+
+//                picker.setMinDate(System.currentTimeMillis() - 1000);
                 picker = new DatePickerDialog(getActivity(),
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
@@ -105,6 +107,8 @@ public class ClinicVisitFragment extends Fragment implements ApiResponse, View.O
                                 lastVisitDt.setText(Config.changeDateFormat(displayValue));
                             }
                         }, year, month, day);
+                picker.getDatePicker().setMinDate(cldr.getTimeInMillis());
+
                 picker.show();
                 break;
             case R.id.nextVisitDt:
@@ -179,12 +183,14 @@ public class ClinicVisitFragment extends Fragment implements ApiResponse, View.O
                     clinicVisitResponseDataList = new ArrayList<>();
                     if (responseCode == 109) {
                         methods.customProgressDismiss();
-                        Log.d("aaanana", "" + clinicVisitResponseData.getData().getPetClinicVisitList().get(0).getVisitDate());
+//                        Log.d("aaanana", "" + clinicVisitResponseData.getData().getPetClinicVisitList().get(0).getVisitDate());
                         all_clinic_visits_RV.setVisibility(View.VISIBLE);
                         clinicVisitResponseDataList = clinicVisitResponseData.getData().getPetClinicVisitList();
                         if (clinicVisitResponseDataList.isEmpty()) {
                             Toast.makeText(getContext(), "No Data Found !", Toast.LENGTH_SHORT).show();
-
+                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+                            all_clinic_visits_RV.setLayoutManager(linearLayoutManager);
+                            all_clinic_visits_RV.setAdapter(null);
                         } else {
                             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
                             all_clinic_visits_RV.setLayoutManager(linearLayoutManager);
@@ -201,7 +207,7 @@ public class ClinicVisitFragment extends Fragment implements ApiResponse, View.O
 
                 } catch (Exception e) {
                     methods.customProgressDismiss();
-                    Toast.makeText(getContext(), "No Data Found !", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "No Data Found  exception!", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
                 break;

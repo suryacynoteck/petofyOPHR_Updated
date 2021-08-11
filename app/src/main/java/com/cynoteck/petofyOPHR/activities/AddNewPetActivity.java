@@ -361,7 +361,6 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
                 else if (strPetBirthDay.equals("") && strPetBirthDay.isEmpty()) {
                         Toast.makeText(this, "Set valid Pet DOB", Toast.LENGTH_SHORT).show();
                         pet_name_ET.setError(null);
-
                         pet_parent_name_ET.setError(null);
                         pet_contact_number_ET.setError(null);
                         calenderTextView_dialog.setError("Pet DOB");
@@ -417,8 +416,8 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
                     addPetRequset.setAddPetParams(data);
                     if (methods.isInternetOn()) {
                         peto_reg_number_dialog.setText("PETO-XYZ");
-                        pet_contact_number_ET.getText().clear();
-                        pet_parent_name_ET.getText().clear();
+//                        pet_contact_number_ET.getText().clear();
+//                        pet_parent_name_ET.getText().clear();
 
                         addPetData(addPetRequset);
                     } else {
@@ -802,6 +801,7 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
                             data.putString("pet_id", addPetValueResponse.getData().getId().toString());
                             data.putString("pet_name", addPetValueResponse.getData().getPetName());
                             data.putString("pet_parent", addPetValueResponse.getData().getPetParentName());
+                            data.putString("contact_no",addPetValueResponse.getData().getContactNumber());
                             if (addPetValueResponse.getData().getPetSexId().equals("2.0"))
                                 strSexType = "Female";
                             else

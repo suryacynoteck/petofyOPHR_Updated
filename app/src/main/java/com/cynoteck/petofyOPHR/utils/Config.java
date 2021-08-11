@@ -35,6 +35,8 @@ public class Config {
     public static String onlineConsultationCharges="";
     public static String user_Veterian_details="";
     public static String two_fact_auth_status="";
+    public static String prescription_Settings="";
+
     public static String pet_type_for_immue="";
     public static String user_type="";
     public static String user_verterian_reg_no="";

@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -71,6 +72,7 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
         init();
         methods = new Methods(this);
         getCurrentVersion();
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         Config.tabPosition = 1;
         sharedPreferences = getSharedPreferences("userdetails", 0);

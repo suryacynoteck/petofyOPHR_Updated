@@ -134,6 +134,7 @@ public class AllVisitsActivity extends AppCompatActivity implements ApiResponse,
                                 lastVisitDt.setText(Config.changeDateFormat(displayValue));
                             }
                         }, year, month, day);
+                picker.getDatePicker().setMinDate(cldr.getTimeInMillis());
                 picker.show();
                 break;
             case R.id.nextVisitDt:
