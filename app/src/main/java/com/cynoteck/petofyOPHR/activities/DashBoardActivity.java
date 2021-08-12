@@ -334,7 +334,6 @@ public class DashBoardActivity extends AppCompatActivity implements View.OnClick
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
                 break;
 
         }

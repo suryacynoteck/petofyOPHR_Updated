@@ -80,7 +80,7 @@ public class ClinicVisitFragment extends Fragment implements ApiResponse, View.O
         search_visits.setOnClickListener(this);
 
         if (methods.isInternetOn()) {
-            clinicVisitdata();
+//            clinicVisitdata();
             getVisitTypes();
         } else {
             methods.DialogInternet();
@@ -121,12 +121,11 @@ public class ClinicVisitFragment extends Fragment implements ApiResponse, View.O
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-
-
                                 String displayValue = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
                                 nextVisitDt.setText(Config.changeDateFormat(displayValue));
                             }
                         }, yearForNext, monthForNext, dayForNext);
+                picker.getDatePicker().setMinDate(cldrForNext.getTimeInMillis());
                 picker.show();
                 break;
             case R.id.search_visits:
@@ -165,7 +164,6 @@ public class ClinicVisitFragment extends Fragment implements ApiResponse, View.O
         clinicVisitParameterModel.setNatureOfVisiteId(strNatureOfVist.substring(0, strNatureOfVist.length() - 2));
         ClinicVisitRequest clinicVisitRequest = new ClinicVisitRequest();
         clinicVisitRequest.setData(clinicVisitParameterModel);
-
         ApiService<ClinicVisitResponseData> service = new ApiService<>();
         service.get(this, ApiClient.getApiInterface().getUpCommingClinicVisits(Config.token, clinicVisitRequest), "GetUpCommingClinicVisits");
         Log.e("UpcomingClinicVisits==>", "" + methods.getRequestJson(clinicVisitRequest));
@@ -207,6 +205,9 @@ public class ClinicVisitFragment extends Fragment implements ApiResponse, View.O
 
                 } catch (Exception e) {
                     methods.customProgressDismiss();
+//                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+//                    all_clinic_visits_RV.setLayoutManager(linearLayoutManager);
+//                    all_clinic_visits_RV.setAdapter(null);
                     Toast.makeText(getContext(), "No Data Found  exception!", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
@@ -291,7 +292,6 @@ public class ClinicVisitFragment extends Fragment implements ApiResponse, View.O
             notificationParameter.setId(clinicVisitResponseDataList.get(position).getId().substring(0, clinicVisitResponseDataList.get(position).getId().length() - 2));
             SendNotificationRequest sendNotificationRequest = new SendNotificationRequest();
             sendNotificationRequest.setData(notificationParameter);
-
             ApiService<JsonObject> service = new ApiService<>();
             service.get(this, ApiClient.getApiInterface().sendNotification(Config.token, sendNotificationRequest), "SendNotification");
             Log.e("SendNotification==>", "" + sendNotificationRequest);

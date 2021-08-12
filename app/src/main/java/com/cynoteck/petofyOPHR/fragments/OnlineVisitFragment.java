@@ -78,10 +78,10 @@ public class OnlineVisitFragment extends Fragment implements View.OnClickListene
         nextVisitDt.setOnClickListener(this);
         search_upcoming_IV.setOnClickListener(this);
 
-        if(methods.isInternetOn())
-            listOfOnlinClinicData();
-        else
-            methods.DialogInternet();
+//        if(methods.isInternetOn())
+//            listOfOnlinClinicData();
+//        else
+//            methods.DialogInternet();
     }
 
     public void listOfOnlinClinicData()
@@ -133,6 +133,7 @@ public class OnlineVisitFragment extends Fragment implements View.OnClickListene
                                 nextVisitDt.setText(Config.changeDateFormat(displayValue));
                             }
                         }, yearForNext, monthForNext, dayForNext);
+                picker.getDatePicker().setMinDate(cldrForNext.getTimeInMillis());
                 picker.show();
                 break;
 
