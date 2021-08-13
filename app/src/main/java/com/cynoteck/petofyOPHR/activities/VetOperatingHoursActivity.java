@@ -91,10 +91,12 @@ public class VetOperatingHoursActivity extends AppCompatActivity implements View
         setContentView(R.layout.activity_vet_operating_hours);
         methods = new Methods(this);
         init();
-
-        getWorkingHours();
-
-
+        if(methods.isInternetOn())
+        { getWorkingHours();
+        }
+        else{
+            methods.DialogInternet();
+        }
     }
 
     private void init() {
@@ -1009,6 +1011,7 @@ public class VetOperatingHoursActivity extends AppCompatActivity implements View
     }
 
     private void saveWorkingHours(WorkingHoursParameter workingHoursParameter) {
+//        methods.showCustomProgressBarDialog(this);
         ApiService<SaveWorkingHoursResponse> service = new ApiService<>();
         service.get(this, ApiClient.getApiInterface().saveOperatingHours(Config.token, workingHoursParameter), "SaveOperatingHours");
         Log.e("DIALOG_Save_DATA", "==>" + methods.getRequestJson(workingHoursParameter));
@@ -1289,13 +1292,13 @@ public class VetOperatingHoursActivity extends AppCompatActivity implements View
                     }
 
 
-                    if (methods.isInternetOn()) {
-                        methods.customProgressDismiss();
-                        getWorkingHours();
-//                            methods.customProgressDismiss();
-                    } else {
-                        methods.DialogInternet();
-                    }
+//                    if (methods.isInternetOn()) {
+////                        methods.customProgressDismiss();
+//                        getWorkingHours();
+////                            methods.customProgressDismiss();
+//                    } else {
+//                        methods.DialogInternet();
+//                    }
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -1310,8 +1313,17 @@ public class VetOperatingHoursActivity extends AppCompatActivity implements View
                     Log.e("SaveOperatingHours", saveWorkingHoursResponse.toString());
                     int responseCode = Integer.parseInt(saveWorkingHoursResponse.getResponse().getResponseCode());
                     if (responseCode == 109) {
-                        Toast.makeText(this, "Successfully Updated  SaveOperatingHours", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Successfully Updated  ", Toast.LENGTH_SHORT).show();
                     }
+
+//                    if (methods.isInternetOn()) {
+////                        methods.customProgressDismiss();
+//                        getWorkingHours();
+////                        methods.customProgressDismiss();
+//                    } else {
+//                        methods.DialogInternet();
+//                    }
+
 
 
                 } catch (Exception e) {

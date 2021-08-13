@@ -116,10 +116,10 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
                 .load(Config.user_Veterian_url)
                 .placeholder(R.drawable.empty_vet_image)
                 .into(vet_image_TV);
-        Glide.with(this)
-                .load(Config.coverimage)
-                .placeholder(R.drawable.empty_vet_image)
-                .into(cover_image);
+//        Glide.with(this)
+//                .load(Config.coverimage)
+//                .placeholder(R.drawable.empty_vet_image)
+//                .into(cover_image);
 
 
         vet_name_TV.setText(Config.user_Veterian_name);
@@ -453,12 +453,12 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
                         }
                         setInfo();
 
-                        String my_url= "https://www.petofy.com/"+userResponse.getData().getCoverImageUrl();
-                        cover_image.setClipToOutline(true);
-                        Glide.with(this)
-                                .load(my_url)
-                                .into(cover_image);
-
+//                        String my_url= "https://www.petofy.com/"+userResponse.getData().getCoverImageUrl();
+//                        cover_image.setClipToOutline(true);
+//                        Glide.with(this)
+//                                .load(my_url)
+//                                .into(cover_image);
+//
                         if (!userResponse.getData().getProfileImageUrl().equals(null) ) {
 
                             Log.e("url", userResponse.getData().getProfileImageUrl());
@@ -466,11 +466,6 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
                             Glide.with(this)
                                     .load(new URL(userResponse.getData().getProfileImageUrl()))
                                     .into(vet_image_TV);
-
-
-//
-
-
                         }
 
                     } else if (responseCode == 614) {
@@ -478,7 +473,6 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
                     } else {
                         Toast.makeText(this, "Please Try Again GetUserDetails !", Toast.LENGTH_SHORT).show();
                     }
-
 
                 } catch (Exception e) {
                     e.printStackTrace();

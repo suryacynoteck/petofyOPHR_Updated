@@ -219,7 +219,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, A
  public void Mydialog()
     {
         AlertDialog.Builder builder=new AlertDialog.Builder(getContext());
-        builder.setMessage("Do you really want to quit");
+        builder.setMessage("Do you really want to Logout");
         builder.setTitle("Alert Box");
         builder.setCancelable(false);
 
