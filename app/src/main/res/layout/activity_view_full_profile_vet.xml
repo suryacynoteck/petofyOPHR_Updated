@@ -94,18 +94,18 @@
         android:src="@drawable/empty_vet_image"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/cover_image"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:scaleType="fitXY"
-        app:layout_constraintBottom_toTopOf="@+id/materialCardView3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.807"
-        android:background="@drawable/round_shape"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintVertical_bias="1.0"/>
+<!--    <ImageView-->
+<!--        android:id="@+id/cover_image"-->
+<!--        android:layout_width="100dp"-->
+<!--        android:layout_height="100dp"-->
+<!--        android:scaleType="fitXY"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/materialCardView3"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.807"-->
+<!--        android:background="@drawable/round_shape"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/toolbar"-->
+<!--        app:layout_constraintVertical_bias="1.0"/>-->
     <!--        android:src="@drawable/round_shape"-->
 
     <com.google.android.material.card.MaterialCardView
