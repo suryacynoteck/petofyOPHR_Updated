@@ -345,7 +345,7 @@ public class ViewFullProfileVetActivity extends AppCompatActivity implements Api
 
     private void inilization() {
         image_edit_CV = findViewById(R.id.image_edit_CV);
-        cover_image=findViewById(R.id.cover_image);
+//        cover_image=findViewById(R.id.cover_image);
         vet_full_details_SV = findViewById(R.id.vet_full_details_SV);
         vet_profile_shimmer = findViewById(R.id.vet_profile_shimmer);
         vet_service_type_RV = findViewById(R.id.vet_service_type_RV);

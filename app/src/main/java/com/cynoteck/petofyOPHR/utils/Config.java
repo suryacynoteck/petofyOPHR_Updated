@@ -41,6 +41,8 @@ public class Config {
     public static String user_type="";
     public static String user_verterian_reg_no="";
 
+    public static Long day;
+
     public static String type="";
     public static String backCall="";
     public static String IpAddress="";

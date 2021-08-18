@@ -1106,7 +1106,7 @@ public class AddNewPetActivity extends AppCompatActivity implements ApiResponse,
         methods.showCustomProgressBarDialog(this);
         ApiService<AddPetValueResponse> service = new ApiService<>();
         service.get(this, ApiClient.getApiInterface().addNewPet(Config.token, addPetRequset), "AddPet");
-        Log.e("DATALOG", "check1=> " + addPetRequset);
+        Log.e("addPetRequset", "check1=> " + methods.getRequestJson(addPetRequset));
 
     }
 

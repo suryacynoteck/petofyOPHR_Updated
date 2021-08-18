@@ -138,8 +138,6 @@ public class AllVisitsActivity extends AppCompatActivity implements ApiResponse,
                                 String displayValue = dayOfMonth + "/" + (monthOfYear+1) + "/" + year;
                                 lastVisitDt.setText(Config.changeDateFormat(displayValue));
 
-
-
                             }
                         }, year, month, day);
 
